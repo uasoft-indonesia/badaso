@@ -6,62 +6,247 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use LogicException;
 use ReflectionClass;
+use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\DataRow;
+use Uasoft\Badaso\Models\DataType;
 
 class BadasoBreadController extends Controller
 {
     public function browse(Request $request)
     {
-        $table_name = env('DB_DATABASE', '');
-        $tables = DB::select('SHOW TABLES');
-        $key = 'Tables_in_'.$table_name;
+        try {
+            $table_name = env('DB_DATABASE', '');
+            $tables = DB::select('SHOW TABLES');
+            $key = 'Tables_in_'.$table_name;
 
-        $tables = collect($tables)->whereNotIn($key, config('badaso.exclude_tables_from_bread', []))->all();
+            $tables = collect($tables)->whereNotIn($key, config('badaso.exclude_tables_from_bread', []))->all();
 
-        $breads = [];
-        foreach ($tables as $table) {
-            $bread = [];
-            $bread['table_name'] = $table->{$key};
-            $bread['bread_data'] = Badaso::model('DataType')::where('name', $table->{$key})->first();
-            $breads[] = $bread;
+            $breads = [];
+            foreach ($tables as $table) {
+                $bread = [];
+                $bread['table_name'] = $table->{$key};
+                $bread['bread_data'] = Badaso::model('DataType')::where('name', $table->{$key})->first();
+                $breads[] = $bread;
+            }
+
+            return ApiResponse::success($breads);
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
         }
-
-        return response()->json([
-            'tables' => $breads,
-        ]);
     }
 
     public function read(Request $request)
     {
-        $slug = $request->get('slug', '');
-        $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
-        $class = new ReflectionClass(Badaso::modelClass('DataType'));
-        $class_methods = $class->getMethods();
-        foreach ($class_methods as $class_method) {
-            if ($class_method->class == Badaso::modelClass('DataType')) {
-                try {
-                    $data_type[$class_method->name] = $data_type->{$class_method->name};
-                } catch (Exception $e) {
-                    $data_type[$class_method->name] = $data_type->{$class_method->name}();
+        try {
+            $slug = $request->input('slug', '');
+            $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
+            if (is_null($data_type)) {
+                throw new SingleException("Data type for {$slug} not found");
+            }
+            $class = new ReflectionClass(Badaso::modelClass('DataType'));
+            $class_methods = $class->getMethods();
+            foreach ($class_methods as $class_method) {
+                if ($class_method->class == Badaso::modelClass('DataType')) {
+                    try {
+                        $data_type->{$class_method->name};
+                    } catch (LogicException $e) {
+                        $data_type[$class_method->name] = $data_type->{$class_method->name}();
+                    }
                 }
             }
-        }
 
-        return response()->json([
-            'data_type' => $data_type,
-        ]);
+            return ApiResponse::success($data_type);
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
     }
 
     public function edit(Request $request)
     {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'id' => 'required|exists:data_types',
+                'name' => [
+                    'required',
+                    "unique:data_types,name,{$request->id}",
+                    function ($attribute, $value, $fail) {
+                        if (!Schema::hasTable($value)) {
+                            $fail("Table {$value} does not exists");
+                        }
+                    },
+                ],
+                'rows' => 'required',
+                'display_name_singular' => 'required',
+            ]);
+            $table_name = $request->input('name');
+
+            $data_type = DataType::find($request->input('id'));
+            $data_type->name = $table_name;
+            $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
+            $data_type->display_name_singular = $request->input('display_name_singular');
+            $data_type->display_name_plural = $request->input('display_name_plural') ?? Str::plural($data_type->display_name_singular);
+            $data_type->icon = $request->input('icon');
+            $data_type->model_name = $request->input('model_name');
+            $data_type->policy_name = $request->input('policy_name');
+            $data_type->description = $request->input('description');
+            $data_type->generate_permissions = $request->input('generate_permissions');
+            $data_type->server_side = $request->input('server_side');
+            $data_type->details = $request->input('details');
+            $data_type->controller = $request->input('controller');
+            $data_type->save();
+
+            DataRow::where('data_type_id', $data_type->id)->delete();
+
+            $data_rows = $request->input('rows') ?? [];
+            $new_data_rows = [];
+            foreach ($data_rows as $index => $data_row) {
+                Validator::make($data_row, [
+                    'field' => [
+                        'required',
+                        function ($attribute, $value, $fail) use ($table_name) {
+                            if (!Schema::hasColumn($table_name, $value)) {
+                                $fail("Invalid rows, Field $table_name.{$value} does not exists");
+                            }
+                        },
+                    ],
+                    'type' => 'required',
+                    'display_name' => 'required',
+                ])->validate();
+
+                $new_data_row = new DataRow();
+                $new_data_row->data_type_id = $data_type->id;
+                $new_data_row->field = $data_row['field'];
+                $new_data_row->type = $data_row['type'];
+                $new_data_row->display_name = $data_row['display_name'];
+                $new_data_row->required = isset($data_row['required']) ?? false;
+                $new_data_row->browse = isset($data_row['browse']) ?? false;
+                $new_data_row->read = isset($data_row['read']) ?? false;
+                $new_data_row->edit = isset($data_row['edit']) ?? false;
+                $new_data_row->add = isset($data_row['add']) ?? false;
+                $new_data_row->delete = isset($data_row['delete']) ?? false;
+                $new_data_row->details = isset($data_row['details']) ?? '';
+                $new_data_row->order = $index + 1;
+                $new_data_row->save();
+
+                $new_data_rows[] = $new_data_row;
+            }
+
+            $data_type->data_rows = $new_data_rows;
+
+            DB::commit();
+
+            return ApiResponse::success($data_type);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
     }
 
     public function add(Request $request)
     {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'name' => [
+                    'required',
+                    'unique:data_types',
+                    function ($attribute, $value, $fail) {
+                        if (!Schema::hasTable($value)) {
+                            $fail("Table {$value} does not exists");
+                        }
+                    },
+                ],
+                'rows' => 'required',
+                'display_name_singular' => 'required',
+            ]);
+            $table_name = $request->input('name');
+            $new_data_type = new DataType();
+            $new_data_type->name = $table_name;
+            $new_data_type->slug = $request->input('slug') ?? Str::slug($table_name);
+            $new_data_type->display_name_singular = $request->input('display_name_singular');
+            $new_data_type->display_name_plural = $request->input('display_name_plural') ?? Str::plural($new_data_type->display_name_singular);
+            $new_data_type->icon = $request->input('icon');
+            $new_data_type->model_name = $request->input('model_name');
+            $new_data_type->policy_name = $request->input('policy_name');
+            $new_data_type->description = $request->input('description');
+            $new_data_type->generate_permissions = $request->input('generate_permissions');
+            $new_data_type->server_side = $request->input('server_side');
+            $new_data_type->details = $request->input('details');
+            $new_data_type->controller = $request->input('controller');
+            $new_data_type->save();
+
+            $data_rows = $request->input('rows') ?? [];
+            $new_data_rows = [];
+            foreach ($data_rows as $index => $data_row) {
+                Validator::make($data_row, [
+                    'field' => [
+                        'required',
+                        function ($attribute, $value, $fail) use ($table_name) {
+                            if (!Schema::hasColumn($table_name, $value)) {
+                                $fail("Invalid rows, Field $table_name.{$value} does not exists");
+                            }
+                        },
+                    ],
+                    'type' => 'required',
+                    'display_name' => 'required',
+                ])->validate();
+
+                $new_data_row = new DataRow();
+                $new_data_row->data_type_id = $new_data_type->id;
+                $new_data_row->field = $data_row['field'];
+                $new_data_row->type = $data_row['type'];
+                $new_data_row->display_name = $data_row['display_name'];
+                $new_data_row->required = isset($data_row['required']) ?? false;
+                $new_data_row->browse = isset($data_row['browse']) ?? false;
+                $new_data_row->read = isset($data_row['read']) ?? false;
+                $new_data_row->edit = isset($data_row['edit']) ?? false;
+                $new_data_row->add = isset($data_row['add']) ?? false;
+                $new_data_row->delete = isset($data_row['delete']) ?? false;
+                $new_data_row->details = isset($data_row['details']) ?? '';
+                $new_data_row->order = $index + 1;
+                $new_data_row->save();
+
+                $new_data_rows[] = $new_data_row;
+            }
+
+            $new_data_type->data_rows = $new_data_rows;
+
+            DB::commit();
+
+            return ApiResponse::success($new_data_type);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
     }
 
     public function delete(Request $request)
     {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'id' => 'required',
+            ]);
+
+            DataType::find($request->id)->delete();
+
+            DB::commit();
+
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
     }
 }
