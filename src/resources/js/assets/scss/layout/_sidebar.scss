@@ -1,0 +1,37 @@
+.sidebarx {
+	.vs-sidebar.vs-sidebar-parent {
+		top: $topbar-height;
+		min-height: calc(100vh - 60px);
+		position: fixed;
+		padding-bottom: 60px;
+		z-index: 15000;
+	}
+
+	.vs-sidebar--background {
+		z-index: 14000;
+	}
+}
+
+.main-wrapper-full {
+	.sidebarx .vs-sidebar.vs-sidebar-parent {
+		top: 0;
+		height: 100% !important;
+	}
+}
+
+.sidebarx .vs-sidebar--item a {
+	padding: 15px;
+
+	i {
+		margin-right: 5px;
+	}
+}
+.vuesax-app-is-ltr .vs-sidebar-primary .vs-sidebar-item-active{
+		border-right:0px!important;
+	}
+.sidebarx .vs-sidebar-primary a.router-link-exact-active {
+	border-left: 3px solid rgba(var(--vs-primary), 1);
+	font-weight: bold;
+	color: rgba(var(--vs-primary), 1) !important;
+	opacity: 1 !important;
+}

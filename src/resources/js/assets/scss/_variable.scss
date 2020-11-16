@@ -1,0 +1,112 @@
+/*******************************/
+// Custom Variables
+/*******************************/
+
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800');
+
+//
+// Sidebar
+//
+$full-sidebar:260px;
+$mini-sidebar:60px;
+
+//topbar
+$topbar-height: 60px;
+$logo-padding:0 12px;
+//
+// Color system
+//
+$body-color: #2b2b2b;
+$body-bg:#f0f5f9;
+$primary: #2962FF;
+$success: #36bea6;
+$danger: #f62d51;
+$warning: #ffbc34;
+$dark: #212529;
+$grey: #dee2e6;
+$grey-light: #e8e8e8;
+$white: #fff;
+$black: #2b2b2b;
+
+//
+// Font family / Typography
+//
+
+$font-size-base: 0.875rem;
+$font-family-sans-serif: 'Nunito Sans', sans-serif !default;
+$font-family-base: $font-family-sans-serif !default;
+
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 600 !default;
+$font-weight-bold: 800 !default;
+
+
+$h1-font-size: 36px !default;
+$h2-font-size: 30px !default;
+$h3-font-size: 20px !default;
+$h4-font-size: 18px !default;
+$h5-font-size: 16px !default;
+$h6-font-size: 14px !default;
+
+$line-height-base: 1.625rem !default;
+
+$headings-font-family: inherit !default;
+$headings-font-weight: 700 !default;
+$headings-line-height: 1.2 !default;
+$headings-margin-bottom: 0px !default;
+
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+$font-weight-base: $font-weight-normal;
+$line-height-base: 1.45;
+
+$content-color: #626262;
+
+// Tables
+$table-cell-padding: 1rem !default;
+
+
+// Style anchor elements.
+
+$link-color: $primary !default;
+$link-decoration: none !default;
+$link-hover-color: darken($link-color, 15%) !default;
+$link-hover-decoration: underline !default;
+
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 1169px,
+  xl: 1600px) !default;
+
+
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px) !default;
+
+
+
+
+// Vuesax column
+
+$vs-column-bottom-margin:30px;
+$vs-column-padding: 0 15px;
+$border-radius:0;
+$theme-radius:4px;
+
+// S Comments
+$border-color: rgba(0, 0, 0, 0.1);

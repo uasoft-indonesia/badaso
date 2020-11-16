@@ -1,0 +1,131 @@
+.small-icon .vs-icon {
+	font-size: 17px;
+}
+
+.vs-input--input {
+	border-radius: 2px;
+}
+
+.con-vs-card {
+	margin-bottom: $vs-column-bottom-margin;
+	border-radius: $theme-radius;
+
+	.vs-card--content,
+	.vs-card--header {
+		padding: 15px;
+	}
+}
+
+.vs-button.small {
+	padding: 7px 15px;
+}
+
+.vs-icon {
+	vertical-align: middle;
+}
+
+.vs-dropdown--item .vs-dropdown--item-link {
+	padding: 10px;
+}
+
+.vs-sidebar-primary .vs-sidebar-item-active {
+	font-weight: normal;
+	border-right: 0px !important;
+
+	a {
+		opacity: .8 !important;
+		color: inherit !important;
+	}
+}
+
+.vs-input-large .vs-icon {
+	top: 13px;
+	border-left: 0px;
+}
+
+@include media-breakpoint-up(sm) {
+	.vs-row>.vs-col {
+		padding: $vs-column-padding;
+
+	}
+}
+
+.vs-checkbox--check .vs-icon,
+.vs-input--icon {
+	font-size: 1rem;
+}
+
+.btn-alignment {
+	.vs-button {
+		margin-bottom: 5px;
+		margin-right: 5px;
+	}
+}
+
+.vs-button {
+	border-radius: $theme-radius;
+}
+
+.vs-button .vs-icon {
+	font-size: 1rem;
+}
+
+.list-alignment {
+	li {
+		margin-bottom: 10px;
+		margin-right: 5px;
+	}
+}
+
+// S Comment
+.dropdownbtn-alignment {
+	.btnx {
+		border-radius: $theme-radius 0 0 $theme-radius;
+	}
+
+	.btn-drop {
+		border-radius: 0 $theme-radius $theme-radius 0;
+		border-left: 1px solid $border-color;
+	}
+}
+
+.collapse:not(.show) {
+	display: block;
+}
+
+.vs-pagination--ul {
+	margin-bottom: 0;
+}
+
+.vs-sidebar--background {
+	background: none;
+}
+
+.vs-switch--text {
+	.vs-icon {
+		font-size: 12px;
+	}
+}
+
+.vs-input-number {
+	display: inline-flex;
+}
+
+th .sort-th,
+th .vs-table-text {
+	padding: 10px;
+}
+
+.vs-table--search {
+	margin: 15px;
+}
+
+.vs-tabs--ul {
+	margin-bottom: 0;
+}
+
+.vs-notifications {
+	border-radius: $theme-radius;
+}
+
+// S Comment

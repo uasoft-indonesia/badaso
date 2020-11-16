@@ -1,0 +1,86 @@
+.topnavbar {
+	color: $white;
+	position: fixed;
+	z-index: 10;
+	min-height: $topbar-height;
+
+	.vs-navbar--item {
+		color: $white !important;
+	}
+
+	&.vs-navbar-color-white {
+		color: $body-color !important;
+
+		.vs-navbar--item {
+			color: $body-color !important;
+		}
+
+		.vs-navbar--btn-responsive .btn-responsive-line {
+			background: rgba(0, 0, 0, 0.6);
+		}
+	}
+
+	.vs-con-items {
+		width: 100%;
+	}
+
+	.vs-navbar--header {
+		display: flex;
+		align-items: center;
+	}
+
+	.vs-navbar--btn-responsive {
+		.btn-responsive-line {
+			background: rgba(255, 255, 255, 0.8);
+			width: 3px;
+			border-radius: 100%;
+		}
+
+		&.active-menu .btn-responsive-line {
+			width: 18px;
+		}
+	}
+}
+
+.themelogo {
+	display: flex;
+	min-width: $full-sidebar;
+	align-items: center;
+
+	padding: $logo-padding;
+
+	.logo-text {
+		font-size: 16px;
+		font-weight: $font-weight-bold;
+	}
+}
+
+
+
+@media only screen and (max-width:800px) {
+	.gridx .vs-navbar--btn-responsive{
+		display:none;
+	}
+	.topnavbar .vs-navbar--header{
+		min-height:60px;
+		padding-right:15px;
+	}
+
+}
+
+.user-image {
+	img {
+		border-radius: $border-radius;
+		width: 32px;
+	}
+}
+
+/******Common DD width *******/
+.topbar-dd {
+	.vs-dropdown--item {
+		white-space: nowrap;
+	}
+
+}
+
+/******User dd*******/

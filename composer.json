@@ -1,0 +1,15 @@
+{
+    "name": "uasoft/badaso",
+    "description": "laravel-vue SPA",
+    "type": "library",
+    "require": {
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "UASOFT Fikri",
+            "email": "fikri@uatech.co.id"
+        }
+    ],
+    "minimum-stability": "dev"
+}

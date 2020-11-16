@@ -1,0 +1,55 @@
+<template>
+  <vs-col vs-lg="6" class="mb-3">
+    <vs-select
+      :label="label"
+      :placeholder="placeholder"
+      :value="value"
+      @input="handleInput($event)"
+      width="100%"
+      multiple
+      autocomplete
+    >
+      <vs-select-item
+        :key="index"
+        :value="item.value"
+        :text="item.label"
+        v-for="(item, index) in items"
+      />
+    </vs-select>
+  </vs-col>
+</template>
+
+<script>
+export default {
+  name: "BadasoSelectMultiple",
+  components: {},
+  data: () => ({}),
+  props: {
+    size: {
+      type: String,
+      default: "12",
+    },
+    label: {
+      type: String,
+      default: "Select Multiple",
+    },
+    placeholder: {
+      type: String,
+      default: "Select Multiple",
+    },
+    value: {
+      type: Array,
+      required: true,
+    },
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
+  methods: {
+    handleInput(val) {
+      this.$emit("input", val);
+    },
+  },
+};
+</script>

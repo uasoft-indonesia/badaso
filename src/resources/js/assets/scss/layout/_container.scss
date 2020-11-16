@@ -1,0 +1,10 @@
+.main-container-fluid {
+	padding: 90px 15px 40px 15px;
+
+}
+
+@include media-breakpoint-up(md) {
+	.main-container-fluid {
+		margin-left: 260px;
+	}
+}
