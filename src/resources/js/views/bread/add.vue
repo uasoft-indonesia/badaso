@@ -218,7 +218,7 @@ export default {
         uploadedImage: this.uploadedImage,
         multipleUploadedImage: this.multipleUploadedImage,
       };
-      console.log(data);
+      console.log(JSON.stringify(data));
     },
   },
 };

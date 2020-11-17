@@ -67,7 +67,7 @@ class ApiResponse
         return response()->json($response, $http_status);
     }
 
-    public static function entity($data_type, $data)
+    public static function entity($data_type, $data = null)
     {
         $response = [];
         $response['success'] = true;

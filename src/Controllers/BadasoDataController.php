@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Helpers\ApiResponse;
 
 class BadasoDataController extends Controller
 {
@@ -12,8 +13,13 @@ class BadasoDataController extends Controller
     {
         $components = Badaso::getComponents();
 
-        return response()->json([
-            'components' => $components,
-        ]);
+        return ApiResponse::success($components);
+    }
+
+    public function getFilterOperators(Request $request)
+    {
+        $operators = Badaso::getFilterOperator();
+
+        return ApiResponse::success($operators);
     }
 }

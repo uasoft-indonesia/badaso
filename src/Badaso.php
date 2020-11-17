@@ -39,6 +39,11 @@ class Badaso
         'hidden',
     ];
 
+    protected $supported_filter_operator = [
+        'containts',
+        '=',
+    ];
+
     public function model($name)
     {
         return app($this->models[Str::studly($name)]);
@@ -52,5 +57,10 @@ class Badaso
     public function getComponents()
     {
         return $this->supported_component;
+    }
+
+    public function getFilterOperator()
+    {
+        return $this->supported_filter_operator;
     }
 }

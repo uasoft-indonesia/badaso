@@ -8,6 +8,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
     Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'data'], function () {
             Route::get('/components', 'BadasoDataController@getComponents');
+            Route::get('/filter-operators', 'BadasoDataController@getFilterOperators');
         });
         Route::group(['prefix' => 'bread'], function () {
             Route::get('/', 'BadasoBreadController@browse');
@@ -33,6 +34,12 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             } catch (\Exception $e) {
                 // do nothing, might just be because table not yet migrated.
             }
+        });
+        Route::group(['prefix' => 'file'], function () {
+            Route::get('/view', 'BadasoFileController@viewFile');
+            Route::get('/download', 'BadasoFileController@downloadFile');
+            Route::post('/upload', 'BadasoFileController@uploadFile');
+            Route::delete('/delete', 'BadasoFileController@deleteFile');
         });
     });
 });

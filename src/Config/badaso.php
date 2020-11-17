@@ -9,4 +9,7 @@ return [
         'migrations',
         'password_resets',
     ],
+    'storage' => [
+        'disk' => 'public',
+    ],
 ];
