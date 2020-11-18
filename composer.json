@@ -3,7 +3,8 @@
     "description": "laravel-vue SPA",
     "type": "library",
     "require": {
-        "webpatser/laravel-uuid": "^3.0"
+        "webpatser/laravel-uuid": "^3.0",
+        "doctrine/dbal": "2.12"
     },
     "license": "MIT",
     "authors": [

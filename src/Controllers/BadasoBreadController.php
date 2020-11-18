@@ -258,10 +258,7 @@ class BadasoBreadController extends Controller
                 'table' => 'required',
             ]);
 
-            $columns = [];
-            if (env('DB_CONNECTION') == 'mysql') {
-                $columns = DB::SELECT("SHOW COLUMNS FROM {$request->table}");
-            }
+            $columns = DB::getSchemaBuilder()->getColumnListing($request->table);
 
             $new_data_type = new DataType();
             $new_data_type->name = $request->table;
@@ -273,15 +270,15 @@ class BadasoBreadController extends Controller
             foreach ($columns as $index => $column) {
                 $new_data_row = new DataRow();
                 $new_data_row->data_type_id = $new_data_type->id;
-                $new_data_row->field = $column->Field;
-                $new_data_row->type = $column->Type;
-                $new_data_row->display_name = Str::studly($column->Field);
-                $new_data_row->required = $column->Null == 'NO';
+                $new_data_row->field = $column;
+                $new_data_row->type = DB::getSchemaBuilder()->getColumnType($request->table, $column);
+                $new_data_row->display_name = Str::studly($column);
+                $new_data_row->required = false;
                 $new_data_row->browse = true;
                 $new_data_row->read = true;
-                $new_data_row->edit = $column->Extra != 'auto_increment';
-                $new_data_row->add = $column->Extra != 'auto_increment';
-                $new_data_row->delete = $column->Extra != 'auto_increment';
+                $new_data_row->edit = true;
+                $new_data_row->add = true;
+                $new_data_row->delete = true;
                 $new_data_row->details = '';
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
