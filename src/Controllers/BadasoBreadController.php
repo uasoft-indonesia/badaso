@@ -36,7 +36,7 @@ class BadasoBreadController extends Controller
                 $breads[] = $bread;
             }
 
-            return ApiResponse::success($breads);
+            return ApiResponse::success(collect($breads)->toArray());
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }

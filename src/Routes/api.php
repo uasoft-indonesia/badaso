@@ -28,6 +28,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                     Route::put($data_type->slug.'/edit', $bread_controller.'@edit')->name($data_type->slug.'.edit');
                     Route::post($data_type->slug.'/add', $bread_controller.'@add')->name($data_type->slug.'.add');
                     Route::delete($data_type->slug.'/delete', $bread_controller.'@delete')->name($data_type->slug.'.delete');
+                    Route::delete($data_type->slug.'/delete-multiple', $bread_controller.'@deleteMultiple')->name($data_type->slug.'.delete-multiple');
                 }
             } catch (\InvalidArgumentException $e) {
                 throw new \InvalidArgumentException("Custom routes hasn't been configured because: ".$e->getMessage(), 1);
@@ -40,6 +41,14 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/download', 'BadasoFileController@downloadFile');
             Route::post('/upload', 'BadasoFileController@uploadFile');
             Route::delete('/delete', 'BadasoFileController@deleteFile');
+        });
+        Route::group(['prefix' => 'configuration'], function () {
+            Route::get('/', 'BadasoConfigurationsController@browse');
+            Route::get('/read', 'BadasoConfigurationsController@read');
+            Route::put('/edit', 'BadasoConfigurationsController@edit');
+            Route::put('/edit-multiple', 'BadasoConfigurationsController@editMultiple');
+            Route::post('/add', 'BadasoConfigurationsController@add');
+            Route::delete('/delete', 'BadasoConfigurationsController@delete');
         });
     });
 });

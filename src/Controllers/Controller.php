@@ -300,7 +300,7 @@ abstract class Controller extends BaseController
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
-                    $model->{$key} = $value;
+                    // $model->{$key} = $value;
                 } else {
                     $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                 }
@@ -314,7 +314,7 @@ abstract class Controller extends BaseController
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
-                    $new_data[$key] = $value;
+                    // $new_data[$key] = $value;
                 } else {
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                 }
@@ -339,7 +339,7 @@ abstract class Controller extends BaseController
                 foreach ($data as $key => $value) {
                     $data_row = collect($data_rows)->where('field', $key)->first();
                     if (is_null($data_row)) {
-                        $model->{$key} = $value;
+                        // $model->{$key} = $value;
                     } else {
                         $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                     }
@@ -352,7 +352,7 @@ abstract class Controller extends BaseController
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
-                    $new_data[$key] = $value;
+                    // $new_data[$key] = $value;
                 } else {
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                 }

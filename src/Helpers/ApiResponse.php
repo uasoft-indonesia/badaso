@@ -44,6 +44,7 @@ class ApiResponse
             $response['message'] = $error->getMessage();
             $http_status = 400;
         } elseif ($error instanceof QueryException) {
+            \Log::debug($error);
             $error_list = [];
             $error_list['code'][] = $error->getCode();
             $error_list['sql'][] = $error->getSql();
@@ -53,9 +54,11 @@ class ApiResponse
             $response['message'] = $error->getMessage();
             $response['error_list'] = $error_list;
         } elseif ($error instanceof Exception) {
+            \Log::debug($error);
             $response['code'] = 'exception';
             $response['message'] = $error->getMessage();
         } else {
+            \Log::debug($error);
             $response['code'] = 'unknown_exception';
             if (is_object($error) || is_array($error)) {
                 $response['message'] = json_encode($error);
