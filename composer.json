@@ -6,12 +6,16 @@
         "webpatser/laravel-uuid": "^3.0",
         "doctrine/dbal": "2.12"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "UASOFT Fikri",
-            "email": "fikri@uatech.co.id"
+    "autoload": {
+        "classmap": [],
+        "psr-4": {
+            "Uasoft\\Badaso\\": "packages/uasoft-indonesia/badaso/src/"
         }
-    ],
+    },
+    "license": "MIT",
+    "authors": [{
+        "name": "UASOFT Fikri",
+        "email": "fikri@uatech.co.id"
+    }],
     "minimum-stability": "dev"
 }
