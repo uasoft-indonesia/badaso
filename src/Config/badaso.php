@@ -8,6 +8,8 @@ return [
         'data_types',
         'migrations',
         'password_resets',
+        'menus',
+        'menu_items',
     ],
     'storage' => [
         'disk' => 'public',

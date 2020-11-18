@@ -16,6 +16,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/edit', 'BadasoBreadController@edit');
             Route::post('/add', 'BadasoBreadController@add');
             Route::delete('/delete', 'BadasoBreadController@delete');
+            Route::get('/generate', 'BadasoBreadController@generate');
         });
         Route::group(['prefix' => 'entity'], function () {
             try {

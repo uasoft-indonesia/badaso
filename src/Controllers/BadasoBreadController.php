@@ -249,4 +249,51 @@ class BadasoBreadController extends Controller
             return ApiResponse::failed($e);
         }
     }
+
+    public function generate(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'table' => 'required',
+            ]);
+
+            $columns = [];
+            if (env('DB_CONNECTION') == 'mysql') {
+                $columns = DB::SELECT("SHOW COLUMNS FROM {$request->table}");
+            }
+
+            $new_data_type = new DataType();
+            $new_data_type->name = $request->table;
+            $new_data_type->slug = Str::slug($request->table);
+            $new_data_type->display_name_singular = Str::studly($request->table);
+            $new_data_type->display_name_plural = Str::plural($new_data_type->display_name_singular);
+            $new_data_type->save();
+
+            foreach ($columns as $index => $column) {
+                $new_data_row = new DataRow();
+                $new_data_row->data_type_id = $new_data_type->id;
+                $new_data_row->field = $column->Field;
+                $new_data_row->type = $column->Type;
+                $new_data_row->display_name = Str::studly($column->Field);
+                $new_data_row->required = $column->Null == 'NO';
+                $new_data_row->browse = true;
+                $new_data_row->read = true;
+                $new_data_row->edit = $column->Extra != 'auto_increment';
+                $new_data_row->add = $column->Extra != 'auto_increment';
+                $new_data_row->delete = $column->Extra != 'auto_increment';
+                $new_data_row->details = '';
+                $new_data_row->order = $index + 1;
+                $new_data_row->save();
+            }
+
+            DB::commit();
+
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
 }
