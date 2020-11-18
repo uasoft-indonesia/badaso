@@ -38,6 +38,14 @@ class BadasoMenuController extends Controller
         }
     }
 
+    public function addMenu(Request $request)
+    {
+    }
+
+    public function addMenuItem(Request $request)
+    {
+    }
+
     public function editMenu(Request $request)
     {
         DB::beginTransaction();
@@ -80,7 +88,7 @@ class BadasoMenuController extends Controller
         }
     }
 
-    public function deleteMenuItem(Request $request)
+    public function deleteMenu(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -94,7 +102,7 @@ class BadasoMenuController extends Controller
         }
     }
 
-    public function deleteMenu(Request $request)
+    public function deleteMenuItem(Request $request)
     {
         DB::beginTransaction();
         try {
