@@ -10,6 +10,16 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/components', 'BadasoDataController@getComponents');
             Route::get('/filter-operators', 'BadasoDataController@getFilterOperators');
         });
+        Route::group(['prefix' => 'auth'], function () {
+            Route::post('/login', 'BadasoAuthController@login');
+            Route::post('/logout', 'BadasoAuthController@logout');
+            Route::post('/register', 'BadasoAuthController@register');
+            Route::post('/change-password', 'BadasoAuthController@changePassword');
+            Route::post('/forget-password', 'BadasoAuthController@forgetPassword');
+            Route::post('/reset-password', 'BadasoAuthController@resetPassword');
+            Route::post('/refresh-token', 'BadasoAuthController@refreshToken');
+            Route::post('/verify', 'BadasoAuthController@verify');
+        });
         Route::group(['prefix' => 'bread'], function () {
             Route::get('/', 'BadasoBreadController@browse');
             Route::get('/read', 'BadasoBreadController@read');
@@ -50,6 +60,20 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/edit-multiple', 'BadasoConfigurationsController@editMultiple');
             Route::post('/add', 'BadasoConfigurationsController@add');
             Route::delete('/delete', 'BadasoConfigurationsController@delete');
+        });
+        Route::group(['prefix' => 'menu'], function () {
+            Route::get('/', 'BadasoMenuController@browseMenu');
+            Route::get('/read', 'BadasoMenuController@readMenu');
+            Route::put('/edit', 'BadasoMenuController@editMenu');
+            Route::post('/add', 'BadasoMenuController@addMenu');
+            Route::delete('/delete', 'BadasoMenuController@deleteMenu');
+
+            Route::get('/item', 'BadasoMenuController@browseMenuItem');
+            Route::get('/item/read', 'BadasoMenuController@readMenuItem');
+            Route::put('/item/edit', 'BadasoMenuController@editMenuItem');
+            Route::put('/item/edit-order', 'BadasoMenuController@editMenuItemOrder');
+            Route::post('/item/add', 'BadasoMenuController@addMenuItem');
+            Route::delete('/item/delete', 'BadasoMenuController@deleteMenuItem');
         });
     });
 });
