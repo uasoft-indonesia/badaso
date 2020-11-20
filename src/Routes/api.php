@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 
 $api_route_prefix = \config('badaso.api_route_prefix');
 Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.'], function () {
@@ -19,8 +20,9 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/reset-password', 'BadasoAuthController@resetPassword');
             Route::post('/refresh-token', 'BadasoAuthController@refreshToken');
             Route::post('/verify', 'BadasoAuthController@verify');
+            Route::post('/user', 'BadasoAuthController@getAuthenticatedUser');
         });
-        Route::group(['prefix' => 'bread'], function () {
+        Route::group(['prefix' => 'bread', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoBreadController@browse');
             Route::get('/read', 'BadasoBreadController@read');
             Route::put('/edit', 'BadasoBreadController@edit');
@@ -28,7 +30,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::delete('/delete', 'BadasoBreadController@delete');
             Route::get('/generate', 'BadasoBreadController@generate');
         });
-        Route::group(['prefix' => 'entity'], function () {
+        Route::group(['prefix' => 'entity', 'middleware' => BadasoAuthenticate::class], function () {
             try {
                 foreach (Badaso::model('DataType')::all() as $data_type) {
                     $bread_controller = $data_type->controller
@@ -47,13 +49,13 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                 // do nothing, might just be because table not yet migrated.
             }
         });
-        Route::group(['prefix' => 'file'], function () {
+        Route::group(['prefix' => 'file', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/view', 'BadasoFileController@viewFile');
             Route::get('/download', 'BadasoFileController@downloadFile');
             Route::post('/upload', 'BadasoFileController@uploadFile');
             Route::delete('/delete', 'BadasoFileController@deleteFile');
         });
-        Route::group(['prefix' => 'configuration'], function () {
+        Route::group(['prefix' => 'configuration', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoConfigurationsController@browse');
             Route::get('/read', 'BadasoConfigurationsController@read');
             Route::put('/edit', 'BadasoConfigurationsController@edit');
@@ -61,7 +63,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/add', 'BadasoConfigurationsController@add');
             Route::delete('/delete', 'BadasoConfigurationsController@delete');
         });
-        Route::group(['prefix' => 'menu'], function () {
+        Route::group(['prefix' => 'menu', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoMenuController@browseMenu');
             Route::get('/read', 'BadasoMenuController@readMenu');
             Route::put('/edit', 'BadasoMenuController@editMenu');

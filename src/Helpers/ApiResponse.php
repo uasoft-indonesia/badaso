@@ -29,7 +29,7 @@ class ApiResponse
     public static function failed($error = null)
     {
         $response = [];
-        $response['success'] = true;
+        $response['success'] = false;
         $response['error_list'] = [];
 
         $http_status = 500;
@@ -86,5 +86,25 @@ class ApiResponse
         }
 
         return response()->json($response);
+    }
+
+    public static function unauthorized($message = '')
+    {
+        $response['success'] = false;
+        $response['code'] = 'unauthorized';
+        $response['message'] = $message;
+        $response['error_list'] = [];
+
+        return response()->json($response, 401);
+    }
+
+    public static function forbidden()
+    {
+        $response['success'] = false;
+        $response['code'] = 'forbidden';
+        $response['message'] = '';
+        $response['error_list'] = [];
+
+        return response()->json($response, 403);
     }
 }

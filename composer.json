@@ -4,7 +4,8 @@
     "type": "library",
     "require": {
         "webpatser/laravel-uuid": "^3.0",
-        "doctrine/dbal": "2.12"
+        "doctrine/dbal": "2.12",
+        "tymon/jwt-auth": "^1.0"
     },
     "license": "MIT",
     "authors": [{
