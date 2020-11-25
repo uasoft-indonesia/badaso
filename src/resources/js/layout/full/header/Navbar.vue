@@ -17,10 +17,6 @@
       <div slot="title">
         <div class="hiddenDesktop cursor-pointer" @click.stop="activeSidebar"><vs-icon icon="menu"></vs-icon></div>
       </div>
-      <!---
-      Craete new dd
-      -->   
-      <vs-button color="danger" href="https://www.wrappixel.com" type="filled">Upgrade to Pro</vs-button>
 
      
 

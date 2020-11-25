@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Controllers;
 
-use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +15,9 @@ use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\DataRow;
 use Uasoft\Badaso\Models\DataType;
+use Uasoft\Badaso\Models\Menu;
+use Uasoft\Badaso\Models\MenuItem;
+use Uasoft\Badaso\Models\Permission;
 
 class BadasoBreadController extends Controller
 {
@@ -139,6 +141,14 @@ class BadasoBreadController extends Controller
                 $new_data_rows[] = $new_data_row;
             }
 
+            Permission::generateFor($data_type->name);
+
+            if ($data_type->generate_permissions) {
+                $this->addEditMenuItem($data_type);
+            } else {
+                Permission::removeFrom($data_type->name);
+            }
+
             $data_type->data_rows = $new_data_rows;
 
             DB::commit();
@@ -220,6 +230,12 @@ class BadasoBreadController extends Controller
 
             $new_data_type->data_rows = $new_data_rows;
 
+            if ($new_data_type->generate_permissions) {
+                Permission::generateFor($new_data_type->name);
+            }
+
+            $this->addEditMenuItem($new_data_type);
+
             DB::commit();
 
             return ApiResponse::success($new_data_type);
@@ -238,7 +254,11 @@ class BadasoBreadController extends Controller
                 'id' => 'required',
             ]);
 
-            DataType::find($request->id)->delete();
+            $data_type = DataType::find($request->id);
+
+            Permission::removeFrom($data_type->name);
+
+            $data_type->delete();
 
             DB::commit();
 
@@ -291,6 +311,36 @@ class BadasoBreadController extends Controller
             DB::rollBack();
 
             return ApiResponse::failed($e);
+        }
+    }
+
+    private function addEditMenuItem($data_type)
+    {
+        $menu_key = config('badaso.default_menu');
+        $menu = Menu::where('key', $menu_key)->first();
+        if (is_null($menu)) {
+            $menu = new Menu();
+            $menu->key = $menu_key;
+            $menu->display_name = Str::studly($menu_key);
+            $menu->save();
+        }
+
+        $menuItem = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title' => $data_type->display_name_plural,
+            'url' => $data_type->name,
+        ]);
+
+        if (!$menuItem->exists) {
+            $order = $menuItem->highestOrderMenuItem();
+            $menuItem->fill([
+                'target' => '_self',
+                'icon_class' => null,
+                'color' => null,
+                'parent_id' => null,
+                'order' => $order,
+                'permissions' => $data_type->generate_permissions ? 'browse_'.$data_type->name : null,
+            ])->save();
         }
     }
 }

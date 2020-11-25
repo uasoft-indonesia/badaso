@@ -23,6 +23,7 @@ class CreateMenuItems extends Migration
             $table->string('color')->nullable();
             $table->integer('parent_id')->nullable();
             $table->integer('order');
+            $table->text('permissions')->nullable();
             $table->timestamps();
         });
     }

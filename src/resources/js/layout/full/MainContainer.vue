@@ -28,7 +28,7 @@ export default {
   },
   data: () => ({
     topbarColor: "#2962ff",
-    logotitle: "Xtreme Vuesax Free",
+    logotitle: "Badaso",
     sidebarLinks: sidebarLinks,
     image: "",
   }),

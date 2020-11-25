@@ -52,6 +52,25 @@ class BadasoMenuController extends Controller
         }
     }
 
+    public function browseMenuItemByKey(Request $request)
+    {
+        try {
+            $request->validate([
+                'menu_key' => ['required'],
+            ]);
+
+            $menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
+                    ->where('menus.key', $request->menu_key)
+                    ->select('menu_items.*')
+                    ->orderBy('menu_items.order', 'asc')
+                    ->get();
+
+            return ApiResponse::success(collect($menu_items)->toArray());
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function readMenuItem(Request $request)
     {
         try {

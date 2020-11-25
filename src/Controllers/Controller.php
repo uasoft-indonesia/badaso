@@ -40,6 +40,31 @@ abstract class Controller extends BaseController
         return $data_type;
     }
 
+    public function isAuthorize($method, $data_type)
+    {
+        if ($user = auth()->user()) {
+            $permissions = DB::SELECT('
+                SELECT * 
+                FROM permissions p
+                JOIN role_permissions rp ON p.id = rp.permission_id
+                JOIN roles r ON rp.role_id  = r.id
+                JOIN user_roles ur ON r.id = ur.role_id
+                JOIN users u ON ur.user_id = u.id
+                WHERE u.id = :user_id
+                AND p.key = :permission
+            ', [
+                'user_id' => $user->id,
+                'permission' => $method.'_'.$data_type->name,
+            ]);
+
+            if (count($permissions) > 0) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function createDataFromRaw($data_raws, $data_type)
     {
         $data = [];

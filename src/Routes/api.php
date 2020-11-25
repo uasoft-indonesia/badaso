@@ -63,7 +63,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/add', 'BadasoConfigurationsController@add');
             Route::delete('/delete', 'BadasoConfigurationsController@delete');
         });
-        Route::group(['prefix' => 'menu', 'middleware' => BadasoAuthenticate::class], function () {
+        Route::group(['prefix' => 'menu'], function () { //, 'middleware' => BadasoAuthenticate::class
             Route::get('/', 'BadasoMenuController@browseMenu');
             Route::get('/read', 'BadasoMenuController@readMenu');
             Route::put('/edit', 'BadasoMenuController@editMenu');
@@ -71,6 +71,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::delete('/delete', 'BadasoMenuController@deleteMenu');
 
             Route::get('/item', 'BadasoMenuController@browseMenuItem');
+            Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');
             Route::get('/item/read', 'BadasoMenuController@readMenuItem');
             Route::put('/item/edit', 'BadasoMenuController@editMenuItem');
             Route::put('/item/edit-order', 'BadasoMenuController@editMenuItemOrder');
