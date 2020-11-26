@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import axios from "axios";
 
 export default {
   name: "SideBar",
@@ -106,18 +105,20 @@ export default {
       })
       const menuKey = process.env.MIX_DEFAULT_MENU ? process.env.MIX_DEFAULT_MENU : 'admin';
       const prefix = process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin';
-      axios
-        .get("/badaso-api/v1/menu/item-by-key?menu_key="+menuKey)
+      this.$api.menu.browseItemByKey({
+        menu_key: menuKey
+      })
         .then((res) => {
           this.$vs.loading.close()
-          let menuItems = res.data.data_list
+          let menuItems = res.data_list
           for (var i = 0, len = menuItems.length; i < len; i++) {
             menuItems[i].link = '/'+prefix+'/main/'+menuItems[i].url
           }
           this.mainMenu = menuItems
         })
         .catch((err) => {
-          console.log(err);
+          this.$vs.loading.close()
+          this.$vs.notify({title:'Danger',text:err.message,color:'danger'})
         });
     },
   },

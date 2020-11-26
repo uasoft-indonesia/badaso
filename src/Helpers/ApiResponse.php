@@ -88,7 +88,7 @@ class ApiResponse
         return response()->json($response);
     }
 
-    public static function unauthorized($message = '')
+    public static function unauthorized($message = 'unauthorized')
     {
         $response['success'] = false;
         $response['code'] = 'unauthorized';

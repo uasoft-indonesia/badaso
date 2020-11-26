@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Vuesax from 'vuesax'
 import { Datetime } from 'vue-datetime';
+import api from './api/index'
+import router from './router'
+import store from './store/store'
 
 import App from './apps/App.vue'
 
@@ -10,17 +13,12 @@ import 'boxicons'
 import 'boxicons/css/boxicons.min.css'
 import 'vue-datetime/dist/vue-datetime.css'
 
-// Vue Router
-import router from './router'
 Vue.config.productionTip = false
 Vue.config.devtools = true
-
 Vue.use(Vuesax)
 Vue.use(Datetime)
-
 Vue.component('datetime', Datetime);
-
-import store from './store/store'
+Vue.prototype.$api = api;
 
 const app = new Vue({
   store,

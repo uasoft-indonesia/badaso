@@ -24,10 +24,9 @@ class BadasoBreadController extends Controller
     public function browse(Request $request)
     {
         try {
-            $table_name = env('DB_DATABASE', '');
+            $db_name = config('badaso.db_name', '');
             $tables = DB::select('SHOW TABLES');
-            $key = 'Tables_in_'.$table_name;
-
+            $key = 'Tables_in_'.$db_name;
             $tables = collect($tables)->whereNotIn($key, config('badaso.exclude_tables_from_bread', []))->all();
 
             $breads = [];

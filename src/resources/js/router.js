@@ -6,6 +6,11 @@ import AuthContainer from "./layout/full/AuthContainer.vue";
 
 import Home from "./views/home.vue";
 
+import Login from "./views/auth/login.vue";
+import Register from "./views/auth/register.vue";
+import ForgotPassword from "./views/auth/forgot-password.vue";
+import ResetPassword from "./views/auth/reset-password.vue";
+
 import Browse from "./views/bread/browse.vue";
 import Add from "./views/bread/add.vue";
 import Edit from "./views/bread/edit.vue";
@@ -53,13 +58,52 @@ let prefix = "/" + prefix_env;
 const router = new VueRouter({
   mode: "history",
   routes: [
-		{ path: prefix + "/auth", name: "Login", component: AuthContainer },,
     {
       // ======================
       // Full Layout
       // ======================
       path: prefix,
+      name: "Auth",
+      component: AuthContainer,
+      meta: {
+        guest: true,
+      },
+      // ======================
+      // Theme routes / pages
+      // ======================
+      children: [
+        {
+          path: prefix + "/login",
+          name: "Login",
+          component: Login,
+        },
+        {
+          path: prefix + "/register",
+          name: "Register",
+          component: Register,
+        },
+        {
+          path: prefix + "/forgot-password",
+          name: "ForgotPassword",
+          component: ForgotPassword,
+        },
+        {
+          path: prefix + "/reset-password",
+          name: "ResetPassword",
+          component: ResetPassword,
+        },
+      ],
+    },
+    {
+      // ======================
+      // Full Layout
+      // ======================
+      path: prefix,
+      name: "Admin",
       component: MainContainer,
+      meta: {
+        authenticatedUser: true,
+      },
       // ======================
       // Theme routes / pages
       // ======================
@@ -157,6 +201,24 @@ const router = new VueRouter({
       ],
     },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.authenticatedUser)) {
+    if (localStorage.getItem("token") == null) {
+      next({ name: "Login" });
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (localStorage.getItem("token") == null) {
+      next();
+    } else {
+      next({ name: "Home" });
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

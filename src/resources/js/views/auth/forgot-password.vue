@@ -6,21 +6,18 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">Register Here</h3>
-        <p class="mb-0">Welcome back, please login to your account.</p>
+        <h3 class="mb-1">Forgot Password</h3>
+        <p class="mb-0">Please provide an email to send reset password mail.</p>
       </div>
       <div>
         <form novalidate="novalidate">
-          <vs-input icon="person" icon-after size="default" placeholder="Name" v-model="name" class="w-100 mb-4 mt-2 "/>
           <vs-input icon="email" icon-after size="default" placeholder="Email" v-model="email" class="w-100 mb-4 mt-2 "/>
-          <vs-input icon="lock" type="password" icon-after size="default" placeholder="Password" v-model="password" class="w-100 mb-4 mt-2 "/>
-          <vs-input icon="lock" type="password" icon-after size="default" placeholder="Password Confirmation" v-model="passwordConfirmation" class="w-100 mb-4 mt-2 "/>
-          <vs-button type="relief" class="btn-block">Register</vs-button>
+          <vs-button type="relief" class="btn-block">Send</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
-          Do you have an account? &nbsp;
-          <router-link :to="'/'+baseUrl+'/login'">login</router-link>
+          Don't have an account? &nbsp;
+          <router-link :to="'/'+baseUrl+'/register'">Create an Account</router-link>
         </div>
       </div>
     </vs-card>
@@ -30,10 +27,8 @@
 <script>
 export default {
     data: () => ({
-        name: '',
         email: '',
         password: '',
-        passwordConfirmation: '',
         baseUrl: process.env.MIX_DASHBOARD_ROUTE_PREFIX
   ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
   : "badaso-admin"

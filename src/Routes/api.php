@@ -16,13 +16,13 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/logout', 'BadasoAuthController@logout');
             Route::post('/register', 'BadasoAuthController@register');
             Route::post('/change-password', 'BadasoAuthController@changePassword');
-            Route::post('/forget-password', 'BadasoAuthController@forgetPassword');
+            Route::post('/forgot-password', 'BadasoAuthController@forgetPassword');
             Route::post('/reset-password', 'BadasoAuthController@resetPassword');
             Route::post('/refresh-token', 'BadasoAuthController@refreshToken');
             Route::post('/verify', 'BadasoAuthController@verify');
             Route::post('/user', 'BadasoAuthController@getAuthenticatedUser');
         });
-        Route::group(['prefix' => 'bread', 'middleware' => BadasoAuthenticate::class], function () {
+        Route::group(['prefix' => 'bread'], function () {
             Route::get('/', 'BadasoBreadController@browse');
             Route::get('/read', 'BadasoBreadController@read');
             Route::put('/edit', 'BadasoBreadController@edit');
@@ -63,7 +63,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/add', 'BadasoConfigurationsController@add');
             Route::delete('/delete', 'BadasoConfigurationsController@delete');
         });
-        Route::group(['prefix' => 'menu'], function () { //, 'middleware' => BadasoAuthenticate::class
+        Route::group(['prefix' => 'menu', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoMenuController@browseMenu');
             Route::get('/read', 'BadasoMenuController@readMenu');
             Route::put('/edit', 'BadasoMenuController@editMenu');

@@ -1,0 +1,75 @@
+export default {
+  auth: {
+    login: '/badaso-api/v1/auth/login',
+    logout: '/badaso-api/v1/auth/logout',
+    forgotPassword: '/badaso-api/v1/auth/forgot-password',
+    resetPassword: '/badaso-api/v1/auth/reset-password',
+    register: '/badaso-api/v1/auth/register',
+    verify: '/badaso-api/v1/auth/verify',
+    refreshToken: '/badaso-api/v1/auth/refresh-token',
+    user: '/badaso-api/v1/auth/user',
+    changePassword: '/badaso-api/v1/auth/change-password'
+  }, 
+  bread: {
+    browse: '/badaso-api/v1/bread',
+    read: '/badaso-api/v1/bread/read',
+    edit: '/badaso-api/v1/bread/edit',
+    add: '/badaso-api/v1/bread/add',
+    delete: '/badaso-api/v1/bread/delete',
+  }, 
+  configuration: {
+    browse: '/badaso-api/v1/permission',
+    read: '/badaso-api/v1/permission/read',
+    edit: '/badaso-api/v1/permission/edit',
+    editMultiple: '/badaso-api/v1/permission/edit-multiple',
+    add: '/badaso-api/v1/permission/add',
+    delete: '/badaso-api/v1/permission/delete',
+  }, 
+  menu: {
+    browse: '/badaso-api/v1/menu',
+    read: '/badaso-api/v1/menu/read',
+    edit: '/badaso-api/v1/menu/edit',
+    add: '/badaso-api/v1/menu/add',
+    delete: '/badaso-api/v1/menu/delete',
+    browseItem: '/badaso-api/v1/menu/item',
+    browseItemByKey: '/badaso-api/v1/menu/item-by-key',
+    readItem: '/badaso-api/v1/menu/item/read',
+    editItem: '/badaso-api/v1/menu/item/edit',
+    editItemOrder: '/badaso-api/v1/menu/item/edit-order',
+    addItem: '/badaso-api/v1/menu/item/add',
+    deleteItem: '/badaso-api/v1/menu/item/delete',
+  }, 
+  permission: {
+    browse: '/badaso-api/v1/permission',
+    read: '/badaso-api/v1/permission/read',
+    edit: '/badaso-api/v1/permission/edit',
+    add: '/badaso-api/v1/permission/add',
+    delete: '/badaso-api/v1/permission/delete',
+  }, 
+  role: {
+    browse: '/badaso-api/v1/role',
+    read: '/badaso-api/v1/role/read',
+    edit: '/badaso-api/v1/role/edit',
+    add: '/badaso-api/v1/role/add',
+    delete: '/badaso-api/v1/role/delete',
+    setPermission: '/badaso-api/v1/role/set-permission',
+  }, 
+  user: {
+    browse: '/badaso-api/v1/user',
+    read: '/badaso-api/v1/user/read',
+    edit: '/badaso-api/v1/user/edit',
+    add: '/badaso-api/v1/user/add',
+    delete: '/badaso-api/v1/user/delete',
+  }, 
+  data: {
+    component: '/badaso-api/v1/data/components',
+    filterOperator: '/badaso-api/v1/data/filter-operators'
+  },
+  entity: {
+    browse: '/badaso-api/v1/entity',
+    read: '/badaso-api/v1/entity/read',
+    edit: '/badaso-api/v1/entity/edit',
+    add: '/badaso-api/v1/entity/add',
+    delete: '/badaso-api/v1/entity/delete',
+  }
+}
