@@ -12,8 +12,14 @@ class BadasoDataController extends Controller
     public function getComponents(Request $request)
     {
         $components = Badaso::getComponents();
+        $component_list = collect($components)->map(function ($component) {
+            return [
+                'value' => $component,
+                'label' => ucfirst(str_replace('_', ' ', $component)),
+            ];
+        })->toArray();
 
-        return ApiResponse::success($components);
+        return ApiResponse::success($component_list);
     }
 
     public function getFilterOperators(Request $request)

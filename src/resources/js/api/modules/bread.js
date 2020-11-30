@@ -17,6 +17,13 @@ export default {
         return resource.get(url)
     },
 
+    readTable(data) {
+        let ep = endpoint.bread.table
+        let qs = QueryString(data)
+        let url = ep + qs
+        return resource.get(url)
+    },
+
     edit(data) {
         return resource.put(endpoint.bread.edit, data)
     },

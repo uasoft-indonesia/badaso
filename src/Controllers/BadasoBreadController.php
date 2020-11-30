@@ -69,6 +69,32 @@ class BadasoBreadController extends Controller
         }
     }
 
+    public function readTable(Request $request)
+    {
+        try {
+            $request->validate([
+                'table' => 'required',
+            ]);
+
+            $table = $request->table;
+            $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($table);
+
+            foreach ($columns as $key => $column) {
+                $fields[] = [
+                    'name' => $column->getName(),
+                    'type' => str_replace('\\', '', ucfirst($column->getType())),
+                    'is_not_null' => $column->getNotNull(),
+                    'default' => $column->getDefault(),
+                    'length' => $column->getLength(),
+                ];
+            }
+
+            return ApiResponse::success(collect($fields)->toArray());
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
+    }
+
     public function edit(Request $request)
     {
         DB::beginTransaction();

@@ -11,6 +11,8 @@ import Register from "./views/auth/register.vue";
 import ForgotPassword from "./views/auth/forgot-password.vue";
 import ResetPassword from "./views/auth/reset-password.vue";
 
+import PageNotFound from "./views/error/404.vue";
+
 import Browse from "./views/bread/browse.vue";
 import Add from "./views/bread/add.vue";
 import Edit from "./views/bread/edit.vue";
@@ -171,7 +173,7 @@ const router = new VueRouter({
           name: "BreadEdit",
           component: BreadEdit,
         },
-        { path: prefix + "/bread/add", name: "BreadAdd", component: BreadAdd },
+        { path: prefix + "/bread/add/:tableName", name: "BreadAdd", component: BreadAdd },
 
         { path: prefix + "/site", name: "SiteBrowse", component: SiteBrowse },
         { path: prefix + "/site/read", name: "SiteRead", component: SiteRead },
@@ -200,6 +202,18 @@ const router = new VueRouter({
         },
       ],
     },
+    // {
+    //   path: "*",
+    //   component: AuthContainer,
+    //   redirect: prefix + "/404",
+    //   children: [
+    //     {
+    //       path: prefix + "/404",
+    //       name: "PageNotFound",
+    //       component: PageNotFound,
+    //     }
+    //   ]
+    // }
   ],
 });
 

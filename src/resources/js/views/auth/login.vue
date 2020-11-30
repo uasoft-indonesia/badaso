@@ -27,6 +27,7 @@
             placeholder="Password"
             v-model="password"
             class="w-100 mb-4 mt-2 "
+            @keyup.enter="login()"
           />
 
           <div class="d-flex pt-3 pb-3">

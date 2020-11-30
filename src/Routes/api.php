@@ -29,6 +29,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/add', 'BadasoBreadController@add');
             Route::delete('/delete', 'BadasoBreadController@delete');
             Route::get('/generate', 'BadasoBreadController@generate');
+            Route::get('/table', 'BadasoBreadController@readTable');
         });
         Route::group(['prefix' => 'entity', 'middleware' => BadasoAuthenticate::class], function () {
             try {

@@ -9,63 +9,198 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add</h3>
+            <h3>Add BREAD for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="text" size="6"></badaso-text>
-            <badaso-password v-model="password" size="6"></badaso-password>
-            <badaso-textarea v-model="textarea" size="6"></badaso-textarea>
-            <badaso-checkbox
-              v-model="checkBoxes"
+            <badaso-text
+              v-model="dataBread.name"
               size="6"
-              :items="items"
-            ></badaso-checkbox>
-            <badaso-search v-model="search" size="6"></badaso-search>
-            <badaso-number v-model="number" size="6"></badaso-number>
-            <badaso-url v-model="url" size="6"></badaso-url>
-            <badaso-time v-model="time" size="6"></badaso-time>
-            <badaso-date v-model="date" size="6"></badaso-date>
-            <badaso-datetime v-model="datetime" size="6"></badaso-datetime>
+              label="Table Name"
+              placeholder="Table Name"
+              required
+              readonly
+            ></badaso-text>
+            <badaso-switch
+              size="3"
+              v-model="dataBread.generatePermissions"
+              label="Generate Permissions"
+            ></badaso-switch>
+            <badaso-switch
+              size="3"
+              v-model="dataBread.serverSide"
+              label="Server Side"
+            ></badaso-switch>
+          </vs-row>
+          <vs-row>
+            <badaso-text
+              v-model="dataBread.displayNameSingular"
+              size="6"
+              label="Display Name(Singular)"
+              required
+              placeholder="Display Name(Singular)"
+            ></badaso-text>
+            <badaso-text
+              v-model="dataBread.displayNamePlural"
+              size="6"
+              label="Display Name(Plural)"
+              required
+              placeholder="Display Name(Plural)"
+            ></badaso-text>
+            <badaso-text
+              v-model="dataBread.slug"
+              size="6"
+              label="URL Slug (must be unique)"
+              required
+              placeholder="URL Slug (must be unique)"
+            ></badaso-text>
+            <badaso-text
+              v-model="dataBread.icon"
+              size="6"
+              label="Icon"
+              placeholder="Icon"
+            ></badaso-text>
+            <badaso-text
+              v-model="dataBread.modelName"
+              size="6"
+              label="Model Name"
+              placeholder="Model Name"
+            ></badaso-text>
+            <badaso-text
+              v-model="dataBread.controller"
+              size="6"
+              label="Controller Name"
+              placeholder="Controller Name"
+            ></badaso-text>
             <badaso-select
-              v-model="singleSelect"
-              size="6"
-              :items="items"
+              v-model="dataBread.orderColumn"
+              size="3"
+              label="Order Column"
+              placeholder="Order Column"
+              :items="fieldList"
             ></badaso-select>
-            <badaso-select-multiple
-              v-model="multipleSelect"
-              size="6"
-              :items="items"
-            ></badaso-select-multiple>
-            <badaso-radio
-              v-model="radio"
-              size="6"
-              :items="items"
-            ></badaso-radio>
-            <badaso-upload-image
-              size="6"
-              v-model="uploadedImage"
-            ></badaso-upload-image>
-            <badaso-upload-image-multiple
-              size="6"
-              v-model="multipleUploadedImage"
-            ></badaso-upload-image-multiple>
-            <badaso-upload-file
-              size="6"
-              v-model="uploadedFile"
-            ></badaso-upload-file>
-            <badaso-upload-file-multiple
-              size="6"
-              v-model="multipleUploadedFile"
-            ></badaso-upload-file-multiple>
-            <badaso-switch size="6" v-model="switch1"></badaso-switch>
-            <badaso-slider size="6" v-model="slider"></badaso-slider>
-            <badaso-editor size="12" v-model="editor"></badaso-editor>
-            <badaso-tags size="6" v-model="tags"></badaso-tags>
-            <badaso-color-picker
-              size="6"
-              v-model="colors"
-            ></badaso-color-picker>
-            <badaso-hidden v-model="hidden"></badaso-hidden>
+            <badaso-select
+              v-model="dataBread.orderDisplayColumn"
+              size="3"
+              label="Order Display Column"
+              placeholder="Order Display Column"
+              :items="fieldList"
+            ></badaso-select>
+            <badaso-select
+              v-model="dataBread.orderDirection"
+              size="3"
+              label="Order Direction"
+              placeholder="Order Direction"
+              :items="orderDirections"
+            ></badaso-select>
+            <badaso-select
+              v-model="dataBread.defaultServerSideSearchField"
+              size="3"
+              label="Default Server Side Search Field"
+              placeholder="Default Server Side Search Field"
+              :items="fieldList"
+            ></badaso-select>
+            <badaso-textarea
+              size="12"
+              label="Description"
+              placeholder="Description"
+              v-model="dataBread.description"
+            >
+
+            </badaso-textarea>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <div slot="header">
+            <h3>Add BREAD Fields for {{ $route.params.tableName }}</h3>
+          </div>
+          <vs-row>
+            <vs-col col-lg="12" style="overflow-x: auto">
+              <table class="table">
+                <thead>
+                  <th style="width: 1%; word-wrap: nowrap;"></th>
+                  <th style="width: 1%; word-wrap: nowrap;"> Field </th>
+                  <th style="width: 1%; word-wrap: nowrap;"> Visibility </th>
+                  <th style="width: 1%; word-wrap: nowrap;"> Input Type </th>
+                  <th style="width: 200px;"> Display Name </th>
+                  <th> Optional Details </th>
+                </thead>
+                  <draggable v-model="tableColumns" tag="tbody">
+                    <tr :key="index" v-for="(field, index) in dataBread.rows">
+                      <td>
+                        <vs-icon icon="drag_indicator" class="drag_icon"></vs-icon>
+                      </td>
+                      <td :data="field.field">
+                        <strong>{{ field.field }}</strong>
+                        <br />
+                        <span style="white-space: nowrap">
+                        Type: {{ field.type }}
+                        </span>
+                        <br>
+                        <span style="white-space: nowrap">
+                          Required: <span v-if="field.required">Yes</span><span v-else>No</span>
+                        </span>
+                      </td>
+                      <td>
+                        <vs-checkbox
+                          v-model="field.browse"
+                          class="mb-1"
+                          style="justify-content: start;"
+                          >Browse</vs-checkbox
+                        >
+                        <vs-checkbox
+                          v-model="field.read"
+                          class="mb-1"
+                          style="justify-content: start;"
+                          >Read</vs-checkbox
+                        >
+                        <vs-checkbox
+                          v-model="field.edit"
+                          class="mb-1"
+                          style="justify-content: start;"
+                          >Edit</vs-checkbox
+                        >
+                        <vs-checkbox
+                          v-model="field.add"
+                          class="mb-1"
+                          style="justify-content: start;"
+                          >Add</vs-checkbox
+                        >
+                        <vs-checkbox
+                          v-model="field.delete"
+                          class="mb-1"
+                          style="justify-content: start;"
+                          >Delete</vs-checkbox
+                        >
+                      </td>
+                      <td>
+                        <vs-select class="selectExample" v-model="field.type">
+                          <vs-select-item
+                            :key="index"
+                            :value="item.value"
+                            :text="item.label"
+                            v-for="(item, index) in componentList"
+                          />
+                        </vs-select>
+                      </td>
+                      <td>
+                        <vs-input
+                          class="inputx"
+                          placeholder="Display Name"
+                          v-model="field.displayName"
+                        />
+                      </td>
+                      <td>
+                        <badaso-code-editor v-model="field.details">
+                        </badaso-code-editor>
+                      </td>
+                    </tr>
+                  </draggable>
+              </table>
+            </vs-col>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -86,140 +221,149 @@
   </div>
 </template>
 <script>
+import draggable from "vuedraggable";
 import BadasoText from "../../components/BadasoText";
-import BadasoPassword from "../../components/BadasoPassword";
-import BadasoTextarea from "../../components/BadasoTextarea";
-import BadasoCheckbox from "../../components/BadasoCheckbox";
-import BadasoSearch from "../../components/BadasoSearch";
-import BadasoNumber from "../../components/BadasoNumber";
-import BadasoUrl from "../../components/BadasoUrl";
-import BadasoTime from "../../components/BadasoTime";
-import BadasoDate from "../../components/BadasoDate";
-import BadasoDatetime from "../../components/BadasoDatetime";
-import BadasoSelect from "../../components/BadasoSelect";
-import BadasoSelectMultiple from "../../components/BadasoSelectMultiple";
-import BadasoRadio from "../../components/BadasoRadio";
 import BadasoSwitch from "../../components/BadasoSwitch";
-import BadasoSlider from "../../components/BadasoSlider";
-import BadasoEditor from "../../components/BadasoEditor";
-import BadasoTags from "../../components/BadasoTags";
-import BadasoColorPicker from "../../components/BadasoColorPicker";
-import BadasoUploadImage from "../../components/BadasoUploadImage";
-import BadasoUploadImageMultiple from "../../components/BadasoUploadImageMultiple";
-import BadasoUploadFile from "../../components/BadasoUploadFile";
-import BadasoUploadFileMultiple from "../../components/BadasoUploadFileMultiple";
-import BadasoHidden from "../../components/BadasoHidden";
+import BadasoSelect from "../../components/BadasoSelect";
+import BadasoCodeEditor from "../../components/BadasoCodeEditor";
+import BadasoTextarea from "../../components/BadasoTextarea";
 
 export default {
   name: "Browse",
   components: {
+    draggable,
     BadasoText,
-    BadasoPassword,
-    BadasoTextarea,
-    BadasoCheckbox,
-    BadasoSearch,
-    BadasoNumber,
-    BadasoUrl,
-    BadasoTime,
-    BadasoDate,
-    BadasoDatetime,
-    BadasoSelect,
-    BadasoSelectMultiple,
-    BadasoRadio,
     BadasoSwitch,
-    BadasoSlider,
-    BadasoEditor,
-    BadasoTags,
-    BadasoColorPicker,
-    BadasoUploadImage,
-    BadasoUploadImageMultiple,
-    BadasoUploadFile,
-    BadasoUploadFileMultiple,
-    BadasoHidden,
+    BadasoSelect,
+    BadasoCodeEditor,
+    BadasoTextarea,
   },
   data: () => ({
-    breadcrumb: [
+    breadcrumb: [],
+    fieldList: [],
+    tableColumns: [],
+    componentList: [],
+    orderDirections: [
+      {
+        label: "Ascending",
+        value: "asc",
+      },
+      {
+        label: "Descending",
+        value: "desc",
+      },
+    ],
+    dataBread: {
+      name : "",
+      slug : "",
+      displayNameSingular : "",
+      displayNamePlural : "",
+      icon : "",
+      modelName : "",
+      policyName : "",
+      description : "",
+      generatePermissions : true,
+      serverSide : false,
+      details : "",
+      controller : "",
+      rows: []
+    }
+  }),
+  mounted() {
+    this.breadcrumb = [
       {
         title: "Dashboard",
-        url: "dashboard",
+        url: this.$baseUrl + "/home",
       },
       {
-        title: "Link 1",
-        url: "link-1",
+        title: "Bread",
+        url: this.$baseUrl + "/bread",
       },
       {
-        title: "Link 2",
-        disabled: true,
-      },
-      {
-        title: "Active",
+        title: "Add",
         active: true,
       },
-    ],
-    text: "",
-    password: "",
-    textarea: "",
-    checkBoxes: [],
-    number: "",
-    search: "",
-    url: "",
-    time: "",
-    date: "",
-    datetime: "",
-    singleSelect: "",
-    multipleSelect: [],
-    radio: "",
-    switch1: false,
-    slider: 0,
-    editor: "",
-    tags: "",
-    colors: "#000000",
-    uploadedImage: {},
-    multipleUploadedImage: [],
-    uploadedFile: {},
-    multipleUploadedFile: [],
-    hidden: '',
-    items: [
-      {
-        label: "Text 1",
-        value: "Value 1",
-      },
-      {
-        label: "Text 2",
-        value: "Value 2",
-      },
-      {
-        label: "Text 3",
-        value: "Value 3",
-      },
-    ],
-  }),
+    ];
+    this.dataBread.name = this.$route.params.tableName;
+    this.dataBread.displayNameSingular = this.$helper.generateDisplayName(this.$route.params.tableName);
+    this.dataBread.displayNamePlural = this.$helper.generateDisplayName(this.$route.params.tableName) + 's';
+    this.dataBread.slug = this.$helper.generateSlug(this.$route.params.tableName);
+    this.getTableDetail();
+    this.getComponents();
+  },
   methods: {
     submitForm() {
-      let data = {
-        text: this.text,
-        password: this.password,
-        textarea: this.textarea,
-        checkBoxes: this.checkBoxes,
-        number: this.number,
-        search: this.search,
-        url: this.url,
-        time: this.time,
-        date: this.date,
-        datetime: this.datetime,
-        singleSelect: this.singleSelect,
-        multipleSelect: this.multipleSelect,
-        radio: this.radio,
-        switch1: this.switch1,
-        slider: this.slider,
-        editor: this.editor,
-        tags: this.tags,
-        colors: this.colors,
-        uploadedImage: this.uploadedImage,
-        multipleUploadedImage: this.multipleUploadedImage,
-      };
-      console.log(JSON.stringify(data));
+this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.bread
+        .add(this.$caseConvert.snake(this.dataBread))
+        .then((response) => {
+          console.log(response)
+          this.$vs.loading.close();
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+        });
+    },
+    getTableDetail() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.bread
+        .readTable({
+          table: this.$route.params.tableName,
+        })
+        .then((response) => {
+          let fieldList = response.data_list;
+          this.tableColumns = fieldList;
+          this.fieldList = fieldList.map((field) => {
+            return {
+              label: field.name,
+              value: field.name,
+            };
+          });
+          this.dataBread.rows = fieldList.map((field) => {
+            return {
+              "field" : field.name,
+              "type" : this.$helper.mapFieldType(field.type),
+              "displayName" : this.$helper.generateDisplayName(field.name),
+              "required" : field.is_not_null,
+              "browse" : true,
+              "read" : true,
+              "edit" : false,
+              "add" : false,
+              "delete" : false,
+              "details" : "{}",
+              "order" : 1
+            };
+          });
+          this.$vs.loading.close();
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+        });
+    },
+    getComponents() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.data
+        .component({})
+        .then((response) => {
+          this.componentList = response.data_list;
+          this.$vs.loading.close();
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+        });
     },
   },
 };
 </script>
+
+<style>
+.drag_icon:hover {
+  cursor: all-scroll;
+}
+</style>

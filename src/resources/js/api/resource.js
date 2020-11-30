@@ -1,5 +1,5 @@
 import axios from 'axios'
-import handler from './handler'
+import handleError from './handle-error'
 
 function createResource() {
   const instance = axios.create({
@@ -21,7 +21,7 @@ function createResource() {
   instance.interceptors.response.use((response) => {
     return Promise.resolve(response.data)
   }, (error) => {
-    return Promise.reject(error.response.data)
+    return handleError(error)
   })
 
   return instance

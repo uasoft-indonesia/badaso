@@ -8,14 +8,6 @@
         ></vs-breadcrumb>
       </vs-col>
       <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button color="primary" type="relief" to="add"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
-          >
-          <vs-button color="danger" type="relief"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
-          >
-        </div>
       </vs-col>
     </vs-row>
     <vs-row>
@@ -70,6 +62,7 @@
                   </vs-td>
                   <vs-td v-else style="width: 1%; white-space: nowrap">
                     <vs-button color="rgb(187, 138, 200)" type="relief" @click.stop
+                      :to="addUrl +'/'+ data[index].table_name"
                       >Add BREAD to this table</vs-button>
                   </vs-td>
                 </vs-tr>
@@ -98,8 +91,10 @@ export default {
     ],
     selected: [],
     tables: [],
+    addUrl: ''
   }),
   mounted() {
+    this.addUrl = this.$baseUrl + '/bread/add';
     this.getTableList();
   },
   methods: {
