@@ -34,6 +34,21 @@ class BadasoConfigurationsController extends Controller
         }
     }
 
+    public function applyable(Request $request)
+    {
+        try {
+            $configurations = Configuration::all();
+            $configuration = [];
+            foreach ($configurations as $row) {
+                $configuration[$row->key] = $row->value;
+            }
+
+            return ApiResponse::success(json_decode(json_encode($configuration)));
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function edit(Request $request)
     {
         DB::beginTransaction();
@@ -108,7 +123,7 @@ class BadasoConfigurationsController extends Controller
             $request->validate([
                 'key' => 'required|unique:configurations',
                 'display_name' => 'required',
-                'value' => 'required',
+                'group' => 'required',
                 'type' => 'required',
             ]);
             $configuration = new Configuration();

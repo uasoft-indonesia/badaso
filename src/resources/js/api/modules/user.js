@@ -1,32 +1,46 @@
-import resource from '../resource'
-import endpoint from '../endpoint'
-import QueryString from '../query-string'
+import resource from "../resource";
+import auth from "./auth";
+import endpoint from "../endpoint";
+import QueryString from "../query-string";
+import { param } from "jquery";
 
 export default {
-    browse(data) {
-        let ep = endpoint.user.browse
-        let qs = QueryString(data)
-        let url = ep + qs
-        return resource.get(url)
-    },
+  browse(data) {
+    return auth.refreshToken().then((res) => {
+      let ep = endpoint.user.browse;
+      let qs = QueryString(data);
+      let url = ep + qs;
+      return resource.get(url);
+    });
+  },
 
-    read(data) {
-        let ep = endpoint.user.read
-        let qs = QueryString(data)
-        let url = ep + qs
-        return resource.get(url)
-    },
+  read(data) {
+    return auth.refreshToken().then((res) => {
+      let ep = endpoint.user.read;
+      let qs = QueryString(data);
+      let url = ep + qs;
+      return resource.get(url);
+    });
+  },
 
-    edit(data) {
-        return resource.put(endpoint.user.edit, data)
-    },
+  edit(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.put(endpoint.user.edit, data);
+    });
+  },
 
-    add(data) {
-        return resource.post(endpoint.user.add, data)
-    },
+  add(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.post(endpoint.user.add, data);
+    });
+  },
 
-    delete(data) {
-        return resource.delete(endpoint.user.delete, data)
-    },
-
-}
+  delete(data) {
+    return auth.refreshToken().then((res) => {
+        let paramData = {
+            data: data
+        }
+      return resource.delete(endpoint.user.delete, paramData);
+    });
+  },
+};

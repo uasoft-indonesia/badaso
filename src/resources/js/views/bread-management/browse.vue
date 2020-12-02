@@ -2,13 +2,9 @@
   <div>
     <vs-row>
       <vs-col vs-lg="8">
-        <vs-breadcrumb
-          style="margin-bottom: 0"
-          :items="breadcrumb"
-        ></vs-breadcrumb>
+        <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
-      <vs-col vs-lg="4">
-      </vs-col>
+      <vs-col vs-lg="4"> </vs-col>
     </vs-row>
     <vs-row>
       <vs-col vs-lg="12">
@@ -18,10 +14,9 @@
           </div>
           <div>
             <vs-table
-              multiple
               v-model="selected"
               pagination
-              max-items="3"
+              max-items="10"
               search
               :data="tables"
               stripe
@@ -45,25 +40,40 @@
                   <vs-td :data="data[index].table_name">
                     {{ data[index].table_name }}
                   </vs-td>
-                  <vs-td style="width: 1%; white-space: nowrap" v-if="data[index].bread">
-                    <vs-button color="success" type="relief" @click.stop
+                  <vs-td
+                    style="width: 1%; white-space: nowrap"
+                    v-if="data[index].bread_data"
+                  >
+                    <vs-button
+                      color="success"
+                      type="relief"
+                      @click.stop
+                      :to="{name: 'EntityBrowse', params: {slug: data[index].bread_data.slug}}"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
-                    <vs-button color="warning" type="relief" @click.stop
+                    <vs-button
+                      color="warning"
+                      type="relief"
+                      @click.stop
+                      :to="{name: 'BreadEdit', params: {tableName: data[index].table_name}}"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="danger"
                       type="relief"
                       @click.stop
-                      @click="openConfirm()"
+                      @click="openConfirm(data[index].bread_data.id)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
                   <vs-td v-else style="width: 1%; white-space: nowrap">
-                    <vs-button color="rgb(187, 138, 200)" type="relief" @click.stop
-                      :to="addUrl +'/'+ data[index].table_name"
-                      >Add BREAD to this table</vs-button>
+                    <vs-button
+                      color="primary"
+                      type="relief"
+                      @click.stop
+                      :to="{name: 'BreadAdd', params: {tableName: data[index].table_name}}"
+                      >Add BREAD to this table</vs-button
+                    >
                   </vs-td>
                 </vs-tr>
               </template>
@@ -75,37 +85,32 @@
   </div>
 </template>
 <script>
+import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
 export default {
+  components: { BadasoBreadcrumb },
   name: "Browse",
   data: () => ({
-    descriptionItems: [3, 5, 15],
-    breadcrumb: [
-      {
-        title: "Dashboard",
-        url: "dashboard",
-      },
-      {
-        title: "Bread",
-        active: true,
-      },
-    ],
+    descriptionItems: [10, 50, 100],
     selected: [],
     tables: [],
-    addUrl: ''
+    willDeleteBreadId: null,
   }),
   mounted() {
-    this.addUrl = this.$baseUrl + '/bread/add';
     this.getTableList();
   },
   methods: {
-    openConfirm() {
+    openConfirm(breadId) {
+      this.willDeleteBreadId = breadId;
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
         title: `Confirm`,
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        accept: this.acceptAlert,
+        text: "Are you sure?",
+        accept: this.deleteBread,
+        cancel: () => {
+          this.willDeleteBreadId = null;
+        },
+        breadId: breadId,
       });
     },
     getTableList() {
@@ -117,6 +122,28 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.tables = response.data_list;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    deleteBread() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.bread
+        .delete({
+          id: this.willDeleteBreadId,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.getTableList();
+          this.$store.commit("FETCH_MENU");
         })
         .catch((error) => {
           this.$vs.loading.close();

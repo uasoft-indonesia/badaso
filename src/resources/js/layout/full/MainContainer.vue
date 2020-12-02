@@ -4,7 +4,7 @@
     <Navbar
       :topbarColor="topbarColor"
       :logo="'/badaso-images/logo/logo-light-icon.png'"
-      :title="logotitle"
+      :title="dashboardTitle"
     />
     <!---Sidebar-->
     <SideBar parent=".main-wrapper" :sidebarLinks="sidebarLinks" />
@@ -32,35 +32,23 @@ export default {
     sidebarLinks: sidebarLinks,
     image: "",
   }),
+  computed: {
+    dashboardTitle:{
+      get() {
+        let config = this.$store.getters.getConfig
+        return  config.dashboard_title ?  config.dashboard_title : 'Badaso'
+      }
+    }
+  },
   mounted() {
-    this.setLastAccess()
+    this.$store.commit("FETCH_COMPONENT");
+    this.$store.commit("FETCH_CONFIGURATION");
   },
   methods: {
-    setLastAccess() {
-      let lastAccessCode = localStorage.getItem('accessCode')
-      let date = new Date();
-      let timeNow = date.getTime();
-      if (lastAccessCode == null) {
-        localStorage.setItem('accessCode', window.btoa(timeNow))
-      } else {
-        let timeLast = window.atob(lastAccessCode)
-        let diffInMilli = timeNow - timeLast
-        let diffInSecond = diffInMilli / 1000
-        let diffInMinute = diffInSecond / 60
-        let diffInHour = diffInMinute / 60
-        if (diffInHour > 24) {
-          this.logout()
-        } else {
-          localStorage.setItem('accessCode', window.btoa(timeNow))
-        }
-      }
-    },
     logout() {
       this.$api.auth
         .logout()
         .then((response) => {
-          console.log(response)
-          localStorage.clear()
           this.$router.push({name: "Login"})
         })
         .catch((error) => {

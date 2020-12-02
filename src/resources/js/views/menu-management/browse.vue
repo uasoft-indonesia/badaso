@@ -9,7 +9,8 @@
       </vs-col>
       <vs-col vs-lg="4">
         <div style="float: right">
-          <vs-button color="primary" type="relief" to="add"
+          <vs-button color="primary" type="relief"
+            :to="{name: 'MenuAdd'}"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
           <vs-button color="danger" type="relief"

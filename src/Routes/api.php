@@ -59,6 +59,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
         Route::group(['prefix' => 'configuration', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoConfigurationsController@browse');
             Route::get('/read', 'BadasoConfigurationsController@read');
+            Route::get('/applyable', 'BadasoConfigurationsController@applyable');
             Route::put('/edit', 'BadasoConfigurationsController@edit');
             Route::put('/edit-multiple', 'BadasoConfigurationsController@editMultiple');
             Route::post('/add', 'BadasoConfigurationsController@add');

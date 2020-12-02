@@ -2,7 +2,7 @@
   <div>
     <vs-row>
       <vs-col vs-lg="8">
-        <vs-breadcrumb :items="breadcrumb"></vs-breadcrumb>
+        <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
     <vs-row>
@@ -105,7 +105,6 @@
               placeholder="Description"
               v-model="dataBread.description"
             >
-
             </badaso-textarea>
           </vs-row>
         </vs-card>
@@ -122,83 +121,87 @@
               <table class="table">
                 <thead>
                   <th style="width: 1%; word-wrap: nowrap;"></th>
-                  <th style="width: 1%; word-wrap: nowrap;"> Field </th>
-                  <th style="width: 1%; word-wrap: nowrap;"> Visibility </th>
-                  <th style="width: 1%; word-wrap: nowrap;"> Input Type </th>
-                  <th style="width: 200px;"> Display Name </th>
-                  <th> Optional Details </th>
+                  <th style="width: 1%; word-wrap: nowrap;">Field</th>
+                  <th style="width: 1%; word-wrap: nowrap;">Visibility</th>
+                  <th style="width: 1%; word-wrap: nowrap;">Input Type</th>
+                  <th style="width: 200px;">Display Name</th>
+                  <th>Optional Details</th>
                 </thead>
-                  <draggable v-model="tableColumns" tag="tbody">
-                    <tr :key="index" v-for="(field, index) in dataBread.rows">
-                      <td>
-                        <vs-icon icon="drag_indicator" class="drag_icon"></vs-icon>
-                      </td>
-                      <td :data="field.field">
-                        <strong>{{ field.field }}</strong>
-                        <br />
-                        <span style="white-space: nowrap">
+                <draggable v-model="dataBread.rows" tag="tbody">
+                  <tr :key="index" v-for="(field, index) in dataBread.rows">
+                    <td>
+                      <vs-icon
+                        icon="drag_indicator"
+                        class="drag_icon"
+                      ></vs-icon>
+                    </td>
+                    <td :data="field.field">
+                      <strong>{{ field.field }}</strong>
+                      <br />
+                      <span style="white-space: nowrap">
                         Type: {{ field.type }}
-                        </span>
-                        <br>
-                        <span style="white-space: nowrap">
-                          Required: <span v-if="field.required">Yes</span><span v-else>No</span>
-                        </span>
-                      </td>
-                      <td>
-                        <vs-checkbox
-                          v-model="field.browse"
-                          class="mb-1"
-                          style="justify-content: start;"
-                          >Browse</vs-checkbox
-                        >
-                        <vs-checkbox
-                          v-model="field.read"
-                          class="mb-1"
-                          style="justify-content: start;"
-                          >Read</vs-checkbox
-                        >
-                        <vs-checkbox
-                          v-model="field.edit"
-                          class="mb-1"
-                          style="justify-content: start;"
-                          >Edit</vs-checkbox
-                        >
-                        <vs-checkbox
-                          v-model="field.add"
-                          class="mb-1"
-                          style="justify-content: start;"
-                          >Add</vs-checkbox
-                        >
-                        <vs-checkbox
-                          v-model="field.delete"
-                          class="mb-1"
-                          style="justify-content: start;"
-                          >Delete</vs-checkbox
-                        >
-                      </td>
-                      <td>
-                        <vs-select class="selectExample" v-model="field.type">
-                          <vs-select-item
-                            :key="index"
-                            :value="item.value"
-                            :text="item.label"
-                            v-for="(item, index) in componentList"
-                          />
-                        </vs-select>
-                      </td>
-                      <td>
-                        <vs-input
-                          class="inputx"
-                          placeholder="Display Name"
-                          v-model="field.displayName"
+                      </span>
+                      <br />
+                      <span style="white-space: nowrap">
+                        Required: <span v-if="field.required">Yes</span
+                        ><span v-else>No</span>
+                      </span>
+                    </td>
+                    <td>
+                      <vs-checkbox
+                        v-model="field.browse"
+                        class="mb-1"
+                        style="justify-content: start;"
+                        >Browse</vs-checkbox
+                      >
+                      <vs-checkbox
+                        v-model="field.read"
+                        class="mb-1"
+                        style="justify-content: start;"
+                        >Read</vs-checkbox
+                      >
+                      <vs-checkbox
+                        v-model="field.edit"
+                        class="mb-1"
+                        style="justify-content: start;"
+                        >Edit</vs-checkbox
+                      >
+                      <vs-checkbox
+                        v-model="field.add"
+                        class="mb-1"
+                        style="justify-content: start;"
+                        >Add</vs-checkbox
+                      >
+                      <vs-checkbox
+                        v-model="field.delete"
+                        class="mb-1"
+                        style="justify-content: start;"
+                        >Delete</vs-checkbox
+                      >
+                    </td>
+                    <td>
+                      <vs-select class="selectExample" v-model="field.type">
+                        <vs-select-item
+                          :key="index"
+                          :value="item.value"
+                          :text="item.label"
+                          v-for="(item, index) in componentList"
                         />
-                      </td>
-                      <td>
-                        <badaso-code-editor v-model="field.details">
-                        </badaso-code-editor>
-                      </td>
-                    </tr>
-                  </draggable>
+                      </vs-select>
+                    </td>
+                    <td>
+                      <vs-input
+                        class="inputx"
+                        placeholder="Display Name"
+                        v-model="field.displayName"
+                      />
+                    </td>
+                    <td>
+                      <badaso-code-editor v-model="field.details">
+                      </badaso-code-editor>
+                    </td>
+                  </tr>
+                </draggable>
               </table>
             </vs-col>
           </vs-row>
@@ -222,6 +225,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
+import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
 import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
@@ -232,6 +236,7 @@ export default {
   name: "Browse",
   components: {
     draggable,
+    BadasoBreadcrumb,
     BadasoText,
     BadasoSwitch,
     BadasoSelect,
@@ -242,7 +247,6 @@ export default {
     breadcrumb: [],
     fieldList: [],
     tableColumns: [],
-    componentList: [],
     orderDirections: [
       {
         label: "Ascending",
@@ -254,56 +258,55 @@ export default {
       },
     ],
     dataBread: {
-      name : "",
-      slug : "",
-      displayNameSingular : "",
-      displayNamePlural : "",
-      icon : "",
-      modelName : "",
-      policyName : "",
-      description : "",
-      generatePermissions : true,
-      serverSide : false,
-      details : "",
-      controller : "",
-      rows: []
-    }
+      name: "",
+      slug: "",
+      displayNameSingular: "",
+      displayNamePlural: "",
+      icon: "",
+      modelName: "",
+      policyName: "",
+      description: "",
+      generatePermissions: true,
+      serverSide: false,
+      details: "",
+      controller: "",
+      rows: [],
+    },
   }),
+  computed: {
+    componentList: {
+      get() {
+        return this.$store.getters.getComponent
+      }
+    },
+  },
   mounted() {
-    this.breadcrumb = [
-      {
-        title: "Dashboard",
-        url: this.$baseUrl + "/home",
-      },
-      {
-        title: "Bread",
-        url: this.$baseUrl + "/bread",
-      },
-      {
-        title: "Add",
-        active: true,
-      },
-    ];
     this.dataBread.name = this.$route.params.tableName;
-    this.dataBread.displayNameSingular = this.$helper.generateDisplayName(this.$route.params.tableName);
-    this.dataBread.displayNamePlural = this.$helper.generateDisplayName(this.$route.params.tableName) + 's';
-    this.dataBread.slug = this.$helper.generateSlug(this.$route.params.tableName);
+    this.dataBread.displayNameSingular = this.$helper.generateDisplayName(
+      this.$route.params.tableName
+    );
+    this.dataBread.displayNamePlural =
+      this.$helper.generateDisplayName(this.$route.params.tableName) + "s";
+    this.dataBread.slug = this.$helper.generateSlug(
+      this.$route.params.tableName
+    );
     this.getTableDetail();
-    this.getComponents();
   },
   methods: {
     submitForm() {
-this.$vs.loading({
+      this.$vs.loading({
         type: "sound",
       });
       this.$api.bread
         .add(this.$caseConvert.snake(this.dataBread))
         .then((response) => {
-          console.log(response)
           this.$vs.loading.close();
+          this.$store.commit("FETCH_MENU");
+          this.$router.push({name: "BreadBrowse"})
         })
         .catch((error) => {
           this.$vs.loading.close();
+          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
         });
     },
     getTableDetail() {
@@ -325,33 +328,19 @@ this.$vs.loading({
           });
           this.dataBread.rows = fieldList.map((field) => {
             return {
-              "field" : field.name,
-              "type" : this.$helper.mapFieldType(field.type),
-              "displayName" : this.$helper.generateDisplayName(field.name),
-              "required" : field.is_not_null,
-              "browse" : true,
-              "read" : true,
-              "edit" : false,
-              "add" : false,
-              "delete" : false,
-              "details" : "{}",
-              "order" : 1
+              field: field.name,
+              type: this.$helper.mapFieldType(field.type),
+              displayName: this.$helper.generateDisplayName(field.name),
+              required: field.is_not_null,
+              browse: true,
+              read: true,
+              edit: false,
+              add: false,
+              delete: false,
+              details: "{}",
+              order: 1,
             };
           });
-          this.$vs.loading.close();
-        })
-        .catch((error) => {
-          this.$vs.loading.close();
-        });
-    },
-    getComponents() {
-      this.$vs.loading({
-        type: "sound",
-      });
-      this.$api.data
-        .component({})
-        .then((response) => {
-          this.componentList = response.data_list;
           this.$vs.loading.close();
         })
         .catch((error) => {

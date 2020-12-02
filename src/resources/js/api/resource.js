@@ -3,7 +3,6 @@ import handleError from './handle-error'
 
 function createResource() {
   const instance = axios.create({
-    baseURL: process.env.baseUrl,
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'

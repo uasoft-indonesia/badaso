@@ -46,10 +46,10 @@ class BadasoBreadController extends Controller
     public function read(Request $request)
     {
         try {
-            $slug = $request->input('slug', '');
-            $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
+            $table = $request->input('table', '');
+            $data_type = Badaso::model('DataType')::where('name', $table)->first();
             if (is_null($data_type)) {
-                throw new SingleException("Data type for {$slug} not found");
+                throw new SingleException("Data type for {$table} not found");
             }
             $class = new ReflectionClass(Badaso::modelClass('DataType'));
             $class_methods = $class->getMethods();
@@ -153,13 +153,13 @@ class BadasoBreadController extends Controller
                 $new_data_row->field = $data_row['field'];
                 $new_data_row->type = $data_row['type'];
                 $new_data_row->display_name = $data_row['display_name'];
-                $new_data_row->required = isset($data_row['required']) ?? false;
-                $new_data_row->browse = isset($data_row['browse']) ?? false;
-                $new_data_row->read = isset($data_row['read']) ?? false;
-                $new_data_row->edit = isset($data_row['edit']) ?? false;
-                $new_data_row->add = isset($data_row['add']) ?? false;
-                $new_data_row->delete = isset($data_row['delete']) ?? false;
-                $new_data_row->details = isset($data_row['details']) ?? '';
+                $new_data_row->required = isset($data_row['required']) ? $data_row['required'] : false;
+                $new_data_row->browse = isset($data_row['browse']) ? $data_row['browse'] : false;
+                $new_data_row->read = isset($data_row['read']) ? $data_row['read'] : false;
+                $new_data_row->edit = isset($data_row['edit']) ? $data_row['edit'] : false;
+                $new_data_row->add = isset($data_row['add']) ? $data_row['add'] : false;
+                $new_data_row->delete = isset($data_row['delete']) ? $data_row['delete'] : false;
+                $new_data_row->details = isset($data_row['details']) ? $data_row['details'] : '';
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
 
@@ -240,13 +240,13 @@ class BadasoBreadController extends Controller
                 $new_data_row->field = $data_row['field'];
                 $new_data_row->type = $data_row['type'];
                 $new_data_row->display_name = $data_row['display_name'];
-                $new_data_row->required = isset($data_row['required']) ?? false;
-                $new_data_row->browse = isset($data_row['browse']) ?? false;
-                $new_data_row->read = isset($data_row['read']) ?? false;
-                $new_data_row->edit = isset($data_row['edit']) ?? false;
-                $new_data_row->add = isset($data_row['add']) ?? false;
-                $new_data_row->delete = isset($data_row['delete']) ?? false;
-                $new_data_row->details = isset($data_row['details']) ?? '';
+                $new_data_row->required = isset($data_row['required']) ? $data_row['required'] : false;
+                $new_data_row->browse = isset($data_row['browse']) ? $data_row['browse'] : false;
+                $new_data_row->read = isset($data_row['read']) ? $data_row['read'] : false;
+                $new_data_row->edit = isset($data_row['edit']) ? $data_row['edit'] : false;
+                $new_data_row->add = isset($data_row['add']) ? $data_row['add'] : false;
+                $new_data_row->delete = isset($data_row['delete']) ? $data_row['delete'] : false;
+                $new_data_row->details = isset($data_row['details']) ? $data_row['details'] : '';
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
 
@@ -282,6 +282,8 @@ class BadasoBreadController extends Controller
             $data_type = DataType::find($request->id);
 
             Permission::removeFrom($data_type->name);
+
+            $this->deleteMenuItem($data_type);
 
             $data_type->delete();
 
@@ -350,22 +352,26 @@ class BadasoBreadController extends Controller
             $menu->save();
         }
 
-        $menuItem = MenuItem::firstOrNew([
+        $menu_item = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title' => $data_type->display_name_plural,
-            'url' => $data_type->name,
+            'url' => $data_type->slug,
         ]);
-
-        if (!$menuItem->exists) {
-            $order = $menuItem->highestOrderMenuItem();
-            $menuItem->fill([
+        if ($menu_item) {
+            $order = $menu_item->highestOrderMenuItem();
+            $menu_item->fill([
+                'title' => $data_type->display_name_plural,
                 'target' => '_self',
-                'icon_class' => null,
+                'icon_class' => $data_type->icon,
                 'color' => null,
                 'parent_id' => null,
                 'order' => $order,
                 'permissions' => $data_type->generate_permissions ? 'browse_'.$data_type->name : null,
             ])->save();
         }
+    }
+
+    private function deleteMenuItem($data_type)
+    {
+        MenuItem::where('url', $data_type->slug)->delete();
     }
 }

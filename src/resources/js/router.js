@@ -44,10 +44,10 @@ import BreadRead from "./views/bread-management/read";
 import BreadEdit from "./views/bread-management/edit";
 import BreadAdd from "./views/bread-management/add";
 
-import SiteBrowse from "./views/bread-management/browse";
-import SiteRead from "./views/bread-management/read";
-import SiteEdit from "./views/bread-management/edit";
-import SiteAdd from "./views/bread-management/add";
+import SiteBrowse from "./views/site-management/browse";
+import SiteRead from "./views/site-management/read";
+import SiteEdit from "./views/site-management/edit";
+import SiteAdd from "./views/site-management/add";
 
 Vue.use(VueRouter);
 
@@ -64,7 +64,7 @@ const router = new VueRouter({
       // ======================
       // Full Layout
       // ======================
-      path: prefix,
+      path: "",
       name: "Auth",
       component: AuthContainer,
       meta: {
@@ -100,7 +100,7 @@ const router = new VueRouter({
       // ======================
       // Full Layout
       // ======================
-      path: prefix,
+      path: "",
       name: "Admin",
       component: MainContainer,
       meta: {
@@ -169,7 +169,7 @@ const router = new VueRouter({
           component: BreadRead,
         },
         {
-          path: prefix + "/bread/edit",
+          path: prefix + "/bread/edit/:tableName",
           name: "BreadEdit",
           component: BreadEdit,
         },
@@ -181,23 +181,23 @@ const router = new VueRouter({
         { path: prefix + "/site/add", name: "SiteAdd", component: SiteAdd },
 
         {
-          path: prefix + "/main/:dataType",
-          name: "MainBrowse",
+          path: prefix + "/main/:slug",
+          name: "EntityBrowse",
           component: Browse,
         },
         {
-          path: prefix + "/main/:dataType/read",
-          name: "MainRead",
+          path: prefix + "/main/:slug/read",
+          name: "EntityRead",
           component: Read,
         },
         {
-          path: prefix + "/main/:dataType/edit",
-          name: "MainEdit",
+          path: prefix + "/main/:slug/edit",
+          name: "EntityEdit",
           component: Edit,
         },
         {
-          path: prefix + "/main/:dataType/add",
-          name: "MainAdd",
+          path: prefix + "/main/:slug/add",
+          name: "EntityAdd",
           component: Add,
         },
       ],

@@ -71,7 +71,7 @@ export default {
   data: () => ({
     doNotClose: false,
     windowWidth: window.innerWidth,
-    mainMenu: [],
+    // mainMenu: [],
   }),
   computed: {
     //This is for mobile trigger
@@ -83,6 +83,12 @@ export default {
         this.$store.commit("IS_SIDEBAR_ACTIVE", val);
       },
     },
+
+    mainMenu:{
+      get() {
+        return  this.$store.getters.getMenu
+      }
+    }
   },
   watch: {},
   methods: {
@@ -91,7 +97,7 @@ export default {
       this.setSidebar();
     },
     setSidebar() {
-      if (this.windowWidth < 1170) {
+      if (this.windowWidth < 768) {
         this.$store.commit("IS_SIDEBAR_ACTIVE", false);
         this.doNotClose = false;
       } else {
@@ -127,7 +133,8 @@ export default {
       window.addEventListener("resize", this.handleWindowResize);
     });
     this.setSidebar();
-    this.getMainMenu();
+    // this.getMainMenu();
+    this.$store.commit("FETCH_MENU");
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleWindowResize);

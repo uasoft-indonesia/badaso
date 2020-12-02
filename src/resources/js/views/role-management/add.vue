@@ -15,57 +15,26 @@
             <badaso-text v-model="text" size="6"></badaso-text>
             <badaso-password v-model="password" size="6"></badaso-password>
             <badaso-textarea v-model="textarea" size="6"></badaso-textarea>
-            <badaso-checkbox
-              v-model="checkBoxes"
-              size="6"
-              :items="items"
-            ></badaso-checkbox>
+            <badaso-checkbox v-model="checkBoxes" size="6" :items="items"></badaso-checkbox>
             <badaso-search v-model="search" size="6"></badaso-search>
             <badaso-number v-model="number" size="6"></badaso-number>
             <badaso-url v-model="url" size="6"></badaso-url>
             <badaso-time v-model="time" size="6"></badaso-time>
             <badaso-date v-model="date" size="6"></badaso-date>
             <badaso-datetime v-model="datetime" size="6"></badaso-datetime>
-            <badaso-select
-              v-model="singleSelect"
-              size="6"
-              :items="items"
-            ></badaso-select>
-            <badaso-select-multiple
-              v-model="multipleSelect"
-              size="6"
-              :items="items"
-            ></badaso-select-multiple>
-            <badaso-radio
-              v-model="radio"
-              size="6"
-              :items="items"
-            ></badaso-radio>
-            <badaso-upload-image
-              size="6"
-              v-model="uploadedImage"
-            ></badaso-upload-image>
-            <badaso-upload-image-multiple
-              size="6"
-              v-model="multipleUploadedImage"
-            ></badaso-upload-image-multiple>
-            <badaso-upload-file
-              size="6"
-              v-model="uploadedFile"
-            ></badaso-upload-file>
-            <badaso-upload-file-multiple
-              size="6"
-              v-model="multipleUploadedFile"
-            ></badaso-upload-file-multiple>
+            <badaso-select v-model="singleSelect" size="6" :items="items"></badaso-select>
+            <badaso-radio v-model="radio" size="6" :items="items"></badaso-radio>
+            <badaso-select-multiple v-model="multipleSelect" size="6" :items="items"></badaso-select-multiple>
             <badaso-switch size="6" v-model="switch1"></badaso-switch>
             <badaso-slider size="6" v-model="slider"></badaso-slider>
             <badaso-editor size="12" v-model="editor"></badaso-editor>
             <badaso-tags size="6" v-model="tags"></badaso-tags>
-            <badaso-color-picker
-              size="6"
-              v-model="colors"
-            ></badaso-color-picker>
             <badaso-hidden v-model="hidden"></badaso-hidden>
+            <badaso-upload-image size="6" v-model="uploadedImage"></badaso-upload-image>
+            <badaso-upload-image-multiple size="6" v-model="multipleUploadedImage"></badaso-upload-image-multiple>
+            <badaso-upload-file size="6" v-model="uploadedFile"></badaso-upload-file>
+            <badaso-upload-file-multiple size="6" v-model="multipleUploadedFile"></badaso-upload-file-multiple>
+            <badaso-color-picker size="6" v-model="colors"></badaso-color-picker>
           </vs-row>
         </vs-card>
       </vs-col>

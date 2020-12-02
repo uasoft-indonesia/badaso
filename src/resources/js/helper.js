@@ -14,6 +14,9 @@ export default {
       case "DateTime":
         type = "datetime";
         break;
+      case "Boolean":
+        type = "switch";
+        break;
       default:
         break;
     }

@@ -2,18 +2,13 @@
   <div>
     <vs-row>
       <vs-col vs-lg="8">
-        <vs-breadcrumb
-          style="margin-bottom: 0"
-          :items="breadcrumb"
-        ></vs-breadcrumb>
+        <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
       <vs-col vs-lg="4">
         <div style="float: right">
-          <vs-button color="primary" type="relief" to="add"
+          <vs-button color="primary" type="relief"
+            :to="{name: 'SiteAdd'}"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
-          >
-          <vs-button color="danger" type="relief"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
           >
         </div>
       </vs-col>
@@ -21,215 +16,142 @@
     <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
-          <!-- <div slot="header">
-            <h3>Browse</h3>
-          </div> -->
-          <div>
-            <vs-table
-              multiple
-              v-model="selected"
-              pagination
-              max-items="3"
-              search
-              :data="users"
-              stripe
-            >
-              <template slot="header">
-                <h3>Site Configurations</h3>
-              </template>
-              <template slot="thead">
-                <vs-th sort-key="email"> Email </vs-th>
-                <vs-th sort-key="username"> Name </vs-th>
-                <vs-th sort-key="website"> Website </vs-th>
-                <vs-th sort-key="id"> Nro </vs-th>
-                <vs-th> Action </vs-th>
-              </template>
+          <vs-tabs>
+            <vs-tab v-for="(group, index) in groupList" :key="index" :label="group.label">
+                <vs-row style="padding-top: 20px;" v-for="(config, index) in filterConfigurations(group.value)" :key="index">
+                  <badaso-text v-if="config.type === 'text'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-text>
+                  <badaso-password v-if="config.type === 'password'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-password>
+                  <badaso-textarea v-if="config.type === 'textarea'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-textarea>
+                  <badaso-checkbox v-if="config.type === 'checkbox'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10" :items="config.options"></badaso-checkbox>
+                  <badaso-search v-if="config.type === 'search'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-search>
+                  <badaso-number v-if="config.type === 'number'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-number>
+                  <badaso-url v-if="config.type === 'url'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-url>
+                  <badaso-time v-if="config.type === 'time'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-time>
+                  <badaso-date v-if="config.type === 'date'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-date>
+                  <badaso-datetime v-if="config.type === 'datetime'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10"></badaso-datetime>
+                  <badaso-select v-if="config.type === 'select'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10" :items="config.options"></badaso-select>
+                  <badaso-radio v-if="config.type === 'radio'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10" :items="config.options"></badaso-radio>
+                  <badaso-switch v-if="config.type === 'switch'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-switch>
+                  <badaso-slider v-if="config.type === 'slider'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-slider>
+                  <badaso-editor v-if="config.type === 'editor'" :label="config.display_name" :placeholder="config.value" size="12" v-model="config.value"></badaso-editor>
+                  <badaso-tags v-if="config.type === 'tags'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-tags>
+                  <badaso-hidden v-if="config.type === 'hidden'" :label="config.display_name" :placeholder="config.value" v-model="config.value"></badaso-hidden>
 
-              <template slot-scope="{ data }">
-                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                  <vs-td :data="data[indextr].email">
-                    {{ data[indextr].email }}
-                  </vs-td>
+                  <badaso-select-multiple v-if="config.type === 'select_multiple'" :label="config.display_name" :placeholder="config.value" v-model="config.value" size="10" :items="config.options"></badaso-select-multiple>
+                  <badaso-upload-image v-if="config.type === 'upload_image'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-upload-image>
+                  <badaso-upload-file v-if="config.type === 'upload_file'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-upload-file>
+                  <badaso-color-picker v-if="config.type === 'color_picker'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-color-picker>
 
-                  <vs-td :data="data[indextr].username">
-                    {{ data[indextr].username }}
-                  </vs-td>
+                  <badaso-upload-image-multiple v-if="config.type === 'upload_image_multiple'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-upload-image-multiple>
+                  <badaso-upload-file-multiple v-if="config.type === 'upload_file_multiple'" :label="config.display_name" :placeholder="config.value" size="10" v-model="config.value"></badaso-upload-file-multiple>
 
-                  <vs-td :data="data[indextr].id">
-                    {{ data[indextr].website }}
-                  </vs-td>
-
-                  <vs-td :data="data[indextr].id">
-                    {{ data[indextr].id }}
-                  </vs-td>
-                  <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button color="success" type="relief" @click.stop
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button color="warning" type="relief"
+                  <vs-col vs-lg="2">
+                    Action
+                    <br>
+                    <vs-button
+                      color="primary"
+                      type="relief"
                       @click.stop
-                      ><vs-icon icon="edit"></vs-icon
+                      @click="submitForm(config)"
+                      ><vs-icon icon="save"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="danger"
                       type="relief"
                       @click.stop
-                      @click="openConfirm()"
+                      @click="openConfirm(config.id)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
-                  </vs-td>
-                </vs-tr>
-              </template>
-            </vs-table>
-          </div>
+                  </vs-col>
+                </vs-row>
+            </vs-tab>
+          </vs-tabs>
         </vs-card>
       </vs-col>
     </vs-row>
   </div>
 </template>
 <script>
+import _ from 'lodash'
+import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoText from "../../components/BadasoText";
+import BadasoPassword from "../../components/BadasoPassword";
+import BadasoTextarea from "../../components/BadasoTextarea";
+import BadasoCheckbox from "../../components/BadasoCheckbox";
+import BadasoSearch from "../../components/BadasoSearch";
+import BadasoNumber from "../../components/BadasoNumber";
+import BadasoUrl from "../../components/BadasoUrl";
+import BadasoTime from "../../components/BadasoTime";
+import BadasoDate from "../../components/BadasoDate";
+import BadasoDatetime from "../../components/BadasoDatetime";
+import BadasoSelect from "../../components/BadasoSelect";
+import BadasoSelectMultiple from "../../components/BadasoSelectMultiple";
+import BadasoRadio from "../../components/BadasoRadio";
+import BadasoSwitch from "../../components/BadasoSwitch";
+import BadasoSlider from "../../components/BadasoSlider";
+import BadasoEditor from "../../components/BadasoEditor";
+import BadasoTags from "../../components/BadasoTags";
+import BadasoColorPicker from "../../components/BadasoColorPicker";
+import BadasoUploadImage from "../../components/BadasoUploadImage";
+import BadasoUploadImageMultiple from "../../components/BadasoUploadImageMultiple";
+import BadasoUploadFile from "../../components/BadasoUploadFile";
+import BadasoUploadFileMultiple from "../../components/BadasoUploadFileMultiple";
+import BadasoHidden from "../../components/BadasoHidden";
+
 export default {
   name: "Browse",
+  components: {
+    BadasoBreadcrumb,
+    BadasoText,
+    BadasoPassword,
+    BadasoTextarea,
+    BadasoCheckbox,
+    BadasoSearch,
+    BadasoNumber,
+    BadasoUrl,
+    BadasoTime,
+    BadasoDate,
+    BadasoDatetime,
+    BadasoSelect,
+    BadasoSelectMultiple,
+    BadasoRadio,
+    BadasoSwitch,
+    BadasoSlider,
+    BadasoEditor,
+    BadasoTags,
+    BadasoColorPicker,
+    BadasoUploadImage,
+    BadasoUploadImageMultiple,
+    BadasoUploadFile,
+    BadasoUploadFileMultiple,
+    BadasoHidden,
+  },
   data: () => ({
-    breadcrumb: [
-      {
-        title: "Dashboard",
-        url: "dashboard",
-      },
-      {
-        title: "Link 1",
-        url: "link-1",
-      },
-      {
-        title: "Link 2",
-        disabled: true,
-      },
-      {
-        title: "Active",
-        active: true,
-      },
-    ],
-    selected: [],
-    products: [
-      {
-        products: "Products",
-        license: "License",
-        support: "Support",
-        technology: "Technology",
-        tickets: "Tickets",
-        sales: "Sales",
-        earnings: "Earnings",
-      },
-      {
-        products: "Products",
-        license: "License",
-        support: "Support",
-        technology: "Technology",
-        tickets: "Tickets",
-        sales: "Sales",
-        earnings: "Earnings",
-      },
-      {
-        products: "Products",
-        license: "License",
-        support: "Support",
-        technology: "Technology",
-        tickets: "Tickets",
-        sales: "Sales",
-        earnings: "Earnings",
-      },
-      {
-        products: "Products",
-        license: "License",
-        support: "Support",
-        technology: "Technology",
-        tickets: "Tickets",
-        sales: "Sales",
-        earnings: "Earnings",
-      },
-    ],
-    users: [
-      {
-        id: 1,
-        name: "Leanne Graham",
-        username: "Bret",
-        email: "Sincere@april.biz",
-        website: "hildegard.org",
-      },
-      {
-        id: 2,
-        name: "Ervin Howell",
-        username: "Antonette",
-        email: "Shanna@melissa.tv",
-        website: "anastasia.net",
-      },
-      {
-        id: 3,
-        name: "Clementine Bauch",
-        username: "Samantha",
-        email: "Nathan@yesenia.net",
-        website: "ramiro.info",
-      },
-      {
-        id: 4,
-        name: "Patricia Lebsack",
-        username: "Karianne",
-        email: "Julianne.OConner@kory.org",
-        website: "kale.biz",
-      },
-      {
-        id: 5,
-        name: "Chelsey Dietrich",
-        username: "Kamren",
-        email: "Lucio_Hettinger@annie.ca",
-        website: "demarco.info",
-      },
-      {
-        id: 6,
-        name: "Mrs. Dennis Schulist",
-        username: "Leopoldo_Corkery",
-        email: "Karley_Dach@jasper.info",
-        website: "ola.org",
-      },
-      {
-        id: 7,
-        name: "Kurtis Weissnat",
-        username: "Elwyn.Skiles",
-        email: "Telly.Hoeger@billy.biz",
-        website: "elvis.io",
-      },
-      {
-        id: 8,
-        name: "Nicholas Runolfsdottir V",
-        username: "Maxime_Nienow",
-        email: "Sherwood@rosamond.me",
-        website: "jacynthe.com",
-      },
-      {
-        id: 9,
-        name: "Glenna Reichert",
-        username: "Delphine",
-        email: "Chaim_McDermott@dana.io",
-        website: "conrad.com",
-      },
-      {
-        id: 10,
-        name: "Clementina DuBuque",
-        username: "Moriah.Stanton",
-        email: "Rey.Padberg@karina.biz",
-        website: "ambrose.net",
-      },
-    ],
+    configurations: [],
+    willDeleteConfigurationId: null
   }),
+  computed: {
+    groupList: {
+      get() {
+        return this.$store.getters.getSiteGroup
+      }
+    },
+  },
+  mounted() {
+    this.getConfigurationList()
+  },
   methods: {
-    openConfirm() {
+    openConfirm(id) {
+      this.willDeleteConfigurationId = id;
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
         title: `Confirm`,
-        text:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        accept: this.acceptAlert,
+        text: "Are you sure?",
+        accept: this.deleteConfiguration,
+        cancel: () => {
+          this.willDeleteBreadId = null;
+        },
       });
     },
     acceptAlert(color) {
@@ -239,6 +161,94 @@ export default {
         text: "The selected image was successfully deleted",
       });
     },
+    getConfigurationList() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.configuration
+        .browse()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.configurations = response.data_list;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    filterConfigurations(group) {
+      return _.filter(this.configurations, ['group', group])
+    },
+    deleteConfiguration() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.configuration
+        .delete({
+          id: this.willDeleteConfigurationId,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.getConfigurationList();
+          this.$store.commit("FETCH_MENU");
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    submitForm(config) {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.configuration
+        .edit(this.$caseConvert.snake(config))
+        .then((response) => {
+          this.$vs.loading.close();
+          this.getConfigurationList()
+          this.$store.commit("FETCH_CONFIGURATION");
+          this.$vs.notify({
+            title: "Success",
+            text: "Config Updated",
+            color: "success",
+          });
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    }
   },
 };
 </script>
+
+<style>
+.vs-tabs--btn {
+  font-size: 1.25rem;
+  margin-bottom: 0px;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.config-key {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+.inputx {
+  margin-top: 5px;
+}
+</style>

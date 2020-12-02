@@ -89,8 +89,6 @@ export default {
       })
       .then((response) => {
         this.$vs.loading.close()
-        let token = response.data_detail.access_token
-        localStorage.setItem('token', token)
         this.$router.push({ name: 'Home'})
       })
       .catch((error) => {

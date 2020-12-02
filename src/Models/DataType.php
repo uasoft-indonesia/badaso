@@ -31,6 +31,6 @@ class DataType extends Model
 
     public function dataRows()
     {
-        return $this->hasMany(Badaso::model('DataRow'));
+        return $this->hasMany(Badaso::model('DataRow'))->orderBy('order', 'asc');
     }
 }
