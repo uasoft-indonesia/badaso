@@ -34,7 +34,7 @@ export default new Vuex.Store({
         menu_key: menuKey
       })
         .then((res) => {
-          let menuItems = res.data_list
+          let menuItems = res.records
           for (var i = 0, len = menuItems.length; i < len; i++) {
             menuItems[i].link = '/'+prefix+'/main/'+menuItems[i].url
           }
@@ -46,7 +46,7 @@ export default new Vuex.Store({
     FETCH_COMPONENT(state) {
       api.data.component()
         .then((res) => {
-          state.componentList = res.data_list
+          state.componentList = res.records
         })
         .catch((err) => {
         });
@@ -54,7 +54,7 @@ export default new Vuex.Store({
     FETCH_CONFIGURATION(state) {
       api.configuration.applyable()
         .then((res) => {
-          state.config = res.data_detail
+          state.config = res.record
         })
         .catch((err) => {})
     }

@@ -53,17 +53,19 @@ class BadasoBreadController extends Controller
             }
             $class = new ReflectionClass(Badaso::modelClass('DataType'));
             $class_methods = $class->getMethods();
+
+            $json = json_decode(json_encode($data_type));
             foreach ($class_methods as $class_method) {
                 if ($class_method->class == Badaso::modelClass('DataType')) {
                     try {
-                        $data_type->{$class_method->name};
+                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}));
                     } catch (LogicException $e) {
-                        $data_type[$class_method->name] = $data_type->{$class_method->name}();
+                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}()));
                     }
                 }
             }
 
-            return ApiResponse::success($data_type);
+            return ApiResponse::success($json);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }

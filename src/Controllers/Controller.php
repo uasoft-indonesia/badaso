@@ -62,7 +62,7 @@ abstract class Controller extends BaseController
             }
         }
 
-        return false;
+        return true;
     }
 
     public function createDataFromRaw($data_raws, $data_type)
@@ -187,6 +187,7 @@ abstract class Controller extends BaseController
         $data_type = $this->getDataType($slug);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $data = [];
+        $records = [];
         $limit = isset($request['limit']) ? $request['limit'] : null;
         $offset = isset($request['offset']) ? $request['offset'] : null;
         $order_field = isset($request['order_field']) ? $request['order_field'] : null;
@@ -225,16 +226,17 @@ abstract class Controller extends BaseController
                 foreach ($data as $row) {
                     $class = new ReflectionClass(get_class($row));
                     $class_methods = $class->getMethods();
-
+                    $record = json_decode(json_encode($row));
                     foreach ($class_methods as $class_method) {
                         if ($class_method->class == $class->name) {
                             try {
-                                $row->{$class_method->name};
+                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
                             } catch (Exception $e) {
-                                $row[$class_method->name] = $row->{$class_method->name}();
+                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
                             }
                         }
                     }
+                    $records[] = $record;
                 }
             } else {
                 $data = $model::query()->select($fields)->get();
@@ -242,15 +244,17 @@ abstract class Controller extends BaseController
                     $class = new ReflectionClass(get_class($row));
                     $class_methods = $class->getMethods();
 
+                    $record = json_decode(json_encode($row));
                     foreach ($class_methods as $class_method) {
                         if ($class_method->class == $class->name) {
                             try {
-                                $row->{$class_method->name};
+                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
                             } catch (Exception $e) {
-                                $row[$class_method->name] = $row->{$class_method->name}();
+                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
                             }
                         }
                     }
+                    $records[] = $record;
                 }
             }
         } else {
@@ -279,12 +283,14 @@ abstract class Controller extends BaseController
                     $query->orderBy($order_field, $order_direction);
                 }
                 $data = $query->get();
+                $records = $data;
             } else {
                 $data = DB::table($data_type->name)->select($fields)->get();
+                $records = $data;
             }
         }
 
-        return collect($data)->toArray();
+        return collect($records)->toArray();
     }
 
     public function getDataDetail($slug, $id)
@@ -292,28 +298,29 @@ abstract class Controller extends BaseController
         $data_type = $this->getDataType($slug);
         $fields = collect($data_type->dataRows)->where('read', 1)->pluck('field')->all();
         $data = null;
+        $record = null;
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
-            $data = $model::query()->select($fields)->where('id', $id)->first();
-            foreach ($data as $row) {
+            $row = $model::query()->select($fields)->where('id', $id)->first();
+            if ($row) {
                 $class = new ReflectionClass(get_class($row));
                 $class_methods = $class->getMethods();
-
+                $record = json_decode(json_encode($row));
                 foreach ($class_methods as $class_method) {
                     if ($class_method->class == $class->name) {
                         try {
-                            $row->{$class_method->name};
+                            $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
                         } catch (Exception $e) {
-                            $row[$class_method->name] = $row->{$class_method->name}();
+                            $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
                         }
                     }
                 }
             }
         } else {
-            $data = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
+            $record = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
         }
 
-        return $data;
+        return $record;
     }
 
     public function insertData($data, $data_type)

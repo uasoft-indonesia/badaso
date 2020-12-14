@@ -149,8 +149,9 @@ const router = new VueRouter({
         { path: prefix + "/user/add", name: "UserAdd", component: UserAdd },
 
         { path: prefix + "/menu", name: "MenuBrowse", component: MenuBrowse },
-        { path: prefix + "/menu/read", name: "MenuRead", component: MenuRead },
-        { path: prefix + "/menu/edit", name: "MenuEdit", component: MenuEdit },
+        { path: prefix + "/menu/read/:id", name: "MenuRead", component: MenuRead },
+        { path: prefix + "/menu/edit/:id", name: "MenuEdit", component: MenuEdit },
+        { path: prefix + "/menu/builder/:id", name: "MenuBuilder", component: MenuBuilder },
         { path: prefix + "/menu/add", name: "MenuAdd", component: MenuAdd },
         {
           path: prefix + "/menu/builder",

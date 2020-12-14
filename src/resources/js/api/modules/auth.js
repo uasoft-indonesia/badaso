@@ -6,7 +6,7 @@ export default {
     let response = resource.post(endpoint.auth.login, data);
     response.then((res) => {
       if (res.success) {
-        let token = res.data_detail.access_token;
+        let token = res.record.accessToken;
         localStorage.setItem("token", token);
         let date = new Date();
         let timeNow = date.getTime();
@@ -55,7 +55,7 @@ export default {
       let response = resource.post(endpoint.auth.refreshToken);
       response.then((res) => {
         if (res.success) {
-          let token = res.data_detail.access_token;
+          let token = res.record.accessToken;
           localStorage.setItem("token", token);
           localStorage.setItem(
             window.btoa("tokenAccessTime"),
@@ -70,7 +70,7 @@ export default {
         let response = resource.post(endpoint.auth.refreshToken);
         response.then((res) => {
           if (res.success) {
-            let token = res.data_detail.access_token;
+            let token = res.record.accessToken;
             localStorage.setItem("token", token);
             localStorage.setItem(
               window.btoa("tokenAccessTime"),

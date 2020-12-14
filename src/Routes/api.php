@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Middleware\ApiRequest;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 
 $api_route_prefix = \config('badaso.api_route_prefix');
-Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.'], function () {
+Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.', 'middleware' => ApiRequest::class], function () {
     Route::group(['prefix' => 'v1'], function () {
         Route::group(['prefix' => 'data'], function () {
             Route::get('/components', 'BadasoDataController@getComponents');

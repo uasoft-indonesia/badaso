@@ -9,21 +9,28 @@ use Uasoft\Badaso\Exceptions\SingleException;
 
 class ApiResponse
 {
+    private static function send($data, $http_status = 200)
+    {
+        $response = CaseConvert::camel($data);
+
+        return response()->json($response, $http_status);
+    }
+
     public static function success($value = null)
     {
         $response = [];
         $response['success'] = true;
         if (!is_null($value)) {
             if (is_array($value)) {
-                $response['data_list'] = $value;
+                $response['records'] = $value;
             } elseif (is_object($value)) {
-                $response['data_detail'] = $value;
+                $response['record'] = $value;
             } else {
                 $response['value'] = $value;
             }
         }
 
-        return response()->json($response);
+        return self::send($response);
     }
 
     public static function failed($error = null)
@@ -67,7 +74,7 @@ class ApiResponse
             }
         }
 
-        return response()->json($response, $http_status);
+        return self::send($response, $http_status);
     }
 
     public static function entity($data_type, $data = null)
@@ -77,15 +84,15 @@ class ApiResponse
         $response['data_type'] = $data_type;
         if (!is_null($data)) {
             if (is_array($data)) {
-                $response['data_list'] = $data;
+                $response['records'] = $data;
             } elseif (is_object($data)) {
-                $response['data_detail'] = $data;
+                $response['record'] = $data;
             } else {
                 $response['value'] = $data;
             }
         }
 
-        return response()->json($response);
+        return self::send($response);
     }
 
     public static function unauthorized($message = 'unauthorized')
@@ -95,7 +102,7 @@ class ApiResponse
         $response['message'] = $message;
         $response['error_list'] = [];
 
-        return response()->json($response, 401);
+        return self::send($response, 401);
     }
 
     public static function forbidden()
@@ -105,6 +112,6 @@ class ApiResponse
         $response['message'] = '';
         $response['error_list'] = [];
 
-        return response()->json($response, 403);
+        return self::send($response, 403);
     }
 }

@@ -316,30 +316,22 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let dataBread = response.data_detail;
-          this.dataBread = {
-            id: dataBread.id,
-            name: dataBread.name,
-            slug: dataBread.slug,
-            displayNameSingular: dataBread.display_name_singular,
-            displayNamePlural: dataBread.display_name_plural,
-            icon: dataBread.icon ? dataBread.icon : "",
-            modelName: dataBread.model_name ? dataBread.model_name : "",
-            policyName: dataBread.policy_name ? dataBread.policy_name : "",
-            description: dataBread.description ? dataBread.description : "",
-            generatePermissions: dataBread.generate_permissions === 1,
-            serverSide: dataBread.server_side === 1,
-            details: dataBread.details,
-            controller: dataBread.controller ? dataBread.controller : "",
-            rows: [],
-          };
-          this.dataBread.rows = dataBread.data_rows.map((field) => {
+          let dataBread = response.record;
+          this.dataBread = dataBread
+          this.dataBread.icon = dataBread.icon ? dataBread.icon : "",
+          this.dataBread.modelName = dataBread.modelName ? dataBread.modelName : "",
+          this.dataBread.policyName = dataBread.policyName ? dataBread.policyName : "",
+          this.dataBread.description = dataBread.description ? dataBread.description : "",
+          this.dataBread.generatePermissions = dataBread.generatePermissions === 1,
+          this.dataBread.serverSide = dataBread.serverSide === 1,
+          this.dataBread.controller = dataBread.controller ? dataBread.controller : "",
+          this.dataBread.rows = dataBread.dataRows.map((field) => {
             return {
               label: field.field,
               value: field.field,
               field: field.field,
               type: field.type,
-              displayName: field.display_name,
+              displayName: field.displayName,
               required: field.required === 1,
               browse: field.browse === 1,
               read: field.read === 1,

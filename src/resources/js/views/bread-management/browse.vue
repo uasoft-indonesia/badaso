@@ -27,7 +27,7 @@
               description-body="Pages"
             >
               <template slot="thead">
-                <vs-th sort-key="table_name"> Table </vs-th>
+                <vs-th sort-key="tableName"> Table </vs-th>
                 <vs-th> Action </vs-th>
               </template>
 
@@ -37,32 +37,32 @@
                   :key="index"
                   v-for="(table, index) in data"
                 >
-                  <vs-td :data="data[index].table_name">
-                    {{ data[index].table_name }}
+                  <vs-td :data="data[index].tableName">
+                    {{ data[index].tableName }}
                   </vs-td>
                   <vs-td
                     style="width: 1%; white-space: nowrap"
-                    v-if="data[index].bread_data"
+                    v-if="data[index].breadData"
                   >
                     <vs-button
                       color="success"
                       type="relief"
                       @click.stop
-                      :to="{name: 'EntityBrowse', params: {slug: data[index].bread_data.slug}}"
+                      :to="{name: 'EntityBrowse', params: {slug: data[index].breadData.slug}}"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="warning"
                       type="relief"
                       @click.stop
-                      :to="{name: 'BreadEdit', params: {tableName: data[index].table_name}}"
+                      :to="{name: 'BreadEdit', params: {tableName: data[index].tableName}}"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="danger"
                       type="relief"
                       @click.stop
-                      @click="openConfirm(data[index].bread_data.id)"
+                      @click="openConfirm(data[index].breadData.id)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -71,7 +71,7 @@
                       color="primary"
                       type="relief"
                       @click.stop
-                      :to="{name: 'BreadAdd', params: {tableName: data[index].table_name}}"
+                      :to="{name: 'BreadAdd', params: {tableName: data[index].tableName}}"
                       >Add BREAD to this table</vs-button
                     >
                   </vs-td>
@@ -121,7 +121,7 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.tables = response.data_list;
+          this.tables = response.records;
         })
         .catch((error) => {
           this.$vs.loading.close();

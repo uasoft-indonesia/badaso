@@ -318,7 +318,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let fieldList = response.data_list;
+          let fieldList = response.records;
           this.tableColumns = fieldList;
           this.fieldList = fieldList.map((field) => {
             return {
@@ -331,7 +331,7 @@ export default {
               field: field.name,
               type: this.$helper.mapFieldType(field.type),
               displayName: this.$helper.generateDisplayName(field.name),
-              required: field.is_not_null,
+              required: field.isNotNull,
               browse: true,
               read: true,
               edit: false,

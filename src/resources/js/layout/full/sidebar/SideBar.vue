@@ -116,7 +116,7 @@ export default {
       })
         .then((res) => {
           this.$vs.loading.close()
-          let menuItems = res.data_list
+          let menuItems = res.records
           for (var i = 0, len = menuItems.length; i < len; i++) {
             menuItems[i].link = '/'+prefix+'/main/'+menuItems[i].url
           }

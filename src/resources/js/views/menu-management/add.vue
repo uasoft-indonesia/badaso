@@ -51,7 +51,17 @@ export default {
   }),
   methods: {
     submitForm() {
-      console.log(JSON.stringify(data));
+      this.$vs.loading();
+      this.$api.menu
+        .add(this.menu)
+        .then((response) => {
+          this.$vs.loading.close();
+          this.$router.push({name: "MenuBrowse"})
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
+        })
     },
   },
 };
