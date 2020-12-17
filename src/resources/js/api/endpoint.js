@@ -34,6 +34,7 @@ export default {
     add: '/badaso-api/v1/menu/add',
     delete: '/badaso-api/v1/menu/delete',
     browseItem: '/badaso-api/v1/menu/item',
+    arrangeItems: '/badaso-api/v1/menu/arrange-items',
     browseItemByKey: '/badaso-api/v1/menu/item-by-key',
     readItem: '/badaso-api/v1/menu/item/read',
     editItem: '/badaso-api/v1/menu/item/edit',

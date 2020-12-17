@@ -44,7 +44,12 @@ class BadasoMenuController extends Controller
                 'menu_id' => ['required'],
             ]);
 
-            $menu_items = MenuItem::where('menu_id', $request->menu_id)->orderBy('order', 'asc')->get();
+            $menu_items = MenuItem::where('menu_id', $request->menu_id)
+                    ->orderBy('order', 'asc')
+                    ->whereNull('menu_items.parent_id')
+                    ->get();
+
+            $menu_items = $this->getChildMenuItems($menu_items);
 
             return ApiResponse::success(collect($menu_items)->toArray());
         } catch (Exception $e) {
@@ -61,14 +66,33 @@ class BadasoMenuController extends Controller
 
             $menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
                     ->where('menus.key', $request->menu_key)
+                    ->whereNull('menu_items.parent_id')
                     ->select('menu_items.*')
                     ->orderBy('menu_items.order', 'asc')
                     ->get();
+            $menu_items = $this->getChildMenuItems($menu_items);
 
             return ApiResponse::success(collect($menu_items)->toArray());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
+    }
+
+    private function getChildMenuItems($menu_items)
+    {
+        $new_menu_items = $menu_items;
+        foreach ($new_menu_items as $key => $value) {
+            $value['children'] = [];
+            if ($value->hasChildren()) {
+                $children = MenuItem::where('parent_id', $value->id)
+                    ->orderBy('order', 'asc')
+                    ->get();
+                $children = $this->getChildMenuItems($children);
+                $value['children'] = collect($children)->toArray();
+            }
+        }
+
+        return $new_menu_items;
     }
 
     public function readMenuItem(Request $request)
@@ -250,6 +274,41 @@ class BadasoMenuController extends Controller
             DB::rollBack();
 
             return ApiResponse::failed($e);
+        }
+    }
+
+    public function editMenuItemsOrder(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_items' => ['required'],
+            ]);
+
+            $this->updateMenuItems($request->menu_items);
+
+            DB::commit();
+
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    private function updateMenuItems($items, $parent_id = null)
+    {
+        foreach ($items as $index => $item) {
+            if (array_key_exists('children', $item) && count($item['children']) > 0) {
+                $this->updateMenuItems($item['children'], $item['id']);
+            } else {
+                $menu_item = MenuItem::find($item['id']);
+                $menu_item->order = $index + 1;
+                $menu_item->parent_id = $parent_id;
+                $menu_item->save();
+            }
         }
     }
 

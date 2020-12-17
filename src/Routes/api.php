@@ -72,6 +72,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/edit', 'BadasoMenuController@editMenu');
             Route::post('/add', 'BadasoMenuController@addMenu');
             Route::delete('/delete', 'BadasoMenuController@deleteMenu');
+            Route::put('/arrange-items', 'BadasoMenuController@editMenuItemsOrder');
 
             Route::get('/item', 'BadasoMenuController@browseMenuItem');
             Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');

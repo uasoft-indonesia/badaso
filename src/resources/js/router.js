@@ -153,11 +153,6 @@ const router = new VueRouter({
         { path: prefix + "/menu/edit/:id", name: "MenuEdit", component: MenuEdit },
         { path: prefix + "/menu/builder/:id", name: "MenuBuilder", component: MenuBuilder },
         { path: prefix + "/menu/add", name: "MenuAdd", component: MenuAdd },
-        {
-          path: prefix + "/menu/builder",
-          name: "MenuBuilder",
-          component: MenuBuilder,
-        },
 
         {
           path: prefix + "/bread",

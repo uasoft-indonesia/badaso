@@ -32,4 +32,12 @@ class MenuItem extends Model
 
         return $order;
     }
+
+    public function hasChildren()
+    {
+        $count = $this->where('parent_id', '=', $this->id)
+            ->count();
+
+        return $count > 0;
+    }
 }

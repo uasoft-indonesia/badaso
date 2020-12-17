@@ -37,8 +37,8 @@ export default {
   delete(data) {
     return auth.refreshToken().then((res) => {
       let paramData = {
-        data: data
-    }
+        data: data,
+      };
       return resource.delete(endpoint.menu.delete, paramData);
     });
   },
@@ -58,6 +58,12 @@ export default {
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
+    });
+  },
+
+  arrangeItems(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.put(endpoint.menu.arrangeItems, data);
     });
   },
 
@@ -91,8 +97,8 @@ export default {
   deleteItem(data) {
     return auth.refreshToken().then((res) => {
       let paramData = {
-        data: data
-    }
+        data: data,
+      };
       return resource.delete(endpoint.menu.deleteItem, paramData);
     });
   },
