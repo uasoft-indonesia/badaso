@@ -154,7 +154,7 @@ class BadasoMenuController extends Controller
             $new_menu_item->icon_class = $request->get('icon_class');
             $new_menu_item->color = $request->get('color');
             $new_menu_item->parent_id = $request->get('parent_id');
-            $new_menu_item->order = $request->get('order');
+            $new_menu_item->order = $new_menu_item->highestOrderMenuItem();
             $new_menu_item->save();
 
             DB::commit();
@@ -210,8 +210,6 @@ class BadasoMenuController extends Controller
             $menu_item->target = $request->get('target');
             $menu_item->icon_class = $request->get('icon_class');
             $menu_item->color = $request->get('color');
-            $menu_item->parent_id = $request->get('parent_id');
-            $menu_item->order = $request->get('order');
             $menu_item->save();
 
             DB::commit();
@@ -301,13 +299,12 @@ class BadasoMenuController extends Controller
     private function updateMenuItems($items, $parent_id = null)
     {
         foreach ($items as $index => $item) {
+            $menu_item = MenuItem::find($item['id']);
+            $menu_item->order = $index + 1;
+            $menu_item->parent_id = $parent_id;
+            $menu_item->save();
             if (array_key_exists('children', $item) && count($item['children']) > 0) {
                 $this->updateMenuItems($item['children'], $item['id']);
-            } else {
-                $menu_item = MenuItem::find($item['id']);
-                $menu_item->order = $index + 1;
-                $menu_item->parent_id = $parent_id;
-                $menu_item->save();
             }
         }
     }

@@ -77,7 +77,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.menu = response.record;
+          this.menu = response.data;
           this.menu.menuId = this.menu.id
         })
         .catch((error) => {

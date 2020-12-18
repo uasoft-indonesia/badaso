@@ -5,8 +5,7 @@ export default {
   login(data) {
     let response = resource.post(endpoint.auth.login, data);
     response.then((res) => {
-      if (res.success) {
-        let token = res.record.accessToken;
+        let token = res.data.accessToken;
         localStorage.setItem("token", token);
         let date = new Date();
         let timeNow = date.getTime();
@@ -14,7 +13,6 @@ export default {
           window.btoa("tokenAccessTime"),
           window.btoa(timeNow)
         );
-      }
     });
     return response;
   },
@@ -22,9 +20,7 @@ export default {
   logout() {
     let response = resource.post(endpoint.auth.logout);
     response.then((res) => {
-      if (res.success) {
         localStorage.clear();
-      }
     });
     return response;
   },
@@ -54,14 +50,12 @@ export default {
     if (lastTokenAccessTime == null) {
       let response = resource.post(endpoint.auth.refreshToken);
       response.then((res) => {
-        if (res.success) {
-          let token = res.record.accessToken;
+          let token = res.data.accessToken;
           localStorage.setItem("token", token);
           localStorage.setItem(
             window.btoa("tokenAccessTime"),
             window.btoa(timeNow)
           );
-        }
       });
       return response;
     } else {
@@ -69,14 +63,12 @@ export default {
       if (timeNow - accessTime > 3000000) {
         let response = resource.post(endpoint.auth.refreshToken);
         response.then((res) => {
-          if (res.success) {
-            let token = res.record.accessToken;
+            let token = res.data.accessToken;
             localStorage.setItem("token", token);
             localStorage.setItem(
               window.btoa("tokenAccessTime"),
               window.btoa(timeNow)
             );
-          }
         });
         return response;
       }

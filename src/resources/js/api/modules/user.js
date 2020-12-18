@@ -5,7 +5,7 @@ import QueryString from "../query-string";
 import { param } from "jquery";
 
 export default {
-  browse(data) {
+  browse(data = {}) {
     return auth.refreshToken().then((res) => {
       let ep = endpoint.user.browse;
       let qs = QueryString(data);

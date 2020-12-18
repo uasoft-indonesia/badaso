@@ -316,7 +316,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let dataBread = response.record;
+          let dataBread = response.data;
           this.dataBread = dataBread
           this.dataBread.icon = dataBread.icon ? dataBread.icon : "",
           this.dataBread.modelName = dataBread.modelName ? dataBread.modelName : "",

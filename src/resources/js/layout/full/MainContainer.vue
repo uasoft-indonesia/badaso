@@ -36,7 +36,7 @@ export default {
     dashboardTitle:{
       get() {
         let config = this.$store.getters.getConfig
-        return  config.dashboard_title ?  config.dashboard_title : 'Badaso'
+        return  config.dashboardTitle ?  config.dashboardTitle : 'Badaso'
       }
     }
   },

@@ -7,14 +7,15 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use ReflectionClass;
 use Uasoft\Badaso\Facades\Badaso;
-use Webpatser\Uuid\Uuid;
+use Uasoft\Badaso\Traits\FileHandler;
 
 abstract class Controller extends BaseController
 {
+    use FileHandler;
+
     public function getSlug(Request $request)
     {
         if (isset($this->slug)) {
@@ -435,43 +436,25 @@ abstract class Controller extends BaseController
         }
     }
 
-    public function handleUploadFiles($files, $data_type = null)
+    public function getDataRelations($data)
     {
-        $path_List = [];
-        foreach ($files as $file) {
-            $uuid = Uuid::generate(4);
-            $encoded_file = $file['base64'];
-            $decoded_file = base64_decode(explode(',', $encoded_file)[1]);
-            $filename = $uuid.'-'.$file['name'];
-            $filepath = 'uploads/';
-            if (!is_null($data_type)) {
-                $filepath .= $data_type->slug.'/';
+        $records = [];
+        foreach ($data as $row) {
+            $class = new ReflectionClass(get_class($row));
+            $class_methods = $class->getMethods();
+            $record = json_decode(json_encode($row));
+            foreach ($class_methods as $class_method) {
+                if ($class_method->class == $class->name) {
+                    try {
+                        $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
+                    } catch (Exception $e) {
+                        $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
+                    }
+                }
             }
-
-            Storage::disk(config('badaso.storage.disk', 'public'))->put($filepath.$filename, $decoded_file);
-
-            $path_List[] = $filepath.$filename;
+            $records[] = $record;
         }
 
-        return $path_List;
-    }
-
-    public function handleDeleteFile($file)
-    {
-        return Storage::disk(config('badaso.storage.disk', 'public'))->delete($file);
-    }
-
-    public function handleDownloadFile($file)
-    {
-        return Storage::disk(config('badaso.storage.disk', 'public'))->download($file);
-    }
-
-    public function handleViewFile($file)
-    {
-        $file = Storage::disk(config('badaso.storage.disk', 'public'))->path($file);
-        $mime = mime_content_type($file);
-        header("Content-type:$mime");
-        ob_clean();
-        readfile($file);
+        return $records;
     }
 }

@@ -108,7 +108,7 @@ class BadasoBreadController extends Controller
                     "unique:data_types,name,{$request->id}",
                     function ($attribute, $value, $fail) {
                         if (!Schema::hasTable($value)) {
-                            $fail("Table {$value} does not exists");
+                            $fail(__('badaso.validation.bread.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
@@ -142,7 +142,7 @@ class BadasoBreadController extends Controller
                         'required',
                         function ($attribute, $value, $fail) use ($table_name) {
                             if (!Schema::hasColumn($table_name, $value)) {
-                                $fail("Invalid rows, Field $table_name.{$value} does not exists");
+                                $fail(__('badaso.validation.bread.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
                             }
                         },
                     ],
@@ -198,7 +198,7 @@ class BadasoBreadController extends Controller
                     'unique:data_types',
                     function ($attribute, $value, $fail) {
                         if (!Schema::hasTable($value)) {
-                            $fail("Table {$value} does not exists");
+                            $fail(__('badaso.validation.bread.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
@@ -229,7 +229,7 @@ class BadasoBreadController extends Controller
                         'required',
                         function ($attribute, $value, $fail) use ($table_name) {
                             if (!Schema::hasColumn($table_name, $value)) {
-                                $fail("Invalid rows, Field $table_name.{$value} does not exists");
+                                $fail(__('badaso.validation.bread.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
                             }
                         },
                     ],

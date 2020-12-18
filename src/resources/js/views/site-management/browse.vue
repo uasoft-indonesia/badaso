@@ -169,7 +169,7 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.configurations = response.records;
+          this.configurations = response.data;
         })
         .catch((error) => {
           this.$vs.loading.close();

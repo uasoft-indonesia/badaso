@@ -1,9 +1,8 @@
 <?php
 
-namespace TCG\Voyager\Models;
+namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use TCG\Voyager\Facades\Voyager;
 
 class Role extends Model
 {
@@ -11,7 +10,7 @@ class Role extends Model
 
     public function users()
     {
-        $userModel = Voyager::modelClass('User');
+        $userModel = User::class;
 
         return $this->belongsToMany($userModel, 'user_roles')
                     ->select(app($userModel)->getTable().'.*')
@@ -20,6 +19,6 @@ class Role extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Voyager::modelClass('Permission'));
+        return $this->belongsToMany(Permission::class);
     }
 }

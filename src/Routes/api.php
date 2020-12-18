@@ -51,7 +51,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                 // do nothing, might just be because table not yet migrated.
             }
         });
-        Route::group(['prefix' => 'file', 'middleware' => BadasoAuthenticate::class], function () {
+        Route::group(['prefix' => 'file'], function () {
             Route::get('/view', 'BadasoFileController@viewFile');
             Route::get('/download', 'BadasoFileController@downloadFile');
             Route::post('/upload', 'BadasoFileController@uploadFile');
@@ -81,6 +81,45 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/item/edit-order', 'BadasoMenuController@editMenuItemOrder');
             Route::post('/item/add', 'BadasoMenuController@addMenuItem');
             Route::delete('/item/delete', 'BadasoMenuController@deleteMenuItem');
+        });
+
+        Route::group(['prefix' => 'user', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoUserController@browse');
+            Route::get('/read', 'BadasoUserController@read');
+            Route::put('/edit', 'BadasoUserController@edit');
+            Route::post('/add', 'BadasoUserController@add');
+            Route::delete('/delete', 'BadasoUserController@delete');
+            Route::delete('/delete-multiple', 'BadasoUserController@deleteMultiple');
+        });
+
+        Route::group(['prefix' => 'permission', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoPermissionController@browse');
+            Route::get('/read', 'BadasoPermissionController@read');
+            Route::put('/edit', 'BadasoPermissionController@edit');
+            Route::post('/add', 'BadasoPermissionController@add');
+            Route::delete('/delete', 'BadasoPermissionController@delete');
+            Route::delete('/delete-multiple', 'BadasoPermissionController@deleteMultiple');
+        });
+
+        Route::group(['prefix' => 'role', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoRoleController@browse');
+            Route::get('/read', 'BadasoRoleController@read');
+            Route::put('/edit', 'BadasoRoleController@edit');
+            Route::post('/add', 'BadasoRoleController@add');
+            Route::delete('/delete', 'BadasoRoleController@delete');
+            Route::delete('/delete-multiple', 'BadasoRoleController@deleteMultiple');
+        });
+
+        Route::group(['prefix' => 'user-role', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoUserRoleController@browseByUser');
+            Route::get('/all', 'BadasoUserRoleController@browse');
+            Route::post('/add-edit', 'BadasoUserRoleController@addOrEdit');
+        });
+
+        Route::group(['prefix' => 'role-permission', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoRolePermissionController@browseByRole');
+            Route::get('/all', 'BadasoRolePermissionController@browse');
+            Route::post('/add-edit', 'BadasoRolePermissionController@addOrEdit');
         });
     });
 });

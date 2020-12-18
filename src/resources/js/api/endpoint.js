@@ -48,6 +48,7 @@ export default {
     edit: '/badaso-api/v1/permission/edit',
     add: '/badaso-api/v1/permission/add',
     delete: '/badaso-api/v1/permission/delete',
+    deleteMultiple: '/badaso-api/v1/permission/delete-multiple',
   },
   role: {
     browse: '/badaso-api/v1/role',
@@ -55,6 +56,7 @@ export default {
     edit: '/badaso-api/v1/role/edit',
     add: '/badaso-api/v1/role/add',
     delete: '/badaso-api/v1/role/delete',
+    deleteMultiple: '/badaso-api/v1/role/delete-multiple',
     setPermission: '/badaso-api/v1/role/set-permission',
   },
   user: {

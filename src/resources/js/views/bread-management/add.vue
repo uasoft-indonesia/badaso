@@ -318,7 +318,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let fieldList = response.records;
+          let fieldList = response.data;
           this.tableColumns = fieldList;
           this.fieldList = fieldList.map((field) => {
             return {

@@ -1,0 +1,87 @@
+<template>
+  <div>
+    <vs-row>
+      <vs-col vs-lg="8">
+        <badaso-breadcrumb></badaso-breadcrumb>
+      </vs-col>
+      <vs-col vs-lg="4">
+        <div style="float: right">
+          <vs-button color="warning" type="relief"
+            :to="{name: 'PermissionEdit', params: {id: $route.params.id}}"
+            ><vs-icon icon="edit"></vs-icon> Edit</vs-button
+          >
+        </div>
+      </vs-col>
+    </vs-row>
+    <vs-row>
+      <vs-col vs-lg="12">
+        <vs-card>
+            <div slot="header">
+            <h3>Detail Permission</h3>
+          </div>
+            <table class="table">
+                <tr>
+                    <th>Key</th>
+                    <td>{{ permission.key }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ permission.description }}</td>
+                </tr>
+                <tr>
+                    <th>Table</th>
+                    <td>{{ permission.tableName }}</td>
+                </tr>
+                <tr>
+                    <th>Alway Allow</th>
+                    <td>
+                        <span v-if="permission.alwaysAllow === 1">Yes</span>
+                        <span v-else>No</span>
+                    </td>
+                </tr>
+            </table>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+  </div>
+</template>
+
+<script>
+import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+
+export default {
+  name: "Browse",
+  components: {
+      BadasoBreadcrumb
+  },
+  data: () => ({
+    permission: {}
+  }),
+  mounted() {
+        this.getPermissionDetail();
+  },
+  methods: {
+    getPermissionDetail() {
+        this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.permission
+        .read({
+            id: this.$route.params.id
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.permission = response.data;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    }
+  },
+};
+</script>

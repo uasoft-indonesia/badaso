@@ -126,7 +126,6 @@ export default {
       this.$api.auth
         .logout()
         .then((response) => {
-          console.log(response)
           localStorage.clear()
           this.$router.push({name: "Login"})
         })

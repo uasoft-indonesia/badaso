@@ -10,6 +10,7 @@
       :value="value"
       @input="handleInput($event)"
     />
+    <div v-html="additionalInfo"></div>
   </vs-col>
 </template>
 
@@ -26,6 +27,10 @@ export default {
     label: {
       type: String,
       default: "Text",
+    },
+    additionalInfo: {
+      type: String,
+      default: "",
     },
     placeholder: {
       type: String,

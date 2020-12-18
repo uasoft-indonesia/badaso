@@ -4,7 +4,7 @@ import endpoint from "../endpoint";
 import QueryString from "../query-string";
 
 export default {
-  browse(data) {
+  browse(data = {}) {
     return auth.refreshToken().then((res) => {
       let ep = endpoint.permission.browse;
       let qs = QueryString(data);
@@ -40,6 +40,15 @@ export default {
             data: data
         }
       return resource.delete(endpoint.permission.delete, paramData);
+    });
+  },
+
+  deleteMultiple(data) {
+    return auth.refreshToken().then((res) => {
+        let paramData = {
+            data: data
+        }
+      return resource.delete(endpoint.permission.deleteMultiple, paramData);
     });
   },
 };

@@ -40,7 +40,7 @@ class BadasoAuthController extends Controller
 
             // if (!$token = JWTAuth::attempt($credentials)) {
             if (!$token = auth()->attempt($credentials)) {
-                throw new SingleException('invalid_credentials');
+                throw new SingleException(__('badaso.validation.auth.invalid_credentials'));
             }
 
             return $this->createNewToken($token, auth()->user());
@@ -102,7 +102,7 @@ class BadasoAuthController extends Controller
     {
         try {
             if (!$user = auth()->user()) {
-                throw new SingleException('user_not_found');
+                throw new SingleException(__('badasp.validation.auth.user_not_found'));
             }
 
             $user->token_payload = auth()->payload();
@@ -141,7 +141,7 @@ class BadasoAuthController extends Controller
     {
         try {
             if (!$user = auth()->user()) {
-                throw new SingleException('user_not_found');
+                throw new SingleException(__('badasp.validation.auth.user_not_found'));
             }
 
             $request->validate([
@@ -149,7 +149,7 @@ class BadasoAuthController extends Controller
                     'required',
                     function ($attribute, $value, $fail) use ($user) {
                         if (!Hash::check($value, $user->password)) {
-                            $fail('invalid old password');
+                            $fail(__('badaso.validation.auth.wrong_old_password'));
                         }
                     },
                 ],
@@ -161,7 +161,7 @@ class BadasoAuthController extends Controller
                     'confirmed',
                     function ($attribute, $value, $fail) use ($user) {
                         if (Hash::check($value, $user->password)) {
-                            $fail('new password must be different with old password');
+                            $fail(__('password_not_changes'));
                         }
                     },
                 ],

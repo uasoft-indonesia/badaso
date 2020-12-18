@@ -121,7 +121,7 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.menus = response.records;
+          this.menus = response.data;
         })
         .catch((error) => {
           this.$vs.loading.close();

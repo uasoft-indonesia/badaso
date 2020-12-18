@@ -123,12 +123,12 @@ const router = new VueRouter({
           component: PermissionBrowse,
         },
         {
-          path: prefix + "/permission/read",
+          path: prefix + "/permission/:id/detail",
           name: "PermissionRead",
           component: PermissionRead,
         },
         {
-          path: prefix + "/permission/edit",
+          path: prefix + "/permission/:id/edit",
           name: "PermissionEdit",
           component: PermissionEdit,
         },
@@ -139,19 +139,19 @@ const router = new VueRouter({
         },
 
         { path: prefix + "/role", name: "RoleBrowse", component: RoleBrowse },
-        { path: prefix + "/role/read", name: "RoleRead", component: RoleRead },
-        { path: prefix + "/role/edit", name: "RoleEdit", component: RoleEdit },
+        { path: prefix + "/role/:id/detail", name: "RoleRead", component: RoleRead },
+        { path: prefix + "/role/:id/edit", name: "RoleEdit", component: RoleEdit },
         { path: prefix + "/role/add", name: "RoleAdd", component: RoleAdd },
 
         { path: prefix + "/user", name: "UserBrowse", component: UserBrowse },
-        { path: prefix + "/user/read", name: "UserRead", component: UserRead },
-        { path: prefix + "/user/edit", name: "UserEdit", component: UserEdit },
+        { path: prefix + "/user/:id/detail", name: "UserRead", component: UserRead },
+        { path: prefix + "/user/:id/edit", name: "UserEdit", component: UserEdit },
         { path: prefix + "/user/add", name: "UserAdd", component: UserAdd },
 
         { path: prefix + "/menu", name: "MenuBrowse", component: MenuBrowse },
-        { path: prefix + "/menu/read/:id", name: "MenuRead", component: MenuRead },
-        { path: prefix + "/menu/edit/:id", name: "MenuEdit", component: MenuEdit },
-        { path: prefix + "/menu/builder/:id", name: "MenuBuilder", component: MenuBuilder },
+        { path: prefix + "/menu/:id/read", name: "MenuRead", component: MenuRead },
+        { path: prefix + "/menu/:id/edit", name: "MenuEdit", component: MenuEdit },
+        { path: prefix + "/menu/:id/builder", name: "MenuBuilder", component: MenuBuilder },
         { path: prefix + "/menu/add", name: "MenuAdd", component: MenuAdd },
 
         {
@@ -182,7 +182,7 @@ const router = new VueRouter({
           component: Browse,
         },
         {
-          path: prefix + "/main/:slug/read",
+          path: prefix + "/main/:slug/detail",
           name: "EntityRead",
           component: Read,
         },

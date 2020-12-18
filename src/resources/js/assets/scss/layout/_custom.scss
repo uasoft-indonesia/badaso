@@ -30,5 +30,13 @@
 }
 
 .vs-select--options {
-    z-index: 300;
+    z-index: 21000;
+}
+
+.topnavbar {
+    z-index: 25000;
+}
+
+.vs-sidebar-group h4 {
+    padding-left: 15px;
 }

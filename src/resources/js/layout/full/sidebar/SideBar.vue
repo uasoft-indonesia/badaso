@@ -25,11 +25,26 @@
       </vs-sidebar-item>
       <vs-sidebar-group title="Main Menu" open>
         <template v-for="(menu, index) in mainMenu">
+          <vs-sidebar-group v-if="menu.children && menu.children.length > 0" :title="menu.title" open>
+              <template v-for="(childMenu, indexChildMenu) in menu.children">
+                <vs-sidebar-item
+                  :icon="childMenu.iconClass"
+                  :to="'/'+prefix+'/main/'+childMenu.url"
+                  :key="`menu-${index}-${indexChildMenu}`"
+                  :index="`${index}.${indexChildMenu}`"
+                  :style="`color: ${childMenu.color}`"
+                >
+                  <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+                </vs-sidebar-item>
+              </template>
+          </vs-sidebar-group>
           <vs-sidebar-item
-            :icon="menu.icon"
-            :to="menu.link"
+            v-else
+            :icon="menu.iconClass"
+            :to="'/'+prefix+'/main/'+menu.link"
             :key="`menu-${index}`"
             :index="index"
+            :style="`color: ${menu.color}`"
           >
             <span class="hide-in-minisidebar">{{ menu.title }}</span>
           </vs-sidebar-item>
@@ -71,6 +86,7 @@ export default {
   data: () => ({
     doNotClose: false,
     windowWidth: window.innerWidth,
+    prefix: process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin'
     // mainMenu: [],
   }),
   computed: {
@@ -105,35 +121,12 @@ export default {
         this.doNotClose = true;
       }
     },
-    getMainMenu() {
-       this.$vs.loading({
-        type:'sound',
-      })
-      const menuKey = process.env.MIX_DEFAULT_MENU ? process.env.MIX_DEFAULT_MENU : 'admin';
-      const prefix = process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin';
-      this.$api.menu.browseItemByKey({
-        menu_key: menuKey
-      })
-        .then((res) => {
-          this.$vs.loading.close()
-          let menuItems = res.records
-          for (var i = 0, len = menuItems.length; i < len; i++) {
-            menuItems[i].link = '/'+prefix+'/main/'+menuItems[i].url
-          }
-          this.mainMenu = menuItems
-        })
-        .catch((err) => {
-          this.$vs.loading.close()
-          this.$vs.notify({title:'Danger',text:err.message,color:'danger'})
-        });
-    },
   },
   mounted() {
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleWindowResize);
     });
     this.setSidebar();
-    // this.getMainMenu();
     this.$store.commit("FETCH_MENU");
   },
   beforeDestroy() {
