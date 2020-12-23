@@ -13,6 +13,7 @@ export default {
   bread: {
     browse: '/badaso-api/v1/bread',
     read: '/badaso-api/v1/bread/read',
+    readBySlug: '/badaso-api/v1/bread/read-by-slug',
     edit: '/badaso-api/v1/bread/edit',
     add: '/badaso-api/v1/bread/add',
     delete: '/badaso-api/v1/bread/delete',
@@ -57,7 +58,8 @@ export default {
     add: '/badaso-api/v1/role/add',
     delete: '/badaso-api/v1/role/delete',
     deleteMultiple: '/badaso-api/v1/role/delete-multiple',
-    setPermission: '/badaso-api/v1/role/set-permission',
+    permissions: '/badaso-api/v1/role-permission/all-permission',
+    addPermissions: '/badaso-api/v1/role-permission/add-edit',
   },
   user: {
     browse: '/badaso-api/v1/user',
@@ -65,16 +67,13 @@ export default {
     edit: '/badaso-api/v1/user/edit',
     add: '/badaso-api/v1/user/add',
     delete: '/badaso-api/v1/user/delete',
+    deleteMultiple: '/badaso-api/v1/user/delete-multiple',
+    roles: '/badaso-api/v1/user-role/all-role',
+    addRoles: '/badaso-api/v1/user-role/add-edit',
   },
   data: {
     component: '/badaso-api/v1/data/components',
     filterOperator: '/badaso-api/v1/data/filter-operators'
   },
-  entity: {
-    browse: '/badaso-api/v1/entity',
-    read: '/badaso-api/v1/entity/read',
-    edit: '/badaso-api/v1/entity/edit',
-    add: '/badaso-api/v1/entity/add',
-    delete: '/badaso-api/v1/entity/delete',
-  }
+  entity: '/badaso-api/v1/entity'
 }

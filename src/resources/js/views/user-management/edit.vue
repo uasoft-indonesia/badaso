@@ -9,12 +9,52 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Edit Role</h3>
+            <h3>Edit User</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="role.name" size="6" label="Name" placeholder="Name"></badaso-text>
-            <badaso-text v-model="role.displayName" size="6" label="Display Name" placeholder="Display Name"></badaso-text>
-            <badaso-textarea v-model="role.description" size="12" label="Description" placeholder="Description"></badaso-textarea>
+            <badaso-text
+              v-model="user.name"
+              size="12"
+              label="Name"
+              placeholder="Name"
+            ></badaso-text>
+            <badaso-text
+              v-model="user.email"
+              size="6"
+              label="Email"
+              placeholder="Email"
+            ></badaso-text>
+            <badaso-password
+              v-model="user.newPassword"
+              size="6"
+              label="Password"
+              placeholder="Leave blank if unchanged"
+            ></badaso-password>
+            <vs-col vs-lg="12">
+              <table class="table">
+                <tr>
+                  <td>Current Avatar</td>
+                  <td>
+                  <img :src="`/badaso-api/v1/file/view?file=${user.avatar}`" width="100%" alt="" style="max-width: 200px;">
+                  </td>
+                </tr>
+              </table>
+            </vs-col>
+            <badaso-upload-image
+              v-model="user.avatar"
+              size="12"
+              label="New Avatar"
+              placeholder="New Avatar"
+            ></badaso-upload-image>
+            <vs-col vs-lg="12" class="mb-3">
+              <label for="" class="vs-input--label">Additional Info (JSON)</label>
+              <badaso-code-editor
+                v-model="user.additionalInfo"
+                size="12"
+                label="Avatar"
+                placeholder="Avatar"
+              ></badaso-code-editor>
+            </vs-col>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -37,39 +77,45 @@
 <script>
 import BadasoText from "../../components/BadasoText";
 import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
-import BadasoSwitch from '../../components/BadasoSwitch.vue';
-import BadasoTextarea from '../../components/BadasoTextarea.vue';
+import BadasoPassword from "../../components/BadasoPassword.vue";
+import BadasoCodeEditor from "../../components/BadasoCodeEditor.vue";
+import BadasoUploadImage from "../../components/BadasoUploadImage.vue";
 
 export default {
   name: "Browse",
   components: {
     BadasoText,
     BadasoBreadcrumb,
-    BadasoSwitch,
-    BadasoTextarea
+    BadasoCodeEditor,
+    BadasoPassword,
+    BadasoUploadImage,
   },
   data: () => ({
-    role: {
-        description: '',
-        name: '',
-        displayName: ''
-    }
+    user: {
+      email: "",
+      name: "",
+      avatar: {},
+      password: "",
+      additionalInfo: "",
+    },
   }),
   mounted() {
-        this.getRoleDetail();
+    this.getUserDetail()
   },
   methods: {
-    getRoleDetail() {
+    getUserDetail() {
         this.$vs.loading({
         type: "sound",
       });
-      this.$api.role
+      this.$api.user
         .read({
             id: this.$route.params.id
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.role = response.data;
+          this.user = response.data;
+          this.user.password = '';
+          this.user.additionalInfo = this.user.additionalInfo ? this.user.additionalInfo : '';
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -82,16 +128,27 @@ export default {
     },
     submitForm() {
       this.$vs.loading();
-      this.$api.role
-        .edit(this.role)
+      this.$api.user
+        .edit({
+          id: this.$route.params.id,
+          email: this.user.email,
+          name: this.user.name,
+          avatar: this.user.avatar.base64,
+          password: this.user.password,
+          additionalInfo: JSON.stringify(this.user.additionalInfo),
+        })
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({name: "RoleBrowse"})
+          this.$router.push({ name: "UserBrowse" });
         })
         .catch((error) => {
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
-        })
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
   },
 };

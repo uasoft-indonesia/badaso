@@ -52,12 +52,17 @@ export default {
     });
   },
 
-  setPermission(data) {
+  permissions(data = {}) {
     return auth.refreshToken().then((res) => {
-        let paramData = {
-            data: data
-        }
-      return resource.post(endpoint.role.setPermission, paramData);
+      let ep = endpoint.role.permissions;
+      let qs = QueryString(data);
+      let url = ep + qs;
+      return resource.get(url);
+    });
+  },
+  addPermissions(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.post(endpoint.role.addPermissions, data);
     });
   },
 };

@@ -56,7 +56,7 @@
             :icon="sidebarLink.icon"
             :to="sidebarLink.url"
             :key="`sidebarLink-${index}`"
-            :index="index"
+            :index="`sidebarLink-${index}`"
           >
             <span class="hide-in-minisidebar">{{ sidebarLink.name }}</span>
           </vs-sidebar-item>

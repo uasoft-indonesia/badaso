@@ -4,6 +4,8 @@
       :label="label"
       :placeholder="placeholder"
       @click="pickFile"
+      v-on:keyup.space="pickFile"
+      readonly
       v-model="imagesName"
       icon="attach_file"
       icon-after="true"
@@ -49,7 +51,9 @@ export default {
     },
     value: {
       type: Array,
-      default: [],
+      default: () => {
+        return []
+      },
     },
   },
   watch: {

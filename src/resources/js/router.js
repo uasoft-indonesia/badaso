@@ -27,11 +27,13 @@ import RoleBrowse from "./views/role-management/browse";
 import RoleRead from "./views/role-management/read";
 import RoleEdit from "./views/role-management/edit";
 import RoleAdd from "./views/role-management/add";
+import RolePermissions from "./views/role-management/permissions";
 
 import UserBrowse from "./views/user-management/browse";
 import UserRead from "./views/user-management/read";
 import UserEdit from "./views/user-management/edit";
 import UserAdd from "./views/user-management/add";
+import UserRoles from "./views/user-management/roles";
 
 import MenuBrowse from "./views/menu-management/browse";
 import MenuRead from "./views/menu-management/read";
@@ -115,6 +117,10 @@ const router = new VueRouter({
           path: prefix,
           redirect: prefix + "/home",
         },
+        {
+          path: prefix + '/main',
+          redirect: prefix + "/home",
+        },
         { path: prefix + "/home", name: "Home", component: Home },
 
         {
@@ -141,11 +147,13 @@ const router = new VueRouter({
         { path: prefix + "/role", name: "RoleBrowse", component: RoleBrowse },
         { path: prefix + "/role/:id/detail", name: "RoleRead", component: RoleRead },
         { path: prefix + "/role/:id/edit", name: "RoleEdit", component: RoleEdit },
+        { path: prefix + "/role/:id/permissions", name: "RolePermissions", component: RolePermissions },
         { path: prefix + "/role/add", name: "RoleAdd", component: RoleAdd },
 
         { path: prefix + "/user", name: "UserBrowse", component: UserBrowse },
         { path: prefix + "/user/:id/detail", name: "UserRead", component: UserRead },
         { path: prefix + "/user/:id/edit", name: "UserEdit", component: UserEdit },
+        { path: prefix + "/user/:id/roles", name: "UserRoles", component: UserRoles },
         { path: prefix + "/user/add", name: "UserAdd", component: UserAdd },
 
         { path: prefix + "/menu", name: "MenuBrowse", component: MenuBrowse },
@@ -182,12 +190,12 @@ const router = new VueRouter({
           component: Browse,
         },
         {
-          path: prefix + "/main/:slug/detail",
+          path: prefix + "/main/:slug/:id/detail",
           name: "EntityRead",
           component: Read,
         },
         {
-          path: prefix + "/main/:slug/edit",
+          path: prefix + "/main/:slug/:id/edit",
           name: "EntityEdit",
           component: Edit,
         },

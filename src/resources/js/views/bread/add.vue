@@ -2,7 +2,7 @@
   <div>
     <vs-row>
       <vs-col vs-lg="8">
-        <vs-breadcrumb :items="breadcrumb"></vs-breadcrumb>
+        <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
     </vs-row>
     <vs-row>
@@ -12,60 +12,184 @@
             <h3>Add</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="text" size="6"></badaso-text>
-            <badaso-password v-model="password" size="6"></badaso-password>
-            <badaso-textarea v-model="textarea" size="6"></badaso-textarea>
-            <badaso-checkbox
-              v-model="checkBoxes"
-              size="6"
-              :items="items"
-            ></badaso-checkbox>
-            <badaso-search v-model="search" size="6"></badaso-search>
-            <badaso-number v-model="number" size="6"></badaso-number>
-            <badaso-url v-model="url" size="6"></badaso-url>
-            <badaso-time v-model="time" size="6"></badaso-time>
-            <badaso-date v-model="date" size="6"></badaso-date>
-            <badaso-datetime v-model="datetime" size="6"></badaso-datetime>
-            <badaso-select
-              v-model="singleSelect"
-              size="6"
-              :items="items"
-            ></badaso-select>
-            <badaso-select-multiple
-              v-model="multipleSelect"
-              size="6"
-              :items="items"
-            ></badaso-select-multiple>
-            <badaso-radio
-              v-model="radio"
-              size="6"
-              :items="items"
-            ></badaso-radio>
-            <badaso-upload-image
-              size="6"
-              v-model="uploadedImage"
-            ></badaso-upload-image>
-            <badaso-upload-image-multiple
-              size="6"
-              v-model="multipleUploadedImage"
-            ></badaso-upload-image-multiple>
-            <badaso-upload-file
-              size="6"
-              v-model="uploadedFile"
-            ></badaso-upload-file>
-            <badaso-upload-file-multiple
-              size="6"
-              v-model="multipleUploadedFile"
-            ></badaso-upload-file-multiple>
-            <badaso-switch size="6" v-model="switch1"></badaso-switch>
-            <badaso-slider size="6" v-model="slider"></badaso-slider>
-            <badaso-editor size="12" v-model="editor"></badaso-editor>
-            <badaso-tags size="6" v-model="tags"></badaso-tags>
-            <badaso-color-picker
-              size="6"
-              v-model="colors"
-            ></badaso-color-picker>
-            <badaso-hidden v-model="hidden"></badaso-hidden>
+            <vs-col
+              v-for="(dataRow, rowIndex) in dataType.dataRows"
+              :key="rowIndex"
+              :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
+              v-if="dataRow.add === 1"
+            >
+              <badaso-text
+                v-if="dataRow.type === 'text'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-text>
+              <badaso-password
+                v-if="dataRow.type === 'password'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-password>
+              <badaso-textarea
+                v-if="dataRow.type === 'textarea'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-textarea>
+              <badaso-search
+                v-if="dataRow.type === 'search'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-search>
+              <badaso-number
+                v-if="dataRow.type === 'number'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-number>
+              <badaso-url
+                v-if="dataRow.type === 'url'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-url>
+              <badaso-time
+                v-if="dataRow.type === 'time'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-time>
+              <badaso-date
+                v-if="dataRow.type === 'date'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-date>
+              <badaso-datetime
+                v-if="dataRow.type === 'datetime'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-datetime>
+              <badaso-upload-image
+                v-if="dataRow.type === 'upload_image'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-upload-image>
+              <badaso-upload-image-multiple
+                v-if="dataRow.type === 'upload_image_multiple'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-upload-image-multiple>
+              <badaso-upload-file
+                v-if="dataRow.type === 'upload_file'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-upload-file>
+              <badaso-upload-file-multiple
+                v-if="dataRow.type === 'upload_file_multiple'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-upload-file-multiple>
+              <badaso-switch
+                v-if="dataRow.type === 'switch'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-switch>
+              <badaso-slider
+                v-if="dataRow.type === 'slider'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-slider>
+              <badaso-editor
+                v-if="dataRow.type === 'editor'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-editor>
+              <badaso-tags
+                v-if="dataRow.type === 'tags'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-tags>
+              <badaso-color-picker
+                v-if="dataRow.type === 'color_picker'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-color-picker>
+              <badaso-hidden
+                v-if="dataRow.type === 'hidden'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+              ></badaso-hidden>
+              <badaso-checkbox
+                v-if="dataRow.type === 'checkbox'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :items="items"
+              ></badaso-checkbox>
+              <badaso-select
+                v-if="dataRow.type === 'select'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :items="items"
+              ></badaso-select>
+              <badaso-select-multiple
+                v-if="dataRow.type === 'select_multiple'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :items="items"
+              ></badaso-select-multiple>
+              <badaso-radio
+                v-if="dataRow.type === 'radio'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :items="items"
+              ></badaso-radio>
+              <badaso-code-editor
+                v-if="dataRow.type === 'code'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-code-editor>
+            </vs-col>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -86,6 +210,7 @@
   </div>
 </template>
 <script>
+import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
 import BadasoText from "../../components/BadasoText";
 import BadasoPassword from "../../components/BadasoPassword";
 import BadasoTextarea from "../../components/BadasoTextarea";
@@ -109,10 +234,12 @@ import BadasoUploadImageMultiple from "../../components/BadasoUploadImageMultipl
 import BadasoUploadFile from "../../components/BadasoUploadFile";
 import BadasoUploadFileMultiple from "../../components/BadasoUploadFileMultiple";
 import BadasoHidden from "../../components/BadasoHidden";
+import BadasoCodeEditor from "../../components/BadasoCodeEditor";
 
 export default {
   name: "Browse",
   components: {
+    BadasoBreadcrumb,
     BadasoText,
     BadasoPassword,
     BadasoTextarea,
@@ -136,89 +263,71 @@ export default {
     BadasoUploadFile,
     BadasoUploadFileMultiple,
     BadasoHidden,
+    BadasoCodeEditor,
   },
   data: () => ({
-    breadcrumb: [
-      {
-        title: "Dashboard",
-        url: "dashboard",
-      },
-      {
-        title: "Link 1",
-        url: "link-1",
-      },
-      {
-        title: "Link 2",
-        disabled: true,
-      },
-      {
-        title: "Active",
-        active: true,
-      },
-    ],
-    text: "",
-    password: "",
-    textarea: "",
-    checkBoxes: [],
-    number: "",
-    search: "",
-    url: "",
-    time: "",
-    date: "",
-    datetime: "",
-    singleSelect: "",
-    multipleSelect: [],
-    radio: "",
-    switch1: false,
-    slider: 0,
-    editor: "",
-    tags: "",
-    colors: "#000000",
-    uploadedImage: {},
-    multipleUploadedImage: [],
-    uploadedFile: {},
-    multipleUploadedFile: [],
-    hidden: '',
-    items: [
-      {
-        label: "Text 1",
-        value: "Value 1",
-      },
-      {
-        label: "Text 2",
-        value: "Value 2",
-      },
-      {
-        label: "Text 3",
-        value: "Value 3",
-      },
-    ],
+    dataType: {},
   }),
+  mounted() {
+    this.getDataType();
+  },
   methods: {
     submitForm() {
-      let data = {
-        text: this.text,
-        password: this.password,
-        textarea: this.textarea,
-        checkBoxes: this.checkBoxes,
-        number: this.number,
-        search: this.search,
-        url: this.url,
-        time: this.time,
-        date: this.date,
-        datetime: this.datetime,
-        singleSelect: this.singleSelect,
-        multipleSelect: this.multipleSelect,
-        radio: this.radio,
-        switch1: this.switch1,
-        slider: this.slider,
-        editor: this.editor,
-        tags: this.tags,
-        colors: this.colors,
-        uploadedImage: this.uploadedImage,
-        multipleUploadedImage: this.multipleUploadedImage,
-      };
-      console.log(JSON.stringify(data));
+      let dataRows = this.dataType.dataRows.filter(function(row) {
+        return row && row.value;
+      });
+      dataRows = dataRows.map((row) => {
+        return {
+          field: row.field,
+          value: row.value,
+        };
+      });
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.entity
+        .add({
+          slug: this.$route.params.slug,
+          data: dataRows
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.$router.push({
+            name: "EntityBrowse",
+            params: {
+              slug: this.$route.params.slug,
+            },
+          });
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getDataType() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.bread
+        .readBySlug({
+          slug: this.$route.params.slug,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.dataType = response.data;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
   },
 };

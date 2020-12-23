@@ -23,9 +23,9 @@
     <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
-          <!-- <div slot="header">
-            <h3>Browse</h3>
-          </div> -->
+          <div slot="header">
+            <h3>User</h3>
+          </div>
           <div>
             <vs-table
               multiple
@@ -41,9 +41,6 @@
               description-connector="of"
               description-body="Pages"
             >
-              <template slot="header">
-                <h3>User</h3>
-              </template>
               <template slot="thead">
                 <vs-th sort-key="name"> Name </vs-th>
                 <vs-th sort-key="email"> Email </vs-th>
@@ -70,11 +67,18 @@
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
                     <vs-button
+                      color="primary"
+                      type="relief"
+                      @click.stop
+                      :to="{name: 'UserRoles', params: {id: data[indextr].id}}"
+                      ><vs-icon icon="list"></vs-icon
+                    ></vs-button>
+                    <vs-button
                       color="warning"
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'Useredit',
+                        name: 'UserEdit',
                         params: { id: data[indextr].id },
                       }"
                       ><vs-icon icon="edit"></vs-icon
@@ -161,13 +165,13 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.role
+      this.$api.user
         .delete({
           id: this.willDeleteId,
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.getRoleList();
+          this.getUserList();
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -183,7 +187,7 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.role
+      this.$api.user
         .deleteMultiple({
           ids: ids.join(","),
         })

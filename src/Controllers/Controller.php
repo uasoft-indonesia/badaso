@@ -155,7 +155,7 @@ abstract class Controller extends BaseController
                 $return_value = $value;
                 break;
             case 'upload_image':
-                $uploaded_path = $this->handleUploadFiles($value, $data_type);
+                $uploaded_path = $this->handleUploadFiles([$value], $data_type);
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'upload_image_multiple':
@@ -163,7 +163,7 @@ abstract class Controller extends BaseController
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'upload_file':
-                $uploaded_path = $this->handleUploadFiles($value, $data_type);
+                $uploaded_path = $this->handleUploadFiles([$value], $data_type);
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'upload_file_multiple':
@@ -342,8 +342,8 @@ abstract class Controller extends BaseController
         } else {
             $new_data = [];
             $timestamp = date('Y-m-d H:i:s');
-            $new_data['created_at'] = $timestamp;
-            $new_data['updated_at'] = $timestamp;
+            $data['created_at'] = $timestamp;
+            $data['updated_at'] = $timestamp;
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
@@ -381,7 +381,7 @@ abstract class Controller extends BaseController
             $model->save();
         } else {
             $new_data = [];
-            $new_data['updated_at'] = date('Y-m-d H:i:s');
+            $data['updated_at'] = date('Y-m-d H:i:s');
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
@@ -405,34 +405,38 @@ abstract class Controller extends BaseController
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $model = $model::find($id);
-            foreach ($data_rows as $data_row) {
-                if (in_array($data_row->type, ['upload_image',
-                    'upload_image_multiple',
-                    'upload_file',
-                    'upload_file_multiple', ])
-                ) {
-                    $files = explode(',', $model->{$data_row->field});
-                    foreach ($files as $file) {
-                        $this->handleDeleteFile($file);
+            if (!is_null($model)) {
+                foreach ($data_rows as $data_row) {
+                    if (in_array($data_row->type, ['upload_image',
+                        'upload_image_multiple',
+                        'upload_file',
+                        'upload_file_multiple', ])
+                    ) {
+                        $files = explode(',', $model->{$data_row->field});
+                        foreach ($files as $file) {
+                            $this->handleDeleteFile($file);
+                        }
                     }
                 }
+                $model->delete();
             }
-            $model->delete();
         } else {
             $model = DB::table($data_type->name)->where('id', $id)->first();
-            foreach ($data_rows as $data_row) {
-                if (in_array($data_row->type, ['upload_image',
-                    'upload_image_multiple',
-                    'upload_file',
-                    'upload_file_multiple', ])
-                ) {
-                    $files = explode(',', $model->{$data_row->field});
-                    foreach ($files as $file) {
-                        $this->handleDeleteFile($file);
+            if (!is_null($model)) {
+                foreach ($data_rows as $data_row) {
+                    if (in_array($data_row->type, ['upload_image',
+                        'upload_image_multiple',
+                        'upload_file',
+                        'upload_file_multiple', ])
+                    ) {
+                        $files = explode(',', $model->{$data_row->field});
+                        foreach ($files as $file) {
+                            $this->handleDeleteFile($file);
+                        }
                     }
                 }
+                DB::table($data_type->name)->where('id', $id)->delete();
             }
-            DB::table($data_type->name)->where('id', $id)->delete();
         }
     }
 

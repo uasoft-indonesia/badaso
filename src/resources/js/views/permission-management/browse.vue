@@ -20,9 +20,9 @@
     <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
-          <!-- <div slot="header">
-            <h3>Browse</h3>
-          </div> -->
+          <div slot="header">
+            <h3>Permission</h3>
+          </div>
           <div>
             <vs-table
               multiple
@@ -38,9 +38,6 @@
               description-connector="of"
               description-body="Pages"
             >
-              <template slot="header">
-                <h3>Permissions</h3>
-              </template>
               <template slot="thead">
                 <vs-th sort-key="key"> Key </vs-th>
                 <vs-th sort-key="description"> Description </vs-th>

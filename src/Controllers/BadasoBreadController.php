@@ -46,10 +46,44 @@ class BadasoBreadController extends Controller
     public function read(Request $request)
     {
         try {
+            $request->validate([
+                'table' => 'required|exists:data_types,name',
+            ]);
             $table = $request->input('table', '');
             $data_type = Badaso::model('DataType')::where('name', $table)->first();
             if (is_null($data_type)) {
                 throw new SingleException("Data type for {$table} not found");
+            }
+            $class = new ReflectionClass(Badaso::modelClass('DataType'));
+            $class_methods = $class->getMethods();
+
+            $json = json_decode(json_encode($data_type));
+            foreach ($class_methods as $class_method) {
+                if ($class_method->class == Badaso::modelClass('DataType')) {
+                    try {
+                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}));
+                    } catch (LogicException $e) {
+                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}()));
+                    }
+                }
+            }
+
+            return ApiResponse::success($json);
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
+    }
+
+    public function readBySlug(Request $request)
+    {
+        try {
+            $request->validate([
+                'slug' => 'required|exists:data_types,slug',
+            ]);
+            $slug = $request->input('slug', '');
+            $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
+            if (is_null($data_type)) {
+                throw new SingleException("Data type for {$slug} not found");
             }
             $class = new ReflectionClass(Badaso::modelClass('DataType'));
             $class_methods = $class->getMethods();

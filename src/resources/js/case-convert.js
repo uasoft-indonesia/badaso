@@ -33,4 +33,16 @@ export default {
     }
     return obj;
   },
+  stringSnakeToCamel(str) {
+    let strings = str.split('_')
+    let newStrings = strings.map((string, index) => {
+      if (index > 0) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
+      } else {
+        return string
+      }
+    })
+    let string = newStrings.join('')
+    return string;
+  }
 };

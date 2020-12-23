@@ -1,42 +1,77 @@
 .vs-card--content {
-
-    .vs-breadcrumb--ol {
-        margin-bottom: 0;
-    }
+  .vs-breadcrumb--ol {
+    margin-bottom: 0;
+  }
 }
 
 .vs-input {
-    width: 100%;
+  width: 100%;
 }
 
 .con-vs-dialog .vs-dialog footer {
-    padding: 10px;
+  padding: 10px;
 }
 
 .topnavbar {
-    z-index: 401;
+  z-index: 401;
 }
 
 .td-check {
-    width: 50px;
+  width: 50px;
 }
 
 .con-td-check {
-    box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .vs-table--search {
-    margin-left: 15px !important;
+  margin-left: 15px !important;
 }
 
 .vs-select--options {
-    z-index: 21000;
+  z-index: 21000;
 }
 
 .topnavbar {
-    z-index: 25000;
+  z-index: 25000;
 }
 
 .vs-sidebar-group h4 {
-    padding-left: 15px;
+  padding-left: 15px;
+}
+
+.vs-table--content::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.vs-table--content::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+.vs-table--content::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--vs-primary), 0.2);
+    border-radius: 20px;
+}
+
+.vs-table--content::-webkit-scrollbar-thumb:hover {
+    background-color: #2962FF;
+}
+
+.vs-col::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.vs-col::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+.vs-col::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--vs-primary), 0.2);
+    border-radius: 20px;
+}
+
+.vs-col::-webkit-scrollbar-thumb:hover {
+    background-color: #2962FF;
 }

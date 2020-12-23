@@ -6,7 +6,7 @@ import QueryString from "../query-string";
 export default {
   browse(data = {}) {
     return auth.refreshToken().then((res) => {
-      let ep = endpoint.entity.browse;
+      let ep = endpoint.entity + "/" + data.slug;
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
@@ -15,7 +15,7 @@ export default {
 
   read(data) {
     return auth.refreshToken().then((res) => {
-      let ep = endpoint.entity.read;
+      let ep = endpoint.entity + "/" + data.slug + "/read";
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
@@ -24,22 +24,33 @@ export default {
 
   edit(data) {
     return auth.refreshToken().then((res) => {
-      return resource.put(endpoint.entity.edit, data);
+      return resource.put(endpoint.entity + "/" + data.slug + "/edit", data);
     });
   },
 
   add(data) {
     return auth.refreshToken().then((res) => {
-      return resource.post(endpoint.entity.add, data);
+      return resource.post(endpoint.entity + "/" + data.slug + '/add', data);
     });
   },
 
   delete(data) {
     return auth.refreshToken().then((res) => {
-        let paramData = {
-            data: data
-        }
-      return resource.delete(endpoint.entity.delete, paramData);
+      let paramData = {
+        data: data,
+      };
+      return resource.delete(endpoint.entity + "/" + data.slug + '/delete', paramData);
+    });
+  },
+  deleteMultiple(data) {
+    return auth.refreshToken().then((res) => {
+      let paramData = {
+        data: data,
+      };
+      return resource.delete(
+        endpoint.entity + "/" + data.slug + '/delete-multiple',
+        paramData
+      );
     });
   },
 };

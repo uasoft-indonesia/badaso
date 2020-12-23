@@ -23,9 +23,9 @@
     <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
-          <!-- <div slot="header">
-            <h3>Browse</h3>
-          </div> -->
+          <div slot="header">
+            <h3>Role</h3>
+          </div>
           <div>
             <vs-table
               multiple
@@ -41,9 +41,6 @@
               description-connector="of"
               description-body="Pages"
             >
-              <template slot="header">
-                <h3>Role</h3>
-              </template>
               <template slot="thead">
                 <vs-th sort-key="name"> Name </vs-th>
                 <vs-th sort-key="displayName"> Display Name </vs-th>
@@ -72,6 +69,13 @@
                         params: { id: data[indextr].id },
                       }"
                       ><vs-icon icon="visibility"></vs-icon
+                    ></vs-button>
+                     <vs-button
+                      color="primary"
+                      type="relief"
+                      @click.stop
+                      :to="{name: 'RolePermissions', params: {id: data[indextr].id}}"
+                      ><vs-icon icon="list"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="warning"

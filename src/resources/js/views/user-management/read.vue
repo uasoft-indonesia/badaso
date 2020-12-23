@@ -10,6 +10,13 @@
             :to="{name: 'UserEdit', params: {id: $route.params.id}}"
             ><vs-icon icon="edit"></vs-icon> Edit</vs-button
           >
+          <vs-button
+              color="primary"
+              type="relief"
+              @click.stop
+              :to="{name: 'UserRoles', params: {id: $route.params.id}}"
+              ><vs-icon icon="list"></vs-icon
+            > Roles</vs-button>
         </div>
       </vs-col>
     </vs-row>
@@ -36,7 +43,7 @@
                 </tr>
                 <tr>
                     <th>Additional Info</th>
-                    <td>{{ user.additionalInfo }}</td>
+                    <td><pre>{{ user.additionalInfo }}</pre></td>
                 </tr>
             </table>
         </vs-card>

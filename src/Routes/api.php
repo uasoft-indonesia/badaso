@@ -31,6 +31,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::delete('/delete', 'BadasoBreadController@delete');
             Route::get('/generate', 'BadasoBreadController@generate');
             Route::get('/table', 'BadasoBreadController@readTable');
+            Route::get('/read-by-slug', 'BadasoBreadController@readBySlug');
         });
         Route::group(['prefix' => 'entity', 'middleware' => BadasoAuthenticate::class], function () {
             try {
@@ -114,12 +115,14 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/', 'BadasoUserRoleController@browseByUser');
             Route::get('/all', 'BadasoUserRoleController@browse');
             Route::post('/add-edit', 'BadasoUserRoleController@addOrEdit');
+            Route::get('/all-role', 'BadasoUserRoleController@browseAllRole');
         });
 
         Route::group(['prefix' => 'role-permission', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoRolePermissionController@browseByRole');
             Route::get('/all', 'BadasoRolePermissionController@browse');
             Route::post('/add-edit', 'BadasoRolePermissionController@addOrEdit');
+            Route::get('/all-permission', 'BadasoRolePermissionController@browseAllPermission');
         });
     });
 });

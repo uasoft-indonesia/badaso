@@ -244,6 +244,7 @@ export default {
     BadasoTextarea,
   },
   data: () => ({
+    details: '',
     tableColumns: [],
     orderDirections: [
       {
@@ -316,16 +317,17 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let dataBread = response.data;
+          let dataBread = {...response.data};
           this.dataBread = dataBread
-          this.dataBread.icon = dataBread.icon ? dataBread.icon : "",
-          this.dataBread.modelName = dataBread.modelName ? dataBread.modelName : "",
-          this.dataBread.policyName = dataBread.policyName ? dataBread.policyName : "",
-          this.dataBread.description = dataBread.description ? dataBread.description : "",
-          this.dataBread.generatePermissions = dataBread.generatePermissions === 1,
-          this.dataBread.serverSide = dataBread.serverSide === 1,
-          this.dataBread.controller = dataBread.controller ? dataBread.controller : "",
-          this.dataBread.rows = dataBread.dataRows.map((field) => {
+          this.dataBread.icon = dataBread.icon ? dataBread.icon : ""
+          this.dataBread.modelName = dataBread.modelName ? dataBread.modelName : ""
+          this.dataBread.policyName = dataBread.policyName ? dataBread.policyName : ""
+          this.dataBread.description = dataBread.description ? dataBread.description : ""
+          this.dataBread.generatePermissions = dataBread.generatePermissions === 1
+          this.dataBread.serverSide = dataBread.serverSide === 1
+          this.dataBread.controller = dataBread.controller ? dataBread.controller : ""
+          let dataRows = [...dataBread.dataRows];
+          this.dataBread.rows = dataRows.map((field) => {
             return {
               label: field.field,
               value: field.field,

@@ -37,6 +37,7 @@ class Badaso
         'upload_file',
         'upload_file_multiple',
         'hidden',
+        'code',
     ];
 
     protected $supported_filter_operator = [

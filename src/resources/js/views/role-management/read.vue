@@ -10,6 +10,13 @@
             :to="{name: 'RoleEdit', params: {id: $route.params.id}}"
             ><vs-icon icon="edit"></vs-icon> Edit</vs-button
           >
+          <vs-button
+              color="primary"
+              type="relief"
+              @click.stop
+              :to="{name: 'RolePermissions', params: {id: $route.params.id}}"
+              ><vs-icon icon="list"></vs-icon
+            > Permissions</vs-button>
         </div>
       </vs-col>
     </vs-row>

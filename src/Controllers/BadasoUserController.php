@@ -81,8 +81,10 @@ class BadasoUserController extends Controller
                 }
             }
             $user->avatar = $uploaded;
-            $user->additional_info = $request->addition_info;
-            $user->password = Hash::make($request->password);
+            $user->additional_info = $request->additional_info;
+            if ($request->password && $request->password != '') {
+                $user->password = Hash::make($request->password);
+            }
             $user->save();
 
             DB::commit();
@@ -129,7 +131,7 @@ class BadasoUserController extends Controller
                 }
             }
             $user->avatar = $uploaded;
-            $user->additional_info = $request->addition_info;
+            $user->additional_info = $request->additional_info;
             $user->password = Hash::make($request->password);
             $user->save();
 
@@ -154,7 +156,9 @@ class BadasoUserController extends Controller
                 ],
             ]);
 
-            User::find($request->id)->delete();
+            $user = User::find($request->id);
+            $this->handleDeleteFile($user->avatar);
+            $user->delete();
 
             DB::commit();
 
@@ -179,7 +183,9 @@ class BadasoUserController extends Controller
             $id_list = explode(',', $request->ids);
 
             foreach ($id_list as $key => $id) {
-                User::find($id)->delete();
+                $user = User::find($id);
+                $this->handleDeleteFile($user->avatar);
+                $user->delete();
             }
 
             DB::commit();

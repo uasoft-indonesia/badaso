@@ -22,6 +22,15 @@ export default {
     });
   },
 
+  readBySlug(data) {
+    return auth.refreshToken().then((res) => {
+      let ep = endpoint.bread.readBySlug;
+      let qs = QueryString(data);
+      let url = ep + qs;
+      return resource.get(url);
+    });
+  },
+
   readTable(data) {
     return auth.refreshToken().then((res) => {
       let ep = endpoint.bread.table;

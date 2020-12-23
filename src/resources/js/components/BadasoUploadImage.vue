@@ -4,6 +4,8 @@
       :label="label"
       :placeholder="placeholder"
       @click="pickFile"
+      v-on:keyup.space="pickFile"
+      readonly
       v-model="imageData.name"
       icon="attach_file"
       icon-after="true"
@@ -39,7 +41,7 @@ export default {
       default: "Upload Image",
     },
     value: {
-      type: Object,
+      type: Object|String,
       default: () => {
         return {};
       },
@@ -59,8 +61,8 @@ export default {
       this.$refs.image.click();
     },
     onFilePicked(e) {
+      this.$refs.image.tabindex = -1;
       const files = e.target.files;
-      console.log(files)
       if (files[0] !== undefined) {
         if (files[0].size > 512000) {
           this.errorMessages = ["Out of limit size"];

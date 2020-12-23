@@ -1,11 +1,25 @@
 <template>
-  <prism-editor
-    class="my-editor"
-    :value="value"
-    @input="handleInput($event)"
-    line-numbers
-    :highlight="highlighter"
-  ></prism-editor>
+  <div>
+    <vs-col v-if="size !== ''" :vs-lg="size" class="mb-3">
+      <label for="" class="vs-input--label">{{ label }}</label>
+      <prism-editor
+        class="my-editor"
+        :value="value"
+        @input="handleInput($event)"
+        line-numbers
+        :highlight="highlighter"
+      ></prism-editor>
+    </vs-col>
+    <div v-else>
+      <prism-editor
+        class="my-editor"
+        :value="value"
+        @input="handleInput($event)"
+        line-numbers
+        :highlight="highlighter"
+      ></prism-editor>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,6 +43,14 @@ export default {
       required: true,
       default: "",
     },
+    size: {
+      type: String,
+      default: "",
+    },
+    label: {
+      type: String,
+      default: "",
+    },
   },
   data: () => ({}),
   methods: {
@@ -47,7 +69,7 @@ export default {
 .my-editor {
   /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
   background: #fff;
-  color: #ccc;
+  color: #000;
 
   /* you must provide font-family font-size line-height. Example: */
   font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;

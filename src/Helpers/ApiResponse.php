@@ -79,17 +79,18 @@ class ApiResponse
     {
         $response = [];
         $response['message'] = __('badaso.api_response.200');
-        $response['data_type'] = $data_type;
+        $response['data']['data_type'] = $data_type;
         $response['errors'] = null;
         if (!is_null($data)) {
             if (is_array($data)) {
-                $response['data'] = $data;
+                $response['data']['list'] = $data;
             } elseif (is_object($data)) {
-                $response['data'] = $data;
+                $response['data']['detail'] = $data;
             } else {
-                $response['data'] = $data;
+                $response['data']['value'] = $data;
             }
         }
+        $response = json_decode(json_encode($response));
 
         return self::send($response);
     }
