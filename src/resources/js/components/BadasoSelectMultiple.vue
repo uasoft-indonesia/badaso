@@ -1,5 +1,5 @@
 <template>
-  <vs-col vs-lg="6" class="mb-3">
+  <vs-col :vs-lg="size" class="mb-3">
     <vs-select
       :label="label"
       :placeholder="placeholder"

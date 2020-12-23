@@ -18,6 +18,8 @@
               :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
               v-if="dataRow.add === 1"
             >
+              <!-- <input type="text" v-model="dataRow.value"> -->
+              <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
               <badaso-text
                 v-if="dataRow.type === 'text'"
                 :label="dataRow.displayName"
@@ -156,7 +158,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
-                :items="items"
+                :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-checkbox>
               <badaso-select
                 v-if="dataRow.type === 'select'"
@@ -164,7 +166,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
-                :items="items"
+                :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-select>
               <badaso-select-multiple
                 v-if="dataRow.type === 'select_multiple'"
@@ -172,7 +174,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
-                :items="items"
+                :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-select-multiple>
               <badaso-radio
                 v-if="dataRow.type === 'radio'"
@@ -180,7 +182,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
-                :items="items"
+                :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-radio>
               <badaso-code-editor
                 v-if="dataRow.type === 'code'"
@@ -318,7 +320,30 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.dataType = response.data;
+          this.dataType = response.data
+          let dataRows = response.data.dataRows.map((data) => {
+              if (data.value === undefined && (data.type === 'upload_image' || data.type === 'upload_file')) {
+                data.value = {}
+              } else if (data.value === undefined && 
+                ( data.type === 'upload_image_multiple' ||
+                  data.type === 'upload_file_multiple' ||
+                  data.type === 'select_multiple' ||
+                  data.type === 'checkbox'
+                )) {
+                data.value = []
+              } else if (data.value === undefined && data.type === 'slider') {
+                data.value = 0
+              } else if (data.value === undefined && data.type === 'switch') {
+                data.value = false
+              } else if (data.value === undefined) {
+                data.value = ''
+              }
+              try {
+                data.details = JSON.parse(data.details)
+              } catch (error) {}
+              return data
+          });
+          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows))
         })
         .catch((error) => {
           this.$vs.loading.close();

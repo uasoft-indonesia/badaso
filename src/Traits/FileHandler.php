@@ -13,17 +13,22 @@ trait FileHandler
         $path_List = [];
         foreach ($files as $file) {
             $uuid = Uuid::generate(4);
-            $encoded_file = $file['base64'];
-            $decoded_file = base64_decode(explode(',', $encoded_file)[1]);
-            $filename = $uuid.'-'.$file['name'];
-            $filepath = 'uploads/';
-            if (!is_null($data_type)) {
-                $filepath .= $data_type->slug.'/';
+            if (array_key_exists('base64', $file)) {
+                $encoded_file = $file['base64'];
+                $decoded_file = base64_decode(explode(',', $encoded_file)[1]);
+                $filename = '';
+                if (array_key_exists('name', $file)) {
+                    $filename = $uuid.'-'.$file['name'];
+                }
+                $filepath = 'uploads/';
+                if (!is_null($data_type)) {
+                    $filepath .= $data_type->slug.'/';
+                }
+
+                Storage::disk(config('badaso.storage.disk', 'public'))->put($filepath.$filename, $decoded_file);
+
+                $path_List[] = $filepath.$filename;
             }
-
-            Storage::disk(config('badaso.storage.disk', 'public'))->put($filepath.$filename, $decoded_file);
-
-            $path_List[] = $filepath.$filename;
         }
 
         return $path_List;

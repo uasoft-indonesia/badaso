@@ -7,12 +7,17 @@
         @input="handleInput($event)"
     /> -->
     <label for="" class="vs-input--label">{{ label }}</label>
-    <datetime
+    <div class="datetime-box">
+      <datetime
         :label="label"
         type="time"
         :title="label"
         :value="value"
-        @input="handleInput($event)"></datetime>
+        class="datetime-input"
+        @input="handleInput($event)"
+      ></datetime>
+      <vs-icon icon="schedule" class="datetime-icon"></vs-icon>
+    </div>
   </vs-col>
 </template>
 
@@ -23,34 +28,34 @@ export default {
   data: () => ({}),
   props: {
     size: {
-        type: String,
-        default: "12"
+      type: String,
+      default: "12",
     },
     label: {
-        type: String,
-        default: "Time"
+      type: String,
+      default: "Time",
     },
     placeholder: {
-        type: String,
-        default: "Time"
+      type: String,
+      default: "Time",
     },
-    value:  {
-        type: String,
-        required: true,
-        default: ''
-    }
+    value: {
+      type: String,
+      required: true,
+      default: "",
+    },
   },
   methods: {
-      handleInput(val) {
-          this.$emit('input', val)
-      }
-  }
+    handleInput(val) {
+      this.$emit("input", val);
+    },
+  },
 };
 </script>
 <style>
-    .vdatetime-input {
-        width: 100%;
-        padding: .4rem;
-        border: 1px solid rgba(0, 0, 0, 0.2);   
-    }
+.vdatetime-input {
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
 </style>

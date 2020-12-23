@@ -75,3 +75,18 @@
 .vs-col::-webkit-scrollbar-thumb:hover {
     background-color: #2962FF;
 }
+
+.vdatetime-input {
+  width: 100%;
+  padding: .4rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);   
+}
+.datetime-box {
+  display: flex;
+}
+.datetime-input {
+  width: -webkit-fill-available;
+}
+.datetime-icon {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}

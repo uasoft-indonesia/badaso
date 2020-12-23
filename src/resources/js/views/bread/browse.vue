@@ -52,9 +52,9 @@
 
               <template slot-scope="{ data }">
                 <vs-tr
-                  :data="table"
+                  :data="record"
                   :key="index"
-                  v-for="(table, index) in data"
+                  v-for="(record, index) in data"
                 >
                   <vs-td
                     v-for="(dataRow, indexColumn) in dataType.dataRows"
@@ -66,11 +66,47 @@
                       ]
                     "
                   >
-                    {{
-                      data[index][
-                        $caseConvert.stringSnakeToCamel(dataRow.field)
-                      ]
-                    }}
+                    <img
+                      v-if="dataRow.type === 'upload_image'"
+                      :src="
+                        `/badaso-api/v1/file/view?file=${
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }`
+                      "
+                      width="100%"
+                      alt=""
+                    />
+                    <div v-else-if="dataRow.type === 'upload_image_multiple'" style="width: 100%;">
+                      <img
+                        v-for="(image, indexImage) in stringToArray(record[$caseConvert.stringSnakeToCamel(dataRow.field)])"
+                        :key="indexImage"
+                        :src="
+                          `/badaso-api/v1/file/view?file=${
+                            image
+                          }`
+                        "
+                        width="100%"
+                        alt=""
+                        style="margin-bottom: 10px;"
+                      />
+                    </div>
+                    <span v-else-if="dataRow.type === 'editor'" v-html="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"></span>
+                    <a v-else-if="dataRow.type === 'url'" :href="record[$caseConvert.stringSnakeToCamel(dataRow.field)]" target="_blank">{{record[$caseConvert.stringSnakeToCamel(dataRow.field)]}}</a>
+                    <a v-else-if="dataRow.type === 'upload_file'" :href="`/badaso-api/v1/file/download?file=${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`" target="_blank">{{record[$caseConvert.stringSnakeToCamel(dataRow.field)]}}</a>
+                    <div v-else-if="dataRow.type === 'upload_file_multiple'" style="width: 100%;">
+                      <p v-for="(file, indexFile) in stringToArray(record[$caseConvert.stringSnakeToCamel(dataRow.field)])" :key="indexFile">
+                      <a :href="`/badaso-api/v1/file/download?file=${file}`" target="_blank">{{file}}</a>
+                      </p>
+                    </div>
+                    <p v-else-if="dataRow.type === 'radio' || dataRow.type === 'select'">{{bindSelection(dataRow.details.items, record[$caseConvert.stringSnakeToCamel(dataRow.field)])}}</p>
+                    <div v-else-if="dataRow.type === 'select_multiple' || dataRow.type === 'checkbox'" style="width: 100%">
+                      <p v-for="(selected, indexSelected) in stringToArray(record[$caseConvert.stringSnakeToCamel(dataRow.field)])" :key="indexSelected">{{bindSelection(dataRow.details.items, selected)}}</p>
+                    </div>
+                    <div v-else-if="dataRow.type === 'color_picker'">
+                      <div :style="`width: 100%; height: 14px; background-color: ${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`"></div>
+                      {{record[$caseConvert.stringSnakeToCamel(dataRow.field)]}}
+                    </div>
+                    <span v-else>{{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}</span>
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
                     <vs-button
@@ -167,6 +203,13 @@ export default {
           this.$vs.loading.close();
           this.records = response.data.list;
           this.dataType = response.data.dataType;
+          let dataRows = this.dataType.dataRows.map((data) => {
+              try {
+                data.details = JSON.parse(data.details)
+              } catch (error) {}
+              return data
+          });
+          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows))
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -233,6 +276,21 @@ export default {
           });
         });
     },
+    bindSelection(items, value) {
+      const selected = _.find(items, ['value', value]);
+      if (selected) {
+        return selected.label;
+      } else {
+        return value
+      }
+    },
+    stringToArray(str) {
+      if (str) {
+        return str.split(',')
+      } else {
+        return []
+      }
+    }
   },
 };
 </script>

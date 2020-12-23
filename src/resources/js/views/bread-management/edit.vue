@@ -318,16 +318,16 @@ export default {
         })
         .then((response) => {
           let dataBread = {...response.data};
-          this.dataBread = dataBread
-          this.dataBread.icon = dataBread.icon ? dataBread.icon : ""
-          this.dataBread.modelName = dataBread.modelName ? dataBread.modelName : ""
-          this.dataBread.policyName = dataBread.policyName ? dataBread.policyName : ""
-          this.dataBread.description = dataBread.description ? dataBread.description : ""
-          this.dataBread.generatePermissions = dataBread.generatePermissions === 1
-          this.dataBread.serverSide = dataBread.serverSide === 1
-          this.dataBread.controller = dataBread.controller ? dataBread.controller : ""
+          dataBread = dataBread
+          dataBread.icon = dataBread.icon ? dataBread.icon : ""
+          dataBread.modelName = dataBread.modelName ? dataBread.modelName : ""
+          dataBread.policyName = dataBread.policyName ? dataBread.policyName : ""
+          dataBread.description = dataBread.description ? dataBread.description : ""
+          dataBread.generatePermissions = dataBread.generatePermissions === 1
+          dataBread.serverSide = dataBread.serverSide === 1
+          dataBread.controller = dataBread.controller ? dataBread.controller : ""
           let dataRows = [...dataBread.dataRows];
-          this.dataBread.rows = dataRows.map((field) => {
+          dataBread.rows = dataRows.map((field) => {
             return {
               label: field.field,
               value: field.field,
@@ -344,6 +344,7 @@ export default {
               order: field.order,
             };
           });
+          this.dataBread = JSON.parse(JSON.stringify(dataBread))
           this.$vs.loading.close();
         })
         .catch((error) => {

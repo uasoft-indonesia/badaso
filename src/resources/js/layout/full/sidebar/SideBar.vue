@@ -10,7 +10,7 @@
       v-model="isSidebarActive"
       :click-not-close="doNotClose"
     >
-      <div class="header-sidebar text-center" slot="header">
+      <!-- <div class="header-sidebar text-center" slot="header">
         <vs-avatar
           size="70px"
           src="https://randomuser.me/api/portraits/men/85.jpg"
@@ -19,7 +19,7 @@
           Steave Jobs<br />
           <small>varun@gmail.com</small>
         </h4>
-      </div>
+      </div> -->
       <vs-sidebar-item icon="dashboard" to="home">
         <span class="hide-in-minisidebar">Dashboard</span>
       </vs-sidebar-item>

@@ -61,7 +61,6 @@ export default {
     },
     onFilePicked(e) {
       const files = e.target.files;
-      console.log(files)
       if (files[0] !== undefined) {
         if (files[0].size > 512000) {
           this.errorMessages = ["Out of limit size"];
