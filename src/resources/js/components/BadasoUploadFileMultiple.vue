@@ -8,18 +8,32 @@
       icon="attach_file"
       icon-after="true"
     ></vs-input>
-    <div
-      v-for="fileData in fileDatas"
-      :key="fileData.base64"
-      style="float: left"
-    >
+    <vs-row>
+    <vs-col vs-lg="4" vs-sm="12" v-for="(fileData, index) in value" :key="index" style="float: left">
       <div class="file-container">
-        <vs-button class="delete-file" color="danger" icon="close" @click="deleteFilePicked(fileData)"></vs-button>
+        <vs-button
+          class="delete-file"
+          color="danger"
+          icon="close"
+          @click="deleteFilePicked(fileData)"
+        ></vs-button>
         <div class="file">
-            {{fileData.name}}
+          <a
+            v-if="fileData.name"
+            target="_blank"
+            :href="`/badaso-api/v1/file/download?file=${fileData.name}`"
+            >{{ fileData.name }}</a
+          >
+          <a
+            v-else
+            target="_blank"
+            :href="`/badaso-api/v1/file/download?file=${fileData}`"
+            >{{ fileData.split('/').reverse()[0] }}</a
+          >
         </div>
       </div>
-    </div>
+    </vs-col>
+    </vs-row>
     <input
       type="file"
       style="display: none"
@@ -51,12 +65,12 @@ export default {
     value: {
       type: Array,
       default: () => {
-        return []
+        return [];
       },
     },
   },
   watch: {
-    fileBase64: function (val) {
+    fileBase64: function(val) {
       this.fileData.base64 = val;
     },
   },
@@ -93,32 +107,38 @@ export default {
         fr.addEventListener("load", () => {
           newfile.base64 = fr.result;
           newfile.file = file;
-          this.fileDatas.push(newfile);
-          let names = _.map(this.fileDatas, "name");
-        this.filesName = names.join();
+          this.value.push(newfile);
+          let names = _.map(this.value, "name");
+          let filtered = names.filter(function(el) {
+            return el != null;
+          });
+          this.filesName = filtered.join();
         });
       });
 
       setTimeout(() => {
-        this.$emit("input", this.fileDatas);
+        this.$emit("input", this.value);
       }, 500);
     },
     deleteFilePicked(e) {
-      let index = _.findIndex(this.fileDatas, e)
-      this.fileDatas.splice(index, 1);
-      let names = _.map(this.fileDatas, "name");
-      this.filesName = names.join();
+      let index = _.findIndex(this.value, e);
+      this.value.splice(index, 1);
+      let names = _.map(this.value, "name");
+      let filtered = names.filter(function(el) {
+        return el != null;
+      });
+      this.filesName = filtered.join();
     },
   },
 };
 </script>
 <style>
 .file-container {
+  width: 100%;
   height: 150px;
-  width: 150px;
   border: solid 1px #dedede;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
-  margin: 10px;
+  margin-top: 10px;
   overflow: hidden;
   position: relative;
 }
@@ -134,12 +154,12 @@ export default {
 }
 
 .delete-file {
-    opacity: 0;
-    position: absolute;
-    transition: all .2s ease
+  opacity: 0;
+  position: absolute;
+  transition: all 0.2s ease;
 }
 
 .file-container:hover .delete-file {
-    opacity: 1;
+  opacity: 1;
 }
 </style>

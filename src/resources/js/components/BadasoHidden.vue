@@ -1,11 +1,9 @@
 <template>
-  <vs-col :vs-lg="size" class="mb-3">
     <vs-input
       type="hidden"
       :value="value"
       @input="handleInput($event)"
     />
-  </vs-col>
 </template>
 
 <script>

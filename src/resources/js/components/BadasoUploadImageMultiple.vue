@@ -10,16 +10,44 @@
       icon="attach_file"
       icon-after="true"
     ></vs-input>
+    <vs-row>
+      <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
+        <div class="image-container" v-if="imageData.base64">
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(imageData)"
+          ></vs-button>
+          <img :src="imageData.base64" class="image" />
+        </div>
+        <div class="image-container" v-else>
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteStoredFile(imageData)"
+          ></vs-button>
+          <img
+            :src="`/badaso-api/v1/file/view?file=${imageData}`"
+            class="image"
+          />
+        </div>
+      </vs-col>
+    </vs-row>
+
+    <!--
     <div
       v-for="imageData in imageDatas"
       :key="imageData.base64"
       style="float: left"
     >
-      <div class="image-container">
+      <div class="image-container" v-if="imageData.base64">
         <vs-button class="delete-image" color="danger" icon="close" @click="deleteFilePicked(imageData)"></vs-button>
-        <img :src="imageData.base64" class="image" v-if="imageData.base64" />
+        <img :src="imageData.base64" class="image" />
       </div>
     </div>
+     -->
     <input
       type="file"
       style="display: none"
@@ -52,12 +80,12 @@ export default {
     value: {
       type: Array,
       default: () => {
-        return []
+        return [];
       },
     },
   },
   watch: {
-    imageBase64: function (val) {
+    imageBase64: function(val) {
       this.imageData.base64 = val;
     },
   },
@@ -78,7 +106,7 @@ export default {
     },
     onFilePicked(e) {
       let files = e.target.files;
-      let imageDatas = this.imageDatas;
+      let imageDatas = this.value;
       files.forEach((file) => {
         let image = {};
         if (file.size > 512000) {
@@ -94,21 +122,37 @@ export default {
         fr.addEventListener("load", () => {
           image.base64 = fr.result;
           image.file = file;
-          this.imageDatas.push(image);
-          let names = _.map(this.imageDatas, "name");
-        this.imagesName = names.join();
+          this.value.push(image);
+          let names = _.map(this.value, "name");
+          let filtered = names.filter(function(el) {
+            return el != null;
+          });
+          this.imagesName = filtered.join();
         });
       });
 
       setTimeout(() => {
-        this.$emit("input", this.imageDatas);
+        this.$emit("input", this.value);
       }, 500);
     },
     deleteFilePicked(e) {
-      let index = _.findIndex(this.imageDatas, e)
-      this.imageDatas.splice(index, 1);
-      let names = _.map(this.imageDatas, "name");
-      this.imagesName = names.join();
+      // let index = _.findIndex(this.imageDatas, e)
+      // this.imageDatas.splice(index, 1);
+
+      let indexValue = _.findIndex(this.value, e);
+      this.value.splice(indexValue, 1);
+      this.$emit("input", this.value);
+
+      let names = _.map(this.value, "name");
+      let filtered = names.filter(function(el) {
+        return el != null;
+      });
+      this.imagesName = filtered.join();
+    },
+    deleteStoredFile(e) {
+      let index = _.findIndex(this.value, e);
+      this.value.splice(index, 1);
+      this.$emit("input", this.value);
     },
   },
 };
@@ -116,22 +160,24 @@ export default {
 
 <style>
 .image-container {
-  max-width: 150px;
+  width: 100% !important;
   border: solid 1px #dedede;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
-  margin: 10px;
+  margin: unset;
+  margin-top: 10px;
+  max-width: unset;
 }
 .image {
-    width: 100%
+  width: 100%;
 }
 
 .delete-image {
-    opacity: 0;
-    position: absolute;
-    transition: all .2s ease
+  opacity: 0;
+  position: absolute;
+  transition: all 0.2s ease;
 }
 
 .image-container:hover .delete-image {
-    opacity: 1;
+  opacity: 1;
 }
 </style>

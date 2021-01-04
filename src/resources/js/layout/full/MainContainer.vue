@@ -2,8 +2,8 @@
   <div class="main-wrapper">
     <!---Navigation-->
     <Navbar
-      :topbarColor="topbarColor"
-      :logo="'/badaso-images/logo/logo-light-icon.png'"
+      :topbarColor="dashboardHeaderColor"
+      :logo="dashboardLogo"
       :title="dashboardTitle"
     />
     <!---Sidebar-->
@@ -37,6 +37,18 @@ export default {
       get() {
         let config = this.$store.getters.getConfig
         return  config.dashboardTitle ?  config.dashboardTitle : 'Badaso'
+      }
+    },
+    dashboardLogo:{
+      get() {
+        let config = this.$store.getters.getConfig
+        return  config.dashboardLogo ?  '/badaso-api/v1/file/view?file='+config.dashboardLogo : '/badaso-images/logo/logo-light-icon.png'
+      }
+    },
+    dashboardHeaderColor: {
+      get() {
+        let config = this.$store.getters.getConfig
+        return  config.dashboardHeaderColor ?  config.dashboardHeaderColor : "#2962ff"
       }
     }
   },

@@ -10,10 +10,18 @@
       icon="attach_file"
       icon-after="true"
     ></vs-input>
-    <div class="image-container"  v-if="imageData.base64">
+    <vs-row>
+      <vs-col vs-lg="4" vs-sm="12">
+        <div class="image-container"  v-if="imageData.base64">
         <vs-button class="delete-image" color="danger" icon="close" @click="deleteFilePicked(imageData)"></vs-button>
         <img :src="imageData.base64" class="image" />
     </div>
+    <div class="image-container" v-else-if="isString(value)">
+        <vs-button class="delete-image" color="danger" icon="close" @click="deleteStoredFile(value)"></vs-button>
+        <img :src="`/badaso-api/v1/file/download?file=${value}`" class="image" />
+    </div>
+      </vs-col>
+    </vs-row>
     <input
       type="file"
       style="display: none"
@@ -43,7 +51,7 @@ export default {
     value: {
       type: Object|String,
       default: () => {
-        return {};
+        return null;
       },
     },
   },
@@ -91,6 +99,15 @@ export default {
     },
     deleteFilePicked(e) {
       this.imageData = {}
+    },
+    deleteStoredFile(e) {
+      this.$emit("input", null);
+    },
+    isString(str) {
+      if (typeof str === 'string' || str instanceof String)
+        return true
+      else
+        return false
     }
   },
 };
@@ -98,10 +115,12 @@ export default {
 
 <style>
 .image-container {
-  max-width: 150px;
+  width: 100% !important;
   border: solid 1px #dedede;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
-  margin: 10px;
+  margin: unset;
+  margin-top: 10px;
+  max-width: unset;
 }
 .image {
     width: 100%

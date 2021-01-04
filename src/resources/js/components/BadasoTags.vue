@@ -20,7 +20,7 @@ export default {
   },
   data: () => ({
       tag: "",
-      tags: [],
+      tags: []
   }),
   props: {
     size: {
@@ -39,6 +39,9 @@ export default {
       type: String,
       required: true,
     },
+  },
+  beforeMount() {
+    this.tags = this.value.split(',')
   },
   methods: {
     handleInput(newTags) {

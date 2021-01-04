@@ -4,6 +4,17 @@
       <vs-col vs-lg="8">
         <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
+      <vs-col vs-lg="4">
+        <div style="float: right">
+          <vs-button color="warning" type="relief"
+            :to="{
+              name: 'EntityEdit',
+              params: { id: $route.params.id, slug: $route.params.slug },
+            }"
+            ><vs-icon icon="edit"></vs-icon> Edit</vs-button
+          >
+        </div>
+      </vs-col>
     </vs-row>
     <vs-row>
       <vs-col vs-lg="12">

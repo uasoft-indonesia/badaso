@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Configuration;
+use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoConfigurationsController extends Controller
 {
+    use FileHandler;
+
     public function browse(Request $request)
     {
         $configurations = Configuration::all();
@@ -59,15 +62,21 @@ class BadasoConfigurationsController extends Controller
             $configuration = Configuration::find($request->id);
 
             if (!is_null($configuration)) {
-                $data = $request->all();
-                $configuration_fillable = $configuration->getFillable();
-                foreach ($data as $key => $value) {
-                    $property = Str::snake($key);
-                    if (in_array($property, $configuration_fillable)) {
-                        $configuration->{$property} = $value;
-                    }
+                $configuration->key = $request->key;
+                $configuration->display_name = $request->display_name;
+                if (in_array($request->type, ['upload_image', 'upload_file'])) {
+                    $uploaded_path = $this->handleUploadFiles([$request->value]);
+                    $configuration->value = implode(',', $uploaded_path);
+                } elseif (in_array($request->type, ['upload_image_multiple', 'upload_file_multiple'])) {
+                    $uploaded_path = $this->handleUploadFiles($request->value);
+                    $configuration->value = implode(',', $uploaded_path);
+                } else {
+                    $configuration->value = $request->value;
                 }
-
+                $configuration->details = $request->details;
+                $configuration->type = $request->type;
+                $configuration->order = $request->order;
+                $configuration->group = $request->group;
                 $configuration->save();
             }
 

@@ -10,7 +10,7 @@
       <input
         type="text"
         class="form-control"
-        v-model="colorValue"
+        :value="colorValue"
         @focus="showPicker()"
         @input="updateFromInput"
       />
@@ -22,7 +22,7 @@
         ></span>
       </span>
       <color-picker
-        :value="value"
+        :value="colorValue"
         @input="updateFromPicker"
         v-if="displayPicker"
     />
@@ -45,6 +45,9 @@ export default {
     colorValue: "",
     displayPicker: false,
   }),
+  beforeMount() {
+    this.color = this.value
+  },
   props: {
     size: {
       type: String,

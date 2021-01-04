@@ -11,7 +11,7 @@
           class="justify-content-start"
           :value="value"
           @input="handleInput($event)"
-          :vs-value="item"
+          :vs-value="item.value"
           >{{ item.label }}</vs-checkbox
         >
       </li>

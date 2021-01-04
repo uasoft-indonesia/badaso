@@ -104,7 +104,7 @@ abstract class Controller extends BaseController
                 $return_value = $value;
                 break;
             case 'checkbox':
-                $return_value = implode(',', collect($value)->pluck('value')->all());
+                $return_value = implode(',', $value);
                 break;
             case 'search':
                 $return_value = $value;
@@ -374,6 +374,26 @@ abstract class Controller extends BaseController
                     if (is_null($data_row)) {
                         // $model->{$key} = $value;
                     } else {
+                        if (in_array($data_row->type, [
+                                'upload_image',
+                                'upload_image_multiple',
+                                'upload_file',
+                                'upload_file_multiple',
+                            ])
+                        ) {
+                            $files = explode(',', $model->{$data_row->field});
+                            foreach ($files as $file) {
+                                if (is_array($value)) {
+                                    if (!in_array($file, $value)) {
+                                        $this->handleDeleteFile($file);
+                                    }
+                                } else {
+                                    if ($file != $value) {
+                                        $this->handleDeleteFile($file);
+                                    }
+                                }
+                            }
+                        }
                         $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                     }
                 }
@@ -382,11 +402,32 @@ abstract class Controller extends BaseController
         } else {
             $new_data = [];
             $data['updated_at'] = date('Y-m-d H:i:s');
+            $model = DB::table($data_type->name)->where('id', $id)->first();
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
                     // $new_data[$key] = $value;
                 } else {
+                    if (in_array($data_row->type, [
+                            'upload_image',
+                            'upload_image_multiple',
+                            'upload_file',
+                            'upload_file_multiple',
+                        ])
+                    ) {
+                        $files = explode(',', $model->{$data_row->field});
+                        foreach ($files as $file) {
+                            if (is_array($value)) {
+                                if (!in_array($file, $value)) {
+                                    $this->handleDeleteFile($file);
+                                }
+                            } else {
+                                if ($file != $value) {
+                                    $this->handleDeleteFile($file);
+                                }
+                            }
+                        }
+                    }
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                 }
             }

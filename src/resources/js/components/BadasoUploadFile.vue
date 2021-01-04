@@ -8,12 +8,36 @@
       icon="attach_file"
       icon-after="true"
     ></vs-input>
-    <div class="file-container"  v-if="fileData.base64">
-        <vs-button class="delete-file" color="danger" icon="close" @click="deleteFilePicked(fileData)"></vs-button>
-        <div class="file">
-            {{fileData.name}}
+    <vs-row>
+      <vs-col vs-lg="4" vs-sm="12">
+        <div class="file-container" v-if="fileData.base64">
+          <vs-button
+            class="delete-file"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(fileData)"
+          ></vs-button>
+          <div class="file">
+            {{ fileData.name }}
+          </div>
         </div>
-    </div>
+        <div class="file-container" v-else-if="isString(value)">
+          <vs-button
+            class="delete-file"
+            color="danger"
+            icon="close"
+            @click="deleteStoredFile(value)"
+          ></vs-button>
+          <div class="file">
+            <a
+              target="_blank"
+              :href="`/badaso-api/v1/file/download?file=${value}`"
+              >{{ value.split("/").reverse()[0] }}</a
+            >
+          </div>
+        </div>
+      </vs-col>
+    </vs-row>
     <input
       type="file"
       style="display: none"
@@ -40,7 +64,7 @@ export default {
       default: "Upload File",
     },
     value: {
-      type: Object,
+      type: Object | String,
       default: () => {
         return {};
       },
@@ -49,8 +73,8 @@ export default {
   data() {
     return {
       fileData: {
-        name: '',
-        base64: '',
+        name: "",
+        base64: "",
         file: {},
       },
     };
@@ -66,7 +90,7 @@ export default {
           this.errorMessages = ["Out of limit size"];
           return;
         }
-        let fileData = {}
+        let fileData = {};
         fileData.name = files[0].name;
         if (fileData.name.lastIndexOf(".") <= 0) {
           return;
@@ -76,7 +100,7 @@ export default {
         fr.addEventListener("load", () => {
           fileData.base64 = fr.result;
           fileData.file = files[0];
-          this.fileData = fileData
+          this.fileData = fileData;
         });
       } else {
         this.fileData.name = "";
@@ -88,19 +112,26 @@ export default {
       }, 200);
     },
     deleteFilePicked(e) {
-      this.fileData = {}
-    }
+      this.fileData = {};
+    },
+    deleteStoredFile(e) {
+      this.$emit("input", null);
+    },
+    isString(str) {
+      if (typeof str === "string" || str instanceof String) return true;
+      else return false;
+    },
   },
 };
 </script>
 
 <style>
 .file-container {
+  width: 100%;
   height: 150px;
-  width: 150px;
   border: solid 1px #dedede;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
-  margin: 10px;
+  margin-top: 10px;
   overflow: hidden;
   position: relative;
 }
@@ -116,12 +147,12 @@ export default {
 }
 
 .delete-file {
-    opacity: 0;
-    position: absolute;
-    transition: all .2s ease
+  opacity: 0;
+  position: absolute;
+  transition: all 0.2s ease;
 }
 
 .file-container:hover .delete-file {
-    opacity: 1;
+  opacity: 1;
 }
 </style>

@@ -190,7 +190,12 @@ const router = new VueRouter({
           component: Browse,
         },
         {
-          path: prefix + "/main/:slug/:id/detail",
+          path: prefix + "/main/:slug/add",
+          name: "EntityAdd",
+          component: Add,
+        },
+        {
+          path: prefix + "/main/:slug/:id",
           name: "EntityRead",
           component: Read,
         },
@@ -198,11 +203,6 @@ const router = new VueRouter({
           path: prefix + "/main/:slug/:id/edit",
           name: "EntityEdit",
           component: Edit,
-        },
-        {
-          path: prefix + "/main/:slug/add",
-          name: "EntityAdd",
-          component: Add,
         },
       ],
     },
