@@ -18,7 +18,7 @@
       Mobile toggle
       -->
       <div slot="title">
-        <div class="hiddenDesktop cursor-pointer" @click.stop="activeSidebar">
+        <div class="cursor-pointer" @click.stop="reduceSidebar">
           <vs-icon icon="menu"></vs-icon>
         </div>
       </div>
@@ -73,6 +73,7 @@
           ><img src="/badaso-images/users/3.jpg" alt="User"
         /></a>
         <vs-dropdown-menu class="topbar-dd">
+          <div class="d-flex align-items-center p-3 bg-danger text-white mb-2"><div><img src="http://dev.programming-bot.com/badaso-images/logo/logo-light-icon.png" alt="user" width="60" class="rounded-circle"></div><div class="ml-2"><h4 class="mb-0 text-white">Steave Jobs</h4><p class="mb-0">varun@gmail.com</p></div></div>
           <vs-dropdown-item
             ><vs-icon icon="person_outline" class="mr-1"></vs-icon> My
             Profile</vs-dropdown-item
@@ -91,6 +92,8 @@
             ><vs-icon icon="gps_not_fixed" class="mr-1"></vs-icon>
             Logout</vs-dropdown-item
           >
+          <hr class="mt-1">
+          <button type="button" name="button" class="vs-component vs-button rounded-button ml-3 mb-3 vs-button-danger vs-button-filled small"><span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 20px; top: 20px; width: 0px; height: 0px; transition: width 0.3s ease 0s, height 0.3s ease 0s, opacity 0.3s ease 0s;"></span><!----><span class="vs-button-text vs-button--text">Logout</span><span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span></button>
         </vs-dropdown-menu>
       </vs-dropdown>
     </vs-navbar>
@@ -119,8 +122,8 @@ export default {
 
   methods: {
     //This is for sidebar trigger in mobile
-    activeSidebar() {
-      this.$store.commit("IS_SIDEBAR_ACTIVE", true);
+    reduceSidebar() {
+      this.$store.commit("REDUCE_SIDEBAR");
     },
     logout() {
       this.$api.auth

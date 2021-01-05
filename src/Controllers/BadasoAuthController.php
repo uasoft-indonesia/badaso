@@ -12,6 +12,7 @@ use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\User;
 use Webpatser\Uuid\Uuid;
@@ -101,13 +102,13 @@ class BadasoAuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-            if (!$user = auth()->user()) {
+            if (!$user = AuthenticatedUser::getUser()) {
                 throw new SingleException(__('badasp.validation.auth.user_not_found'));
             }
 
-            $user->token_payload = auth()->payload();
+            // $user->token_payload = auth()->payload();
 
-            return ApiResponse::success($user);
+            return ApiResponse::success(json_decode(json_encode($user)));
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

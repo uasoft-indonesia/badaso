@@ -13,9 +13,8 @@ class SiteManagementSeeder extends Seeder
      */
     public function run()
     {
+        \DB::beginTransaction();
         try {
-            \DB::beginTransaction();
-
             $settings = [
                 0 => [
                     'key' => 'dashboardTitle',
@@ -25,6 +24,8 @@ class SiteManagementSeeder extends Seeder
                     'type' => 'text',
                     'order' => 1,
                     'group' => 'dashboard',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
                     'key' => 'dashboardDescription',
@@ -34,6 +35,8 @@ class SiteManagementSeeder extends Seeder
                     'type' => 'text',
                     'order' => 2,
                     'group' => 'dashboard',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 2 => [
                     'key' => 'dashboardLogo',
@@ -43,6 +46,8 @@ class SiteManagementSeeder extends Seeder
                     'type' => 'upload_image',
                     'order' => 3,
                     'group' => 'dashboard',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 3 => [
                     'key' => 'dashboardHeaderColor',
@@ -52,6 +57,8 @@ class SiteManagementSeeder extends Seeder
                     'type' => 'color_picker',
                     'order' => 4,
                     'group' => 'dashboard',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 4 => [
                     'key' => 'landingTitle',
@@ -61,6 +68,8 @@ class SiteManagementSeeder extends Seeder
                     'type' => 'text',
                     'order' => 1,
                     'group' => 'landing',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
@@ -74,11 +83,11 @@ class SiteManagementSeeder extends Seeder
             }
 
             \DB::table('configurations')->insert($new_settings);
+
+            \DB::commit();
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
             \DB::rollBack();
         }
-
-        \DB::commit();
     }
 }

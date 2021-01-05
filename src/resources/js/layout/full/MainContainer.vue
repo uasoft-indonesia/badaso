@@ -1,5 +1,5 @@
 <template>
-  <div class="main-wrapper">
+  <div :class="`main-wrapper ${reduceSidebar ? 'main-wrapper-mini' : ''}`">
     <!---Navigation-->
     <Navbar
       :topbarColor="dashboardHeaderColor"
@@ -50,7 +50,12 @@ export default {
         let config = this.$store.getters.getConfig
         return  config.dashboardHeaderColor ?  config.dashboardHeaderColor : "#2962ff"
       }
-    }
+    },
+    reduceSidebar: {
+      get() {
+        return this.$store.state.reduceSidebar;
+      }
+    },
   },
   mounted() {
     this.$store.commit("FETCH_COMPONENT");

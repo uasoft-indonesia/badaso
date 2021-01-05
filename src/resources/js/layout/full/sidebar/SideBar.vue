@@ -7,8 +7,9 @@
       color="primary"
       class="sidebarx"
       spacer
-      v-model="isSidebarActive"
+      v-model="sidebarModel"
       :click-not-close="doNotClose"
+      :reduce="reduceSidebar"
     >
       <!-- <div class="header-sidebar text-center" slot="header">
         <vs-avatar
@@ -20,7 +21,7 @@
           <small>varun@gmail.com</small>
         </h4>
       </div> -->
-      <vs-sidebar-item icon="dashboard" to="home">
+      <vs-sidebar-item icon="dashboard" :to="`/${prefix}/home`">
         <span class="hide-in-minisidebar">Dashboard</span>
       </vs-sidebar-item>
       <vs-sidebar-group title="Main Menu" open>
@@ -50,18 +51,35 @@
           </vs-sidebar-item>
         </template>
       </vs-sidebar-group>
-      <vs-sidebar-group title="Configuration" open>
-        <template v-for="(sidebarLink, index) in sidebarLinks">
+
+      <vs-sidebar-group title="Configuration Menu" open>
+        <template v-for="(menu, index) in configurationMenu">
+          <vs-sidebar-group v-if="menu.children && menu.children.length > 0" :title="menu.title" open>
+              <template v-for="(childMenu, indexChildMenu) in menu.children">
+                <vs-sidebar-item
+                  :icon="childMenu.iconClass"
+                  :to="childMenu.url"
+                  :key="`menu-${index}-${indexChildMenu}`"
+                  :index="`${index}.${indexChildMenu}`"
+                  :style="`color: ${childMenu.color}`"
+                >
+                  <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+                </vs-sidebar-item>
+              </template>
+          </vs-sidebar-group>
           <vs-sidebar-item
-            :icon="sidebarLink.icon"
-            :to="sidebarLink.url"
-            :key="`sidebarLink-${index}`"
-            :index="`sidebarLink-${index}`"
+            v-else
+            :icon="menu.iconClass"
+            :to="menu.url"
+            :key="`menu-${index}`"
+            :index="index"
+            :style="`color: ${menu.color}`"
           >
-            <span class="hide-in-minisidebar">{{ sidebarLink.name }}</span>
+            <span class="hide-in-minisidebar">{{ menu.title }}</span>
           </vs-sidebar-item>
         </template>
       </vs-sidebar-group>
+
     </vs-sidebar>
   </div>
 </template>
@@ -84,6 +102,7 @@ export default {
     },
   },
   data: () => ({
+    sidebarModel: true,
     doNotClose: false,
     windowWidth: window.innerWidth,
     prefix: process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin'
@@ -99,10 +118,19 @@ export default {
         this.$store.commit("IS_SIDEBAR_ACTIVE", val);
       },
     },
-
+    reduceSidebar: {
+      get() {
+        return this.$store.state.reduceSidebar;
+      }
+    },
     mainMenu:{
       get() {
         return  this.$store.getters.getMenu
+      }
+    },
+    configurationMenu:{
+      get() {
+        return  this.$store.getters.getConfigurationMenu
       }
     }
   },
@@ -128,6 +156,7 @@ export default {
     });
     this.setSidebar();
     this.$store.commit("FETCH_MENU");
+    this.$store.commit("FETCH_CONFIGURATION_MENU");
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleWindowResize);

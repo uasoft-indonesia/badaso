@@ -7,8 +7,10 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isSidebarActive: false,
+    reduceSidebar: false,
     themeColor: "#2962ff",
     menuList: [],
+    configurationMenuList: [],
     componentList: [],
     groupList: [
       {
@@ -27,6 +29,9 @@ export default new Vuex.Store({
     IS_SIDEBAR_ACTIVE(state, value) {
       state.isSidebarActive = value;
     },
+    REDUCE_SIDEBAR(state, value) {
+      state.reduceSidebar = !state.reduceSidebar;
+    },
     FETCH_MENU(state) {
       const menuKey = process.env.MIX_DEFAULT_MENU ? process.env.MIX_DEFAULT_MENU : 'dashboard';
       const prefix = process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin';
@@ -41,6 +46,29 @@ export default new Vuex.Store({
           state.menuList = menuItems
         })
         .catch((err) => {
+        });
+    },
+    FETCH_CONFIGURATION_MENU(state) {
+      const prefix = process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin';
+      api.menu.browseItemByKey({
+        menu_key: 'configuration'
+      })
+        .then((res) => {
+          let menuItems = res.data
+          menuItems.map((item) => {
+            item.url = '/' + prefix + '' + item.url
+            if (item.children && item.children.length > 0) {
+              item.children.map((subItem) => {
+                subItem.url = '/' + prefix + '' + subItem.url;
+                return subItem
+              })
+            }
+            return item
+          })
+          state.configurationMenuList = menuItems
+        })
+        .catch((err) => {
+          console.log(err)
         });
     },
     FETCH_COMPONENT(state) {
@@ -63,6 +91,9 @@ export default new Vuex.Store({
   getters: {
     getMenu: state => {
       return state.menuList
+    },
+    getConfigurationMenu: state => {
+      return state.configurationMenuList
     },
     getComponent: state => {
       return state.componentList

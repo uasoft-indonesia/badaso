@@ -5,6 +5,14 @@
 
 @include media-breakpoint-up(md) {
 	.main-container-fluid {
+		transition: all .25s ease;
 		margin-left: 260px;
+	}
+
+	.main-wrapper-mini {
+		.main-container-fluid {
+			transition: all .25s ease;
+			margin-left: 60px;
+		}
 	}
 }
