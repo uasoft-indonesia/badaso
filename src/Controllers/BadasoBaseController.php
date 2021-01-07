@@ -15,10 +15,6 @@ class BadasoBaseController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            if (!$this->isAuthorize('browse', $data_type)) {
-                return ApiResponse::forbidden();
-            }
-
             $data = $this->getDataList($slug, $request->all());
 
             return ApiResponse::entity($data_type, $data);
@@ -33,11 +29,13 @@ class BadasoBaseController extends Controller
             $request->validate([
                 'id' => 'required',
             ]);
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-            if (!$this->isAuthorize('read', $data_type)) {
-                return ApiResponse::forbidden();
-            }
+            $request->validate([
+                'id' => 'exists:'.$data_type->name,
+            ]);
+
             $data = $this->getDataDetail($slug, $request->id);
 
             return ApiResponse::entity($data_type, $data);
@@ -56,11 +54,10 @@ class BadasoBaseController extends Controller
                     'required',
                 ],
             ]);
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-            if (!$this->isAuthorize('edit', $data_type)) {
-                return ApiResponse::forbidden();
-            }
+
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->validateData($data, $data_type);
             $updated_data = $this->updateData($data, $data_type);
@@ -85,11 +82,10 @@ class BadasoBaseController extends Controller
                     'required',
                 ],
             ]);
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-            if (!$this->isAuthorize('add', $data_type)) {
-                return ApiResponse::forbidden();
-            }
+
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->validateData($data, $data_type);
             $stored_data = $this->insertData($data, $data_type);
@@ -114,11 +110,10 @@ class BadasoBaseController extends Controller
                     'required',
                 ],
             ]);
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-            if (!$this->isAuthorize('delete', $data_type)) {
-                return ApiResponse::forbidden();
-            }
+
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->deleteData($data, $data_type);
 
@@ -142,11 +137,10 @@ class BadasoBaseController extends Controller
                     'required',
                 ],
             ]);
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-            if (!$this->isAuthorize('delete', $data_type)) {
-                return ApiResponse::forbidden();
-            }
+
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $ids = $data['ids'];
             $id_list = explode(',', $ids);

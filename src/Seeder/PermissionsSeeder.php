@@ -11,6 +11,12 @@ class PermissionsSeeder extends Seeder
     public function run()
     {
         $keys = [
+            'browse_user_role',
+            'add_or_edit_user_role',
+
+            'browse_role_permission',
+            'add_or_edit_role_permission',
+
             'browse_bread',
             'read_bread',
             'edit_bread',
@@ -33,11 +39,7 @@ class PermissionsSeeder extends Seeder
 
         Permission::generateFor('roles');
 
-        Permission::generateFor('role_permissions');
-
         Permission::generateFor('users');
-
-        Permission::generateFor('user_roles');
 
         Permission::generateFor('configurations');
     }

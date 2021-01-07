@@ -5,7 +5,7 @@
         <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('add_'+dataType.name)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -195,8 +195,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -204,6 +202,17 @@
               <vs-button color="primary" type="relief" @click="submitForm">
                 <vs-icon icon="save"></vs-icon> Save
               </vs-button>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to add {{dataType.displayNameSingular}}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -290,7 +299,7 @@ export default {
       this.$api.entity
         .add({
           slug: this.$route.params.slug,
-          data: dataRows
+          data: dataRows,
         })
         .then((response) => {
           this.$vs.loading.close();
@@ -320,30 +329,34 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.dataType = response.data
-          let dataRows = response.data.dataRows.map((data) => {
-              if (data.value === undefined && (data.type === 'upload_image' || data.type === 'upload_file')) {
-                data.value = {}
-              } else if (data.value === undefined && 
-                ( data.type === 'upload_image_multiple' ||
-                  data.type === 'upload_file_multiple' ||
-                  data.type === 'select_multiple' ||
-                  data.type === 'checkbox'
-                )) {
-                data.value = []
-              } else if (data.value === undefined && data.type === 'slider') {
-                data.value = 0
-              } else if (data.value === undefined && data.type === 'switch') {
-                data.value = false
-              } else if (data.value === undefined) {
-                data.value = ''
-              }
-              try {
-                data.details = JSON.parse(data.details)
-              } catch (error) {}
-              return data
+          this.dataType = response.data.bread;
+          let dataRows = response.data.bread.dataRows.map((data) => {
+            if (
+              data.value === undefined &&
+              (data.type === "upload_image" || data.type === "upload_file")
+            ) {
+              data.value = {};
+            } else if (
+              data.value === undefined &&
+              (data.type === "upload_image_multiple" ||
+                data.type === "upload_file_multiple" ||
+                data.type === "select_multiple" ||
+                data.type === "checkbox")
+            ) {
+              data.value = [];
+            } else if (data.value === undefined && data.type === "slider") {
+              data.value = 0;
+            } else if (data.value === undefined && data.type === "switch") {
+              data.value = false;
+            } else if (data.value === undefined) {
+              data.value = "";
+            }
+            try {
+              data.details = JSON.parse(data.details);
+            } catch (error) {}
+            return data;
           });
-          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows))
+          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
         })
         .catch((error) => {
           this.$vs.loading.close();

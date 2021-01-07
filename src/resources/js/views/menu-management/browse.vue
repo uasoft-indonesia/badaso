@@ -13,7 +13,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_menus')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -58,6 +58,7 @@
                       color="primary"
                       type="relief"
                       @click.stop
+                      v-if="$helper.isAllowed('edit_menus')"
                       :to="{name: 'MenuBuilder', params: {id: data[index].id}}"
                       ><vs-icon icon="list"></vs-icon
                     ></vs-button>
@@ -65,6 +66,7 @@
                       color="warning"
                       type="relief"
                       @click.stop
+                      v-if="$helper.isAllowed('edit_menus')"
                       :to="{name: 'MenuEdit', params: {id: data[index].id}}"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
@@ -72,6 +74,7 @@
                       color="danger"
                       type="relief"
                       @click.stop
+                      v-if="$helper.isAllowed('delete_menus')"
                       @click="openConfirm(data[index].id)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
@@ -80,6 +83,17 @@
               </template>
             </vs-table>
           </div>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to browse Menu</h3>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -121,7 +135,7 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.menus = response.data;
+          this.menus = response.data.menus;
         })
         .catch((error) => {
           this.$vs.loading.close();

@@ -6,7 +6,7 @@
       </vs-col>
       <vs-col vs-lg="4"> </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_bread')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -48,20 +48,28 @@
                       color="success"
                       type="relief"
                       @click.stop
-                      :to="{name: 'EntityBrowse', params: {slug: data[index].breadData.slug}}"
+                      :to="{
+                        name: 'EntityBrowse',
+                        params: { slug: data[index].breadData.slug },
+                      }"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="warning"
                       type="relief"
                       @click.stop
-                      :to="{name: 'BreadEdit', params: {tableName: data[index].tableName}}"
+                      v-if="$helper.isAllowed('edit_bread')"
+                      :to="{
+                        name: 'BreadEdit',
+                        params: { tableName: data[index].tableName },
+                      }"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
                       color="danger"
                       type="relief"
                       @click.stop
+                      v-if="$helper.isAllowed('delete_bread')"
                       @click="openConfirm(data[index].breadData.id)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
@@ -71,7 +79,11 @@
                       color="primary"
                       type="relief"
                       @click.stop
-                      :to="{name: 'BreadAdd', params: {tableName: data[index].tableName}}"
+                      v-if="$helper.isAllowed('add_bread')"
+                      :to="{
+                        name: 'BreadAdd',
+                        params: { tableName: data[index].tableName },
+                      }"
                       >Add BREAD to this table</vs-button
                     >
                   </vs-td>
@@ -79,6 +91,17 @@
               </template>
             </vs-table>
           </div>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to browse BREAD</h3>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -121,7 +144,7 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.tables = response.data;
+          this.tables = response.data.breads;
         })
         .catch((error) => {
           this.$vs.loading.close();

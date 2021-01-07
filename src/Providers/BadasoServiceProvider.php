@@ -35,7 +35,7 @@ class BadasoServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Seeder/' => database_path('seeds'),
-        ], 'badaso_seeder');
+        ], 'BadasoSeeder');
     }
 
     /**

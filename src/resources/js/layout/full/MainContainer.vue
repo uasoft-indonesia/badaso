@@ -60,6 +60,7 @@ export default {
   mounted() {
     this.$store.commit("FETCH_COMPONENT");
     this.$store.commit("FETCH_CONFIGURATION");
+    this.$store.commit("FETCH_USER");
   },
   methods: {
     logout() {

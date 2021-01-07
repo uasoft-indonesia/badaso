@@ -8,6 +8,7 @@
         <div style="float: right">
           <vs-button color="warning" type="relief"
             :to="{name: 'RoleEdit', params: {id: $route.params.id}}"
+            v-if="$helper.isAllowed('edit_roles')"
             ><vs-icon icon="edit"></vs-icon> Edit</vs-button
           >
           <vs-button
@@ -15,12 +16,13 @@
               type="relief"
               @click.stop
               :to="{name: 'RolePermissions', params: {id: $route.params.id}}"
+              v-if="$helper.isAllowed('browse_role_permission')"
               ><vs-icon icon="list"></vs-icon
             > Permissions</vs-button>
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('read_roles')">
       <vs-col vs-lg="12">
         <vs-card>
             <div slot="header">
@@ -71,7 +73,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.role = response.data;
+          this.role = response.data.role;
         })
         .catch((error) => {
           this.$vs.loading.close();

@@ -19,7 +19,9 @@ class BadasoUserController extends Controller
     public function browse(Request $request)
     {
         try {
-            $data = User::all();
+            $users = User::all();
+
+            $data['users'] = $users;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -34,7 +36,9 @@ class BadasoUserController extends Controller
                 'id' => 'required|exists:users,id',
             ]);
 
-            $data = User::find($request->id);
+            $user = User::find($request->id);
+
+            $data['user'] = $user;
 
             return ApiResponse::success($data);
         } catch (Exception $e) {

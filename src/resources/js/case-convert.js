@@ -1,5 +1,10 @@
 export default {
   snake(obj) {
+    if (typeof obj == 'string') {
+      return obj.replace(/([A-Z])/g, function($1) {
+        return "_" + $1.toLowerCase();
+      });
+    }
     if (typeof obj != "object") return obj;
 
     for (var oldName in obj) {

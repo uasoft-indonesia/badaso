@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 
@@ -17,21 +18,9 @@ class BadasoMenuController extends Controller
         try {
             $menus = Menu::all();
 
-            return ApiResponse::success(collect($menus)->toArray());
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
+            $data['menus'] = $menus;
 
-    public function readMenu(Request $request)
-    {
-        try {
-            $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
-            ]);
-            $menu = Menu::find($request->menu_id);
-
-            return ApiResponse::success($menu);
+            return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -51,7 +40,43 @@ class BadasoMenuController extends Controller
 
             $menu_items = $this->getChildMenuItems($menu_items);
 
-            return ApiResponse::success(collect($menu_items)->toArray());
+            $data['menu_items'] = $menu_items;
+
+            return ApiResponse::success(collect($data)->toArray());
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function readMenu(Request $request)
+    {
+        try {
+            $request->validate([
+                'menu_id' => ['required', 'exists:menus,id'],
+            ]);
+            $menu = Menu::find($request->menu_id);
+
+            $data['menu'] = $menu;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function readMenuItem(Request $request)
+    {
+        try {
+            $request->validate([
+                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_item_id' => ['required', 'exists:menu_items,id'],
+            ]);
+
+            $menu_item = MenuItem::where('menu_id', $request->menu_id)->where('id', $request->menu_item_id)->first();
+
+            $data['menu_item'] = $menu_item;
+
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -64,15 +89,24 @@ class BadasoMenuController extends Controller
                 'menu_key' => ['required'],
             ]);
 
-            $menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
+            $all_menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
                     ->where('menus.key', $request->menu_key)
                     ->whereNull('menu_items.parent_id')
                     ->select('menu_items.*')
                     ->orderBy('menu_items.order', 'asc')
                     ->get();
+            $menu_items = [];
+            foreach ($all_menu_items as $menu_item) {
+                $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
+                if ($allowed) {
+                    $menu_items[] = $menu_item;
+                }
+            }
             $menu_items = $this->getChildMenuItems($menu_items);
 
-            return ApiResponse::success(collect($menu_items)->toArray());
+            $data['menu_items'] = $menu_items;
+
+            return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -84,31 +118,22 @@ class BadasoMenuController extends Controller
         foreach ($new_menu_items as $key => $value) {
             $value['children'] = [];
             if ($value->hasChildren()) {
-                $children = MenuItem::where('parent_id', $value->id)
+                $all_childrens = MenuItem::where('parent_id', $value->id)
                     ->orderBy('order', 'asc')
                     ->get();
+                $childrens = [];
+                foreach ($all_childrens as $children) {
+                    $allowed = AuthenticatedUser::isAllowedTo($children->permissions);
+                    if ($allowed) {
+                        $childrens[] = $children;
+                    }
+                }
                 $children = $this->getChildMenuItems($children);
                 $value['children'] = collect($children)->toArray();
             }
         }
 
         return $new_menu_items;
-    }
-
-    public function readMenuItem(Request $request)
-    {
-        try {
-            $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
-                'menu_item_id' => ['required', 'exists:menu_items,id'],
-            ]);
-
-            $menu_items = MenuItem::where('menu_id', $request->menu_id)->where('id', $request->menu_item_id)->first();
-
-            return ApiResponse::success($menu_items);
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
     }
 
     public function addMenu(Request $request)

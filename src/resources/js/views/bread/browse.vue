@@ -6,10 +6,20 @@
       </vs-col>
       <vs-col vs-lg="4">
         <div style="float: right">
-          <vs-button color="primary" type="relief" :to="{name: 'EntityAdd'}"
+          <vs-button
+            color="primary"
+            type="relief"
+            :to="{ name: 'EntityAdd' }"
+            v-if="isCanAdd && $helper.isAllowed('add_' + dataType.name)"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
-          <vs-button color="danger" type="relief" v-if="selected.length > 0"
+          <vs-button
+            color="danger"
+            type="relief"
+            v-if="
+              selected.length > 0 &&
+                $helper.isAllowed('delete_' + dataType.name)
+            "
             @click.stop
             @click="confirmDeleteMultiple"
             ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
@@ -17,7 +27,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_' + dataType.name)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -25,9 +35,10 @@
           </div>
           <div>
             <vs-table
+              v-if="dataType.serverSide !== 1"
               v-model="selected"
               pagination
-              max-items="10"
+              :max-items="descriptionItems[0]"
               search
               :data="records"
               stripe
@@ -43,7 +54,7 @@
                   v-for="(dataRow, index) in dataType.dataRows"
                   v-if="dataRow.browse === 1"
                   :key="index"
-                  :sort-key="dataRow.field"
+                  :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
                 >
                   {{ dataRow.displayName }}
                 </vs-th>
@@ -76,37 +87,111 @@
                       width="100%"
                       alt=""
                     />
-                    <div v-else-if="dataRow.type === 'upload_image_multiple'" style="width: 100%;">
+                    <div
+                      v-else-if="dataRow.type === 'upload_image_multiple'"
+                      style="width: 100%;"
+                    >
                       <img
-                        v-for="(image, indexImage) in stringToArray(record[$caseConvert.stringSnakeToCamel(dataRow.field)])"
+                        v-for="(image, indexImage) in stringToArray(
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )"
                         :key="indexImage"
-                        :src="
-                          `/badaso-api/v1/file/view?file=${
-                            image
-                          }`
-                        "
+                        :src="`/badaso-api/v1/file/view?file=${image}`"
                         width="100%"
                         alt=""
                         style="margin-bottom: 10px;"
                       />
                     </div>
-                    <span v-else-if="dataRow.type === 'editor'" v-html="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"></span>
-                    <a v-else-if="dataRow.type === 'url'" :href="record[$caseConvert.stringSnakeToCamel(dataRow.field)]" target="_blank">{{record[$caseConvert.stringSnakeToCamel(dataRow.field)]}}</a>
-                    <a v-else-if="dataRow.type === 'upload_file'" :href="`/badaso-api/v1/file/download?file=${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`" target="_blank">{{record[$caseConvert.stringSnakeToCamel(dataRow.field)]}}</a>
-                    <div v-else-if="dataRow.type === 'upload_file_multiple'" style="width: 100%;">
-                      <p v-for="(file, indexFile) in stringToArray(record[$caseConvert.stringSnakeToCamel(dataRow.field)])" :key="indexFile">
-                      <a :href="`/badaso-api/v1/file/download?file=${file}`" target="_blank">{{file}}</a>
+                    <span
+                      v-else-if="dataRow.type === 'editor'"
+                      v-html="
+                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      "
+                    ></span>
+                    <a
+                      v-else-if="dataRow.type === 'url'"
+                      :href="
+                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      "
+                      target="_blank"
+                      >{{
+                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      }}</a
+                    >
+                    <a
+                      v-else-if="dataRow.type === 'upload_file'"
+                      :href="
+                        `/badaso-api/v1/file/download?file=${
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }`
+                      "
+                      target="_blank"
+                      >{{
+                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      }}</a
+                    >
+                    <div
+                      v-else-if="dataRow.type === 'upload_file_multiple'"
+                      style="width: 100%;"
+                    >
+                      <p
+                        v-for="(file, indexFile) in stringToArray(
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )"
+                        :key="indexFile"
+                      >
+                        <a
+                          :href="`/badaso-api/v1/file/download?file=${file}`"
+                          target="_blank"
+                          >{{ file }}</a
+                        >
                       </p>
                     </div>
-                    <p v-else-if="dataRow.type === 'radio' || dataRow.type === 'select'">{{bindSelection(dataRow.details.items, record[$caseConvert.stringSnakeToCamel(dataRow.field)])}}</p>
-                    <div v-else-if="dataRow.type === 'select_multiple' || dataRow.type === 'checkbox'" style="width: 100%">
-                      <p v-for="(selected, indexSelected) in stringToArray(record[$caseConvert.stringSnakeToCamel(dataRow.field)])" :key="indexSelected">{{bindSelection(dataRow.details.items, selected)}}</p>
+                    <p
+                      v-else-if="
+                        dataRow.type === 'radio' || dataRow.type === 'select'
+                      "
+                    >
+                      {{
+                        bindSelection(
+                          dataRow.details.items,
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )
+                      }}
+                    </p>
+                    <div
+                      v-else-if="
+                        dataRow.type === 'select_multiple' ||
+                          dataRow.type === 'checkbox'
+                      "
+                      style="width: 100%"
+                    >
+                      <p
+                        v-for="(selected, indexSelected) in stringToArray(
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )"
+                        :key="indexSelected"
+                      >
+                        {{ bindSelection(dataRow.details.items, selected) }}
+                      </p>
                     </div>
                     <div v-else-if="dataRow.type === 'color_picker'">
-                      <div :style="`width: 100%; height: 14px; background-color: ${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`"></div>
-                      {{record[$caseConvert.stringSnakeToCamel(dataRow.field)]}}
+                      <div
+                        :style="
+                          `width: 100%; height: 14px; background-color: ${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`
+                        "
+                      ></div>
+                      {{
+                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      }}
                     </div>
-                    <span v-else>{{ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }}</span>
+                    <span v-else>{{
+                      record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    }}</span>
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
                     <vs-button
@@ -115,8 +200,14 @@
                       @click.stop
                       :to="{
                         name: 'EntityRead',
-                        params: { id: data[index].id, slug: $route.params.slug },
+                        params: {
+                          id: data[index].id,
+                          slug: $route.params.slug,
+                        },
                       }"
+                      v-if="
+                        isCanRead && $helper.isAllowed('read_' + dataType.name)
+                      "
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -125,8 +216,14 @@
                       @click.stop
                       :to="{
                         name: 'EntityEdit',
-                        params: { id: data[index].id, slug: $route.params.slug },
+                        params: {
+                          id: data[index].id,
+                          slug: $route.params.slug,
+                        },
                       }"
+                      v-if="
+                        isCanEdit && $helper.isAllowed('edit_' + dataType.name)
+                      "
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -134,34 +231,297 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[index].id)"
+                      v-if="$helper.isAllowed('delete_' + dataType.name)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
                 </vs-tr>
               </template>
             </vs-table>
+            <div v-else>
+              <vs-table v-model="selected" :data="records" stripe multiple>
+                <template slot="header">
+                  <div class="con-input-search vs-table--search">
+                    <input type="text" class="input-search vs-table--search-input" v-on:keyup.enter="handleSearch">
+                      <i class="vs-icon notranslate icon-scale material-icons null">search</i>
+                    </div>
+                </template>
+                <template slot="thead">
+                  <vs-th
+                    v-for="(dataRow, index) in dataType.dataRows"
+                    v-if="dataRow.browse === 1"
+                    :key="index"
+                    :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
+                  >
+                    {{ dataRow.displayName }}
+                  </vs-th>
+                  <vs-th> Action </vs-th>
+                </template>
+
+                <template slot-scope="{ data }">
+                  <vs-tr
+                    :data="record"
+                    :key="index"
+                    v-for="(record, index) in data"
+                  >
+                    <vs-td
+                      v-for="(dataRow, indexColumn) in dataType.dataRows"
+                      v-if="dataRow.browse === 1"
+                      :key="indexColumn"
+                      :data="
+                        data[index][
+                          $caseConvert.stringSnakeToCamel(dataRow.field)
+                        ]
+                      "
+                    >
+                      <img
+                        v-if="dataRow.type === 'upload_image'"
+                        :src="
+                          `/badaso-api/v1/file/view?file=${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`
+                        "
+                        width="100%"
+                        alt=""
+                      />
+                      <div
+                        v-else-if="dataRow.type === 'upload_image_multiple'"
+                        style="width: 100%;"
+                      >
+                        <img
+                          v-for="(image, indexImage) in stringToArray(
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          )"
+                          :key="indexImage"
+                          :src="`/badaso-api/v1/file/view?file=${image}`"
+                          width="100%"
+                          alt=""
+                          style="margin-bottom: 10px;"
+                        />
+                      </div>
+                      <span
+                        v-else-if="dataRow.type === 'editor'"
+                        v-html="
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        "
+                      ></span>
+                      <a
+                        v-else-if="dataRow.type === 'url'"
+                        :href="
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        "
+                        target="_blank"
+                        >{{
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }}</a
+                      >
+                      <a
+                        v-else-if="dataRow.type === 'upload_file'"
+                        :href="
+                          `/badaso-api/v1/file/download?file=${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`
+                        "
+                        target="_blank"
+                        >{{
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }}</a
+                      >
+                      <div
+                        v-else-if="dataRow.type === 'upload_file_multiple'"
+                        style="width: 100%;"
+                      >
+                        <p
+                          v-for="(file, indexFile) in stringToArray(
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          )"
+                          :key="indexFile"
+                        >
+                          <a
+                            :href="`/badaso-api/v1/file/download?file=${file}`"
+                            target="_blank"
+                            >{{ file }}</a
+                          >
+                        </p>
+                      </div>
+                      <p
+                        v-else-if="
+                          dataRow.type === 'radio' || dataRow.type === 'select'
+                        "
+                      >
+                        {{
+                          bindSelection(
+                            dataRow.details.items,
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          )
+                        }}
+                      </p>
+                      <div
+                        v-else-if="
+                          dataRow.type === 'select_multiple' ||
+                            dataRow.type === 'checkbox'
+                        "
+                        style="width: 100%"
+                      >
+                        <p
+                          v-for="(selected, indexSelected) in stringToArray(
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          )"
+                          :key="indexSelected"
+                        >
+                          {{ bindSelection(dataRow.details.items, selected) }}
+                        </p>
+                      </div>
+                      <div v-else-if="dataRow.type === 'color_picker'">
+                        <div
+                          :style="
+                            `width: 100%; height: 14px; background-color: ${
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            }`
+                          "
+                        ></div>
+                        {{
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }}
+                      </div>
+                      <span v-else>{{
+                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                      }}</span>
+                    </vs-td>
+                    <vs-td style="width: 1%; white-space: nowrap">
+                      <vs-button
+                        color="success"
+                        type="relief"
+                        @click.stop
+                        :to="{
+                          name: 'EntityRead',
+                          params: {
+                            id: data[index].id,
+                            slug: $route.params.slug,
+                          },
+                        }"
+                        v-if="
+                          isCanRead &&
+                            $helper.isAllowed('read_' + dataType.name)
+                        "
+                        ><vs-icon icon="visibility"></vs-icon
+                      ></vs-button>
+                      <vs-button
+                        color="warning"
+                        type="relief"
+                        @click.stop
+                        :to="{
+                          name: 'EntityEdit',
+                          params: {
+                            id: data[index].id,
+                            slug: $route.params.slug,
+                          },
+                        }"
+                        v-if="
+                          isCanEdit &&
+                            $helper.isAllowed('edit_' + dataType.name)
+                        "
+                        ><vs-icon icon="edit"></vs-icon
+                      ></vs-button>
+                      <vs-button
+                        color="danger"
+                        type="relief"
+                        @click.stop
+                        @click="confirmDelete(data[index].id)"
+                        v-if="$helper.isAllowed('delete_' + dataType.name)"
+                        ><vs-icon icon="delete"></vs-icon
+                      ></vs-button>
+                    </vs-td>
+                  </vs-tr>
+                </template>
+              </vs-table>
+              <vs-row class="mt-3">
+                <vs-col vs-lg="3">
+                  <vs-select
+                    placeholder="Row Per Page"
+                    v-model="limit"
+                    width="100%"
+                  >
+                    <vs-select-item
+                      :key="index"
+                      :value="item"
+                      :text="item"
+                      v-for="(item, index) in descriptionItems"
+                    />
+                  </vs-select>
+                </vs-col>
+                <vs-col vs-lg="9">
+                  <vs-pagination :total="totalItem" v-model="page"></vs-pagination>
+                </vs-col>
+              </vs-row>
+            </div>
           </div>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>
+                You're not allowed to browse {{ dataType.displayNameSingular }}
+              </h3>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
   </div>
 </template>
 <script>
+import * as _ from "lodash";
 import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoSelect from "../../components/BadasoSelect.vue";
 export default {
-  components: { BadasoBreadcrumb },
+  components: { BadasoBreadcrumb, BadasoSelect },
   name: "Browse",
   data: () => ({
-    descriptionItems: [10, 50, 100],
+    descriptionItems: [1, 10, 50, 100],
     selected: [],
     records: [],
     dataType: [],
     willDeleteId: null,
+    isCanAdd: false,
+    isCanEdit: false,
+    isCanRead: false,
+    totalItem: 0,
+    filter: "",
+    page: 1,
+    limit: 10,
+    orderField: "",
+    orderDirection: "",
+    rowPerPage: null
   }),
   watch: {
     $route: function(to, from) {
       this.getEntity();
     },
+    'page': function(to, from) {
+      this.handleChangePage(to)
+    },
+    'limit': function(to, from) {
+      this.handleChangeLimit(to)
+    }
   },
   mounted() {
     this.getEntity();
@@ -187,8 +547,7 @@ export default {
         title: `Confirm`,
         text: "Are you sure?",
         accept: this.deleteRecords,
-        cancel: () => {
-        }
+        cancel: () => {},
       });
     },
     getEntity() {
@@ -197,19 +556,33 @@ export default {
       });
       this.$api.entity
         .browse({
-          slug: this.$route.params.slug
+          slug: this.$route.params.slug,
+          limit: this.limit,
+          page: this.page,
+          filterValue: this.filter,
+          orderField: this.$caseConvert.snake(this.orderField),
+          orderDirection: this.$caseConvert.snake(this.orderDirection),
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.records = response.data.list;
+          this.records = response.data.entities.data;
+          this.totalItem = response.data.entities.total > 0 ? Math.ceil(response.data.entities.total / this.limit) : 1;
           this.dataType = response.data.dataType;
           let dataRows = this.dataType.dataRows.map((data) => {
-              try {
-                data.details = JSON.parse(data.details)
-              } catch (error) {}
-              return data
+            try {
+              data.details = JSON.parse(data.details);
+            } catch (error) {}
+            return data;
           });
-          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows))
+          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+
+          let addFields = _.filter(dataRows, ["add", 1]);
+          let editFields = _.filter(dataRows, ["edit", 1]);
+          let readFields = _.filter(dataRows, ["read", 1]);
+
+          this.isCanAdd = addFields.length > 0;
+          this.isCanEdit = editFields.length > 0;
+          this.isCanRead = readFields.length > 0;
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -229,9 +602,9 @@ export default {
           slug: this.$route.params.slug,
           data: [
             {
-              field: 'id',
-              value: this.willDeleteId
-            }
+              field: "id",
+              value: this.willDeleteId,
+            },
           ],
         })
         .then((response) => {
@@ -248,18 +621,18 @@ export default {
         });
     },
     deleteRecords() {
-      const ids = this.selected.map((item) => item.id)
+      const ids = this.selected.map((item) => item.id);
       this.$vs.loading({
         type: "sound",
       });
       this.$api.entity
         .deleteMultiple({
-          slug: this.$route.params.slug, 
+          slug: this.$route.params.slug,
           data: [
             {
-              field: 'ids',
-              value: ids.join(",")
-            }
+              field: "ids",
+              value: ids.join(","),
+            },
           ],
         })
         .then((response) => {
@@ -267,7 +640,7 @@ export default {
           this.getEntity();
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",
@@ -277,20 +650,38 @@ export default {
         });
     },
     bindSelection(items, value) {
-      const selected = _.find(items, ['value', value]);
+      const selected = _.find(items, ["value", value]);
       if (selected) {
         return selected.label;
       } else {
-        return value
+        return value;
       }
     },
     stringToArray(str) {
       if (str) {
-        return str.split(',')
+        return str.split(",");
       } else {
-        return []
+        return [];
       }
-    }
+    },
+    handleSearch(e) {
+      this.filter = e.target.value;
+      this.page = 1;
+      this.getEntity();
+    },
+    handleChangePage(page) {
+      this.page = page;
+      this.getEntity();
+    },
+    handleChangeLimit(limit) {
+      this.page = 1;
+      this.getEntity();
+    },
+    handleSort(field, direction) {
+      this.orderField = field;
+      this.orderDirection = direction;
+      this.getEntity();
+    },
   },
 };
 </script>

@@ -8,12 +8,13 @@
         <div style="float: right">
           <vs-button color="warning" type="relief"
             :to="{name: 'PermissionEdit', params: {id: $route.params.id}}"
+            v-if="$helper.isAllowed('edit_permissions')"
             ><vs-icon icon="edit"></vs-icon> Edit</vs-button
           >
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('read_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
             <div slot="header">
@@ -40,6 +41,17 @@
                     </td>
                 </tr>
             </table>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to edit Permission</h3>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -71,7 +83,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.permission = response.data;
+          this.permission = response.data.permission;
         })
         .catch((error) => {
           this.$vs.loading.close();

@@ -5,7 +5,7 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_role_permission')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -19,14 +19,14 @@
             max-items="10"
         >
             <template slot="thead">
-              <vs-th> </vs-th>
+              <vs-th v-if="$helper.isAllowed('add_or_edit_role_permission')"> </vs-th>
               <vs-th> Key </vs-th>
               <vs-th> Description </vs-th>
             </template>
 
             <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                <vs-td style="width: 1%">
+                <vs-td style="width: 1%" v-if="$helper.isAllowed('add_or_edit_role_permission')">
                   <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
                 <vs-td
@@ -44,7 +44,7 @@
         </vs-card>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('add_or_edit_role_permission')">
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -52,6 +52,17 @@
               <vs-button color="primary" type="relief" @click="submitForm">
                 <vs-icon icon="save"></vs-icon> Set selected permissions for role
               </vs-button>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to browse Roles Permissions</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -84,7 +95,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.rolePermissions = [...response.data];
+          this.rolePermissions = [...response.data.rolePermissions];
         })
         .catch((error) => {
           console.log(error);
@@ -112,7 +123,15 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
+          this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
+          this.$store.commit("FETCH_USER");
           this.getRolePermissions();
+          this.$vs.notify({
+            title: "Success",
+            text: 'Permissions has been set',
+            color: "success",
+          });
         })
         .catch((error) => {
           console.log(error);

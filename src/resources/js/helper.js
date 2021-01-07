@@ -1,3 +1,6 @@
+import store from "./store/store";
+import * as _ from "lodash";
+
 export default {
   mapFieldType(fieldType) {
     let type = "";
@@ -55,5 +58,13 @@ export default {
       .replace(/-+/g, "-");
 
     return str;
+  },
+  isAllowed(permission) {
+    let userPermissions = store.getters.getUser.permissions;
+    let result = _.find(userPermissions, function(o) {
+      return o.key == permission;
+    });
+    if (result) return true;
+    else return false;
   },
 };

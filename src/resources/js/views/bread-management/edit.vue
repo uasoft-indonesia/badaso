@@ -5,11 +5,11 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('edit_bread')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add BREAD for {{ $route.params.tableName }}</h3>
+            <h3>Edit BREAD for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
             <badaso-text
@@ -109,8 +109,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -207,8 +205,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -216,6 +212,17 @@
               <vs-button color="primary" type="relief" @click="submitForm">
                 <vs-icon icon="save"></vs-icon> Save
               </vs-button>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+        <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to edit BREAD</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -317,7 +324,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let dataBread = {...response.data};
+          let dataBread = {...response.data.bread};
           dataBread = dataBread
           dataBread.icon = dataBread.icon ? dataBread.icon : ""
           dataBread.modelName = dataBread.modelName ? dataBread.modelName : ""

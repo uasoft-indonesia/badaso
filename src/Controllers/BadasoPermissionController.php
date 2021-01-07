@@ -13,7 +13,9 @@ class BadasoPermissionController extends Controller
     public function browse(Request $request)
     {
         try {
-            $data = Permission::all();
+            $permissions = Permission::all();
+
+            $data['permissions'] = $permissions;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -28,7 +30,9 @@ class BadasoPermissionController extends Controller
                 'id' => 'required|exists:permissions,id',
             ]);
 
-            $data = Permission::find($request->id);
+            $permission = Permission::find($request->id);
+
+            $data['permission'] = $permission;
 
             return ApiResponse::success($data);
         } catch (Exception $e) {

@@ -75,21 +75,14 @@ class ApiResponse
         return self::send($response, $http_status);
     }
 
-    public static function entity($data_type, $data = null)
+    public static function entity($data_type, $data = null, $permissions = null)
     {
         $response = [];
         $response['message'] = __('badaso.api_response.200');
         $response['data']['data_type'] = $data_type;
+        $response['data']['user_permissions'] = $permissions;
+        $response['data']['entities'] = $data;
         $response['errors'] = null;
-        if (!is_null($data)) {
-            if (is_array($data)) {
-                $response['data']['list'] = $data;
-            } elseif (is_object($data)) {
-                $response['data']['detail'] = $data;
-            } else {
-                $response['data']['value'] = $data;
-            }
-        }
         $response = json_decode(json_encode($response));
 
         return self::send($response);

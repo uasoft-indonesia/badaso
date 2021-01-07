@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use ReflectionClass;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Traits\FileHandler;
 
 abstract class Controller extends BaseController
@@ -186,112 +187,33 @@ abstract class Controller extends BaseController
     {
         DB::enableQueryLog();
         $data_type = $this->getDataType($slug);
-        $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $data = [];
         $records = [];
-        $limit = isset($request['limit']) ? $request['limit'] : null;
-        $offset = isset($request['offset']) ? $request['offset'] : null;
-        $order_field = isset($request['order_field']) ? $request['order_field'] : null;
-        $order_direction = isset($request['order_direction']) ? $request['order_direction'] : 'DESC';
-        $filter_key = isset($request['filter_key']) ? $request['filter_key'] : null;
-        $filter_operator = isset($request['filter_operator']) ? $request['filter_operator'] : 'containts';
-        $filter_value = isset($request['filter_value']) ? $request['filter_value'] : '';
+        $builder_params = [
+            'limit' => isset($request['limit']) ? $request['limit'] : 10,
+            'page' => isset($request['page']) ? $request['page'] : null,
+            'order_field' => isset($request['order_field']) ? $request['order_field'] : null,
+            'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : 'DESC',
+            'filter_key' => isset($request['filter_key']) ? $request['filter_key'] : null,
+            'filter_operator' => isset($request['filter_operator']) ? $request['filter_operator'] : 'containts',
+            'filter_value' => isset($request['filter_value']) ? $request['filter_value'] : '',
+        ];
 
         if ($data_type->model_name) {
-            $model = app($data_type->model_name);
             if ($data_type->server_side) {
-                $query = $model::query()->select($fields);
-                if ($filter_key) {
-                    switch ($filter_operator) {
-                        case 'containts':
-                            $filter_operator = 'LIKE';
-                            $filter_value = "%{$filter_value}%";
-                            break;
-
-                        default:
-                            // code...
-                            break;
-                    }
-                    $query->where($filter_key, $filter_operator, $filter_value);
-                }
-                if ($limit) {
-                    $query->limit($limit);
-                }
-                if ($offset) {
-                    $query->offset($offset);
-                }
-                if ($order_field) {
-                    $query->orderBy($order_field, $order_direction);
-                }
-                $data = $query->get();
-                foreach ($data as $row) {
-                    $class = new ReflectionClass(get_class($row));
-                    $class_methods = $class->getMethods();
-                    $record = json_decode(json_encode($row));
-                    foreach ($class_methods as $class_method) {
-                        if ($class_method->class == $class->name) {
-                            try {
-                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
-                            } catch (Exception $e) {
-                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
-                            }
-                        }
-                    }
-                    $records[] = $record;
-                }
+                $records = GetData::serverSideWithModel($data_type, $builder_params);
             } else {
-                $data = $model::query()->select($fields)->get();
-                foreach ($data as $row) {
-                    $class = new ReflectionClass(get_class($row));
-                    $class_methods = $class->getMethods();
-
-                    $record = json_decode(json_encode($row));
-                    foreach ($class_methods as $class_method) {
-                        if ($class_method->class == $class->name) {
-                            try {
-                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
-                            } catch (Exception $e) {
-                                $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
-                            }
-                        }
-                    }
-                    $records[] = $record;
-                }
+                $records = GetData::clientSideWithModel($data_type, $builder_params);
             }
         } else {
             if ($data_type->server_side) {
-                $query = DB::table($data_type->name)->select($fields);
-                if ($filter_key) {
-                    switch ($filter_operator) {
-                        case 'containts':
-                            $filter_operator = 'LIKE';
-                            $filter_value = "%{$filter_value}%";
-                            break;
-
-                        default:
-                            // code...
-                            break;
-                    }
-                    $query->where($filter_key, $filter_operator, $filter_value);
-                }
-                if ($limit) {
-                    $query->limit($limit);
-                }
-                if ($offset) {
-                    $query->offset($offset);
-                }
-                if ($order_field) {
-                    $query->orderBy($order_field, $order_direction);
-                }
-                $data = $query->get();
-                $records = $data;
+                $records = GetData::serverSideWithQueryBuilder($data_type, $builder_params);
             } else {
-                $data = DB::table($data_type->name)->select($fields)->get();
-                $records = $data;
+                $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
             }
         }
 
-        return collect($records)->toArray();
+        return $records;
     }
 
     public function getDataDetail($slug, $id)

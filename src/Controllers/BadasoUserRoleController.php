@@ -17,7 +17,9 @@ class BadasoUserRoleController extends Controller
         try {
             $user_roles = UserRole::all();
 
-            $data = $this->getDataRelations($user_roles);
+            $user_roles = $this->getDataRelations($user_roles);
+
+            $data['user_roles'] = $user_roles;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -33,7 +35,36 @@ class BadasoUserRoleController extends Controller
             ]);
             $user_roles = UserRole::where('user_id', $request->user_id)->get();
 
-            $data = $this->getDataRelations($user_roles);
+            $user_roles = $this->getDataRelations($user_roles);
+
+            $data['user_roles'] = $user_roles;
+
+            return ApiResponse::success(collect($data)->toArray());
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function browseAllRole(Request $request)
+    {
+        try {
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+            ]);
+            $query = '
+                SELECT A.*,
+                    CASE
+                        WHEN B.user_id is not null then 1
+                        else 0
+                    END as selected
+                FROM roles A
+                LEFT JOIN user_roles B ON A.id = B.role_id AND B.user_id = :user_id
+            ';
+            $user_roles = DB::select($query, [
+                'user_id' => $request->user_id,
+            ]);
+
+            $data['user_roles'] = $user_roles;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -73,31 +104,6 @@ class BadasoUserRoleController extends Controller
             $data = [];
 
             return ApiResponse::success($data);
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
-
-    public function browseAllRole(Request $request)
-    {
-        try {
-            $request->validate([
-                'user_id' => 'required|exists:users,id',
-            ]);
-            $query = '
-                SELECT A.*,
-                    CASE
-                        WHEN B.user_id is not null then 1
-                        else 0
-                    END as selected
-                FROM roles A
-                LEFT JOIN user_roles B ON A.id = B.role_id AND B.user_id = :user_id
-            ';
-            $user_roles = DB::select($query, [
-                'user_id' => $request->user_id,
-            ]);
-
-            return ApiResponse::success(collect($user_roles)->toArray());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

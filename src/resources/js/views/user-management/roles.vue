@@ -5,7 +5,7 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_user_role')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -13,7 +13,7 @@
           </div>
           <vs-table search :data="userRoles" stripe>
             <template slot="thead">
-              <vs-th> </vs-th>
+              <vs-th  v-if="$helper.isAllowed('add_or_edit_user_role')"> </vs-th>
               <vs-th> Name </vs-th>
               <vs-th> Description </vs-th>
               <vs-th> Action</vs-th>
@@ -21,7 +21,7 @@
 
             <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                <vs-td style="width: 1%">
+                <vs-td style="width: 1%"  v-if="$helper.isAllowed('add_or_edit_user_role')">
                   <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
                 <vs-td
@@ -42,6 +42,7 @@
                       name: 'RoleRead',
                       params: { id: data[indextr].id },
                     }"
+                    v-if="$helper.isAllowed('read_role')"
                     ><vs-icon icon="visibility"></vs-icon
                   ></vs-button>
                 </vs-td>
@@ -51,7 +52,7 @@
         </vs-card>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('add_or_edit_user_role')">
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -92,7 +93,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.userRoles = [...response.data];
+          this.userRoles = [...response.data.userRoles];
         })
         .catch((error) => {
           console.log(error);

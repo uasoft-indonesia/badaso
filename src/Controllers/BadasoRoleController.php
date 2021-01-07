@@ -13,7 +13,9 @@ class BadasoRoleController extends Controller
     public function browse(Request $request)
     {
         try {
-            $data = Role::all();
+            $roles = Role::all();
+
+            $data['roles'] = $roles;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -28,7 +30,9 @@ class BadasoRoleController extends Controller
                 'id' => 'required|exists:roles,id',
             ]);
 
-            $data = Role::find($request->id);
+            $role = Role::find($request->id);
+
+            $data['role'] = $role;
 
             return ApiResponse::success($data);
         } catch (Exception $e) {

@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Controllers;
 
+use App\DataTest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Facades\Badaso;
@@ -27,5 +28,12 @@ class BadasoDataController extends Controller
         $operators = Badaso::getFilterOperator();
 
         return ApiResponse::success($operators);
+    }
+
+    public function testPaginate()
+    {
+        $operators = DataTest::paginate(1);
+
+        return ApiResponse::success(collect($operators)->toArray());
     }
 }

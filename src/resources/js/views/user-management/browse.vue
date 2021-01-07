@@ -7,12 +7,13 @@
       <vs-col vs-lg="4">
         <div style="float: right">
           <vs-button color="primary" type="relief" :to="{ name: 'UserAdd' }"
+          v-if="$helper.isAllowed('add_users')"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
           <vs-button
             color="danger"
             type="relief"
-            v-if="selected.length > 0"
+            v-if="selected.length > 0 && $helper.isAllowed('delete_users')"
             @click.stop
             @click="confirmDeleteMultiple"
             ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
@@ -20,7 +21,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_users')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -64,6 +65,7 @@
                         name: 'UserRead',
                         params: { id: data[indextr].id },
                       }"
+                      v-if="$helper.isAllowed('read_users')"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -71,6 +73,7 @@
                       type="relief"
                       @click.stop
                       :to="{name: 'UserRoles', params: {id: data[indextr].id}}"
+                      v-if="$helper.isAllowed('browse_user_role')"
                       ><vs-icon icon="list"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -81,6 +84,7 @@
                         name: 'UserEdit',
                         params: { id: data[indextr].id },
                       }"
+                      v-if="$helper.isAllowed('edit_users')"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -88,6 +92,7 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[indextr].id)"
+                      v-if="$helper.isAllowed('delete_users')"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -149,7 +154,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.selected = []
-          this.users = response.data;
+          this.users = response.data.users;
         })
         .catch((error) => {
           console.log(error);

@@ -16,9 +16,9 @@
         <vs-button class="delete-image" color="danger" icon="close" @click="deleteFilePicked(imageData)"></vs-button>
         <img :src="imageData.base64" class="image" />
     </div>
-    <div class="image-container" v-else-if="isString(value)">
+    <div class="image-container" v-else-if="isString(value) && value !== ''">
         <vs-button class="delete-image" color="danger" icon="close" @click="deleteStoredFile(value)"></vs-button>
-        <img :src="`/badaso-api/v1/file/download?file=${value}`" class="image" />
+        <img :src="`/badaso-api/v1/file/view?file=${value}`" class="image" />
     </div>
       </vs-col>
     </vs-row>

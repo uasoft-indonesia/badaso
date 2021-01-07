@@ -70,30 +70,48 @@
         class="cursor-pointer pr-2 pl-2 ml-1 mr-md-3"
       >
         <a class="text-white-dark user-image" href="#"
-          ><img src="/badaso-images/users/3.jpg" alt="User"
+          ><img :src="`/badaso-api/v1/file/view?file=${user.avatar}`" alt="User"
         /></a>
         <vs-dropdown-menu class="topbar-dd">
-          <div class="d-flex align-items-center p-3 bg-danger text-white mb-2"><div><img src="http://dev.programming-bot.com/badaso-images/logo/logo-light-icon.png" alt="user" width="60" class="rounded-circle"></div><div class="ml-2"><h4 class="mb-0 text-white">Steave Jobs</h4><p class="mb-0">varun@gmail.com</p></div></div>
+          <div class="d-flex align-items-center p-3 bg-danger text-white mb-2">
+            <div>
+              <img
+                :src="`/badaso-api/v1/file/view?file=${user.avatar}`"
+                alt="user"
+                width="60"
+                class="rounded-circle"
+              />
+            </div>
+            <div class="ml-2">
+              <h4 class="mb-0 text-white">{{ user.name }}</h4>
+              <p class="mb-0">{{ user.email }}</p>
+            </div>
+          </div>
           <vs-dropdown-item
+            :to="{
+              name: 'UserRead',
+              params: { id: user.id },
+            }"
             ><vs-icon icon="person_outline" class="mr-1"></vs-icon> My
             Profile</vs-dropdown-item
           >
-          <vs-dropdown-item
-            ><vs-icon icon="sentiment_very_satisfied" class="mr-1"></vs-icon> My
-            Balance</vs-dropdown-item
-          >
-          <vs-dropdown-item
-            ><vs-icon icon="mail_outline" class="mr-1"></vs-icon>
-            Inbox</vs-dropdown-item
-          >
           <hr class="mb-1" />
-          <vs-dropdown-item
+          <button
             @click="logout()"
-            ><vs-icon icon="gps_not_fixed" class="mr-1"></vs-icon>
-            Logout</vs-dropdown-item
+            type="button"
+            name="button"
+            class="vs-component vs-button rounded-button ml-3 mb-3 vs-button-danger vs-button-filled small"
           >
-          <hr class="mt-1">
-          <button type="button" name="button" class="vs-component vs-button rounded-button ml-3 mb-3 vs-button-danger vs-button-filled small"><span class="vs-button-backgroundx vs-button--background" style="opacity: 1; left: 20px; top: 20px; width: 0px; height: 0px; transition: width 0.3s ease 0s, height 0.3s ease 0s, opacity 0.3s ease 0s;"></span><!----><span class="vs-button-text vs-button--text">Logout</span><span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"></span></button>
+            <span
+              class="vs-button-backgroundx vs-button--background"
+              style="opacity: 1; left: 20px; top: 20px; width: 0px; height: 0px; transition: width 0.3s ease 0s, height 0.3s ease 0s, opacity 0.3s ease 0s;"
+            ></span
+            ><!----><span class="vs-button-text vs-button--text">Logout</span
+            ><span
+              class="vs-button-linex"
+              style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"
+            ></span>
+          </button>
         </vs-dropdown-menu>
       </vs-dropdown>
     </vs-navbar>
@@ -119,7 +137,14 @@ export default {
     indexActive: 0,
     showToggle: false,
   }),
-
+  computed: {
+    user: {
+      get() {
+        let user = this.$store.getters.getUser;
+        return user;
+      },
+    },
+  },
   methods: {
     //This is for sidebar trigger in mobile
     reduceSidebar() {
@@ -129,8 +154,8 @@ export default {
       this.$api.auth
         .logout()
         .then((response) => {
-          localStorage.clear()
-          this.$router.push({name: "Login"})
+          localStorage.clear();
+          this.$router.push({ name: "Login" });
         })
         .catch((error) => {
           this.$vs.notify({

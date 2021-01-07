@@ -5,7 +5,7 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('add_users')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -50,8 +50,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>

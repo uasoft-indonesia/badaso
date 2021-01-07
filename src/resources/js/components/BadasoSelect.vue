@@ -9,8 +9,8 @@
     >
       <vs-select-item
         :key="index"
-        :value="item.value"
-        :text="item.label"
+        :value="item.value ? item.value : item"
+        :text="item.label ? item.label : item"
         v-for="(item, index) in items"
       />
     </vs-select>

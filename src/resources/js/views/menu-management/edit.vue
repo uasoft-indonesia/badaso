@@ -5,7 +5,7 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('edit_menus')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -17,8 +17,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -26,6 +24,17 @@
               <vs-button color="primary" type="relief" @click="submitForm">
                 <vs-icon icon="save"></vs-icon> Save
               </vs-button>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to edit Menu</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -77,7 +86,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.menu = response.data;
+          this.menu = response.data.menu;
           this.menu.menuId = this.menu.id
         })
         .catch((error) => {

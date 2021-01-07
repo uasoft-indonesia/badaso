@@ -7,6 +7,7 @@
       <vs-col vs-lg="4">
         <div style="float: right">
           <vs-button color="warning" type="relief"
+            v-if="$helper.isAllowed('edit_'+dataType.name)"
             :to="{
               name: 'EntityEdit',
               params: { id: $route.params.id, slug: $route.params.slug },
@@ -16,7 +17,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('read_'+dataType.name)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -27,7 +28,7 @@
               v-for="(dataRow, rowIndex) in dataType.dataRows"
               :key="rowIndex"
               :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
-              v-if="dataRow.add === 1"
+              v-if="dataRow.read"
             >
               <table class="table">
                 <tr>
@@ -82,6 +83,17 @@
         </vs-card>
       </vs-col>
     </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to read {{dataType.displayNameSingular}}</h3>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
   </div>
 </template>
 <script>
@@ -113,10 +125,13 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.dataType = response.data.dataType;
-          this.record = response.data.detail;
+          this.record = response.data.entities;
 
           let dataRows = this.dataType.dataRows.map((data) => {
               try {
+                data.add = data.add === 1
+                data.edit = data.edit === 1
+                data.read = data.read === 1
                 data.details = JSON.parse(data.details)
               } catch (error) {}
               return data

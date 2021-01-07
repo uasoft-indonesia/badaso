@@ -1,6 +1,6 @@
 {
-    "name": "uasoft/badaso",
-    "description": "laravel-vue SPA",
+    "name": "uasoft-indonesia/badaso",
+    "description": "CRUD generator with laravel-vue SPA",
     "type": "library",
     "require": {
         "webpatser/laravel-uuid": "^3.0",

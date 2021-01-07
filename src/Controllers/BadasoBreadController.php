@@ -37,7 +37,9 @@ class BadasoBreadController extends Controller
                 $breads[] = $bread;
             }
 
-            return ApiResponse::success(collect($breads)->toArray());
+            $data['breads'] = $breads;
+
+            return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -68,7 +70,9 @@ class BadasoBreadController extends Controller
                 }
             }
 
-            return ApiResponse::success($json);
+            $data['bread'] = $json;
+
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -99,7 +103,9 @@ class BadasoBreadController extends Controller
                 }
             }
 
-            return ApiResponse::success($json);
+            $data['bread'] = $json;
+
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -125,7 +131,9 @@ class BadasoBreadController extends Controller
                 ];
             }
 
-            return ApiResponse::success(collect($fields)->toArray());
+            $data['table_fields'] = $fields;
+
+            return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -392,17 +400,27 @@ class BadasoBreadController extends Controller
             'menu_id' => $menu->id,
             'url' => $data_type->slug,
         ]);
+        $menu_item = MenuItem::where('menu_id', $menu->id)->where('url', $data_type->slug)->first();
         if ($menu_item) {
-            $order = $menu_item->highestOrderMenuItem();
-            $menu_item->fill([
-                'title' => $data_type->display_name_plural,
-                'target' => '_self',
-                'icon_class' => $data_type->icon,
-                'color' => null,
-                'parent_id' => null,
-                'order' => $order,
-                'permissions' => $data_type->generate_permissions ? 'browse_'.$data_type->name : null,
-            ])->save();
+            $menu_item->title = $data_type->display_name_plural;
+            $menu_item->target = '_self';
+            $menu_item->icon_class = $data_type->icon;
+            $menu_item->color = null;
+            $menu_item->parent_id = null;
+            $menu_item->permissions = $data_type->generate_permissions ? 'browse_'.$data_type->name : null;
+            $menu_item->save();
+        } else {
+            $menu_item = new MenuItem();
+            $menu_item->menu_id = $menu->id;
+            $menu_item->url = $data_type->slug;
+            $menu_item->title = $data_type->display_name_plural;
+            $menu_item->target = '_self';
+            $menu_item->icon_class = $data_type->icon;
+            $menu_item->color = null;
+            $menu_item->parent_id = null;
+            $menu_item->permissions = $data_type->generate_permissions ? 'browse_'.$data_type->name : null;
+            $menu_item->order = $menu_item->highestOrderMenuItem();
+            $menu_item->save();
         }
     }
 

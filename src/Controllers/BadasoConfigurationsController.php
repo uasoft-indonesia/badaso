@@ -20,7 +20,9 @@ class BadasoConfigurationsController extends Controller
     {
         $configurations = Configuration::all();
 
-        return ApiResponse::success(collect($configurations)->toArray());
+        $data['configurations'] = $configurations;
+
+        return ApiResponse::success(collect($data)->toArray());
     }
 
     public function read(Request $request)
@@ -31,7 +33,9 @@ class BadasoConfigurationsController extends Controller
             ]);
             $configuration = Configuration::find($request->id);
 
-            return ApiResponse::success($configuration);
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -46,7 +50,9 @@ class BadasoConfigurationsController extends Controller
                 $configuration[$row->key] = $row->value;
             }
 
-            return ApiResponse::success(json_decode(json_encode($configuration)));
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success(json_decode(json_encode($data)));
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

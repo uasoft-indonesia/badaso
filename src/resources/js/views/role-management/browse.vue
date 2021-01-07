@@ -7,12 +7,13 @@
       <vs-col vs-lg="4">
         <div style="float: right">
           <vs-button color="primary" type="relief" :to="{ name: 'RoleAdd' }"
+            v-if="$helper.isAllowed('add_roles')"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
           <vs-button
             color="danger"
             type="relief"
-            v-if="selected.length > 0"
+            v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
             @click.stop
             @click="confirmDeleteMultiple"
             ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
@@ -20,7 +21,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_roles')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -85,6 +86,7 @@
                         name: 'RoleEdit',
                         params: { id: data[indextr].id },
                       }"
+                      v-if="$helper.isAllowed('edit_roles')"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -92,6 +94,7 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[indextr].id)"
+                      v-if="$helper.isAllowed('delete_roles')"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -99,6 +102,17 @@
               </template>
             </vs-table>
           </div>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to browse Role</h3>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -153,7 +167,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.selected = []
-          this.roles = response.data;
+          this.roles = response.data.roles;
         })
         .catch((error) => {
           console.log(error);

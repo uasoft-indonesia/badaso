@@ -5,7 +5,7 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('edit_users')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -30,16 +30,6 @@
               label="Password"
               placeholder="Leave blank if unchanged"
             ></badaso-password>
-            <vs-col vs-lg="12">
-              <table class="table">
-                <tr>
-                  <td>Current Avatar</td>
-                  <td>
-                  <img :src="`/badaso-api/v1/file/view?file=${user.avatar}`" width="100%" alt="" style="max-width: 200px;">
-                  </td>
-                </tr>
-              </table>
-            </vs-col>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -47,19 +37,16 @@
               placeholder="New Avatar"
             ></badaso-upload-image>
             <vs-col vs-lg="12" class="mb-3">
-              <label for="" class="vs-input--label">Additional Info (JSON)</label>
               <badaso-code-editor
                 v-model="user.additionalInfo"
                 size="12"
-                label="Avatar"
-                placeholder="Avatar"
+                label="Additional Info (JSON)"
+                placeholder="Additional Info (JSON)"
               ></badaso-code-editor>
             </vs-col>
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -113,7 +100,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.user = response.data;
+          this.user = response.data.user;
           this.user.password = '';
           this.user.additionalInfo = this.user.additionalInfo ? this.user.additionalInfo : '';
         })

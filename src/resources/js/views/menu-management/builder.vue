@@ -4,7 +4,7 @@
       <vs-col vs-lg="8">
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
-      <vs-col vs-lg="4">
+      <vs-col vs-lg="4" v-if="$helper.isAllowed('add_menu_items')">
         <div style="float: right">
           <vs-button
             color="primary"
@@ -38,7 +38,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('edit_menus')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -72,6 +72,7 @@
                     <div class="data-action">
                       <vs-button color="warning" type="relief" @click.stop
                         @click="editMenuItem(data)"
+                        v-if="$helper.isAllowed('edit_menu_items')"
                         ><vs-icon icon="edit"></vs-icon
                       ></vs-button>
                       <vs-button
@@ -79,6 +80,7 @@
                         type="relief"
                         @click.stop
                         @click="openConfirm(data.id)"
+                        v-if="$helper.isAllowed('delete_menu_items')"
                         ><vs-icon icon="delete"></vs-icon
                       ></vs-button>
                     </div>
@@ -87,6 +89,17 @@
               </Tree>
             </div>
           </div>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to edit Menu</h3>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -185,8 +198,8 @@ export default {
           menuId: this.$route.params.id,
         })
         .then((response) => {
-          this.menuItems = response.data;
-          this.savedItems = [...response.data];
+          this.menuItems = response.data.menuItems;
+          this.savedItems = [...response.data.menuItems];
           this.flatSavedItems = this.flattenItems([...response.data]);
           this.$vs.loading.close();
         })

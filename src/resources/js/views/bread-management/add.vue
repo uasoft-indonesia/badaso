@@ -5,7 +5,7 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('add_bread')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -109,8 +109,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -207,8 +205,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -216,6 +212,19 @@
               <vs-button color="primary" type="relief" @click="submitForm">
                 <vs-icon icon="save"></vs-icon> Save
               </vs-button>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>
+                You're not allowed to add BREAD
+              </h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -276,8 +285,8 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters.getComponent
-      }
+        return this.$store.getters.getComponent;
+      },
     },
   },
   mounted() {
@@ -302,11 +311,15 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
-          this.$router.push({name: "BreadBrowse"})
+          this.$router.push({ name: "BreadBrowse" });
         })
         .catch((error) => {
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
         });
     },
     getTableDetail() {

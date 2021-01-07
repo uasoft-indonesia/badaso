@@ -6,10 +6,19 @@
       </vs-col>
       <vs-col vs-lg="4">
         <div style="float: right">
-          <vs-button color="primary" type="relief" :to="{name: 'PermissionAdd'}"
+          <vs-button
+            color="primary"
+            type="relief"
+            :to="{ name: 'PermissionAdd' }"
+            v-if="$helper.isAllowed('add_permissions')"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
-          <vs-button color="danger" type="relief" v-if="selected.length > 0"
+          <vs-button
+            color="danger"
+            type="relief"
+            v-if="
+              selected.length > 0 && $helper.isAllowed('delete_permissions')
+            "
             @click.stop
             @click="confirmDeleteMultiple"
             ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
@@ -17,7 +26,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('browse_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -65,13 +74,25 @@
                     <span v-else>No</span>
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button color="success" type="relief" @click.stop
-                    :to="{name: 'PermissionRead', params: {id: data[indextr].id}}"
+                    <vs-button
+                      color="success"
+                      type="relief"
+                      @click.stop
+                      :to="{
+                        name: 'PermissionRead',
+                        params: { id: data[indextr].id },
+                      }"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
-                    <vs-button color="warning" type="relief"
+                    <vs-button
+                      color="warning"
+                      type="relief"
                       @click.stop
-                      :to="{name: 'PermissionEdit', params: {id: data[indextr].id}}"
+                      :to="{
+                        name: 'PermissionEdit',
+                        params: { id: data[indextr].id },
+                      }"
+                      v-if="$helper.isAllowed('edit_permissions')"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -79,6 +100,7 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[indextr].id)"
+                      v-if="$helper.isAllowed('delete_permissions')"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -89,6 +111,17 @@
         </vs-card>
       </vs-col>
     </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to browse permission</h3>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
   </div>
 </template>
 <script>
@@ -96,7 +129,7 @@ import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
 export default {
   name: "Browse",
   components: {
-    BadasoBreadcrumb
+    BadasoBreadcrumb,
   },
   data: () => ({
     selected: [],
@@ -118,7 +151,7 @@ export default {
         accept: this.deletePermission,
         cancel: () => {
           this.willDeleteId = null;
-        }
+        },
       });
     },
     confirmDeleteMultiple(id) {
@@ -128,8 +161,7 @@ export default {
         title: `Confirm`,
         text: "Are you sure?",
         accept: this.bulkDeletePermission,
-        cancel: () => {
-        }
+        cancel: () => {},
       });
     },
     getPermissionList() {
@@ -140,11 +172,11 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.selected = []
-          this.permissions = response.data;
+          this.selected = [];
+          this.permissions = response.data.permissions;
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error);
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",
@@ -175,7 +207,7 @@ export default {
         });
     },
     bulkDeletePermission() {
-      const ids = this.selected.map((item) => item.id)
+      const ids = this.selected.map((item) => item.id);
       this.$vs.loading({
         type: "sound",
       });

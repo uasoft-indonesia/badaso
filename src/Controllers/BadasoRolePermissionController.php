@@ -17,7 +17,9 @@ class BadasoRolePermissionController extends Controller
         try {
             $role_permissions = RolePermission::all();
 
-            $data = $this->getDataRelations($role_permissions);
+            $role_permissions = $this->getDataRelations($role_permissions);
+
+            $data['role_permissions'] = $role_permissions;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -33,7 +35,36 @@ class BadasoRolePermissionController extends Controller
             ]);
             $role_permissions = RolePermission::where('role_id', $request->role_id)->get();
 
-            $data = $this->getDataRelations($role_permissions);
+            $role_permissions = $this->getDataRelations($role_permissions);
+
+            $data['role_permissions'] = $role_permissions;
+
+            return ApiResponse::success(collect($data)->toArray());
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function browseAllPermission(Request $request)
+    {
+        try {
+            $request->validate([
+                'role_id' => 'required|exists:roles,id',
+            ]);
+            $query = '
+                SELECT A.*,
+                    CASE
+                        WHEN B.role_id is not null then 1
+                        else 0
+                    END as selected
+                FROM permissions A
+                LEFT JOIN role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
+            ';
+            $role_permissions = DB::select($query, [
+                'role_id' => $request->role_id,
+            ]);
+
+            $data['role_permissions'] = $role_permissions;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -73,31 +104,6 @@ class BadasoRolePermissionController extends Controller
             $data = [];
 
             return ApiResponse::success($data);
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
-
-    public function browseAllPermission(Request $request)
-    {
-        try {
-            $request->validate([
-                'role_id' => 'required|exists:roles,id',
-            ]);
-            $query = '
-                SELECT A.*,
-                    CASE
-                        WHEN B.role_id is not null then 1
-                        else 0
-                    END as selected
-                FROM permissions A
-                LEFT JOIN role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
-            ';
-            $user_roles = DB::select($query, [
-                'role_id' => $request->role_id,
-            ]);
-
-            return ApiResponse::success(collect($user_roles)->toArray());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

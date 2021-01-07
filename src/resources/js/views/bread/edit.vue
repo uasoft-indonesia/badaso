@@ -5,7 +5,7 @@
         <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row>
+    <vs-row v-if="$helper.isAllowed('edit_'+dataType.name)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -16,7 +16,7 @@
               v-for="(dataRow, rowIndex) in dataType.dataRows"
               :key="rowIndex"
               :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
-              v-if="dataRow.add === 1 && dataRow.type !== 'hidden'"
+              v-if="dataRow.edit && dataRow.type !== 'hidden'"
             >
               <!-- <input type="text" v-model="dataRow.value"> -->
               <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
@@ -195,8 +195,6 @@
           </vs-row>
         </vs-card>
       </vs-col>
-    </vs-row>
-    <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -204,6 +202,17 @@
               <vs-button color="primary" type="relief" @click="submitForm">
                 <vs-icon icon="save"></vs-icon> Save
               </vs-button>
+            </vs-col>
+          </vs-row>
+        </vs-card>
+      </vs-col>
+    </vs-row>
+    <vs-row v-else>
+      <vs-col vs-lg="12">
+        <vs-card>
+          <vs-row>
+            <vs-col vs-lg="12">
+              <h3>You're not allowed to edit {{dataType.displayNameSingular}}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -325,9 +334,11 @@ export default {
           this.$vs.loading.close();
           this.dataType = response.data.dataType;
           this.record = response.data.detail;
-          console.log(this.record);
           let dataRows = this.dataType.dataRows.map((data) => {
             try {
+              data.add = data.add === 1
+              data.edit = data.edit === 1
+              data.read = data.read === 1
               data.details = JSON.parse(data.details);
 
               if (
