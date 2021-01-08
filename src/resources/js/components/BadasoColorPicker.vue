@@ -1,11 +1,6 @@
 <template>
   <vs-col :vs-lg="size" class="mb-3">
     <label for="" class="vs-input--label">{{ label }}</label>
-    <!-- <color-picker
-        :label="label"
-        :value="value"
-        @input="handleInput($event)"
-    /> -->
     <div class="input-group color-picker" ref="colorpicker">
       <input
         type="text"
@@ -26,6 +21,15 @@
         @input="updateFromPicker"
         v-if="displayPicker"
     />
+    </div>
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="alert">
+      <div v-if="$helper.isArray(alert)">
+        <span class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info"></span>
+      </div>
+      <div v-else>
+        <span class="text-danger" v-html="alert"></span>
+      </div>
     </div>
   </vs-col>
 </template>
@@ -64,6 +68,14 @@ export default {
     value: {
       type: String,
       required: true,
+    },
+    additionalInfo: {
+      type: String,
+      default: "",
+    },
+    alert: {
+      type: String|Array,
+      default: "",
     },
   },
   methods: {

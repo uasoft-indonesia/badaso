@@ -25,7 +25,7 @@
               placeholder="Email"
             ></badaso-text>
             <badaso-password
-              v-model="user.newPassword"
+              v-model="user.password"
               size="6"
               label="Password"
               placeholder="Leave blank if unchanged"
@@ -86,6 +86,14 @@ export default {
       additionalInfo: "",
     },
   }),
+  computed: {
+    loggedInUser: {
+      get() {
+        let user = this.$store.getters.getUser;
+        return user;
+      },
+    },
+  },
   mounted() {
     this.getUserDetail()
   },
@@ -102,7 +110,7 @@ export default {
           this.$vs.loading.close();
           this.user = response.data.user;
           this.user.password = '';
-          this.user.additionalInfo = this.user.additionalInfo ? this.user.additionalInfo : '';
+          this.user.additionalInfo = this.user.additionalInfo ? JSON.parse(this.user.additionalInfo) : '';
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -125,6 +133,9 @@ export default {
           additionalInfo: JSON.stringify(this.user.additionalInfo),
         })
         .then((response) => {
+          if (this.loggedInUser.id === this.user.id) {
+            this.$store.commit("FETCH_USER");
+          }
           this.$vs.loading.close();
           this.$router.push({ name: "UserBrowse" });
         })

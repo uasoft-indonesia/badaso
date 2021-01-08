@@ -8,7 +8,7 @@ use Webpatser\Uuid\Uuid;
 
 trait FileHandler
 {
-    public function handleUploadFiles($files, $data_type = null)
+    public function handleUploadFiles($files, $data_type = null, $custom_path = null)
     {
         $path_List = [];
         foreach ($files as $file) {
@@ -23,6 +23,10 @@ trait FileHandler
                 $filepath = 'uploads/';
                 if (!is_null($data_type)) {
                     $filepath .= $data_type->slug.'/';
+                }
+
+                if (!is_null($custom_path)) {
+                    $filepath .= $custom_path.'/';
                 }
 
                 Storage::disk(config('badaso.storage.disk', 'public'))->put($filepath.$filename, $decoded_file);

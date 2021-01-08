@@ -44,6 +44,15 @@
       ref="file"
       @change="onFilePicked"
     />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="alert">
+      <div v-if="$helper.isArray(alert)">
+        <span class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info"></span>
+      </div>
+      <div v-else>
+        <span class="text-danger" v-html="alert"></span>
+      </div>
+    </div>
   </vs-col>
 </template>
 
@@ -68,6 +77,14 @@ export default {
       default: () => {
         return {};
       },
+    },
+    additionalInfo: {
+      type: String,
+      default: "",
+    },
+    alert: {
+      type: String|Array,
+      default: "",
     },
   },
   data() {

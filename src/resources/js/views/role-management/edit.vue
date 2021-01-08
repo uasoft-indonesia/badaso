@@ -12,9 +12,27 @@
             <h3>Edit Role</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="role.name" size="6" label="Name" placeholder="Name"></badaso-text>
-            <badaso-text v-model="role.displayName" size="6" label="Display Name" placeholder="Display Name"></badaso-text>
-            <badaso-textarea v-model="role.description" size="12" label="Description" placeholder="Description"></badaso-textarea>
+            <badaso-text
+              v-model="role.name"
+              size="6"
+              label="Name"
+              placeholder="Name"
+              :alert="errors.name"
+            ></badaso-text>
+            <badaso-text
+              v-model="role.displayName"
+              size="6"
+              label="Display Name"
+              placeholder="Display Name"
+              :alert="errors.displayName"
+            ></badaso-text>
+            <badaso-textarea
+              v-model="role.description"
+              size="12"
+              label="Description"
+              placeholder="Description"
+              :alert="errors.description"
+            ></badaso-textarea>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -46,8 +64,8 @@
 <script>
 import BadasoText from "../../components/BadasoText";
 import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
-import BadasoSwitch from '../../components/BadasoSwitch.vue';
-import BadasoTextarea from '../../components/BadasoTextarea.vue';
+import BadasoSwitch from "../../components/BadasoSwitch.vue";
+import BadasoTextarea from "../../components/BadasoTextarea.vue";
 
 export default {
   name: "Browse",
@@ -55,30 +73,38 @@ export default {
     BadasoText,
     BadasoBreadcrumb,
     BadasoSwitch,
-    BadasoTextarea
+    BadasoTextarea,
   },
   data: () => ({
+    errors: {},
     role: {
-        description: '',
-        name: '',
-        displayName: ''
-    }
+      description: "",
+      name: "",
+      displayName: "",
+    },
   }),
   mounted() {
-        this.getRoleDetail();
+    this.getRoleDetail();
   },
   methods: {
     getRoleDetail() {
-        this.$vs.loading({
+      this.$vs.loading({
         type: "sound",
       });
       this.$api.role
         .read({
-            id: this.$route.params.id
+          id: this.$route.params.id,
         })
         .then((response) => {
           this.$vs.loading.close();
           this.role = response.data.role;
+          this.role.name = this.role.name ? this.role.name : "";
+          this.role.displayName = this.role.displayName
+            ? this.role.displayName
+            : "";
+          this.role.description = this.role.description
+            ? this.role.description
+            : "";
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -90,17 +116,25 @@ export default {
         });
     },
     submitForm() {
-      this.$vs.loading();
+      this.errors = {}
+      this.$vs.loading({
+        type: "sound",
+      });
       this.$api.role
         .edit(this.role)
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({name: "RoleBrowse"})
+          this.$router.push({ name: "RoleBrowse" });
         })
         .catch((error) => {
+          this.errors = error.errors;
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
-        })
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
   },
 };

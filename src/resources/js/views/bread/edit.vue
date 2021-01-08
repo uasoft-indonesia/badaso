@@ -373,6 +373,8 @@ export default {
                       this.$caseConvert.stringSnakeToCamel(data.field)
                     ].replace(" ", "T")
                   : null;
+              } else if (data.value === undefined && data.type === "hidden") {
+                data.value = data.details.value ? data.details.value : '';
               } else if (
                 data.type === "text" ||
                 data.type === "hidden" ||
@@ -395,7 +397,6 @@ export default {
             } catch (error) {
               console.log(error);
             }
-            console.log(data.displayName, data);
             return data;
           });
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));

@@ -36,18 +36,6 @@
       </vs-col>
     </vs-row>
 
-    <!--
-    <div
-      v-for="imageData in imageDatas"
-      :key="imageData.base64"
-      style="float: left"
-    >
-      <div class="image-container" v-if="imageData.base64">
-        <vs-button class="delete-image" color="danger" icon="close" @click="deleteFilePicked(imageData)"></vs-button>
-        <img :src="imageData.base64" class="image" />
-      </div>
-    </div>
-     -->
     <input
       type="file"
       style="display: none"
@@ -56,6 +44,15 @@
       @change="onFilePicked"
       multiple
     />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="alert">
+      <div v-if="$helper.isArray(alert)">
+        <span class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info"></span>
+      </div>
+      <div v-else>
+        <span class="text-danger" v-html="alert"></span>
+      </div>
+    </div>
   </vs-col>
 </template>
 
@@ -82,6 +79,14 @@ export default {
       default: () => {
         return [];
       },
+    },
+    additionalInfo: {
+      type: String,
+      default: "",
+    },
+    alert: {
+      type: String|Array,
+      default: "",
     },
   },
   watch: {

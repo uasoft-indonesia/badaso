@@ -70,7 +70,6 @@ class BadasoUserController extends Controller
             $user = User::find($request->id);
             $user->name = $request->name;
             $user->email = $request->email;
-            $this->handleDeleteFile($user->avatar);
             $uploaded = null;
             if ($request->avatar && $request->avatar != '') {
                 $extension = explode('/', explode(';', $request->avatar)[0])[1];
@@ -79,12 +78,13 @@ class BadasoUserController extends Controller
                     'base64' => $request->avatar,
                     'name' => Str::slug($request->name).'.'.$extension,
                 ];
-                $uploaded = $this->handleUploadFiles($files);
+                $uploaded = $this->handleUploadFiles($files, null, 'users');
                 if (count($uploaded) > 0) {
                     $uploaded = $uploaded[0];
+                    $this->handleDeleteFile($user->avatar);
                 }
+                $user->avatar = $uploaded;
             }
-            $user->avatar = $uploaded;
             $user->additional_info = $request->additional_info;
             if ($request->password && $request->password != '') {
                 $user->password = Hash::make($request->password);
@@ -129,7 +129,7 @@ class BadasoUserController extends Controller
                     'base64' => $request->avatar,
                     'name' => Str::slug($request->name).'.'.$extension,
                 ];
-                $uploaded = $this->handleUploadFiles($files);
+                $uploaded = $this->handleUploadFiles($files, null, 'users');
                 if (count($uploaded) > 0) {
                     $uploaded = $uploaded[0];
                 }

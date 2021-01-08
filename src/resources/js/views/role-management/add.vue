@@ -12,9 +12,9 @@
             <h3>Add Role</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="role.name" size="6" label="Name" placeholder="Name"></badaso-text>
-            <badaso-text v-model="role.displayName" size="6" label="Display Name" placeholder="Display Name"></badaso-text>
-            <badaso-textarea v-model="role.description" size="12" label="Description" placeholder="Description"></badaso-textarea>
+            <badaso-text v-model="role.name" size="6" label="Name" placeholder="Name" :alert="errors.name"></badaso-text>
+            <badaso-text v-model="role.displayName" size="6" label="Display Name" placeholder="Display Name" :alert="errors.displayName"></badaso-text>
+            <badaso-textarea v-model="role.description" size="12" label="Description" placeholder="Description" :alert="errors.description"></badaso-textarea>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -58,6 +58,7 @@ export default {
     BadasoTextarea
   },
   data: () => ({
+    errors: {},
     role: {
         description: '',
         name: '',
@@ -68,7 +69,10 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$vs.loading();
+      this.errors = {}
+      this.$vs.loading({
+        type: "sound",
+      });
       this.$api.role
         .add(this.role)
         .then((response) => {
@@ -76,6 +80,7 @@ export default {
           this.$router.push({name: "RoleBrowse"})
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
         })

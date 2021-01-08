@@ -29,6 +29,14 @@ export default {
       required: true,
       default: "",
     },
+    additionalInfo: {
+      type: String,
+      default: "",
+    },
+    alert: {
+      type: String|Array,
+      default: "",
+    },
   },
   methods: {
     handleInput(val) {

@@ -88,6 +88,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.user = response.data.user;
+          this.user.additionalInfo = JSON.parse(this.user.additionalInfo)
         })
         .catch((error) => {
           this.$vs.loading.close();

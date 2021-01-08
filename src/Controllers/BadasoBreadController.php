@@ -56,6 +56,20 @@ class BadasoBreadController extends Controller
             if (is_null($data_type)) {
                 throw new SingleException("Data type for {$table} not found");
             }
+
+            $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($table);
+            $table_fields = [];
+            foreach ($columns as $key => $column) {
+                $table_fields[] = [
+                    'name' => $column->getName(),
+                    'type' => str_replace('\\', '', ucfirst($column->getType())),
+                    'is_not_null' => $column->getNotNull(),
+                    'default' => $column->getDefault(),
+                    'length' => $column->getLength(),
+                ];
+            }
+
+            /*
             $class = new ReflectionClass(Badaso::modelClass('DataType'));
             $class_methods = $class->getMethods();
 
@@ -69,8 +83,34 @@ class BadasoBreadController extends Controller
                     }
                 }
             }
+            */
+            $data_rows = Badaso::model('DataRow')::where('data_type_id', $data_type->id)->get();
 
-            $data['bread'] = $json;
+            $field_generated = collect($data_rows)->pluck('field')->toArray();
+
+            foreach ($columns as $key => $column) {
+                $field = $column->getName();
+                if (!in_array($field, $field_generated)) {
+                    $data_row['data_type_id'] = $data_type->id;
+                    $data_row['field'] = $column->getName();
+                    $data_row['type'] = str_replace('\\', '', ucfirst($column->getType()));
+                    $data_row['displayName'] = Str::studly($field);
+                    $data_row['required'] = $column->getNotNull() ? 1 : 0;
+                    $data_row['browse'] = 1;
+                    $data_row['read'] = 1;
+                    $data_row['edit'] = 0;
+                    $data_row['add'] = 0;
+                    $data_row['delete'] = 0;
+                    $data_row['details'] = '{}';
+                    $data_row['order'] = count($field_generated) + 1;
+
+                    $data_rows[] = $data_row;
+                }
+            }
+
+            $data_type->data_rows = $data_rows;
+
+            $data['bread'] = collect($data_type)->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -120,7 +160,7 @@ class BadasoBreadController extends Controller
 
             $table = $request->table;
             $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($table);
-
+            $fields = [];
             foreach ($columns as $key => $column) {
                 $fields[] = [
                     'name' => $column->getName(),

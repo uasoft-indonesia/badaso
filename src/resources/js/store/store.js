@@ -100,7 +100,6 @@ export default new Vuex.Store({
       api.auth
         .user()
         .then((res) => {
-          console.log(res.data)
           state.user = res.data;
         })
         .catch((err) => {});

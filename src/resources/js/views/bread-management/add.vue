@@ -254,6 +254,7 @@ export default {
   },
   data: () => ({
     breadcrumb: [],
+    errors: {},
     fieldList: [],
     tableColumns: [],
     orderDirections: [
@@ -303,6 +304,7 @@ export default {
   },
   methods: {
     submitForm() {
+      this.errors = {}
       this.$vs.loading({
         type: "sound",
       });
@@ -314,6 +316,7 @@ export default {
           this.$router.push({ name: "BreadBrowse" });
         })
         .catch((error) => {
+          this.erros = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",
@@ -331,7 +334,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let fieldList = response.data;
+          let fieldList = response.data.tableFields;
           this.tableColumns = fieldList;
           this.fieldList = fieldList.map((field) => {
             return {

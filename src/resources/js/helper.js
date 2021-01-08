@@ -21,6 +21,7 @@ export default {
         type = "switch";
         break;
       default:
+        type = fieldType;
         break;
     }
     return type;
@@ -58,6 +59,9 @@ export default {
       .replace(/-+/g, "-");
 
     return str;
+  },
+  isArray(value){
+    return Array.isArray(value)
   },
   isAllowed(permission) {
     let userPermissions = store.getters.getUser.permissions;

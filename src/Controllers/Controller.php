@@ -82,6 +82,7 @@ abstract class Controller extends BaseController
         $data_rows = collect($data_type->dataRows)->where('add', 1)->all();
         $rules = [];
         foreach ($data_rows as $row) {
+            \Log::debug($row);
             if ($row->required == 1) {
                 $rules[$row->field] = 'required';
             }
