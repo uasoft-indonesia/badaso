@@ -137,15 +137,14 @@ Before you install badaso, make sure your laravel can run.
     JWT_SECRET={Your JWT secret key}
     MIX_DASHBOARD_ROUTE_PREFIX={your dashboard prefix}
 ```
-- Setup auth config
-  - add badaso guard
+- Add badaso guard at config/auth.php
 ```
 'badaso_guard' => [
     'driver' => 'jwt',
     'provider' => 'badaso_users',
 ],
 ```
-  - add badaso auth providers
+- add badaso auth providers at config/auth.php
 ```
 'badaso_users' => [
     'driver' => 'eloquent',
