@@ -8,7 +8,7 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
   - Laravel with laravel requirement. (note: tested with Laravel 5.8)
   badaso needs some PHP/Laravel library
 
-| Library | Versi | JSON | 
+| Library | Versi | JSON |
 | ------ | ------ | ------ |
 | webpatser/laravel-uuid | ^3.0 | "webpatser/laravel-uuid": "^3.0" |
 | doctrine/dbal | 2.12 | "doctrine/dbal": "2.12" |
@@ -17,7 +17,7 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
   - Vue
   badaso needs some JS/Vue library
 
-| Library | Versi | JSON | 
+| Library | Versi | JSON |
 | ------ | ------ | ------ |
 |	axios	|	^0.18	|	axios: "^0.18"	|
 |	lodash	|	^4.17.4	|	lodash: "^4.17.4"	|
@@ -62,7 +62,7 @@ Before you install badaso, make sure your laravel can run.
      * Badaso
      */
     Uasoft\Badaso\Providers\BadasoServiceProvider::class,
-    
+
     /*
      * JWT
      */
@@ -151,12 +151,13 @@ Before you install badaso, make sure your laravel can run.
     'model' => \Uasoft\Badaso\Models\User::class,
 ],
 ```
-  
+
 - for development, run
+```
     npm run watch
-    
+```
+
 - create admin
 ```
 php artisan badaso:admin your@email.com --create
 ```
-    
