@@ -13,14 +13,19 @@ class AddBadasoUserField extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            if (!Schema::hasColumn('users', 'avatar')) {
-                $table->string('avatar')->nullable()->after('email')->default('users/default.png');
-            }
-            if (!Schema::hasColumn('users', 'additional_info')) {
-                $table->text('additional_info')->nullable()->after('email');
-            }
-        });
+        try {
+            Schema::table('users', function (Blueprint $table) {
+                if (!Schema::hasColumn('users', 'avatar')) {
+                    $table->string('avatar')->nullable()->after('email')->default('users/default.png');
+                }
+                if (!Schema::hasColumn('users', 'additional_info')) {
+                    $table->text('additional_info')->nullable()->after('email');
+                }
+            });
+        } catch (PDOException $ex) {
+            $this->down();
+            throw $ex;
+        }
     }
 
     /**

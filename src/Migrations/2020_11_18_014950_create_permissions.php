@@ -13,14 +13,19 @@ class CreatePermissions extends Migration
      */
     public function up()
     {
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('key')->index();
-            $table->string('description')->nullable();
-            $table->string('table_name')->nullable();
-            $table->boolean('always_allow')->default(false);
-            $table->timestamps();
-        });
+        try {
+            Schema::create('permissions', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('key')->index();
+                $table->string('description')->nullable();
+                $table->string('table_name')->nullable();
+                $table->boolean('always_allow')->default(false);
+                $table->timestamps();
+            });
+        } catch (PDOException $ex) {
+            $this->down();
+            throw $ex;
+        }
     }
 
     /**

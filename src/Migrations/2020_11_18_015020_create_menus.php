@@ -13,12 +13,17 @@ class CreateMenus extends Migration
      */
     public function up()
     {
-        Schema::create('menus', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('key')->unique();
-            $table->string('display_name');
-            $table->timestamps();
-        });
+        try {
+            Schema::create('menus', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('key')->unique();
+                $table->string('display_name');
+                $table->timestamps();
+            });
+        } catch (PDOException $ex) {
+            $this->down();
+            throw $ex;
+        }
     }
 
     /**

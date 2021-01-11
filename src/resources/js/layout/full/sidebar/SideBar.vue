@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div id="parentx">
     <vs-sidebar
       default-index="1"

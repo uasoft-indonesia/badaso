@@ -13,15 +13,32 @@ class CreateUserRoles extends Migration
      */
     public function up()
     {
-        Schema::create('user_roles', function (Blueprint $table) {
-            // $table->unsignedInteger('user_id')->index();
-            $table->unsignedBigInteger('user_id')->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedInteger('role_id')->index();
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
-            $table->primary(['user_id', 'role_id']);
-            $table->timestamps();
-        });
+        try {
+            Schema::create('user_roles', function (Blueprint $table) {
+                // $table->unsignedInteger('user_id')->index();
+                $table->unsignedBigInteger('user_id')->index();
+                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                $table->unsignedInteger('role_id')->index();
+                $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+                $table->primary(['user_id', 'role_id']);
+                $table->timestamps();
+            });
+        } catch (PDOException $ex) {
+            $this->down();
+            try {
+                Schema::create('user_roles', function (Blueprint $table) {
+                    $table->unsignedInteger('user_id')->index();
+                    $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                    $table->unsignedInteger('role_id')->index();
+                    $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+                    $table->primary(['user_id', 'role_id']);
+                    $table->timestamps();
+                });
+            } catch (PDOException $ex) {
+                $this->down();
+                throw $ex;
+            }
+        }
     }
 
     /**
