@@ -12,5 +12,17 @@
         "name": "UASOFT Fikri",
         "email": "fikri@uatech.co.id"
     }],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Uasoft\\Badaso\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Uasoft\\Badaso\\Providers\\BadasoServiceProvider"
+            ]
+        }
+    }
 }
