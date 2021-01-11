@@ -23,19 +23,16 @@ class BadasoServiceProvider extends ServiceProvider
             return new Badaso();
         });
 
-        $this->publishes([
-            __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
-        ]);
-        $this->mergeConfigFrom(__DIR__.'/../Config/badaso.php', config_path('badaso.php'));
-
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'Badaso');
         $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
 
         $this->publishes([
+            __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
             __DIR__.'/../Seeder/' => database_path('seeds'),
-        ], 'BadasoSeeder');
+            __DIR__.'/../resources/js/' => resource_path('js/badaso'),
+        ], 'Badaso');
     }
 
     /**
