@@ -20,7 +20,9 @@ class BadasoDataController extends Controller
             ];
         })->toArray();
 
-        return ApiResponse::success($component_list);
+        $data['components'] = $component_list;
+
+        return ApiResponse::success($data);
     }
 
     public function getFilterOperators(Request $request)

@@ -84,7 +84,7 @@ export default new Vuex.Store({
       api.data
         .component()
         .then((res) => {
-          state.componentList = res.data;
+          state.componentList = res.data.components;
         })
         .catch((err) => {});
     },
@@ -92,7 +92,7 @@ export default new Vuex.Store({
       api.configuration
         .applyable()
         .then((res) => {
-          state.config = res.data;
+          state.config = res.data.configuration;
         })
         .catch((err) => {});
     },
@@ -100,7 +100,7 @@ export default new Vuex.Store({
       api.auth
         .user()
         .then((res) => {
-          state.user = res.data;
+          state.user = res.data.user;
         })
         .catch((err) => {});
     },

@@ -107,8 +107,9 @@ class BadasoAuthController extends Controller
             }
 
             // $user->token_payload = auth()->payload();
+            $data['user'] = json_decode(json_encode($user));
 
-            return ApiResponse::success(json_decode(json_encode($user)));
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
