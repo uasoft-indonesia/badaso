@@ -60,5 +60,27 @@ trait FileHandler
             readfile($file);
         } catch (Exception $e) {
         }
+
+        try {
+            if (filter_var($file, FILTER_VALIDATE_URL)) {
+                $headers = get_headers($file, 1);
+                $type = $headers['Content-Type'];
+                header("Content-type:$type");
+                ob_clean();
+                readfile($file);
+
+                return;
+            }
+            $mime = mime_content_type($file);
+            header("Content-type:$mime");
+            ob_clean();
+            readfile($file);
+        } catch (Exception $e) {
+            $path = public_path('badaso-images/badaso.jpg');
+            $mime = mime_content_type($path);
+            header("Content-type:$mime");
+            ob_clean();
+            readfile($path);
+        }
     }
 }
