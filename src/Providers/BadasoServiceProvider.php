@@ -28,12 +28,14 @@ class BadasoServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'Badaso');
         $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'badaso');
 
         $this->publishes([
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
             __DIR__.'/../Seeder/' => database_path('seeds'),
             __DIR__.'/../resources/js/' => resource_path('js/badaso'),
             __DIR__.'/../Images/' => public_path(),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
         ], 'Badaso');
     }
 
