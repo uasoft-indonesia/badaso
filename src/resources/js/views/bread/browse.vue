@@ -640,7 +640,6 @@ export default {
           this.getEntity();
         })
         .catch((error) => {
-          console.log(error);
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",

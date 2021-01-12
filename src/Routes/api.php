@@ -60,6 +60,8 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/item/edit-order', 'BadasoMenuController@editMenuItemOrder')->middleware(BadasoCheckPermissions::class.':edit_menu_items');
             Route::post('/item/add', 'BadasoMenuController@addMenuItem')->middleware(BadasoCheckPermissions::class.':add_menu_items');
             Route::delete('/item/delete', 'BadasoMenuController@deleteMenuItem')->middleware(BadasoCheckPermissions::class.':delete_menu_items');
+            Route::get('/item/permissions', 'BadasoMenuController@getMenuItemPermissions')->middleware(BadasoCheckPermissions::class.':edit_menu_items');
+            Route::put('/item/permissions', 'BadasoMenuController@setMenuItemPermissions')->middleware(BadasoCheckPermissions::class.':edit_menu_items');
 
             Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');
         });

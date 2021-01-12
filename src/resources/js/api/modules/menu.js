@@ -102,4 +102,18 @@ export default {
       return resource.delete(endpoint.menu.deleteItem, paramData);
     });
   },
+
+  getItemPermissions(data = {}) {
+    return auth.refreshToken().then((res) => {
+      let ep = endpoint.menu.itemPermissions;
+      let qs = QueryString(data);
+      let url = ep + qs;
+      return resource.get(url);
+    });
+  },
+  setItemPermissions(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.put(endpoint.menu.itemPermissions, data);
+    });
+  },
 };

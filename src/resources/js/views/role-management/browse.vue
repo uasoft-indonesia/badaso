@@ -170,7 +170,6 @@ export default {
           this.roles = response.data.roles;
         })
         .catch((error) => {
-          console.log(error);
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",

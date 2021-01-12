@@ -42,6 +42,7 @@ export default {
     editItemOrder: '/badaso-api/v1/menus/item/edit-order',
     addItem: '/badaso-api/v1/menus/item/add',
     deleteItem: '/badaso-api/v1/menus/item/delete',
+    itemPermissions: '/badaso-api/v1/menus/item/permissions',
   },
   permission: {
     browse: '/badaso-api/v1/permissions',

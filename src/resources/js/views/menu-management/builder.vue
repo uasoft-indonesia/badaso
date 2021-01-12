@@ -154,6 +154,14 @@
                     </div>
                     <div class="data-action">
                       <vs-button
+                        color="primary"
+                        type="relief"
+                        @click.stop
+                        v-if="$helper.isAllowed('edit_menu_items')"
+                        :to="{name: 'MenuPermissions', params: {id: $route.params.id, itemId: data.id}}"
+                        ><vs-icon icon="list"></vs-icon
+                      ></vs-button>
+                      <vs-button
                         color="warning"
                         type="relief"
                         @click.stop

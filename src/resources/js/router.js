@@ -39,6 +39,7 @@ import MenuBrowse from "./views/menu-management/browse";
 import MenuEdit from "./views/menu-management/edit";
 import MenuAdd from "./views/menu-management/add";
 import MenuBuilder from "./views/menu-management/builder";
+import MenuPermissions from "./views/menu-management/permissions";
 
 import BreadBrowse from "./views/bread-management/browse";
 import BreadRead from "./views/bread-management/read";
@@ -267,6 +268,14 @@ const router = new VueRouter({
           },
         },
         {
+          path: prefix + "/menu/:id/:itemId/permissions",
+          name: "MenuPermissions",
+          component: MenuPermissions,
+          meta: {
+            title: "Add Menu Item Permissions",
+          },
+        },
+        {
           path: prefix + "/menu/add",
           name: "MenuAdd",
           component: MenuAdd,
@@ -274,7 +283,6 @@ const router = new VueRouter({
             title: "Add Menu",
           },
         },
-
         {
           path: prefix + "/bread",
           name: "BreadBrowse",

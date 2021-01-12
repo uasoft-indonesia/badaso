@@ -96,7 +96,6 @@ export default {
           this.userRoles = [...response.data.userRoles];
         })
         .catch((error) => {
-          console.log(error);
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",
@@ -124,7 +123,6 @@ export default {
           this.getUserRoles();
         })
         .catch((error) => {
-          console.log(error);
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",

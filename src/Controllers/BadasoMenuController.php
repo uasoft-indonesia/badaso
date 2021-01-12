@@ -10,6 +10,7 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
+use Uasoft\Badaso\Models\Permission;
 
 class BadasoMenuController extends Controller
 {
@@ -369,6 +370,68 @@ class BadasoMenuController extends Controller
             DB::commit();
 
             return ApiResponse::success();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function getMenuItemPermissions(Request $request)
+    {
+        try {
+            $request->validate([
+                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_item_id' => ['required', 'exists:menu_items,id'],
+            ]);
+
+            $menu_item = MenuItem::find($request->menu_item_id);
+
+            $permissions = [];
+
+            if ($menu_item) {
+                $menu_item_permissions = explode(',', $menu_item->permissions);
+                $permissions = Permission::all();
+                $custom_permissions = [];
+                foreach ($permissions as $index => $permission) {
+                    if (in_array($permission->key, $menu_item_permissions)) {
+                        $permission->selected = 1;
+                    } else {
+                        $permission->selected = 0;
+                    }
+                    $custom_permissions[] = $permission;
+                }
+            }
+
+            $data['menu_item_permissions'] = $custom_permissions;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function setMenuItemPermissions(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_item_id' => ['required', 'exists:menu_items,id'],
+            ]);
+
+            $permission_ids = $request->get('permissions', []);
+            $permissions = Permission::whereIn('id', $permission_ids)->get();
+            $permissions = collect($permissions)->pluck('key')->toArray();
+
+            $menu_item = MenuItem::find($request->menu_item_id);
+            $menu_item->permissions = count($permission_ids) > 0 ? implode(',', $permissions) : null;
+            $menu_item->save();
+
+            $data['menu_item'] = $menu_item;
+            DB::commit();
+
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             DB::rollBack();
 
