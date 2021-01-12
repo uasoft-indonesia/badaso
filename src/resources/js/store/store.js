@@ -37,7 +37,7 @@ export default new Vuex.Store({
     FETCH_MENU(state) {
       const menuKey = process.env.MIX_DEFAULT_MENU
         ? process.env.MIX_DEFAULT_MENU
-        : "dashboard";
+        : "admin";
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
