@@ -30,8 +30,8 @@ Vue.prototype.$handleError = handleError;
 Vue.prototype.$helper = helper;
 Vue.prototype.$caseConvert = caseConvert;
 
-let baseUrl = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
 : "badaso-admin";
 Vue.prototype.$baseUrl = '/' + baseUrl;
 

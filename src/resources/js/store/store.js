@@ -15,8 +15,8 @@ export default new Vuex.Store({
     componentList: [],
     groupList: [
       {
-        label: "Dashboard Page",
-        value: "dashboard",
+        label: "Admin Panel",
+        value: "adminPanel",
       },
       {
         label: "Landing Page",
@@ -38,8 +38,8 @@ export default new Vuex.Store({
       const menuKey = process.env.MIX_DEFAULT_MENU
         ? process.env.MIX_DEFAULT_MENU
         : "dashboard";
-      const prefix = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-        ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+      const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+        ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
       api.menu
         .browseItemByKey({
@@ -55,8 +55,8 @@ export default new Vuex.Store({
         .catch((err) => {});
     },
     FETCH_CONFIGURATION_MENU(state) {
-      const prefix = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-        ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+      const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+        ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
       api.menu
         .browseItemByKey({

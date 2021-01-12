@@ -29,8 +29,8 @@ export default {
     data: () => ({
         email: '',
         password: '',
-        baseUrl: process.env.MIX_DASHBOARD_ROUTE_PREFIX
-  ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+        baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin"
     })
 }

@@ -124,8 +124,8 @@ Before you install badaso, make sure your laravel can run.
 ```
     JWT_SECRET={Your JWT secret key}
     FILESYSTEM_DRIVER={public by default}
-    MIX_DASHBOARD_ROUTE_PREFIX={your dashboard prefix}
-    MIX_DEFAULT_MENU={your menu, default 'dashboard'}
+    MIX_ADMIN_PANEL_ROUTE_PREFIX={your admin panel prefix}
+    MIX_DEFAULT_MENU={your menu, default 'admin'}
     MIX_API_ROUTE_PREFIX={badaso-api by default}
 ```
 - Add badaso guard at config/auth.php

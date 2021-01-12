@@ -29,8 +29,8 @@ import BreadAdd from "./../views/bread-management/add";
 import SiteBrowse from "./../views/site-management/browse";
 import SiteAdd from "./../views/site-management/add";
 
-let prefix_env = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-  ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 
 let prefix = "/" + prefix_env;

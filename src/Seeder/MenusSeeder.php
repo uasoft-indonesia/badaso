@@ -18,8 +18,8 @@ class MenusSeeder extends Seeder
             $menus = [
                 0 => [
                     'id' => 1,
-                    'key' => 'dashboard',
-                    'display_name' => 'Dashboard',
+                    'key' => 'admin',
+                    'display_name' => 'Admin Menu',
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],

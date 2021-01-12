@@ -30,7 +30,7 @@ export default createResource()
 
 const web = createResource()
 web.interceptors.request.use((config) => {
-  config.baseURL = process.env.MIX_DASHBOARD_ROUTE_PREFIX
+  config.baseURL = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   return config
 })
 

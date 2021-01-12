@@ -3,8 +3,8 @@ import Add from "./../views/bread/add.vue";
 import Edit from "./../views/bread/edit.vue";
 import Read from "./../views/bread/read.vue";
 
-let prefix_env = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-  ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 
 let prefix = "/" + prefix_env;

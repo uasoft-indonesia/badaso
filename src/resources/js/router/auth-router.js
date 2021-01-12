@@ -3,8 +3,8 @@ import Register from "./../views/auth/register.vue";
 import ForgotPassword from "./../views/auth/forgot-password.vue";
 import ResetPassword from "./../views/auth/reset-password.vue";
 
-let prefix_env = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-  ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 
 let prefix = "/" + prefix_env;

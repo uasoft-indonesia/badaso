@@ -101,7 +101,7 @@ export default {
     sidebarModel: true,
     doNotClose: false,
     windowWidth: window.innerWidth,
-    prefix: process.env.MIX_DASHBOARD_ROUTE_PREFIX ? process.env.MIX_DASHBOARD_ROUTE_PREFIX : 'badaso-admin'
+    prefix: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX : 'badaso-admin'
     // mainMenu: [],
   }),
   computed: {

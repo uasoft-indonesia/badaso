@@ -7,9 +7,9 @@ import AuthRoute from "./auth-router";
 import ConfigurationRoute from "./configuration-router";
 import BreadRoute from "./bread-router";
 
-import AdminContainer from "./../layout/full/AdminContainer.vue";
-import AuthContainer from "./../layout/full/AuthContainer.vue";
-import PublicContainer from "./../layout/full/PublicContainer.vue";
+import AdminContainer from "./../layout/admin-panel/AdminContainer.vue";
+import AuthContainer from "./../layout/auth/AuthContainer.vue";
+import LandingPageContainer from "./../layout/landing-page/LandingPageContainer.vue";
 
 import Home from "./../views/home.vue";
 
@@ -17,8 +17,8 @@ import PageNotFound from "./../views/error/404.vue";
 
 Vue.use(VueRouter);
 
-let prefix_env = process.env.MIX_DASHBOARD_ROUTE_PREFIX
-  ? process.env.MIX_DASHBOARD_ROUTE_PREFIX
+let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 
 let prefix = "/" + prefix_env;
@@ -37,8 +37,8 @@ const router = new VueRouter({
     },
     {
       path: "",
-      name: "Public",
-      component: PublicContainer,
+      name: "LandingPage",
+      component: LandingPageContainer,
       meta: {
         guest: true,
       },
@@ -46,7 +46,7 @@ const router = new VueRouter({
     },
     {
       path: "",
-      name: "Admin",
+      name: "AdminPanel",
       component: AdminContainer,
       meta: {
         authenticatedUser: true,
