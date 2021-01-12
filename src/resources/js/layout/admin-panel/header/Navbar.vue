@@ -136,6 +136,7 @@ export default {
   data: () => ({
     indexActive: 0,
     showToggle: false,
+    windowWidth: window.innerWidth,
   }),
   computed: {
     user: {
@@ -144,11 +145,22 @@ export default {
         return user;
       },
     },
+    isSidebarActive: {
+      get() {
+        return this.$store.state.isSidebarActive;
+      },
+    },
   },
   methods: {
     //This is for sidebar trigger in mobile
     reduceSidebar() {
-      this.$store.commit("REDUCE_SIDEBAR");
+      if (this.windowWidth < 768) {
+        this.$store.commit("IS_SIDEBAR_ACTIVE", !this.isSidebarActive);
+        this.$store.commit("REDUCE_SIDEBAR", false)
+      } else {
+        this.$store.commit("IS_SIDEBAR_ACTIVE", true);
+        this.$store.commit("REDUCE_SIDEBAR")
+      }
     },
     logout() {
       this.$api.auth

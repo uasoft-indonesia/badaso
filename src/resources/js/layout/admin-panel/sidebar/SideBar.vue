@@ -7,7 +7,7 @@
       color="primary"
       class="sidebarx"
       spacer
-      v-model="sidebarModel"
+      v-model="isSidebarActive"
       :click-not-close="doNotClose"
       :reduce="reduceSidebar"
     >
