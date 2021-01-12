@@ -2,9 +2,9 @@
   <div :class="`main-wrapper ${reduceSidebar ? 'main-wrapper-mini' : ''}`">
     <!---Navigation-->
     <Navbar
-      :topbarColor="dashboardHeaderColor"
-      :logo="dashboardLogo"
-      :title="dashboardTitle"
+      :topbarColor="adminPanelHeaderColor"
+      :logo="adminPanelLogo"
+      :title="adminPanelTitle"
     />
     <!---Sidebar-->
     <SideBar parent=".main-wrapper" />
@@ -31,22 +31,22 @@ export default {
     image: "",
   }),
   computed: {
-    dashboardTitle:{
+    adminPanelTitle:{
       get() {
         let config = this.$store.getters.getConfig
-        return  config.dashboardTitle ?  config.dashboardTitle : 'Badaso'
+        return  config.adminPanelTitle ?  config.adminPanelTitle : 'Badaso'
       }
     },
-    dashboardLogo:{
+    adminPanelLogo:{
       get() {
         let config = this.$store.getters.getConfig
-        return  this.$api.file.view(config.dashboardLogo)
+        return  this.$api.file.view(config.adminPanelLogo)
       }
     },
-    dashboardHeaderColor: {
+    adminPanelHeaderColor: {
       get() {
         let config = this.$store.getters.getConfig
-        return  config.dashboardHeaderColor ?  config.dashboardHeaderColor : "#2962ff"
+        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#2962ff"
       }
     },
     reduceSidebar: {

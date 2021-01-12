@@ -28,7 +28,7 @@ class SiteManagementSeeder extends Seeder
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
-                    'key' => 'dashboardDescription',
+                    'key' => 'adminPanelDescription',
                     'display_name' => 'Admin Panel Description',
                     'value' => 'Badaso, SPA CRUD Generator',
                     'details' => '',
