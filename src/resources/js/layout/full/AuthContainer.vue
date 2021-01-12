@@ -9,6 +9,6 @@
 <style>
 .login-register-bg {
     margin: 0 auto;
-    background: url(/badaso-images/background/auth-bg.jpg) no-repeat 50%;
+    /* background: url(/badaso-images/background/auth-bg.jpg) no-repeat 50%; */
 }
 </style>

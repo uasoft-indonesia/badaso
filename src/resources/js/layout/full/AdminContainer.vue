@@ -7,7 +7,7 @@
       :title="dashboardTitle"
     />
     <!---Sidebar-->
-    <SideBar parent=".main-wrapper" :sidebarLinks="sidebarLinks" />
+    <SideBar parent=".main-wrapper" />
     <!---Page Container-->
     <div class="main-container-fluid">
       <router-view></router-view>
@@ -18,10 +18,9 @@
 <script>
 import Navbar from "./header/Navbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
-import sidebarLinks from "./sidebar/sidebarlinks.js";
 
 export default {
-  name: "MainContainer",
+  name: "AdminContainer",
   components: {
     Navbar,
     SideBar,
@@ -29,7 +28,6 @@ export default {
   data: () => ({
     topbarColor: "#2962ff",
     logotitle: "Badaso",
-    sidebarLinks: sidebarLinks,
     image: "",
   }),
   computed: {

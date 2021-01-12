@@ -5,12 +5,10 @@ import QueryString from "../query-string";
 
 export default {
   applyable(data = {}) {
-    return auth.refreshToken().then((res) => {
-      let ep = endpoint.configuration.applyable;
-      let qs = QueryString(data);
-      let url = ep + qs;
-      return resource.get(url);
-    });
+    let ep = endpoint.configuration.applyable;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
   },
 
   browse(data = {}) {

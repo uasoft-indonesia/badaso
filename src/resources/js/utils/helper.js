@@ -1,4 +1,4 @@
-import store from "./store/store";
+import store from "./../store/store";
 import * as _ from "lodash";
 
 export default {

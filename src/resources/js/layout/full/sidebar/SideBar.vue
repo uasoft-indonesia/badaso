@@ -92,10 +92,6 @@ export default {
     parent: {
       type: String,
     },
-    sidebarLinks: {
-      type: Array,
-      required: true,
-    },
     index: {
       default: null,
       type: [String, Number],

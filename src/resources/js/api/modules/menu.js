@@ -4,6 +4,13 @@ import endpoint from "../endpoint";
 import QueryString from "../query-string";
 
 export default {
+  browseItemByKey(data) {
+    let ep = endpoint.menu.browseItemByKey;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
   browse(data = {}) {
     return auth.refreshToken().then((res) => {
       let ep = endpoint.menu.browse;
@@ -46,15 +53,6 @@ export default {
   browseItem(data) {
     return auth.refreshToken().then((res) => {
       let ep = endpoint.menu.browseItem;
-      let qs = QueryString(data);
-      let url = ep + qs;
-      return resource.get(url);
-    });
-  },
-
-  browseItemByKey(data) {
-    return auth.refreshToken().then((res) => {
-      let ep = endpoint.menu.browseItemByKey;
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
