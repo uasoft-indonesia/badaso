@@ -56,7 +56,7 @@ Before you install badaso, make sure your laravel can run.
     ]
 ```
 - run ```composer install```
-- register badaso providers dan jwt providers in config/app.php
+- register badaso provider dan jwt provider in config/app.php
 ```
     /*
      * Badaso
@@ -83,16 +83,6 @@ Before you install badaso, make sure your laravel can run.
 - copy JS library to packages.json, looks like
 ```javascript
 {
-  "private": true,
-  "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "npm run development -- --watch",
-    "watch-poll": "npm run watch -- --watch-poll",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
-  },
   "devDependencies": {
     "axios": "^0.18",
     "bootstrap": "^4.0.0",
@@ -105,8 +95,6 @@ Before you install badaso, make sure your laravel can run.
   },
   "dependencies": {
     "@johmun/vue-tags-input": "^2.1.0",
-    "botman-tinker": "^0.0.1",
-    "boxicons": "^2.0.7",
     "chart.js": "^2.8.0",
     "luxon": "^1.25.0",
     "material-icons": "^0.3.1",
@@ -135,7 +123,10 @@ Before you install badaso, make sure your laravel can run.
 - add this to env
 ```
     JWT_SECRET={Your JWT secret key}
+    FILESYSTEM_DRIVER={public by default}
     MIX_DASHBOARD_ROUTE_PREFIX={your dashboard prefix}
+    MIX_DEFAULT_MENU={your menu, default 'dashboard'}
+    MIX_API_ROUTE_PREFIX={badaso-api by default}
 ```
 - Add badaso guard at config/auth.php
 ```

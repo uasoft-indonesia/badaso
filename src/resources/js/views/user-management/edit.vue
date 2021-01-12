@@ -17,24 +17,28 @@
               size="12"
               label="Name"
               placeholder="Name"
+              :alert="errors.name"
             ></badaso-text>
             <badaso-text
               v-model="user.email"
               size="6"
               label="Email"
               placeholder="Email"
+              :alert="errors.email"
             ></badaso-text>
             <badaso-password
               v-model="user.password"
               size="6"
               label="Password"
               placeholder="Leave blank if unchanged"
+              :alert="errors.password"
             ></badaso-password>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
               label="New Avatar"
               placeholder="New Avatar"
+              :alert="errors.avatar"
             ></badaso-upload-image>
             <vs-col vs-lg="12" class="mb-3">
               <badaso-code-editor
@@ -42,6 +46,7 @@
                 size="12"
                 label="Additional Info (JSON)"
                 placeholder="Additional Info (JSON)"
+                :alert="errors.additionalInfo"
               ></badaso-code-editor>
             </vs-col>
           </vs-row>
@@ -78,6 +83,7 @@ export default {
     BadasoUploadImage,
   },
   data: () => ({
+    errors: {},
     user: {
       email: "",
       name: "",
@@ -122,7 +128,10 @@ export default {
         });
     },
     submitForm() {
-      this.$vs.loading();
+      this.errors = {}
+      this.$vs.loading({
+        type: "sound",
+      });
       this.$api.user
         .edit({
           id: this.$route.params.id,
@@ -140,6 +149,7 @@ export default {
           this.$router.push({ name: "UserBrowse" });
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",

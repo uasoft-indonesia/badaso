@@ -17,12 +17,14 @@
               size="6"
               label="Key"
               placeholder="menu_key"
+              :alert="errors.key"
             ></badaso-text>
             <badaso-text
               v-model="menu.displayName"
               size="6"
               label="Display Name"
               placeholder="Display Name"
+              :alert="errors.displayName"
             ></badaso-text>
           </vs-row>
         </vs-card>
@@ -63,6 +65,7 @@ export default {
     BadasoBreadcrumb,
   },
   data: () => ({
+    errors: {},
     menu: {
       displayName: "",
       key: "",
@@ -70,6 +73,7 @@ export default {
   }),
   methods: {
     submitForm() {
+      this.errors = {}
       this.$vs.loading();
       this.$api.menu
         .add(this.menu)
@@ -78,6 +82,7 @@ export default {
           this.$router.push({ name: "MenuBrowse" });
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",

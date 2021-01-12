@@ -45,6 +45,21 @@ class Badaso
         '=',
     ];
 
+    protected $protected_tables = [
+        'data_rows',
+        'data_types',
+        'migrations',
+        'password_resets',
+        'menus',
+        'menu_items',
+        'users',
+        'roles',
+        'permissions',
+        'configurations',
+        'role_permissions',
+        'user_roles',
+    ];
+
     public function model($name)
     {
         return app($this->models[Str::studly($name)]);
@@ -63,5 +78,10 @@ class Badaso
     public function getFilterOperator()
     {
         return $this->supported_filter_operator;
+    }
+
+    public function getProtectedTables()
+    {
+        return $this->protected_tables;
     }
 }

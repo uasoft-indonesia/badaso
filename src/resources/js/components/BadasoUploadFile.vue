@@ -31,7 +31,7 @@
           <div class="file">
             <a
               target="_blank"
-              :href="`/badaso-api/v1/file/download?file=${value}`"
+              :href="`${$api.file.download(value)}`"
               >{{ value.split("/").reverse()[0] }}</a
             >
           </div>

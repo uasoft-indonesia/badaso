@@ -42,7 +42,7 @@ export default {
     dashboardLogo:{
       get() {
         let config = this.$store.getters.getConfig
-        return  '/badaso-api/v1/file/view?file='+config.dashboardLogo
+        return  this.$api.file.view(config.dashboardLogo)
       }
     },
     dashboardHeaderColor: {

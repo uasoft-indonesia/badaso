@@ -7,6 +7,7 @@ import role from './modules/role'
 import user from './modules/user'
 import data from './modules/data'
 import entity from './modules/entity'
+import file from './modules/file'
 
 export default {
   auth,
@@ -17,5 +18,6 @@ export default {
   role,
   user,
   entity,
-  data
+  data,
+  file
 }

@@ -17,24 +17,28 @@
               size="12"
               label="Name"
               placeholder="Name"
+              :alert="errors.name"
             ></badaso-text>
             <badaso-text
               v-model="user.email"
               size="6"
               label="Email"
               placeholder="Email"
+              :alert="errors.email"
             ></badaso-text>
             <badaso-password
               v-model="user.password"
               size="6"
               label="Password"
               placeholder="Password"
+              :alert="errors.password"
             ></badaso-password>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
               label="Avatar"
               placeholder="Avatar"
+              :alert="errors.avatar"
             ></badaso-upload-image>
             <vs-col vs-lg="12" class="mb-3">
               <label for="" class="vs-input--label"
@@ -45,6 +49,7 @@
                 size="12"
                 label="Avatar"
                 placeholder="Avatar"
+                :alert="errors.additionalInfo"
               ></badaso-code-editor>
             </vs-col>
           </vs-row>
@@ -81,6 +86,7 @@ export default {
     BadasoUploadImage,
   },
   data: () => ({
+    errors: {},
     user: {
       email: "",
       name: "",
@@ -92,11 +98,14 @@ export default {
   mounted() {},
   methods: {
     submitForm() {
+      this.errors = {};
       try {
-        if (this.user.additionalInfo && this.user.additionalInfo != '') {
+        if (this.user.additionalInfo && this.user.additionalInfo != "") {
           JSON.parse(this.user.additionalInfo);
         }
-        this.$vs.loading();
+        this.$vs.loading({
+          type: "sound",
+        });
         this.$api.user
           .add({
             email: this.user.email,
@@ -110,6 +119,7 @@ export default {
             this.$router.push({ name: "UserBrowse" });
           })
           .catch((error) => {
+            this.errors = error.errors
             this.$vs.loading.close();
             this.$vs.notify({
               title: "Danger",
@@ -119,10 +129,10 @@ export default {
           });
       } catch (e) {
         this.$vs.notify({
-            title: "Danger",
-            text: 'Additional Info is invalid',
-            color: "danger",
-          });
+          title: "Danger",
+          text: "Additional Info is invalid",
+          color: "danger",
+        });
       }
     },
   },

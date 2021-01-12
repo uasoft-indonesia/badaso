@@ -80,8 +80,8 @@
                     <img
                       v-if="dataRow.type === 'upload_image'"
                       :src="
-                        `/badaso-api/v1/file/view?file=${
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        `${$api.file.view(
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                         }`
                       "
                       width="100%"
@@ -96,7 +96,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )"
                         :key="indexImage"
-                        :src="`/badaso-api/v1/file/view?file=${image}`"
+                        :src="`${$api.file.view(image)}`"
                         width="100%"
                         alt=""
                         style="margin-bottom: 10px;"
@@ -121,8 +121,8 @@
                     <a
                       v-else-if="dataRow.type === 'upload_file'"
                       :href="
-                        `/badaso-api/v1/file/download?file=${
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        `${$api.file.download(
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                         }`
                       "
                       target="_blank"
@@ -141,7 +141,7 @@
                         :key="indexFile"
                       >
                         <a
-                          :href="`/badaso-api/v1/file/download?file=${file}`"
+                          :href="`${$api.file.download(file)}`"
                           target="_blank"
                           >{{ file }}</a
                         >
@@ -277,10 +277,10 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `/badaso-api/v1/file/view?file=${
+                          `${$api.file.view(
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
+                            ])
                           }`
                         "
                         width="100%"
@@ -297,7 +297,7 @@
                             ]
                           )"
                           :key="indexImage"
-                          :src="`/badaso-api/v1/file/view?file=${image}`"
+                          :src="`${$api.file.view(image)}`"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -322,10 +322,10 @@
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
-                          `/badaso-api/v1/file/download?file=${
+                          `${$api.file.download(
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
+                            ])
                           }`
                         "
                         target="_blank"
@@ -346,7 +346,7 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`/badaso-api/v1/file/download?file=${file}`"
+                            :href="`${$api.file.download(file)}`"
                             target="_blank"
                             >{{ file }}</a
                           >

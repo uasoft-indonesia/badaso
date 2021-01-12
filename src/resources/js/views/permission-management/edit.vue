@@ -12,10 +12,35 @@
             <h3>Edit Permission</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="permission.key" size="6" label="Key" placeholder="Key" readonly></badaso-text>
-            <badaso-switch v-model="permission.alwaysAllow" size="6" label="Alway Allow" placeholder="Always Allow"></badaso-switch>
-            <badaso-textarea v-model="permission.description" size="12" label="Description" placeholder="Description"></badaso-textarea>
-            <badaso-text v-model="permission.tableName" size="12" label="Table Name" placeholder="Table Name"></badaso-text>
+            <badaso-text
+              v-model="permission.key"
+              size="6"
+              label="Key"
+              placeholder="Key"
+              readonly
+              :alert="errors.key"
+            ></badaso-text>
+            <badaso-switch
+              v-model="permission.alwaysAllow"
+              size="6"
+              label="Alway Allow"
+              placeholder="Always Allow"
+              :alert="errors.alwaysAllow"
+            ></badaso-switch>
+            <badaso-textarea
+              v-model="permission.description"
+              size="12"
+              label="Description"
+              placeholder="Description"
+              :alert="errors.description"
+            ></badaso-textarea>
+            <badaso-text
+              v-model="permission.tableName"
+              size="12"
+              label="Table Name"
+              placeholder="Table Name"
+              :alert="errors.tableName"
+            ></badaso-text>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -47,8 +72,8 @@
 <script>
 import BadasoText from "../../components/BadasoText";
 import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
-import BadasoSwitch from '../../components/BadasoSwitch.vue';
-import BadasoTextarea from '../../components/BadasoTextarea.vue';
+import BadasoSwitch from "../../components/BadasoSwitch.vue";
+import BadasoTextarea from "../../components/BadasoTextarea.vue";
 
 export default {
   name: "Browse",
@@ -56,31 +81,35 @@ export default {
     BadasoText,
     BadasoBreadcrumb,
     BadasoSwitch,
-    BadasoTextarea
+    BadasoTextarea,
   },
   data: () => ({
+    errors: {},
     permission: {
-        description: '',
-        alwaysAllow: false
-    }
+      description: "",
+      alwaysAllow: false,
+    },
   }),
   mounted() {
-        this.getPermissionDetail();
+    this.getPermissionDetail();
   },
   methods: {
     getPermissionDetail() {
-        this.$vs.loading({
+      this.$vs.loading({
         type: "sound",
       });
       this.$api.permission
         .read({
-            id: this.$route.params.id
+          id: this.$route.params.id,
         })
         .then((response) => {
           this.$vs.loading.close();
           this.permission = response.data.permission;
-          this.permission.alwaysAllow = this.permission.alwaysAllow === 1
-          this.permission.description = this.permission.description === null ? '' : this.permission.description
+          this.permission.alwaysAllow = this.permission.alwaysAllow === 1;
+          this.permission.description =
+            this.permission.description === null
+              ? ""
+              : this.permission.description;
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -92,17 +121,23 @@ export default {
         });
     },
     submitForm() {
+      this.errors = {}
       this.$vs.loading();
       this.$api.permission
         .edit(this.permission)
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({name: "PermissionBrowse"})
+          this.$router.push({ name: "PermissionBrowse" });
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
-        })
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
   },
 };

@@ -26,6 +26,7 @@ export default {
     }
     return type;
   },
+
   generateDisplayName(fieldName) {
     let displayName = "";
     let words = fieldName.split("_");
@@ -35,6 +36,7 @@ export default {
     displayName = displayNameWord.join(" ");
     return displayName;
   },
+
   generateSlug(string) {
     let str = string.replace(/^\s+|\s+$/g, "");
 
@@ -60,9 +62,11 @@ export default {
 
     return str;
   },
+
   isArray(value){
     return Array.isArray(value)
   },
+
   isAllowed(permission) {
     let userPermissions = store.getters.getUser.permissions;
     let result = _.find(userPermissions, function(o) {

@@ -21,13 +21,13 @@
           <a
             v-if="fileData.name"
             target="_blank"
-            :href="`/badaso-api/v1/file/download?file=${fileData.name}`"
+            :href="`${$api.file.download(fileData.name)}`"
             >{{ fileData.name }}</a
           >
           <a
             v-else
             target="_blank"
-            :href="`/badaso-api/v1/file/download?file=${fileData}`"
+            :href="`${$api.file.download(fileData)}`"
             >{{ fileData.split('/').reverse()[0] }}</a
           >
         </div>

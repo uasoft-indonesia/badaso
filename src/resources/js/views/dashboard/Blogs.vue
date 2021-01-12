@@ -9,7 +9,7 @@
         </div>
         <div slot="media">
           <img
-            src="/badaso-api/v1/file/view?file=/badaso-images/big/img5.jpg"
+            :src="`${$api.file.view('/badaso-images/big/img5.jpg')}`"
           />
         </div>
         <div class="mb-2">
@@ -29,7 +29,7 @@
         </div>
         <div slot="media">
           <img
-            src="/badaso-api/v1/file/view?file=/badaso-images/big/img4.jpg"
+            :src="`${$api.file.view('/badaso-images/big/img4.jpg')}`"
           />
         </div>
         <div class="mb-2">
@@ -49,7 +49,7 @@
         </div>
         <div slot="media">
           <img
-            src="/badaso-api/v1/file/view?file=/badaso-images/big/img3.jpg"
+            :src="`${$api.file.view('/badaso-images/big/img3.jpg')}`"
           />
         </div>
         <div class="mb-2">
@@ -69,7 +69,7 @@
         </div>
         <div slot="media">
           <img
-            src="/badaso-api/v1/file/view?file=/badaso-images/big/img1.jpg"
+            :src="`${$api.file.view('/badaso-images/big/img1.jpg')}`"
           />
         </div>
         <div class="mb-2">

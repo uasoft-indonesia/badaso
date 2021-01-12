@@ -19,16 +19,19 @@
               placeholder="Table Name"
               required
               readonly
+              :alert="errors.name"
             ></badaso-text>
             <badaso-switch
               size="3"
               v-model="dataBread.generatePermissions"
               label="Generate Permissions"
+              :alert="errors.generatePermissions"
             ></badaso-switch>
             <badaso-switch
               size="3"
               v-model="dataBread.serverSide"
               label="Server Side"
+              :alert="errors.serverSide"
             ></badaso-switch>
           </vs-row>
           <vs-row>
@@ -38,38 +41,42 @@
               label="Display Name(Singular)"
               required
               placeholder="Display Name(Singular)"
+              :alert="errors.displayNameSingular"
             ></badaso-text>
             <badaso-text
               v-model="dataBread.displayNamePlural"
               size="6"
               label="Display Name(Plural)"
-              required
               placeholder="Display Name(Plural)"
+              :alert="errors.displayNamePlural"
             ></badaso-text>
             <badaso-text
               v-model="dataBread.slug"
               size="6"
               label="URL Slug (must be unique)"
-              required
               placeholder="URL Slug (must be unique)"
+              :alert="errors.slug"
             ></badaso-text>
             <badaso-text
               v-model="dataBread.icon"
               size="6"
               label="Icon"
               placeholder="Icon"
+              :alert="errors.icon"
             ></badaso-text>
             <badaso-text
               v-model="dataBread.modelName"
               size="6"
               label="Model Name"
               placeholder="Model Name"
+              :alert="errors.modelName"
             ></badaso-text>
             <badaso-text
               v-model="dataBread.controller"
               size="6"
               label="Controller Name"
               placeholder="Controller Name"
+              :alert="errors.controller"
             ></badaso-text>
             <badaso-select
               v-model="dataBread.orderColumn"
@@ -77,6 +84,7 @@
               label="Order Column"
               placeholder="Order Column"
               :items="fieldList"
+              :alert="errors.orderColumn"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDisplayColumn"
@@ -84,6 +92,7 @@
               label="Order Display Column"
               placeholder="Order Display Column"
               :items="fieldList"
+              :alert="errors.orderDisplayColumn"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDirection"
@@ -91,6 +100,7 @@
               label="Order Direction"
               placeholder="Order Direction"
               :items="orderDirections"
+              :alert="errors.orderDirection"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.defaultServerSideSearchField"
@@ -98,12 +108,14 @@
               label="Default Server Side Search Field"
               placeholder="Default Server Side Search Field"
               :items="fieldList"
+              :alert="errors.defaultServerSideSearchField"
             ></badaso-select>
             <badaso-textarea
               size="12"
               label="Description"
               placeholder="Description"
               v-model="dataBread.description"
+              :alert="errors.description"
             >
             </badaso-textarea>
           </vs-row>
@@ -253,6 +265,7 @@ export default {
     BadasoTextarea,
   },
   data: () => ({
+    errors: {},
     breadcrumb: [],
     errors: {},
     fieldList: [],
@@ -316,7 +329,7 @@ export default {
           this.$router.push({ name: "BreadBrowse" });
         })
         .catch((error) => {
-          this.erros = error.errors
+          this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",

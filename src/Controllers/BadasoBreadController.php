@@ -18,6 +18,8 @@ use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 use Uasoft\Badaso\Models\Permission;
+use Uasoft\Badaso\Models\Role;
+use Uasoft\Badaso\Models\RolePermission;
 
 class BadasoBreadController extends Controller
 {
@@ -27,7 +29,7 @@ class BadasoBreadController extends Controller
             $db_name = config('badaso.db_name', '');
             $tables = DB::select('SHOW TABLES');
             $key = 'Tables_in_'.$db_name;
-            $tables = collect($tables)->whereNotIn($key, config('badaso.exclude_tables_from_bread', []))->all();
+            $tables = collect($tables)->whereNotIn($key, Badaso::getProtectedTables())->all();
 
             $breads = [];
             foreach ($tables as $table) {
@@ -250,13 +252,14 @@ class BadasoBreadController extends Controller
                 $new_data_rows[] = $new_data_row;
             }
 
-            Permission::generateFor($data_type->name);
-
             if ($data_type->generate_permissions) {
-                $this->addEditMenuItem($data_type);
+                Permission::generateFor($data_type->name);
+                $this->generateAdministratorPermissions();
             } else {
                 Permission::removeFrom($data_type->name);
             }
+
+            $this->addEditMenuItem($data_type);
 
             $data_type->data_rows = $new_data_rows;
 
@@ -341,6 +344,7 @@ class BadasoBreadController extends Controller
 
             if ($new_data_type->generate_permissions) {
                 Permission::generateFor($new_data_type->name);
+                $this->generateAdministratorPermissions();
             }
 
             $this->addEditMenuItem($new_data_type);
@@ -467,5 +471,26 @@ class BadasoBreadController extends Controller
     private function deleteMenuItem($data_type)
     {
         MenuItem::where('url', $data_type->slug)->delete();
+    }
+
+    private function generateAdministratorPermissions()
+    {
+        $administrator = Role::where('name', 'administrator')->firstOrFail();
+
+        $permissions = Permission::all();
+
+        if (!is_null($administrator)) {
+            foreach ($permissions as $row) {
+                $role_permission = RolePermission::where('role_id', $administrator->id)
+                        ->where('permission_id', $row->id)
+                        ->first();
+                if (is_null($role_permission)) {
+                    $role_permission = new RolePermission();
+                    $role_permission->role_id = $administrator->id;
+                    $role_permission->permission_id = $row->id;
+                    $role_permission->save();
+                }
+            }
+        }
     }
 }

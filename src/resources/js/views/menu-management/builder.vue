@@ -1,5 +1,111 @@
 <template>
   <div>
+    <vs-popup
+      class="holamundo"
+      title="Add Menu Item"
+      :active.sync="addMenuItemPopUp"
+    >
+      <vs-row>
+        <badaso-text
+          v-model="menuItem.title"
+          size="12"
+          label="Title"
+          placeholder=""
+          :alert="errors.title"
+        ></badaso-text>
+        <badaso-text
+          v-model="menuItem.url"
+          size="12"
+          label="Url"
+          placeholder=""
+          :alert="errors.url"
+        ></badaso-text>
+        <badaso-select
+          v-model="menuItem.target"
+          size="12"
+          label="Target"
+          :items="menuItemTargets"
+          placeholder=""
+          :alert="errors.target"
+        ></badaso-select>
+        <badaso-text
+          v-model="menuItem.iconClass"
+          size="12"
+          label="Icon"
+          placeholder=""
+          additionalInfo="Use&nbsp;<a href='https://material.io/resources/icons/?style=baseline' target='_blank'>material design icon</a>"
+          :alert="errors.icon"
+        ></badaso-text>
+        <badaso-color-picker
+          size="12"
+          v-model="menuItem.color"
+          :alert="errors.color"
+        ></badaso-color-picker>
+      </vs-row>
+      <vs-row vs-type="flex" vs-justify="flex-end">
+        <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
+          <vs-button color="primary" @click="saveMenuItem()" type="filled"
+            >Add</vs-button
+          >
+          <vs-button color="danger" type="flat">Cancel</vs-button>
+        </vs-col>
+      </vs-row>
+    </vs-popup>
+    <vs-popup
+      class="holamundo"
+      title="Edit Menu Item"
+      :active.sync="editMenuItemPopUp"
+    >
+      <vs-row>
+        <badaso-text
+          v-model="menuItem.title"
+          size="12"
+          label="Title"
+          placeholder=""
+          :alert="errors.tile"
+        ></badaso-text>
+        <badaso-text
+          v-model="menuItem.url"
+          size="12"
+          label="Url"
+          placeholder=""
+          :alert="errors.url"
+        ></badaso-text>
+        <badaso-select
+          v-model="menuItem.target"
+          size="12"
+          label="Target"
+          :items="menuItemTargets"
+          placeholder=""
+          :alert="errors.target"
+        ></badaso-select>
+        <badaso-text
+          v-model="menuItem.iconClass"
+          size="12"
+          label="Icon"
+          placeholder=""
+          additionalInfo="Use&nbsp;<a href='https://material.io/resources/icons/?style=baseline' target='_blank'>material design icon</a>"
+          :alert="errors.icon"
+        ></badaso-text>
+        <badaso-color-picker
+          size="12"
+          v-model="menuItem.color"
+          :alert="errors.color"
+        ></badaso-color-picker>
+      </vs-row>
+      <vs-row vs-type="flex" vs-justify="flex-end">
+        <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
+          <vs-button
+            v-if="menuItem.id"
+            color="primary"
+            @click="updateMenuItem()"
+            type="filled"
+            >Update</vs-button
+          >
+          <vs-button color="danger" type="flat">Cancel</vs-button>
+        </vs-col>
+      </vs-row>
+    </vs-popup>
     <vs-row>
       <vs-col vs-lg="8">
         <badaso-breadcrumb></badaso-breadcrumb>
@@ -9,32 +115,9 @@
           <vs-button
             color="primary"
             type="relief"
-            @click="openPopup=true"
+            @click="addMenuItem()"
             ><vs-icon icon="add"></vs-icon> Add Item</vs-button
           >
-          <vs-popup
-            class="holamundo"
-            title="Add Menu Item"
-            :active.sync="openPopup"
-          >
-            <vs-row>
-              <badaso-text v-model="menuItem.title" size="12" label="Title" placeholder=""></badaso-text>
-              <badaso-text v-model="menuItem.url" size="12" label="Url" placeholder=""></badaso-text>
-              <badaso-select v-model="menuItem.target" size="12" label="Target" :items="menuItemTargets" placeholder=""></badaso-select>
-              <badaso-text v-model="menuItem.iconClass" size="12" label="Icon" placeholder="" additionalInfo="Use&nbsp;<a href='https://material.io/resources/icons/?style=baseline' target='_blank'>material design icon</a>"></badaso-text>
-              <badaso-color-picker
-              size="12"
-              v-model="menuItem.color"
-            ></badaso-color-picker>
-            </vs-row>
-            <vs-row vs-type="flex" vs-justify="flex-end">
-              <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
-                <vs-button v-if="menuItem.id" color="primary" @click="updateMenuItem()" type="filled">Update</vs-button>
-                <vs-button v-else color="primary" @click="addMenuItem()" type="filled">Add</vs-button>
-                <vs-button color="danger" type="flat">Cancel</vs-button>
-              </vs-col>
-            </vs-row>
-          </vs-popup>
         </div>
       </vs-col>
     </vs-row>
@@ -70,7 +153,10 @@
                       </div>
                     </div>
                     <div class="data-action">
-                      <vs-button color="warning" type="relief" @click.stop
+                      <vs-button
+                        color="warning"
+                        type="relief"
+                        @click.stop
                         @click="editMenuItem(data)"
                         v-if="$helper.isAllowed('edit_menu_items')"
                         ><vs-icon icon="edit"></vs-icon
@@ -120,28 +206,30 @@ export default {
     Tree: DraggableTree,
     BadasoText,
     BadasoSelect,
-    BadasoColorPicker
+    BadasoColorPicker,
   },
   data: () => ({
+    errors: {},
     fieldList: [],
     menuItems: [],
     menuItem: {
-      color: ''
+      color: "",
     },
     savedItems: [],
     flatSavedItems: [],
     arrangeItems: false,
-    openPopup:false,
+    addMenuItemPopUp: false,
+    editMenuItemPopUp: false,
     menuItemIdWillBeDeleted: null,
     menuItemTargets: [
       {
-        label: "New Window",
-        value: "_blank",
+        label: "This Tab",
+        value: "_self",
       },
       {
-        label: "Same Window",
-        value: "_self",
-      }
+        label: "New Tab",
+        value: "_blank",
+      },
     ],
   }),
   watch: {
@@ -168,26 +256,6 @@ export default {
         },
       });
     },
-    submitForm() {
-      this.$vs.loading({
-        type: "sound",
-      });
-      this.$api.bread
-        .add(this.$caseConvert.snake(this.dataBread))
-        .then((response) => {
-          this.$vs.loading.close();
-          this.$store.commit("FETCH_MENU");
-          this.$router.push({ name: "BreadBrowse" });
-        })
-        .catch((error) => {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: "Danger",
-            text: error.message,
-            color: "danger",
-          });
-        });
-    },
     getMenuItems() {
       this.arrangeItems = false;
       this.$vs.loading({
@@ -204,6 +272,11 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
           this.$vs.loading.close();
         });
     },
@@ -301,16 +374,31 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          console.log(error);
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
           this.$vs.loading.close();
         });
     },
-    addMenuItem() {
+    editMenuItem(menuItem) {
+      this.menuItem = menuItem;
+      this.editMenuItemPopUp = true;
+    },
+    addMenuItem(menuItem) {
+      this.menuItem = {
+        color: "",
+      };
+      this.addMenuItemPopUp = true;
+    },
+    saveMenuItem() {
+      this.errors = {}
       this.$vs.loading({
         type: "sound",
       });
       this.$api.menu
-        .addItem({...this.menuItem, menuId: this.$route.params.id})
+        .addItem({ ...this.menuItem, menuId: this.$route.params.id })
         .then((response) => {
           this.getMenuItems();
           this.openPopup = false;
@@ -318,11 +406,17 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          console.log(error);
+          this.errors = error.errors
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
           this.$vs.loading.close();
         });
     },
     deleteMenuItem() {
+      this.errors = {}
       this.$vs.loading({
         type: "sound",
       });
@@ -338,15 +432,17 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          console.log(error);
+          this.errors = error.errors
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
           this.$vs.loading.close();
         });
     },
-    editMenuItem(menuItem) {
-      this.menuItem = menuItem;
-      this.openPopup = true;
-    },
     updateMenuItem() {
+      this.errors = {}
       this.$vs.loading({
         type: "sound",
       });
@@ -367,7 +463,12 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          console.log(error);
+          this.errors = error.errors
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
           this.$vs.loading.close();
         });
     },

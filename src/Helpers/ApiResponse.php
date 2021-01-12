@@ -20,7 +20,7 @@ class ApiResponse
     public static function success($value = null)
     {
         $response = [];
-        $response['message'] = __('badaso.api_response.200');
+        $response['message'] = __('badaso::api_response.200');
         $response['errors'] = null;
         if (!is_null($value)) {
             if (is_array($value)) {
@@ -47,7 +47,7 @@ class ApiResponse
         $http_status = 500;
 
         if ($error instanceof ValidationException) {
-            $response['message'] = __('badaso.api_response.400');
+            $response['message'] = __('badaso::api_response.400');
             $response['errors'] = $error->errors();
             $http_status = 400;
         } elseif ($error instanceof SingleException) {
@@ -78,7 +78,7 @@ class ApiResponse
     public static function entity($data_type, $data = null, $permissions = null)
     {
         $response = [];
-        $response['message'] = __('badaso.api_response.200');
+        $response['message'] = __('badaso::api_response.200');
         $response['data']['data_type'] = $data_type;
         $response['data']['user_permissions'] = $permissions;
         $response['data']['entities'] = $data;
@@ -90,7 +90,7 @@ class ApiResponse
 
     public static function unauthorized($message = null)
     {
-        $response['message'] = $message ? $message : __('badaso.api_response.401');
+        $response['message'] = $message ? $message : __('badaso::api_response.401');
         $response['errors'] = null;
         $response['data'] = null;
 
@@ -99,7 +99,7 @@ class ApiResponse
 
     public static function forbidden()
     {
-        $response['message'] = __('badaso.api_response.403');
+        $response['message'] = __('badaso::api_response.403');
         $response['errors'] = null;
         $response['data'] = null;
 

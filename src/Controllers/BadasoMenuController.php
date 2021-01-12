@@ -175,7 +175,7 @@ class BadasoMenuController extends Controller
             $new_menu_item->menu_id = $request->get('menu_id');
             $new_menu_item->title = $request->get('title');
             $new_menu_item->url = $request->get('url');
-            $new_menu_item->target = $request->get('target');
+            $new_menu_item->target = $request->get('target') ? $request->get('target') : '_self';
             $new_menu_item->icon_class = $request->get('icon_class');
             $new_menu_item->color = $request->get('color');
             $new_menu_item->parent_id = $request->get('parent_id');
@@ -226,13 +226,14 @@ class BadasoMenuController extends Controller
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
                 'title' => ['required'],
                 'url' => ['required'],
+                'target' => ['required'],
             ]);
 
             $menu_item = MenuItem::find($request->menu_item_id);
             $menu_item->menu_id = $request->get('menu_id');
             $menu_item->title = $request->get('title');
             $menu_item->url = $request->get('url');
-            $menu_item->target = $request->get('target');
+            $menu_item->target = $request->get('target') ? $request->get('target') : '_self';
             $menu_item->icon_class = $request->get('icon_class');
             $menu_item->color = $request->get('color');
             $menu_item->save();

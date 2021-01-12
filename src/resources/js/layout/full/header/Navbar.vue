@@ -70,13 +70,13 @@
         class="cursor-pointer pr-2 pl-2 ml-1 mr-md-3"
       >
         <a class="text-white-dark user-image" href="#"
-          ><img :src="`/badaso-api/v1/file/view?file=${user.avatar}`" alt="User"
+          ><img :src="`${$api.file.view(user.avatar)}`" alt="User"
         /></a>
         <vs-dropdown-menu class="topbar-dd">
           <div class="d-flex align-items-center p-3 bg-danger text-white mb-2">
             <div>
               <img
-                :src="`/badaso-api/v1/file/view?file=${user.avatar}`"
+                :src="`${$api.file.view(user.avatar)}`"
                 alt="user"
                 width="60"
                 class="rounded-circle"

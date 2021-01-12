@@ -12,8 +12,20 @@
             <h3>Edit Menu</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="menu.key" size="6" label="Key" placeholder="menu_key"></badaso-text>
-            <badaso-text v-model="menu.displayName" size="6" label="Display Name" placeholder="Display Name"></badaso-text>
+            <badaso-text
+              v-model="menu.key"
+              size="6"
+              label="Key"
+              placeholder="menu_key"
+              :alert="errors.key"
+            ></badaso-text>
+            <badaso-text
+              v-model="menu.displayName"
+              size="6"
+              label="Display Name"
+              placeholder="Display Name"
+              :alert="errors.displayName"
+            ></badaso-text>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -53,41 +65,48 @@ export default {
     BadasoBreadcrumb,
   },
   data: () => ({
+    errors: {},
     menu: {
-        menuId: null,
-        displayName: "",
-        key: "",
-    }
+      menuId: null,
+      displayName: "",
+      key: "",
+    },
   }),
   mounted() {
-        this.getMenuDetail();
+    this.getMenuDetail();
   },
   methods: {
     submitForm() {
+      this.errors = {};
       this.$vs.loading();
       this.$api.menu
         .edit(this.menu)
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({name: "MenuBrowse"})
+          this.$router.push({ name: "MenuBrowse" });
         })
         .catch((error) => {
+          this.errors = error.errors;
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
-        })
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
     getMenuDetail() {
-        this.$vs.loading({
+      this.$vs.loading({
         type: "sound",
       });
       this.$api.menu
         .read({
-            menuId: this.$route.params.id
+          menuId: this.$route.params.id,
         })
         .then((response) => {
           this.$vs.loading.close();
           this.menu = response.data.menu;
-          this.menu.menuId = this.menu.id
+          this.menu.menuId = this.menu.id;
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -97,7 +116,7 @@ export default {
             color: "danger",
           });
         });
-    }
+    },
   },
 };
 </script>

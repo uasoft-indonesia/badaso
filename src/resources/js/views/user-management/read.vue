@@ -35,7 +35,7 @@
               <th>Avatar</th>
               <td>
                 <img
-                  :src="`/badaso-api/v1/file/view?file=${user.avatar}`"
+                  :src="`${$api.file.view(user.avatar)}`"
                   width="100%"
                   alt=""
                 />
