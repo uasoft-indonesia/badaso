@@ -276,7 +276,7 @@ export default {
         .then((response) => {
           this.menuItems = response.data.menuItems;
           this.savedItems = [...response.data.menuItems];
-          this.flatSavedItems = this.flattenItems([...response.data]);
+          this.flatSavedItems = this.flattenItems([...response.data.menuItems]);
           this.$vs.loading.close();
         })
         .catch((error) => {
