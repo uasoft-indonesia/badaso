@@ -24,7 +24,7 @@
       <vs-sidebar-item icon="dashboard" :to="`/${prefix}/home`">
         <span class="hide-in-minisidebar">Dashboard</span>
       </vs-sidebar-item>
-      <vs-sidebar-group title="Main Menu" open>
+      <vs-sidebar-group title="Main Menu" open v-if="mainMenu.length > 0">
         <template v-for="(menu, index) in mainMenu">
           <vs-sidebar-group v-if="menu.children && menu.children.length > 0" :title="menu.title" open>
               <template v-for="(childMenu, indexChildMenu) in menu.children">
@@ -52,7 +52,7 @@
         </template>
       </vs-sidebar-group>
 
-      <vs-sidebar-group title="Configuration Menu" open>
+      <vs-sidebar-group title="Configuration Menu" open v-if="configurationMenu.length > 0">
         <template v-for="(menu, index) in configurationMenu">
           <vs-sidebar-group v-if="menu.children && menu.children.length > 0" :title="menu.title" open>
               <template v-for="(childMenu, indexChildMenu) in menu.children">
