@@ -85,7 +85,6 @@
               placeholder="Order Column"
               :items="dataBread.rows"
               :alert="errors.orderColumn"
-              additionalInfo="<p class='text-muted'>This column will be filled with numbers to sort data</p>"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDisplayColumn"
@@ -94,6 +93,7 @@
               placeholder="Order Display Column"
               :items="dataBread.rows"
               :alert="errors.orderDisplayColumn"
+              additionalInfo="<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDirection"
@@ -272,11 +272,11 @@ export default {
     orderDirections: [
       {
         label: "Ascending",
-        value: "asc",
+        value: "ASC",
       },
       {
         label: "Descending",
-        value: "desc",
+        value: "DESC",
       },
     ],
     dataBread: {
@@ -292,6 +292,9 @@ export default {
       serverSide: false,
       details: "",
       controller: "",
+      orderColumn: "",
+      orderDisplayColumn: "",
+      orderDirection: "",
       rows: [],
     },
   }),
@@ -352,6 +355,9 @@ export default {
           dataBread.generatePermissions = dataBread.generatePermissions === 1
           dataBread.serverSide = dataBread.serverSide === 1
           dataBread.controller = dataBread.controller ? dataBread.controller : ""
+          dataBread.orderColumn = dataBread.orderColumn ? dataBread.orderColumn : ""
+          dataBread.orderDisplayColumn = dataBread.orderDisplayColumn ? dataBread.orderDisplayColumn : ""
+          dataBread.orderDirection = dataBread.orderDirection ? dataBread.orderDirection : ""
           let dataRows = [...dataBread.dataRows];
           dataBread.rows = dataRows.map((field) => {
             return {

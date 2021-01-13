@@ -210,6 +210,9 @@ class BadasoBreadController extends Controller
             $data_type->icon = $request->input('icon');
             $data_type->model_name = $request->input('model_name');
             $data_type->policy_name = $request->input('policy_name');
+            $data_type->order_column = $request->input('order_column');
+            $data_type->order_display_column = $request->input('order_display_column');
+            $data_type->order_direction = $request->input('order_direction');
             $data_type->description = $request->input('description');
             $data_type->generate_permissions = $request->input('generate_permissions');
             $data_type->server_side = $request->input('server_side');
@@ -301,11 +304,14 @@ class BadasoBreadController extends Controller
             $new_data_type->icon = $request->input('icon');
             $new_data_type->model_name = $request->input('model_name');
             $new_data_type->policy_name = $request->input('policy_name');
-            $new_data_type->description = $request->input('description');
+            $new_data_type->controller = $request->input('controller');
+            $new_data_type->order_column = $request->input('order_column');
+            $new_data_type->order_display_column = $request->input('order_display_column');
+            $new_data_type->order_direction = $request->input('order_direction');
             $new_data_type->generate_permissions = $request->input('generate_permissions');
             $new_data_type->server_side = $request->input('server_side');
+            $new_data_type->description = $request->input('description');
             $new_data_type->details = $request->input('details');
-            $new_data_type->controller = $request->input('controller');
             $new_data_type->save();
 
             $data_rows = $request->input('rows') ?? [];

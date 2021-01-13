@@ -23,11 +23,14 @@ class CreateDataType extends Migration
                 $table->string('icon')->nullable();
                 $table->string('model_name')->nullable();
                 $table->string('policy_name')->nullable();
-                $table->string('description')->nullable();
+                $table->string('controller')->nullable();
+                $table->string('order_column')->nullable();
+                $table->string('order_display_column')->nullable();
+                $table->enum('order_direction', ['ASC', 'DESC'])->nullable();
                 $table->boolean('generate_permissions')->default(false);
                 $table->tinyInteger('server_side')->default(0);
+                $table->text('description')->nullable();
                 $table->text('details')->nullable();
-                $table->string('controller')->nullable();
                 $table->timestamps();
             });
 

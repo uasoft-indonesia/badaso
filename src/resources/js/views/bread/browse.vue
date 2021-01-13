@@ -496,7 +496,7 @@ export default {
   components: { BadasoBreadcrumb, BadasoSelect },
   name: "Browse",
   data: () => ({
-    descriptionItems: [1, 10, 50, 100],
+    descriptionItems: [10, 50, 100],
     selected: [],
     records: [],
     dataType: [],

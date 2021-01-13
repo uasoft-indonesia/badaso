@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Events\BreadUpdated;
 use Uasoft\Badaso\Helpers\ApiResponse;
 
 class BadasoBaseController extends Controller
@@ -62,8 +61,6 @@ class BadasoBaseController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->validateData($data, $data_type);
             $updated_data = $this->updateData($data, $data_type);
-
-            event(new BreadUpdated($data_type, $updated_data));
 
             DB::commit();
 
@@ -150,6 +147,38 @@ class BadasoBaseController extends Controller
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;
                 $this->deleteData($should_delete, $data_type);
+            }
+
+            DB::commit();
+
+            return ApiResponse::entity($data_type);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function sort(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'slug' => 'required',
+                'data' => [
+                    'required',
+                ],
+            ]);
+
+            $slug = $this->getSlug($request);
+            $data_type = $this->getDataType($slug);
+            $details = json_decode($data_type->details);
+            $order_column = $details->order_column;
+            $order_display_column = $details->order_display_column;
+            $order_direction = $details->order_direction ?? 'ASC';
+
+            if ($data_type->model_name) {
+            } else {
             }
 
             DB::commit();

@@ -80,24 +80,24 @@
             ></badaso-text>
             <badaso-select
               v-model="dataBread.orderColumn"
-              size="3"
+              size="4"
               label="Order Column"
               placeholder="Order Column"
               :items="fieldList"
               :alert="errors.orderColumn"
-              additionalInfo="<p class='text-muted'>This column will be filled with numbers to sort data</p>"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDisplayColumn"
-              size="3"
+              size="4"
               label="Order Display Column"
               placeholder="Order Display Column"
               :items="fieldList"
               :alert="errors.orderDisplayColumn"
+              additionalInfo="<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDirection"
-              size="3"
+              size="4"
               label="Order Direction"
               placeholder="Order Direction"
               :items="orderDirections"
@@ -296,6 +296,9 @@ export default {
       serverSide: false,
       details: "",
       controller: "",
+      orderColumn: "",
+      orderDisplayColumn: "",
+      orderDirection: "",
       rows: [],
     },
   }),

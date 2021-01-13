@@ -72,9 +72,16 @@ class GetData
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $model = app($data_type->model_name);
+        $order_field = $builder_params['order_field'];
+        $order_direction = $builder_params['order_direction'];
 
         $records = [];
-        $data = $model::query()->select($fields)->get();
+
+        if ($order_field) {
+            $data = $model::query()->select($fields)->orderBy($order_field, $order_direction)->get();
+        } else {
+            $data = $model::query()->select($fields)->get();
+        }
         foreach ($data as $row) {
             $class = new ReflectionClass(get_class($row));
             $class_methods = $class->getMethods();
@@ -155,8 +162,14 @@ class GetData
     public static function clientSideWithQueryBuilder($data_type, $builder_params)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
+        $order_field = $builder_params['order_field'];
+        $order_direction = $builder_params['order_direction'];
 
-        $records = DB::table($data_type->name)->select($fields)->get();
+        if ($order_field) {
+            $records = DB::table($data_type->name)->select($fields)->orderBy($order_field, $order_direction)->get();
+        } else {
+            $records = DB::table($data_type->name)->select($fields)->get();
+        }
 
         $entities['data'] = $records;
         $entities['total'] = count($records);

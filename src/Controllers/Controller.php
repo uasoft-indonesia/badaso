@@ -193,8 +193,8 @@ abstract class Controller extends BaseController
         $builder_params = [
             'limit' => isset($request['limit']) ? $request['limit'] : 10,
             'page' => isset($request['page']) ? $request['page'] : null,
-            'order_field' => isset($request['order_field']) ? $request['order_field'] : null,
-            'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : 'DESC',
+            'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
+            'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
             'filter_key' => isset($request['filter_key']) ? $request['filter_key'] : null,
             'filter_operator' => isset($request['filter_operator']) ? $request['filter_operator'] : 'containts',
             'filter_value' => isset($request['filter_value']) ? $request['filter_value'] : '',
@@ -292,33 +292,31 @@ abstract class Controller extends BaseController
             $model = app($data_type->model_name);
             $model = $model::find($id);
             foreach ($data as $key => $value) {
-                foreach ($data as $key => $value) {
-                    $data_row = collect($data_rows)->where('field', $key)->first();
-                    if (is_null($data_row)) {
-                        // $model->{$key} = $value;
-                    } else {
-                        if (in_array($data_row->type, [
+                $data_row = collect($data_rows)->where('field', $key)->first();
+                if (is_null($data_row)) {
+                    // $model->{$key} = $value;
+                } else {
+                    if (in_array($data_row->type, [
                                 'upload_image',
                                 'upload_image_multiple',
                                 'upload_file',
                                 'upload_file_multiple',
                             ])
                         ) {
-                            $files = explode(',', $model->{$data_row->field});
-                            foreach ($files as $file) {
-                                if (is_array($value)) {
-                                    if (!in_array($file, $value)) {
-                                        $this->handleDeleteFile($file);
-                                    }
-                                } else {
-                                    if ($file != $value) {
-                                        $this->handleDeleteFile($file);
-                                    }
+                        $files = explode(',', $model->{$data_row->field});
+                        foreach ($files as $file) {
+                            if (is_array($value)) {
+                                if (!in_array($file, $value)) {
+                                    $this->handleDeleteFile($file);
+                                }
+                            } else {
+                                if ($file != $value) {
+                                    $this->handleDeleteFile($file);
                                 }
                             }
                         }
-                        $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                     }
+                    $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                 }
             }
             $model->save();

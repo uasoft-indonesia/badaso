@@ -9,7 +9,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add</h3>
+            <h3>Edit</h3>
           </div>
           <vs-row>
             <vs-col
@@ -333,7 +333,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.dataType = response.data.dataType;
-          this.record = response.data.detail;
+          this.record = response.data.entities;
           let dataRows = this.dataType.dataRows.map((data) => {
             try {
               data.add = data.add === 1
