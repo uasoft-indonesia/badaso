@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\GetData;
 
 class BadasoBaseController extends Controller
 {
@@ -18,6 +19,29 @@ class BadasoBaseController extends Controller
             $data = $this->getDataList($slug, $request->all());
 
             return ApiResponse::entity($data_type, $data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function all(Request $request)
+    {
+        try {
+            $slug = $this->getSlug($request);
+            $data_type = $this->getDataType($slug);
+
+            $builder_params = [
+                'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
+                'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
+            ];
+
+            if ($data_type->model_name) {
+                $records = GetData::clientSideWithModel($data_type, $builder_params);
+            } else {
+                $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
+            }
+
+            return ApiResponse::entity($data_type, $records);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

@@ -80,7 +80,6 @@ class ApiResponse
         $response = [];
         $response['message'] = __('badaso::api_response.200');
         $response['data']['data_type'] = $data_type;
-        $response['data']['user_permissions'] = $permissions;
         $response['data']['entities'] = $data;
         $response['errors'] = null;
         $response = json_decode(json_encode($response));
