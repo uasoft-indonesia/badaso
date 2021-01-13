@@ -172,13 +172,20 @@ class BadasoBaseController extends Controller
 
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-            $details = json_decode($data_type->details);
-            $order_column = $details->order_column;
-            $order_display_column = $details->order_display_column;
-            $order_direction = $details->order_direction ?? 'ASC';
+            $order_column = $data_type->order_column;
 
             if ($data_type->model_name) {
+                $model = app($data_type->model_name);
+                foreach ($request->data as $index => $row) {
+                    $single_data = $model::find($row['id']);
+                    $single_data[$order_column] = $index + 1;
+                    $single_data->save();
+                }
             } else {
+                foreach ($request->data as $index => $row) {
+                    $updated_data[$order_column] = $index + 1;
+                    DB::table($data_type->name)->where('id', $row['id'])->update($updated_data);
+                }
             }
 
             DB::commit();

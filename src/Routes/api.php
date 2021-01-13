@@ -130,6 +130,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                     Route::post($data_type->slug.'/add', $bread_controller.'@add')->name($data_type->slug.'.add')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',add');
                     Route::delete($data_type->slug.'/delete', $bread_controller.'@delete')->name($data_type->slug.'.delete')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',delete');
                     Route::delete($data_type->slug.'/delete-multiple', $bread_controller.'@deleteMultiple')->name($data_type->slug.'.delete-multiple')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',delete');
+                    Route::put($data_type->slug.'/sort', $bread_controller.'@sort')->name($data_type->slug.'.sort')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',edit');
                 }
             } catch (\InvalidArgumentException $e) {
                 throw new \InvalidArgumentException("Custom routes hasn't been configured because: ".$e->getMessage(), 1);
