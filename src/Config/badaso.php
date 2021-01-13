@@ -8,4 +8,7 @@ return [
     'storage' => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],
+    'watch_tables' => [
+        // table names for generating bread seeders.
+    ],
 ];

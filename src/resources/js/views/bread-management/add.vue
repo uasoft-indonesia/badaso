@@ -85,6 +85,7 @@
               placeholder="Order Column"
               :items="fieldList"
               :alert="errors.orderColumn"
+              additionalInfo="<p class='text-muted'>This column will be filled with numbers to sort data</p>"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDisplayColumn"
@@ -102,14 +103,14 @@
               :items="orderDirections"
               :alert="errors.orderDirection"
             ></badaso-select>
-            <badaso-select
+            <badaso-hidden
               v-model="dataBread.defaultServerSideSearchField"
               size="3"
               label="Default Server Side Search Field"
               placeholder="Default Server Side Search Field"
               :items="fieldList"
               :alert="errors.defaultServerSideSearchField"
-            ></badaso-select>
+            ></badaso-hidden>
             <badaso-textarea
               size="12"
               label="Description"
@@ -252,6 +253,7 @@ import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoCodeEditor from "../../components/BadasoCodeEditor";
 import BadasoTextarea from "../../components/BadasoTextarea";
+import BadasoHidden from '../../components/BadasoHidden.vue';
 
 export default {
   name: "Browse",
@@ -263,6 +265,7 @@ export default {
     BadasoSelect,
     BadasoCodeEditor,
     BadasoTextarea,
+    BadasoHidden,
   },
   data: () => ({
     errors: {},
@@ -326,6 +329,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_USER");
           this.$router.push({ name: "BreadBrowse" });
         })
         .catch((error) => {

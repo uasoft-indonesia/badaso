@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Facades\Badaso;
+
+class {{class}} extends Seeder
+{
+
+    /**
+     * Auto generated seed file
+     *
+     * @return void
+     *
+     * @throws Exception
+     */
+    public function run()
+    {
+      	\DB::beginTransaction();
+       	try {
+			{{delete_statements}}
+
+			{{permission_delete_statements}}
+
+			{{menu_delete_statements}}
+
+			\DB::commit();
+       	} catch(Exception $e) {
+        	\DB::rollBack();
+
+        	throw new Exception('Exception occur ' . $e);
+       	}
+    }
+}

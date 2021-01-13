@@ -6,6 +6,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
+use Uasoft\Badaso\Commands\BDOSeed;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
 
 class BadasoServiceProvider extends ServiceProvider
@@ -32,7 +33,8 @@ class BadasoServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
-            __DIR__.'/../Seeder/' => database_path('seeds'),
+            __DIR__.'/../Seeder/Configurations' => database_path('seeds'),
+            __DIR__.'/../Seeder/Breads' => database_path('seeds/breads'),
             __DIR__.'/../resources/js/' => resource_path('js/badaso'),
             __DIR__.'/../Images/' => public_path(),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
@@ -46,6 +48,7 @@ class BadasoServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(OrchestratorEventServiceProvider::class);
         $this->registerConsoleCommands();
     }
 
@@ -55,5 +58,6 @@ class BadasoServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(AdminCommand::class);
+        $this->commands(BDOSeed::class);
     }
 }

@@ -80,15 +80,16 @@
             ></badaso-text>
             <badaso-select
               v-model="dataBread.orderColumn"
-              size="3"
+              size="4"
               label="Order Column"
               placeholder="Order Column"
               :items="dataBread.rows"
               :alert="errors.orderColumn"
+              additionalInfo="<p class='text-muted'>This column will be filled with numbers to sort data</p>"
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDisplayColumn"
-              size="3"
+              size="4"
               label="Order Display Column"
               placeholder="Order Display Column"
               :items="dataBread.rows"
@@ -96,20 +97,20 @@
             ></badaso-select>
             <badaso-select
               v-model="dataBread.orderDirection"
-              size="3"
+              size="4"
               label="Order Direction"
               placeholder="Order Direction"
               :items="orderDirections"
               :alert="errors.orderDirection"
             ></badaso-select>
-            <badaso-select
+            <badaso-hidden
               v-model="dataBread.defaultServerSideSearchField"
               size="3"
               label="Default Server Side Search Field"
               placeholder="Default Server Side Search Field"
               :items="dataBread.rows"
               :alert="errors.defaultServerSideSearchField"
-            ></badaso-select>
+            ></badaso-hidden>
             <badaso-textarea
               size="12"
               label="Description"
@@ -250,6 +251,7 @@ import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoCodeEditor from "../../components/BadasoCodeEditor";
 import BadasoTextarea from "../../components/BadasoTextarea";
+import BadasoHidden from "../../components/BadasoHidden";
 
 export default {
   name: "Browse",
@@ -261,6 +263,7 @@ export default {
     BadasoSelect,
     BadasoCodeEditor,
     BadasoTextarea,
+    BadasoHidden
   },
   data: () => ({
     errors: {},
@@ -322,6 +325,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_USER");
           this.$router.push({name: "BreadBrowse"})
         })
         .catch((error) => {

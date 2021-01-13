@@ -156,10 +156,10 @@ export default {
     reduceSidebar() {
       if (this.windowWidth < 768) {
         this.$store.commit("IS_SIDEBAR_ACTIVE", !this.isSidebarActive);
-        this.$store.commit("REDUCE_SIDEBAR", false)
+        this.$store.commit("REDUCE_SIDEBAR", false);
       } else {
         this.$store.commit("IS_SIDEBAR_ACTIVE", true);
-        this.$store.commit("REDUCE_SIDEBAR")
+        this.$store.commit("REDUCE_SIDEBAR");
       }
     },
     logout() {

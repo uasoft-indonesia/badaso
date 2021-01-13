@@ -10,7 +10,7 @@
             color="primary"
             type="relief"
             :to="{ name: 'EntityAdd' }"
-            v-if="isCanAdd && $helper.isAllowed('add_' + dataType.name)"
+            v-if="isCanAdd && $helper.isAllowedToModifyBread('add', dataType)"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
           <vs-button
@@ -18,7 +18,7 @@
             type="relief"
             v-if="
               selected.length > 0 &&
-                $helper.isAllowed('delete_' + dataType.name)
+                $helper.isAllowedToModifyBread('delete', dataType)
             "
             @click.stop
             @click="confirmDeleteMultiple"
@@ -27,7 +27,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowed('browse_' + dataType.name)">
+    <vs-row v-if="$helper.isAllowedToModifyBread('browse', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -206,7 +206,7 @@
                         },
                       }"
                       v-if="
-                        isCanRead && $helper.isAllowed('read_' + dataType.name)
+                        isCanRead && $helper.isAllowedToModifyBread('read', dataType.name)
                       "
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
@@ -222,7 +222,7 @@
                         },
                       }"
                       v-if="
-                        isCanEdit && $helper.isAllowed('edit_' + dataType.name)
+                        isCanEdit && $helper.isAllowedToModifyBread('edit', dataType)
                       "
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
@@ -231,7 +231,7 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[index].id)"
-                      v-if="$helper.isAllowed('delete_' + dataType.name)"
+                      v-if="$helper.isAllowedToModifyBread('delete', dataType)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -416,7 +416,7 @@
                         }"
                         v-if="
                           isCanRead &&
-                            $helper.isAllowed('read_' + dataType.name)
+                            $helper.isAllowedToModifyBread('read', dataType)
                         "
                         ><vs-icon icon="visibility"></vs-icon
                       ></vs-button>
@@ -433,7 +433,7 @@
                         }"
                         v-if="
                           isCanEdit &&
-                            $helper.isAllowed('edit_' + dataType.name)
+                            $helper.isAllowedToModifyBread('edit', dataType)
                         "
                         ><vs-icon icon="edit"></vs-icon
                       ></vs-button>
@@ -442,7 +442,7 @@
                         type="relief"
                         @click.stop
                         @click="confirmDelete(data[index].id)"
-                        v-if="$helper.isAllowed('delete_' + dataType.name)"
+                        v-if="$helper.isAllowedToModifyBread('delete', dataType)"
                         ><vs-icon icon="delete"></vs-icon
                       ></vs-button>
                     </vs-td>

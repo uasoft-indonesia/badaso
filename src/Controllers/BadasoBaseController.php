@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Uasoft\Badaso\Events\BreadUpdated;
 use Uasoft\Badaso\Helpers\ApiResponse;
 
 class BadasoBaseController extends Controller
@@ -61,6 +62,8 @@ class BadasoBaseController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->validateData($data, $data_type);
             $updated_data = $this->updateData($data, $data_type);
+
+            event(new BreadUpdated($data_type, $updated_data));
 
             DB::commit();
 

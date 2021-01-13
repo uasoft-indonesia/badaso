@@ -75,4 +75,16 @@ export default {
     if (result) return true;
     else return false;
   },
+  isAllowedToModifyBread(action, dataType) {
+    if (dataType.generatePermissions === true || dataType.generatePermissions === 1) {
+      let userPermissions = store.getters.getUser.permissions;
+      let result = _.find(userPermissions, function(o) {
+        return o.key == action + '_' + dataType.name;
+      });
+      if (result) return true;
+      else return false;
+    } else {
+      return true;
+    }
+  }
 };
