@@ -14,6 +14,13 @@
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
           <vs-button
+            color="success"
+            type="relief"
+            :to="{ name: 'EntitySort' }"
+            v-if="isCanSort && $helper.isAllowedToModifyBread('edit', dataType)"
+            ><vs-icon icon="list"></vs-icon> Sort</vs-button
+          >
+          <vs-button
             color="danger"
             type="relief"
             v-if="
@@ -504,6 +511,7 @@ export default {
     isCanAdd: false,
     isCanEdit: false,
     isCanRead: false,
+    isCanSort: false,
     totalItem: 0,
     filter: "",
     page: 1,
@@ -583,6 +591,10 @@ export default {
           this.isCanAdd = addFields.length > 0;
           this.isCanEdit = editFields.length > 0;
           this.isCanRead = readFields.length > 0;
+
+          if (this.dataType.orderColumn && this.dataType.orderDisplayColumn) {
+            this.isCanSort = true;
+          }
         })
         .catch((error) => {
           this.$vs.loading.close();

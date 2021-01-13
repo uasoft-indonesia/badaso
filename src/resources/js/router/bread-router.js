@@ -2,6 +2,7 @@ import Browse from "./../views/bread/browse.vue";
 import Add from "./../views/bread/add.vue";
 import Edit from "./../views/bread/edit.vue";
 import Read from "./../views/bread/read.vue";
+import Sort from "./../views/bread/sort.vue";
 
 let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -24,6 +25,14 @@ export default [
     component: Add,
     meta: {
       title: "Add Entity",
+    },
+  },
+  {
+    path: prefix + "/main/:slug/sort",
+    name: "EntitySort",
+    component: Sort,
+    meta: {
+      title: "Sort Data Entity",
     },
   },
   {
