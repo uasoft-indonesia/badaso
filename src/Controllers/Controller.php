@@ -46,7 +46,7 @@ abstract class Controller extends BaseController
     {
         if ($user = auth()->user()) {
             $permissions = DB::SELECT('
-                SELECT * 
+                SELECT *
                 FROM permissions p
                 JOIN role_permissions rp ON p.id = rp.permission_id
                 JOIN roles r ON rp.role_id  = r.id

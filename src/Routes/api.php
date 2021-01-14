@@ -13,7 +13,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
         Route::group(['prefix' => 'data'], function () {
             Route::get('/components', 'BadasoDataController@getComponents');
             Route::get('/filter-operators', 'BadasoDataController@getFilterOperators');
-            Route::get('/paginate', 'BadasoDataController@testPaginate');
+            Route::get('/table-relations', 'BadasoDataController@getSupportedTableRelations');
         });
 
         Route::group(['prefix' => 'auth'], function () {
@@ -115,6 +115,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::delete('/delete', 'BadasoBreadController@delete')->middleware(BadasoCheckPermissions::class.':delete_bread');
             Route::get('/generate', 'BadasoBreadController@generate')->middleware(BadasoCheckPermissions::class.':add_bread');
             Route::get('/table', 'BadasoBreadController@readTable')->middleware(BadasoCheckPermissions::class.':read_bread');
+            Route::get('/table/all', 'BadasoBreadController@browseAllTable')->middleware(BadasoCheckPermissions::class.':read_bread');
             Route::get('/read-by-slug', 'BadasoBreadController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_bread');
         });
 

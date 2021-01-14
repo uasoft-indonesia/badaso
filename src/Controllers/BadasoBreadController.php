@@ -48,6 +48,30 @@ class BadasoBreadController extends Controller
         }
     }
 
+    public function browseAllTable(Request $request)
+    {
+        try {
+            $db_name = config('badaso.db_name', '');
+            $tables = DB::select('SHOW TABLES');
+            $key = 'Tables_in_'.$db_name;
+            $tables = collect($tables);
+
+            $tables = $tables->map(function ($table) use ($key) {
+                $table->table_name = $table->{$key};
+                $table->value = $table->{$key};
+                $table->label = ucfirst(str_replace('_', ' ', $table->{$key}));
+
+                return $table;
+            });
+
+            $data['tables'] = $tables;
+
+            return ApiResponse::success(collect($data)->toArray());
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
+    }
+
     public function read(Request $request)
     {
         try {
@@ -171,6 +195,8 @@ class BadasoBreadController extends Controller
                     'is_not_null' => $column->getNotNull(),
                     'default' => $column->getDefault(),
                     'length' => $column->getLength(),
+                    'value' => $column->getName(),
+                    'label' => ucfirst(str_replace('_', ' ', $column->getName())),
                 ];
             }
 
@@ -250,6 +276,23 @@ class BadasoBreadController extends Controller
                 $new_data_row->add = isset($data_row['add']) ? $data_row['add'] : false;
                 $new_data_row->delete = isset($data_row['delete']) ? $data_row['delete'] : false;
                 $new_data_row->details = isset($data_row['details']) ? $data_row['details'] : '';
+                $relation = [];
+                if (isset($data_row['relation_type'])) {
+                    $relation['relation_type'] = $data_row['relation_type'];
+                }
+                if (isset($data_row['destination_table'])) {
+                    $relation['destination_table'] = $data_row['destination_table'];
+                }
+                if (isset($data_row['destination_table_column'])) {
+                    $relation['destination_table_column'] = $data_row['destination_table_column'];
+                }
+                if (isset($data_row['destination_table_display_columns'])) {
+                    $relation['destination_table_display_columns'] = $data_row['destination_table_display_columns'];
+                }
+                if (count($relation) > 0) {
+                    $new_data_row->relation = json_encode($relation);
+                }
+
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
 
@@ -342,6 +385,22 @@ class BadasoBreadController extends Controller
                 $new_data_row->add = isset($data_row['add']) ? $data_row['add'] : false;
                 $new_data_row->delete = isset($data_row['delete']) ? $data_row['delete'] : false;
                 $new_data_row->details = isset($data_row['details']) ? $data_row['details'] : '';
+                $relation = [];
+                if (isset($data_row['relation_type'])) {
+                    $relation['relation_type'] = $data_row['relation_type'];
+                }
+                if (isset($data_row['destination_table'])) {
+                    $relation['destination_table'] = $data_row['destination_table'];
+                }
+                if (isset($data_row['destination_table_column'])) {
+                    $relation['destination_table_column'] = $data_row['destination_table_column'];
+                }
+                if (isset($data_row['destination_table_display_columns'])) {
+                    $relation['destination_table_display_columns'] = $data_row['destination_table_display_columns'];
+                }
+                if (count($relation) > 0) {
+                    $new_data_row->relation = json_encode($relation);
+                }
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
 

@@ -48,6 +48,7 @@ class CreateDataType extends Migration
                 $table->boolean('add')->default(true);
                 $table->boolean('delete')->default(true);
                 $table->text('details')->nullable();
+                $table->text('relation')->nullable();
                 $table->integer('order')->default(1);
 
                 $table->foreign('data_type_id')->references('id')->on('data_types')

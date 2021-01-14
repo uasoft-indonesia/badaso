@@ -21,19 +21,6 @@ class GetData
 
         $records = [];
         $query = $model::query()->select($fields);
-        // if ($filter_key) {
-        //     switch ($filter_operator) {
-        //         case 'containts':
-        //             $filter_operator = 'LIKE';
-        //             $filter_value = "%{$filter_value}%";
-        //             break;
-
-        //         default:
-        //             // code...
-        //             break;
-        //     }
-        //     $query->where($filter_key, $filter_operator, $filter_value);
-        // }
         if ($filter_value) {
             foreach ($fields as $index => $field) {
                 if ($index == 0) {
@@ -61,7 +48,7 @@ class GetData
                     }
                 }
             }
-            $records[] = $record;
+            $records[] = self::getRelationData($data_type, $record);
         }
         $data->setCollection(collect($records));
 
@@ -96,7 +83,7 @@ class GetData
                     }
                 }
             }
-            $records[] = $record;
+            $records[] = self::getRelationData($data_type, $record);
         }
 
         $entities['data'] = $records;
@@ -117,19 +104,7 @@ class GetData
         $filter_value = $builder_params['filter_value'];
 
         $query = DB::table($data_type->name)->select($fields);
-        // if ($filter_key) {
-        //     switch ($filter_operator) {
-        //         case 'containts':
-        //             $filter_operator = 'LIKE';
-        //             $filter_value = "%{$filter_value}%";
-        //             break;
 
-        //         default:
-        //             // code...
-        //             break;
-        //     }
-        //     $query->where($filter_key, $filter_operator, $filter_value);
-        // }
         if ($filter_value) {
             foreach ($fields as $index => $field) {
                 if ($index == 0) {
@@ -151,9 +126,18 @@ class GetData
         if ($order_field) {
             $paginate->orderBy($order_field, $order_direction);
         }
-        $records = $paginate->get();
+        $data = $paginate->get();
 
-        $entities['data'] = $records;
+        $collection = $data;
+
+        $records = [];
+        foreach ($collection as $row) {
+            $records[] = self::getRelationData($data_type, $row);
+        }
+
+        $data = collect($records);
+
+        $entities['data'] = $data;
         $entities['total'] = $total;
 
         return $entities;
@@ -162,6 +146,7 @@ class GetData
     public static function clientSideWithQueryBuilder($data_type, $builder_params)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
+
         $order_field = $builder_params['order_field'];
         $order_direction = $builder_params['order_direction'];
 
@@ -171,9 +156,67 @@ class GetData
             $records = DB::table($data_type->name)->select($fields)->get();
         }
 
-        $entities['data'] = $records;
-        $entities['total'] = count($records);
+        $data = [];
+
+        foreach ($records as $row) {
+            $data[] = self::getRelationData($data_type, $row);
+        }
+
+        $entities['data'] = $data;
+        $entities['total'] = count($data);
 
         return $entities;
+    }
+
+    private static function getRelationData($data_type, $row)
+    {
+        $relational_fields = collect($data_type->dataRows)->filter(function ($value, $key) {
+            return $value->relation != null;
+        })->all();
+
+        foreach ($relational_fields as $field) {
+            $relation_detail = [];
+            try {
+                $relation_detail = json_decode($field->relation);
+                $relation_detail = CaseConvert::snake($relation_detail);
+            } catch (\Exception $e) {
+            }
+
+            $relation_type = array_key_exists('relation_type', $relation_detail) ? $relation_detail['relation_type'] : null;
+            $destination_table = array_key_exists('destination_table', $relation_detail) ? $relation_detail['destination_table'] : null;
+            $destination_table_column = array_key_exists('destination_table_column', $relation_detail) ? $relation_detail['destination_table_column'] : null;
+            $destination_table_display_columns = array_key_exists('destination_table_display_columns', $relation_detail) ? explode(',', $relation_detail['destination_table_display_columns']) : null;
+
+            if (
+                $relation_type
+                && $destination_table
+                && $destination_table_column
+                && $destination_table_display_columns
+            ) {
+                $relation_data = DB::table($destination_table)->select($destination_table_display_columns)
+                ->where($destination_table_column, $row->{$field->field})
+                ->get();
+
+                switch ($relation_type) {
+                    case 'belongs_to':
+                        $row->{$destination_table} = collect($relation_data)->first();
+                        break;
+
+                    case 'has_many':
+                        $row->$destination_table = collect($relation_data)->toArray();
+                        break;
+
+                    case 'has_many':
+                        $row->$destination_table = collect($relation_data)->first();
+                        break;
+
+                    default:
+                        // code...
+                        break;
+                }
+            }
+        }
+
+        return $row;
     }
 }

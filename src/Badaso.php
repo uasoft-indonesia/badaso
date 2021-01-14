@@ -54,11 +54,18 @@ class Badaso
         'upload_file_multiple',
         'hidden',
         'code',
+        'relation',
     ];
 
     protected $supported_filter_operator = [
         'containts',
         '=',
+    ];
+
+    protected $supported_table_relations = [
+        'belongs_to',
+        'has_one',
+        'has_many',
     ];
 
     protected $protected_tables = [
@@ -94,6 +101,11 @@ class Badaso
     public function getFilterOperator()
     {
         return $this->supported_filter_operator;
+    }
+
+    public function getSupportedTableRelations()
+    {
+        return $this->supported_table_relations;
     }
 
     public function getProtectedTables()

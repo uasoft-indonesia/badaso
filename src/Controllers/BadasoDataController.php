@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Controllers;
 
-use App\DataTest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Facades\Badaso;
@@ -32,10 +31,18 @@ class BadasoDataController extends Controller
         return ApiResponse::success($operators);
     }
 
-    public function testPaginate()
+    public function getSupportedTableRelations()
     {
-        $operators = DataTest::paginate(1);
+        $table_relations = Badaso::getSupportedTableRelations();
+        $table_relations = collect($table_relations)->map(function ($table_relation) {
+            return [
+                'value' => $table_relation,
+                'label' => ucfirst(str_replace('_', ' ', $table_relation)),
+            ];
+        })->toArray();
 
-        return ApiResponse::success(collect($operators)->toArray());
+        $data['table_relations'] = $table_relations;
+
+        return ApiResponse::success($data);
     }
 }
