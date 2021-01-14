@@ -13,6 +13,14 @@ export default {
     });
   },
 
+  all(data = {}) {
+    return auth.refreshToken().then((res) => {
+      let ep = endpoint.entity + "/" + data.slug + "/all";
+      let url = ep;
+      return resource.get(url);
+    });
+  },
+
   read(data) {
     return auth.refreshToken().then((res) => {
       let ep = endpoint.entity + "/" + data.slug + "/read";
@@ -51,6 +59,11 @@ export default {
         endpoint.entity + "/" + data.slug + '/delete-multiple',
         paramData
       );
+    });
+  },
+  sort(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.put(endpoint.entity + "/" + data.slug + "/sort", data);
     });
   },
 };
