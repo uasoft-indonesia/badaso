@@ -1,17 +1,24 @@
+import endpoint from "../endpoint";
+import QueryString from "../query-string";
+
 export default {
   view(file) {
-    let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
-      ? process.env.MIX_API_ROUTE_PREFIX
-      : "badaso-api";
-
-    return "/" + apiPrefix + "/v1/file/view?file=" + file;
+    let data = {
+      file
+    }
+    let ep = endpoint.file.view;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return url;
   },
 
   download(file) {
-    let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
-      ? process.env.MIX_API_ROUTE_PREFIX
-      : "badaso-api";
-
-    return "/" + apiPrefix + "/v1/file/download?file=" + file;
+    let data = {
+      file
+    }
+    let ep = endpoint.file.download;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return url;
   },
 };

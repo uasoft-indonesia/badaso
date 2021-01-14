@@ -11,13 +11,22 @@
       </div>
       <div>
         <form novalidate="novalidate">
-          <vs-input icon="email" icon-after size="default" placeholder="Email" v-model="email" class="w-100 mb-4 mt-2 "/>
+          <vs-input
+            icon="email"
+            icon-after
+            size="default"
+            placeholder="Email"
+            v-model="email"
+            class="w-100 mb-4 mt-2 "
+          />
           <vs-button type="relief" class="btn-block">Send</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
           Don't have an account? &nbsp;
-          <router-link :to="'/'+baseUrl+'/register'">Create an Account</router-link>
+          <router-link :to="'/' + baseUrl + '/register'"
+            >Create an Account</router-link
+          >
         </div>
       </div>
     </vs-card>
@@ -26,14 +35,14 @@
 
 <script>
 export default {
-    data: () => ({
-        email: '',
-        password: '',
-        baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "badaso-admin"
-    })
-}
+  data: () => ({
+    email: "",
+    password: "",
+    baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+      ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+      : "badaso-admin",
+  }),
+};
 </script>
 
 <style>
