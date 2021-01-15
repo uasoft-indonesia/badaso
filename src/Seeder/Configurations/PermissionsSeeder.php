@@ -22,6 +22,9 @@ class PermissionsSeeder extends Seeder
             'edit_crud_data',
             'add_crud_data',
             'delete_crud_data',
+
+            'browse_activitylogs',
+            'read_activitylogs'
         ];
 
         foreach ($keys as $key) {

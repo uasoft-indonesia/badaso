@@ -3,9 +3,12 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Permission extends Model
 {
+    use LogsActivity;
+
     protected $guarded = [];
 
     public static function generateFor($table_name)
@@ -40,5 +43,13 @@ class Permission extends Model
         $permissions = collect($permissions)->pluck('id')->toArray();
         RolePermission::whereIn('permission_id', $permissions)->delete();
         self::where(['table_name' => $table_name])->delete();
+    }
+
+    protected static $logAttributes = true;
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been {$eventName}";
     }
 }
