@@ -129,7 +129,7 @@ export default {
         color: "danger",
         title: `Confirm`,
         text: "Are you sure?",
-        accept: this.deleteCrudData,
+        accept: this.deleteCRUDData,
         cancel: () => {
           this.willDeleteId = null;
         },

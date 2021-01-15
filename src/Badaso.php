@@ -69,6 +69,7 @@ class Badaso
     ];
 
     protected $protected_tables = [
+        'activity_log',
         'data_rows',
         'data_types',
         'migrations',

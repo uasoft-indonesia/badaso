@@ -32,13 +32,7 @@ abstract class Controller extends BaseController
     public function getDataType($slug)
     {
         $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
-        $class = new ReflectionClass(Badaso::modelClass('DataType'));
-        $class_methods = $class->getMethods();
-        foreach ($class_methods as $class_method) {
-            if ($class_method->class == Badaso::modelClass('DataType')) {
-                $data_type->{$class_method->name};
-            }
-        }
+        $data_type->data_rows = json_decode(json_encode($data_type->dataRows));
 
         return $data_type;
     }

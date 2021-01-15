@@ -235,9 +235,9 @@
                           ></badaso-select>
                           <vs-col vs-lg="12" class="mb-3">
                             <vs-select
-                              v-model="relation.destinationTable"
                               label="Destination Table"
                               width="100%"
+                              v-model="relation.destinationTable"
                               @input="changeTable"
                             >
                               <vs-select-item
@@ -396,11 +396,13 @@ export default {
         destinationTableColumn: field.destinationTableColumn ? field.destinationTableColumn : '',
         destinationTableDisplayColumn: field.destinationTableDisplayColumn ? field.destinationTableDisplayColumn : '',
       }
+      console.log(this.relation)
       if (field.destinationTable !== '') {
         this.getDestinationTableColumns(field.destinationTable);
       }
     },
     changeTable(table) {
+      console.log(table)
       if (table) {
         this.relation.destinationTableColumn = '';
         this.relation.destinationTableDisplayColumn = '';
@@ -544,11 +546,6 @@ export default {
             color: "danger",
           });
         });
-    },
-    changeTable(table, field) {
-      field.destinationTableColumn = '';
-      field.destinationTableDisplayColumn = '';
-      this.getDestinationTableColumns(table)
     },
     getDestinationTableColumns(table) {
       this.$vs.loading({
