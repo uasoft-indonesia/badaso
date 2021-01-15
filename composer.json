@@ -5,7 +5,8 @@
     "require": {
         "webpatser/laravel-uuid": "^3.0",
         "doctrine/dbal": "2.12",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "spatie/laravel-activitylog": "3.9.1"
     },
     "license": "MIT",
     "authors": [{
