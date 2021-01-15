@@ -148,6 +148,9 @@
                         record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                       }}
                     </div>
+                    <span v-else-if="dataRow.type === 'relation'">{{
+                        displayRelationData(record, dataRow)
+                      }}</span>
                     <span v-else>{{
                       record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     }}</span>
@@ -238,6 +241,20 @@ export default {
         return str.split(",");
       } else {
         return [];
+      }
+    },
+    displayRelationData(record, dataRow) {
+      let table = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable);
+      let column = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableColumn);
+      let displayColumn = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableDisplayColumn);
+      if (dataRow.relation.relationType === "has_many") {
+        let list = record[table];
+        let flatList = list.map((ls) => {
+          return ls[displayColumn];
+        })
+        return flatList.join(', ');
+      } else {
+        return record[table] ? record[table][displayColumn] : null;
       }
     },
   },

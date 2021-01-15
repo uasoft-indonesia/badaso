@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use ReflectionClass;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Traits\FileHandler;
 
@@ -82,9 +83,24 @@ abstract class Controller extends BaseController
         $data_rows = collect($data_type->dataRows)->where('add', 1)->all();
         $rules = [];
         foreach ($data_rows as $row) {
-            \Log::debug($row);
             if ($row->required == 1) {
-                $rules[$row->field] = 'required';
+                $rules[$row->field][] = 'required';
+            }
+            if ($row->type == 'relation') {
+                $relation_detail = [];
+                try {
+                    $relation_detail = is_string($row->relation) ? json_decode($row->relation) : $row->relation;
+                    $relation_detail = CaseConvert::snake($relation_detail);
+                } catch (\Exception $e) {
+                }
+
+                $relation_type = array_key_exists('relation_type', $relation_detail) ? $relation_detail['relation_type'] : null;
+                $destination_table = array_key_exists('destination_table', $relation_detail) ? $relation_detail['destination_table'] : null;
+                $destination_table_column = array_key_exists('destination_table_column', $relation_detail) ? $relation_detail['destination_table_column'] : null;
+
+                if ($relation_type == 'belongs_to') {
+                    $rules[$row->field][] = 'exists:'.$destination_table.','.$destination_table_column;
+                }
             }
         }
 
@@ -175,9 +191,11 @@ abstract class Controller extends BaseController
             case 'hidden':
                 $return_value = $value;
                 break;
-
+            case 'relation':
+                $return_value = $value;
+                break;
             default:
-                // code...
+                $return_value = $value;
                 break;
         }
 
@@ -243,6 +261,8 @@ abstract class Controller extends BaseController
         } else {
             $record = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
         }
+
+        $record = GetData::getRelationData($data_type, $record);
 
         return $record;
     }

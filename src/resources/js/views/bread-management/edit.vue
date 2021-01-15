@@ -208,8 +208,72 @@
                       />
                     </td>
                     <td>
-                      <badaso-code-editor v-model="field.details">
+                      <badaso-code-editor
+                        v-model="field.details"
+                        v-if="field.type !== 'relation'"
+                      >
                       </badaso-code-editor>
+                      <vs-button
+                        color="primary"
+                        type="relief"
+                        @click.stop
+                        @click="openRelationSetup(field)"
+                        v-else
+                        >Set Relation</vs-button
+                      >
+                      <vs-popup
+                        class="holamundo"
+                        title="Set Relation"
+                        :active.sync="field.setRelation"
+                      >
+                        <vs-row>
+                          <badaso-select
+                            size="12"
+                            v-model="field.relationType"
+                            :items="relationTypes"
+                            label="Relation Type"
+                          ></badaso-select>
+                          <vs-col vs-lg="12" class="mb-3">
+                            <vs-select
+                              v-model="field.destinationTable"
+                              label="Destination Table"
+                              width="100%"
+                              @change="changeTable($event, field)"
+                            >
+                              <vs-select-item
+                                :key="index"
+                                :value="item.value ? item.value : item"
+                                :text="item.label ? item.label : item"
+                                v-for="(item, index) in destinationTables"
+                              />
+                            </vs-select>
+                          </vs-col>
+                          <badaso-select
+                            size="12"
+                            v-model="field.destinationTableColumn"
+                            :items="destinationTableColumns"
+                            label="Destination Column"
+                          ></badaso-select>
+                          <badaso-select
+                            size="12"
+                            v-model="field.destinationTableDisplayColumn"
+                            :items="destinationTableColumns"
+                            label="Destination Column To Display"
+                          ></badaso-select>
+                        </vs-row>
+                        <vs-row vs-type="flex" vs-justify="space-between">
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button color="primary" @click="field.setRelation = false"
+                              >Save</vs-button
+                            >
+                          </vs-col>
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button color="danger"  @click="field.setRelation = false"
+                              >Cancel</vs-button
+                            >
+                          </vs-col>
+                        </vs-row>
+                      </vs-popup>
                     </td>
                   </tr>
                 </draggable>
@@ -230,7 +294,7 @@
         </vs-card>
       </vs-col>
     </vs-row>
-        <vs-row v-else>
+    <vs-row v-else>
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row>
@@ -263,11 +327,11 @@ export default {
     BadasoSelect,
     BadasoCodeEditor,
     BadasoTextarea,
-    BadasoHidden
+    BadasoHidden,
   },
   data: () => ({
     errors: {},
-    details: '',
+    details: "",
     tableColumns: [],
     orderDirections: [
       {
@@ -297,12 +361,15 @@ export default {
       orderDirection: "",
       rows: [],
     },
+    relationTypes: [],
+    destinationTables: [],
+    destinationTableColumns: [],
   }),
   computed: {
     componentList: {
       get() {
-        return this.$store.getters.getComponent
-      }
+        return this.$store.getters.getComponent;
+      },
     },
   },
   mounted() {
@@ -316,25 +383,37 @@ export default {
       this.$route.params.tableName
     );
     this.getTableDetail();
+    this.getRelationTypes();
+    this.getDestinationTables();
   },
   methods: {
+    openRelationSetup(field) {
+      field.setRelation = true;
+      if (field.destinationTable !== '') {
+        this.getDestinationTableColumns(field.destinationTable);
+      }
+    },
     submitForm() {
-      this.errors = {}
+      this.errors = {};
       this.$vs.loading({
         type: "sound",
       });
       this.$api.bread
-        .edit(this.$caseConvert.snake(this.dataBread))
+        .edit(this.dataBread)
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
           this.$store.commit("FETCH_USER");
-          this.$router.push({name: "BreadBrowse"})
+          this.$router.push({ name: "BreadBrowse" });
         })
         .catch((error) => {
-          this.errors = error.errors
+          this.errors = error.errors;
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
         });
     },
     getTableDetail() {
@@ -346,18 +425,30 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let dataBread = {...response.data.bread};
-          dataBread = dataBread
-          dataBread.icon = dataBread.icon ? dataBread.icon : ""
-          dataBread.modelName = dataBread.modelName ? dataBread.modelName : ""
-          dataBread.policyName = dataBread.policyName ? dataBread.policyName : ""
-          dataBread.description = dataBread.description ? dataBread.description : ""
-          dataBread.generatePermissions = dataBread.generatePermissions === 1
-          dataBread.serverSide = dataBread.serverSide === 1
-          dataBread.controller = dataBread.controller ? dataBread.controller : ""
-          dataBread.orderColumn = dataBread.orderColumn ? dataBread.orderColumn : ""
-          dataBread.orderDisplayColumn = dataBread.orderDisplayColumn ? dataBread.orderDisplayColumn : ""
-          dataBread.orderDirection = dataBread.orderDirection ? dataBread.orderDirection : ""
+          let dataBread = { ...response.data.bread };
+          dataBread = dataBread;
+          dataBread.icon = dataBread.icon ? dataBread.icon : "";
+          dataBread.modelName = dataBread.modelName ? dataBread.modelName : "";
+          dataBread.policyName = dataBread.policyName
+            ? dataBread.policyName
+            : "";
+          dataBread.description = dataBread.description
+            ? dataBread.description
+            : "";
+          dataBread.generatePermissions = dataBread.generatePermissions === 1;
+          dataBread.serverSide = dataBread.serverSide === 1;
+          dataBread.controller = dataBread.controller
+            ? dataBread.controller
+            : "";
+          dataBread.orderColumn = dataBread.orderColumn
+            ? dataBread.orderColumn
+            : "";
+          dataBread.orderDisplayColumn = dataBread.orderDisplayColumn
+            ? dataBread.orderDisplayColumn
+            : "";
+          dataBread.orderDirection = dataBread.orderDirection
+            ? dataBread.orderDirection
+            : "";
           let dataRows = [...dataBread.dataRows];
           dataBread.rows = dataRows.map((field) => {
             return {
@@ -373,14 +464,89 @@ export default {
               add: field.add === 1,
               delete: field.delete === 1,
               details: field.details,
+              relationType: field.relation ? field.relation.relationType : '',
+              destinationTable: field.relation
+                ? field.relation.destinationTable
+                : '',
+              destinationTableColumn: field.relation
+                ? field.relation.destinationTableColumn
+                : '',
+              destinationTableDisplayColumn: field.relation
+                ? field.relation.destinationTableDisplayColumn
+                : '',
               order: field.order,
+              setRelation: false,
             };
           });
-          this.dataBread = JSON.parse(JSON.stringify(dataBread))
+          this.dataBread = JSON.parse(JSON.stringify(dataBread));
           this.$vs.loading.close();
         })
         .catch((error) => {
           this.$vs.loading.close();
+        });
+    },
+    getRelationTypes() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.data
+        .tableRelations()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.relationTypes = response.data.tableRelations;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getDestinationTables() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.table
+        .browse()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.destinationTables = response.data.tables;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    changeTable(table, field) {
+      field.destinationTableColumn = '';
+      field.destinationTableDisplayColumn = '';
+      this.getDestinationTableColumns(table)
+    },
+    getDestinationTableColumns(table) {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.table
+        .read({
+          table
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.destinationTableColumns = response.data.tableFields;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
         });
     },
   },

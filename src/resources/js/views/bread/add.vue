@@ -215,6 +215,23 @@
                 size="12"
                 :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-code-editor>
+              <badaso-select
+                v-if="dataRow.type === 'relation' && dataRow.relation.relationType === 'belongs_to'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :items="relationData[$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable)]"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+              ></badaso-select>
+              <badaso-text
+                v-if="dataRow.type === 'relation' && dataRow.relation.relationType !== 'belongs_to'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+              ></badaso-text>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -236,7 +253,9 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to add {{dataType.displayNameSingular}}</h3>
+              <h3>
+                You're not allowed to add {{ dataType.displayNameSingular }}
+              </h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -303,13 +322,15 @@ export default {
   data: () => ({
     errors: {},
     dataType: {},
+    relationData: {},
   }),
   mounted() {
     this.getDataType();
+    this.getRelationDataBySlug();
   },
   methods: {
     submitForm() {
-      this.errors = {}
+      this.errors = {};
       let dataRows = this.dataType.dataRows.filter(function(row) {
         return row && row.value;
       });
@@ -337,7 +358,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.errors = error.errors
+          this.errors = error.errors;
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",
@@ -383,14 +404,35 @@ export default {
             try {
               data.details = JSON.parse(data.details);
               if (data.type === "hidden") {
-                data.value = data.details.value ? data.details.value : '';
+                data.value = data.details.value ? data.details.value : "";
               }
             } catch (error) {
-              console.log(error)
+              console.log(error);
             }
             return data;
           });
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getRelationDataBySlug() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.table
+        .relationDataBySlug({
+          slug: this.$route.params.slug,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.relationData = response.data;
         })
         .catch((error) => {
           this.$vs.loading.close();

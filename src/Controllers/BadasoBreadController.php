@@ -48,30 +48,6 @@ class BadasoBreadController extends Controller
         }
     }
 
-    public function browseAllTable(Request $request)
-    {
-        try {
-            $db_name = config('badaso.db_name', '');
-            $tables = DB::select('SHOW TABLES');
-            $key = 'Tables_in_'.$db_name;
-            $tables = collect($tables);
-
-            $tables = $tables->map(function ($table) use ($key) {
-                $table->table_name = $table->{$key};
-                $table->value = $table->{$key};
-                $table->label = ucfirst(str_replace('_', ' ', $table->{$key}));
-
-                return $table;
-            });
-
-            $data['tables'] = $tables;
-
-            return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return APIResponse::failed($e);
-        }
-    }
-
     public function read(Request $request)
     {
         try {
@@ -178,36 +154,6 @@ class BadasoBreadController extends Controller
         }
     }
 
-    public function readTable(Request $request)
-    {
-        try {
-            $request->validate([
-                'table' => 'required',
-            ]);
-
-            $table = $request->table;
-            $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($table);
-            $fields = [];
-            foreach ($columns as $key => $column) {
-                $fields[] = [
-                    'name' => $column->getName(),
-                    'type' => str_replace('\\', '', ucfirst($column->getType())),
-                    'is_not_null' => $column->getNotNull(),
-                    'default' => $column->getDefault(),
-                    'length' => $column->getLength(),
-                    'value' => $column->getName(),
-                    'label' => ucfirst(str_replace('_', ' ', $column->getName())),
-                ];
-            }
-
-            $data['table_fields'] = $fields;
-
-            return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return APIResponse::failed($e);
-        }
-    }
-
     public function edit(Request $request)
     {
         DB::beginTransaction();
@@ -276,21 +222,25 @@ class BadasoBreadController extends Controller
                 $new_data_row->add = isset($data_row['add']) ? $data_row['add'] : false;
                 $new_data_row->delete = isset($data_row['delete']) ? $data_row['delete'] : false;
                 $new_data_row->details = isset($data_row['details']) ? $data_row['details'] : '';
-                $relation = [];
-                if (isset($data_row['relation_type'])) {
-                    $relation['relation_type'] = $data_row['relation_type'];
-                }
-                if (isset($data_row['destination_table'])) {
-                    $relation['destination_table'] = $data_row['destination_table'];
-                }
-                if (isset($data_row['destination_table_column'])) {
-                    $relation['destination_table_column'] = $data_row['destination_table_column'];
-                }
-                if (isset($data_row['destination_table_display_columns'])) {
-                    $relation['destination_table_display_columns'] = $data_row['destination_table_display_columns'];
-                }
-                if (count($relation) > 0) {
-                    $new_data_row->relation = json_encode($relation);
+                if ($data_row['type'] != 'relation') {
+                    $new_data_row->relation = null;
+                } else {
+                    $relation = [];
+                    if (isset($data_row['relation_type'])) {
+                        $relation['relation_type'] = $data_row['relation_type'];
+                    }
+                    if (isset($data_row['destination_table'])) {
+                        $relation['destination_table'] = $data_row['destination_table'];
+                    }
+                    if (isset($data_row['destination_table_column'])) {
+                        $relation['destination_table_column'] = $data_row['destination_table_column'];
+                    }
+                    if (isset($data_row['destination_table_display_column'])) {
+                        $relation['destination_table_display_column'] = $data_row['destination_table_display_column'];
+                    }
+                    if (count($relation) == 4) {
+                        $new_data_row->relation = json_encode($relation);
+                    }
                 }
 
                 $new_data_row->order = $index + 1;
@@ -395,10 +345,10 @@ class BadasoBreadController extends Controller
                 if (isset($data_row['destination_table_column'])) {
                     $relation['destination_table_column'] = $data_row['destination_table_column'];
                 }
-                if (isset($data_row['destination_table_display_columns'])) {
-                    $relation['destination_table_display_columns'] = $data_row['destination_table_display_columns'];
+                if (isset($data_row['destination_table_display_column'])) {
+                    $relation['destination_table_display_column'] = $data_row['destination_table_display_column'];
                 }
-                if (count($relation) > 0) {
+                if (count($relation) == 4 && $data_row['type'] == 'relation') {
                     $new_data_row->relation = json_encode($relation);
                 }
                 $new_data_row->order = $index + 1;
@@ -444,50 +394,6 @@ class BadasoBreadController extends Controller
             $data_type->delete();
 
             event(new BreadDeleted($data_type));
-
-            DB::commit();
-
-            return ApiResponse::success();
-        } catch (Exception $e) {
-            DB::rollBack();
-
-            return ApiResponse::failed($e);
-        }
-    }
-
-    public function generate(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            $request->validate([
-                'table' => 'required',
-            ]);
-
-            $columns = DB::getSchemaBuilder()->getColumnListing($request->table);
-
-            $new_data_type = new DataType();
-            $new_data_type->name = $request->table;
-            $new_data_type->slug = Str::slug($request->table);
-            $new_data_type->display_name_singular = Str::studly($request->table);
-            $new_data_type->display_name_plural = Str::plural($new_data_type->display_name_singular);
-            $new_data_type->save();
-
-            foreach ($columns as $index => $column) {
-                $new_data_row = new DataRow();
-                $new_data_row->data_type_id = $new_data_type->id;
-                $new_data_row->field = $column;
-                $new_data_row->type = DB::getSchemaBuilder()->getColumnType($request->table, $column);
-                $new_data_row->display_name = Str::studly($column);
-                $new_data_row->required = false;
-                $new_data_row->browse = true;
-                $new_data_row->read = true;
-                $new_data_row->edit = true;
-                $new_data_row->add = true;
-                $new_data_row->delete = true;
-                $new_data_row->details = '';
-                $new_data_row->order = $index + 1;
-                $new_data_row->save();
-            }
 
             DB::commit();
 

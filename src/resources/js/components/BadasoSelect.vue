@@ -6,6 +6,7 @@
       :value="value"
       @input="handleInput($event)"
       width="100%"
+      @change="handleChange($event)"
     >
       <vs-select-item
         :key="index"
@@ -66,6 +67,9 @@ export default {
     handleInput(val) {
       this.$emit("input", val);
     },
+    handleChange(val) {
+      this.$emit("onChange");
+    }
   },
 };
 </script>

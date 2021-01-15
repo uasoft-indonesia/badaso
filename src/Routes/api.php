@@ -113,10 +113,15 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/edit', 'BadasoBreadController@edit')->middleware(BadasoCheckPermissions::class.':edit_bread');
             Route::post('/add', 'BadasoBreadController@add')->middleware(BadasoCheckPermissions::class.':add_bread');
             Route::delete('/delete', 'BadasoBreadController@delete')->middleware(BadasoCheckPermissions::class.':delete_bread');
-            Route::get('/generate', 'BadasoBreadController@generate')->middleware(BadasoCheckPermissions::class.':add_bread');
-            Route::get('/table', 'BadasoBreadController@readTable')->middleware(BadasoCheckPermissions::class.':read_bread');
-            Route::get('/table/all', 'BadasoBreadController@browseAllTable')->middleware(BadasoCheckPermissions::class.':read_bread');
             Route::get('/read-by-slug', 'BadasoBreadController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_bread');
+        });
+
+        Route::group(['prefix' => 'table', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoTableController@browse');
+            Route::get('/read', 'BadasoTableController@read');
+            Route::get('/data', 'BadasoTableController@getDataByTable');
+            Route::get('/generate-bread', 'BadasoTableController@generateBread');
+            Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug');
         });
 
         Route::group(['prefix' => 'entities', 'middleware' => BadasoAuthenticate::class], function () {

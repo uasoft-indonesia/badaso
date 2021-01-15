@@ -23,7 +23,11 @@ export default {
     edit: apiPrefix + '/v1/breads/edit',
     add: apiPrefix + '/v1/breads/add',
     delete: apiPrefix + '/v1/breads/delete',
-    table: apiPrefix + '/v1/breads/table',
+  },
+  table: {
+    browse: apiPrefix + '/v1/table',
+    read: apiPrefix + '/v1/table/read',
+    relationDataBySlug: apiPrefix + '/v1/table/relation-data-by-slug'
   },
   configuration: {
     applyable: apiPrefix + '/v1/configurations/applyable',
@@ -82,7 +86,8 @@ export default {
   },
   data: {
     component: apiPrefix + '/v1/data/components',
-    filterOperator: apiPrefix + '/v1/data/filter-operators'
+    filterOperator: apiPrefix + '/v1/data/filter-operators',
+    tableRelations: apiPrefix + '/v1/data/table-relations'
   },
   entity: apiPrefix + '/v1/entities',
   file: {

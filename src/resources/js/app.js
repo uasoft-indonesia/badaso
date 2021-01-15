@@ -4,8 +4,6 @@ import { Datetime } from "vue-datetime";
 
 import "vuesax/dist/vuesax.css"; //Vuesax styles
 import "material-icons/iconfont/material-icons.css";
-import "boxicons";
-import "boxicons/css/boxicons.min.css";
 import "vue-datetime/dist/vue-datetime.css";
 import "./assets/scss/style.scss";
 

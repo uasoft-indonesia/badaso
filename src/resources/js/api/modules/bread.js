@@ -31,15 +31,6 @@ export default {
     });
   },
 
-  readTable(data) {
-    return auth.refreshToken().then((res) => {
-      let ep = endpoint.bread.table;
-      let qs = QueryString(data);
-      let url = ep + qs;
-      return resource.get(url);
-    });
-  },
-
   edit(data) {
     return auth.refreshToken().then((res) => {
       return resource.put(endpoint.bread.edit, data);

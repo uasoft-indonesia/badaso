@@ -168,16 +168,15 @@ class GetData
         return $entities;
     }
 
-    private static function getRelationData($data_type, $row)
+    public static function getRelationData($data_type, $row)
     {
         $relational_fields = collect($data_type->dataRows)->filter(function ($value, $key) {
             return $value->relation != null;
         })->all();
-
         foreach ($relational_fields as $field) {
             $relation_detail = [];
             try {
-                $relation_detail = json_decode($field->relation);
+                $relation_detail = is_string($field->relation) ? json_decode($field->relation) : $field->relation;
                 $relation_detail = CaseConvert::snake($relation_detail);
             } catch (\Exception $e) {
             }
@@ -185,15 +184,18 @@ class GetData
             $relation_type = array_key_exists('relation_type', $relation_detail) ? $relation_detail['relation_type'] : null;
             $destination_table = array_key_exists('destination_table', $relation_detail) ? $relation_detail['destination_table'] : null;
             $destination_table_column = array_key_exists('destination_table_column', $relation_detail) ? $relation_detail['destination_table_column'] : null;
-            $destination_table_display_columns = array_key_exists('destination_table_display_columns', $relation_detail) ? explode(',', $relation_detail['destination_table_display_columns']) : null;
+            $destination_table_display_column = array_key_exists('destination_table_display_column', $relation_detail) ? $relation_detail['destination_table_display_column'] : null;
 
             if (
                 $relation_type
                 && $destination_table
                 && $destination_table_column
-                && $destination_table_display_columns
+                && $destination_table_display_column
             ) {
-                $relation_data = DB::table($destination_table)->select($destination_table_display_columns)
+                $relation_data = DB::table($destination_table)->select([
+                    $destination_table_column,
+                    $destination_table_display_column,
+                ])
                 ->where($destination_table_column, $row->{$field->field})
                 ->get();
 
@@ -203,11 +205,11 @@ class GetData
                         break;
 
                     case 'has_many':
-                        $row->$destination_table = collect($relation_data)->toArray();
+                        $row->{$destination_table} = collect($relation_data)->toArray();
                         break;
 
                     case 'has_many':
-                        $row->$destination_table = collect($relation_data)->first();
+                        $row->{$destination_table} = collect($relation_data)->first();
                         break;
 
                     default:

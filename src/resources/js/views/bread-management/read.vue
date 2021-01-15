@@ -324,8 +324,8 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
-        .readTable({
+      this.$api.table
+        .read({
           table: this.$route.params.tableName,
         })
         .then((response) => {

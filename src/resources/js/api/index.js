@@ -8,6 +8,7 @@ import user from './modules/user'
 import data from './modules/data'
 import entity from './modules/entity'
 import file from './modules/file'
+import table from './modules/table'
 
 export default {
   auth,
@@ -19,5 +20,6 @@ export default {
   user,
   entity,
   data,
-  file
+  file,
+  table
 }

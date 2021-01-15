@@ -191,6 +191,21 @@
                 v-model="dataRow.value"
                 size="12"
               ></badaso-code-editor>
+              <badaso-select
+                v-if="dataRow.type === 'relation' && dataRow.relation.relationType === 'belongs_to'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :items="relationData[$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable)]"
+              ></badaso-select>
+              <badaso-text
+                v-if="dataRow.type === 'relation' && dataRow.relation.relationType !== 'belongs_to'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+              ></badaso-text>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -278,10 +293,13 @@ export default {
     BadasoCodeEditor,
   },
   data: () => ({
+    errors: {},
     dataType: {},
+    relationData: {},
   }),
   mounted() {
     this.getDetailEntity();
+    this.getRelationDataBySlug();
   },
   methods: {
     submitForm() {
@@ -400,6 +418,27 @@ export default {
             return data;
           });
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getRelationDataBySlug() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.table
+        .relationDataBySlug({
+          slug: this.$route.params.slug,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.relationData = response.data;
         })
         .catch((error) => {
           this.$vs.loading.close();

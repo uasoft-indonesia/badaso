@@ -17,4 +17,11 @@ export default {
     let url = ep + qs;
     return resource.get(url);
   },
+
+  tableRelations(data = {}) {
+    let ep = endpoint.data.tableRelations;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
 };

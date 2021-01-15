@@ -208,8 +208,72 @@
                       />
                     </td>
                     <td>
-                      <badaso-code-editor v-model="field.details">
+                      <badaso-code-editor
+                        v-model="field.details"
+                        v-if="field.type !== 'relation'"
+                      >
                       </badaso-code-editor>
+                      <vs-button
+                        color="primary"
+                        type="relief"
+                        @click.stop
+                        @click="openRelationSetup(field)"
+                        v-else
+                        >Set Relation</vs-button
+                      >
+                      <vs-popup
+                        class="holamundo"
+                        title="Set Relation"
+                        :active.sync="field.setRelation"
+                      >
+                        <vs-row>
+                          <badaso-select
+                            size="12"
+                            v-model="field.relationType"
+                            :items="relationTypes"
+                            label="Relation Type"
+                          ></badaso-select>
+                          <vs-col vs-lg="12" class="mb-3">
+                            <vs-select
+                              v-model="field.destinationTable"
+                              label="Destination Table"
+                              width="100%"
+                              @change="changeTable($event, field)"
+                            >
+                              <vs-select-item
+                                :key="index"
+                                :value="item.value ? item.value : item"
+                                :text="item.label ? item.label : item"
+                                v-for="(item, index) in destinationTables"
+                              />
+                            </vs-select>
+                          </vs-col>
+                          <badaso-select
+                            size="12"
+                            v-model="field.destinationTableColumn"
+                            :items="destinationTableColumns"
+                            label="Destination Column"
+                          ></badaso-select>
+                          <badaso-select
+                            size="12"
+                            v-model="field.destinationTableDisplayColumn"
+                            :items="destinationTableColumns"
+                            label="Destination Column To Display"
+                          ></badaso-select>
+                        </vs-row>
+                        <vs-row vs-type="flex" vs-justify="space-between">
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button color="primary" @click="field.setRelation = false"
+                              >Save</vs-button
+                            >
+                          </vs-col>
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button color="danger"  @click="field.setRelation = false"
+                              >Cancel</vs-button
+                            >
+                          </vs-col>
+                        </vs-row>
+                      </vs-popup>
                     </td>
                   </tr>
                 </draggable>
@@ -301,6 +365,9 @@ export default {
       orderDirection: "",
       rows: [],
     },
+    relationTypes: [],
+    destinationTables: [],
+    destinationTableColumns: [],
   }),
   computed: {
     componentList: {
@@ -320,15 +387,23 @@ export default {
       this.$route.params.tableName
     );
     this.getTableDetail();
+    this.getRelationTypes();
+    this.getDestinationTables();
   },
   methods: {
+    openRelationSetup(field) {
+      field.setRelation = true;
+      if (field.destinationTable !== '') {
+        this.getDestinationTableColumns(field.destinationTable);
+      }
+    },
     submitForm() {
       this.errors = {}
       this.$vs.loading({
         type: "sound",
       });
       this.$api.bread
-        .add(this.$caseConvert.snake(this.dataBread))
+        .add(this.dataBread)
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
@@ -349,8 +424,8 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
-        .readTable({
+      this.$api.table
+        .read({
           table: this.$route.params.tableName,
         })
         .then((response) => {
@@ -375,12 +450,77 @@ export default {
               delete: false,
               details: "{}",
               order: 1,
+              setRelation: false
             };
           });
           this.$vs.loading.close();
         })
         .catch((error) => {
           this.$vs.loading.close();
+        });
+    },
+    getRelationTypes() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.data
+        .tableRelations()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.relationTypes = response.data.tableRelations;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getDestinationTables() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.table
+        .browse()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.destinationTables = response.data.tables;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    changeTable(table, field) {
+      field.destinationTableColumn = '';
+      field.destinationTableDisplayColumn = '';
+      this.getDestinationTableColumns(table)
+    },
+    getDestinationTableColumns(table) {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.table
+        .read({
+          table
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.destinationTableColumns = response.data.tableFields;
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: "Danger",
+            text: error.message,
+            color: "danger",
+          });
         });
     },
   },

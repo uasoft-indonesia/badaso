@@ -88,8 +88,8 @@
                       v-if="dataRow.type === 'upload_image'"
                       :src="
                         `${$api.file.view(
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)])
-                        }`
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )}`
                       "
                       width="100%"
                       alt=""
@@ -129,8 +129,8 @@
                       v-else-if="dataRow.type === 'upload_file'"
                       :href="
                         `${$api.file.download(
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)])
-                        }`
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )}`
                       "
                       target="_blank"
                       >{{
@@ -196,6 +196,9 @@
                         record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                       }}
                     </div>
+                    <span v-else-if="dataRow.type === 'relation'">{{
+                        displayRelationData(record, dataRow)
+                      }}</span>
                     <span v-else>{{
                       record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     }}</span>
@@ -213,7 +216,8 @@
                         },
                       }"
                       v-if="
-                        isCanRead && $helper.isAllowedToModifyBread('read', dataType.name)
+                        isCanRead &&
+                          $helper.isAllowedToModifyBread('read', dataType.name)
                       "
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
@@ -229,7 +233,8 @@
                         },
                       }"
                       v-if="
-                        isCanEdit && $helper.isAllowedToModifyBread('edit', dataType)
+                        isCanEdit &&
+                          $helper.isAllowedToModifyBread('edit', dataType)
                       "
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
@@ -249,9 +254,16 @@
               <vs-table v-model="selected" :data="records" stripe multiple>
                 <template slot="header">
                   <div class="con-input-search vs-table--search">
-                    <input type="text" class="input-search vs-table--search-input" v-on:keyup.enter="handleSearch">
-                      <i class="vs-icon notranslate icon-scale material-icons null">search</i>
-                    </div>
+                    <input
+                      type="text"
+                      class="input-search vs-table--search-input"
+                      v-on:keyup.enter="handleSearch"
+                    />
+                    <i
+                      class="vs-icon notranslate icon-scale material-icons null"
+                      >search</i
+                    >
+                  </div>
                 </template>
                 <template slot="thead">
                   <vs-th
@@ -287,8 +299,8 @@
                           `${$api.file.view(
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ])
-                          }`
+                            ]
+                          )}`
                         "
                         width="100%"
                         alt=""
@@ -332,8 +344,8 @@
                           `${$api.file.download(
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ])
-                          }`
+                            ]
+                          )}`
                         "
                         target="_blank"
                         >{{
@@ -405,6 +417,9 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }}
                       </div>
+                      <span v-else-if="dataRow.type === 'relation'">{{
+                        displayRelationData(record, dataRow)
+                      }}</span>
                       <span v-else>{{
                         record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                       }}</span>
@@ -449,7 +464,9 @@
                         type="relief"
                         @click.stop
                         @click="confirmDelete(data[index].id)"
-                        v-if="$helper.isAllowedToModifyBread('delete', dataType)"
+                        v-if="
+                          $helper.isAllowedToModifyBread('delete', dataType)
+                        "
                         ><vs-icon icon="delete"></vs-icon
                       ></vs-button>
                     </vs-td>
@@ -472,7 +489,10 @@
                   </vs-select>
                 </vs-col>
                 <vs-col vs-lg="9">
-                  <vs-pagination :total="totalItem" v-model="page"></vs-pagination>
+                  <vs-pagination
+                    :total="totalItem"
+                    v-model="page"
+                  ></vs-pagination>
                 </vs-col>
               </vs-row>
             </div>
@@ -518,18 +538,18 @@ export default {
     limit: 10,
     orderField: "",
     orderDirection: "",
-    rowPerPage: null
+    rowPerPage: null,
   }),
   watch: {
     $route: function(to, from) {
       this.getEntity();
     },
-    'page': function(to, from) {
-      this.handleChangePage(to)
+    page: function(to, from) {
+      this.handleChangePage(to);
     },
-    'limit': function(to, from) {
-      this.handleChangeLimit(to)
-    }
+    limit: function(to, from) {
+      this.handleChangeLimit(to);
+    },
   },
   mounted() {
     this.getEntity();
@@ -574,7 +594,10 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.records = response.data.entities.data;
-          this.totalItem = response.data.entities.total > 0 ? Math.ceil(response.data.entities.total / this.limit) : 1;
+          this.totalItem =
+            response.data.entities.total > 0
+              ? Math.ceil(response.data.entities.total / this.limit)
+              : 1;
           this.dataType = response.data.dataType;
           let dataRows = this.dataType.dataRows.map((data) => {
             try {
@@ -692,6 +715,20 @@ export default {
       this.orderField = field;
       this.orderDirection = direction;
       this.getEntity();
+    },
+    displayRelationData(record, dataRow) {
+      let table = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable);
+      let column = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableColumn);
+      let displayColumn = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableDisplayColumn);
+      if (dataRow.relation.relationType === "has_many") {
+        let list = record[table];
+        let flatList = list.map((ls) => {
+          return ls[displayColumn];
+        })
+        return flatList.join(', ');
+      } else {
+        return record[table] ? record[table][displayColumn] : null;
+      }
     },
   },
 };
