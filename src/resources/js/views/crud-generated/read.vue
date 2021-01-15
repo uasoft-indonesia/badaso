@@ -9,7 +9,7 @@
           <vs-button
             color="warning"
             type="relief"
-            v-if="$helper.isAllowedToModifyBread('edit', dataType)"
+            v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
             :to="{
               name: 'EntityEdit',
               params: { id: $route.params.id, slug: $route.params.slug },
@@ -19,7 +19,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowedToModifyBread('read', dataType)">
+    <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('read', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">

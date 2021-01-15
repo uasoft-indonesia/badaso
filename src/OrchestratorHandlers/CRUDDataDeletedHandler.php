@@ -3,10 +3,10 @@
 namespace Uasoft\Badaso\OrchestratorHandlers;
 
 use Uasoft\Badaso\ContentManager\FileGenerator;
-use Uasoft\Badaso\Events\BreadChanged;
+use Uasoft\Badaso\Events\CRUDDataChanged;
 use Uasoft\Badaso\Models\Permission;
 
-class BreadDeletedHandler
+class CRUDDataDeletedHandler
 {
     /** @var FileGenerator */
     private $file_generator;
@@ -18,16 +18,15 @@ class BreadDeletedHandler
      */
     public function __construct(FileGenerator $file_generator)
     {
-        \Log::debug(get_class($this));
         $this->file_generator = $file_generator;
     }
 
     /**
-     * Bread Deleted Handler.
+     * CRUDData Deleted Handler.
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function handle(BreadChanged $bread_changed): bool
+    public function handle(CRUDDataChanged $bread_changed): bool
     {
         $data_type = $bread_changed->data_type;
 

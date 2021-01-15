@@ -10,13 +10,13 @@ use Uasoft\Badaso\Models\DataType;
 class FileGenerator
 {
     /** @var string */
-    const TYPE_SEEDER_SUFFIX = 'BreadTypeAdded';
+    const TYPE_SEEDER_SUFFIX = 'CRUDDataTypeAdded';
 
     /** @var string */
-    const ROW_SEEDER_SUFFIX = 'BreadRowAdded';
+    const ROW_SEEDER_SUFFIX = 'CRUDDataRowAdded';
 
     /** @var string */
-    const DELETED_SEEDER_SUFFIX = 'BreadDeleted';
+    const DELETED_SEEDER_SUFFIX = 'CRUDDataDeleted';
 
     /** @var ContentGenerator */
     private $content_manager;

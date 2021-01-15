@@ -301,7 +301,7 @@ export default {
         text: "Are you sure?",
         accept: this.deleteConfiguration,
         cancel: () => {
-          this.willDeleteBreadId = null;
+          this.willDeleteConfigurationId = null;
         },
       });
     },

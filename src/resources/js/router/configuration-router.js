@@ -21,10 +21,10 @@ import MenuAdd from "./../views/menu-management/add";
 import MenuBuilder from "./../views/menu-management/builder";
 import MenuPermissions from "./../views/menu-management/permissions";
 
-import BreadBrowse from "./../views/bread-management/browse";
-import BreadRead from "./../views/bread-management/read";
-import BreadEdit from "./../views/bread-management/edit";
-import BreadAdd from "./../views/bread-management/add";
+import CRUDManagementBrowse from "./../views/crud-management/browse";
+import CRUDManagementRead from "./../views/crud-management/read";
+import CRUDManagementEdit from "./../views/crud-management/edit";
+import CRUDManagementAdd from "./../views/crud-management/add";
 
 import SiteBrowse from "./../views/site-management/browse";
 import SiteAdd from "./../views/site-management/add";
@@ -192,35 +192,35 @@ export default [
     },
   },
   {
-    path: prefix + "/bread",
-    name: "BreadBrowse",
-    component: BreadBrowse,
+    path: prefix + "/crud",
+    name: "CRUDManagementBrowse",
+    component: CRUDManagementBrowse,
     meta: {
-      title: "Browse BREAD",
+      title: "Browse CRUD",
     },
   },
   {
-    path: prefix + "/bread/read",
-    name: "BreadRead",
-    component: BreadRead,
+    path: prefix + "/crud/read",
+    name: "CRUDManagementRead",
+    component: CRUDManagementRead,
     meta: {
-      title: "Detail BREAD",
+      title: "Detail CRUD",
     },
   },
   {
-    path: prefix + "/bread/edit/:tableName",
-    name: "BreadEdit",
-    component: BreadEdit,
+    path: prefix + "/crud/edit/:tableName",
+    name: "CRUDManagementEdit",
+    component: CRUDManagementEdit,
     meta: {
-      title: "Edit BREAD",
+      title: "Edit CRUD",
     },
   },
   {
-    path: prefix + "/bread/add/:tableName",
-    name: "BreadAdd",
-    component: BreadAdd,
+    path: prefix + "/crud/add/:tableName",
+    name: "CRUDManagementAdd",
+    component: CRUDManagementAdd,
     meta: {
-      title: "Add Bread",
+      title: "Add CRUD",
     },
   },
 

@@ -19,6 +19,6 @@ class EnityAdded
 
         $this->data = $data;
 
-        event(new BreadDataChanged($data_type, $data, 'Added'));
+        event(new EntityChanged($data_type, $data, 'Added'));
     }
 }

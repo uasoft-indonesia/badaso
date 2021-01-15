@@ -5,7 +5,7 @@
         <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowedToModifyBread('edit', dataType)">
+    <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">

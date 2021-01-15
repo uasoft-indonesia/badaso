@@ -5,13 +5,16 @@
         <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowedToModifyBread('edit', dataType)">
+    <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
             <h3>Edit</h3>
           </div>
           <vs-row>
+            <vs-col vs-lg="12" v-if="!isValid">
+              <p class="text-danger">No fields have been filled</p>
+            </vs-col>
             <vs-col
               v-for="(dataRow, rowIndex) in dataType.dataRows"
               :key="rowIndex"
@@ -26,6 +29,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-text>
               <badaso-password
                 v-if="dataRow.type === 'password'"
@@ -33,6 +37,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-password>
               <badaso-textarea
                 v-if="dataRow.type === 'textarea'"
@@ -40,6 +45,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-textarea>
               <badaso-search
                 v-if="dataRow.type === 'search'"
@@ -47,6 +53,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-search>
               <badaso-number
                 v-if="dataRow.type === 'number'"
@@ -54,6 +61,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-number>
               <badaso-url
                 v-if="dataRow.type === 'url'"
@@ -61,6 +69,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-url>
               <badaso-time
                 v-if="dataRow.type === 'time'"
@@ -68,6 +77,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-time>
               <badaso-date
                 v-if="dataRow.type === 'date'"
@@ -75,6 +85,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-date>
               <badaso-datetime
                 v-if="dataRow.type === 'datetime'"
@@ -82,6 +93,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-datetime>
               <badaso-upload-image
                 v-if="dataRow.type === 'upload_image'"
@@ -89,6 +101,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-upload-image>
               <badaso-upload-image-multiple
                 v-if="dataRow.type === 'upload_image_multiple'"
@@ -96,6 +109,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-upload-image-multiple>
               <badaso-upload-file
                 v-if="dataRow.type === 'upload_file'"
@@ -103,6 +117,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-upload-file>
               <badaso-upload-file-multiple
                 v-if="dataRow.type === 'upload_file_multiple'"
@@ -110,6 +125,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-upload-file-multiple>
               <badaso-switch
                 v-if="dataRow.type === 'switch'"
@@ -117,6 +133,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-switch>
               <badaso-slider
                 v-if="dataRow.type === 'slider'"
@@ -124,6 +141,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-slider>
               <badaso-editor
                 v-if="dataRow.type === 'editor'"
@@ -131,6 +149,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-editor>
               <badaso-tags
                 v-if="dataRow.type === 'tags'"
@@ -138,6 +157,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-tags>
               <badaso-color-picker
                 v-if="dataRow.type === 'color_picker'"
@@ -145,12 +165,14 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-color-picker>
               <badaso-hidden
                 v-if="dataRow.type === 'hidden'"
                 :label="dataRow.displayName"
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-hidden>
               <badaso-checkbox
                 v-if="dataRow.type === 'checkbox'"
@@ -158,6 +180,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-checkbox>
               <badaso-select
@@ -166,6 +189,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-select>
               <badaso-select-multiple
@@ -174,6 +198,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-select-multiple>
               <badaso-radio
@@ -182,6 +207,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 :items="dataRow.details.items ? dataRow.details.items : []"
               ></badaso-radio>
               <badaso-code-editor
@@ -190,6 +216,7 @@
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-code-editor>
               <badaso-select
                 v-if="dataRow.type === 'relation' && dataRow.relation.relationType === 'belongs_to'"
@@ -293,6 +320,7 @@ export default {
     BadasoCodeEditor,
   },
   data: () => ({
+    isValid: true,
     errors: {},
     dataType: {},
     relationData: {},
@@ -312,6 +340,10 @@ export default {
           value: row.value,
         };
       });
+      if (dataRows.length <= 0) {
+        this.isValid = false;
+        return;
+      }
 
       this.$vs.loading({
         type: "sound",

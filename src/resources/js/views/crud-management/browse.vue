@@ -6,11 +6,11 @@
       </vs-col>
       <vs-col vs-lg="4"> </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowed('browse_bread')">
+    <vs-row v-if="$helper.isAllowed('browse_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Bread</h3>
+            <h3>CRUD</h3>
           </div>
           <div>
             <vs-table
@@ -42,7 +42,7 @@
                   </vs-td>
                   <vs-td
                     style="width: 1%; white-space: nowrap"
-                    v-if="data[index].breadData"
+                    v-if="data[index].crudData"
                   >
                     <vs-button
                       color="success"
@@ -50,7 +50,7 @@
                       @click.stop
                       :to="{
                         name: 'EntityBrowse',
-                        params: { slug: data[index].breadData.slug },
+                        params: { slug: data[index].crudData.slug },
                       }"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
@@ -58,9 +58,9 @@
                       color="warning"
                       type="relief"
                       @click.stop
-                      v-if="$helper.isAllowed('edit_bread')"
+                      v-if="$helper.isAllowed('edit_crud_data')"
                       :to="{
-                        name: 'BreadEdit',
+                        name: 'CRUDManagementEdit',
                         params: { tableName: data[index].tableName },
                       }"
                       ><vs-icon icon="edit"></vs-icon
@@ -69,8 +69,8 @@
                       color="danger"
                       type="relief"
                       @click.stop
-                      v-if="$helper.isAllowed('delete_bread')"
-                      @click="openConfirm(data[index].breadData.id)"
+                      v-if="$helper.isAllowed('delete_crud_data')"
+                      @click="openConfirm(data[index].crudData.id)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -79,12 +79,12 @@
                       color="primary"
                       type="relief"
                       @click.stop
-                      v-if="$helper.isAllowed('add_bread')"
+                      v-if="$helper.isAllowed('add_crud_data')"
                       :to="{
-                        name: 'BreadAdd',
+                        name: 'CRUDManagementAdd',
                         params: { tableName: data[index].tableName },
                       }"
-                      >Add BREAD to this table</vs-button
+                      >Add CRUD to this table</vs-button
                     >
                   </vs-td>
                 </vs-tr>
@@ -99,7 +99,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse BREAD</h3>
+              <h3>You're not allowed to browse CRUD</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -116,35 +116,34 @@ export default {
     descriptionItems: [10, 50, 100],
     selected: [],
     tables: [],
-    willDeleteBreadId: null,
+    willDeleteId: null,
   }),
   mounted() {
     this.getTableList();
   },
   methods: {
-    openConfirm(breadId) {
-      this.willDeleteBreadId = breadId;
+    openConfirm(id) {
+      this.willDeleteId = id;
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
         title: `Confirm`,
         text: "Are you sure?",
-        accept: this.deleteBread,
+        accept: this.deleteCrudData,
         cancel: () => {
-          this.willDeleteBreadId = null;
+          this.willDeleteId = null;
         },
-        breadId: breadId,
       });
     },
     getTableList() {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
+      this.$api.crud
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.tables = response.data.breads;
+          this.tables = response.data.cruds;
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -155,13 +154,13 @@ export default {
           });
         });
     },
-    deleteBread() {
+    deleteCRUDData() {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
+      this.$api.crud
         .delete({
-          id: this.willDeleteBreadId,
+          id: this.willDeleteId,
         })
         .then((response) => {
           this.$vs.loading.close();

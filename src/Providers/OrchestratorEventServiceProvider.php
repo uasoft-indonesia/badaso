@@ -3,15 +3,15 @@
 namespace Uasoft\Badaso\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider;
-use Uasoft\Badaso\Events\BreadChanged;
-use Uasoft\Badaso\Listeners\BadasoBreadChanged;
+use Uasoft\Badaso\Events\CRUDDataChanged;
+use Uasoft\Badaso\Listeners\BadasoCRUDDataChanged;
 
 class OrchestratorEventServiceProvider extends EventServiceProvider
 {
     /** @var array */
     protected $listen = [
-        BreadChanged::class => [
-            BadasoBreadChanged::class,
+        CRUDDataChanged::class => [
+            BadasoCRUDDataChanged::class,
         ],
     ];
 }

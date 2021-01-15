@@ -3,30 +3,29 @@
 namespace Uasoft\Badaso\OrchestratorHandlers;
 
 use Uasoft\Badaso\ContentManager\FileGenerator;
-use Uasoft\Badaso\Events\BreadChanged;
+use Uasoft\Badaso\Events\CRUDDataChanged;
 
-class BreadAddedHandler
+class CRUDDataAddedHandler
 {
     /** @var FileGenerator */
     private $file_generator;
 
     /**
-     * BreadAddedHandler constructor.
+     * CRUDDataAddedHandler constructor.
      *
      * @param FilesGenerator $file_generator
      */
     public function __construct(FileGenerator $file_generator)
     {
-        \Log::debug(get_class($this));
         $this->file_generator = $file_generator;
     }
 
     /**
-     * Bread Added Handler.
+     * CRUDData Added Handler.
      *
      * @return bool
      */
-    public function handle(BreadChanged $bread_added)
+    public function handle(CRUDDataChanged $bread_added)
     {
         $data_type = $bread_added->data_type;
 

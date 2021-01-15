@@ -5,13 +5,16 @@
         <badaso-breadcrumb full></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowedToModifyBread('add', dataType)">
+    <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('add', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
             <h3>Add</h3>
           </div>
           <vs-row>
+            <vs-col vs-lg="12" v-if="!isValid">
+              <p class="text-danger">No fields have been filled</p>
+            </vs-col>
             <vs-col
               v-for="(dataRow, rowIndex) in dataType.dataRows"
               :key="rowIndex"
@@ -320,6 +323,7 @@ export default {
     BadasoCodeEditor,
   },
   data: () => ({
+    isValid: true,
     errors: {},
     dataType: {},
     relationData: {},
@@ -331,6 +335,7 @@ export default {
   methods: {
     submitForm() {
       this.errors = {};
+      this.isValid = true;
       let dataRows = this.dataType.dataRows.filter(function(row) {
         return row && row.value;
       });
@@ -340,6 +345,10 @@ export default {
           value: row.value,
         };
       });
+      if (dataRows.length <= 0) {
+        this.isValid = false;
+        return;
+      }
       this.$vs.loading({
         type: "sound",
       });
@@ -371,14 +380,14 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
+      this.$api.crud
         .readBySlug({
           slug: this.$route.params.slug,
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.dataType = response.data.bread;
-          let dataRows = response.data.bread.dataRows.map((data) => {
+          this.dataType = response.data.crud;
+          let dataRows = response.data.crud.dataRows.map((data) => {
             if (
               data.value === undefined &&
               (data.type === "upload_image" || data.type === "upload_file")

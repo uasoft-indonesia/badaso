@@ -5,7 +5,7 @@ import PublicRoute from "./public-router";
 import AdminRoute from "./admin-router";
 import AuthRoute from "./auth-router";
 import ConfigurationRoute from "./configuration-router";
-import BreadRoute from "./bread-router";
+import GeneratedRoute from "./generated-router";
 
 import AdminContainer from "./../layout/admin-panel/AdminContainer.vue";
 import AuthContainer from "./../layout/auth/AuthContainer.vue";
@@ -70,7 +70,7 @@ const router = new VueRouter({
         },
 
         ...ConfigurationRoute,
-        ...BreadRoute,
+        ...GeneratedRoute,
         ...AdminRoute,
       ],
     },

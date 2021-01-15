@@ -17,11 +17,11 @@ class PermissionsSeeder extends Seeder
             'browse_role_permission',
             'add_or_edit_role_permission',
 
-            'browse_bread',
-            'read_bread',
-            'edit_bread',
-            'add_bread',
-            'delete_bread',
+            'browse_crud_data',
+            'read_crud_data',
+            'edit_crud_data',
+            'add_crud_data',
+            'delete_crud_data',
         ];
 
         foreach ($keys as $key) {

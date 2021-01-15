@@ -75,7 +75,7 @@ export default {
     if (result) return true;
     else return false;
   },
-  isAllowedToModifyBread(action, dataType) {
+  isAllowedToModifyGeneratedCRUD(action, dataType) {
     if (dataType.generatePermissions === true || dataType.generatePermissions === 1) {
       let userPermissions = store.getters.getUser.permissions;
       let result = _.find(userPermissions, function(o) {

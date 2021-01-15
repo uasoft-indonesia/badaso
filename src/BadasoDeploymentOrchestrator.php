@@ -4,11 +4,11 @@ namespace Uasoft\Badaso;
 
 use Exception;
 use Illuminate\Foundation\Application;
-use Uasoft\Badaso\Events\BreadChanged;
+use Uasoft\Badaso\Events\CRUDDataChanged;
 use Uasoft\Badaso\Exceptions\OrchestratorHandlerNotFoundException;
-use Uasoft\Badaso\OrchestratorHandlers\BreadAddedHandler;
-use Uasoft\Badaso\OrchestratorHandlers\BreadDeletedHandler;
-use Uasoft\Badaso\OrchestratorHandlers\BreadUpdatedHandler;
+use Uasoft\Badaso\OrchestratorHandlers\CRUDDataAddedHandler;
+use Uasoft\Badaso\OrchestratorHandlers\CRUDDataDeletedHandler;
+use Uasoft\Badaso\OrchestratorHandlers\CRUDDataUpdatedHandler;
 
 class BadasoDeploymentOrchestrator
 {
@@ -23,9 +23,9 @@ class BadasoDeploymentOrchestrator
 
     /** @var array */
     const HANDLERS = [
-        self::BREAD_ADDED => BreadAddedHandler::class,
-        self::BREAD_UPDATED => BreadUpdatedHandler::class,
-        self::BREAD_DELETED => BreadDeletedHandler::class,
+        self::BREAD_ADDED => CRUDDataAddedHandler::class,
+        self::BREAD_UPDATED => CRUDDataUpdatedHandler::class,
+        self::BREAD_DELETED => CRUDDataDeletedHandler::class,
     ];
 
     /** @var Application */
@@ -40,15 +40,14 @@ class BadasoDeploymentOrchestrator
     }
 
     /**
-     * BreadChanged Handlers.
+     * CRUDData Handlers.
      *
      * @throws DeploymentHandlerNotFoundException
      */
-    public function handle(BreadChanged $bread_changed)
+    public function handle(CRUDDataChanged $crud_data_changed)
     {
-        \Log::debug($bread_changed->data_type->name);
         if (!in_array(
-            $bread_changed->data_type->name,
+            $crud_data_changed->data_type->name,
             config('badaso.watch_tables')
         )
         ) {
@@ -56,11 +55,10 @@ class BadasoDeploymentOrchestrator
         }
 
         try {
-            \Log::debug('Handle');
-            $handler = $this->getHandle($bread_changed->change_type);
+            $handler = $this->getHandle($crud_data_changed->change_type);
 
             if ($handler) {
-                $handler->handle($bread_changed);
+                $handler->handle($crud_data_changed);
             }
         } catch (Exception $e) {
             throw new OrchestratorHandlerNotFoundException($e->getMessage());

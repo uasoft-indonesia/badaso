@@ -70,7 +70,7 @@ class ContentManager
                 $stub = $this->populateDataRowSeederContent($stub, $data_type);
                 break;
             case FileGenerator::DELETED_SEEDER_SUFFIX:
-                $stub = $this->populateBreadDeletedSeederContent($stub, $data_type);
+                $stub = $this->populateCRUDDataDeletedSeederContent($stub, $data_type);
                 break;
         }
 
@@ -141,11 +141,11 @@ class ContentManager
     }
 
     /**
-     * Populate Bread Deleted Seeder Content.
+     * Populate CRUDData Deleted Seeder Content.
      *
      * @return mixed|string
      */
-    private function populateBreadDeletedSeederContent(string $stub, DataType $data_type)
+    private function populateCRUDDataDeletedSeederContent(string $stub, DataType $data_type)
     {
         $stub = $this->populateDeleteStatements($stub, $data_type);
 

@@ -7,7 +7,7 @@ use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 
-class BadasoCheckPermissionsForBread
+class BadasoCheckPermissionsForCRUD
 {
     public function handle($request, Closure $next, $slug, $action)
     {

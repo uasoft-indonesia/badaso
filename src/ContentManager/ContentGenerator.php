@@ -186,12 +186,12 @@ class ContentGenerator
                 FileGenerator::DELETED_SEEDER_SUFFIX,
                 true
             );
-            $bread_type_added_class = $to_be_deleted_class_name.FileGenerator::TYPE_SEEDER_SUFFIX;
+            $crud_type_added_class = $to_be_deleted_class_name.FileGenerator::TYPE_SEEDER_SUFFIX;
 
-            $bread_row_added_class = $to_be_deleted_class_name.FileGenerator::ROW_SEEDER_SUFFIX;
+            $crud_row_added_class = $to_be_deleted_class_name.FileGenerator::ROW_SEEDER_SUFFIX;
 
-            $content = str_replace("\$this->seed({$bread_type_added_class}::class);", '', $content);
-            $content = str_replace("\$this->seed({$bread_row_added_class}::class);", '', $content);
+            $content = str_replace("\$this->seed({$crud_type_added_class}::class);", '', $content);
+            $content = str_replace("\$this->seed({$crud_row_added_class}::class);", '', $content);
         }
 
         if (strpos($content, "\$this->seed({$class_name}::class)") === false) {

@@ -10,14 +10,14 @@
             color="primary"
             type="relief"
             :to="{ name: 'EntityAdd' }"
-            v-if="isCanAdd && $helper.isAllowedToModifyBread('add', dataType)"
+            v-if="isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)"
             ><vs-icon icon="add"></vs-icon> Add</vs-button
           >
           <vs-button
             color="success"
             type="relief"
             :to="{ name: 'EntitySort' }"
-            v-if="isCanSort && $helper.isAllowedToModifyBread('edit', dataType)"
+            v-if="isCanSort && $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
             ><vs-icon icon="list"></vs-icon> Sort</vs-button
           >
           <vs-button
@@ -25,7 +25,7 @@
             type="relief"
             v-if="
               selected.length > 0 &&
-                $helper.isAllowedToModifyBread('delete', dataType)
+                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
             "
             @click.stop
             @click="confirmDeleteMultiple"
@@ -34,7 +34,7 @@
         </div>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowedToModifyBread('browse', dataType)">
+    <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -197,8 +197,8 @@
                       }}
                     </div>
                     <span v-else-if="dataRow.type === 'relation'">{{
-                        displayRelationData(record, dataRow)
-                      }}</span>
+                      displayRelationData(record, dataRow)
+                    }}</span>
                     <span v-else>{{
                       record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     }}</span>
@@ -217,7 +217,7 @@
                       }"
                       v-if="
                         isCanRead &&
-                          $helper.isAllowedToModifyBread('read', dataType.name)
+                          $helper.isAllowedToModifyGeneratedCRUD('read', dataType.name)
                       "
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
@@ -234,7 +234,7 @@
                       }"
                       v-if="
                         isCanEdit &&
-                          $helper.isAllowedToModifyBread('edit', dataType)
+                          $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
                       "
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
@@ -243,7 +243,7 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[index].id)"
-                      v-if="$helper.isAllowedToModifyBread('delete', dataType)"
+                      v-if="$helper.isAllowedToModifyGeneratedCRUD('delete', dataType)"
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -438,7 +438,7 @@
                         }"
                         v-if="
                           isCanRead &&
-                            $helper.isAllowedToModifyBread('read', dataType)
+                            $helper.isAllowedToModifyGeneratedCRUD('read', dataType)
                         "
                         ><vs-icon icon="visibility"></vs-icon
                       ></vs-button>
@@ -455,7 +455,7 @@
                         }"
                         v-if="
                           isCanEdit &&
-                            $helper.isAllowedToModifyBread('edit', dataType)
+                            $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
                         "
                         ><vs-icon icon="edit"></vs-icon
                       ></vs-button>
@@ -465,7 +465,7 @@
                         @click.stop
                         @click="confirmDelete(data[index].id)"
                         v-if="
-                          $helper.isAllowedToModifyBread('delete', dataType)
+                          $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
                         "
                         ><vs-icon icon="delete"></vs-icon
                       ></vs-button>
@@ -717,17 +717,28 @@ export default {
       this.getEntity();
     },
     displayRelationData(record, dataRow) {
-      let table = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable);
-      let column = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableColumn);
-      let displayColumn = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableDisplayColumn);
-      if (dataRow.relation.relationType === "has_many") {
-        let list = record[table];
-        let flatList = list.map((ls) => {
-          return ls[displayColumn];
-        })
-        return flatList.join(', ');
+      if (dataRow.relation) {
+        let relationType = dataRow.relation.relationType;
+        let table = this.$caseConvert.stringSnakeToCamel(
+          dataRow.relation.destinationTable
+        );
+        let column = this.$caseConvert.stringSnakeToCamel(
+          dataRow.relation.destinationTableColumn
+        );
+        let displayColumn = this.$caseConvert.stringSnakeToCamel(
+          dataRow.relation.destinationTableDisplayColumn
+        );
+        if (relationType === "has_many") {
+          let list = record[table];
+          let flatList = list.map((ls) => {
+            return ls[displayColumn];
+          });
+          return flatList.join(", ");
+        } else {
+          return record[table] ? record[table][displayColumn] : null;
+        }
       } else {
-        return record[table] ? record[table][displayColumn] : null;
+        return null;
       }
     },
   },

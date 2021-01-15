@@ -5,7 +5,7 @@ use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Middleware\ApiRequest;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
-use Uasoft\Badaso\Middleware\BadasoCheckPermissionsForBread;
+use Uasoft\Badaso\Middleware\BadasoCheckPermissionsForCRUD;
 
 $api_route_prefix = \config('badaso.api_route_prefix');
 Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.', 'middleware' => ApiRequest::class], function () {
@@ -107,20 +107,20 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/all-permission', 'BadasoRolePermissionController@browseAllPermission')->middleware(BadasoCheckPermissions::class.':browse_role_permission');
         });
 
-        Route::group(['prefix' => 'breads', 'middleware' => BadasoAuthenticate::class], function () {
-            Route::get('/', 'BadasoBreadController@browse')->middleware(BadasoCheckPermissions::class.':browse_bread');
-            Route::get('/read', 'BadasoBreadController@read')->middleware(BadasoCheckPermissions::class.':read_bread');
-            Route::put('/edit', 'BadasoBreadController@edit')->middleware(BadasoCheckPermissions::class.':edit_bread');
-            Route::post('/add', 'BadasoBreadController@add')->middleware(BadasoCheckPermissions::class.':add_bread');
-            Route::delete('/delete', 'BadasoBreadController@delete')->middleware(BadasoCheckPermissions::class.':delete_bread');
-            Route::get('/read-by-slug', 'BadasoBreadController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_bread');
+        Route::group(['prefix' => 'crud', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoCRUDController@browse')->middleware(BadasoCheckPermissions::class.':browse_crud_data');
+            Route::get('/read', 'BadasoCRUDController@read')->middleware(BadasoCheckPermissions::class.':read_crud_data');
+            Route::put('/edit', 'BadasoCRUDController@edit')->middleware(BadasoCheckPermissions::class.':edit_crud_data');
+            Route::post('/add', 'BadasoCRUDController@add')->middleware(BadasoCheckPermissions::class.':add_crud_data');
+            Route::delete('/delete', 'BadasoCRUDController@delete')->middleware(BadasoCheckPermissions::class.':delete_crud_data');
+            Route::get('/read-by-slug', 'BadasoCRUDController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_crud_data');
         });
 
         Route::group(['prefix' => 'table', 'middleware' => BadasoAuthenticate::class], function () {
             Route::get('/', 'BadasoTableController@browse');
             Route::get('/read', 'BadasoTableController@read');
             Route::get('/data', 'BadasoTableController@getDataByTable');
-            Route::get('/generate-bread', 'BadasoTableController@generateBread');
+            Route::get('/generate-crud', 'BadasoTableController@generateCRUD');
             Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug');
         });
 
@@ -130,14 +130,14 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                     $bread_controller = $data_type->controller
                                      ? Str::start($data_type->controller, '\\')
                                      : 'BadasoBaseController';
-                    Route::get($data_type->slug, $bread_controller.'@browse')->name($data_type->slug.'.browse')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',browse');
-                    Route::get($data_type->slug.'/read', $bread_controller.'@read')->name($data_type->slug.'.read')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',read');
-                    Route::put($data_type->slug.'/edit', $bread_controller.'@edit')->name($data_type->slug.'.edit')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',edit');
-                    Route::post($data_type->slug.'/add', $bread_controller.'@add')->name($data_type->slug.'.add')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',add');
-                    Route::delete($data_type->slug.'/delete', $bread_controller.'@delete')->name($data_type->slug.'.delete')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',delete');
-                    Route::delete($data_type->slug.'/delete-multiple', $bread_controller.'@deleteMultiple')->name($data_type->slug.'.delete-multiple')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',delete');
-                    Route::put($data_type->slug.'/sort', $bread_controller.'@sort')->name($data_type->slug.'.sort')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',edit');
-                    Route::get($data_type->slug.'/all', $bread_controller.'@all')->name($data_type->slug.'.all')->middleware(BadasoCheckPermissionsForBread::class.':'.$data_type->slug.',edit');
+                    Route::get($data_type->slug, $bread_controller.'@browse')->name($data_type->slug.'.browse')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',browse');
+                    Route::get($data_type->slug.'/read', $bread_controller.'@read')->name($data_type->slug.'.read')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',read');
+                    Route::put($data_type->slug.'/edit', $bread_controller.'@edit')->name($data_type->slug.'.edit')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+                    Route::post($data_type->slug.'/add', $bread_controller.'@add')->name($data_type->slug.'.add')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',add');
+                    Route::delete($data_type->slug.'/delete', $bread_controller.'@delete')->name($data_type->slug.'.delete')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
+                    Route::delete($data_type->slug.'/delete-multiple', $bread_controller.'@deleteMultiple')->name($data_type->slug.'.delete-multiple')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
+                    Route::put($data_type->slug.'/sort', $bread_controller.'@sort')->name($data_type->slug.'.sort')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+                    Route::get($data_type->slug.'/all', $bread_controller.'@all')->name($data_type->slug.'.all')->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
                 }
             } catch (\InvalidArgumentException $e) {
                 throw new \InvalidArgumentException("Custom routes hasn't been configured because: ".$e->getMessage(), 1);

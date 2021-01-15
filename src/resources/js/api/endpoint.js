@@ -16,13 +16,13 @@ export default {
     user: apiPrefix + '/v1/auth/user',
     changePassword: apiPrefix + '/v1/auth/change-password'
   },
-  bread: {
-    browse: apiPrefix + '/v1/breads',
-    read: apiPrefix + '/v1/breads/read',
-    readBySlug: apiPrefix + '/v1/breads/read-by-slug',
-    edit: apiPrefix + '/v1/breads/edit',
-    add: apiPrefix + '/v1/breads/add',
-    delete: apiPrefix + '/v1/breads/delete',
+  crudManagement: {
+    browse: apiPrefix + '/v1/crud',
+    read: apiPrefix + '/v1/crud/read',
+    readBySlug: apiPrefix + '/v1/crud/read-by-slug',
+    edit: apiPrefix + '/v1/crud/edit',
+    add: apiPrefix + '/v1/crud/add',
+    delete: apiPrefix + '/v1/crud/delete',
   },
   table: {
     browse: apiPrefix + '/v1/table',

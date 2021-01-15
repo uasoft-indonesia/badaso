@@ -6,7 +6,7 @@ import QueryString from "../query-string";
 export default {
   browse(data = {}) {
     return auth.refreshToken().then((res) => {
-      let ep = endpoint.bread.browse;
+      let ep = endpoint.crudManagement.browse;
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
@@ -15,7 +15,7 @@ export default {
 
   read(data) {
     return auth.refreshToken().then((res) => {
-      let ep = endpoint.bread.read;
+      let ep = endpoint.crudManagement.read;
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
@@ -24,7 +24,7 @@ export default {
 
   readBySlug(data) {
     return auth.refreshToken().then((res) => {
-      let ep = endpoint.bread.readBySlug;
+      let ep = endpoint.crudManagement.readBySlug;
       let qs = QueryString(data);
       let url = ep + qs;
       return resource.get(url);
@@ -33,13 +33,13 @@ export default {
 
   edit(data) {
     return auth.refreshToken().then((res) => {
-      return resource.put(endpoint.bread.edit, data);
+      return resource.put(endpoint.crudManagement.edit, data);
     });
   },
 
   add(data) {
     return auth.refreshToken().then((res) => {
-      return resource.post(endpoint.bread.add, data);
+      return resource.post(endpoint.crudManagement.add, data);
     });
   },
 
@@ -48,7 +48,7 @@ export default {
           data: data
       }
     return auth.refreshToken().then((res) => {
-      return resource.delete(endpoint.bread.delete, paramData);
+      return resource.delete(endpoint.crudManagement.delete, paramData);
     });
   },
 };

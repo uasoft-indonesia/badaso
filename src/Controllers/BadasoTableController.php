@@ -70,7 +70,7 @@ class BadasoTableController extends Controller
         }
     }
 
-    public function generateBread(Request $request)
+    public function generateCRUD(Request $request)
     {
         DB::beginTransaction();
         try {
@@ -122,7 +122,7 @@ class BadasoTableController extends Controller
                     'required',
                     function ($attribute, $value, $fail) {
                         if (!Schema::hasTable($value)) {
-                            $fail(__('badaso::validation.bread.table_not_found', ['table' => $value]));
+                            $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                 ],

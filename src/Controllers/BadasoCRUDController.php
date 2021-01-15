@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use LogicException;
 use ReflectionClass;
-use Uasoft\Badaso\Events\BreadAdded;
-use Uasoft\Badaso\Events\BreadDeleted;
-use Uasoft\Badaso\Events\BreadUpdated;
+use Uasoft\Badaso\Events\CRUDDataAdded;
+use Uasoft\Badaso\Events\CRUDDataDeleted;
+use Uasoft\Badaso\Events\CRUDDataUpdated;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
@@ -22,7 +22,7 @@ use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 use Uasoft\Badaso\Models\Permission;
 
-class BadasoBreadController extends Controller
+class BadasoCRUDController extends Controller
 {
     public function browse(Request $request)
     {
@@ -32,15 +32,15 @@ class BadasoBreadController extends Controller
             $key = 'Tables_in_'.$db_name;
             $tables = collect($tables)->whereNotIn($key, Badaso::getProtectedTables())->all();
 
-            $breads = [];
+            $cruds = [];
             foreach ($tables as $table) {
-                $bread = [];
-                $bread['table_name'] = $table->{$key};
-                $bread['bread_data'] = Badaso::model('DataType')::where('name', $table->{$key})->first();
-                $breads[] = $bread;
+                $crud = [];
+                $crud['table_name'] = $table->{$key};
+                $crud['crud_data'] = Badaso::model('DataType')::where('name', $table->{$key})->first();
+                $cruds[] = $crud;
             }
 
-            $data['breads'] = $breads;
+            $data['cruds'] = $cruds;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -113,7 +113,7 @@ class BadasoBreadController extends Controller
 
             $data_type->data_rows = $data_rows;
 
-            $data['bread'] = collect($data_type)->toArray();
+            $data['crud'] = collect($data_type)->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -146,7 +146,7 @@ class BadasoBreadController extends Controller
                 }
             }
 
-            $data['bread'] = $json;
+            $data['crud'] = $json;
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -165,7 +165,7 @@ class BadasoBreadController extends Controller
                     "unique:data_types,name,{$request->id}",
                     function ($attribute, $value, $fail) {
                         if (!Schema::hasTable($value)) {
-                            $fail(__('badaso::validation.bread.table_not_found', ['table' => $value]));
+                            $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
@@ -202,7 +202,7 @@ class BadasoBreadController extends Controller
                         'required',
                         function ($attribute, $value, $fail) use ($table_name) {
                             if (!Schema::hasColumn($table_name, $value)) {
-                                $fail(__('badaso::validation.bread.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
+                                $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
                             }
                         },
                     ],
@@ -259,7 +259,7 @@ class BadasoBreadController extends Controller
 
             $data_type->data_rows = $new_data_rows;
 
-            event(new BreadUpdated($data_type, null));
+            event(new CRUDDataUpdated($data_type, null));
 
             DB::commit();
 
@@ -281,7 +281,7 @@ class BadasoBreadController extends Controller
                     'unique:data_types',
                     function ($attribute, $value, $fail) {
                         if (!Schema::hasTable($value)) {
-                            $fail(__('badaso::validation.bread.table_not_found', ['table' => $value]));
+                            $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
@@ -315,7 +315,7 @@ class BadasoBreadController extends Controller
                         'required',
                         function ($attribute, $value, $fail) use ($table_name) {
                             if (!Schema::hasColumn($table_name, $value)) {
-                                $fail(__('badaso::validation.bread.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
+                                $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
                             }
                         },
                     ],
@@ -365,7 +365,7 @@ class BadasoBreadController extends Controller
 
             $this->addEditMenuItem($new_data_type);
 
-            event(new BreadAdded($new_data_type, null));
+            event(new CRUDDataAdded($new_data_type, null));
 
             DB::commit();
 
@@ -393,7 +393,7 @@ class BadasoBreadController extends Controller
 
             $data_type->delete();
 
-            event(new BreadDeleted($data_type));
+            event(new CRUDDataDeleted($data_type));
 
             DB::commit();
 

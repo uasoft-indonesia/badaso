@@ -1,5 +1,5 @@
 import auth from './modules/auth'
-import bread from './modules/bread'
+import crud from './modules/crud'
 import configuration from './modules/configuration'
 import menu from './modules/menu'
 import permission from './modules/permission'
@@ -12,7 +12,7 @@ import table from './modules/table'
 
 export default {
   auth,
-  bread,
+  crud,
   configuration,
   menu,
   permission,

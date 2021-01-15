@@ -5,7 +5,7 @@ namespace Uasoft\Badaso\Events;
 use Illuminate\Queue\SerializesModels;
 use Uasoft\Badaso\Models\DataType;
 
-class BreadChanged
+class CRUDDataUpdated
 {
     use SerializesModels;
 
@@ -13,16 +13,12 @@ class BreadChanged
 
     public $data;
 
-    public $change_type;
-
-    public function __construct(DataType $data_type, $data, $change_type)
+    public function __construct(DataType $data_type, $data)
     {
-        \Log::debug(get_class($this));
-
         $this->data_type = $data_type;
 
         $this->data = $data;
 
-        $this->change_type = $change_type;
+        event(new CRUDDataChanged($data_type, $data, 'Updated'));
     }
 }

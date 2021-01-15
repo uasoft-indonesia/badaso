@@ -5,15 +5,15 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowed('edit_bread')">
+    <vs-row v-if="$helper.isAllowed('edit_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Edit BREAD for {{ $route.params.tableName }}</h3>
+            <h3>Edit CRUD for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
             <badaso-text
-              v-model="dataBread.name"
+              v-model="crudData.name"
               size="6"
               label="Table Name"
               placeholder="Table Name"
@@ -22,20 +22,20 @@
             ></badaso-text>
             <badaso-switch
               size="3"
-              v-model="dataBread.generatePermissions"
+              v-model="crudData.generatePermissions"
               label="Generate Permissions"
               :alert="errors.generatePermissions"
             ></badaso-switch>
             <badaso-switch
               size="3"
-              v-model="dataBread.serverSide"
+              v-model="crudData.serverSide"
               label="Server Side"
               :alert="errors.serverSide"
             ></badaso-switch>
           </vs-row>
           <vs-row>
             <badaso-text
-              v-model="dataBread.displayNameSingular"
+              v-model="crudData.displayNameSingular"
               size="6"
               label="Display Name(Singular)"
               required
@@ -43,14 +43,14 @@
               :alert="errors.displayNameSingular"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.displayNamePlural"
+              v-model="crudData.displayNamePlural"
               size="6"
               label="Display Name(Plural)"
               placeholder="Display Name(Plural)"
               :alert="errors.displayNamePlural"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.slug"
+              v-model="crudData.slug"
               size="6"
               label="URL Slug (must be unique)"
               required
@@ -58,45 +58,45 @@
               :alert="errors.slug"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.icon"
+              v-model="crudData.icon"
               size="6"
               label="Icon"
               placeholder="Icon"
               :alert="errors.icon"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.modelName"
+              v-model="crudData.modelName"
               size="6"
               label="Model Name"
               placeholder="Model Name"
               :alert="errors.modelName"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.controller"
+              v-model="crudData.controller"
               size="6"
               label="Controller Name"
               placeholder="Controller Name"
               :alert="errors.controller"
             ></badaso-text>
             <badaso-select
-              v-model="dataBread.orderColumn"
+              v-model="crudData.orderColumn"
               size="4"
               label="Order Column"
               placeholder="Order Column"
-              :items="dataBread.rows"
+              :items="crudData.rows"
               :alert="errors.orderColumn"
             ></badaso-select>
             <badaso-select
-              v-model="dataBread.orderDisplayColumn"
+              v-model="crudData.orderDisplayColumn"
               size="4"
               label="Order Display Column"
               placeholder="Order Display Column"
-              :items="dataBread.rows"
+              :items="crudData.rows"
               :alert="errors.orderDisplayColumn"
               additionalInfo="<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>"
             ></badaso-select>
             <badaso-select
-              v-model="dataBread.orderDirection"
+              v-model="crudData.orderDirection"
               size="4"
               label="Order Direction"
               placeholder="Order Direction"
@@ -104,18 +104,18 @@
               :alert="errors.orderDirection"
             ></badaso-select>
             <badaso-hidden
-              v-model="dataBread.defaultServerSideSearchField"
+              v-model="crudData.defaultServerSideSearchField"
               size="3"
               label="Default Server Side Search Field"
               placeholder="Default Server Side Search Field"
-              :items="dataBread.rows"
+              :items="crudData.rows"
               :alert="errors.defaultServerSideSearchField"
             ></badaso-hidden>
             <badaso-textarea
               size="12"
               label="Description"
               placeholder="Description"
-              v-model="dataBread.description"
+              v-model="crudData.description"
               :alert="errors.description"
             >
             </badaso-textarea>
@@ -125,7 +125,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add BREAD Fields for {{ $route.params.tableName }}</h3>
+            <h3>Add CRUD Fields for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
             <vs-col col-lg="12" style="overflow-x: auto">
@@ -138,8 +138,8 @@
                   <th style="width: 200px;">Display Name</th>
                   <th>Optional Details</th>
                 </thead>
-                <draggable v-model="dataBread.rows" tag="tbody">
-                  <tr :key="index" v-for="(field, index) in dataBread.rows">
+                <draggable v-model="crudData.rows" tag="tbody">
+                  <tr :key="index" v-for="(field, index) in crudData.rows">
                     <td>
                       <vs-icon
                         icon="drag_indicator"
@@ -299,7 +299,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to edit BREAD</h3>
+              <h3>You're not allowed to edit CRUD</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -343,7 +343,7 @@ export default {
         value: "DESC",
       },
     ],
-    dataBread: {
+    crudData: {
       name: "",
       slug: "",
       displayNameSingular: "",
@@ -373,13 +373,13 @@ export default {
     },
   },
   mounted() {
-    this.dataBread.name = this.$route.params.tableName;
-    this.dataBread.displayNameSingular = this.$helper.generateDisplayName(
+    this.crudData.name = this.$route.params.tableName;
+    this.crudData.displayNameSingular = this.$helper.generateDisplayName(
       this.$route.params.tableName
     );
-    this.dataBread.displayNamePlural =
+    this.crudData.displayNamePlural =
       this.$helper.generateDisplayName(this.$route.params.tableName) + "s";
-    this.dataBread.slug = this.$helper.generateSlug(
+    this.crudData.slug = this.$helper.generateSlug(
       this.$route.params.tableName
     );
     this.getTableDetail();
@@ -398,13 +398,13 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
-        .edit(this.dataBread)
+      this.$api.crud
+        .edit(this.crudData)
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
           this.$store.commit("FETCH_USER");
-          this.$router.push({ name: "BreadBrowse" });
+          this.$router.push({ name: "CRUDManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -420,37 +420,37 @@ export default {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
+      this.$api.crud
         .read({
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let dataBread = { ...response.data.bread };
-          dataBread = dataBread;
-          dataBread.icon = dataBread.icon ? dataBread.icon : "";
-          dataBread.modelName = dataBread.modelName ? dataBread.modelName : "";
-          dataBread.policyName = dataBread.policyName
-            ? dataBread.policyName
+          let crudData = { ...response.data.crud };
+          crudData = crudData;
+          crudData.icon = crudData.icon ? crudData.icon : "";
+          crudData.modelName = crudData.modelName ? crudData.modelName : "";
+          crudData.policyName = crudData.policyName
+            ? crudData.policyName
             : "";
-          dataBread.description = dataBread.description
-            ? dataBread.description
+          crudData.description = crudData.description
+            ? crudData.description
             : "";
-          dataBread.generatePermissions = dataBread.generatePermissions === 1;
-          dataBread.serverSide = dataBread.serverSide === 1;
-          dataBread.controller = dataBread.controller
-            ? dataBread.controller
+          crudData.generatePermissions = crudData.generatePermissions === 1;
+          crudData.serverSide = crudData.serverSide === 1;
+          crudData.controller = crudData.controller
+            ? crudData.controller
             : "";
-          dataBread.orderColumn = dataBread.orderColumn
-            ? dataBread.orderColumn
+          crudData.orderColumn = crudData.orderColumn
+            ? crudData.orderColumn
             : "";
-          dataBread.orderDisplayColumn = dataBread.orderDisplayColumn
-            ? dataBread.orderDisplayColumn
+          crudData.orderDisplayColumn = crudData.orderDisplayColumn
+            ? crudData.orderDisplayColumn
             : "";
-          dataBread.orderDirection = dataBread.orderDirection
-            ? dataBread.orderDirection
+          crudData.orderDirection = crudData.orderDirection
+            ? crudData.orderDirection
             : "";
-          let dataRows = [...dataBread.dataRows];
-          dataBread.rows = dataRows.map((field) => {
+          let dataRows = [...crudData.dataRows];
+          crudData.rows = dataRows.map((field) => {
             return {
               label: field.field,
               value: field.field,
@@ -478,7 +478,7 @@ export default {
               setRelation: false,
             };
           });
-          this.dataBread = JSON.parse(JSON.stringify(dataBread));
+          this.crudData = JSON.parse(JSON.stringify(crudData));
           this.$vs.loading.close();
         })
         .catch((error) => {

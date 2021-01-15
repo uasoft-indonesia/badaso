@@ -34,7 +34,7 @@ class BadasoServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
             __DIR__.'/../Seeder/Configurations' => database_path('seeds'),
-            __DIR__.'/../Seeder/Breads' => database_path('seeds/breads'),
+            __DIR__.'/../Seeder/CRUDData' => database_path('seeds/CRUDData'),
             __DIR__.'/../resources/js/' => resource_path('js/badaso'),
             __DIR__.'/../Images/' => public_path(),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),

@@ -3,24 +3,23 @@
 namespace Uasoft\Badaso\Listeners;
 
 use Uasoft\Badaso\BadasoDeploymentOrchestrator;
-use Uasoft\Badaso\Events\BreadChanged;
+use Uasoft\Badaso\Events\CRUDDataChanged;
 
-class BadasoBreadChanged
+class BadasoCRUDDataChanged
 {
     /** @var BadasoDeploymentOrchestrator */
     private $deployment_orchestrator;
 
     /**
-     * BadasoBreadChanged constructor.
+     * BadasoCRUDDataChanged constructor.
      */
     public function __construct(BadasoDeploymentOrchestrator $orchestrator)
     {
-        \Log::debug(get_class($this));
         $this->deployment_orchestrator = $orchestrator;
     }
 
-    public function handle(BreadChanged $breadChanged)
+    public function handle(CRUDDataChanged $crudDataChanged)
     {
-        return $this->deployment_orchestrator->handle($breadChanged);
+        return $this->deployment_orchestrator->handle($crudDataChanged);
     }
 }

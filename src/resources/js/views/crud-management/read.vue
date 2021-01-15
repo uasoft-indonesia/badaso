@@ -5,118 +5,105 @@
         <badaso-breadcrumb></badaso-breadcrumb>
       </vs-col>
     </vs-row>
-    <vs-row v-if="$helper.isAllowed('add_bread')">
+    <vs-row v-if="$helper.isAllowed('read_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add BREAD for {{ $route.params.tableName }}</h3>
+            <h3>Add CRUD for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
             <badaso-text
-              v-model="dataBread.name"
+              v-model="crudData.name"
               size="6"
               label="Table Name"
               placeholder="Table Name"
               required
               readonly
-              :alert="errors.name"
             ></badaso-text>
             <badaso-switch
               size="3"
-              v-model="dataBread.generatePermissions"
+              v-model="crudData.generatePermissions"
               label="Generate Permissions"
-              :alert="errors.generatePermissions"
             ></badaso-switch>
             <badaso-switch
               size="3"
-              v-model="dataBread.serverSide"
+              v-model="crudData.serverSide"
               label="Server Side"
-              :alert="errors.serverSide"
             ></badaso-switch>
           </vs-row>
           <vs-row>
             <badaso-text
-              v-model="dataBread.displayNameSingular"
+              v-model="crudData.displayNameSingular"
               size="6"
               label="Display Name(Singular)"
               required
               placeholder="Display Name(Singular)"
-              :alert="errors.displayNameSingular"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.displayNamePlural"
+              v-model="crudData.displayNamePlural"
               size="6"
               label="Display Name(Plural)"
+              required
               placeholder="Display Name(Plural)"
-              :alert="errors.displayNamePlural"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.slug"
+              v-model="crudData.slug"
               size="6"
               label="URL Slug (must be unique)"
+              required
               placeholder="URL Slug (must be unique)"
-              :alert="errors.slug"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.icon"
+              v-model="crudData.icon"
               size="6"
               label="Icon"
               placeholder="Icon"
-              :alert="errors.icon"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.modelName"
+              v-model="crudData.modelName"
               size="6"
               label="Model Name"
               placeholder="Model Name"
-              :alert="errors.modelName"
             ></badaso-text>
             <badaso-text
-              v-model="dataBread.controller"
+              v-model="crudData.controller"
               size="6"
               label="Controller Name"
               placeholder="Controller Name"
-              :alert="errors.controller"
             ></badaso-text>
             <badaso-select
-              v-model="dataBread.orderColumn"
-              size="4"
+              v-model="crudData.orderColumn"
+              size="3"
               label="Order Column"
               placeholder="Order Column"
               :items="fieldList"
-              :alert="errors.orderColumn"
             ></badaso-select>
             <badaso-select
-              v-model="dataBread.orderDisplayColumn"
-              size="4"
+              v-model="crudData.orderDisplayColumn"
+              size="3"
               label="Order Display Column"
               placeholder="Order Display Column"
               :items="fieldList"
-              :alert="errors.orderDisplayColumn"
-              additionalInfo="<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>"
             ></badaso-select>
             <badaso-select
-              v-model="dataBread.orderDirection"
-              size="4"
+              v-model="crudData.orderDirection"
+              size="3"
               label="Order Direction"
               placeholder="Order Direction"
               :items="orderDirections"
-              :alert="errors.orderDirection"
             ></badaso-select>
-            <badaso-hidden
-              v-model="dataBread.defaultServerSideSearchField"
+            <badaso-select
+              v-model="crudData.defaultServerSideSearchField"
               size="3"
               label="Default Server Side Search Field"
               placeholder="Default Server Side Search Field"
               :items="fieldList"
-              :alert="errors.defaultServerSideSearchField"
-            ></badaso-hidden>
+            ></badaso-select>
             <badaso-textarea
               size="12"
               label="Description"
               placeholder="Description"
-              v-model="dataBread.description"
-              :alert="errors.description"
+              v-model="crudData.description"
             >
             </badaso-textarea>
           </vs-row>
@@ -125,7 +112,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add BREAD Fields for {{ $route.params.tableName }}</h3>
+            <h3>Add CRUD Fields for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
             <vs-col col-lg="12" style="overflow-x: auto">
@@ -138,8 +125,8 @@
                   <th style="width: 200px;">Display Name</th>
                   <th>Optional Details</th>
                 </thead>
-                <draggable v-model="dataBread.rows" tag="tbody">
-                  <tr :key="index" v-for="(field, index) in dataBread.rows">
+                <draggable v-model="crudData.rows" tag="tbody">
+                  <tr :key="index" v-for="(field, index) in crudData.rows">
                     <td>
                       <vs-icon
                         icon="drag_indicator"
@@ -208,72 +195,8 @@
                       />
                     </td>
                     <td>
-                      <badaso-code-editor
-                        v-model="field.details"
-                        v-if="field.type !== 'relation'"
-                      >
+                      <badaso-code-editor v-model="field.details">
                       </badaso-code-editor>
-                      <vs-button
-                        color="primary"
-                        type="relief"
-                        @click.stop
-                        @click="openRelationSetup(field)"
-                        v-else
-                        >Set Relation</vs-button
-                      >
-                      <vs-popup
-                        class="holamundo"
-                        title="Set Relation"
-                        :active.sync="field.setRelation"
-                      >
-                        <vs-row>
-                          <badaso-select
-                            size="12"
-                            v-model="field.relationType"
-                            :items="relationTypes"
-                            label="Relation Type"
-                          ></badaso-select>
-                          <vs-col vs-lg="12" class="mb-3">
-                            <vs-select
-                              v-model="field.destinationTable"
-                              label="Destination Table"
-                              width="100%"
-                              @change="changeTable($event, field)"
-                            >
-                              <vs-select-item
-                                :key="index"
-                                :value="item.value ? item.value : item"
-                                :text="item.label ? item.label : item"
-                                v-for="(item, index) in destinationTables"
-                              />
-                            </vs-select>
-                          </vs-col>
-                          <badaso-select
-                            size="12"
-                            v-model="field.destinationTableColumn"
-                            :items="destinationTableColumns"
-                            label="Destination Column"
-                          ></badaso-select>
-                          <badaso-select
-                            size="12"
-                            v-model="field.destinationTableDisplayColumn"
-                            :items="destinationTableColumns"
-                            label="Destination Column To Display"
-                          ></badaso-select>
-                        </vs-row>
-                        <vs-row vs-type="flex" vs-justify="space-between">
-                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                            <vs-button color="primary" @click="field.setRelation = false"
-                              >Save</vs-button
-                            >
-                          </vs-col>
-                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                            <vs-button color="danger"  @click="field.setRelation = false"
-                              >Cancel</vs-button
-                            >
-                          </vs-col>
-                        </vs-row>
-                      </vs-popup>
                     </td>
                   </tr>
                 </draggable>
@@ -299,9 +222,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>
-                You're not allowed to add BREAD
-              </h3>
+              <h3>You're not allowed to read CRUD</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -317,7 +238,6 @@ import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoCodeEditor from "../../components/BadasoCodeEditor";
 import BadasoTextarea from "../../components/BadasoTextarea";
-import BadasoHidden from '../../components/BadasoHidden.vue';
 
 export default {
   name: "Browse",
@@ -329,12 +249,9 @@ export default {
     BadasoSelect,
     BadasoCodeEditor,
     BadasoTextarea,
-    BadasoHidden,
   },
   data: () => ({
-    errors: {},
     breadcrumb: [],
-    errors: {},
     fieldList: [],
     tableColumns: [],
     orderDirections: [
@@ -347,7 +264,7 @@ export default {
         value: "desc",
       },
     ],
-    dataBread: {
+    crudData: {
       name: "",
       slug: "",
       displayNameSingular: "",
@@ -360,14 +277,8 @@ export default {
       serverSide: false,
       details: "",
       controller: "",
-      orderColumn: "",
-      orderDisplayColumn: "",
-      orderDirection: "",
       rows: [],
     },
-    relationTypes: [],
-    destinationTables: [],
-    destinationTableColumns: [],
   }),
   computed: {
     componentList: {
@@ -377,41 +288,30 @@ export default {
     },
   },
   mounted() {
-    this.dataBread.name = this.$route.params.tableName;
-    this.dataBread.displayNameSingular = this.$helper.generateDisplayName(
+    this.crudData.name = this.$route.params.tableName;
+    this.crudData.displayNameSingular = this.$helper.generateDisplayName(
       this.$route.params.tableName
     );
-    this.dataBread.displayNamePlural =
+    this.crudData.displayNamePlural =
       this.$helper.generateDisplayName(this.$route.params.tableName) + "s";
-    this.dataBread.slug = this.$helper.generateSlug(
+    this.crudData.slug = this.$helper.generateSlug(
       this.$route.params.tableName
     );
     this.getTableDetail();
-    this.getRelationTypes();
-    this.getDestinationTables();
   },
   methods: {
-    openRelationSetup(field) {
-      field.setRelation = true;
-      if (field.destinationTable !== '') {
-        this.getDestinationTableColumns(field.destinationTable);
-      }
-    },
     submitForm() {
-      this.errors = {}
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.bread
-        .add(this.dataBread)
+      this.$api.crud
+        .add(this.$caseConvert.snake(this.crudData))
         .then((response) => {
           this.$vs.loading.close();
           this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_USER");
-          this.$router.push({ name: "BreadBrowse" });
+          this.$router.push({ name: "CRUDManagementBrowseBrowse" });
         })
         .catch((error) => {
-          this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
             title: "Danger",
@@ -429,7 +329,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let fieldList = response.data.tableFields;
+          let fieldList = response.data;
           this.tableColumns = fieldList;
           this.fieldList = fieldList.map((field) => {
             return {
@@ -437,7 +337,7 @@ export default {
               value: field.name,
             };
           });
-          this.dataBread.rows = fieldList.map((field) => {
+          this.crudData.rows = fieldList.map((field) => {
             return {
               field: field.name,
               type: this.$helper.mapFieldType(field.type),
@@ -450,77 +350,12 @@ export default {
               delete: false,
               details: "{}",
               order: 1,
-              setRelation: false
             };
           });
           this.$vs.loading.close();
         })
         .catch((error) => {
           this.$vs.loading.close();
-        });
-    },
-    getRelationTypes() {
-      this.$vs.loading({
-        type: "sound",
-      });
-      this.$api.data
-        .tableRelations()
-        .then((response) => {
-          this.$vs.loading.close();
-          this.relationTypes = response.data.tableRelations;
-        })
-        .catch((error) => {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: "Danger",
-            text: error.message,
-            color: "danger",
-          });
-        });
-    },
-    getDestinationTables() {
-      this.$vs.loading({
-        type: "sound",
-      });
-      this.$api.table
-        .browse()
-        .then((response) => {
-          this.$vs.loading.close();
-          this.destinationTables = response.data.tables;
-        })
-        .catch((error) => {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: "Danger",
-            text: error.message,
-            color: "danger",
-          });
-        });
-    },
-    changeTable(table, field) {
-      field.destinationTableColumn = '';
-      field.destinationTableDisplayColumn = '';
-      this.getDestinationTableColumns(table)
-    },
-    getDestinationTableColumns(table) {
-      this.$vs.loading({
-        type: "sound",
-      });
-      this.$api.table
-        .read({
-          table
-        })
-        .then((response) => {
-          this.$vs.loading.close();
-          this.destinationTableColumns = response.data.tableFields;
-        })
-        .catch((error) => {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: "Danger",
-            text: error.message,
-            color: "danger",
-          });
         });
     },
   },

@@ -5,7 +5,7 @@ namespace Uasoft\Badaso\Events;
 use Illuminate\Queue\SerializesModels;
 use Uasoft\Badaso\Models\DataType;
 
-class BreadAdded
+class CRUDDataAdded
 {
     use SerializesModels;
 
@@ -19,6 +19,6 @@ class BreadAdded
 
         $this->data = $data;
 
-        event(new BreadChanged($data_type, $data, 'Added'));
+        event(new CRUDDataChanged($data_type, $data, 'Added'));
     }
 }

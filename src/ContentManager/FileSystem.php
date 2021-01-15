@@ -35,7 +35,7 @@ class FileSystem
      */
     public function getSeedFolderPath(): string
     {
-        $path = base_path().'/database/seeds/breads';
+        $path = base_path().'/database/seeds/crud-generateds';
         if (!file_exists($path)) {
             mkdir($path, 0777);
         }
