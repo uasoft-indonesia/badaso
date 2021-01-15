@@ -332,6 +332,8 @@ export default {
         });
     },
     filterConfigurations(group) {
+      console.log(this.configurations)
+      console.log(group)
       return _.filter(this.configurations, ["group", group]);
     },
     deleteConfiguration() {

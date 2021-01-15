@@ -87,7 +87,8 @@ export default {
   data: {
     component: apiPrefix + '/v1/data/components',
     filterOperator: apiPrefix + '/v1/data/filter-operators',
-    tableRelations: apiPrefix + '/v1/data/table-relations'
+    tableRelations: apiPrefix + '/v1/data/table-relations',
+    configurationGroups: apiPrefix + '/v1/data/configuration-groups'
   },
   entity: apiPrefix + '/v1/entities',
   file: {

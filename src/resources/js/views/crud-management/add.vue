@@ -229,16 +229,16 @@
                         <vs-row>
                           <badaso-select
                             size="12"
-                            v-model="field.relationType"
+                            v-model="relation.relationType"
                             :items="relationTypes"
                             label="Relation Type"
                           ></badaso-select>
                           <vs-col vs-lg="12" class="mb-3">
                             <vs-select
-                              v-model="field.destinationTable"
                               label="Destination Table"
                               width="100%"
-                              @change="changeTable($event, field)"
+                              v-model="relation.destinationTable"
+                              @input="changeTable"
                             >
                               <vs-select-item
                                 :key="index"
@@ -250,20 +250,20 @@
                           </vs-col>
                           <badaso-select
                             size="12"
-                            v-model="field.destinationTableColumn"
+                            v-model="relation.destinationTableColumn"
                             :items="destinationTableColumns"
                             label="Destination Column"
                           ></badaso-select>
                           <badaso-select
                             size="12"
-                            v-model="field.destinationTableDisplayColumn"
+                            v-model="relation.destinationTableDisplayColumn"
                             :items="destinationTableColumns"
                             label="Destination Column To Display"
                           ></badaso-select>
                         </vs-row>
                         <vs-row vs-type="flex" vs-justify="space-between">
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                            <vs-button color="primary" @click="field.setRelation = false"
+                            <vs-button color="primary" @click="saveRelation(field)"
                               >Save</vs-button
                             >
                           </vs-col>
@@ -368,6 +368,12 @@ export default {
     relationTypes: [],
     destinationTables: [],
     destinationTableColumns: [],
+    relation: {
+      relationType: '',
+      destinationTable: '',
+      destinationTableColumn: '',
+      destinationTableDisplayColumn: '',
+    }
   }),
   computed: {
     componentList: {
@@ -393,9 +399,30 @@ export default {
   methods: {
     openRelationSetup(field) {
       field.setRelation = true;
+      this.relation = {
+        relationType: field.relationType ? field.relationType : '',
+        destinationTable: field.destinationTable ? field.destinationTable : '',
+        destinationTableColumn: field.destinationTableColumn ? field.destinationTableColumn : '',
+        destinationTableDisplayColumn: field.destinationTableDisplayColumn ? field.destinationTableDisplayColumn : '',
+      }
       if (field.destinationTable !== '') {
         this.getDestinationTableColumns(field.destinationTable);
       }
+    },
+    changeTable(table) {
+      if (table) {
+        this.relation.destinationTableColumn = '';
+        this.relation.destinationTableDisplayColumn = '';
+        this.getDestinationTableColumns(table)
+      }
+    },
+    saveRelation(field){
+      field.relationType = this.relation.relationType;
+      field.destinationTable = this.relation.destinationTable;
+      field.destinationTableColumn = this.relation.destinationTableColumn;
+      field.destinationTableDisplayColumn = this.relation.destinationTableDisplayColumn;
+      this.relation = {};
+      field.setRelation = false;
     },
     submitForm() {
       this.errors = {}
@@ -496,13 +523,6 @@ export default {
             color: "danger",
           });
         });
-    },
-    changeTable(table, field) {
-      if (table) {
-        field.destinationTableColumn = '';
-        field.destinationTableDisplayColumn = '';
-        this.getDestinationTableColumns(table)
-      }
     },
     getDestinationTableColumns(table) {
       this.$vs.loading({

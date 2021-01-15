@@ -11,4 +11,8 @@ return [
     'watch_tables' => [
         // table names for generating bread seeders.
     ],
+    'configuration_groups' => [
+        ['value' => 'adminPanel', 'label' => 'Admin Panel'],
+        ['value' => 'landingPage', 'label' => 'Landing Page'],
+    ],
 ];

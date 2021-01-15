@@ -45,4 +45,13 @@ class BadasoDataController extends Controller
 
         return ApiResponse::success($data);
     }
+
+    public function getConfigurationGroups()
+    {
+        $groups = config('badaso.configuration_groups') ?? [];
+
+        $data['groups'] = $groups;
+
+        return ApiResponse::success($data);
+    }
 }

@@ -13,16 +13,7 @@ export default new Vuex.Store({
     menuList: [],
     configurationMenuList: [],
     componentList: [],
-    groupList: [
-      {
-        label: "Admin Panel",
-        value: "adminPanel",
-      },
-      {
-        label: "Landing Page",
-        value: "landing",
-      },
-    ],
+    groupList: [],
     config: {},
     user: {},
   },
@@ -85,6 +76,14 @@ export default new Vuex.Store({
         .component()
         .then((res) => {
           state.componentList = res.data.components;
+        })
+        .catch((err) => {});
+    },
+    FETCH_CONFIGURATION_GROUPS(state) {
+      api.data
+        .configurationGroups()
+        .then((res) => {
+          state.groupList = res.data.groups;
         })
         .catch((err) => {});
     },

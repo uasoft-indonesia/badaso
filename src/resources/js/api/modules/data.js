@@ -24,4 +24,10 @@ export default {
     let url = ep + qs;
     return resource.get(url);
   },
+  configurationGroups(data = {}) {
+    let ep = endpoint.data.configurationGroups;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  }
 };

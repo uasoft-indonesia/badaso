@@ -14,6 +14,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/components', 'BadasoDataController@getComponents');
             Route::get('/filter-operators', 'BadasoDataController@getFilterOperators');
             Route::get('/table-relations', 'BadasoDataController@getSupportedTableRelations');
+            Route::get('/configuration-groups', 'BadasoDataController@getConfigurationGroups');
         });
 
         Route::group(['prefix' => 'auth'], function () {
