@@ -1,3 +1,4 @@
+import activitylog from './modules/activitylog'
 import auth from './modules/auth'
 import crud from './modules/crud'
 import configuration from './modules/configuration'
@@ -11,6 +12,7 @@ import file from './modules/file'
 import table from './modules/table'
 
 export default {
+  activitylog,
   auth,
   crud,
   configuration,

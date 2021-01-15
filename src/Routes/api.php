@@ -17,6 +17,11 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/configuration-groups', 'BadasoDataController@getConfigurationGroups');
         });
 
+        Route::group(['prefix' => 'activitylogs', 'middleware' => BadasoAuthenticate::class], function () {
+            Route::get('/', 'BadasoActivityLogController@browse')->middleware(BadasoCheckPermissions::class.':browse_activitylogs');
+            Route::get('/read', 'BadasoActivityLogController@read')->middleware(BadasoCheckPermissions::class.':read_activitylogs');
+        });
+
         Route::group(['prefix' => 'auth'], function () {
             Route::post('/login', 'BadasoAuthController@login');
             Route::post('/logout', 'BadasoAuthController@logout');

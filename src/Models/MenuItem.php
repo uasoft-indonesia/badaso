@@ -3,9 +3,12 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class MenuItem extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'menu_id',
         'title',
@@ -39,5 +42,13 @@ class MenuItem extends Model
             ->count();
 
         return $count > 0;
+    }
+
+    protected static $logAttributes = true;
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been {$eventName}";
     }
 }

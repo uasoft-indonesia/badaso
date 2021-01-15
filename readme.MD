@@ -25,6 +25,7 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
 |	@johmun/vue-tags-input	|	^2.1.0	|	@johmun/vue-tags-input: "^2.1.0"	|
 |	chart.js	|	^2.8.0	|	chart.js: "^2.8.0"	|
 |	luxon	|	^1.25.0	|	luxon: "^1.25.0"	|
+| moment | ^2.29.1 | moment: "^2.29.1" |
 |	material-icons	|	^0.3.1	|	material-icons: "^0.3.1"	|
 |	prismjs	|	^1.17.1	|	prismjs: "^1.17.1"	|
 |	vue-chartjs	|	^3.4.2	|	vue-chartjs: "^3.4.2"	|
@@ -47,6 +48,7 @@ Before you install badaso, make sure your laravel can run.
 ```json
   "require": {
       "uasoft-indonesia/badaso": {version},
+      "spatie/laravel-activitylog": "3.9.1",
   },
   "repositories": [
         {
@@ -97,6 +99,7 @@ Before you install badaso, make sure your laravel can run.
     "@johmun/vue-tags-input": "^2.1.0",
     "chart.js": "^2.8.0",
     "luxon": "^1.25.0",
+    "moment": "^2.29.1",
     "material-icons": "^0.3.1",
     "prismjs": "^1.17.1",
     "vue-chartjs": "^3.4.2",

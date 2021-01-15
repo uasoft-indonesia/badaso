@@ -29,6 +29,9 @@ import CRUDManagementAdd from "./../views/crud-management/add";
 import SiteBrowse from "./../views/site-management/browse";
 import SiteAdd from "./../views/site-management/add";
 
+import ActivityLogBrowse from './../views/activity-log/browse'
+import ActivityLogRead from './../views/activity-log/read'
+
 let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
@@ -238,6 +241,22 @@ export default [
     component: SiteAdd,
     meta: {
       title: "Add Site Configuration",
+    },
+  },
+  {
+    path: prefix + "/activitylog",
+    name: "ActivityLogBrowse",
+    component: ActivityLogBrowse,
+    meta: {
+      title: "Browse Activity Log",
+    },
+  },
+  {
+    path: prefix + "/activitylog/:id/detail",
+    name: "ActivityLogRead",
+    component: ActivityLogRead,
+    meta: {
+      title: "Detail Activity Log",
     },
   },
 ];

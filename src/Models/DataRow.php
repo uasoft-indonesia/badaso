@@ -3,9 +3,12 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class DataRow extends Model
 {
+    use LogsActivity;
+
     protected $table = 'data_rows';
 
     public $timestamps = false;
@@ -20,5 +23,13 @@ class DataRow extends Model
         }
 
         return $json;
+    }
+
+    protected static $logAttributes = true;
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been {$eventName}";
     }
 }

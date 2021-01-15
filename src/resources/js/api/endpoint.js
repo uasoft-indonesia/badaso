@@ -5,6 +5,10 @@ let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
 apiPrefix = '/' + apiPrefix;
 
 export default {
+  activitylog: {
+    browse: apiPrefix + '/v1/activitylogs',
+    read: apiPrefix + '/v1/activitylogs/read',
+  },
   auth: {
     login: apiPrefix + '/v1/auth/login',
     logout: apiPrefix + '/v1/auth/logout',

@@ -3,9 +3,12 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Role extends Model
 {
+    use LogsActivity;
+
     protected $guarded = [];
 
     public function users()
@@ -20,5 +23,13 @@ class Role extends Model
     public function permissions()
     {
         return $this->belongsToMany(Permission::class);
+    }
+
+    protected static $logAttributes = true;
+    protected static $logFillable = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "This model has been {$eventName}";
     }
 }
