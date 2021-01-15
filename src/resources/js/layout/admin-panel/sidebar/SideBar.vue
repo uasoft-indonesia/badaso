@@ -79,9 +79,6 @@
           </vs-sidebar-item>
         </template>
       </vs-sidebar-group>
-      <vs-sidebar-item icon="announcement" :to="`/${prefix}/activitylog`">
-        <span class="hide-in-minisidebar">Activity Log</span>
-      </vs-sidebar-item>
 
     </vs-sidebar>
   </div>

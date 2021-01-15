@@ -94,6 +94,19 @@ class FixedMenuItemSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
+                6 => [
+                    'menu_id' => '2',
+                    'title' => 'Activity Log',
+                    'url' => '/activitylog',
+                    'target' => '_self',
+                    'icon_class' => 'announcement',
+                    'color' => '',
+                    'parent_id' => null,
+                    'order' => 7,
+                    'permissions' => 'browse_activitylogs',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_menu_items = [];
