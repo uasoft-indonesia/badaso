@@ -5,6 +5,7 @@
     "require": {
         "webpatser/laravel-uuid": "^3.0",
         "doctrine/dbal": "2.12",
+        "lcobucci/jwt": "3.3.3",
         "tymon/jwt-auth": "^1.0",
         "spatie/laravel-activitylog": "3.9.1"
     },

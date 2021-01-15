@@ -79,6 +79,8 @@ Before you install badaso, make sure your laravel can run.
     'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 ```
 - run ```php artisan vendor:publish --tag=Badaso```
+- run ```php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="migrations"```
+- run ```php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="config"```
 - run ```composer dump-autoload```
 - run ```php artisan migrate```
 - run ```php artisan db:seed --class=BadasoSeeder```
