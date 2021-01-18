@@ -52,10 +52,11 @@
             <badaso-text
               v-model="crudData.slug"
               size="6"
-              label="URL Slug (must be unique)"
+              label="URL Slug (must be unique)(readonly)"
               required
               placeholder="URL Slug (must be unique)"
               :alert="errors.slug"
+              readonly
             ></badaso-text>
             <badaso-text
               v-model="crudData.icon"

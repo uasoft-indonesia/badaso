@@ -70,7 +70,6 @@ class BadasoDeploymentOrchestrator
      */
     private function getHandle(string $change_type)
     {
-        \Log::debug($change_type);
         if (isset(self::HANDLERS[$change_type])) {
             return $this->app->make(self::HANDLERS[$change_type]);
         }
