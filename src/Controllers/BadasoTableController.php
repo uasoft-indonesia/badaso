@@ -12,6 +12,7 @@ use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\CaseConvert;
+use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Models\DataRow;
 use Uasoft\Badaso\Models\DataType;
 
@@ -49,15 +50,13 @@ class BadasoTableController extends Controller
             $table_fields = SchemaManager::describeTable($table);
             $fields = [];
             foreach ($table_fields as $key => $column) {
-                $fields[] = [
-                    'name' => $key,
-                    'type' => str_replace('\\', '', ucfirst($column['type'])),
-                    'is_not_null' => $column['notnull'],
-                    'default' => $column['default'],
-                    'length' => $column['length'],
-                    'value' => $key,
-                    'label' => ucfirst(str_replace('_', ' ', $key)),
-                ];
+                $field = $column;
+                $field['name'] = $key;
+                $field['type'] = DataTypeToComponent::convert($column['type']);
+                $field['is_not_null'] = $column['notnull'];
+                $field['value'] = $key;
+                $field['label'] = ucfirst(str_replace('_', ' ', $key));
+                $fields[] = $field;
             }
 
             $data['table_fields'] = $fields;

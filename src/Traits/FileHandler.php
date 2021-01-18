@@ -53,15 +53,6 @@ trait FileHandler
     public function handleViewFile($file)
     {
         try {
-            $file = Storage::disk(config('badaso.storage.disk', 'public'))->path($file);
-            $mime = mime_content_type($file);
-            header("Content-type:$mime");
-            ob_clean();
-            readfile($file);
-        } catch (Exception $e) {
-        }
-
-        try {
             if (filter_var($file, FILTER_VALIDATE_URL)) {
                 $headers = get_headers($file, 1);
                 $type = $headers['Content-Type'];

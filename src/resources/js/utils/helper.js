@@ -2,31 +2,6 @@ import store from "./../store/store";
 import * as _ from "lodash";
 
 export default {
-  mapFieldType(fieldType) {
-    let type = "";
-    switch (fieldType) {
-      case "String":
-        type = "text";
-        break;
-      case "Text":
-        type = "text";
-        break;
-      case "Integer":
-        type = "number";
-        break;
-      case "DateTime":
-        type = "datetime";
-        break;
-      case "Boolean":
-        type = "switch";
-        break;
-      default:
-        type = fieldType;
-        break;
-    }
-    return type;
-  },
-
   generateDisplayName(fieldName) {
     let displayName = "";
     let words = fieldName.split("_");
@@ -35,6 +10,16 @@ export default {
     });
     displayName = displayNameWord.join(" ");
     return displayName;
+  },
+  
+  generateDisplayNamePlural(fieldName) {
+    let displayName = this.generateDisplayName(fieldName);
+    var lastChar = displayName.substr(displayName.length - 1);
+    if (lastChar) {
+      return displayName;
+    } else {
+      return displayName + 's';
+    }
   },
 
   generateSlug(string) {
@@ -75,6 +60,7 @@ export default {
     if (result) return true;
     else return false;
   },
+
   isAllowedToModifyGeneratedCRUD(action, dataType) {
     if (dataType.generatePermissions === true || dataType.generatePermissions === 1) {
       let userPermissions = store.getters.getUser.permissions;

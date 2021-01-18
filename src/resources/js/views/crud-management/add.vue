@@ -388,7 +388,7 @@ export default {
       this.$route.params.tableName
     );
     this.crudData.displayNamePlural =
-      this.$helper.generateDisplayName(this.$route.params.tableName) + "s";
+      this.$helper.generateDisplayNamePlural(this.$route.params.tableName);
     this.crudData.slug = this.$helper.generateSlug(
       this.$route.params.tableName
     );
@@ -467,7 +467,7 @@ export default {
           this.crudData.rows = fieldList.map((field) => {
             return {
               field: field.name,
-              type: this.$helper.mapFieldType(field.type),
+              type: field.type,
               displayName: this.$helper.generateDisplayName(field.name),
               required: field.isNotNull,
               browse: true,

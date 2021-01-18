@@ -18,6 +18,7 @@ use Uasoft\Badaso\Events\CRUDDataUpdated;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Models\DataRow;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
@@ -67,7 +68,7 @@ class BadasoCRUDController extends Controller
                 if (!in_array($field, $generated_fields)) {
                     $data_row['data_type_id'] = $data_type->id;
                     $data_row['field'] = $key;
-                    $data_row['type'] = str_replace('\\', '', ucfirst($key));
+                    $data_row['type'] = DataTypeToComponent::convert($column->type);
                     $data_row['displayName'] = Str::studly($field);
                     $data_row['required'] = $column->notnull ? 1 : 0;
                     $data_row['browse'] = 1;

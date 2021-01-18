@@ -479,7 +479,7 @@ export default {
               label: field.field,
               value: field.field,
               field: field.field,
-              type: this.$helper.mapFieldType(field.type),
+              type: field.type,
               displayName: field.displayName,
               required: field.required === 1,
               browse: field.browse === 1,
