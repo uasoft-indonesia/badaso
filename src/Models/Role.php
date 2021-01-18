@@ -30,6 +30,6 @@ class Role extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This model has been {$eventName}";
+        return "This table has been {$eventName}";
     }
 }

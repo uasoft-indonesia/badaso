@@ -1,5 +1,6 @@
 import store from "./../store/store";
 import * as _ from "lodash";
+import moment from "moment";
 
 export default {
   mapFieldType(fieldType) {
@@ -86,5 +87,15 @@ export default {
     } else {
       return true;
     }
+  },
+
+  formatDate(value) {
+    let date = process.env.MIX_DATE_FORMAT ? process.env.MIX_DATE_FORMAT : 'MMMM Do YYYY';
+    let datetime = process.env.MIX_DATETIME_FORMAT ? process.env.MIX_DATETIME_FORMAT : 'h:mm:ss a';
+    return moment(value).format(`${date}, ${datetime}`);
+  },
+
+  isObjectEmpty(object) {
+    return Object.keys(object).length === 0
   }
 };
