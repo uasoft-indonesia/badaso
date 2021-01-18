@@ -44,7 +44,7 @@ class GetData
                     try {
                         $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
                     } catch (Exception $e) {
-                        $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
+                        // $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
                     }
                 }
             }
@@ -79,7 +79,7 @@ class GetData
                     try {
                         $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}));
                     } catch (Exception $e) {
-                        $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
+                        // $record->{$class_method->name} = json_decode(json_encode($row->{$class_method->name}()));
                     }
                 }
             }

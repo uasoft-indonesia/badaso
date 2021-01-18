@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\CaseConvert;
@@ -19,20 +20,17 @@ class BadasoTableController extends Controller
     public function browse(Request $request)
     {
         try {
-            $db_name = config('badaso.db_name', '');
-            $tables = DB::select('SHOW TABLES');
-            $key = 'Tables_in_'.$db_name;
-            $tables = collect($tables);
+            $tables = SchemaManager::listTables();
+            $custom_list = [];
+            foreach ($tables as $key => $value) {
+                $table = [];
+                $table['value'] = $key;
+                $table['label'] = ucfirst(str_replace('_', ' ', $key));
 
-            $tables = $tables->map(function ($table) use ($key) {
-                $table->table_name = $table->{$key};
-                $table->value = $table->{$key};
-                $table->label = ucfirst(str_replace('_', ' ', $table->{$key}));
+                $custom_list[] = $table;
+            }
 
-                return $table;
-            });
-
-            $data['tables'] = $tables;
+            $data['tables'] = $custom_list;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -48,17 +46,17 @@ class BadasoTableController extends Controller
             ]);
 
             $table = $request->table;
-            $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($table);
+            $table_fields = SchemaManager::describeTable($table);
             $fields = [];
-            foreach ($columns as $key => $column) {
+            foreach ($table_fields as $key => $column) {
                 $fields[] = [
-                    'name' => $column->getName(),
-                    'type' => str_replace('\\', '', ucfirst($column->getType())),
-                    'is_not_null' => $column->getNotNull(),
-                    'default' => $column->getDefault(),
-                    'length' => $column->getLength(),
-                    'value' => $column->getName(),
-                    'label' => ucfirst(str_replace('_', ' ', $column->getName())),
+                    'name' => $key,
+                    'type' => str_replace('\\', '', ucfirst($column['type'])),
+                    'is_not_null' => $column['notnull'],
+                    'default' => $column['default'],
+                    'length' => $column['length'],
+                    'value' => $key,
+                    'label' => ucfirst(str_replace('_', ' ', $key)),
                 ];
             }
 
@@ -78,7 +76,7 @@ class BadasoTableController extends Controller
                 'table' => 'required',
             ]);
 
-            $columns = DB::getSchemaBuilder()->getColumnListing($request->table);
+            $columns = SchemaManager::describeTable($request->table);
 
             $new_data_type = new DataType();
             $new_data_type->name = $request->table;
@@ -87,12 +85,13 @@ class BadasoTableController extends Controller
             $new_data_type->display_name_plural = Str::plural($new_data_type->display_name_singular);
             $new_data_type->save();
 
-            foreach ($columns as $index => $column) {
+            $index = 0;
+            foreach ($columns as $key => $column) {
                 $new_data_row = new DataRow();
                 $new_data_row->data_type_id = $new_data_type->id;
-                $new_data_row->field = $column;
-                $new_data_row->type = DB::getSchemaBuilder()->getColumnType($request->table, $column);
-                $new_data_row->display_name = Str::studly($column);
+                $new_data_row->field = $key;
+                $new_data_row->type = $column['type'];
+                $new_data_row->display_name = Str::studly($key);
                 $new_data_row->required = false;
                 $new_data_row->browse = true;
                 $new_data_row->read = true;
@@ -102,6 +101,7 @@ class BadasoTableController extends Controller
                 $new_data_row->details = '';
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
+                $index++;
             }
 
             DB::commit();

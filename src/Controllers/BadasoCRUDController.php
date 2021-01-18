@@ -8,8 +8,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use LogicException;
 use ReflectionClass;
+use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Events\CRUDDataAdded;
 use Uasoft\Badaso\Events\CRUDDataDeleted;
 use Uasoft\Badaso\Events\CRUDDataUpdated;
@@ -27,20 +29,19 @@ class BadasoCRUDController extends Controller
     public function browse(Request $request)
     {
         try {
-            $db_name = config('badaso.db_name', '');
-            $tables = DB::select('SHOW TABLES');
-            $key = 'Tables_in_'.$db_name;
-            $tables = collect($tables)->whereNotIn($key, Badaso::getProtectedTables())->all();
-
-            $cruds = [];
-            foreach ($tables as $table) {
-                $crud = [];
-                $crud['table_name'] = $table->{$key};
-                $crud['crud_data'] = Badaso::model('DataType')::where('name', $table->{$key})->first();
-                $cruds[] = $crud;
+            $protected_tables = Badaso::getProtectedTables();
+            $tables = SchemaManager::listTables();
+            $tables_with_crud_data = [];
+            foreach ($tables as $key => $value) {
+                if (!in_array($key, $protected_tables)) {
+                    $table_with_crud_data = [];
+                    $table_with_crud_data['table_name'] = $key;
+                    $table_with_crud_data['crud_data'] = Badaso::model('DataType')::where('name', $key)->first();
+                    $tables_with_crud_data[] = $table_with_crud_data;
+                }
             }
 
-            $data['cruds'] = $cruds;
+            $data['tables_with_crud_data'] = $tables_with_crud_data;
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
@@ -56,56 +57,26 @@ class BadasoCRUDController extends Controller
             ]);
             $table = $request->input('table', '');
             $data_type = Badaso::model('DataType')::where('name', $table)->first();
-            if (is_null($data_type)) {
-                throw new SingleException("Data type for {$table} not found");
-            }
+            $data_rows = $data_type->dataRows;
 
-            $columns = Schema::getConnection()->getDoctrineSchemaManager()->listTableColumns($table);
-            $table_fields = [];
-            foreach ($columns as $key => $column) {
-                $table_fields[] = [
-                    'name' => $column->getName(),
-                    'type' => str_replace('\\', '', ucfirst($column->getType())),
-                    'is_not_null' => $column->getNotNull(),
-                    'default' => $column->getDefault(),
-                    'length' => $column->getLength(),
-                ];
-            }
+            $table_fields = SchemaManager::describeTable($table);
+            $generated_fields = collect($data_rows)->pluck('field')->toArray();
 
-            /*
-            $class = new ReflectionClass(Badaso::modelClass('DataType'));
-            $class_methods = $class->getMethods();
-
-            $json = json_decode(json_encode($data_type));
-            foreach ($class_methods as $class_method) {
-                if ($class_method->class == Badaso::modelClass('DataType')) {
-                    try {
-                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}));
-                    } catch (LogicException $e) {
-                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}()));
-                    }
-                }
-            }
-            */
-            $data_rows = Badaso::model('DataRow')::where('data_type_id', $data_type->id)->get();
-
-            $field_generated = collect($data_rows)->pluck('field')->toArray();
-
-            foreach ($columns as $key => $column) {
-                $field = $column->getName();
-                if (!in_array($field, $field_generated)) {
+            foreach ($table_fields as $key => $column) {
+                $field = $key;
+                if (!in_array($field, $generated_fields)) {
                     $data_row['data_type_id'] = $data_type->id;
-                    $data_row['field'] = $column->getName();
-                    $data_row['type'] = str_replace('\\', '', ucfirst($column->getType()));
+                    $data_row['field'] = $key;
+                    $data_row['type'] = str_replace('\\', '', ucfirst($key));
                     $data_row['displayName'] = Str::studly($field);
-                    $data_row['required'] = $column->getNotNull() ? 1 : 0;
+                    $data_row['required'] = $column->notnull ? 1 : 0;
                     $data_row['browse'] = 1;
                     $data_row['read'] = 1;
                     $data_row['edit'] = 0;
                     $data_row['add'] = 0;
                     $data_row['delete'] = 0;
                     $data_row['details'] = '{}';
-                    $data_row['order'] = count($field_generated) + 1;
+                    $data_row['order'] = null;
 
                     $data_rows[] = $data_row;
                 }
@@ -129,24 +100,12 @@ class BadasoCRUDController extends Controller
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
-            if (is_null($data_type)) {
-                throw new SingleException("Data type for {$slug} not found");
-            }
-            $class = new ReflectionClass(Badaso::modelClass('DataType'));
-            $class_methods = $class->getMethods();
+            $data_rows = $data_type->dataRows;
 
-            $json = json_decode(json_encode($data_type));
-            foreach ($class_methods as $class_method) {
-                if ($class_method->class == Badaso::modelClass('DataType')) {
-                    try {
-                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}));
-                    } catch (LogicException $e) {
-                        $json->{$class_method->name} = json_decode(json_encode($data_type->{$class_method->name}()));
-                    }
-                }
-            }
+            $crud_data = $data_type;
+            $crud_data->data_rows = collect($data_rows)->toArray();
 
-            $data['crud'] = $json;
+            $data['crud_data'] = $crud_data;
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -284,6 +243,7 @@ class BadasoCRUDController extends Controller
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
+                    Rule::notIn(Badaso::getProtectedTables()),
                 ],
                 'rows' => 'required',
                 'display_name_singular' => 'required',
@@ -382,7 +342,7 @@ class BadasoCRUDController extends Controller
         DB::beginTransaction();
         try {
             $request->validate([
-                'id' => 'required',
+                'id' => 'required|exists:data_types,id',
             ]);
 
             $data_type = DataType::find($request->id);

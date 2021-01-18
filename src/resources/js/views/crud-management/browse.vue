@@ -143,7 +143,7 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.tables = response.data.cruds;
+          this.tables = response.data.tablesWithCrudData;
         })
         .catch((error) => {
           this.$vs.loading.close();

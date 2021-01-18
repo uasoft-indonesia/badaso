@@ -8,6 +8,7 @@ use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
 use Uasoft\Badaso\Commands\BDOSeed;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
+use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 
 class BadasoServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,7 @@ class BadasoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(OrchestratorEventServiceProvider::class);
+        $this->app->register(DoctrineSupportServiceProvider::class);
         $this->registerConsoleCommands();
     }
 
