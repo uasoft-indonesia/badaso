@@ -84,16 +84,19 @@ class BadasoBaseController extends Controller
 
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->validateData($data, $data_type);
-            $updated_data = $this->updateData($data, $data_type);
+            $updated = $this->updateData($data, $data_type);
 
             activity()
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties($data)
-                ->log($data_type->display_name_singular . ' has been updated');
+                ->withProperties([
+                    'old' => $updated['old_data'],
+                    'attributes' => $updated['updated_data'],
+                ])
+                ->log($data_type->display_name_singular.' has been updated');
 
             DB::commit();
 
-            return ApiResponse::entity($data_type, $updated_data);
+            return ApiResponse::entity($data_type, $updated['updated_data']);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -121,8 +124,8 @@ class BadasoBaseController extends Controller
 
             activity()
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties($data)
-                ->log($data_type->display_name_singular . ' has been created');
+                ->withProperties(['attributes' => $stored_data])
+                ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
 
@@ -154,7 +157,7 @@ class BadasoBaseController extends Controller
             activity()
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular . ' has been deleted');
+                ->log($data_type->display_name_singular.' has been deleted');
 
             DB::commit();
 
@@ -191,7 +194,7 @@ class BadasoBaseController extends Controller
             activity()
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular . ' has been bulk deleted');
+                ->log($data_type->display_name_singular.' has been bulk deleted');
 
             DB::commit();
 

@@ -386,8 +386,8 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.dataType = response.data.crud;
-          let dataRows = response.data.crud.dataRows.map((data) => {
+          this.dataType = response.data.crudData;
+          let dataRows = response.data.crudData.dataRows.map((data) => {
             if (
               data.value === undefined &&
               (data.type === "upload_image" || data.type === "upload_file")

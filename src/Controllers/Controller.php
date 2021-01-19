@@ -305,6 +305,7 @@ abstract class Controller extends BaseController
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $model = $model::find($id);
+            $old_data = json_decode(json_encode($model));
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
@@ -338,6 +339,7 @@ abstract class Controller extends BaseController
             $new_data = [];
             $data['updated_at'] = date('Y-m-d H:i:s');
             $model = DB::table($data_type->name)->where('id', $id)->first();
+            $old_data = json_decode(json_encode($model));
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (is_null($data_row)) {
@@ -370,7 +372,10 @@ abstract class Controller extends BaseController
             $model = DB::table($data_type->name)->where('id', $id)->first();
         }
 
-        return $model;
+        return [
+            'old_data' => $old_data,
+            'updated_data' => $model,
+        ];
     }
 
     public function deleteData($data, $data_type)
