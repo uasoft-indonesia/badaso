@@ -8,7 +8,11 @@
         "larapack/doctrine-support": "~0.1.4",
         "lcobucci/jwt": "3.3.3",
         "tymon/jwt-auth": "^1.0",
-        "spatie/laravel-activitylog": "3.9.1"
+        "spatie/laravel-activitylog": "3.9.1",
+        "spatie/laravel-backup":"5.12.1",
+        "spatie/flysystem-dropbox": "1.2.2",
+        "nao-pon/flysystem-google-drive": "1.1.13",
+        "league/flysystem-aws-s3-v3": "1.0.28"
     },
     "license": "MIT",
     "authors": [{

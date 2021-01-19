@@ -4,11 +4,11 @@ namespace Uasoft\Badaso\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
 use Uasoft\Badaso\Commands\BDOSeed;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
-use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 
 class BadasoServiceProvider extends ServiceProvider
 {
@@ -51,6 +51,8 @@ class BadasoServiceProvider extends ServiceProvider
     {
         $this->app->register(OrchestratorEventServiceProvider::class);
         $this->app->register(DoctrineSupportServiceProvider::class);
+        $this->app->register(DropboxServiceProvider::class);
+        $this->app->register(GoogleDriveServiceProvider::class);
         $this->registerConsoleCommands();
     }
 
