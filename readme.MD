@@ -132,6 +132,8 @@ Before you install badaso, make sure your laravel can run.
     MIX_ADMIN_PANEL_ROUTE_PREFIX={your admin panel prefix}
     MIX_DEFAULT_MENU={your menu, default 'admin'}
     MIX_API_ROUTE_PREFIX={badaso-api by default}
+    MIX_DATE_FORMAT={default "MMMM Do YYYY", please check https://momentjs.com/docs/#/parsing/string-format/ for more format}
+    MIX_DATETIME_FORMAT={default "h:mm:ss a", please check https://momentjs.com/docs/#/parsing/string-format/ for more format}
 ```
 - Add badaso guard at config/auth.php
 ```
