@@ -86,6 +86,11 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $updated_data = $this->updateData($data, $data_type);
 
+            activity()
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data)
+                ->log($data_type->display_name_singular . ' has been updated');
+
             DB::commit();
 
             return ApiResponse::entity($data_type, $updated_data);
@@ -114,6 +119,11 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $stored_data = $this->insertData($data, $data_type);
 
+            activity()
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data)
+                ->log($data_type->display_name_singular . ' has been created');
+
             DB::commit();
 
             return ApiResponse::entity($data_type, $stored_data);
@@ -140,6 +150,11 @@ class BadasoBaseController extends Controller
 
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->deleteData($data, $data_type);
+
+            activity()
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data)
+                ->log($data_type->display_name_singular . ' has been deleted');
 
             DB::commit();
 
@@ -172,6 +187,11 @@ class BadasoBaseController extends Controller
                 $should_delete['id'] = $id;
                 $this->deleteData($should_delete, $data_type);
             }
+
+            activity()
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data)
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
 
             DB::commit();
 

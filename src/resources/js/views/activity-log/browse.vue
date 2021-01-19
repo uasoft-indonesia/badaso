@@ -43,7 +43,7 @@
                 <vs-th sort-key="causerType"> Causer </vs-th>
                 <vs-th sort-key="causerId"> Causer Id</vs-th>
                 <vs-th sort-key="subjectType"> Subject </vs-th>
-                <vs-th sort-key="subjectId"> subject Id </vs-th>
+                <vs-th sort-key="subjectId"> Subject Id </vs-th>
                 <vs-th sort-key="description"> Description </vs-th>
                 <vs-th sort-key="createdAt"> Date Logged </vs-th>
                 <vs-th> Action </vs-th>
@@ -52,22 +52,22 @@
               <template slot-scope="{ data }">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data">
                   <vs-td :data="data[indextr].causerType">
-                    {{ data[indextr].causerType ? data[indextr].causerType : 'null'  }}
+                    {{ data[indextr].causerType ? data[indextr].causerType : '-'  }}
                   </vs-td>
                   <vs-td :data="data[indextr].causerId">
-                    {{ data[indextr].causerId ? data[indextr].causerId : 'null' }}
+                    {{ data[indextr].causerId ? data[indextr].causerId : '-' }}
                   </vs-td>
                   <vs-td :data="data[indextr].subjectType">
-                    {{ data[indextr].subjectType }}
+                    {{ data[indextr].subjectType ? data[indextr].subjectType : '-' }}
                   </vs-td>
                   <vs-td :data="data[indextr].subjectId">
-                    {{ data[indextr].subjectId }}
+                    {{ data[indextr].subjectId ? data[indextr].subjectId : '-' }}
                   </vs-td>
                   <vs-td :data="data[indextr].description">
                     {{ data[indextr].description }}
                   </vs-td>
                   <vs-td :data="data[indextr].createdAt">
-                    {{ data[indextr].createdAt | moment }}
+                    {{ $helper.formatDate(data[indextr].createdAt) }}
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
                     <vs-button
@@ -110,11 +110,6 @@ export default {
   name: "Browse",
   components: {
     BadasoBreadcrumb,
-  },
-  filters: {
-    moment: function (date) {
-      return moment(date).format(process.env.MIX_MOMENT_FORMAT);
-    },
   },
   data: () => ({
     selected: [],

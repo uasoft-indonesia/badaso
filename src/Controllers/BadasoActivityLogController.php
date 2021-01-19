@@ -35,6 +35,7 @@ class BadasoActivityLogController extends Controller
             $data['activitylog'] = $activitylog;
             $data['subject'] = $activitylog->subject;
             $data['causer'] = $activitylog->causer;
+            $data['properties'] = $activitylog->properties->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
