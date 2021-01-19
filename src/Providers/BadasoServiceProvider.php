@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Providers;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
+use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
 use Uasoft\Badaso\Commands\BDOSeed;
@@ -34,6 +35,7 @@ class BadasoServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
+            __DIR__.'/../Config/log-viewer.php' => config_path('log-viewer.php'),
             __DIR__.'/../Seeder/Configurations' => database_path('seeds'),
             __DIR__.'/../Seeder/CRUDData' => database_path('seeds/CRUDData'),
             __DIR__.'/../resources/js/' => resource_path('js/badaso'),
@@ -53,6 +55,7 @@ class BadasoServiceProvider extends ServiceProvider
         $this->app->register(DoctrineSupportServiceProvider::class);
         $this->app->register(DropboxServiceProvider::class);
         $this->app->register(GoogleDriveServiceProvider::class);
+        $this->app->register(LogViewerServiceProvider::class);
         $this->registerConsoleCommands();
     }
 

@@ -135,6 +135,15 @@ class BadasoCRUDController extends Controller
             $table_name = $request->input('name');
 
             $data_type = DataType::find($request->input('id'));
+
+            activity('CRUD')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties([
+                    'old' => $data_type,
+                    'new' => $request->input()
+                ])
+                ->log('Table '.$data_type->slug.' has been edited');
+
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
             $data_type->display_name_singular = $request->input('display_name_singular');
@@ -328,6 +337,11 @@ class BadasoCRUDController extends Controller
 
             event(new CRUDDataAdded($new_data_type, null));
 
+            activity('CRUD')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $new_data_type])
+                ->log('Table '.$new_data_type->slug.' has been created');
+
             DB::commit();
 
             return ApiResponse::success($new_data_type);
@@ -355,6 +369,11 @@ class BadasoCRUDController extends Controller
             $data_type->delete();
 
             event(new CRUDDataDeleted($data_type));
+
+            activity('CRUD')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data_type)
+                ->log('Table '.$data_type->slug.' has been deleted');
 
             DB::commit();
 

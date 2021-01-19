@@ -244,7 +244,7 @@ export default [
     },
   },
   {
-    path: prefix + "/activitylog",
+    path: prefix + "/activity-log",
     name: "ActivityLogBrowse",
     component: ActivityLogBrowse,
     meta: {
@@ -252,11 +252,19 @@ export default [
     },
   },
   {
-    path: prefix + "/activitylog/:id/detail",
+    path: prefix + "/activity-log/:id/detail",
     name: "ActivityLogRead",
     component: ActivityLogRead,
     meta: {
       title: "Detail Activity Log",
+    },
+  },
+  {
+    path: prefix + "/log-viewer",
+    name: "LogViewer",
+    beforeEnter() { location.href = prefix + "/log-viewer"},
+    meta: {
+      title: "Browse Log Viewer",
     },
   },
 ];
