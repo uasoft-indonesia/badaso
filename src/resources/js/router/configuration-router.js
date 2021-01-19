@@ -36,6 +36,10 @@ let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 
+let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
+  ? process.env.MIX_LOG_VIEWER_ROUTE
+  : "log-viewer";
+
 let prefix = "/" + prefix_env;
 
 export default [
@@ -260,9 +264,9 @@ export default [
     },
   },
   {
-    path: prefix + "/log-viewer",
+    path: prefix + "/" + log_viewer,
     name: "LogViewer",
-    beforeEnter() { location.href = prefix + "/log-viewer"},
+    beforeEnter() { location.href = "/" + log_viewer},
     meta: {
       title: "Browse Log Viewer",
     },
