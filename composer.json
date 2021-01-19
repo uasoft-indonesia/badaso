@@ -3,6 +3,7 @@
     "description": "CRUD generator with laravel-vue SPA",
     "type": "library",
     "require": {
+        "arcanedev/log-viewer": "~4.7.0",
         "webpatser/laravel-uuid": "^3.0",
         "doctrine/dbal": "2.12",
         "larapack/doctrine-support": "~0.1.4",

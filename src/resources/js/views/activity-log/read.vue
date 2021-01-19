@@ -94,7 +94,7 @@
               <th><span style="text-transform: capitalize;">{{ index | replaceTitle }}</span></th>
               <td v-if="typeof item === 'object'">
                 <table class="table">
-                  <tr v-for="(value, index) in item" :key="index">
+                  <tr v-for="(value, index) in item" :key="index" v-if="index !== 'password'">
                     <th><span style="text-transform: capitalize;">{{ index | replaceTitle }}</span></th>
                     <td>{{ value === null ? 'null' : value }}</td>
                   </tr>

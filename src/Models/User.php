@@ -64,11 +64,24 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    protected static $logAttributes = true;
-    protected static $logFillable = true;
+    protected static $logAttributes = [
+        'name',
+        'email',
+        'avatar',
+        'additional_info',
+    ];
+    
+    protected static $logFillable = [
+        'name',
+        'email',
+        'avatar',
+        'additional_info',
+    ];
+
+    protected static $logName = 'User';
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This table has been {$eventName}";
+        return "This model has been {$eventName}";
     }
 }

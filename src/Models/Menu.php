@@ -16,9 +16,10 @@ class Menu extends Model
 
     protected static $logAttributes = true;
     protected static $logFillable = true;
+    protected static $logName = 'Menu';
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "This table has been {$eventName}";
+        return "This model has been {$eventName}";
     }
 }

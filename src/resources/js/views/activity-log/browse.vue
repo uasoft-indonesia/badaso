@@ -40,6 +40,7 @@
               description-body="Pages"
             >
               <template slot="thead">
+                <vs-th sort-key="logName"> Log Name </vs-th>
                 <vs-th sort-key="causerType"> Causer </vs-th>
                 <vs-th sort-key="causerId"> Causer Id</vs-th>
                 <vs-th sort-key="subjectType"> Subject </vs-th>
@@ -51,6 +52,9 @@
 
               <template slot-scope="{ data }">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                  <vs-td :data="data[indextr].logName">
+                    {{ data[indextr].logName ? data[indextr].logName : '-'  }}
+                  </vs-td>
                   <vs-td :data="data[indextr].causerType">
                     {{ data[indextr].causerType ? data[indextr].causerType : '-'  }}
                   </vs-td>

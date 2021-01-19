@@ -86,7 +86,7 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
 
-            activity()
+            activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
                     'old' => $updated['old_data'],
@@ -122,9 +122,9 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $stored_data = $this->insertData($data, $data_type);
 
-            activity()
+            activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => $stored_data])
+                ->withProperties(['attributes' => $data])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -154,7 +154,7 @@ class BadasoBaseController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->deleteData($data, $data_type);
 
-            activity()
+            activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
                 ->log($data_type->display_name_singular.' has been deleted');
@@ -191,7 +191,7 @@ class BadasoBaseController extends Controller
                 $this->deleteData($should_delete, $data_type);
             }
 
-            activity()
+            activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
                 ->log($data_type->display_name_singular.' has been bulk deleted');
@@ -227,11 +227,21 @@ class BadasoBaseController extends Controller
                     $single_data = $model::find($row['id']);
                     $single_data[$order_column] = $index + 1;
                     $single_data->save();
+
+                    activity($data_type->display_name_singular)
+                        ->causedBy(auth()->user() ?? null)
+                        ->withProperties(['attributes' => $single_data])
+                        ->log($data_type->display_name_singular.' has been sorted');
                 }
             } else {
                 foreach ($request->data as $index => $row) {
                     $updated_data[$order_column] = $index + 1;
                     DB::table($data_type->name)->where('id', $row['id'])->update($updated_data);
+
+                    activity($data_type->display_name_singular)
+                        ->causedBy(auth()->user() ?? null)
+                        ->withProperties(['attributes' => $updated_data])
+                        ->log($data_type->display_name_singular.' has been sorted');
                 }
             }
 
