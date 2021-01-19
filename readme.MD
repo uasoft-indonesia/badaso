@@ -13,6 +13,14 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
 | webpatser/laravel-uuid | ^3.0 | "webpatser/laravel-uuid": "^3.0" |
 | doctrine/dbal | 2.12 | "doctrine/dbal": "2.12" |
 | tymon/jwt-auth | ^1.0 | "tymon/jwt-auth": "^1.0" |
+| lcobucci/jwt | 3.3.3 | "lcobucci/jwt": "3.3.3" |
+| larapack/doctrine-support | ~0.1.4 | "larapack/doctrine-support": "~0.1.4" |
+| arcanedev/log-viewer | ~4.2.0 | "arcanedev/log-viewer": "~4.2.0" |
+| spatie/laravel-activitylog | 3.9.1 | "spatie/laravel-activitylog": "3.9.1" |
+| spatie/laravel-backup | 5.12.1 | "spatie/laravel-backup":"5.12.1" |
+| spatie/flysystem-dropbox | 1.2.2 | "spatie/flysystem-dropbox": "1.2.2" |
+| nao-pon/flysystem-google-driv" | 1.1.13 | "nao-pon/flysystem-google-drive": "1.1.13" |
+| league/flysystem-aws-s3-v3 | 1.0.28 | "league/flysystem-aws-s3-v3": "1.0.28" |
 
   - Vue
   badaso needs some JS/Vue library
@@ -48,6 +56,7 @@ Before you install badaso, make sure your laravel can run.
 ```json
   "require": {
       "uasoft-indonesia/badaso": {version},
+      "spatie/laravel-activitylog": "3.9.1",
   },
   "repositories": [
         {
@@ -78,6 +87,7 @@ Before you install badaso, make sure your laravel can run.
     'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 ```
 - run ```php artisan vendor:publish --tag=Badaso```
+- run ```php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"```
 - run ```php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="migrations"```
 - run ```php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="config"```
 - run ```composer dump-autoload```
@@ -128,27 +138,76 @@ Before you install badaso, make sure your laravel can run.
 ```
     JWT_SECRET={Your JWT secret key}
     FILESYSTEM_DRIVER={public by default}
+
+    #this mixed variables must be filled in before build frontend
     MIX_ADMIN_PANEL_ROUTE_PREFIX={your admin panel prefix}
     MIX_DEFAULT_MENU={your menu, default 'admin'}
     MIX_API_ROUTE_PREFIX={badaso-api by default}
-    MIX_DATE_FORMAT={default "MMMM Do YYYY", please check https://momentjs.com/docs/#/parsing/string-format/ for more format}
-    MIX_DATETIME_FORMAT={default "h:mm:ss a", please check https://momentjs.com/docs/#/parsing/string-format/ for more format}
+    MIX_LOG_VIEWER_ROUTE={log-viewer}
+    
+    #optional
+    AWS_ACCESS_KEY_ID=
+    AWS_SECRET_ACCESS_KEY=
+    AWS_DEFAULT_REGION=
+    AWS_BUCKET=
+    AWS_URL=
+    #optional
+    GOOGLE_DRIVE_CLIENT_ID=
+    GOOGLE_DRIVE_CLIENT_SECRET=
+    GOOGLE_DRIVE_REFRESH_TOKEN=
+    GOOGLE_DRIVE_FOLDER_ID=
+    #optional
+    DROPBOX_AUTH_TOKEN=
 ```
 - Add badaso guard at config/auth.php
 ```
-'badaso_guard' => [
-    'driver' => 'jwt',
-    'provider' => 'badaso_users',
-],
+    'badaso_guard' => [
+        'driver' => 'jwt',
+        'provider' => 'badaso_users',
+    ],
 ```
 - add badaso auth providers at config/auth.php
 ```
-'badaso_users' => [
-    'driver' => 'eloquent',
-    'model' => \Uasoft\Badaso\Models\User::class,
-],
+    'badaso_users' => [
+        'driver' => 'eloquent',
+        'model' => \Uasoft\Badaso\Models\User::class,
+    ],
 ```
+- add dump to config/database.php -> connections.mysql
+```
+    // Add dump configuration for spatie/laravel-backup >                     https://docs.spatie.be/laravel-backup/v5/installation-and-setup/#dumping-the-database
+    'dump' => [
+        'dump_binary_path' => env('DUMP_BINARY_PATH', 'C:\xampp\mysql\bin'), // only the path, so without `mysqldump` or `pg_dump`
+        'use_single_transaction',
+        'timeout' => 60 * 5, // 5 minute timeout
+        // 'exclude_tables' => [],
+        // 'add_extra_option' => ''
+    ],
+```
+- add backup drivers to config/filesystemphp
+```
+    's3' => [
+        'driver' => 's3',
+        'key' => env('AWS_ACCESS_KEY_ID'),
+        'secret' => env('AWS_SECRET_ACCESS_KEY'),
+        'region' => env('AWS_DEFAULT_REGION'),
+        'bucket' => env('AWS_BUCKET'),
+        'url' => env('AWS_URL'),
+    ],
 
+    'google' => [
+        'driver' => 'google',
+        'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
+        'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
+        'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
+        'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
+    ],
+
+    'dropbox' => [
+        'driver' => 'dropbox',
+        'authorization_token' => env('DROPBOX_AUTH_TOKEN'),
+    ],
+```
 - for development, run
 ```
     npm run watch
