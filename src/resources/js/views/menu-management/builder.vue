@@ -379,6 +379,7 @@ export default {
         .then((response) => {
           this.getMenuItems();
           this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {

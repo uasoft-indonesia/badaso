@@ -29,7 +29,7 @@
             <vs-table
               v-model="selected"
               pagination
-              max-items="50"
+              :max-items="descriptionItems[0]"
               search
               :data="activitylogs"
               stripe
@@ -117,7 +117,7 @@ export default {
   },
   data: () => ({
     selected: [],
-    descriptionItems: [10, 50, 100],
+    descriptionItems: [50, 100, 200],
     activitylogs: [],
     willDeleteId: null,
   }),
