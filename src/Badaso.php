@@ -31,6 +31,7 @@ class Badaso
 
     protected $supported_component = [
         'text',
+        'email',
         'password',
         'textarea',
         'checkbox',

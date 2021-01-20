@@ -393,11 +393,13 @@ export default {
     },
     editMenuItem(menuItem) {
       this.menuItem = menuItem;
+      this.menuItem.target = menuItem.target ? menuItem.target : this.menuItemTargets[0].value;
       this.editMenuItemPopUp = true;
     },
     addMenuItem(menuItem) {
       this.menuItem = {
         color: "",
+        target: this.menuItemTargets[0].value
       };
       this.addMenuItemPopUp = true;
     },
@@ -410,8 +412,9 @@ export default {
         .addItem({ ...this.menuItem, menuId: this.$route.params.id })
         .then((response) => {
           this.getMenuItems();
-          this.openPopup = false;
+          this.addMenuItemPopUp = false;
           this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {
@@ -438,6 +441,7 @@ export default {
           this.willDeleteId = null;
           this.getMenuItems();
           this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {
@@ -466,9 +470,10 @@ export default {
           color: this.menuItem.color,
         })
         .then((response) => {
-          this.openPopup = false;
+          this.editMenuItemPopUp = false;
           this.getMenuItems();
           this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {

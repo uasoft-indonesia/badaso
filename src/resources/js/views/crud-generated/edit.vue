@@ -31,6 +31,14 @@
                 size="12"
                 :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-text>
+              <badaso-email
+                v-if="dataRow.type === 'email'"
+                :label="dataRow.displayName"
+                :placeholder="dataRow.displayName"
+                v-model="dataRow.value"
+                size="12"
+                :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+              ></badaso-email>
               <badaso-password
                 v-if="dataRow.type === 'password'"
                 :label="dataRow.displayName"
@@ -289,6 +297,7 @@ import BadasoUploadFile from "../../components/BadasoUploadFile";
 import BadasoUploadFileMultiple from "../../components/BadasoUploadFileMultiple";
 import BadasoHidden from "../../components/BadasoHidden";
 import BadasoCodeEditor from "../../components/BadasoCodeEditor";
+import BadasoEmail from "../../components/BadasoEmail";
 
 export default {
   name: "Browse",
@@ -318,6 +327,7 @@ export default {
     BadasoUploadFileMultiple,
     BadasoHidden,
     BadasoCodeEditor,
+    BadasoEmail
   },
   data: () => ({
     isValid: true,

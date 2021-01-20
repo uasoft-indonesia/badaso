@@ -34,6 +34,13 @@
                   v-model="config.value"
                   size="10"
                 ></badaso-text>
+                <badaso-email
+                  v-if="config.type === 'email'"
+                  :label="config.displayName"
+                  :placeholder="config.value"
+                  v-model="config.value"
+                  size="10"
+                ></badaso-email>
                 <badaso-password
                   v-if="config.type === 'password'"
                   :label="config.displayName"
@@ -54,7 +61,7 @@
                   :placeholder="config.value"
                   v-model="config.value"
                   size="10"
-                  :items="config.options"
+                  :items="config.details.items"
                 ></badaso-checkbox>
                 <badaso-search
                   v-if="config.type === 'search'"
@@ -104,7 +111,7 @@
                   :placeholder="config.value"
                   v-model="config.value"
                   size="10"
-                  :items="config.options"
+                  :items="config.details.items"
                 ></badaso-select>
                 <badaso-radio
                   v-if="config.type === 'radio'"
@@ -112,7 +119,7 @@
                   :placeholder="config.value"
                   v-model="config.value"
                   size="10"
-                  :items="config.options"
+                  :items="config.details.items"
                 ></badaso-radio>
                 <badaso-switch
                   v-if="config.type === 'switch'"
@@ -155,7 +162,7 @@
                   :placeholder="config.value"
                   v-model="config.value"
                   size="10"
-                  :items="config.options"
+                  :items="config.details.items"
                 ></badaso-select-multiple>
                 <badaso-upload-image
                   v-if="config.type === 'upload_image'"
@@ -248,6 +255,7 @@ import BadasoUploadImageMultiple from "../../components/BadasoUploadImageMultipl
 import BadasoUploadFile from "../../components/BadasoUploadFile";
 import BadasoUploadFileMultiple from "../../components/BadasoUploadFileMultiple";
 import BadasoHidden from "../../components/BadasoHidden";
+import BadasoEmail from "../../components/BadasoEmail.vue";
 
 export default {
   name: "Browse",
@@ -276,6 +284,7 @@ export default {
     BadasoUploadFile,
     BadasoUploadFileMultiple,
     BadasoHidden,
+    BadasoEmail
   },
   data: () => ({
     configurations: [],
@@ -320,7 +329,18 @@ export default {
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.configurations = response.data.configurations;
+          let configurations = response.data.configurations.map((data) => {
+            try {
+              data.details = JSON.parse(data.details);
+              if (data.type === "hidden") {
+                data.value = data.details.value ? data.details.value : "";
+              }
+            } catch (error) {
+              console.log(error);
+            }
+            return data;
+          });
+          this.configurations = JSON.parse(JSON.stringify(configurations));
         })
         .catch((error) => {
           this.$vs.loading.close();

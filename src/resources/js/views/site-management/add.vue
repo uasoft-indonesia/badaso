@@ -47,7 +47,7 @@
             </vs-col>
             <vs-col vs-lg="12">
               <p>Options is required for Checkbox, Radio, Select, Select-multiple. Example: </p>
-              <pre>[{"label":"This is label","value":"this_is_value"}]</pre>
+              <pre>{"items": [{"label":"This is label","value":"this_is_value"}] }</pre>
             </vs-col>
           </vs-row>
         </vs-card>

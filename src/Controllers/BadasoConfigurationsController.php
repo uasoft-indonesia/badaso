@@ -18,7 +18,7 @@ class BadasoConfigurationsController extends Controller
 
     public function browse(Request $request)
     {
-        $configurations = Configuration::all();
+        $configurations = Configuration::orderBy('order')->get();
 
         $data['configurations'] = $configurations;
 

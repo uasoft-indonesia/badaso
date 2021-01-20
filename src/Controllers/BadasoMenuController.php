@@ -117,7 +117,6 @@ class BadasoMenuController extends Controller
     {
         $new_menu_items = $menu_items;
         foreach ($new_menu_items as $key => $value) {
-            $value['children'] = [];
             if ($value->hasChildren()) {
                 $all_childrens = MenuItem::where('parent_id', $value->id)
                     ->orderBy('order', 'asc')
@@ -129,7 +128,7 @@ class BadasoMenuController extends Controller
                         $childrens[] = $children;
                     }
                 }
-                $children = $this->getChildMenuItems($children);
+                $children = $this->getChildMenuItems($childrens);
                 $value['children'] = collect($children)->toArray();
             }
         }

@@ -56,7 +56,6 @@ Before you install badaso, make sure your laravel can run.
 ```json
   "require": {
       "uasoft-indonesia/badaso": {version},
-      "spatie/laravel-activitylog": "3.9.1",
   },
   "repositories": [
         {

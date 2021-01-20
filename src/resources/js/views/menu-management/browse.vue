@@ -54,7 +54,6 @@
                   <vs-td
                     style="width: 1%; white-space: nowrap"
                   >
-                  <vs-tooltip text="View Menu Items" position="bottom" >
                     <vs-button
                       color="primary"
                       type="relief"
@@ -63,7 +62,6 @@
                       :to="{name: 'MenuBuilder', params: {id: data[index].id}}"
                       ><vs-icon icon="list"></vs-icon
                     ></vs-button>
-                  </vs-tooltip>
                     <vs-button
                       color="warning"
                       type="relief"
