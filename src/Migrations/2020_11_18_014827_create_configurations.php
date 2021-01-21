@@ -18,8 +18,8 @@ class CreateConfigurations extends Migration
                 $table->increments('id');
                 $table->string('key')->unique();
                 $table->string('display_name');
-                $table->text('value')->nullable()->default('');
-                $table->text('details')->nullable()->default(null);
+                $table->text('value')->nullable();
+                $table->text('details')->nullable();
                 $table->string('type');
                 $table->integer('order')->default('1');
                 $table->string('group')->nullable();
