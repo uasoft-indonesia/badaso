@@ -59,7 +59,7 @@ export default {
   },
 
   "sidebar": {
-    "dashboard": "Dasbor",
+    "dashboard": "Beranda",
     "mainMenu": "Menu Utama",
     "configurationMenu": "Menu Konfigurasi"
   },
@@ -543,7 +543,11 @@ export default {
         "description": "Deskripsi",
         "action": "Aksi"
       },
-      "button": "Tetapkan wewenang yang dipilih untuk pengguna"
+      "button": "Tetapkan wewenang yang dipilih untuk pengguna",
+      "success": {
+        "title": "Success",
+        "text": 'Wewenang telah ditetapkan',
+      }
     }
   },
 

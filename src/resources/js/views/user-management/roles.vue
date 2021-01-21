@@ -121,6 +121,11 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getUserRoles();
+          this.$vs.notify({
+            title: this.$t('user.roles.success.title'),
+            text: this.$t('user.roles.success.text'),
+            color: "success",
+          });
         })
         .catch((error) => {
           this.$vs.loading.close();

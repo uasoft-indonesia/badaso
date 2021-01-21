@@ -97,8 +97,10 @@ class BadasoUserRoleController extends Controller
                     }
                 }
 
-                // its run by query builder, it will not log by spatie activity log
-                UserRole::where('user_id', $user->id)->whereNotIn('role_id', $stored_roles)->delete();
+                $deleted_items = UserRole::where('user_id', $user->id)->whereNotIn('role_id', $stored_roles)->get();
+                foreach ($deleted_items as $item) {
+                    UserRole::find($item->id)->delete();
+                }
             }
 
             $data = [];

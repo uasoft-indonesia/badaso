@@ -97,8 +97,11 @@ class BadasoRolePermissionController extends Controller
                     }
                 }
 
-                // its run by query builder, it will not log by spatie activity log
-                RolePermission::where('role_id', $role->id)->whereNotIn('permission_id', $stored_permissions)->delete();
+                $deleted_items = RolePermission::where('role_id', $role->id)->whereNotIn('permission_id', $stored_permissions)->get();
+
+                foreach ($deleted_items as $item) {
+                    RolePermission::find($item->id)->delete();
+                }
             }
 
             $data = [];

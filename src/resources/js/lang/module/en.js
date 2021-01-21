@@ -540,7 +540,11 @@ export default {
         "description": "Description",
         "action": "Action"
       },
-      "button": "Set selected roles for user"
+      "button": "Set selected roles for user",
+      "success": {
+        "title": "Success",
+        "text": 'Roles has been set',
+      }
     }
   },
 
