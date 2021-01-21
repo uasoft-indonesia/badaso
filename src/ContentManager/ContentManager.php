@@ -29,8 +29,8 @@ class ContentManager
             foreach ($data as $row) {
                 $row_array = [];
                 foreach ($row as $column_name => $column_value) {
-                    if ($column_name === 'details') {
-                        $column_value = $column_value;
+                    if ($column_name === 'details' || $column_name === 'relation') {
+                        $column_value = (is_array($column_value) || is_object($column_value)) ? json_encode($column_value) : $column_value;
                     }
                     $row_array[$column_name] = $column_value;
 

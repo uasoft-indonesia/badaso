@@ -50,6 +50,7 @@ class BadasoTableController extends Controller
             $table_fields = SchemaManager::describeTable($table);
             $fields = [];
             foreach ($table_fields as $key => $column) {
+                $column = collect($column)->toArray();
                 $field = $column;
                 $field['name'] = $key;
                 $field['type'] = DataTypeToComponent::convert($column['type']);
@@ -100,7 +101,7 @@ class BadasoTableController extends Controller
                 $new_data_row->details = '';
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
-                $index++;
+                ++$index;
             }
 
             DB::commit();

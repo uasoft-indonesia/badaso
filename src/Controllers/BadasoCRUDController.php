@@ -9,13 +9,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use LogicException;
-use ReflectionClass;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Events\CRUDDataAdded;
 use Uasoft\Badaso\Events\CRUDDataDeleted;
 use Uasoft\Badaso\Events\CRUDDataUpdated;
-use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
@@ -65,12 +62,13 @@ class BadasoCRUDController extends Controller
 
             foreach ($table_fields as $key => $column) {
                 $field = $key;
+                $column = collect($column)->toArray();
                 if (!in_array($field, $generated_fields)) {
                     $data_row['data_type_id'] = $data_type->id;
                     $data_row['field'] = $key;
-                    $data_row['type'] = DataTypeToComponent::convert($column->type);
+                    $data_row['type'] = DataTypeToComponent::convert($column['type']);
                     $data_row['displayName'] = Str::studly($field);
-                    $data_row['required'] = $column->notnull ? 1 : 0;
+                    $data_row['required'] = $column['notnull'] ? 1 : 0;
                     $data_row['browse'] = 1;
                     $data_row['read'] = 1;
                     $data_row['edit'] = 0;
@@ -140,7 +138,7 @@ class BadasoCRUDController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
                     'old' => $data_type,
-                    'new' => $request->input()
+                    'new' => $request->input(),
                 ])
                 ->log('Table '.$data_type->slug.' has been edited');
 
