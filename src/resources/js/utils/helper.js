@@ -77,8 +77,8 @@ export default {
 
   formatDate(value) {
     let date = process.env.MIX_DATE_FORMAT ? process.env.MIX_DATE_FORMAT : 'MMMM Do YYYY';
-    let datetime = process.env.MIX_DATETIME_FORMAT ? process.env.MIX_DATETIME_FORMAT : 'h:mm:ss a';
-    return moment(value).format(`${date}, ${datetime}`);
+    let time = process.env.MIX_TIME_FORMAT ? process.env.MIX_TIME_FORMAT : 'h:mm:ss a';
+    return moment(value).format(`${date}, ${time}`);
   },
 
   isObjectEmpty(object) {

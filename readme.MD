@@ -143,7 +143,10 @@ Before you install badaso, make sure your laravel can run.
     MIX_DEFAULT_MENU={your menu, default 'admin'}
     MIX_API_ROUTE_PREFIX={badaso-api by default}
     MIX_LOG_VIEWER_ROUTE={log-viewer}
-    
+    MIX_DATE_FORMAT=
+    MIX_TIME_FORMAT=
+    MIX_DATETIME_FORMAT=
+
     #optional
     AWS_ACCESS_KEY_ID=
     AWS_SECRET_ACCESS_KEY=
