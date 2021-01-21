@@ -14,7 +14,7 @@
               name: 'EntityEdit',
               params: { id: $route.params.id, slug: $route.params.slug },
             }"
-            ><vs-icon icon="edit"></vs-icon> Edit</vs-button
+            ><vs-icon icon="edit"></vs-icon> {{ $t('crudGenerated.detail.button') }}</vs-button
           >
         </div>
       </vs-col>
@@ -23,7 +23,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Detail</h3>
+            <h3>{{ $t('crudGenerated.detail.title', { tableName: dataType.displayNameSingular }) }}</h3>
           </div>
           <vs-row>
             <vs-col
@@ -168,7 +168,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <h3>
-                You're not allowed to read {{ dataType.displayNameSingular }}
+                {{ $t('crudGenerated.warning.notAllowedToRead', { tableName: dataType.displayNameSingular }) }}
               </h3>
             </vs-col>
           </vs-row>
@@ -222,7 +222,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

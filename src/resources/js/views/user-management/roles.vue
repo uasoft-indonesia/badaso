@@ -9,14 +9,14 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Roles</h3>
+            <h3>{{ $t('user.roles.title') }}</h3>
           </div>
           <vs-table search :data="userRoles" stripe>
             <template slot="thead">
               <vs-th  v-if="$helper.isAllowed('add_or_edit_user_role')"> </vs-th>
-              <vs-th> Name </vs-th>
-              <vs-th> Description </vs-th>
-              <vs-th> Action</vs-th>
+              <vs-th> {{ $t('user.roles.header.name') }} </vs-th>
+              <vs-th> {{ $t('user.roles.header.description') }} </vs-th>
+              <vs-th> {{ $t('user.roles.header.action') }} </vs-th>
             </template>
 
             <template slot-scope="{ data }">
@@ -58,7 +58,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Set selected roles for user
+                <vs-icon icon="save"></vs-icon> {{ $t('user.roles.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -98,7 +98,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -125,7 +125,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

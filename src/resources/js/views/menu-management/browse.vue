@@ -8,7 +8,7 @@
         <div style="float: right">
           <vs-button color="primary" type="relief"
             :to="{name: 'MenuAdd'}"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
           >
         </div>
       </vs-col>
@@ -17,7 +17,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Menu</h3>
+            <h3>{{ $t('menu.title') }}</h3>
           </div>
           <div>
             <vs-table
@@ -29,14 +29,14 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('menu.footer.descriptionTitle')"
+              :description-connector="$t('menu.footer.descriptionConnector')"
+              :description-body="$t('menu.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="key"> Key </vs-th>
-                <vs-th sort-key="displayName"> Display Name </vs-th>
-                <vs-th>Action</vs-th>
+                <vs-th sort-key="key"> {{ $t('menu.header.key') }} </vs-th>
+                <vs-th sort-key="displayName"> {{ $t('menu.header.displayName') }} </vs-th>
+                <vs-th>{{ $t('menu.header.action') }}</vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -91,7 +91,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse Menu</h3>
+              <h3>{{ $t('menu.warning.notAllowedToBrowse') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -119,9 +119,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteMenu,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteId = null;
         }
@@ -140,7 +142,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -162,7 +164,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

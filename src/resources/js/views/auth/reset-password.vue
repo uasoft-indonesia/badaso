@@ -6,8 +6,8 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">Reset Password</h3>
-        <p class="mb-0">Please provide new password.</p>
+        <h3 class="mb-1">{{ $t('resetPassword.title') }}</h3>
+        <p class="mb-0">{{ $t('resetPassword.subtitle') }}</p>
       </div>
       <div>
         <form novalidate="novalidate">
@@ -16,7 +16,7 @@
             type="password"
             icon-after
             size="default"
-            placeholder="New Password"
+            :placeholder="$t('resetPassword.field.password')"
             v-model="password"
             class="w-100 mb-4 mt-2 "
           />
@@ -25,17 +25,17 @@
             type="password"
             icon-after
             size="default"
-            placeholder="New Password Confirmation"
+            :placeholder="$t('resetPassword.field.passwordConfirmation')"
             v-model="passwordConfirmation"
             class="w-100 mb-4 mt-2 "
           />
-          <vs-button type="relief" class="btn-block">Reset Password</vs-button>
+          <vs-button type="relief" class="btn-block">{{ $t('resetPassword.button') }}</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
-          Don't have an account? &nbsp;
+          {{ $t('resetPassword.createAccount.text') }} &nbsp;
           <router-link :to="'/' + baseUrl + '/register'"
-            >Create an Account</router-link
+            >{{ $t('resetPassword.createAccount.link') }}</router-link
           >
         </div>
       </div>

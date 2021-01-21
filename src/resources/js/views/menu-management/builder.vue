@@ -2,28 +2,28 @@
   <div>
     <vs-popup
       class="holamundo"
-      title="Add Menu Item"
+      :title="$t('menu.builder.popup.add.title')"
       :active.sync="addMenuItemPopUp"
     >
       <vs-row>
         <badaso-text
           v-model="menuItem.title"
           size="12"
-          label="Title"
+          :label="$t('menu.builder.popup.add.field.title')"
           placeholder=""
           :alert="errors.title"
         ></badaso-text>
         <badaso-text
           v-model="menuItem.url"
           size="12"
-          label="Url"
+          :label="$t('menu.builder.popup.add.field.url')"
           placeholder=""
           :alert="errors.url"
         ></badaso-text>
         <badaso-select
           v-model="menuItem.target"
           size="12"
-          label="Target"
+          :label="$t('menu.builder.popup.add.field.target.title')"
           :items="menuItemTargets"
           placeholder=""
           :alert="errors.target"
@@ -31,9 +31,9 @@
         <badaso-text
           v-model="menuItem.iconClass"
           size="12"
-          label="Icon"
+          :label="$t('menu.builder.popup.add.field.icon.title')"
           placeholder=""
-          additionalInfo="Use&nbsp;<a href='https://material.io/resources/icons/?style=baseline' target='_blank'>material design icon</a>"
+          :additionalInfo="$t('menu.builder.popup.add.field.icon.description')"
           :alert="errors.icon"
         ></badaso-text>
         <badaso-color-picker
@@ -45,36 +45,36 @@
       <vs-row vs-type="flex" vs-justify="flex-end">
         <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
           <vs-button color="primary" @click="saveMenuItem()" type="filled"
-            >Add</vs-button
+            >{{ $t('menu.builder.popup.add.button.add') }}</vs-button
           >
-          <vs-button color="danger" type="flat">Cancel</vs-button>
+          <vs-button color="danger" type="flat">{{ $t('menu.builder.popup.add.button.cancel') }}</vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
     <vs-popup
       class="holamundo"
-      title="Edit Menu Item"
+      :title="$t('menu.builder.popup.edit.title')"
       :active.sync="editMenuItemPopUp"
     >
       <vs-row>
         <badaso-text
           v-model="menuItem.title"
           size="12"
-          label="Title"
+          :label="$t('menu.builder.popup.edit.field.title')"
           placeholder=""
           :alert="errors.tile"
         ></badaso-text>
         <badaso-text
           v-model="menuItem.url"
           size="12"
-          label="Url"
+          :label="$t('menu.builder.popup.edit.field.url')"
           placeholder=""
           :alert="errors.url"
         ></badaso-text>
         <badaso-select
           v-model="menuItem.target"
           size="12"
-          label="Target"
+          :label="$t('menu.builder.popup.edit.field.target.title')"
           :items="menuItemTargets"
           placeholder=""
           :alert="errors.target"
@@ -82,9 +82,9 @@
         <badaso-text
           v-model="menuItem.iconClass"
           size="12"
-          label="Icon"
+          :label="$t('menu.builder.popup.edit.field.icon.title')"
           placeholder=""
-          additionalInfo="Use&nbsp;<a href='https://material.io/resources/icons/?style=baseline' target='_blank'>material design icon</a>"
+          :additionalInfo="$t('menu.builder.popup.edit.field.icon.description')"
           :alert="errors.icon"
         ></badaso-text>
         <badaso-color-picker
@@ -100,9 +100,9 @@
             color="primary"
             @click="updateMenuItem()"
             type="filled"
-            >Update</vs-button
+            >{{ $t('menu.builder.popup.edit.button.edit') }}</vs-button
           >
-          <vs-button color="danger" type="flat">Cancel</vs-button>
+          <vs-button color="danger" type="flat">{{ $t('menu.builder.popup.edit.button.cancel') }}</vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
@@ -116,7 +116,7 @@
             color="primary"
             type="relief"
             @click="addMenuItem()"
-            ><vs-icon icon="add"></vs-icon> Add Item</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.addItem') }}</vs-button
           >
         </div>
       </vs-col>
@@ -125,7 +125,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Menu Item</h3>
+            <h3>{{ $t('menu.builder.title') }}</h3>
           </div>
           <div class="row">
             <div class="col-12">
@@ -191,7 +191,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to edit Menu</h3>
+              <h3>{{ $t('menu.warning.notAllowedToEdit') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -248,6 +248,16 @@ export default {
     },
   },
   mounted() {
+    this.menuItemTargets = [
+      {
+        label: this.$t('menu.builder.popup.add.field.target.value.thisTab'),
+        value: "_self",
+      },
+      {
+        label: this.$t('menu.builder.popup.add.field.target.value.newTab'),
+        value: "_blank",
+      },
+    ];
     this.getMenuItems();
   },
   methods: {
@@ -256,9 +266,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteMenuItem,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -281,7 +293,7 @@ export default {
         })
         .catch((error) => {
           this.$vs.notify({
-            title: "Danger",
+            title: is.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -384,7 +396,7 @@ export default {
         })
         .catch((error) => {
           this.$vs.notify({
-            title: "Danger",
+            title: is.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -420,7 +432,7 @@ export default {
         .catch((error) => {
           this.errors = error.errors
           this.$vs.notify({
-            title: "Danger",
+            title: is.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -447,7 +459,7 @@ export default {
         .catch((error) => {
           this.errors = error.errors
           this.$vs.notify({
-            title: "Danger",
+            title: is.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -479,7 +491,7 @@ export default {
         .catch((error) => {
           this.errors = error.errors
           this.$vs.notify({
-            title: "Danger",
+            title: is.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

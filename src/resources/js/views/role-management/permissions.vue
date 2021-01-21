@@ -9,7 +9,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Permissions</h3>
+            <h3>{{ $t('role.permission.title') }}</h3>
           </div>
           <vs-table
             search
@@ -20,8 +20,8 @@
         >
             <template slot="thead">
               <vs-th v-if="$helper.isAllowed('add_or_edit_role_permission')"> </vs-th>
-              <vs-th> Key </vs-th>
-              <vs-th> Description </vs-th>
+              <vs-th> {{ $t('role.permission.header.key') }} </vs-th>
+              <vs-th> {{ $t('role.permission.header.description') }} </vs-th>
             </template>
 
             <template slot-scope="{ data }">
@@ -50,7 +50,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Set selected permissions for role
+                <vs-icon icon="save"></vs-icon> {{ $t('role.permission.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -62,7 +62,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse Roles Permissions</h3>
+              <h3>{{ $t('role.warning.notAllowedToBrowsePermission') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -100,7 +100,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -127,15 +127,15 @@ export default {
           this.$store.commit("FETCH_USER");
           this.getRolePermissions();
           this.$vs.notify({
-            title: "Success",
-            text: 'Permissions has been set',
+            title: this.$t('role.permission.success.title'),
+            text: this.$t('role.permission.success.text'),
             color: "success",
           });
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

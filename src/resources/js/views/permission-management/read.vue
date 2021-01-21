@@ -9,7 +9,7 @@
           <vs-button color="warning" type="relief"
             :to="{name: 'PermissionEdit', params: {id: $route.params.id}}"
             v-if="$helper.isAllowed('edit_permissions')"
-            ><vs-icon icon="edit"></vs-icon> Edit</vs-button
+            ><vs-icon icon="edit"></vs-icon> {{ $t('permission.detail.button') }}</vs-button
           >
         </div>
       </vs-col>
@@ -18,26 +18,26 @@
       <vs-col vs-lg="12">
         <vs-card>
             <div slot="header">
-            <h3>Detail Permission</h3>
+            <h3>{{ $t('permission.detail.title') }}</h3>
           </div>
             <table class="table">
                 <tr>
-                    <th>Key</th>
+                    <th>{{ $t('permission.detail.key') }}</th>
                     <td>{{ permission.key }}</td>
                 </tr>
                 <tr>
-                    <th>Description</th>
+                    <th>{{ $t('permission.detail.description') }}</th>
                     <td>{{ permission.description }}</td>
                 </tr>
                 <tr>
-                    <th>Table</th>
+                    <th>{{ $t('permission.detail.tableName') }}</th>
                     <td>{{ permission.tableName }}</td>
                 </tr>
                 <tr>
-                    <th>Alway Allow</th>
+                    <th>{{ $t('permission.detail.alwaysAllow.title') }}</th>
                     <td>
-                        <span v-if="permission.alwaysAllow === 1">Yes</span>
-                        <span v-else>No</span>
+                        <span v-if="permission.alwaysAllow === 1">{{ $t('permission.detail.alwaysAllow.yes') }}</span>
+                        <span v-else>{{ $t('permission.detail.alwaysAllow.no') }}</span>
                     </td>
                 </tr>
             </table>
@@ -49,7 +49,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to edit Permission</h3>
+              <h3>{{ $t('permission.warning.notAllowedToRead') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -88,7 +88,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

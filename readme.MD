@@ -40,6 +40,7 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
 |	vue-color	|	^2.7.1	|	vue-color: "^2.7.1"	|
 |	vue-datetime	|	^1.0.0-beta.14	|	vue-datetime: "^1.0.0-beta.14"	|
 |	vue-draggable-nested-tree	|	^3.0.0-beta2	|	vue-draggable-nested-tree: "^3.0.0-beta2"	|
+|	vue-i18n | ^8.22.4	|	vue-i18n: "^8.22.4"	|
 |	vue-prism-editor	|	^1.2.2	|	vue-prism-editor: "^1.2.2"	|
 |	vue-router	|	^3.1.3	|	vue-router: "^3.1.3"	|
 |	vue2-editor	|	^2.10.2	|	vue2-editor: "^2.10.2"	|
@@ -116,6 +117,7 @@ Before you install badaso, make sure your laravel can run.
     "vue-color": "^2.7.1",
     "vue-datetime": "^1.0.0-beta.14",
     "vue-draggable-nested-tree": "^3.0.0-beta2",
+    "vue-i18n": "^8.22.4",
     "vue-prism-editor": "^1.2.2",
     "vue-router": "^3.1.3",
     "vue2-editor": "^2.10.2",

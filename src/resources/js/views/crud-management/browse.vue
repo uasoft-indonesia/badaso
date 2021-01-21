@@ -10,7 +10,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>CRUD</h3>
+            <h3>{{ $t('crud.title') }}</h3>
           </div>
           <div>
             <vs-table
@@ -22,13 +22,13 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('crud.footer.descriptionTitle')"
+              :description-connector="$t('crud.footer.descriptionConnector')"
+              :description-body="$t('crud.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="tableName"> Table </vs-th>
-                <vs-th> Action </vs-th>
+                <vs-th sort-key="tableName"> {{ $t('crud.header.table') }} </vs-th>
+                <vs-th> {{ $t('crud.header.action') }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -84,7 +84,7 @@
                         name: 'CRUDManagementAdd',
                         params: { tableName: data[index].tableName },
                       }"
-                      >Add CRUD to this table</vs-button
+                      >{{ $t('crud.body.button') }}</vs-button
                     >
                   </vs-td>
                 </vs-tr>
@@ -99,7 +99,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse CRUD</h3>
+              <h3>{{ $t('crud.warning.notAllowed') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -127,9 +127,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteCRUDData,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -148,7 +150,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -170,7 +172,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

@@ -9,12 +9,12 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add Role</h3>
+            <h3>{{ $t('role.add.title') }}</h3>
           </div>
           <vs-row>
-            <badaso-text v-model="role.name" size="6" label="Name" placeholder="Name" :alert="errors.name"></badaso-text>
-            <badaso-text v-model="role.displayName" size="6" label="Display Name" placeholder="Display Name" :alert="errors.displayName"></badaso-text>
-            <badaso-textarea v-model="role.description" size="12" label="Description" placeholder="Description" :alert="errors.description"></badaso-textarea>
+            <badaso-text v-model="role.name" size="6" :label="$t('role.add.field.name.title')" :placeholder="$t('role.add.field.name.placeholder')" :alert="errors.name"></badaso-text>
+            <badaso-text v-model="role.displayName" size="6" :label="$t('role.add.field.displayName.title')" :placeholder="$t('role.add.field.displayName.placeholder')" :alert="errors.displayName"></badaso-text>
+            <badaso-textarea v-model="role.description" size="12" :label="$t('role.add.field.description.title')" :placeholder="$t('role.add.field.description.placeholder')" :alert="errors.description"></badaso-textarea>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -23,7 +23,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('role.add.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -35,7 +35,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to add Role</h3>
+              <h3>{{ $t('role.warning.notAllowedToAdd') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -82,7 +82,7 @@ export default {
         .catch((error) => {
           this.errors = error.errors
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
+          this.$vs.notify({title:this.$t('alert.danger'),text:error.message,color:'danger'})
         })
     },
   },

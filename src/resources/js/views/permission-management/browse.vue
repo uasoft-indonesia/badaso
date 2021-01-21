@@ -11,7 +11,7 @@
             type="relief"
             :to="{ name: 'PermissionAdd' }"
             v-if="$helper.isAllowed('add_permissions')"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
           >
           <vs-button
             color="danger"
@@ -21,7 +21,7 @@
             "
             @click.stop
             @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
+            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
           >
         </div>
       </vs-col>
@@ -30,7 +30,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Permission</h3>
+            <h3>{{ $t('permission.title') }}</h3>
           </div>
           <div>
             <vs-table
@@ -43,16 +43,16 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('permission.footer.descriptionTitle')"
+              :description-connector="$t('permission.footer.descriptionConnector')"
+              :description-body="$t('permission.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="key"> Key </vs-th>
-                <vs-th sort-key="description"> Description </vs-th>
-                <vs-th sort-key="tableName"> Table Name </vs-th>
-                <vs-th sort-key="alwaysAllow"> Alway Allow </vs-th>
-                <vs-th> Action </vs-th>
+                <vs-th sort-key="key"> {{ $t('permission.header.key') }} </vs-th>
+                <vs-th sort-key="description"> {{ $t('permission.header.description') }} </vs-th>
+                <vs-th sort-key="tableName"> {{ $t('permission.header.tableName') }} </vs-th>
+                <vs-th sort-key="alwaysAllow"> {{ $t('permission.header.alwaysAllow') }} </vs-th>
+                <vs-th> {{ $t('permission.header.action') }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -116,7 +116,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse permission</h3>
+              <h3>{{ $t('permission.warning.notAllowedToBrowse') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -158,9 +158,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.bulkDeletePermission,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {},
       });
     },
@@ -178,7 +180,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -199,7 +201,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -221,7 +223,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

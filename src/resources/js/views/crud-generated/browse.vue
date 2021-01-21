@@ -11,14 +11,14 @@
             type="relief"
             :to="{ name: 'EntityAdd' }"
             v-if="isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
           >
           <vs-button
             color="success"
             type="relief"
             :to="{ name: 'EntitySort' }"
             v-if="isCanSort && $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
-            ><vs-icon icon="list"></vs-icon> Sort</vs-button
+            ><vs-icon icon="list"></vs-icon> {{ $t('action.sort') }}</vs-button
           >
           <vs-button
             color="danger"
@@ -29,7 +29,7 @@
             "
             @click.stop
             @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
+            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
           >
         </div>
       </vs-col>
@@ -51,9 +51,9 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('crudGenerated.footer.descriptionTitle')"
+              :description-connector="$t('crudGenerated.footer.descriptionConnector')"
+              :description-body="$t('crudGenerated.footer.descriptionBody')"
               multiple
             >
               <template slot="thead">
@@ -65,7 +65,7 @@
                 >
                   {{ dataRow.displayName }}
                 </vs-th>
-                <vs-th> Action </vs-th>
+                <vs-th> {{ $t('crudGenerated.header.action') }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -506,7 +506,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <h3>
-                You're not allowed to browse {{ dataType.displayNameSingular }}
+                {{ $t('crudGenerated.warning.notAllowedToBrowse', { tableName: dataType.displayNameSingular}) }}
               </h3>
             </vs-col>
           </vs-row>
@@ -560,9 +560,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteRecord,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -572,9 +574,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteRecords,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {},
       });
     },
@@ -622,7 +626,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -649,7 +653,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -677,7 +681,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

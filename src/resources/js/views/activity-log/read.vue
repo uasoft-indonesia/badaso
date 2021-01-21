@@ -9,35 +9,35 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Detail Activity Log</h3>
+            <h3>{{ $t('activityLog.detail.title') }}</h3>
           </div>
           <table class="table">
             <tr>
-              <th>Log Name</th>
+              <th>{{ $t('activityLog.header.logName') }}</th>
               <td>{{ activitylog.logName }}</td>
             </tr>
             <tr>
-              <th>Subject Type</th>
+              <th>{{ $t('activityLog.header.subjectType') }}</th>
               <td>{{ activitylog.subjectType ? activitylog.subjectType : '-' }}</td>
             </tr>
             <tr>
-              <th>Subject Id</th>
+              <th>{{ $t('activityLog.header.subjectId') }}</th>
               <td>{{ activitylog.subjectId ? activitylog.subjectId : '-' }}</td>
             </tr>
             <tr>
-              <th>Causer Type</th>
+              <th>{{ $t('activityLog.header.causerType') }}</th>
               <td>{{ activitylog.causerType ? activitylog.causerType : '-' }}</td>
             </tr>
             <tr>
-              <th>Causer Id</th>
+              <th>{{ $t('activityLog.header.causerId') }}</th>
               <td>{{ activitylog.causerId ? activitylog.causerId : '-' }}</td>
             </tr>
             <tr>
-              <th>Description</th>
+              <th>{{ $t('activityLog.header.description') }}</th>
               <td>{{ activitylog.description }}</td>
             </tr>
             <tr>
-              <th>Date Logged</th>
+              <th>{{ $t('activityLog.header.dateLogged') }}</th>
               <td>{{ $helper.formatDate(activitylog.createdAt) }}</td>
             </tr>
           </table>
@@ -46,7 +46,7 @@
       <vs-col vs-lg="6" v-if="subject">
         <vs-card>
           <div slot="header">
-            <h3>Detail Subject</h3>
+            <h3>{{ $t('activityLog.detail.subject.title') }}</h3>
           </div>
           <table class="table">
             <tr v-for="(item, index) in filteredSubject" :key="index">
@@ -66,7 +66,7 @@
       <vs-col vs-lg="6" v-if="causer">
         <vs-card>
           <div slot="header">
-            <h3>Detail Causer</h3>
+            <h3>{{ $t('activityLog.detail.causer.title') }}</h3>
           </div>
           <table class="table">
             <tr v-for="(item, index) in filteredCauser" :key="index">
@@ -87,7 +87,7 @@
       <vs-col vs-lg="6" v-if="!$helper.isObjectEmpty(properties)">
         <vs-card>
           <div slot="header">
-            <h3>Properties</h3>
+            <h3>{{ $t('activityLog.detail.properties.title') }}</h3>
           </div>
           <table class="table">
             <tr v-for="(item, index) in properties" :key="index">
@@ -166,12 +166,11 @@ export default {
           this.subject = response.data.subject;
           this.causer = response.data.causer;
           this.properties = response.data.properties;
-          console.log('LOG', response.data.properties);
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
