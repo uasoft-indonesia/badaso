@@ -25,9 +25,9 @@ class CRUDDataAddedHandler
      *
      * @return bool
      */
-    public function handle(CRUDDataChanged $bread_added)
+    public function handle(CRUDDataChanged $crud_data_added)
     {
-        $data_type = $bread_added->data_type;
+        $data_type = $crud_data_added->data_type;
 
         // Generate Data Type Seeder File.
         $this->file_generator->generateDataTypeSeedFile($data_type);

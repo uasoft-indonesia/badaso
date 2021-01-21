@@ -7,7 +7,7 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
 {
     use Seedable;
 
-    protected $seedersPath = 'database/seeds/breads/';
+    protected $seedersPath = 'database/seeds/CRUDData/';
 
     /**
      * Run the database seeds.

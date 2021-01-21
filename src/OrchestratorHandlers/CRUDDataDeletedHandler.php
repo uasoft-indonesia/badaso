@@ -26,9 +26,9 @@ class CRUDDataDeletedHandler
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function handle(CRUDDataChanged $bread_changed): bool
+    public function handle(CRUDDataChanged $crud_data_changed): bool
     {
-        $data_type = $bread_changed->data_type;
+        $data_type = $crud_data_changed->data_type;
 
         $data_type->destroy($data_type->id);
 

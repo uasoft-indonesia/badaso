@@ -13,19 +13,19 @@ use Uasoft\Badaso\OrchestratorHandlers\CRUDDataUpdatedHandler;
 class BadasoDeploymentOrchestrator
 {
     /** @var string */
-    const BREAD_ADDED = 'Added';
+    const CRUD_DATA_ADDED = 'Added';
 
     /** @var string */
-    const BREAD_UPDATED = 'Updated';
+    const CRUD_DATA_UPDATED = 'Updated';
 
     /** @var string */
-    const BREAD_DELETED = 'Deleted';
+    const CRUD_DATA_DELETED = 'Deleted';
 
     /** @var array */
     const HANDLERS = [
-        self::BREAD_ADDED => CRUDDataAddedHandler::class,
-        self::BREAD_UPDATED => CRUDDataUpdatedHandler::class,
-        self::BREAD_DELETED => CRUDDataDeletedHandler::class,
+        self::CRUD_DATA_ADDED => CRUDDataAddedHandler::class,
+        self::CRUD_DATA_UPDATED => CRUDDataUpdatedHandler::class,
+        self::CRUD_DATA_DELETED => CRUDDataDeletedHandler::class,
     ];
 
     /** @var Application */

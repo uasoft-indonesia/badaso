@@ -9,7 +9,7 @@ return [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],
     'watch_tables' => [
-        // table names for generating bread seeders.
+        // table names for generating CRUD_DATA seeders.
     ],
     'configuration_groups' => [
         ['value' => 'adminPanel', 'label' => 'Admin Panel'],

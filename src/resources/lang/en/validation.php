@@ -7,7 +7,7 @@ return [
         'wrong_old_password' => 'Invalid old password',
         'password_not_changes' => 'new password must be different with old password',
     ],
-    'bread' => [
+    'crud' => [
         'table_not_found' => 'Table :table does not exists',
         'table_column_not_found' => 'Invalid rows, Field :table_column does not exists',
     ],

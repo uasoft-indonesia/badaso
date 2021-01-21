@@ -22,7 +22,7 @@ class BDOSeed extends Command
      *
      * @var string
      */
-    protected $description = 'Generate Seed files for tables, except for BREAD.';
+    protected $description = 'Generate Seed files for tables, except for CRUD_DATA.';
 
     /** @var FileGenerator */
     private $file_generator;

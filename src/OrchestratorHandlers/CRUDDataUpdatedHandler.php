@@ -23,9 +23,9 @@ class CRUDDataUpdatedHandler
     /**
      * CRUDData Updated Handler.
      */
-    public function handle(CRUDDataChanged $bread_changed)
+    public function handle(CRUDDataChanged $crud_data_changed)
     {
-        $data_type = $bread_changed->data_type;
+        $data_type = $crud_data_changed->data_type;
 
         return $this->file_generator->deleteAndGenerate($data_type);
     }
