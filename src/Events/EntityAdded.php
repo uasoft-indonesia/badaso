@@ -5,7 +5,7 @@ namespace Uasoft\Badaso\Events;
 use Illuminate\Queue\SerializesModels;
 use Uasoft\Badaso\Models\DataType;
 
-class EnityAdded
+class EntityAdded
 {
     use SerializesModels;
 
