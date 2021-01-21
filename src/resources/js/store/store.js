@@ -16,6 +16,20 @@ export default new Vuex.Store({
     groupList: [],
     config: {},
     user: {},
+    locale: [
+      {
+        'key': 'en',
+        'label': 'English',
+      },
+      {
+        'key': 'id',
+        'label': 'Indonesia',
+      },
+    ],
+    selectedLocale: {
+      'key': 'en',
+      'label': 'English',
+    },
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -103,6 +117,9 @@ export default new Vuex.Store({
         })
         .catch((err) => {});
     },
+    SET_LOCALE(state, value) {
+      state.selectedLocale = value
+    }
   },
   actions: {},
   getters: {
@@ -123,6 +140,12 @@ export default new Vuex.Store({
     },
     getUser: (state) => {
       return state.user;
+    },
+    getLocale: (state) => {
+      return state.locale;
+    },
+    getSelectedLocale: (state) => {
+      return state.selectedLocale;
     },
   },
   plugins: [createPersistedState()],

@@ -6,8 +6,8 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">Login Here</h3>
-        <p class="mb-0">Welcome back, please login to your account.</p>
+        <h3 class="mb-1">{{ $t('login.title') }}</h3>
+        <p class="mb-0">{{ $t('login.subtitle') }}</p>
       </div>
       <div>
         <form @submit="login()">
@@ -15,7 +15,7 @@
             icon="person"
             icon-after
             size="default"
-            placeholder="Email"
+            :placeholder="$t('login.field.email')"
             v-model="email"
             class="w-100 mb-4 mt-2 "
           />
@@ -24,7 +24,7 @@
             type="password"
             icon-after
             size="default"
-            placeholder="Password"
+            :placeholder="$t('login.field.password')"
             v-model="password"
             class="w-100 mb-4 mt-2 "
             @keyup.enter="login()"
@@ -47,21 +47,21 @@
                     >check</i
                   ></span
                 ></span
-              ><span class="con-slot-label">Remember me?</span>
+              ><span class="con-slot-label">{{ $t('login.rememberMe') }}</span>
             </div>
             <router-link
               :to="'/' + baseUrl + '/forgot-password'"
               class="ml-auto"
-              >Forgot Password</router-link
+              >{{ $t('login.forgotPassword') }}</router-link
             >
           </div>
-          <vs-button type="relief" class="btn-block" @click="login()">Login</vs-button>
+          <vs-button type="relief" class="btn-block" @click="login()">{{ $t('login.button') }}</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
-          Don't have an account? &nbsp;
+          {{ $t('login.createAccount.text') }} &nbsp;
           <router-link :to="'/' + baseUrl + '/register'"
-            >Create an Account</router-link
+            >{{ $t('login.createAccount.link') }}</router-link
           >
         </div>
       </div>
@@ -93,7 +93,7 @@ export default {
       })
       .catch((error) => {
         this.$vs.loading.close()
-        this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
+        this.$vs.notify({title: this.$t('alert.danger'),text:error.message,color:'danger'})
       })
     },
   }

@@ -6,8 +6,8 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">Forgot Password</h3>
-        <p class="mb-0">Please provide an email to send reset password mail.</p>
+        <h3 class="mb-1">{{ $t('forgotPassword.title') }}</h3>
+        <p class="mb-0">{{ $t('forgotPassword.subtitle') }}</p>
       </div>
       <div>
         <form novalidate="novalidate">
@@ -15,17 +15,17 @@
             icon="email"
             icon-after
             size="default"
-            placeholder="Email"
+            :placeholder="$t('forgotPassword.field.email')"
             v-model="email"
             class="w-100 mb-4 mt-2 "
           />
-          <vs-button type="relief" class="btn-block">Send</vs-button>
+          <vs-button type="relief" class="btn-block">{{ $t('forgotPassword.button') }}</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
-          Don't have an account? &nbsp;
+          {{ $t('forgotPassword.createAccount.text') }} &nbsp;
           <router-link :to="'/' + baseUrl + '/register'"
-            >Create an Account</router-link
+            >{{ $t('forgotPassword.createAccount.link') }}</router-link
           >
         </div>
       </div>

@@ -8,7 +8,7 @@
         <div style="float: right">
           <vs-button color="primary" type="relief" :to="{ name: 'UserAdd' }"
           v-if="$helper.isAllowed('add_users')"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
           >
           <vs-button
             color="danger"
@@ -16,7 +16,7 @@
             v-if="selected.length > 0 && $helper.isAllowed('delete_users')"
             @click.stop
             @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
+            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
           >
         </div>
       </vs-col>
@@ -25,7 +25,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>User</h3>
+            <h3>{{ $t('user.title') }}</h3>
           </div>
           <div>
             <vs-table
@@ -38,14 +38,14 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('user.footer.descriptionTitle')"
+              :description-connector="$t('user.footer.descriptionConnector')"
+              :description-body="$t('user.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="name"> Name </vs-th>
-                <vs-th sort-key="email"> Email </vs-th>
-                <vs-th> Action </vs-th>
+                <vs-th sort-key="name"> {{ $t('user.header.name') }} </vs-th>
+                <vs-th sort-key="email"> {{ $t('user.header.email') }} </vs-th>
+                <vs-th> {{ $t('user.header.action') }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -127,9 +127,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteUser,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -139,9 +141,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.bulkDeleteUser,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {},
       });
     },
@@ -159,7 +163,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -180,7 +184,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -202,7 +206,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

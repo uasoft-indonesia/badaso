@@ -14,7 +14,7 @@
             "
             @click.stop
             @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
+            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
           >
         </div>
       </vs-col>
@@ -23,7 +23,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Activity Log</h3>
+            <h3>{{ $t('activityLog.title') }}</h3>
           </div>
           <div>
             <vs-table
@@ -35,19 +35,19 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('activityLog.footer.descriptionTitle')"
+              :description-connector="$t('activityLog.footer.descriptionConnector')"
+              :description-body="$t('activityLog.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="logName"> Log Name </vs-th>
-                <vs-th sort-key="causerType"> Causer </vs-th>
-                <vs-th sort-key="causerId"> Causer Id</vs-th>
-                <vs-th sort-key="subjectType"> Subject </vs-th>
-                <vs-th sort-key="subjectId"> Subject Id </vs-th>
-                <vs-th sort-key="description"> Description </vs-th>
-                <vs-th sort-key="createdAt"> Date Logged </vs-th>
-                <vs-th> Action </vs-th>
+                <vs-th sort-key="logName"> {{ $t('activityLog.header.logName') }} </vs-th>
+                <vs-th sort-key="causerType"> {{ $t('activityLog.header.causerType') }} </vs-th>
+                <vs-th sort-key="causerId"> {{ $t('activityLog.header.causerId') }} </vs-th>
+                <vs-th sort-key="subjectType"> {{ $t('activityLog.header.subjectType') }} </vs-th>
+                <vs-th sort-key="subjectId"> {{ $t('activityLog.header.subjectId') }} </vs-th>
+                <vs-th sort-key="description"> {{ $t('activityLog.header.description') }} </vs-th>
+                <vs-th sort-key="createdAt"> {{ $t('activityLog.header.dateLogged') }} </vs-th>
+                <vs-th> {{ $t('activityLog.header.action') }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -98,7 +98,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse Activity Log</h3>
+              <h3>{{ $t('activityLog.warning.notAllowed') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -139,7 +139,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

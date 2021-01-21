@@ -9,14 +9,14 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add CRUD for {{ $route.params.tableName }}</h3>
+            <h3>{{ $t('crud.add.title.table', { tableName: $route.params.tableName }) }}</h3>
           </div>
           <vs-row>
             <badaso-text
               v-model="crudData.name"
               size="6"
-              label="Table Name"
-              placeholder="Table Name"
+              :label="$t('crud.add.field.tableName.title')"
+              :placeholder="$t('crud.add.field.tableName.title')"
               required
               readonly
               :alert="errors.name"
@@ -24,13 +24,13 @@
             <badaso-switch
               size="3"
               v-model="crudData.generatePermissions"
-              label="Generate Permissions"
+              :label="$t('crud.add.field.generatePermissions')"
               :alert="errors.generatePermissions"
             ></badaso-switch>
             <badaso-switch
               size="3"
               v-model="crudData.serverSide"
-              label="Server Side"
+              :label="$t('crud.add.field.serverSide')"
               :alert="errors.serverSide"
             ></badaso-switch>
           </vs-row>
@@ -38,83 +38,83 @@
             <badaso-text
               v-model="crudData.displayNameSingular"
               size="6"
-              label="Display Name(Singular)"
+              :label="$t('crud.add.field.displayNameSingular.title')"
               required
-              placeholder="Display Name(Singular)"
+              :placeholder="$t('crud.add.field.displayNameSingular.placeholder')"
               :alert="errors.displayNameSingular"
             ></badaso-text>
             <badaso-text
               v-model="crudData.displayNamePlural"
               size="6"
-              label="Display Name(Plural)"
-              placeholder="Display Name(Plural)"
+              :label="$t('crud.add.field.displayNamePlural.title')"
+              :placeholder="$t('crud.add.field.displayNamePlural.placeholder')"
               :alert="errors.displayNamePlural"
             ></badaso-text>
             <badaso-text
               v-model="crudData.slug"
               size="6"
-              label="URL Slug (must be unique)"
-              placeholder="URL Slug (must be unique)"
+              :label="$t('crud.add.field.urlSlug.title')"
+              :placeholder="$t('crud.add.field.urlSlug.placeholder')"
               :alert="errors.slug"
             ></badaso-text>
             <badaso-text
               v-model="crudData.icon"
               size="6"
-              label="Icon"
-              placeholder="Icon"
+              :label="$t('crud.add.field.icon.title')"
+              :placeholder="$t('crud.add.field.icon.placeholder')"
               :alert="errors.icon"
             ></badaso-text>
             <badaso-text
               v-model="crudData.modelName"
               size="6"
-              label="Model Name"
-              placeholder="Model Name"
+              :label="$t('crud.add.field.modelName.title')"
+              :placeholder="$t('crud.add.field.modelName.placeholder')"
               :alert="errors.modelName"
             ></badaso-text>
             <badaso-text
               v-model="crudData.controller"
               size="6"
-              label="Controller Name"
-              placeholder="Controller Name"
+              :label="$t('crud.add.field.controllerName.title')"
+              :placeholder="$t('crud.add.field.controllerName.placeholder')"
               :alert="errors.controller"
             ></badaso-text>
             <badaso-select
               v-model="crudData.orderColumn"
               size="4"
-              label="Order Column"
-              placeholder="Order Column"
+              :label="$t('crud.add.field.orderColumn.title')"
+              :placeholder="$t('crud.add.field.orderColumn.placeholder')"
               :items="fieldList"
               :alert="errors.orderColumn"
             ></badaso-select>
             <badaso-select
               v-model="crudData.orderDisplayColumn"
               size="4"
-              label="Order Display Column"
-              placeholder="Order Display Column"
+              :label="$t('crud.add.field.orderDisplayColumn.title')"
+              :placeholder="$t('crud.add.field.orderDisplayColumn.placeholder')"
               :items="fieldList"
               :alert="errors.orderDisplayColumn"
-              additionalInfo="<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>"
+              :additionalInfo="$t('crud.add.field.orderDisplayColumn.description')"
             ></badaso-select>
             <badaso-select
               v-model="crudData.orderDirection"
               size="4"
-              label="Order Direction"
-              placeholder="Order Direction"
+              :label="$t('crud.add.field.orderDirection.title')"
+              :placeholder="$t('crud.add.field.orderDirection.placeholder')"
               :items="orderDirections"
               :alert="errors.orderDirection"
             ></badaso-select>
             <badaso-hidden
               v-model="crudData.defaultServerSideSearchField"
               size="3"
-              label="Default Server Side Search Field"
-              placeholder="Default Server Side Search Field"
+              :label="$t('crud.add.field.defaultServerSideSearchField.title')"
+              :placeholder="$t('crud.add.field.defaultServerSideSearchField.placeholder')"
               :items="fieldList"
               :alert="errors.defaultServerSideSearchField"
             ></badaso-hidden>
             <badaso-textarea
               size="12"
-              label="Description"
-              placeholder="Description"
+              :label="$t('crud.add.field.description.title')"
+              :placeholder="$t('crud.add.field.description.placeholder')"
               v-model="crudData.description"
               :alert="errors.description"
             >
@@ -125,18 +125,18 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add CRUD Fields for {{ $route.params.tableName }}</h3>
+            <h3>{{ $t('crud.add.title.field', { tableName: $route.params.tableName }) }}</h3>
           </div>
           <vs-row>
             <vs-col col-lg="12" style="overflow-x: auto">
               <table class="table">
                 <thead>
                   <th style="width: 1%; word-wrap: nowrap;"></th>
-                  <th style="width: 1%; word-wrap: nowrap;">Field</th>
-                  <th style="width: 1%; word-wrap: nowrap;">Visibility</th>
-                  <th style="width: 1%; word-wrap: nowrap;">Input Type</th>
-                  <th style="width: 200px;">Display Name</th>
-                  <th>Optional Details</th>
+                  <th style="width: 1%; word-wrap: nowrap;">{{ $t('crud.add.header.field') }}</th>
+                  <th style="width: 1%; word-wrap: nowrap;">{{ $t('crud.add.header.visibility') }}</th>
+                  <th style="width: 1%; word-wrap: nowrap;">{{ $t('crud.add.header.inputType') }}</th>
+                  <th style="width: 200px;">{{ $t('crud.add.header.displayName') }}</th>
+                  <th>{{ $t('crud.add.header.optionalDetails') }}</th>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
                   <tr :key="index" v-for="(field, index) in crudData.rows">
@@ -150,12 +150,12 @@
                       <strong>{{ field.field }}</strong>
                       <br />
                       <span style="white-space: nowrap">
-                        Type: {{ field.type }}
+                        {{ $t('crud.add.body.type') }} {{ field.type }}
                       </span>
                       <br />
                       <span style="white-space: nowrap">
-                        Required: <span v-if="field.required">Yes</span
-                        ><span v-else>No</span>
+                        {{ $t('crud.add.body.required.title') }} <span v-if="field.required">{{ $t('crud.add.body.required.yes') }}</span
+                        ><span v-else>{{ $t('crud.add.body.required.no') }}</span>
                       </span>
                     </td>
                     <td>
@@ -163,31 +163,31 @@
                         v-model="field.browse"
                         class="mb-1"
                         style="justify-content: start;"
-                        >Browse</vs-checkbox
+                        >{{ $t('crud.add.body.browse') }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.read"
                         class="mb-1"
                         style="justify-content: start;"
-                        >Read</vs-checkbox
+                        >{{ $t('crud.add.body.read') }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.edit"
                         class="mb-1"
                         style="justify-content: start;"
-                        >Edit</vs-checkbox
+                        >{{ $t('crud.add.body.edit') }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.add"
                         class="mb-1"
                         style="justify-content: start;"
-                        >Add</vs-checkbox
+                        >{{ $t('crud.add.body.add') }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.delete"
                         class="mb-1"
                         style="justify-content: start;"
-                        >Delete</vs-checkbox
+                        >{{ $t('crud.add.body.delete') }}</vs-checkbox
                       >
                     </td>
                     <td>
@@ -203,7 +203,7 @@
                     <td>
                       <vs-input
                         class="inputx"
-                        placeholder="Display Name"
+                        :placeholder="$t('crud.add.body.displayName')"
                         v-model="field.displayName"
                       />
                     </td>
@@ -219,11 +219,11 @@
                         @click.stop
                         @click="openRelationSetup(field)"
                         v-else
-                        >Set Relation</vs-button
+                        >{{ $t('crud.add.body.setRelation') }}</vs-button
                       >
                       <vs-popup
                         class="holamundo"
-                        title="Set Relation"
+                        :title="$t('crud.add.body.setRelation')"
                         :active.sync="field.setRelation"
                       >
                         <vs-row>
@@ -231,11 +231,11 @@
                             size="12"
                             v-model="relation.relationType"
                             :items="relationTypes"
-                            label="Relation Type"
+                            :label="$t('crud.add.body.relationType')"
                           ></badaso-select>
                           <vs-col vs-lg="12" class="mb-3">
                             <vs-select
-                              label="Destination Table"
+                              :label="$t('crud.add.body.destinationTable')"
                               width="100%"
                               v-model="relation.destinationTable"
                               @input="changeTable"
@@ -252,24 +252,24 @@
                             size="12"
                             v-model="relation.destinationTableColumn"
                             :items="destinationTableColumns"
-                            label="Destination Column"
+                            :label="$t('crud.add.body.destinationTableColumn')"
                           ></badaso-select>
                           <badaso-select
                             size="12"
                             v-model="relation.destinationTableDisplayColumn"
                             :items="destinationTableColumns"
-                            label="Destination Column To Display"
+                            :label="$t('crud.add.body.destinationTableDisplayColumn')"
                           ></badaso-select>
                         </vs-row>
                         <vs-row vs-type="flex" vs-justify="space-between">
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                             <vs-button color="primary" @click="saveRelation(field)"
-                              >Save</vs-button
+                              >{{ $t('crud.add.body.saveRelation') }}</vs-button
                             >
                           </vs-col>
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                             <vs-button color="danger"  @click="field.setRelation = false"
-                              >Cancel</vs-button
+                              >{{ $t('crud.add.body.cancelRelation') }}</vs-button
                             >
                           </vs-col>
                         </vs-row>
@@ -287,7 +287,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('crud.add.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -299,9 +299,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>
-                You're not allowed to add CRUD
-              </h3>
+              <h3>{{ $t('crud.warning.notAllowed') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -383,6 +381,16 @@ export default {
     },
   },
   mounted() {
+    this.orderDirections = [
+      {
+        label: this.$t('crud.edit.field.orderDirection.value.ascending'),
+        value: "asc",
+      },
+      {
+        label: this.$t('crud.edit.field.orderDirection.value.descending'),
+        value: "desc",
+      },
+    ],
     this.crudData.name = this.$route.params.tableName;
     this.crudData.displayNameSingular = this.$helper.generateDisplayName(
       this.$route.params.tableName
@@ -441,7 +449,7 @@ export default {
           this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -499,7 +507,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -518,7 +526,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -539,7 +547,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

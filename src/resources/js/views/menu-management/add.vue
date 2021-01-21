@@ -9,21 +9,21 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add Menu</h3>
+            <h3>{{ $t('menu.add.title') }}</h3>
           </div>
           <vs-row>
             <badaso-text
               v-model="menu.key"
               size="6"
-              label="Key"
-              placeholder="menu_key"
+              :label="$t('menu.add.field.key.title')"
+              :placeholder="$t('menu.add.field.key.placeholder')"
               :alert="errors.key"
             ></badaso-text>
             <badaso-text
               v-model="menu.displayName"
               size="6"
-              label="Display Name"
-              placeholder="Display Name"
+              :label="$t('menu.add.field.displayName.title')"
+              :placeholder="$t('menu.add.field.displayName.placeholder')"
               :alert="errors.displayName"
             ></badaso-text>
           </vs-row>
@@ -34,7 +34,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('menu.add.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -46,7 +46,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to add Menu</h3>
+              <h3>{{ $t('menu.warning.notAllowedToAdd') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -85,7 +85,7 @@ export default {
           this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

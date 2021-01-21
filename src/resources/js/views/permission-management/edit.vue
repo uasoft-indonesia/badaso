@@ -9,36 +9,36 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Edit Permission</h3>
+            <h3>{{ $t('permission.edit.title') }}</h3>
           </div>
           <vs-row>
             <badaso-text
               v-model="permission.key"
               size="6"
-              label="Key"
-              placeholder="Key"
+              :label="$t('permission.edit.field.key.title')"
+              :placeholder="$t('permission.edit.field.key.placeholder')"
               readonly
               :alert="errors.key"
             ></badaso-text>
             <badaso-switch
               v-model="permission.alwaysAllow"
               size="6"
-              label="Alway Allow"
+              :label="$t('permission.edit.field.alwaysAllow')"
               placeholder="Always Allow"
               :alert="errors.alwaysAllow"
             ></badaso-switch>
             <badaso-textarea
               v-model="permission.description"
               size="12"
-              label="Description"
-              placeholder="Description"
+              :label="$t('permission.edit.field.description.title')"
+              :placeholder="$t('permission.edit.field.description.placeholder')"
               :alert="errors.description"
             ></badaso-textarea>
             <badaso-text
               v-model="permission.tableName"
               size="12"
-              label="Table Name"
-              placeholder="Table Name"
+              :label="$t('permission.edit.field.tableName.title')"
+              :placeholder="$t('permission.edit.field.tableName.placeholder')"
               :alert="errors.tableName"
             ></badaso-text>
           </vs-row>
@@ -49,7 +49,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('permission.edit.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -61,7 +61,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to edit Permission</h3>
+              <h3>{{ $t('permission.warning.notAllowedToEdit') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -114,7 +114,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -133,7 +133,7 @@ export default {
           this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

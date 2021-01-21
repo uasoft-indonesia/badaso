@@ -9,28 +9,28 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Edit Role</h3>
+            <h3>{{ $t('role.edit.title') }}</h3>
           </div>
           <vs-row>
             <badaso-text
               v-model="role.name"
               size="6"
-              label="Name"
-              placeholder="Name"
+              :label="$t('role.edit.field.name.title')"
+              :placeholder="$t('role.edit.field.name.placeholder')"
               :alert="errors.name"
             ></badaso-text>
             <badaso-text
               v-model="role.displayName"
               size="6"
-              label="Display Name"
-              placeholder="Display Name"
+              :label="$t('role.edit.field.displayName.title')"
+              :placeholder="$t('role.edit.field.displayName.placeholder')"
               :alert="errors.displayName"
             ></badaso-text>
             <badaso-textarea
               v-model="role.description"
               size="12"
-              label="Description"
-              placeholder="Description"
+              :label="$t('role.edit.field.description.title')"
+              :placeholder="$t('role.edit.field.description.placeholder')"
               :alert="errors.description"
             ></badaso-textarea>
           </vs-row>
@@ -41,7 +41,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('role.edit.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -53,7 +53,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to edit Role</h3>
+              <h3>{{ $t('role.warning.notAllowedToEdit') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>

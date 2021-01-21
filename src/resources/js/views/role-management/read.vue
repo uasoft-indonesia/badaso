@@ -9,7 +9,7 @@
           <vs-button color="warning" type="relief"
             :to="{name: 'RoleEdit', params: {id: $route.params.id}}"
             v-if="$helper.isAllowed('edit_roles')"
-            ><vs-icon icon="edit"></vs-icon> Edit</vs-button
+            ><vs-icon icon="edit"></vs-icon> {{ $t('role.detail.button.edit') }}</vs-button
           >
           <vs-button
               color="primary"
@@ -18,7 +18,7 @@
               :to="{name: 'RolePermissions', params: {id: $route.params.id}}"
               v-if="$helper.isAllowed('browse_role_permission')"
               ><vs-icon icon="list"></vs-icon
-            > Permissions</vs-button>
+            > {{ $t('role.detail.button.permission') }}</vs-button>
         </div>
       </vs-col>
     </vs-row>
@@ -26,19 +26,19 @@
       <vs-col vs-lg="12">
         <vs-card>
             <div slot="header">
-            <h3>Detail Role</h3>
+            <h3>{{ $t('role.detail.title') }}</h3>
           </div>
             <table class="table">
                 <tr>
-                    <th>Name</th>
+                    <th>{{ $t('role.detail.name') }}</th>
                     <td>{{ role.name }}</td>
                 </tr>
                 <tr>
-                    <th>Display Name</th>
+                    <th>{{ $t('role.detail.displayName') }}</th>
                     <td>{{ role.displayName }}</td>
                 </tr>
                 <tr>
-                    <th>Description</th>
+                    <th>{{ $t('role.detail.description') }}</th>
                     <td>{{ role.description }}</td>
                 </tr>
             </table>
@@ -78,7 +78,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

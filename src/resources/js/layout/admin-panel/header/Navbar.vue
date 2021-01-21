@@ -23,6 +23,19 @@
         </div>
       </div>
 
+      <vs-dropdown vs-trigger-click class="ml-4" >
+        <a class="a-icon text-white-dark" href="#">
+          {{ getSelectedLocale.label }}
+          <vs-icon icon="expand_more" size="small"></vs-icon>
+        </a>
+
+        <vs-dropdown-menu>
+          <vs-dropdown-item v-for="(item, index) in getLocale" :key="index" v-on:click="setLocale(item)">
+            {{ item.label }}
+          </vs-dropdown-item>
+        </vs-dropdown-menu>
+      </vs-dropdown>
+
       <vs-spacer></vs-spacer>
 
       <!---
@@ -92,8 +105,7 @@
               name: 'UserRead',
               params: { id: user.id },
             }"
-            ><vs-icon icon="person_outline" class="mr-1"></vs-icon> My
-            Profile</vs-dropdown-item
+            ><vs-icon icon="person_outline" class="mr-1"></vs-icon>{{ $t('myProfile.title') }}</vs-dropdown-item
           >
           <hr class="mb-1" />
           <button
@@ -106,7 +118,7 @@
               class="vs-button-backgroundx vs-button--background"
               style="opacity: 1; left: 20px; top: 20px; width: 0px; height: 0px; transition: width 0.3s ease 0s, height 0.3s ease 0s, opacity 0.3s ease 0s;"
             ></span
-            ><!----><span class="vs-button-text vs-button--text">Logout</span
+            ><!----><span class="vs-button-text vs-button--text">{{ $t('myProfile.logout') }}</span
             ><span
               class="vs-button-linex"
               style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);"
@@ -150,6 +162,16 @@ export default {
         return this.$store.state.isSidebarActive;
       },
     },
+    getLocale: {
+      get() {
+        return this.$store.getters.getLocale
+      }
+    },
+    getSelectedLocale: {
+      get() {
+        return this.$store.getters.getSelectedLocale
+      }
+    },
   },
   methods: {
     //This is for sidebar trigger in mobile
@@ -171,12 +193,16 @@ export default {
         })
         .catch((error) => {
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
         });
     },
+    setLocale(item) {
+      this.$i18n.locale = item.key
+      this.$store.commit("SET_LOCALE", item);
+    }
   },
 };
 </script>

@@ -9,45 +9,45 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Add Site Configuration</h3>
+            <h3>{{ $t('site.add.title') }}</h3>
           </div>
           <vs-row>
             <badaso-text
               v-model="config.displayName"
               size="6"
-              label="Display Name"
-              placeholder="Example: Display Name"
+              :label="$t('site.add.field.displayName.title')"
+              :placeholder="$t('site.add.field.displayName.placeholder')"
               required
             ></badaso-text>
             <badaso-text
               v-model="config.key"
               size="6"
-              label="Key"
+              :label="$t('site.add.field.key.title')"
               required
-              placeholder="Example: key_sample"
+              :placeholder="$t('site.add.field.key.placeholder')"
             ></badaso-text>
             <badaso-select
               v-model="config.type"
               size="6"
-              label="Type"
-              placeholder="Type"
+              :label="$t('site.add.field.type.title')"
+              :placeholder="$t('site.add.field.type.placeholder')"
               :items="componentList"
             ></badaso-select>
             <badaso-select
               v-model="config.group"
               size="6"
-              label="Group"
-              placeholder="Group"
+              :label="$t('site.add.field.group.title')"
+              :placeholder="$t('site.add.field.group.placeholder')"
               :items="groupList"
             ></badaso-select>
             <vs-col vs-lg="12">
-              <label for="" class="vs-input--label">Options</label>
+              <label for="" class="vs-input--label">{{ $t('site.add.field.options.title') }}</label>
               <badaso-code-editor v-model="config.options">
               </badaso-code-editor>
             </vs-col>
             <vs-col vs-lg="12">
-              <p>Options is required for Checkbox, Radio, Select, Select-multiple. Example: </p>
-              <pre>{"items": [{"label":"This is label","value":"this_is_value"}] }</pre>
+              <p>{{ $t('site.add.field.options.description') }}</p>
+              <pre>{{ $t('site.add.field.options.example') }}</pre>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -57,7 +57,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('site.add.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -113,7 +113,7 @@ export default {
         })
         .catch((error) => {
           this.$vs.loading.close();
-          this.$vs.notify({title:'Danger',text:error.message,color:'danger'})
+          this.$vs.notify({title: this.$t('alert.danger'),text:error.message,color:'danger'})
         })
     },
   },

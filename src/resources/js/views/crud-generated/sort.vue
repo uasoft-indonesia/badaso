@@ -9,7 +9,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Sort</h3>
+            <h3>{{ $t('crudGenerated.sort.title', { tableName: dataType.displayNameSingular }) }}</h3>
           </div>
           <vs-row>
             <vs-col vs-lg="12">
@@ -51,7 +51,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <h3>
-                You're not allowed to read {{ dataType.displayNameSingular }}
+                {{ $t('crudGenerated.warning.notAllowedToRead', { tableName: dataType.displayNameSingular }) }}
               </h3>
             </vs-col>
           </vs-row>
@@ -96,7 +96,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -117,7 +117,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

@@ -6,8 +6,8 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">Register Here</h3>
-        <p class="mb-0">Welcome back, please login to your account.</p>
+        <h3 class="mb-1">{{ $t('register.title') }}</h3>
+        <p class="mb-0">{{ $t('register.subtitle') }}</p>
       </div>
       <div>
         <form novalidate="novalidate">
@@ -15,7 +15,7 @@
             icon="person"
             icon-after
             size="default"
-            placeholder="Name"
+            :placeholder="$t('register.field.name')"
             v-model="name"
             class="w-100 mb-4 mt-2 "
           />
@@ -23,7 +23,7 @@
             icon="email"
             icon-after
             size="default"
-            placeholder="Email"
+            :placeholder="$t('register.field.email')"
             v-model="email"
             class="w-100 mb-4 mt-2 "
           />
@@ -32,7 +32,7 @@
             type="password"
             icon-after
             size="default"
-            placeholder="Password"
+            :placeholder="$t('register.field.password')"
             v-model="password"
             class="w-100 mb-4 mt-2 "
           />
@@ -41,16 +41,16 @@
             type="password"
             icon-after
             size="default"
-            placeholder="Password Confirmation"
+            :placeholder="$t('register.field.passwordConfirmation')"
             v-model="passwordConfirmation"
             class="w-100 mb-4 mt-2 "
           />
-          <vs-button type="relief" class="btn-block">Register</vs-button>
+          <vs-button type="relief" class="btn-block">{{ $t('register.button') }}</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
-          Do you have an account? &nbsp;
-          <router-link :to="'/' + baseUrl + '/login'">login</router-link>
+          {{ $t('register.existingAccount.text') }} &nbsp;
+          <router-link :to="'/' + baseUrl + '/login'">{{ $t('register.existingAccount.link') }}</router-link>
         </div>
       </div>
     </vs-card>

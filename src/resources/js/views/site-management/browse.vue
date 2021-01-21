@@ -8,7 +8,7 @@
         <div style="float: right">
           <vs-button color="primary" type="relief" :to="{ name: 'SiteAdd' }"
             v-if="$helper.isAllowed('add_configurations')"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
           >
         </div>
       </vs-col>
@@ -202,7 +202,7 @@
                 ></badaso-upload-file-multiple>
 
                 <vs-col vs-lg="2">
-                  Action
+                  {{ $t('site.action') }}
                   <br />
                   <vs-button
                     color="primary"
@@ -306,9 +306,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteConfiguration,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteConfigurationId = null;
         },
@@ -317,8 +319,8 @@ export default {
     acceptAlert(color) {
       this.$vs.notify({
         color: "danger",
-        title: "Deleted image",
-        text: "The selected image was successfully deleted",
+        title: this.$t('site.deletedImage.title'),
+        text: this.$t('site.deletedImage.text'),
       });
     },
     getConfigurationList() {
@@ -345,7 +347,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -372,7 +374,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -389,15 +391,15 @@ export default {
           this.getConfigurationList();
           this.$store.commit("FETCH_CONFIGURATION");
           this.$vs.notify({
-            title: "Success",
-            text: "Config Updated",
+            title: this.$t('alert.success'),
+            text: this.$t('site.configUpdated'),
             color: "success",
           });
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

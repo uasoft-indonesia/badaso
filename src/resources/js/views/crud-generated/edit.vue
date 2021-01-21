@@ -9,7 +9,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Edit</h3>
+            <h3>{{ $t('crudGenerated.edit.title', { tableName: dataType.displayNameSingular }) }}</h3>
           </div>
           <vs-row>
             <vs-col vs-lg="12" v-if="!isValid">
@@ -250,7 +250,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Save
+                <vs-icon icon="save"></vs-icon> {{ $t('crudGenerated.edit.button') }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -262,7 +262,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to edit {{dataType.displayNameSingular}}</h3>
+              <h3>{{ $t('crudGenerated.warning.notAllowedToEdit', { tableName: dataType.displayNameSingular }) }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -375,7 +375,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -464,7 +464,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -485,7 +485,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });

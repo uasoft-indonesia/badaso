@@ -8,7 +8,7 @@
         <div style="float: right">
           <vs-button color="primary" type="relief" :to="{ name: 'RoleAdd' }"
             v-if="$helper.isAllowed('add_roles')"
-            ><vs-icon icon="add"></vs-icon> Add</vs-button
+            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
           >
           <vs-button
             color="danger"
@@ -16,7 +16,7 @@
             v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
             @click.stop
             @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> Bulk Delete</vs-button
+            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
           >
         </div>
       </vs-col>
@@ -25,7 +25,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Role</h3>
+            <h3>{{ $t('role.title') }}</h3>
           </div>
           <div>
             <vs-table
@@ -38,15 +38,15 @@
               stripe
               description
               :description-items="descriptionItems"
-              description-title="Registries"
-              description-connector="of"
-              description-body="Pages"
+              :description-title="$t('role.footer.descriptionTitle')"
+              :description-connector="$t('role.footer.descriptionConnector')"
+              :description-body="$t('role.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="name"> Name </vs-th>
-                <vs-th sort-key="displayName"> Display Name </vs-th>
-                <vs-th sort-key="description"> Description </vs-th>
-                <vs-th> Action </vs-th>
+                <vs-th sort-key="name"> {{ $t('role.header.name') }} </vs-th>
+                <vs-th sort-key="displayName"> {{ $t('role.header.displayName') }} </vs-th>
+                <vs-th sort-key="description"> {{ $t('role.header.description') }} </vs-th>
+                <vs-th> {{ $t('role.header.action') }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -110,7 +110,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse Role</h3>
+              <h3>{{ $t('role.warning.notAllowedToBrowse') }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -140,9 +140,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.deleteRole,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -152,9 +154,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: `Confirm`,
-        text: "Are you sure?",
+        title: this.$t('action.delete.title'),
+        text: this.$t('action.delete.text'),
         accept: this.bulkDeleteRole,
+        acceptText: this.$t('action.delete.accept'),
+        cancelText: this.$t('action.delete.cancel'),
         cancel: () => {},
       });
     },
@@ -172,7 +176,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -193,7 +197,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
@@ -215,7 +219,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: "Danger",
+            title: this.$t('alert.danger'),
             text: error.message,
             color: "danger",
           });
