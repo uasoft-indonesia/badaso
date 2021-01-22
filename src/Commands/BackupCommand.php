@@ -73,7 +73,7 @@ class BackupCommand extends Command
                 break;
             default:
                 $backup_done = false;
-                $this->warn('Invalid Backup Target. Set to env one of [all, db, files]');
+                $this->warn('Invalid Backup Target. Set to env one of [all, database, files]');
             break;
         }
 
