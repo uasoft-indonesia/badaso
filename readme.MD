@@ -166,8 +166,10 @@ Before you install badaso, make sure your laravel can run.
     #optional
     DROPBOX_AUTH_TOKEN=
 
-    $fill with one of all,db,files, backup will not run if BACKUP_TARGET empty
+    #fill with one of all,database,files, backup will not run if BACKUP_TARGET empty
     BACKUP_TARGET=
+    #fill with one of s3,google,dropbox, backup will not run if BACKUP_TARGET empty
+    BACKUP_DISK=
 ```
 - set badaso as default auth
 ```

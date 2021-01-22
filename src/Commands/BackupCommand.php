@@ -59,7 +59,7 @@ class BackupCommand extends Command
                 $this->info("Running backup $backup_target to $backup_disk");
                 Artisan::call('backup:run');
                 break;
-            case 'db':
+            case 'database':
                 $this->info("Running backup $backup_target to $backup_disk");
                 Artisan::call('backup:run', [
                     '--only-db' => true,
