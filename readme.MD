@@ -139,6 +139,8 @@ Before you install badaso, make sure your laravel can run.
 ```
     JWT_SECRET={Your JWT secret key}
     FILESYSTEM_DRIVER={public by default}
+    # Supported driver: s3,google,dropbox
+    BACKUP_DISK=
 
     #must be filled in
     MIX_ADMIN_PANEL_ROUTE_PREFIX=
@@ -166,6 +168,13 @@ Before you install badaso, make sure your laravel can run.
 
     $fill with one of all,db,files, backup will not run if BACKUP_TARGET empty
     BACKUP_TARGET=
+```
+- set badaso as default auth
+```
+    'defaults' => [
+        'guard' => 'badaso_guard',
+        'passwords' => 'users',
+    ],
 ```
 - Add badaso guard at config/auth.php
 ```

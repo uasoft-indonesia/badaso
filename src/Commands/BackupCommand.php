@@ -39,25 +39,46 @@ class BackupCommand extends Command
     public function handle()
     {
         $backup_target = env('BACKUP_TARGET', '');
-        if (!is_null($backup_target) && $backup_target != '') {
-            switch ($backup_target) {
-                case 'all':
-                    Artisan::call('backup:run');
-                    break;
-                case 'db':
-                    Artisan::call('backup:run', [
-                        '--only-db' => true,
-                    ]);
-                    break;
-                case 'files':
-                    Artisan::call('backup:run', [
-                        '--only-files' => true,
-                    ]);
-                    break;
-                default:
-                    // code...
-                    break;
-            }
+        $backup_disk = env('BACKUP_DISK', '');
+        if (is_null($backup_target) || $backup_target == '') {
+            $this->warn('No target to backup.');
+
+            return;
+        }
+
+        if (is_null($backup_disk) || $backup_disk == '') {
+            $this->warn('No disk specified. Set to env some of [s3, google, dropbox]');
+
+            return;
+        }
+
+        $backup_done = true;
+
+        switch ($backup_target) {
+            case 'all':
+                $this->info("Running backup $backup_target to $backup_disk");
+                Artisan::call('backup:run');
+                break;
+            case 'db':
+                $this->info("Running backup $backup_target to $backup_disk");
+                Artisan::call('backup:run', [
+                    '--only-db' => true,
+                ]);
+                break;
+            case 'files':
+                $this->info("Running backup $backup_target to $backup_disk");
+                Artisan::call('backup:run', [
+                    '--only-files' => true,
+                ]);
+                break;
+            default:
+                $backup_done = false;
+                $this->warn('Invalid Backup Target. Set to env one of [all, db, files]');
+            break;
+        }
+
+        if ($backup_done) {
+            $this->Info('Backup done');
         }
     }
 }
