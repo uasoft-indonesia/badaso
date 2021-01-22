@@ -161,6 +161,9 @@ export default {
         },
       },
       "button": "Save"
+    },
+    "edit":  {
+      "multiple": "Simpan Konfigurasi"
     }
   },
 

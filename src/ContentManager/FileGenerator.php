@@ -218,7 +218,7 @@ class FileGenerator
     /**
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function generateBDOSeedFile(string $table_name, string $suffix): bool
+    public function generateSeedFile(string $table_name, string $suffix): bool
     {
         if (!Schema::hasTable($table_name)) {
             throw new Exception(sprintf('%s table does\'nt exist.'));

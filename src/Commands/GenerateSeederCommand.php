@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Uasoft\Badaso\ContentManager\FileGenerator;
 
-class BDOSeed extends Command
+class GenerateSeederCommand extends Command
 {
     protected $suffix = 'TableSeeder';
 
@@ -15,7 +15,7 @@ class BDOSeed extends Command
      *
      * @var string
      */
-    protected $signature = 'bdo:generate {tables}';
+    protected $signature = 'badaso:generate-seeder {tables}';
 
     /**
      * The console command description.
@@ -52,7 +52,7 @@ class BDOSeed extends Command
             foreach ($tables as $table) {
                 $this->printResult(
                     $table,
-                    $this->file_generator->generateBDOSeedFile($table, $this->suffix)
+                    $this->file_generator->generateSeedFile($table, $this->suffix)
                 );
             }
         } catch (Exception $exception) {

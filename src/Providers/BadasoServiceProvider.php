@@ -8,7 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
-use Uasoft\Badaso\Commands\BDOSeed;
+use Uasoft\Badaso\Commands\BackupCommand;
+use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
 
 class BadasoServiceProvider extends ServiceProvider
@@ -66,6 +67,7 @@ class BadasoServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(AdminCommand::class);
-        $this->commands(BDOSeed::class);
+        $this->commands(BackupCommand::class);
+        $this->commands(GenerateSeederCommand::class);
     }
 }

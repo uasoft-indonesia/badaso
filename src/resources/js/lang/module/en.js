@@ -162,6 +162,9 @@ export default {
         },
       },
       "button": "Save"
+    },
+    "edit":  {
+      "multiple": "Update Configurations"
     }
   },
 
