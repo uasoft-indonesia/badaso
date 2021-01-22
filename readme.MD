@@ -168,7 +168,7 @@ Before you install badaso, make sure your laravel can run.
 
     #fill with one of all,database,files, backup will not run if BACKUP_TARGET empty
     BACKUP_TARGET=
-    #fill with one of s3,google,dropbox, backup will not run if BACKUP_TARGET empty
+    #fill with many of s3,google,dropbox, backup will not run if BACKUP_TARGET empty
     BACKUP_DISK=
 ```
 - set badaso as default auth
