@@ -109,14 +109,21 @@ class BadasoConfigurationsController extends Controller
                 ])->validate();
                 $updated_configuration = Configuration::find($configuration['id']);
                 if (!is_null($configuration)) {
-                    $data = $configuration;
-                    $configuration_fillable = $updated_configuration->getFillable();
-                    foreach ($data as $key => $value) {
-                        $property = Str::snake($key);
-                        if (in_array($property, $configuration_fillable)) {
-                            $updated_configuration->{$property} = $value;
-                        }
+                    $updated_configuration->key = $configuration['key'];
+                    $updated_configuration->display_name = $configuration['display_name'];
+                    if (in_array($configuration['type'], ['upload_image', 'upload_file'])) {
+                        $uploaded_path = $this->handleUploadFiles([$configuration['value']]);
+                        $updated_configuration->value = implode(',', $uploaded_path);
+                    } elseif (in_array($configuration['type'], ['upload_image_multiple', 'upload_file_multiple'])) {
+                        $uploaded_path = $this->handleUploadFiles($configuration['value']);
+                        $updated_configuration->value = implode(',', $uploaded_path);
+                    } else {
+                        $updated_configuration->value = $configuration['value'];
                     }
+                    $updated_configuration->details = $configuration['details'];
+                    $updated_configuration->type = $configuration['type'];
+                    $updated_configuration->order = $configuration['order'];
+                    $updated_configuration->group = $configuration['group'];
                     $updated_configuration->save();
                 }
             }

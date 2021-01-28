@@ -3,6 +3,7 @@
     <!---Navigation-->
     <Navbar
       :topbarColor="adminPanelHeaderColor"
+      :topbarFontColor="adminPanelHeaderFontColor"
       :logo="adminPanelLogo"
       :title="adminPanelTitle"
     />
@@ -46,7 +47,13 @@ export default {
     adminPanelHeaderColor: {
       get() {
         let config = this.$store.getters.getConfig
-        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#2962ff"
+        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#000000"
+      }
+    },
+    adminPanelHeaderFontColor: {
+      get() {
+        let config = this.$store.getters.getConfig
+        return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#06bbd3"
       }
     },
     reduceSidebar: {

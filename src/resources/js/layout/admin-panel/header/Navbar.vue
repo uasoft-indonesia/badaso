@@ -4,8 +4,8 @@
       v-model="indexActive"
       :color="topbarColor"
       class="topnavbar"
-      text-color="rgba(255,255,255,0.7)"
       active-text-color="rgba(255,255,255,1)"
+      :style="{color: topbarFontColor}"
     >
       <!---
       Template logo
@@ -25,7 +25,7 @@
       </div>
 
       <vs-dropdown vs-trigger-click class="ml-4" >
-        <a class="a-icon text-white-dark" href="#">
+        <a class="a-icon" href="#" :style="{color: topbarFontColor}">
           {{ getSelectedLocale.label }}
           <vs-icon icon="expand_more" size="small"></vs-icon>
         </a>
@@ -101,7 +101,11 @@ export default {
   props: {
     topbarColor: {
       type: String,
-      default: "#2962ff",
+      default: "#000000",
+    },
+    topbarFontColor: {
+      type: String,
+      default: "#06bbd3",
     },
     title: {
       type: String,
