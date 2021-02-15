@@ -58,14 +58,16 @@
 
 
 @media only screen and (max-width:800px) {
-	.gridx .vs-navbar--btn-responsive{
-		display:none;
-	}
 	.topnavbar .vs-navbar--header{
 		min-height:60px;
 		padding-right:15px;
 	}
 
+	.vs-con-items.activeMenuResponsive {
+		text-align: center;
+		padding-bottom: 10px;
+		padding-top: 10px;
+	}
 }
 
 .user-image {
@@ -81,6 +83,22 @@
 		white-space: nowrap;
 	}
 
+	@media only screen and (max-width:800px) {
+		width: calc(100% - 30px) !important;
+		left: calc(100% - 15px) !important;
+	}
+
+	.vs-dropdown--menu--after {
+		display: none;
+	}
+
+	.vs-dropdown--menu {
+		padding-top: 0px;
+	}
+
+	.preview {
+		border-radius: 5px 5px 0px 0px;
+	}
 }
 
 /******User dd*******/

@@ -36,6 +36,10 @@ Vue.prototype.$api = api;
 Vue.prototype.$handleError = handleError;
 Vue.prototype.$helper = helper;
 Vue.prototype.$caseConvert = caseConvert;
+Vue.prototype.$constants = {
+  MOBILE: 'mobile',
+  DESKTOP: 'desktop'
+}
 
 let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
 ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX

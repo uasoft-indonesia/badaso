@@ -2,13 +2,23 @@
   <div :class="`main-wrapper ${reduceSidebar ? 'main-wrapper-mini' : ''}`">
     <!---Navigation-->
     <Navbar
+      v-if="viewType == $constants.DEKSTOP"
       :topbarColor="adminPanelHeaderColor"
       :topbarFontColor="adminPanelHeaderFontColor"
       :logo="adminPanelLogo"
       :title="adminPanelTitle"
+      :windowWidth="windowWidth"
+    />
+    <MobileNavbar
+      v-if="viewType == $constants.MOBILE"
+      :topbarColor="adminPanelHeaderColor"
+      :topbarFontColor="adminPanelHeaderFontColor"
+      :logo="adminPanelLogo"
+      :title="adminPanelTitle"
+      :windowWidth="windowWidth"
     />
     <!---Sidebar-->
-    <SideBar parent=".main-wrapper" />
+    <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" />
     <!---Page Container-->
     <div class="main-container-fluid">
       <router-view></router-view>
@@ -18,6 +28,7 @@
 
 <script>
 import Navbar from "./header/Navbar.vue";
+import MobileNavbar from "./header/MobileNavbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
 
 export default {
@@ -25,11 +36,15 @@ export default {
   components: {
     Navbar,
     SideBar,
+    MobileNavbar
   },
   data: () => ({
     topbarColor: "#2962ff",
     logotitle: "Badaso",
     image: "",
+    windowWidth: window.innerWidth,
+    viewType: '',
+    doNotClose: false,
   }),
   computed: {
     adminPanelTitle:{
@@ -66,6 +81,16 @@ export default {
     this.$store.commit("FETCH_COMPONENT");
     this.$store.commit("FETCH_CONFIGURATION");
     this.$store.commit("FETCH_USER");
+
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.handleWindowResize);
+    });
+
+    this.setSidebar()
+    this.setViewType()
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleWindowResize);
   },
   methods: {
     logout() {
@@ -81,6 +106,28 @@ export default {
             color: "danger",
           });
         });
+    },
+    handleWindowResize(event) {
+      this.$store.commit("REDUCE_SIDEBAR", false);
+      this.windowWidth = event.currentTarget.innerWidth;
+      this.setSidebar()
+      this.setViewType()
+    },
+    setSidebar() {
+      if (this.windowWidth < 768) {
+        this.$store.commit("IS_SIDEBAR_ACTIVE", false);
+        this.doNotClose = false;
+      } else {
+        this.$store.commit("IS_SIDEBAR_ACTIVE", true);
+        this.doNotClose = true;
+      }
+    },
+    setViewType() {
+      if (this.windowWidth < 768) {
+        this.viewType = this.$constants.MOBILE
+      } else {
+        this.viewType = this.$constants.DEKSTOP
+      }
     }
   },
 };

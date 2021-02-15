@@ -37,7 +37,7 @@ export default new Vuex.Store({
       state.isSidebarActive = value;
     },
     REDUCE_SIDEBAR(state, value) {
-      state.reduceSidebar = value ? value : !state.reduceSidebar;
+      state.reduceSidebar = value;
     },
     FETCH_MENU(state) {
       const menuKey = process.env.MIX_DEFAULT_MENU

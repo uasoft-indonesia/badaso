@@ -96,10 +96,13 @@ export default {
       default: null,
       type: [String, Number],
     },
+    doNotClose: {
+      default: false,
+      type: Boolean
+    }
   },
   data: () => ({
     sidebarModel: true,
-    doNotClose: false,
     windowWidth: window.innerWidth,
     prefix: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX : 'badaso-admin'
     // mainMenu: [],
@@ -132,31 +135,10 @@ export default {
   },
   watch: {},
   methods: {
-    handleWindowResize(event) {
-      this.windowWidth = event.currentTarget.innerWidth;
-      this.setSidebar();
-    },
-    setSidebar() {
-      if (this.windowWidth < 768) {
-        this.$store.commit("IS_SIDEBAR_ACTIVE", false);
-        this.doNotClose = false;
-      } else {
-        this.$store.commit("IS_SIDEBAR_ACTIVE", true);
-        this.doNotClose = true;
-      }
-    },
   },
   mounted() {
-    this.$nextTick(() => {
-      window.addEventListener("resize", this.handleWindowResize);
-    });
-    this.setSidebar();
     this.$store.commit("FETCH_MENU");
     this.$store.commit("FETCH_CONFIGURATION_MENU");
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.handleWindowResize);
-    this.setSidebar();
   },
 };
 </script>

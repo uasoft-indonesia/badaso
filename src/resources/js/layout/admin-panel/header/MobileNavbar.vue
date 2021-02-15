@@ -19,7 +19,7 @@
       Mobile toggle
       -->
       <div slot="title">
-        <div class="cursor-pointer" @click.stop="reduceSidebar">
+        <div class="cursor-pointer" @click.stop="activeSidebar">
           <vs-icon icon="menu"></vs-icon>
         </div>
       </div>
@@ -130,11 +130,6 @@ export default {
         return this.$store.state.isSidebarActive;
       },
     },
-    isReduceSidebar: {
-      get() {
-        return this.$store.state.reduceSidebar;
-      },
-    },
     getLocale: {
       get() {
         return this.$store.getters.getLocale
@@ -148,8 +143,8 @@ export default {
   },
   methods: {
     //This is for sidebar trigger in mobile
-    reduceSidebar() {
-      this.$store.commit("REDUCE_SIDEBAR", !this.isReduceSidebar);
+    activeSidebar() {
+      this.$store.commit("IS_SIDEBAR_ACTIVE", !this.isSidebarActive);
     },
     logout() {
       this.$api.auth

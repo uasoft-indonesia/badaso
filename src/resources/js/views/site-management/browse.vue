@@ -328,7 +328,6 @@ export default {
                 data.value = data.details.value ? data.details.value : "";
               }
             } catch (error) {
-              console.log(error);
             }
             return data;
           });
@@ -344,8 +343,6 @@ export default {
         });
     },
     filterConfigurations(group) {
-      console.log(this.configurations)
-      console.log(group)
       return _.filter(this.configurations, ["group", group]);
     },
     deleteConfiguration() {
