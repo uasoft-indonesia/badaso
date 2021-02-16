@@ -584,5 +584,5 @@ export default {
 <style>
 .drag_icon:hover {
   cursor: all-scroll;
-}</style
->s
+}
+</style>
