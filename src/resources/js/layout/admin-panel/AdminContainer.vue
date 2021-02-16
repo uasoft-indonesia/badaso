@@ -21,7 +21,8 @@
     <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" />
     <!---Page Container-->
     <div class="main-container-fluid">
-      <router-view></router-view>
+      <router-view class="content"></router-view>
+      <Footer></Footer>
     </div>
   </div>
 </template>
@@ -30,13 +31,15 @@
 import Navbar from "./header/Navbar.vue";
 import MobileNavbar from "./header/MobileNavbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
+import Footer from "./footer/Footer.vue";
 
 export default {
   name: "AdminContainer",
   components: {
     Navbar,
     SideBar,
-    MobileNavbar
+    MobileNavbar,
+    Footer
   },
   data: () => ({
     topbarColor: "#2962ff",
@@ -132,3 +135,8 @@ export default {
   },
 };
 </script>
+<style>
+  .content {
+    min-height: calc(100vh - 142px);
+  }
+</style>

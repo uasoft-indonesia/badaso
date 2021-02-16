@@ -43,9 +43,6 @@ export default new Vuex.Store({
       const menuKey = process.env.MIX_DEFAULT_MENU
         ? process.env.MIX_DEFAULT_MENU
         : "admin";
-      const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-        ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-        : "badaso-admin";
       api.menu
         .browseItemByKey({
           menu_key: menuKey,
@@ -82,7 +79,6 @@ export default new Vuex.Store({
           state.configurationMenuList = menuItems;
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     FETCH_COMPONENT(state) {

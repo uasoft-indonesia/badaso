@@ -407,13 +407,11 @@ export default {
         destinationTableColumn: field.destinationTableColumn ? field.destinationTableColumn : '',
         destinationTableDisplayColumn: field.destinationTableDisplayColumn ? field.destinationTableDisplayColumn : '',
       }
-      console.log(this.relation)
       if (field.destinationTable !== '') {
         this.getDestinationTableColumns(field.destinationTable);
       }
     },
     changeTable(table) {
-      console.log(table)
       if (table) {
         this.relation.destinationTableColumn = '';
         this.relation.destinationTableDisplayColumn = '';

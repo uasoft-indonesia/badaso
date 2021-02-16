@@ -17,8 +17,16 @@
             size="default"
             :placeholder="$t('login.field.email')"
             v-model="email"
-            class="w-100 mb-4 mt-2 "
+            class="w-100 mt-2 "
           />
+          <div v-if="errors.email" class="mb-4">
+            <div v-if="$helper.isArray(errors.email)">
+              <span class="text-danger" v-for="(info, index) in errors.email" :key="index" v-html="info"></span>
+            </div>
+            <div v-else>
+              <span class="text-danger" v-html="errors.email"></span>
+            </div>
+          </div>
           <vs-input
             icon="lock"
             type="password"
@@ -26,9 +34,17 @@
             size="default"
             :placeholder="$t('login.field.password')"
             v-model="password"
-            class="w-100 mb-4 mt-2 "
+            class="w-100 mt-2 "
             @keyup.enter="login()"
           />
+          <div v-if="errors.password" class="mb-4">
+            <div v-if="$helper.isArray(errors.password)">
+              <span class="text-danger" v-for="(info, index) in errors.password" :key="index" v-html="info"></span>
+            </div>
+            <div v-else>
+              <span class="text-danger" v-html="errors.password"></span>
+            </div>
+          </div>
 
           <div class="d-flex pt-3 pb-3">
             <div
@@ -77,6 +93,7 @@ export default {
     baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-admin",
+    errors: {},
   }),
   methods: {
     login() {
@@ -92,6 +109,7 @@ export default {
         this.$router.push({ name: 'Home'})
       })
       .catch((error) => {
+        this.errors = error.errors;
         this.$vs.loading.close()
         this.$vs.notify({title: this.$t('alert.danger'),text:error.message,color:'danger'})
       })

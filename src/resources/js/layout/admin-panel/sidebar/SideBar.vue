@@ -29,7 +29,7 @@
           <vs-sidebar-group v-if="menu.children && menu.children.length > 0" :title="menu.title" open>
               <template v-for="(childMenu, indexChildMenu) in menu.children">
                 <vs-sidebar-item
-                  :icon="childMenu.iconClass"
+                  :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
                   :to="'/'+prefix+'/main/'+childMenu.url"
                   :key="`menu-${index}-${indexChildMenu}`"
                   :index="`${index}.${indexChildMenu}`"
@@ -41,7 +41,7 @@
           </vs-sidebar-group>
           <vs-sidebar-item
             v-else
-            :icon="menu.iconClass"
+            :icon="menu.iconClass ? menu.iconClass : 'remove'"
             :to="'/'+prefix+'/main/'+menu.link"
             :key="`menu-${index}`"
             :index="index"
