@@ -8,7 +8,7 @@
         "tymon/jwt-auth": "^1.0",
         "lcobucci/jwt": "3.3",
         "larapack/doctrine-support": "~0.1.4",
-        "arcanedev/log-viewer": "~4.6.0",
+        "arcanedev/log-viewer": "4.2.0",
         "spatie/laravel-activitylog": "3.2.2",
         "spatie/laravel-backup":"5.12.1",
         "spatie/flysystem-dropbox": "1.2.2",
