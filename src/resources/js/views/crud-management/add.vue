@@ -134,9 +134,9 @@
                   <th style="width: 1%; word-wrap: nowrap;"></th>
                   <th style="width: 1%; word-wrap: nowrap;">{{ $t('crud.add.header.field') }}</th>
                   <th style="width: 1%; word-wrap: nowrap;">{{ $t('crud.add.header.visibility') }}</th>
-                  <th style="width: 1%; word-wrap: nowrap;">{{ $t('crud.add.header.inputType') }}</th>
-                  <th style="width: 200px;">{{ $t('crud.add.header.displayName') }}</th>
-                  <th>{{ $t('crud.add.header.optionalDetails') }}</th>
+                  <th style="width: 1%; word-wrap: nowrap; min-width: 200px;">{{ $t('crud.add.header.inputType') }}</th>
+                  <th style="min-width: 200px;">{{ $t('crud.add.header.displayName') }}</th>
+                  <th style="min-width: 200px;">{{ $t('crud.add.header.optionalDetails') }}</th>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
                   <tr :key="index" v-for="(field, index) in crudData.rows">

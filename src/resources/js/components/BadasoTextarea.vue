@@ -1,5 +1,5 @@
 <template>
-  <vs-col :vs-lg="size" class="mb-3">
+  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
     <label for="" class="vs-input--label">{{label}}</label>
     <vs-textarea :value="value" @input="handleInput($event)" />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
