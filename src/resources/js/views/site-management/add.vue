@@ -47,7 +47,8 @@
             </vs-col>
             <vs-col vs-lg="12">
               <p>{{ $t('site.add.field.options.description') }}</p>
-              <pre>{{ $t('site.add.field.options.example') }}</pre>
+              <pre>{{example}}
+              </pre>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -88,6 +89,14 @@ export default {
       group: '',
       options: '',
     },
+    example:{
+  "items": [
+    {
+      "label":"This is label",
+      "value":"this_is_value"
+    }
+  ]
+}
   }),
   computed: {
     componentList: {

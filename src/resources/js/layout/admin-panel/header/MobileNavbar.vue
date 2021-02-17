@@ -4,7 +4,7 @@
       v-model="indexActive"
       :color="topbarColor"
       class="topnavbar"
-      active-text-color="rgba(255,255,255,1)"
+      :active-text-color="topbarFontColor"
       :style="{color: topbarFontColor}"
     >
       <!---

@@ -101,3 +101,18 @@
     height: 30px;
   }
 }
+
+
+.hide-for-mobile {
+  display: flex !important;
+  @media only screen and (max-width:800px) {
+    display: none !important;
+  }
+}
+
+.show-for-mobile {
+  display: none !important;
+  @media only screen and (max-width:800px) {
+    display: flex !important;
+  }
+}

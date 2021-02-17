@@ -30,7 +30,7 @@
               <template v-for="(childMenu, indexChildMenu) in menu.children">
                 <vs-sidebar-item
                   :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
-                  :to="'/'+prefix+'/main/'+childMenu.url"
+                  @click="open(childMenu.url)"
                   :key="`menu-${index}-${indexChildMenu}`"
                   :index="`${index}.${indexChildMenu}`"
                   :style="`color: ${childMenu.color}`"
@@ -42,7 +42,7 @@
           <vs-sidebar-item
             v-else
             :icon="menu.iconClass ? menu.iconClass : 'remove'"
-            :to="'/'+prefix+'/main/'+menu.link"
+            @click="open(menu.url)"
             :key="`menu-${index}`"
             :index="index"
             :style="`color: ${menu.color}`"
@@ -57,8 +57,8 @@
           <vs-sidebar-group v-if="menu.children && menu.children.length > 0" :title="menu.title" open>
               <template v-for="(childMenu, indexChildMenu) in menu.children">
                 <vs-sidebar-item
-                  :icon="childMenu.iconClass"
-                  :to="childMenu.url"
+                  :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
+                  @click="open(childMenu.url)"
                   :key="`menu-${index}-${indexChildMenu}`"
                   :index="`${index}.${indexChildMenu}`"
                   :style="`color: ${childMenu.color}`"
@@ -69,11 +69,11 @@
           </vs-sidebar-group>
           <vs-sidebar-item
             v-else
-            :icon="menu.iconClass"
-            :to="menu.url"
+            :icon="menu.iconClass ? menu.iconClass : 'remove'"
             :key="`menu-${index}`"
             :index="index"
             :style="`color: ${menu.color}`"
+            @click="open(menu.url)"
           >
             <span class="hide-in-minisidebar">{{ menu.title }}</span>
           </vs-sidebar-item>
@@ -135,6 +135,16 @@ export default {
   },
   watch: {},
   methods: {
+    open(url) {
+      if (!this.doNotClose) {
+        this.isSidebarActive = false;
+      }
+      if (this.$helper.isValidHttpUrl(url)) {
+        window.open(url)
+      } else {
+        this.$router.push(url);
+      }
+    }
   },
   mounted() {
     this.$store.commit("FETCH_MENU");

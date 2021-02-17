@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import api from "../api";
 import createPersistedState from "vuex-persistedstate";
+import helpers from '../utils/helper'
 
 Vue.use(Vuex);
 /* eslint-disable */
@@ -43,15 +44,34 @@ export default new Vuex.Store({
       const menuKey = process.env.MIX_DEFAULT_MENU
         ? process.env.MIX_DEFAULT_MENU
         : "admin";
+      const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+        ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+        : "badaso-admin";
       api.menu
         .browseItemByKey({
           menu_key: menuKey,
         })
         .then((res) => {
           let menuItems = res.data.menuItems;
-          for (var i = 0, len = menuItems.length; i < len; i++) {
-            menuItems[i].link = menuItems[i].url;
-          }
+          menuItems.map((item) => {
+            if (helpers.isValidHttpUrl(item.url)) {
+              item.url = item.url;
+            } else {
+              item.url = "/" + prefix + "/main/" + item.url;
+            }
+            
+            if (item.children && item.children.length > 0) {
+              item.children.map((subItem) => {
+                if (helpers.isValidHttpUrl(item.url)) {
+                  subItem.url = subItem.url;
+                } else {
+                  subItem.url = "/" + prefix + "/main/" + subItem.url;
+                }
+                return subItem;
+              });
+            }
+            return item;
+          });
           state.menuList = menuItems;
         })
         .catch((err) => {});
@@ -67,10 +87,19 @@ export default new Vuex.Store({
         .then((res) => {
           let menuItems = res.data.menuItems;
           menuItems.map((item) => {
-            item.url = "/" + prefix + "" + item.url;
+            if (helpers.isValidHttpUrl(item.url)) {
+              item.url = item.url;
+            } else {
+              item.url = "/" + prefix + "" + item.url;
+            }
+            
             if (item.children && item.children.length > 0) {
               item.children.map((subItem) => {
-                subItem.url = "/" + prefix + "" + subItem.url;
+                if (helpers.isValidHttpUrl(item.url)) {
+                  subItem.url = subItem.url;
+                } else {
+                  subItem.url = "/" + prefix + "" + subItem.url;
+                }
                 return subItem;
               });
             }
