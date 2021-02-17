@@ -341,7 +341,7 @@
                   <vs-col col-lg="12" class="mb-2">
                     <table class="table">
                       <tr>
-                        <td>Column Name</td>
+                        <td>{{$t("crud.add.header.field")}}</td>
                         <td>
                           <strong>{{ field.field }}</strong>
                         </td>
@@ -362,7 +362,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>Visibility</td>
+                        <td>{{$t("crud.add.header.visibility")}}</td>
                         <td>
                           <vs-checkbox
                             v-model="field.browse"
@@ -397,8 +397,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">
-                        Input Type
+                        <td colspan="2">{{$t("crud.add.header.inputType")}}
                           <vs-select
                             class="selectExample"
                             v-model="field.type"
@@ -414,8 +413,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">
-                        Display Name
+                        <td colspan="2">{{$t("crud.add.header.displayName")}}
                           <vs-input
                             class="inputx"
                             :placeholder="$t('crud.add.body.displayName')"
@@ -424,8 +422,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">
-                        Optional Details
+                        <td colspan="2">{{$t("crud.add.header.optionalDetails")}}
                           <badaso-code-editor
                             v-model="field.details"
                             v-if="field.type !== 'relation'"
