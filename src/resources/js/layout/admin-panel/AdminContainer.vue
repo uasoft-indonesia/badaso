@@ -2,15 +2,7 @@
   <div :class="`main-wrapper ${reduceSidebar ? 'main-wrapper-mini' : ''}`">
     <!---Navigation-->
     <Navbar
-      v-if="viewType == $constants.DEKSTOP"
-      :topbarColor="adminPanelHeaderColor"
-      :topbarFontColor="adminPanelHeaderFontColor"
-      :logo="adminPanelLogo"
-      :title="adminPanelTitle"
-      :windowWidth="windowWidth"
-    />
-    <MobileNavbar
-      v-if="viewType == $constants.MOBILE"
+      :view="viewType"
       :topbarColor="adminPanelHeaderColor"
       :topbarFontColor="adminPanelHeaderFontColor"
       :logo="adminPanelLogo"
@@ -18,7 +10,7 @@
       :windowWidth="windowWidth"
     />
     <!---Sidebar-->
-    <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" />
+    <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" :view="viewType" />
     <!---Page Container-->
     <div class="main-container-fluid">
       <router-view class="content"></router-view>
@@ -29,7 +21,6 @@
 
 <script>
 import Navbar from "./header/Navbar.vue";
-import MobileNavbar from "./header/MobileNavbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
 import Footer from "./footer/Footer.vue";
 
@@ -38,7 +29,6 @@ export default {
   components: {
     Navbar,
     SideBar,
-    MobileNavbar,
     Footer
   },
   data: () => ({

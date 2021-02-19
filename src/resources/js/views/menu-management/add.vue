@@ -26,6 +26,14 @@
               :placeholder="$t('menu.add.field.displayName.placeholder')"
               :alert="errors.displayName"
             ></badaso-text>
+            <badaso-text
+              v-model="menu.icon"
+              size="6"
+              :label="$t('menu.add.field.icon.title')"
+              :placeholder="$t('menu.add.field.icon.placeholder')"
+              :alert="errors.icon"
+              :additionalInfo="$t('menu.builder.popup.add.field.icon.description')"
+            ></badaso-text>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -69,6 +77,7 @@ export default {
     menu: {
       displayName: "",
       key: "",
+      icon: "",
     },
   }),
   methods: {
@@ -80,6 +89,8 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.$router.push({ name: "MenuBrowse" });
+          this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
         })
         .catch((error) => {
           this.errors = error.errors
