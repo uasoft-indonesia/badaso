@@ -22,7 +22,7 @@
           </small>
         </h4>
         -->
-        <badaso-sidebar-group :title="user.name" :subTitle="user.email" icon="people">
+        <badaso-sidebar-group :title="user.name" :subTitle="user.email" icon="person_pin">
           <vs-sidebar-item
             icon="person_outline"
             :to="{
