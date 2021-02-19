@@ -43,7 +43,7 @@
         <vs-dropdown
           vs-trigger-click
           left
-          class="cursor-pointer pr-2 pl-2 ml-1 mr-md-3"
+          class="cursor-pointer ml-1 mr-md-3"
         >
           <a class="text-white-dark" href="#"
             ><vs-icon icon="notifications"></vs-icon
@@ -53,35 +53,16 @@
               class="d-flex align-items-center p-3 bg-danger text-white mb-2 preview"
             >
               <div class="ml-2">
-                <h4 class="mb-0 text-white">{{ user.name }}</h4>
-                <p class="mb-0">{{ user.email }}</p>
+                <h4 class="mb-0 text-white">0 New</h4>
+                <p class="mb-0">Notification</p>
               </div>
             </div>
-            <div style="height: 200px; overflow-y: auto;">
-              <vs-dropdown-item style="border-bottom: solid 1px #dedede">
+            <div style="max-height: 200px; overflow-y: auto;">
+              <vs-dropdown-item>
                 <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                {{ $t("myProfile.title") }}
-              </vs-dropdown-item>
-              <vs-dropdown-item style="border-bottom: solid 1px #dedede">
-                <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                {{ $t("myProfile.title") }}
-              </vs-dropdown-item>
-              <vs-dropdown-item style="border-bottom: solid 1px #dedede">
-                <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                {{ $t("myProfile.title") }}
-              </vs-dropdown-item>
-              <vs-dropdown-item style="border-bottom: solid 1px #dedede">
-                <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                {{ $t("myProfile.title") }}
-              </vs-dropdown-item>
-              <vs-dropdown-item style="border-bottom: solid 1px #dedede">
-                <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                {{ $t("myProfile.title") }}
+                Coming soon...
               </vs-dropdown-item>
             </div>
-            <vs-dropdown-item>
-              Lihat Selengkapnya
-            </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>
       </div>

@@ -27,7 +27,7 @@
         &nbsp;
         <slot name="title"> </slot>
       </div>
-      <slot name="navigation"> </slot>
+      <slot name="right_menu"></slot>
     </div>
   </header>
 </template>

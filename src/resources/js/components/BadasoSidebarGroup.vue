@@ -5,7 +5,7 @@
     @mouseover="mouseover"
     @mouseout="mouseout">
     <div style="display: flex">
-    <vs-icon style="padding-top: 10px; font-size: 1rem; margin-left: 15px;"
+    <vs-icon style="padding-top: 10px; font-size: 1rem; margin-left: 18px;"
         v-if="icon"
         :icon-pack="iconPack"
         :icon="icon">

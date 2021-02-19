@@ -93,6 +93,8 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.$router.push({ name: "MenuBrowse" });
+          this.$store.commit("FETCH_MENU");
+          this.$store.commit("FETCH_CONFIGURATION_MENU");
         })
         .catch((error) => {
           this.errors = error.errors;
