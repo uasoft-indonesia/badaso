@@ -11,12 +11,12 @@
         :icon="icon">
     </vs-icon>
     <h4 @click="clickGroup" v-if="icon"  style="text-align: left;" class="hide-in-minisidebar">
-    <vs-icon>keyboard_arrow_down</vs-icon>
+    <vs-icon style="font-size: 1rem;">keyboard_arrow_down</vs-icon>
         {{ title }} </br>
         {{ subTitle }} 
     </h4>
     <h4 @click="clickGroup" v-else style="text-align: left;">
-    <vs-icon>keyboard_arrow_down</vs-icon>
+    <vs-icon  style="font-size: 1rem;">keyboard_arrow_down</vs-icon>
         {{ title }} 
         </br>
         {{ subTitle }} 

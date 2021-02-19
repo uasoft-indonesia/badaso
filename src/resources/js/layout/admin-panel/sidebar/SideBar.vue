@@ -49,16 +49,17 @@
         <span class="hide-in-minisidebar">{{ $t("sidebar.dashboard") }}</span>
       </vs-sidebar-item>
       <badaso-sidebar-group
-        :title="$t('sidebar.mainMenu')"
+        :title="mainMenu.menu.displayName"
         open
         :icon="mainMenu.menu.icon"
         v-if="mainMenu.menuItems && mainMenu.menuItems.length > 0"
       >
         <template v-for="(menu, index) in mainMenu.menuItems">
-          <vs-sidebar-group
+          <badaso-sidebar-group
             v-if="menu.children && menu.children.length > 0"
             :title="menu.title"
             open
+            :icon="menu.iconClass"
           >
             <template v-for="(childMenu, indexChildMenu) in menu.children">
               <vs-sidebar-item
@@ -82,34 +83,48 @@
                 <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
               </vs-sidebar-item>
             </template>
-          </vs-sidebar-group>
-          <vs-sidebar-item
-            v-else
-            :icon="menu.iconClass ? menu.iconClass : 'remove'"
-            @click="open(menu.url)"
-            :key="`menu-${index}`"
-            :index="index"
-            :style="`color: ${menu.color}`"
-          >
-            <span class="hide-in-minisidebar">{{ menu.title }}</span>
-          </vs-sidebar-item>
+          </badaso-sidebar-group>
+          <div v-else>
+            <vs-sidebar-item
+              v-if="$helper.isValidHttpUrl(menu.url)"
+              :icon="menu.iconClass ? menu.iconClass : 'remove'"
+              @click="open(menu.url)"
+              :key="`menu-${index}`"
+              :index="index"
+              :style="`color: ${menu.color}`"
+            >
+              <span class="hide-in-minisidebar">{{ menu.title }}</span>
+            </vs-sidebar-item>
+            <vs-sidebar-item
+              v-else
+              :icon="menu.iconClass ? menu.iconClass : 'remove'"
+              :to="menu.url"
+              :key="`menu-${index}`"
+              :index="index"
+              :style="`color: ${menu.color}`"
+            >
+              <span class="hide-in-minisidebar">{{ menu.title }}</span>
+            </vs-sidebar-item>
+          </div>
         </template>
       </badaso-sidebar-group>
 
       <badaso-sidebar-group
-        :title="$t('sidebar.configurationMenu')"
+        :title="configurationMenu.menu.displayName"
         open
         :icon="configurationMenu.menu.icon"
         v-if="configurationMenu.menuItems && configurationMenu.menuItems.length > 0"
       >
         <template v-for="(menu, index) in configurationMenu.menuItems">
-          <vs-sidebar-group
+          <badaso-sidebar-group
             v-if="menu.children && menu.children.length > 0"
             :title="menu.title"
             open
+            :icon="menu.iconClass"
           >
             <template v-for="(childMenu, indexChildMenu) in menu.children">
               <vs-sidebar-item
+                v-if="$helper.isValidHttpUrl(childMenu.url)"
                 :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
                 @click="open(childMenu.url)"
                 :key="`menu-${index}-${indexChildMenu}`"
@@ -118,8 +133,18 @@
               >
                 <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
               </vs-sidebar-item>
+              <vs-sidebar-item
+                v-else
+                :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
+                :to="childMenu.url"
+                :key="`menu-${index}-${indexChildMenu}`"
+                :index="`${index}.${indexChildMenu}`"
+                :style="`color: ${childMenu.color}`"
+              >
+                <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+              </vs-sidebar-item>
             </template>
-          </vs-sidebar-group>
+          </badaso-sidebar-group>
           <div v-else>
             <vs-sidebar-item
               v-if="$helper.isValidHttpUrl(menu.url)"

@@ -62,7 +62,7 @@ export default new Vuex.Store({
             
             if (item.children && item.children.length > 0) {
               item.children.map((subItem) => {
-                if (helpers.isValidHttpUrl(item.url)) {
+                if (helpers.isValidHttpUrl(subItem.url)) {
                   subItem.url = subItem.url;
                 } else {
                   subItem.url = "/" + prefix + "/main/" + subItem.url;
@@ -98,7 +98,7 @@ export default new Vuex.Store({
             
             if (item.children && item.children.length > 0) {
               item.children.map((subItem) => {
-                if (helpers.isValidHttpUrl(item.url)) {
+                if (helpers.isValidHttpUrl(subItem.url)) {
                   subItem.url = subItem.url;
                 } else {
                   subItem.url = "/" + prefix + "" + subItem.url;
