@@ -398,6 +398,10 @@ export default {
         "displayName": {
           "title": "Display Name",
           "placeholder": "Display Name"
+        },
+        "icon": {
+          "title": "Icon",
+          "placeholder": "Icon"
         }
       },
       "button": "Save"

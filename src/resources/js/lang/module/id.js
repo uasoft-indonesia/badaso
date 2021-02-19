@@ -397,6 +397,10 @@ export default {
         "displayName": {
           "title": "Nama Tampilan",
           "placeholder": "Nama Tampilan"
+        },
+        "icon": {
+          "title": "Icon",
+          "placeholder": "Icon"
         }
       },
       "button": "Simpan"

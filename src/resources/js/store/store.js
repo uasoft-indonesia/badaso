@@ -11,8 +11,8 @@ export default new Vuex.Store({
     isSidebarActive: false,
     reduceSidebar: false,
     themeColor: "#2962ff",
-    menuList: [],
-    configurationMenuList: [],
+    menu: {},
+    configurationMenu: {},
     componentList: [],
     groupList: [],
     config: {},
@@ -72,7 +72,10 @@ export default new Vuex.Store({
             }
             return item;
           });
-          state.menuList = menuItems;
+          state.menu = {
+            menu: res.data.menu,
+            menuItems: menuItems
+          };
         })
         .catch((err) => {});
     },
@@ -105,7 +108,10 @@ export default new Vuex.Store({
             }
             return item;
           });
-          state.configurationMenuList = menuItems;
+          state.configurationMenu = {
+            menu: res.data.menu,
+            menuItems: menuItems
+          };
         })
         .catch((err) => {
         });
@@ -149,10 +155,10 @@ export default new Vuex.Store({
   actions: {},
   getters: {
     getMenu: (state) => {
-      return state.menuList;
+      return state.menu;
     },
     getConfigurationMenu: (state) => {
-      return state.configurationMenuList;
+      return state.configurationMenu;
     },
     getComponent: (state) => {
       return state.componentList;
