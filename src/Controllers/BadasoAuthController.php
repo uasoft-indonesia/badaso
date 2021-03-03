@@ -16,6 +16,8 @@ use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\User;
 use Webpatser\Uuid\Uuid;
+use Illuminate\Support\Facades\Mail;
+use Uasoft\Badaso\Mail\ForgotPassword;
 
 class BadasoAuthController extends Controller
 {
@@ -194,7 +196,8 @@ class BadasoAuthController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
 
-            // SEND MAIL HERE
+            $user = User::where('email', $request->email)->first();
+            Mail::to($request->email)->send(new ForgotPassword($user, $token));
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -207,7 +210,7 @@ class BadasoAuthController extends Controller
         try {
             $request->validate([
                 'token' => 'required|exists:password_resets,token',
-                'new_password' => [
+                'password' => [
                     'required',
                     'confirmed',
                     'string',
@@ -223,8 +226,12 @@ class BadasoAuthController extends Controller
             $password_reset = collect($password_resets)->first();
 
             $user = User::where('email', $password_reset->email)->first();
-            $user->password = Hash::make($request->new_password);
-            $user->save();
+            $user->password = Hash::make($request->password);
+            $saved = $user->save();
+
+            if ($saved) {
+                DB::table('password_resets')->where('token', $request->token)->delete();
+            }
 
             return ApiResponse::success();
         } catch (Exception $e) {

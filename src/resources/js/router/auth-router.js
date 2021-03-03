@@ -1,5 +1,4 @@
 import Login from "./../views/auth/login.vue";
-import Register from "./../views/auth/register.vue";
 import ForgotPassword from "./../views/auth/forgot-password.vue";
 import ResetPassword from "./../views/auth/reset-password.vue";
 
@@ -14,11 +13,6 @@ export default [
         path: prefix + "/login",
         name: "Login",
         component: Login,
-      },
-      {
-        path: prefix + "/register",
-        name: "Register",
-        component: Register,
       },
       {
         path: prefix + "/forgot-password",

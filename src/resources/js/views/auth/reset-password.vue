@@ -4,40 +4,37 @@
     class="login-register-box"
     style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
   >
+    <vs-alert :active="res.active" :color="res.status" :icon="res.icon" class="mb-2" >
+      <span>{{ res.message }}</span>
+    </vs-alert>
+
     <vs-card class="mb-0">
       <div slot="header">
         <h3 class="mb-1">{{ $t('resetPassword.title') }}</h3>
         <p class="mb-0">{{ $t('resetPassword.subtitle') }}</p>
       </div>
       <div>
-        <form novalidate="novalidate">
-          <vs-input
-            icon="lock"
-            type="password"
-            icon-after
-            size="default"
-            :placeholder="$t('resetPassword.field.password')"
-            v-model="password"
-            class="w-100 mb-4 mt-2 "
-          />
-          <vs-input
-            icon="lock"
-            type="password"
-            icon-after
-            size="default"
-            :placeholder="$t('resetPassword.field.passwordConfirmation')"
-            v-model="passwordConfirmation"
-            class="w-100 mb-4 mt-2 "
-          />
-          <vs-button type="relief" class="btn-block">{{ $t('resetPassword.button') }}</vs-button>
-        </form>
+        <vs-input
+          icon="lock"
+          type="password"
+          icon-after
+          size="default"
+          :placeholder="$t('resetPassword.field.password')"
+          v-model="password"
+          class="w-100 mb-4 mt-2 "
+        />
+        <vs-input
+          icon="lock"
+          type="password"
+          icon-after
+          size="default"
+          :placeholder="$t('resetPassword.field.passwordConfirmation')"
+          v-model="passwordConfirmation"
+          class="w-100 mb-4 mt-2 "
+          @keyup.enter="resetPassword()"
+        />
+        <vs-button type="relief" class="btn-block" @click="resetPassword()">{{ $t('resetPassword.button') }}</vs-button>
 
-        <div class="d-flex justify-content-center mt-3">
-          {{ $t('resetPassword.createAccount.text') }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/register'"
-            >{{ $t('resetPassword.createAccount.link') }}</router-link
-          >
-        </div>
       </div>
     </vs-card>
   </vs-col>
@@ -46,12 +43,49 @@
 <script>
 export default {
   data: () => ({
-    email: "",
     password: "",
+    passwordConfirmation: "",
     baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-admin",
+    res: {
+      active: false,
+      icon: "",
+      status: "",
+      message: ""
+    }
   }),
+  methods: {
+    resetPassword() {
+      this.$vs.loading({
+        type:'sound',
+      })
+      this.$api.auth.resetPassword({
+        token: this.$router.currentRoute.query.token,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      })
+      .then((response) => {
+        this.$vs.loading.close()
+        this.res = {
+          status: "success",
+          icon: "done",
+          message: this.$t('resetPassword.message.success')
+        }
+        setTimeout(() => {
+          this.$router.push({ name: 'Login'})
+        }, 5000)
+      })
+      .catch((error) => {
+        this.$vs.loading.close()
+        this.res = {
+          status: "danger",
+          icon: "dangerous",
+          message: this.$t('resetPassword.message.error')
+        }
+      })
+    }
+  }
 };
 </script>
 
