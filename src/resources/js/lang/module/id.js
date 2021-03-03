@@ -665,6 +665,7 @@ export default {
           "placeholder": "Kunci"
         },
         "alwaysAllow": "Selalu diizinkan",
+        "isPublic": "Publik",
         "description": {
           "title": "Deskripsi",
           "placeholder": "Deskripsi"
@@ -684,6 +685,7 @@ export default {
           "placeholder": "Kunci"
         },
         "alwaysAllow": "Selalu diizinkan",
+        "isPublic": "Public",
         "description": {
           "title": "Deskripsi",
           "placeholder": "Deskripsi"
@@ -702,6 +704,11 @@ export default {
       "tableName": "Nama Tabel",
       "alwaysAllow": {
         "title": "Selalu diizinkan",
+        "yes": "Ya",
+        "no": "Tidak",
+      },
+      "isPublic": {
+        "title": "Publik",
         "yes": "Ya",
         "no": "Tidak",
       },

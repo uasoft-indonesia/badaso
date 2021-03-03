@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Helpers;
 
+use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\RolePermission;
 use Uasoft\Badaso\Models\UserRole;
 
@@ -46,6 +47,21 @@ class AuthenticatedUser
         $user_permissions = collect($user_permissions)->pluck('key')->toArray();
 
         $intersect = array_intersect($permissions, $user_permissions);
+
+        if (count($intersect) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function ignore($permissions_string = '')
+    {
+        $permissions = explode(',', $permissions_string);
+        $public_permissions = Permission::where('is_public', 1)->get();
+        $public_permissions = collect($public_permissions)->pluck('key')->toArray();
+
+        $intersect = array_intersect($permissions, $public_permissions);
 
         if (count($intersect) > 0) {
             return true;

@@ -647,6 +647,7 @@ export default {
       "description": "Description",
       "tableName": "Table Name",
       "alwaysAllow": "Always Allow",
+      "isPublic": "Is Public",
       "action": "Action",
     },
     "footer": {
@@ -662,6 +663,7 @@ export default {
           "placeholder": "Key"
         },
         "alwaysAllow": "Always Allow",
+        "isPublic": "Is Public",
         "description": {
           "title": "Description",
           "placeholder": "Description"
@@ -681,6 +683,7 @@ export default {
           "placeholder": "Key"
         },
         "alwaysAllow": "Always Allow",
+        "isPublic": "Is Public",
         "description": {
           "title": "Description",
           "placeholder": ""
@@ -699,6 +702,11 @@ export default {
       "tableName": "Table Name",
       "alwaysAllow": {
         "title": "Always Allow",
+        "yes": "Yes",
+        "no": "No",
+      },
+      "isPublic": {
+        "title": "Is Public",
         "yes": "Yes",
         "no": "No",
       },

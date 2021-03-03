@@ -52,6 +52,7 @@
                 <vs-th sort-key="description"> {{ $t('permission.header.description') }} </vs-th>
                 <vs-th sort-key="tableName"> {{ $t('permission.header.tableName') }} </vs-th>
                 <vs-th sort-key="alwaysAllow"> {{ $t('permission.header.alwaysAllow') }} </vs-th>
+                <vs-th sort-key="isPublic"> {{ $t('permission.header.isPublic') }} </vs-th>
                 <vs-th> {{ $t('permission.header.action') }} </vs-th>
               </template>
 
@@ -71,6 +72,10 @@
 
                   <vs-td :data="data[indextr].alwaysAllow">
                     <span v-if="data[indextr].alwaysAllow === 1">Yes</span>
+                    <span v-else>No</span>
+                  </vs-td>
+                  <vs-td :data="data[indextr].isPublic">
+                    <span v-if="data[indextr].isPublic === 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">

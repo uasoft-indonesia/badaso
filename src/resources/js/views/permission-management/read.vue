@@ -40,6 +40,13 @@
                         <span v-else>{{ $t('permission.detail.alwaysAllow.no') }}</span>
                     </td>
                 </tr>
+                <tr>
+                    <th>{{ $t('permission.detail.isPublic.title') }}</th>
+                    <td>
+                        <span v-if="permission.isPublic === 1">{{ $t('permission.detail.isPublic.yes') }}</span>
+                        <span v-else>{{ $t('permission.detail.isPublic.no') }}</span>
+                    </td>
+                </tr>
             </table>
         </vs-card>
       </vs-col>
