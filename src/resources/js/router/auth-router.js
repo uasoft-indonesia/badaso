@@ -17,6 +17,11 @@ export default [
         component: Login,
       },
       {
+        path: prefix + "/register",
+        name: "Register",
+        component: Register,
+      },
+      {
         path: prefix + "/forgot-password",
         name: "ForgotPassword",
         component: ForgotPassword,
