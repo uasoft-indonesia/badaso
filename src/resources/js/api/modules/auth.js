@@ -34,11 +34,37 @@ export default {
   },
 
   register(data) {
-    return resource.post(endpoint.auth.register, data);
+    let response = resource.post(endpoint.auth.register, data);
+    response.then((res) => {
+      if (res.data.accessToken) {
+        let token = res.data.accessToken;
+        localStorage.setItem("token", token);
+        let date = new Date();
+        let timeNow = date.getTime();
+        localStorage.setItem(
+          window.btoa("tokenAccessTime"),
+          window.btoa(timeNow)
+        );
+      }
+    });
+    return response;
   },
 
   verify(data) {
-    return resource.post(endpoint.auth.verify, data);
+    let response = resource.post(endpoint.auth.verify, data);
+    response.then((res) => {
+      if (res.data.accessToken) {
+        let token = res.data.accessToken;
+        localStorage.setItem("token", token);
+        let date = new Date();
+        let timeNow = date.getTime();
+        localStorage.setItem(
+          window.btoa("tokenAccessTime"),
+          window.btoa(timeNow)
+        );
+      }
+    });
+    return response;
   },
 
   refreshToken() {

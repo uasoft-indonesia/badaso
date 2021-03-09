@@ -161,7 +161,7 @@
       <td class="container"
         style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
         <div style="text-align: center;"><img
-            src="{{ asset('storage/badaso-logo.png') }}"
+            src="{{ asset('badaso-images//badaso.jpg') }}"
             width="25%" alt="Logo Badaso"></div>
         <div class="content"
           style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
@@ -178,9 +178,7 @@
                       <p>Hi {{ $user->name }},</p>
                       <p>Thank you for using Badaso. Before you get started, we just need to confirm that this is you. Here is the verification code for your account: </p>
 
-                      <h1 style="font-size: 48px"><b>{{ $token }}</b></h1>
-
-                      <p>All you have to do is copy the verification code and paste it to <a href="{{ \URL::to(\config('badaso.admin_panel_route_prefix').'/verify') }}">this form</a> to complete the email verification process.</p>
+                      <p>All you have to do is copy the verification code and paste it to <a href="{{ \URL::to(\config('badaso.admin_panel_route_prefix').'/verify') }}?email={{$user->email}}&token={{$token}}">this form</a> to complete the email verification process.</p>
 
                       <p>Regards,<br />{{ config('app.name') }}</p>
                     </td>

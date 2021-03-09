@@ -24,7 +24,7 @@ class BadasoAuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword']]);
+        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify']]);
     }
 
     public function login(Request $request)
@@ -45,6 +45,14 @@ class BadasoAuthController extends Controller
             // if (!$token = JWTAuth::attempt($credentials)) {
             if (!$token = auth()->attempt($credentials)) {
                 throw new SingleException(__('badaso::validation.auth.invalid_credentials'));
+            }
+
+            $should_verify_email = true;
+            if ($should_verify_email) {
+                $user = auth()->user();
+                if (is_null($user->email_verified_at)) {
+                    throw new SingleException('Email is not verified');
+                }
             }
 
             return $this->createNewToken($token, auth()->user());
@@ -165,10 +173,31 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'verification_code' => ['required'],
+                'email' => ['required', 'exists:users'],
+                'token' => ['required'],
             ]);
 
-            return ApiResponse::success($request->all);
+            $user = User::where('email', $request->email)->first();
+            $user_verification = UserVerification::where('verification_token', $request->token)
+                ->where('user_id', $user->id)
+                ->first();
+
+            if ($user_verification) {
+                if (date('Y-m-d H:i:s') > $user->expired_at) {
+                    $user_verification->delete();
+                    throw new SingleException('Verification token expired');
+                }
+                $user->email_verified_at = date('Y-m-d H:i:s');
+                $user->save();
+
+                $user_verification->delete();
+            } else {
+                throw new SingleException('Invalid verification token');
+            }
+
+            $token = auth()->login($user);
+
+            return $this->createNewToken($token, auth()->user());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

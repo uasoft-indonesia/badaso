@@ -19,6 +19,14 @@
             v-model="name"
             class="w-100 mb-4 mt-2 "
           />
+          <div v-if="errors.name" class="mb-4">
+            <div v-if="$helper.isArray(errors.name)">
+              <span class="text-danger" v-for="(info, index) in errors.name" :key="index" v-html="info"></span>
+            </div>
+            <div v-else>
+              <span class="text-danger" v-html="errors.name"></span>
+            </div>
+          </div>
           <vs-input
             icon="email"
             icon-after
@@ -27,6 +35,14 @@
             v-model="email"
             class="w-100 mb-4 mt-2 "
           />
+          <div v-if="errors.email" class="mb-4">
+            <div v-if="$helper.isArray(errors.email)">
+              <span class="text-danger" v-for="(info, index) in errors.email" :key="index" v-html="info"></span>
+            </div>
+            <div v-else>
+              <span class="text-danger" v-html="errors.email"></span>
+            </div>
+          </div>
           <vs-input
             icon="lock"
             type="password"
@@ -36,6 +52,14 @@
             v-model="password"
             class="w-100 mb-4 mt-2 "
           />
+          <div v-if="errors.password" class="mb-4">
+            <div v-if="$helper.isArray(errors.password)">
+              <span class="text-danger" v-for="(info, index) in errors.password" :key="index" v-html="info"></span>
+            </div>
+            <div v-else>
+              <span class="text-danger" v-html="errors.password"></span>
+            </div>
+          </div>
           <vs-input
             icon="lock"
             type="password"
@@ -45,7 +69,7 @@
             v-model="passwordConfirmation"
             class="w-100 mb-4 mt-2 "
           />
-          <vs-button type="relief" class="btn-block">{{ $t('register.button') }}</vs-button>
+          <vs-button type="relief" class="btn-block" @click="register()">{{ $t('register.button') }}</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
@@ -60,6 +84,7 @@
 <script>
 export default {
   data: () => ({
+    errors: {},
     name: "",
     email: "",
     password: "",
@@ -68,6 +93,29 @@ export default {
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-admin",
   }),
+  methods: {
+    register() {
+      this.$vs.loading({
+        type:'sound',
+      })
+      this.$api.auth.register({
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        passwordConfirmation: this.passwordConfirmation
+      })
+      .then((response) => {
+        this.$vs.loading.close()
+        this.$vs.notify({title: this.$t('alert.success'),text:response.data.message,color:'success'})
+        this.$router.push({ name: 'Login'})
+      })
+      .catch((error) => {
+        this.errors = error.errors;
+        this.$vs.loading.close()
+        this.$vs.notify({title: this.$t('alert.danger'),text:error.message,color:'danger'})
+      })
+    },
+  }
 };
 </script>
 

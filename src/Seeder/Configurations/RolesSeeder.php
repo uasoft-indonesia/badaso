@@ -23,6 +23,13 @@ class RolesSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
+                1 => [
+                    'id' => 1,
+                    'name' => 'customer',
+                    'display_name' => 'Customer',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_roles = [];

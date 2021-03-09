@@ -27,6 +27,11 @@ export default {
       : "badaso-admin",
     errors: {},
   }),
+  mounted() {
+    this.email = this.$route.query.email
+    this.token = this.$route.query.token
+    this.verify()
+  },
   methods: {
     verify() {
       this.$vs.loading({
@@ -38,7 +43,7 @@ export default {
       })
       .then((response) => {
         this.$vs.loading.close()
-        this.$router.push({ name: 'Login'})
+        this.$router.push({ name: 'Home'})
       })
       .catch((error) => {
         this.errors = error.errors;
