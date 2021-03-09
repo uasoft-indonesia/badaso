@@ -1,5 +1,5 @@
 <template>
-  <vs-col :vs-lg="size" class="mb-3">
+  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
     <vs-input
       type="email"
       :label="displayLabel"

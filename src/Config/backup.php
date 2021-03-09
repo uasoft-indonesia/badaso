@@ -80,9 +80,7 @@ return [
              * The disk names on which the backups will be stored.
              * support s3, google, dropbox
              */
-            'disks' => [
-                'dropbox',
-            ],
+            'disks' => explode(',', env('BACKUP_DISK', '')),
         ],
 
         /*
@@ -140,8 +138,7 @@ return [
     'monitorBackups' => [
         [
             'name' => config('app.name'),
-            // s3, google, dropbox
-            'disks' => ['dropbox'],
+            'disks' => explode(',', env('BACKUP_DISK', '')),
             'newestBackupsShouldNotBeOlderThanDays' => 1,
             'storageUsedMayNotBeHigherThanMegabytes' => 5000,
         ],

@@ -43,7 +43,7 @@
           </table>
         </vs-card>
       </vs-col>
-      <vs-col vs-lg="6" v-if="subject">
+      <vs-col vs-lg="6" vs-xs="12" v-if="subject">
         <vs-card>
           <div slot="header">
             <h3>{{ $t('activityLog.detail.subject.title') }}</h3>
@@ -63,7 +63,7 @@
           </table>
         </vs-card>
       </vs-col>
-      <vs-col vs-lg="6" v-if="causer">
+      <vs-col vs-lg="6" vs-xs="12" v-if="causer">
         <vs-card>
           <div slot="header">
             <h3>{{ $t('activityLog.detail.causer.title') }}</h3>
@@ -84,7 +84,7 @@
         </vs-card>
       </vs-col>
 
-      <vs-col vs-lg="6" v-if="!$helper.isObjectEmpty(properties)">
+      <vs-col vs-lg="6" vs-xs="12" v-if="!$helper.isObjectEmpty(properties)">
         <vs-card>
           <div slot="header">
             <h3>{{ $t('activityLog.detail.properties.title') }}</h3>
@@ -179,3 +179,9 @@ export default {
   },
 };
 </script>
+
+<style>
+  .vs-card--content {
+    overflow: auto;
+  }
+</style>

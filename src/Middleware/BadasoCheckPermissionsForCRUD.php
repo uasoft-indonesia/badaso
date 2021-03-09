@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
@@ -17,12 +18,20 @@ class BadasoCheckPermissionsForCRUD
             if ($data_type->generate_permissions == false) {
                 return $next($request);
             } else {
-                $continue = AuthenticatedUser::isAllowedTo($action.'_'.$data_type->name);
-
+                $continue = AuthenticatedUser::ignore($action.'_'.$data_type->name);
                 if ($continue) {
                     return $next($request);
                 } else {
-                    return ApiResponse::forbidden();
+                    if (Auth::check()) {
+                        $continue = AuthenticatedUser::isAllowedTo($action.'_'.$data_type->name);
+                        if ($continue) {
+                            return $next($request);
+                        } else {
+                            return ApiResponse::forbidden();
+                        }
+                    }
+
+                    return ApiResponse::unauthorized();
                 }
             }
         }

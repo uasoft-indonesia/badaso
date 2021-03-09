@@ -87,8 +87,9 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_key' => ['required'],
+                'menu_key' => ['required', 'exists:menus,key'],
             ]);
+            $menu = Menu::where('key', $request->menu_key)->first();
 
             $all_menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
                     ->where('menus.key', $request->menu_key)
@@ -105,6 +106,7 @@ class BadasoMenuController extends Controller
             }
             $menu_items = $this->getChildMenuItems($menu_items);
 
+            $data['menu'] = $menu;
             $data['menu_items'] = $menu_items;
 
             return ApiResponse::success(collect($data)->toArray());
@@ -148,6 +150,7 @@ class BadasoMenuController extends Controller
             $new_menu = new Menu();
             $new_menu->key = $request->get('key');
             $new_menu->display_name = $request->get('display_name');
+            $new_menu->icon = $request->get('icon');
             $new_menu->save();
 
             DB::commit();
@@ -205,6 +208,7 @@ class BadasoMenuController extends Controller
             $menu = Menu::find($request->menu_id);
             $menu->key = $request->get('key');
             $menu->display_name = $request->get('display_name');
+            $menu->icon = $request->get('icon');
             $menu->save();
 
             DB::commit();

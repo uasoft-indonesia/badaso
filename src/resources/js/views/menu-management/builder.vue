@@ -42,12 +42,14 @@
           :alert="errors.color"
         ></badaso-color-picker>
       </vs-row>
-      <vs-row vs-type="flex" vs-justify="flex-end">
-        <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
+      <vs-row vs-type="flex" vs-justify="space-between">
+        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
           <vs-button color="primary" @click="saveMenuItem()" type="filled"
             >{{ $t('menu.builder.popup.add.button.add') }}</vs-button
           >
-          <vs-button color="danger" type="flat">{{ $t('menu.builder.popup.add.button.cancel') }}</vs-button>
+        </vs-col>
+        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+          <vs-button color="danger"  @click="closeModal()">{{ $t('menu.builder.popup.add.button.cancel') }}</vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
@@ -95,14 +97,21 @@
       </vs-row>
       <vs-row vs-type="flex" vs-justify="flex-end">
         <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
-          <vs-button
+          
+        </vs-col>
+      </vs-row>
+      <vs-row vs-type="flex" vs-justify="space-between">
+        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+         <vs-button
             v-if="menuItem.id"
             color="primary"
             @click="updateMenuItem()"
             type="filled"
             >{{ $t('menu.builder.popup.edit.button.edit') }}</vs-button
           >
-          <vs-button color="danger" type="flat">{{ $t('menu.builder.popup.edit.button.cancel') }}</vs-button>
+        </vs-col>
+        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+          <vs-button color="danger" @click="closeModal()">{{ $t('menu.builder.popup.edit.button.cancel') }}</vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
@@ -414,6 +423,10 @@ export default {
         target: this.menuItemTargets[0].value
       };
       this.addMenuItemPopUp = true;
+    },
+    closeModal() {
+      this.addMenuItemPopUp = false;
+      this.editMenuItemPopUp = false;
     },
     saveMenuItem() {
       this.errors = {}

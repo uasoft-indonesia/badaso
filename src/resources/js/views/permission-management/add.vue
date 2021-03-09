@@ -21,10 +21,17 @@
             ></badaso-text>
             <badaso-switch
               v-model="permission.alwaysAllow"
-              size="6"
+              size="3"
               :label="$t('permission.add.field.alwaysAllow')"
               placeholder="Always Allow"
               :alert="errors.alwaysAllow"
+            ></badaso-switch>
+            <badaso-switch
+              v-model="permission.isPublic"
+              size="3"
+              :label="$t('permission.add.field.isPublic')"
+              placeholder="Is Public"
+              :alert="errors.isPublic"
             ></badaso-switch>
             <badaso-textarea
               v-model="permission.description"

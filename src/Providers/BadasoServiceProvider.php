@@ -8,7 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
-use Uasoft\Badaso\Commands\BDOSeed;
+use Uasoft\Badaso\Commands\BackupCommand;
+use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
 
 class BadasoServiceProvider extends ServiceProvider
@@ -43,6 +44,23 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Images/' => public_path(),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
         ], 'Badaso');
+
+        $this->publishes([
+            __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
+            __DIR__.'/../Config/log-viewer.php' => config_path('log-viewer.php'),
+            __DIR__.'/../Config/backup.php' => config_path('backup.php'),
+        ], 'BadasoConfig');
+
+        $this->publishes([
+            __DIR__.'/../Seeder/Configurations' => database_path('seeds'),
+            __DIR__.'/../Seeder/CRUDData' => database_path('seeds/CRUDData'),
+        ], 'BadasoSeeder');
+
+        $this->publishes([
+            __DIR__.'/../resources/js/' => resource_path('js/badaso'),
+            __DIR__.'/../Images/' => public_path(),
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
+        ], 'BadasoResource');
     }
 
     /**
@@ -66,6 +84,7 @@ class BadasoServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(AdminCommand::class);
-        $this->commands(BDOSeed::class);
+        $this->commands(BackupCommand::class);
+        $this->commands(GenerateSeederCommand::class);
     }
 }

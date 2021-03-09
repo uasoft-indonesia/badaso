@@ -1,4 +1,6 @@
 import Login from "./../views/auth/login.vue";
+import Register from "./../views/auth/register.vue";
+import Verify from "./../views/auth/verify.vue";
 import ForgotPassword from "./../views/auth/forgot-password.vue";
 import ResetPassword from "./../views/auth/reset-password.vue";
 
@@ -23,5 +25,10 @@ export default [
         path: prefix + "/reset-password",
         name: "ResetPassword",
         component: ResetPassword,
+      },
+      {
+        path: prefix + "/verify",
+        name: "Verify",
+        component: Verify,
       },
 ];

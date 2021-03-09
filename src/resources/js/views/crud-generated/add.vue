@@ -426,7 +426,6 @@ export default {
                 data.value = data.details.value ? data.details.value : "";
               }
             } catch (error) {
-              console.log(error);
             }
             return data;
           });

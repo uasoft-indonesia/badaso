@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import api from "../api";
 import createPersistedState from "vuex-persistedstate";
+import helpers from '../utils/helper'
 
 Vue.use(Vuex);
 /* eslint-disable */
@@ -10,8 +11,8 @@ export default new Vuex.Store({
     isSidebarActive: false,
     reduceSidebar: false,
     themeColor: "#2962ff",
-    menuList: [],
-    configurationMenuList: [],
+    menu: {},
+    configurationMenu: {},
     componentList: [],
     groupList: [],
     config: {},
@@ -37,7 +38,7 @@ export default new Vuex.Store({
       state.isSidebarActive = value;
     },
     REDUCE_SIDEBAR(state, value) {
-      state.reduceSidebar = value ? value : !state.reduceSidebar;
+      state.reduceSidebar = value;
     },
     FETCH_MENU(state) {
       const menuKey = process.env.MIX_DEFAULT_MENU
@@ -52,10 +53,29 @@ export default new Vuex.Store({
         })
         .then((res) => {
           let menuItems = res.data.menuItems;
-          for (var i = 0, len = menuItems.length; i < len; i++) {
-            menuItems[i].link = menuItems[i].url;
-          }
-          state.menuList = menuItems;
+          menuItems.map((item) => {
+            if (helpers.isValidHttpUrl(item.url)) {
+              item.url = item.url;
+            } else {
+              item.url = "/" + prefix + "/main/" + item.url;
+            }
+            
+            if (item.children && item.children.length > 0) {
+              item.children.map((subItem) => {
+                if (helpers.isValidHttpUrl(subItem.url)) {
+                  subItem.url = subItem.url;
+                } else {
+                  subItem.url = "/" + prefix + "/main/" + subItem.url;
+                }
+                return subItem;
+              });
+            }
+            return item;
+          });
+          state.menu = {
+            menu: res.data.menu,
+            menuItems: menuItems
+          };
         })
         .catch((err) => {});
     },
@@ -70,19 +90,30 @@ export default new Vuex.Store({
         .then((res) => {
           let menuItems = res.data.menuItems;
           menuItems.map((item) => {
-            item.url = "/" + prefix + "" + item.url;
+            if (helpers.isValidHttpUrl(item.url)) {
+              item.url = item.url;
+            } else {
+              item.url = "/" + prefix + "" + item.url;
+            }
+            
             if (item.children && item.children.length > 0) {
               item.children.map((subItem) => {
-                subItem.url = "/" + prefix + "" + subItem.url;
+                if (helpers.isValidHttpUrl(subItem.url)) {
+                  subItem.url = subItem.url;
+                } else {
+                  subItem.url = "/" + prefix + "" + subItem.url;
+                }
                 return subItem;
               });
             }
             return item;
           });
-          state.configurationMenuList = menuItems;
+          state.configurationMenu = {
+            menu: res.data.menu,
+            menuItems: menuItems
+          };
         })
         .catch((err) => {
-          console.log(err);
         });
     },
     FETCH_COMPONENT(state) {
@@ -124,10 +155,10 @@ export default new Vuex.Store({
   actions: {},
   getters: {
     getMenu: (state) => {
-      return state.menuList;
+      return state.menu;
     },
     getConfigurationMenu: (state) => {
-      return state.configurationMenuList;
+      return state.configurationMenu;
     },
     getComponent: (state) => {
       return state.componentList;

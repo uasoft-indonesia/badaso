@@ -139,12 +139,15 @@ Before you install badaso, make sure your laravel can run.
 ```
     JWT_SECRET={Your JWT secret key}
     FILESYSTEM_DRIVER={public by default}
+    # Supported driver: s3,google,dropbox
+    BACKUP_DISK=
 
-    #this mixed variables must be filled in before build frontend
-    MIX_ADMIN_PANEL_ROUTE_PREFIX={your admin panel prefix}
-    MIX_DEFAULT_MENU={your menu, default 'admin'}
-    MIX_API_ROUTE_PREFIX={badaso-api by default}
-    MIX_LOG_VIEWER_ROUTE={log-viewer}
+    #must be filled in
+    MIX_ADMIN_PANEL_ROUTE_PREFIX=
+    MIX_DEFAULT_MENU=
+    MIX_API_ROUTE_PREFIX=
+    MIX_LOG_VIEWER_ROUTE=
+
     MIX_DATE_FORMAT=
     MIX_TIME_FORMAT=
     MIX_DATETIME_FORMAT=
@@ -162,6 +165,18 @@ Before you install badaso, make sure your laravel can run.
     GOOGLE_DRIVE_FOLDER_ID=
     #optional
     DROPBOX_AUTH_TOKEN=
+
+    #fill with one of all,database,files, backup will not run if BACKUP_TARGET empty
+    BACKUP_TARGET=
+    #fill with many of s3,google,dropbox, backup will not run if BACKUP_TARGET empty
+    BACKUP_DISK=
+```
+- set badaso as default auth
+```
+    'defaults' => [
+        'guard' => 'badaso_guard',
+        'passwords' => 'users',
+    ],
 ```
 - Add badaso guard at config/auth.php
 ```

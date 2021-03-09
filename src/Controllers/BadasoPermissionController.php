@@ -52,12 +52,14 @@ class BadasoPermissionController extends Controller
                 'key' => "required|unique:permissions,key,{$request->id}",
                 'description' => 'required',
                 'always_allow' => 'required',
+                'is_public' => 'required',
             ]);
 
             $permission = Permission::find($request->id);
             $permission->key = $request->key;
             $permission->description = $request->description;
             $permission->always_allow = $request->always_allow;
+            $permission->is_public = $request->is_public;
             $permission->save();
 
             DB::commit();
@@ -78,12 +80,14 @@ class BadasoPermissionController extends Controller
                 'key' => 'required|unique:permissions',
                 'description' => 'required',
                 'always_allow' => 'required',
+                'is_public' => 'required',
             ]);
 
             $permission = new Permission();
             $permission->key = $request->key;
             $permission->description = $request->description;
             $permission->always_allow = $request->always_allow;
+            $permission->is_public = $request->is_public;
             $permission->save();
 
             DB::commit();

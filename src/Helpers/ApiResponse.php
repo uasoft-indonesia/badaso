@@ -104,4 +104,22 @@ class ApiResponse
 
         return self::send($response, 403);
     }
+
+    public static function serviceUnavailable()
+    {
+        $response['message'] = __('badaso::api_response.503');
+        $response['errors'] = null;
+        $response['data'] = null;
+
+        return self::send($response, 503);
+    }
+
+    public static function paymentRequired($message = null)
+    {
+        $response['message'] = $message ?? __('badaso::api_response.402');
+        $response['errors'] = null;
+        $response['data'] = null;
+
+        return self::send($response, 402);
+    }
 }

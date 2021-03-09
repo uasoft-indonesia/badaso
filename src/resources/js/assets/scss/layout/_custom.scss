@@ -41,45 +41,45 @@
 }
 
 .vs-table--content::-webkit-scrollbar-track {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .vs-table--content::-webkit-scrollbar {
-    width: 6px;
-    background-color: transparent;
+  width: 6px;
+  background-color: transparent;
 }
 
 .vs-table--content::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--vs-primary), 0.2);
-    border-radius: 20px;
+  background-color: rgba(var(--vs-primary), 0.2);
+  border-radius: 20px;
 }
 
 .vs-table--content::-webkit-scrollbar-thumb:hover {
-    background-color: #2962FF;
+  background-color: #2962ff;
 }
 
 .vs-col::-webkit-scrollbar-track {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .vs-col::-webkit-scrollbar {
-    width: 6px;
-    background-color: transparent;
+  width: 6px;
+  background-color: transparent;
 }
 
 .vs-col::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--vs-primary), 0.2);
-    border-radius: 20px;
+  background-color: rgba(var(--vs-primary), 0.2);
+  border-radius: 20px;
 }
 
 .vs-col::-webkit-scrollbar-thumb:hover {
-    background-color: #2962FF;
+  background-color: #2962ff;
 }
 
 .vdatetime-input {
   width: 100%;
-  padding: .4rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);   
+  padding: 0.4rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
 }
 .datetime-box {
   display: flex;
@@ -100,4 +100,46 @@
   img {
     height: 30px;
   }
+}
+
+.hide-for-mobile {
+  display: flex !important;
+  @media only screen and (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.show-for-mobile {
+  display: none !important;
+  @media only screen and (max-width: 768px) {
+    display: flex !important;
+  }
+}
+.header-sidebar {
+  .vs-sidebar-group {
+    ul {
+      margin-bottom: 0;
+    }
+  }
+
+  .vs-sidebar-group.vs-sidebar-group-open {
+    >ul {
+      .vs-sidebar--item {
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }  
+}
+
+.vs-sidebar-group.vs-sidebar-group-open {
+	>div {
+		>h4 {
+			>.vs-icon {
+				-webkit-transform: rotate( 180deg );
+				transform: rotate( 180deg );
+			}
+		}
+	}
 }

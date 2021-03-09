@@ -71,6 +71,17 @@ class SiteManagementSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
+                5 => [
+                    'key' => 'adminPanelHeaderFontColor',
+                    'display_name' => 'Admin Panel Header Font Color',
+                    'value' => '#06bbd3',
+                    'details' => '',
+                    'type' => 'color_picker',
+                    'order' => 5,
+                    'group' => 'adminPanel',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_settings = [];

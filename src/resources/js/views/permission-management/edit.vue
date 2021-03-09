@@ -22,10 +22,17 @@
             ></badaso-text>
             <badaso-switch
               v-model="permission.alwaysAllow"
-              size="6"
+              size="3"
               :label="$t('permission.edit.field.alwaysAllow')"
               placeholder="Always Allow"
               :alert="errors.alwaysAllow"
+            ></badaso-switch>
+            <badaso-switch
+              v-model="permission.isPublic"
+              size="3"
+              :label="$t('permission.edit.field.isPublic')"
+              placeholder="Is Public"
+              :alert="errors.isPublic"
             ></badaso-switch>
             <badaso-textarea
               v-model="permission.description"
@@ -106,6 +113,7 @@ export default {
           this.$vs.loading.close();
           this.permission = response.data.permission;
           this.permission.alwaysAllow = this.permission.alwaysAllow === 1;
+          this.permission.isPublic = this.permission.isPublic === 1;
           this.permission.description =
             this.permission.description === null
               ? ""
