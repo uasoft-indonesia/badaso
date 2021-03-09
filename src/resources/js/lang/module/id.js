@@ -41,6 +41,10 @@ export default {
     "createAccount": {
       "text": "Belum punya akun?",
       "link": "Buat akun"
+    },
+    "message": {
+      "success": "Email telah dikirim ke alamat email yang Anda berikan. Silakan ikuti tautan di email untuk menyelesaikan permintaan pengaturan ulang kata sandi Anda.",
+      "error": "Terjadi kesalahan. Silakan periksa kembali email yang Anda berikan. Jika masalah terus berlanjut, harap hubungi kami untuk bantuan lebih lanjut."
     }
   },
 
@@ -55,6 +59,10 @@ export default {
     "createAccount": {
       "text": "Belum punya akun?",
       "link": "Buat akun"
+    },
+    "message": {
+      "success": "Atur ulang kata sandi berhasil. Anda dapat login dengan menggunakan kata sandi baru. Anda akan dialihkan ke halaman login.",
+      "error": "Terjadi kesalahan. Silakan periksa kembali kata sandi dan konfirmasi kata sandi yang Anda berikan. Jika masalah terus berlanjut, harap hubungi kami untuk bantuan lebih lanjut."
     }
   },
 

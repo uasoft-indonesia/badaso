@@ -73,13 +73,6 @@
           </div>
           <vs-button type="relief" class="btn-block" @click="login()">{{ $t('login.button') }}</vs-button>
         </form>
-
-        <div class="d-flex justify-content-center mt-3">
-          {{ $t('login.createAccount.text') }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/register'"
-            >{{ $t('login.createAccount.link') }}</router-link
-          >
-        </div>
       </div>
     </vs-card>
   </vs-col>

@@ -14,6 +14,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
+use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\User;
@@ -258,7 +259,8 @@ class BadasoAuthController extends Controller
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
 
-            // SEND MAIL HERE
+            $user = User::where('email', $request->email)->first();
+            Mail::to($request->email)->send(new ForgotPassword($user, $token));
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -271,7 +273,7 @@ class BadasoAuthController extends Controller
         try {
             $request->validate([
                 'token' => 'required|exists:password_resets,token',
-                'new_password' => [
+                'password' => [
                     'required',
                     'confirmed',
                     'string',
@@ -287,8 +289,12 @@ class BadasoAuthController extends Controller
             $password_reset = collect($password_resets)->first();
 
             $user = User::where('email', $password_reset->email)->first();
-            $user->password = Hash::make($request->new_password);
-            $user->save();
+            $user->password = Hash::make($request->password);
+            $saved = $user->save();
+
+            if ($saved) {
+                DB::table('password_resets')->where('token', $request->token)->delete();
+            }
 
             return ApiResponse::success();
         } catch (Exception $e) {

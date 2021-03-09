@@ -41,6 +41,10 @@ export default {
     "createAccount": {
       "text": "Don't have an account?",
       "link": "Create an account"
+    },
+    "message": {
+      "success": "An email has been sent to the address you have provided. Please follow the link in the email to complete your password reset request.",
+      "error": "An error has occured. Please check again the email that you provided. If the problem persists, please contact us for further assistance."
     }
   },
 
@@ -55,6 +59,10 @@ export default {
     "createAccount": {
       "text": "Don't have an account?",
       "link": "Create an account"
+    },
+    "message": {
+      "success": "Password reset successful. You can now login with the new password. You will now be redirected to login page.",
+      "error": "An error has occured. Please check again the password and password confirmation that you provided. If the problem persists, please contact us for further assistance."
     }
   },
 
