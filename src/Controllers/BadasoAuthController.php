@@ -14,10 +14,13 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
+use Uasoft\Badaso\Helpers\Config;
 use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
+use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
+use Uasoft\Badaso\Models\UserRole;
 use Uasoft\Badaso\Models\UserVerification;
 use Webpatser\Uuid\Uuid;
 
@@ -25,7 +28,7 @@ class BadasoAuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify']]);
+        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification']]);
     }
 
     public function login(Request $request)
@@ -48,11 +51,11 @@ class BadasoAuthController extends Controller
                 throw new SingleException(__('badaso::validation.auth.invalid_credentials'));
             }
 
-            $should_verify_email = true;
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {
                 $user = auth()->user();
                 if (is_null($user->email_verified_at)) {
-                    throw new SingleException('Email is not verified');
+                    throw new SingleException('Email is not verified, please checkout your inbox');
                 }
             }
 
@@ -92,7 +95,14 @@ class BadasoAuthController extends Controller
                 'password' => Hash::make($request->get('password')),
             ]);
 
-            $should_verify_email = true;
+            $role = $this->getCustomerRole();
+
+            $user_role = new UserRole();
+            $user_role->user_id = $user->id;
+            $user_role->role_id = $role->id;
+            $user_role->save();
+
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if (!$should_verify_email) {
                 $token = auth()->login($user);
 
@@ -184,9 +194,9 @@ class BadasoAuthController extends Controller
                 ->first();
 
             if ($user_verification) {
-                if (date('Y-m-d H:i:s') > $user->expired_at) {
-                    $user_verification->delete();
-                    throw new SingleException('Verification token expired');
+                if (strtotime(date('Y-m-d H:i:s')) > strtotime($user_verification->expired_at)) {
+                    // $user_verification->delete();
+                    throw new SingleException('EXPIRED');
                 }
                 $user->email_verified_at = date('Y-m-d H:i:s');
                 $user->save();
@@ -300,5 +310,59 @@ class BadasoAuthController extends Controller
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
+    }
+
+    public function reRequestVerification(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $request->validate([
+                'token' => 'required|string',
+                'email' => 'required|string|email|max:255',
+            ]);
+
+            $user = User::where('email', $request->email)->first();
+            $user_verification = UserVerification::where('verification_token', $request->token)
+                ->where('user_id', $user->id)
+                ->first();
+
+            if (!$user_verification) {
+                throw new SingleException('Invalid verification token');
+            }
+
+            $token = rand(111111, 999999);
+            $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
+            $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
+
+            $user_verification->verification_token = $token;
+            $user_verification->expired_at = $expired_token;
+            $user_verification->save();
+
+            $this->sendVerificationToken(['user' => $user, 'token' => $token]);
+
+            DB::commit();
+
+            return ApiResponse::success([
+                'message' => 'An verification mail has been send to your email',
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    protected function getCustomerRole()
+    {
+        $role = Role::where('name', 'customer')->first();
+
+        if (is_null($role)) {
+            $role = new Role();
+            $role->name = 'customer';
+            $role->display_name = 'Customer';
+            $role->save();
+        }
+
+        return $role;
     }
 }

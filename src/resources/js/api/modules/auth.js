@@ -33,6 +33,10 @@ export default {
     return resource.post(endpoint.auth.resetPassword, data);
   },
 
+  reRequestVerificationToken(data) {
+    return resource.post(endpoint.auth.reRequestVerificationToken, data);
+  },
+
   register(data) {
     let response = resource.post(endpoint.auth.register, data);
     response.then((res) => {

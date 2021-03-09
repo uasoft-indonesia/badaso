@@ -3,6 +3,9 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 
 class VerifyLicence
@@ -14,6 +17,24 @@ class VerifyLicence
             return ApiResponse::paymentRequired('Invalid Badaso Licence Key');
         } else {
             // Call Badaso Dashboard API here
+            try {
+                $client = new Client();
+                $req = $client->request('POST', 'http://dev.badaso-dashboard.com/api/verify-licence', [
+                    'json' => [
+                        'licence' => $licence,
+                    ],
+                ]);
+            } catch (BadResponseException $e) {
+                if ($e->hasResponse()) {
+                    $response = $e->getResponse()->getBody();
+
+                    return json_decode($response, true);
+                } else {
+                    return ApiResponse::failed($e);
+                }
+            } catch (Exception $e) {
+                return ApiResponse::failed($e);
+            }
         }
 
         return $next($request);

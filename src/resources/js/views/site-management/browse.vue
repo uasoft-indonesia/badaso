@@ -327,6 +327,9 @@ export default {
               if (data.type === "hidden") {
                 data.value = data.details.value ? data.details.value : "";
               }
+              if (data.type === "switch") {
+                data.value = data.value == 1 ? true : false;
+              }
             } catch (error) {
             }
             return data;

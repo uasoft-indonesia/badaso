@@ -5,12 +5,11 @@ namespace Uasoft\Badaso\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Uasoft\Badaso\Models\User;
 
 class ForgotPassword extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $token;
     public $user;
@@ -34,7 +33,6 @@ class ForgotPassword extends Mailable
     public function build()
     {
         return $this
-            ->from(config('mail.from.address'))
-            ->markdown('Badaso::mail-template.forgot-password');
+            ->markdown('Badaso::mail.forgot-password');
     }
 }

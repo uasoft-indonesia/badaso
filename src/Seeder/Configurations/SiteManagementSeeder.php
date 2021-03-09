@@ -82,6 +82,17 @@ class SiteManagementSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
+                6 => [
+                    'key' => 'adminPanelVerifyEmail',
+                    'display_name' => 'Should verify email after register',
+                    'value' => '1',
+                    'details' => '',
+                    'type' => 'switch',
+                    'order' => 6,
+                    'group' => 'adminPanel',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_settings = [];

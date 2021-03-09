@@ -21,7 +21,8 @@ export default {
     verify: apiPrefix + '/v1/auth/verify',
     refreshToken: apiPrefix + '/v1/auth/refresh-token',
     user: apiPrefix + '/v1/auth/user',
-    changePassword: apiPrefix + '/v1/auth/change-password'
+    changePassword: apiPrefix + '/v1/auth/change-password',
+    reRequestVerificationToken: apiPrefix + '/v1/auth/re-request-verification'
   },
   crudManagement: {
     browse: apiPrefix + '/v1/crud',
