@@ -5,6 +5,9 @@ let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
 apiPrefix = '/' + apiPrefix;
 
 export default {
+  dashboard: {
+    index: apiPrefix + '/v1/dashboard',
+  },
   activitylog: {
     browse: apiPrefix + '/v1/activitylogs',
     read: apiPrefix + '/v1/activitylogs/read',

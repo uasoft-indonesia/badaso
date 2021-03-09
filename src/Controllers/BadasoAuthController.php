@@ -7,14 +7,17 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use JWTAuth;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
+use Uasoft\Badaso\Mail\SendUserVerification;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\User;
+use Uasoft\Badaso\Models\UserVerification;
 use Webpatser\Uuid\Uuid;
 
 class BadasoAuthController extends Controller
@@ -67,6 +70,7 @@ class BadasoAuthController extends Controller
     public function register(Request $request)
     {
         try {
+            DB::beginTransaction();
             $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
@@ -79,11 +83,37 @@ class BadasoAuthController extends Controller
                 'password' => Hash::make($request->get('password')),
             ]);
 
-            // $token = JWTAuth::fromUser($user);
-            $token = auth()->login($user);
+            $should_verify_email = true;
+            if (!$should_verify_email) {
+                $token = auth()->login($user);
 
-            return $this->createNewToken($token, auth()->user());
+                DB::commit();
+
+                return $this->createNewToken($token, auth()->user());
+            } else {
+                $token = rand(111111, 999999);
+                $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
+                $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
+                $data = [
+                    'user_id' => $user->id,
+                    'verification_token' => $token,
+                    'expired_at' => $expired_token,
+                    'count_incorrect' => 0,
+                ];
+
+                UserVerification::firstOrCreate($data);
+
+                $this->sendVerificationToken(['user' => $user, 'token' => $token]);
+
+                DB::commit();
+
+                return ApiResponse::success([
+                    'message' => 'An verification mail has been send to your email',
+                ]);
+            }
         } catch (Exception $e) {
+            DB::rollBack();
+
             return ApiResponse::failed($e);
         }
     }
@@ -124,6 +154,11 @@ class BadasoAuthController extends Controller
         $obj->expires_in = auth()->factory()->getTTL() * 60;
 
         return ApiResponse::success($obj);
+    }
+
+    public function sendVerificationToken($data)
+    {
+        return Mail::to($data['user']['email'])->queue(new SendUserVerification($data));
     }
 
     public function verify(Request $request)

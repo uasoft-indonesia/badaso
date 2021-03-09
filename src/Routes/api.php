@@ -5,10 +5,15 @@ use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Middleware\ApiRequest;
 use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
 use Uasoft\Badaso\Middleware\BadasoCheckPermissionsForCRUD;
+use Uasoft\Badaso\Middleware\VerifyLicence;
 
 $api_route_prefix = \config('badaso.api_route_prefix');
-Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.', 'middleware' => ApiRequest::class], function () {
+Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.', 'middleware' => [ApiRequest::class, VerifyLicence::class]], function () {
     Route::group(['prefix' => 'v1'], function () {
+        Route::group(['prefix' => 'dashboard'], function () {
+            Route::get('/', 'BadasoDashboardController@index');
+        });
+
         Route::group(['prefix' => 'data'], function () {
             Route::get('/components', 'BadasoDataController@getComponents');
             Route::get('/filter-operators', 'BadasoDataController@getFilterOperators');

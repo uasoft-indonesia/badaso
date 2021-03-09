@@ -1,74 +1,53 @@
 <template>
-  <div>
-    <States />
-    <vs-row vs-justify="center">
-      <vs-col
-        type="flex"
-        vs-justify="center"
-        vs-align="center"
-        vs-lg="8"
-        vs-sm="6"
-        vs-xs="12"
-        code-toggler
-      >
-        <vs-card class="cardx">
-          <div slot="header">
-            <h4>
-              Sales Summary
-            </h4>
-          </div>
-          <div>
-            <SalesSummary />
-          </div>
-        </vs-card>
+  <vs-row style="display: block;">
+      <vs-col v-for="(data, index) in dashboardData" :vs-lg="col" vs-xs="12">
+          <vs-card>
+              <h4 class="mb-1">{{data.value}}</h4>
+              <span>{{data.label}}</span>
+              <vs-progress :percent="70" color="primary">primary</vs-progress>
+          </vs-card>
       </vs-col>
-      <vs-col
-        type="flex"
-        vs-justify="center"
-        vs-align="center"
-        vs-sm="6"
-        vs-lg="4"
-        vs-xs="12"
-      >
-        <vs-card class="cardx">
-          <div slot="header">
-            <h4>
-              Sales Income
-            </h4>
-          </div>
-          <div>
-            <SalesIncome />
-          </div>
-        </vs-card>
-      </vs-col>
-      <vs-col vs-lg="12">
-        <vs-card>
-          <div slot="header">
-            <h4>Top Selling Products</h4>
-          </div>
-          <TopProducts />
-        </vs-card>
-      </vs-col>
-    </vs-row>
-    <Blogs />
-  </div>
+  </vs-row>  
 </template>
 
 <script>
-import SalesSummary from "./dashboard/SalesSummary.vue";
-import SalesIncome from "./dashboard/SalesIncome.vue";
-import TopProducts from "./dashboard/TopProducts.vue";
-import States from "./dashboard/States.vue";
-import Blogs from "./dashboard/Blogs.vue";
-
 export default {
   name: "Home",
-  components: {
-    SalesSummary,
-    SalesIncome,
-    TopProducts,
-    States,
-    Blogs,
+  components: {},
+  data: () => ({
+    dashboardData: [],
+    col: 12
+  }),
+  mounted() {
+    this.getDashboardData();
+  },
+  methods: {
+    getDashboardData() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.dashboard
+        .index()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.dashboardData = response.data;
+          if (this.dashboardData.length >= 4) {
+            this.col = 3
+          } else if (this.dashboardData.length == 3) {
+            this.col = 4
+          } else {
+            this.col = 6
+          }
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t('alert.danger'),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
   },
 };
 </script>
