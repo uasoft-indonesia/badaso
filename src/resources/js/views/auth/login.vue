@@ -6,8 +6,8 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">{{ $t('login.title') }}</h3>
-        <p class="mb-0">{{ $t('login.subtitle') }}</p>
+        <h3 class="mb-1">{{ $t("login.title") }}</h3>
+        <p class="mb-0">{{ $t("login.subtitle") }}</p>
       </div>
       <div>
         <form @submit="login()">
@@ -21,7 +21,12 @@
           />
           <div v-if="errors.email" class="mb-4">
             <div v-if="$helper.isArray(errors.email)">
-              <span class="text-danger" v-for="(info, index) in errors.email" :key="index" v-html="info"></span>
+              <span
+                class="text-danger"
+                v-for="(info, index) in errors.email"
+                :key="index"
+                v-html="info"
+              ></span>
             </div>
             <div v-else>
               <span class="text-danger" v-html="errors.email"></span>
@@ -39,7 +44,12 @@
           />
           <div v-if="errors.password" class="mb-4">
             <div v-if="$helper.isArray(errors.password)">
-              <span class="text-danger" v-for="(info, index) in errors.password" :key="index" v-html="info"></span>
+              <span
+                class="text-danger"
+                v-for="(info, index) in errors.password"
+                :key="index"
+                v-html="info"
+              ></span>
             </div>
             <div v-else>
               <span class="text-danger" v-html="errors.password"></span>
@@ -63,23 +73,24 @@
                     >check</i
                   ></span
                 ></span
-              ><span class="con-slot-label">{{ $t('login.rememberMe') }}</span>
+              ><span class="con-slot-label">{{ $t("login.rememberMe") }}</span>
             </div>
             <router-link
               :to="'/' + baseUrl + '/forgot-password'"
               class="ml-auto"
-              >{{ $t('login.forgotPassword') }}</router-link
+              >{{ $t("login.forgotPassword") }}</router-link
             >
           </div>
-          <vs-button type="relief" class="btn-block" @click="login()">{{ $t('login.button') }}</vs-button>
+          <vs-button type="relief" class="btn-block" @click="login()">{{
+            $t("login.button")
+          }}</vs-button>
         </form>
         <div class="d-flex justify-content-center mt-3">
-          {{ $t('login.createAccount.text') }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/register'"
-            >{{ $t('login.createAccount.link') }}</router-link
-          >
+          {{ $t("login.createAccount.text") }} &nbsp;
+          <router-link :to="'/' + baseUrl + '/register'">{{
+            $t("login.createAccount.link")
+          }}</router-link>
         </div>
-
       </div>
     </vs-card>
   </vs-col>
@@ -98,23 +109,37 @@ export default {
   methods: {
     login() {
       this.$vs.loading({
-        type:'sound',
-      })
-      this.$api.auth.login({
-        email: this.email,
-        password: this.password
-      })
-      .then((response) => {
-        this.$vs.loading.close()
-        this.$router.push({ name: 'Home'})
-      })
-      .catch((error) => {
-        this.errors = error.errors;
-        this.$vs.loading.close()
-        this.$vs.notify({title: this.$t('alert.danger'),text:error.message,color:'danger'})
-      })
+        type: "sound",
+      });
+      this.$api.auth
+        .login({
+          email: this.email,
+          password: this.password,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          if (response.data.accessToken) {
+            this.$router.push({ name: "Home" });
+          } else {
+            this.$router.push({
+              name: "Verify",
+              query: {
+                email: this.email,
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          this.errors = error.errors;
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
-  }
+  },
 };
 </script>
 

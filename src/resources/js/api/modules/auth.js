@@ -5,6 +5,7 @@ export default {
   login(data) {
     let response = resource.post(endpoint.auth.login, data);
     response.then((res) => {
+      if (res.data.accessToken) {
         let token = res.data.accessToken;
         localStorage.setItem("token", token);
         let date = new Date();
@@ -13,6 +14,7 @@ export default {
           window.btoa("tokenAccessTime"),
           window.btoa(timeNow)
         );
+      }
     });
     return response;
   },
@@ -20,7 +22,7 @@ export default {
   logout() {
     let response = resource.post(endpoint.auth.logout);
     response.then((res) => {
-        localStorage.clear();
+      localStorage.clear();
     });
     return response;
   },
@@ -80,12 +82,12 @@ export default {
     if (lastTokenAccessTime == null) {
       let response = resource.post(endpoint.auth.refreshToken);
       response.then((res) => {
-          let token = res.data.accessToken;
-          localStorage.setItem("token", token);
-          localStorage.setItem(
-            window.btoa("tokenAccessTime"),
-            window.btoa(timeNow)
-          );
+        let token = res.data.accessToken;
+        localStorage.setItem("token", token);
+        localStorage.setItem(
+          window.btoa("tokenAccessTime"),
+          window.btoa(timeNow)
+        );
       });
       return response;
     } else {
@@ -93,18 +95,18 @@ export default {
       if (timeNow - accessTime > 3000000) {
         let response = resource.post(endpoint.auth.refreshToken);
         response.then((res) => {
-            let token = res.data.accessToken;
-            localStorage.setItem("token", token);
-            localStorage.setItem(
-              window.btoa("tokenAccessTime"),
-              window.btoa(timeNow)
-            );
+          let token = res.data.accessToken;
+          localStorage.setItem("token", token);
+          localStorage.setItem(
+            window.btoa("tokenAccessTime"),
+            window.btoa(timeNow)
+          );
         });
         return response;
       }
     }
 
-    return Promise.resolve("TOKEN ALIVE")
+    return Promise.resolve("TOKEN ALIVE");
   },
 
   user() {

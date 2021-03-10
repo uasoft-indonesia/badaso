@@ -66,6 +66,21 @@ export default {
     }
   },
 
+  "verifyEmail": {
+    "title": "Verifikasi Email",
+    "failed": "Verifikasi Email sedang diproses ....",
+    "button": "Verifikasi",
+    "request": "Kirim ulang",
+    "field": {
+      "token": "Token",
+    },
+    "message": {
+      "inProgress": "Verifikasi Email sedang diproses  ....",
+      "success": "Email telah dikirim ke alamat email yang Anda berikan. Silakan ikuti tautan di email untuk menyelesaikan permintaan pengaturan ulang kata sandi Anda.",
+      "error": "Verifikasi Email gagal."
+    }
+  },
+
   "sidebar": {
     "dashboard": "Beranda",
     "mainMenu": "Menu Utama",

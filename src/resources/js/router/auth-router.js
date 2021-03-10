@@ -15,25 +15,40 @@ export default [
         path: prefix + "/login",
         name: "Login",
         component: Login,
+        meta: {
+          title: "Login",
+        },
       },
       {
         path: prefix + "/register",
         name: "Register",
         component: Register,
+        meta: {
+          title: "Register",
+        },
       },
       {
         path: prefix + "/forgot-password",
         name: "ForgotPassword",
         component: ForgotPassword,
+        meta: {
+          title: "Forgot Password",
+        },
       },
       {
         path: prefix + "/reset-password",
         name: "ResetPassword",
         component: ResetPassword,
+        meta: {
+          title: "Reset Password",
+        },
       },
       {
         path: prefix + "/verify",
         name: "Verify",
         component: Verify,
+        meta: {
+          title: "Email Verification",
+        },
       },
 ];

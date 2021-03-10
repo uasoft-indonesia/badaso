@@ -66,6 +66,21 @@ export default {
     }
   },
 
+  "verifyEmail": {
+    "title": "Email Verification",
+    "failed": "Email Verification in progress ....",
+    "button": "Verify",
+    "request": "Resend",
+    "field": {
+      "token": "Token",
+    },
+    "message": {
+      "inProgress": "Email Verification in progress ....",
+      "success": "An email has been sent to the address you have provided. Please follow the link in the email to complete your email verification.",
+      "error": "Email verification failed."
+    }
+  },
+
   "sidebar": {
     "dashboard": "Dashboard",
     "mainMenu": "Main Menu",

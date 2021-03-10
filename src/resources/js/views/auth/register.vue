@@ -6,8 +6,8 @@
   >
     <vs-card class="mb-0">
       <div slot="header">
-        <h3 class="mb-1">{{ $t('register.title') }}</h3>
-        <p class="mb-0">{{ $t('register.subtitle') }}</p>
+        <h3 class="mb-1">{{ $t("register.title") }}</h3>
+        <p class="mb-0">{{ $t("register.subtitle") }}</p>
       </div>
       <div>
         <form novalidate="novalidate">
@@ -21,7 +21,12 @@
           />
           <div v-if="errors.name" class="mb-4">
             <div v-if="$helper.isArray(errors.name)">
-              <span class="text-danger" v-for="(info, index) in errors.name" :key="index" v-html="info"></span>
+              <span
+                class="text-danger"
+                v-for="(info, index) in errors.name"
+                :key="index"
+                v-html="info"
+              ></span>
             </div>
             <div v-else>
               <span class="text-danger" v-html="errors.name"></span>
@@ -37,7 +42,12 @@
           />
           <div v-if="errors.email" class="mb-4">
             <div v-if="$helper.isArray(errors.email)">
-              <span class="text-danger" v-for="(info, index) in errors.email" :key="index" v-html="info"></span>
+              <span
+                class="text-danger"
+                v-for="(info, index) in errors.email"
+                :key="index"
+                v-html="info"
+              ></span>
             </div>
             <div v-else>
               <span class="text-danger" v-html="errors.email"></span>
@@ -54,7 +64,12 @@
           />
           <div v-if="errors.password" class="mb-4">
             <div v-if="$helper.isArray(errors.password)">
-              <span class="text-danger" v-for="(info, index) in errors.password" :key="index" v-html="info"></span>
+              <span
+                class="text-danger"
+                v-for="(info, index) in errors.password"
+                :key="index"
+                v-html="info"
+              ></span>
             </div>
             <div v-else>
               <span class="text-danger" v-html="errors.password"></span>
@@ -69,12 +84,16 @@
             v-model="passwordConfirmation"
             class="w-100 mb-4 mt-2 "
           />
-          <vs-button type="relief" class="btn-block" @click="register()">{{ $t('register.button') }}</vs-button>
+          <vs-button type="relief" class="btn-block" @click="register()">{{
+            $t("register.button")
+          }}</vs-button>
         </form>
 
         <div class="d-flex justify-content-center mt-3">
-          {{ $t('register.existingAccount.text') }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/login'">{{ $t('register.existingAccount.link') }}</router-link>
+          {{ $t("register.existingAccount.text") }} &nbsp;
+          <router-link :to="'/' + baseUrl + '/login'">{{
+            $t("register.existingAccount.link")
+          }}</router-link>
         </div>
       </div>
     </vs-card>
@@ -96,26 +115,39 @@ export default {
   methods: {
     register() {
       this.$vs.loading({
-        type:'sound',
-      })
-      this.$api.auth.register({
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        passwordConfirmation: this.passwordConfirmation
-      })
-      .then((response) => {
-        this.$vs.loading.close()
-        this.$vs.notify({title: this.$t('alert.success'),text:response.data.message,color:'success'})
-        this.$router.push({ name: 'Login'})
-      })
-      .catch((error) => {
-        this.errors = error.errors;
-        this.$vs.loading.close()
-        this.$vs.notify({title: this.$t('alert.danger'),text:error.message,color:'danger'})
-      })
+        type: "sound",
+      });
+      this.$api.auth
+        .register({
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          passwordConfirmation: this.passwordConfirmation,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          if (response.data.accessToken) {
+            this.$router.push({ name: "Login" });
+          } else {
+            this.$router.push({
+              name: "Verify",
+              query: {
+                email: this.email,
+              },
+            });
+          }
+        })
+        .catch((error) => {
+          this.errors = error.errors;
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
-  }
+  },
 };
 </script>
 

@@ -55,7 +55,7 @@ class BadasoAuthController extends Controller
             if ($should_verify_email) {
                 $user = auth()->user();
                 if (is_null($user->email_verified_at)) {
-                    throw new SingleException('Email is not verified, please checkout your inbox');
+                    return ApiResponse::success([]);
                 }
             }
 
@@ -317,17 +317,15 @@ class BadasoAuthController extends Controller
         try {
             DB::beginTransaction();
             $request->validate([
-                'token' => 'required|string',
                 'email' => 'required|string|email|max:255',
             ]);
 
             $user = User::where('email', $request->email)->first();
-            $user_verification = UserVerification::where('verification_token', $request->token)
-                ->where('user_id', $user->id)
+            $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
 
             if (!$user_verification) {
-                throw new SingleException('Invalid verification token');
+                throw new SingleException('Verification not found');
             }
 
             $token = rand(111111, 999999);
