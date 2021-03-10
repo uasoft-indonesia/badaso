@@ -161,8 +161,8 @@
       <td class="container"
         style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
         <div style="text-align: center;"><img
-            src="{{ asset('/badaso-images/badaso-logo.png') }}"
-            width="25%" alt="Logo Gurusaham"></div>
+            src="{{ asset('badaso-images//badaso.jpg') }}"
+            width="25%" alt="Logo Badaso"></div>
         <div class="content"
           style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">
 
@@ -176,21 +176,13 @@
                   <tr>
                     <td>
                       <p>Hi {{ $user->name }},</p>
-                      <p>You are receiving this email because we received a password reset request for your account.</p>
+                      <p>You are receiving this email because we received a password reset request for your account. Here is the verification code for your account: </p>
 
-                      <div class="btnRowBlock">
-                        <div class="btnWrapper btnWrapper">
-                          <a class="badaso-btn btn-primary has-text-weight-bold" href="{{ \config('badaso.admin_panel_route_prefix').\URL::to('/reset-password?token='.$token) }}">Reset Password</a>
-                        </div>
-                      </div>
+                      <h1>{{$token}}</h1>
 
-                      <p>If you did not request a password reset, no further action is required.</p>
+                      <p>All you have to do is copy the verification code and paste it to email verification form to continue the reset password process.</p>
 
                       <p>Regards,<br />{{ config('app.name') }}</p>
-                      <div class="separator"></div>
-                      <p class="gray">If you're having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser:</p>
-  
-                      <a href="{{ \URL::to(\config('badaso.admin_panel_route_prefix').'/reset-password?token='.$token) }}">{{ \URL::to(\config('badaso.admin_panel_route_prefix').'/reset-password?token='.$token) }}</a>
                     </td>
                   </tr>
                 </table>

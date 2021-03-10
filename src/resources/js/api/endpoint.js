@@ -16,6 +16,7 @@ export default {
     login: apiPrefix + '/v1/auth/login',
     logout: apiPrefix + '/v1/auth/logout',
     forgotPassword: apiPrefix + '/v1/auth/forgot-password',
+    forgotPasswordVerifyToken: apiPrefix + '/v1/auth/forgot-password-verify',
     resetPassword: apiPrefix + '/v1/auth/reset-password',
     register: apiPrefix + '/v1/auth/register',
     verify: apiPrefix + '/v1/auth/verify',

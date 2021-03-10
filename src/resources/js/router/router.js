@@ -70,8 +70,8 @@ const router = new VueRouter({
         },
 
         ...ConfigurationRoute,
-        ...GeneratedRoute,
         ...AdminRoute,
+        ...GeneratedRoute,
       ],
     },
     {

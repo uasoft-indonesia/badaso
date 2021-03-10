@@ -31,6 +31,10 @@ export default {
     return resource.post(endpoint.auth.forgotPassword, data);
   },
 
+  forgotPasswordVerifyToken(data) {
+    return resource.post(endpoint.auth.forgotPasswordVerifyToken, data);
+  },
+
   resetPassword(data) {
     return resource.post(endpoint.auth.resetPassword, data);
   },

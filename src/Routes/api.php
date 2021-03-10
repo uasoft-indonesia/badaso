@@ -32,6 +32,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/register', 'BadasoAuthController@register');
             Route::post('/change-password', 'BadasoAuthController@changePassword');
             Route::post('/forgot-password', 'BadasoAuthController@forgetPassword');
+            Route::post('/forgot-password-verify', 'BadasoAuthController@validateTokenForgetPassword');
             Route::post('/reset-password', 'BadasoAuthController@resetPassword');
             Route::post('/refresh-token', 'BadasoAuthController@refreshToken');
             Route::post('/verify', 'BadasoAuthController@verify');

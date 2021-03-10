@@ -22,13 +22,12 @@ use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 use Uasoft\Badaso\Models\UserVerification;
-use Webpatser\Uuid\Uuid;
 
 class BadasoAuthController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification']]);
+        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification', 'validateTokenForgetPassword']]);
     }
 
     public function login(Request $request)
@@ -261,7 +260,7 @@ class BadasoAuthController extends Controller
                 'email' => ['required', 'email', 'exists:users,email'],
             ]);
 
-            $token = Uuid::generate();
+            $token = rand(111111, 999999);
 
             DB::table('password_resets')->insert([
                 'email' => $request->email,
@@ -278,25 +277,70 @@ class BadasoAuthController extends Controller
         }
     }
 
+    public function validateTokenForgetPassword(Request $request)
+    {
+        try {
+            $request->validate([
+                'email' => ['required', 'email', 'exists:users,email'],
+                'token' => [
+                    'required',
+                    'exists:password_resets,token',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token AND email = :email', [
+                            'token' => $request->token,
+                            'email' => $request->email,
+                        ]);
+                        $password_reset = collect($password_resets)->first();
+                        if (is_null($password_reset)) {
+                            $fail('Token or Email invalid');
+                        }
+                    },
+                ],
+            ]);
+
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function resetPassword(Request $request)
     {
         try {
             $request->validate([
-                'token' => 'required|exists:password_resets,token',
-                'password' => [
+                'email' => ['required', 'email', 'exists:users,email'],
+                'token' => [
                     'required',
-                    'confirmed',
-                    'string',
-                    'min:6',
-                    'confirmed',
+                    'exists:password_resets,token',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token AND email = :email', [
+                            'token' => $request->token,
+                            'email' => $request->email,
+                        ]);
+                        $password_reset = collect($password_resets)->first();
+                        if (is_null($password_reset)) {
+                            $fail('Token or Email invalid');
+                        }
+                    },
                 ],
             ]);
 
-            $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token', [
+            $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token AND email = :email', [
                 'token' => $request->token,
+                'email' => $request->email,
             ]);
 
             $password_reset = collect($password_resets)->first();
+
+            $request->validate([
+                'token' => [
+                    function ($attribute, $value, $fail) use ($password_reset) {
+                        if (is_null($password_reset)) {
+                            $fail('Token Invalid');
+                        }
+                    },
+                ],
+            ]);
 
             $user = User::where('email', $password_reset->email)->first();
             $user->password = Hash::make($request->password);

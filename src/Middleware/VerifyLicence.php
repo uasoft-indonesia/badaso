@@ -28,7 +28,7 @@ class VerifyLicence
                 if ($e->hasResponse()) {
                     $response = $e->getResponse()->getBody();
 
-                    return json_decode($response, true);
+                    return response(json_decode($response, true), 400);
                 } else {
                     return ApiResponse::failed($e);
                 }

@@ -61,6 +61,7 @@ export default {
         type:'sound',
       })
       this.$api.auth.resetPassword({
+        email: this.$router.currentRoute.query.email,
         token: this.$router.currentRoute.query.token,
         password: this.password,
         password_confirmation: this.passwordConfirmation
