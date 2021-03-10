@@ -57,7 +57,7 @@ export default new Vuex.Store({
             if (helpers.isValidHttpUrl(item.url)) {
               item.url = item.url;
             } else {
-              item.url = "/" + prefix + "/main/" + item.url;
+              item.url = "/" + prefix + "" + item.url;
             }
             
             if (item.children && item.children.length > 0) {
@@ -65,7 +65,7 @@ export default new Vuex.Store({
                 if (helpers.isValidHttpUrl(subItem.url)) {
                   subItem.url = subItem.url;
                 } else {
-                  subItem.url = "/" + prefix + "/main/" + subItem.url;
+                  subItem.url = "/" + prefix + "" + subItem.url;
                 }
                 return subItem;
               });

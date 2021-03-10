@@ -23,6 +23,10 @@ let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
 
 let prefix = "/" + prefix_env;
 
+const menuKey = process.env.MIX_DEFAULT_MENU
+        ? process.env.MIX_DEFAULT_MENU
+        : "admin";
+
 const router = new VueRouter({
   mode: "history",
   routes: [
@@ -57,7 +61,7 @@ const router = new VueRouter({
           redirect: prefix + "/home",
         },
         {
-          path: prefix + "/main",
+          path: prefix + "/" + menuKey,
           redirect: prefix + "/home",
         },
         {

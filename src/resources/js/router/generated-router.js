@@ -10,9 +10,13 @@ let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
 
 let prefix = "/" + prefix_env;
 
+const menuKey = process.env.MIX_DEFAULT_MENU
+        ? process.env.MIX_DEFAULT_MENU
+        : "admin";
+
 export default [
   {
-    path: prefix + "/main/:slug",
+    path: prefix + "/"+ menuKey + "/:slug",
     name: "EntityBrowse",
     component: Browse,
     meta: {
@@ -20,7 +24,7 @@ export default [
     },
   },
   {
-    path: prefix + "/main/:slug/add",
+    path: prefix + "/"+ menuKey + "/:slug/add",
     name: "EntityAdd",
     component: Add,
     meta: {
@@ -28,7 +32,7 @@ export default [
     },
   },
   {
-    path: prefix + "/main/:slug/sort",
+    path: prefix + "/"+ menuKey + "/:slug/sort",
     name: "EntitySort",
     component: Sort,
     meta: {
@@ -36,7 +40,7 @@ export default [
     },
   },
   {
-    path: prefix + "/main/:slug/:id",
+    path: prefix + "/"+ menuKey + "/:slug/:id",
     name: "EntityRead",
     component: Read,
     meta: {
@@ -44,7 +48,7 @@ export default [
     },
   },
   {
-    path: prefix + "/main/:slug/:id/edit",
+    path: prefix + "/"+ menuKey + "/:slug/:id/edit",
     name: "EntityEdit",
     component: Edit,
     meta: {
