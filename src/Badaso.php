@@ -83,6 +83,7 @@ class Badaso
         'configurations',
         'role_permissions',
         'user_roles',
+        'user_verifications',
     ];
 
     public function model($name)
@@ -112,6 +113,6 @@ class Badaso
 
     public function getProtectedTables()
     {
-        return $this->protected_tables;
+        return config('badaso.hidden_tables', []);
     }
 }

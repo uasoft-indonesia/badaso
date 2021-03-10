@@ -8,6 +8,22 @@ return [
     'storage' => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],
+    'hidden_tables' => [ // this table will not shown on CRUD generator
+        'activity_log',
+        'data_rows',
+        'data_types',
+        'migrations',
+        'password_resets',
+        'menus',
+        'menu_items',
+        'users',
+        'roles',
+        'permissions',
+        'configurations',
+        'role_permissions',
+        'user_roles',
+        'user_verifications',
+    ],
     'watch_tables' => [
         // table names for generating CRUD_DATA seeders.
     ],
