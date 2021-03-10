@@ -176,7 +176,7 @@
                   <tr>
                     <td>
                       <p>Hi {{ $user->name }},</p>
-                      <p>Thank you for using Badaso. Before you get started, we just need to confirm that this is you. Here is the verification code for your account: </p>
+                      <p>Thank you for using {{ config('app.name') }}. Before you get started, we just need to confirm that this is you. Here is the verification code for your account: </p>
 
                       <h1>{{$token}}</h1>
 
@@ -190,20 +190,6 @@
             </tr>
 
           </table>
-
-          <div class="footer" style="clear: both; Margin-top: 10px; text-align: center; width: 100%;">
-            <table border="0" cellpadding="0" cellspacing="0"
-              style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-              <tr>
-                <td class="content-block"
-                  style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
-                  <span class="apple-link" style="color: #999999; font-size: 12px; text-align: center;">Jl. Gatot
-                    Subroto No.Kav 51, RT.5/RW.4, Kuningan Tim., Kecamatan Setiabudi, Kota Jakarta Selatan, Daerah
-                    Khusus Ibukota Jakarta 12950</span><br />
-                </td>
-              </tr>
-            </table>
-          </div>
 
         </div>
       </td>
