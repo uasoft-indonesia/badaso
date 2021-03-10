@@ -124,7 +124,6 @@
                 <badaso-switch
                   v-if="config.type === 'switch'"
                   :label="config.displayName"
-                  :placeholder="config.value"
                   size="12"
                   v-model="config.value"
                 ></badaso-switch>
@@ -328,7 +327,7 @@ export default {
                 data.value = data.details.value ? data.details.value : "";
               }
               if (data.type === "switch") {
-                data.value = data.value == 1 ? true : false;
+                data.value = data.value == "1" ? true : false;
               }
             } catch (error) {
             }

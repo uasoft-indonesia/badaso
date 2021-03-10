@@ -1,6 +1,6 @@
 <template>
   <vs-row style="display: block;">
-      <vs-col v-for="(data, index) in dashboardData" :vs-lg="col" vs-xs="12">
+      <vs-col v-for="(data, index) in dashboardData" :key="index" :vs-lg="col" vs-xs="12">
           <vs-card>
               <h4 class="mb-1">{{data.value}}</h4>
               <span>{{data.label}}</span>

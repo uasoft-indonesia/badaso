@@ -24,6 +24,7 @@
         -->
         <badaso-sidebar-group :title="user.name" :subTitle="user.email" icon="person_pin">
           <vs-sidebar-item
+            v-if="user.id"
             icon="person_outline"
             :to="{
               name: 'UserRead',
