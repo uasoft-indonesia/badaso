@@ -387,7 +387,7 @@ class BadasoCRUDController extends Controller
     {
         $menu_key = config('badaso.default_menu');
         $menu = Menu::where('key', $menu_key)->first();
-        $url = '/'.env('MIX_DEFAULT_MENU', 'admin').'/'.$data_type->slug;
+        $url = '/'.$menu_key.'/'.$data_type->slug;
 
         if (is_null($menu)) {
             $menu = new Menu();
@@ -427,7 +427,8 @@ class BadasoCRUDController extends Controller
 
     private function deleteMenuItem($data_type)
     {
-        $url = '/'.env('MIX_DEFAULT_MENU', 'admin').'/'.$data_type->slug;
+        $menu_key = config('badaso.default_menu');
+        $url = '/'.$menu_key.'/'.$data_type->slug;
         MenuItem::where('url', $url)->delete();
     }
 }
