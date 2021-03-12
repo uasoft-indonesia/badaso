@@ -3,8 +3,20 @@
     <vs-row class="full-height login-register-bg" style="align-items: center; justify-content: center; display: flex; width: 100%;">
       <router-view></router-view>
     </vs-row>
+    <badaso-licence-blocker />
   </div>
 </template>
+
+<script>
+import BadasoLicenceBlocker from "../../components/BadasoLicenceBlocker";
+
+export default {
+  name: "AuthContainer",
+  components: {
+    BadasoLicenceBlocker
+  }
+};
+</script>
 
 <style>
 .login-register-bg {

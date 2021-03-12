@@ -122,4 +122,13 @@ class ApiResponse
 
         return self::send($response, 402);
     }
+
+    public static function preconditionFailed($message = null)
+    {
+        $response['message'] = $message ?? __('badaso::api_response.412');
+        $response['errors'] = null;
+        $response['data'] = null;
+
+        return self::send($response, 412);
+    }
 }

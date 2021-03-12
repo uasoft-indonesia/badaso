@@ -27,8 +27,9 @@ class VerifyLicence
             } catch (BadResponseException $e) {
                 if ($e->hasResponse()) {
                     $response = $e->getResponse()->getBody();
+                    $status = $e->getResponse()->getStatusCode();
 
-                    return response(json_decode($response, true), 400);
+                    return response(json_decode($response, true), $status);
                 } else {
                     return ApiResponse::failed($e);
                 }

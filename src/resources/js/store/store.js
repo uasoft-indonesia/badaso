@@ -31,6 +31,7 @@ export default new Vuex.Store({
       'key': 'en',
       'label': 'English',
     },
+    licenceIssue: false
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -150,6 +151,9 @@ export default new Vuex.Store({
     },
     SET_LOCALE(state, value) {
       state.selectedLocale = value
+    },
+    SET_LICENCE_ISSUE(state, value) {
+      state.licenceIssue = value
     }
   },
   actions: {},

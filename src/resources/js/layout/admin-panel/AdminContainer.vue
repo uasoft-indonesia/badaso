@@ -16,6 +16,7 @@
       <router-view class="content"></router-view>
       <Footer></Footer>
     </div>
+    <badaso-licence-blocker />
   </div>
 </template>
 
@@ -23,13 +24,15 @@
 import Navbar from "./header/Navbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
 import Footer from "./footer/Footer.vue";
+import BadasoLicenceBlocker from "../../components/BadasoLicenceBlocker";
 
 export default {
   name: "AdminContainer",
   components: {
     Navbar,
     SideBar,
-    Footer
+    Footer,
+    BadasoLicenceBlocker
   },
   data: () => ({
     topbarColor: "#2962ff",
@@ -69,11 +72,17 @@ export default {
         return this.$store.state.reduceSidebar;
       }
     },
+    licenceIssue: {
+      get() {
+        return this.$store.state.licenceIssue;
+      }
+    }
   },
   mounted() {
     this.$store.commit("FETCH_COMPONENT");
     this.$store.commit("FETCH_CONFIGURATION");
     this.$store.commit("FETCH_USER");
+    this.$store.commit("SET_LICENCE_ISSUE", false);
 
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleWindowResize);

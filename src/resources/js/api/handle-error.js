@@ -1,8 +1,20 @@
+import store from "./../store/store";
+
 export default (error) => {
-  if (error.response.status === 401) {
+  let status = error.response.status
+  if (status === 400) {
+    let data = error.response.data;
+    data.status = status
+    return Promise.reject(data);
+  } else if (status === 401) {
     localStorage.clear();
     window.location.reload();
+  } else if (status === 402 || status === 412) {
+    store.commit('SET_LICENCE_ISSUE', true)
+    let data = error.response.data;
+    data.status = status
+    return Promise.reject(data);
   }
 
-  return Promise.reject(error.response.data);
+  return Promise.reject({});
 };
