@@ -1,31 +1,30 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button color="primary" type="relief" :to="{ name: 'RoleAdd' }"
-            v-if="$helper.isAllowed('add_roles')"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
-          >
-          <vs-button
-            color="danger"
-            type="relief"
-            v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
-            @click.stop
-            @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'RoleAdd' }"
+          v-if="$helper.isAllowed('add_roles')"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+        <vs-button
+          color="danger"
+          type="relief"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
+          @click.stop
+          @click="confirmDeleteMultiple"
+          ><vs-icon icon="delete_sweep"></vs-icon>
+          {{ $t("action.bulkDelete") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_roles')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('role.title') }}</h3>
+            <h3>{{ $t("role.title") }}</h3>
           </div>
           <div>
             <vs-table
@@ -43,10 +42,14 @@
               :description-body="$t('role.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="name"> {{ $t('role.header.name') }} </vs-th>
-                <vs-th sort-key="displayName"> {{ $t('role.header.displayName') }} </vs-th>
-                <vs-th sort-key="description"> {{ $t('role.header.description') }} </vs-th>
-                <vs-th> {{ $t('role.header.action') }} </vs-th>
+                <vs-th sort-key="name"> {{ $t("role.header.name") }} </vs-th>
+                <vs-th sort-key="displayName">
+                  {{ $t("role.header.displayName") }}
+                </vs-th>
+                <vs-th sort-key="description">
+                  {{ $t("role.header.description") }}
+                </vs-th>
+                <vs-th> {{ $t("role.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -71,11 +74,14 @@
                       }"
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
-                     <vs-button
+                    <vs-button
                       color="primary"
                       type="relief"
                       @click.stop
-                      :to="{name: 'RolePermissions', params: {id: data[indextr].id}}"
+                      :to="{
+                        name: 'RolePermissions',
+                        params: { id: data[indextr].id },
+                      }"
                       ><vs-icon icon="list"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -110,7 +116,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t('role.warning.notAllowedToBrowse') }}</h3>
+              <h3>{{ $t("role.warning.notAllowedToBrowse") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -119,11 +125,11 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 export default {
   name: "Browse",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     selected: [],
@@ -140,11 +146,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteRole,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -154,38 +160,34 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.bulkDeleteRole,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {},
       });
     },
     getRoleList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.role
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.selected = []
+          this.selected = [];
           this.roles = response.data.roles;
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     deleteRole() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.role
         .delete({
           id: this.willDeleteId,
@@ -197,7 +199,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -205,9 +207,7 @@ export default {
     },
     bulkDeleteRole() {
       const ids = this.selected.map((item) => item.id);
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.role
         .deleteMultiple({
           ids: ids.join(","),
@@ -219,7 +219,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

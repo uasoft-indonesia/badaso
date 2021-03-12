@@ -1,29 +1,31 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb full></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button
-            color="warning"
-            type="relief"
-            v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
-            :to="{
-              name: 'EntityEdit',
-              params: { id: $route.params.id, slug: $route.params.slug },
-            }"
-            ><vs-icon icon="edit"></vs-icon> {{ $t('crudGenerated.detail.button') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row full>
+      <template slot="action">
+        <vs-button
+          color="warning"
+          type="relief"
+          v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
+          :to="{
+            name: 'EntityEdit',
+            params: { id: $route.params.id, slug: $route.params.slug },
+          }"
+          ><vs-icon icon="edit"></vs-icon>
+          {{ $t("crudGenerated.detail.button") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('read', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('crudGenerated.detail.title', { tableName: dataType.displayNameSingular }) }}</h3>
+            <h3>
+              {{
+                $t("crudGenerated.detail.title", {
+                  tableName: dataType.displayNameSingular,
+                })
+              }}
+            </h3>
           </div>
           <vs-row>
             <vs-col
@@ -81,8 +83,8 @@
                       v-else-if="dataRow.type === 'upload_file'"
                       :href="
                         `${$api.file.download(
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)])
-                        }`
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )}`
                       "
                       target="_blank"
                       >{{
@@ -149,8 +151,8 @@
                       }}
                     </div>
                     <span v-else-if="dataRow.type === 'relation'">{{
-                        displayRelationData(record, dataRow)
-                      }}</span>
+                      displayRelationData(record, dataRow)
+                    }}</span>
                     <span v-else>{{
                       record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     }}</span>
@@ -168,7 +170,11 @@
           <vs-row>
             <vs-col vs-lg="12">
               <h3>
-                {{ $t('crudGenerated.warning.notAllowedToRead', { tableName: dataType.displayNameSingular }) }}
+                {{
+                  $t("crudGenerated.warning.notAllowedToRead", {
+                    tableName: dataType.displayNameSingular,
+                  })
+                }}
               </h3>
             </vs-col>
           </vs-row>
@@ -179,12 +185,12 @@
 </template>
 <script>
 import _ from "lodash";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 
 export default {
   name: "Read",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     dataType: {},
@@ -195,9 +201,7 @@ export default {
   },
   methods: {
     getDetailEntity() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .read({
           slug: this.$route.params.slug,
@@ -222,7 +226,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -244,15 +248,21 @@ export default {
       }
     },
     displayRelationData(record, dataRow) {
-      let table = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable);
-      let column = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableColumn);
-      let displayColumn = this.$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTableDisplayColumn);
+      let table = this.$caseConvert.stringSnakeToCamel(
+        dataRow.relation.destinationTable
+      );
+      let column = this.$caseConvert.stringSnakeToCamel(
+        dataRow.relation.destinationTableColumn
+      );
+      let displayColumn = this.$caseConvert.stringSnakeToCamel(
+        dataRow.relation.destinationTableDisplayColumn
+      );
       if (dataRow.relation.relationType === "has_many") {
         let list = record[table];
         let flatList = list.map((ls) => {
           return ls[displayColumn];
-        })
-        return flatList.join(', ');
+        });
+        return flatList.join(", ");
       } else {
         return record[table] ? record[table][displayColumn] : null;
       }

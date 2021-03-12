@@ -1,36 +1,30 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button
-            color="primary"
-            type="relief"
-            :to="{ name: 'PermissionAdd' }"
-            v-if="$helper.isAllowed('add_permissions')"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
-          >
-          <vs-button
-            color="danger"
-            type="relief"
-            v-if="
-              selected.length > 0 && $helper.isAllowed('delete_permissions')
-            "
-            @click.stop
-            @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'PermissionAdd' }"
+          v-if="$helper.isAllowed('add_permissions')"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+        <vs-button
+          color="danger"
+          type="relief"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_permissions')"
+          @click.stop
+          @click="confirmDeleteMultiple"
+          ><vs-icon icon="delete_sweep"></vs-icon>
+          {{ $t("action.bulkDelete") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('permission.title') }}</h3>
+            <h3>{{ $t("permission.title") }}</h3>
           </div>
           <div>
             <vs-table
@@ -44,16 +38,28 @@
               description
               :description-items="descriptionItems"
               :description-title="$t('permission.footer.descriptionTitle')"
-              :description-connector="$t('permission.footer.descriptionConnector')"
+              :description-connector="
+                $t('permission.footer.descriptionConnector')
+              "
               :description-body="$t('permission.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="key"> {{ $t('permission.header.key') }} </vs-th>
-                <vs-th sort-key="description"> {{ $t('permission.header.description') }} </vs-th>
-                <vs-th sort-key="tableName"> {{ $t('permission.header.tableName') }} </vs-th>
-                <vs-th sort-key="alwaysAllow"> {{ $t('permission.header.alwaysAllow') }} </vs-th>
-                <vs-th sort-key="isPublic"> {{ $t('permission.header.isPublic') }} </vs-th>
-                <vs-th> {{ $t('permission.header.action') }} </vs-th>
+                <vs-th sort-key="key">
+                  {{ $t("permission.header.key") }}
+                </vs-th>
+                <vs-th sort-key="description">
+                  {{ $t("permission.header.description") }}
+                </vs-th>
+                <vs-th sort-key="tableName">
+                  {{ $t("permission.header.tableName") }}
+                </vs-th>
+                <vs-th sort-key="alwaysAllow">
+                  {{ $t("permission.header.alwaysAllow") }}
+                </vs-th>
+                <vs-th sort-key="isPublic">
+                  {{ $t("permission.header.isPublic") }}
+                </vs-th>
+                <vs-th> {{ $t("permission.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -121,7 +127,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t('permission.warning.notAllowedToBrowse') }}</h3>
+              <h3>{{ $t("permission.warning.notAllowedToBrowse") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -130,11 +136,11 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 export default {
   name: "Browse",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     selected: [],
@@ -163,18 +169,16 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.bulkDeletePermission,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {},
       });
     },
     getPermissionList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.permission
         .browse()
         .then((response) => {
@@ -185,16 +189,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     deletePermission() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.permission
         .delete({
           id: this.willDeleteId,
@@ -206,7 +208,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -214,9 +216,7 @@ export default {
     },
     bulkDeletePermission() {
       const ids = this.selected.map((item) => item.id);
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.permission
         .deleteMultiple({
           ids: ids.join(","),
@@ -228,7 +228,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

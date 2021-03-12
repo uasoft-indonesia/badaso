@@ -8,23 +8,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use JWTAuth;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
+use Uasoft\Badaso\Helpers\CheckBase64;
 use Uasoft\Badaso\Helpers\Config;
 use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
+use Uasoft\Badaso\Models\EmailReset;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 use Uasoft\Badaso\Models\UserVerification;
+use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoAuthController extends Controller
 {
+    use FileHandler;
+
     public function __construct()
     {
         $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification', 'validateTokenForgetPassword']]);
@@ -406,5 +412,153 @@ class BadasoAuthController extends Controller
         }
 
         return $role;
+    }
+
+    public function updateProfile(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            if (!$user = auth()->user()) {
+                throw new SingleException(__('badaso::validation.auth.user_not_found'));
+            }
+
+            $request->validate([
+                'name' => 'required',
+                'avatar' => [
+                    function ($attribute, $value, $fail) {
+                        $check = new CheckBase64($value);
+                        if (!$check->isValid()) {
+                            $fail($check->getMessage());
+                        }
+                    },
+                ],
+            ]);
+
+            $user = User::find($user->id);
+
+            $user->name = $request->name;
+            $uploaded = null;
+            if ($request->avatar && $request->avatar != '') {
+                $extension = explode('/', explode(';', $request->avatar)[0])[1];
+                $files = [];
+                $files[] = [
+                    'base64' => $request->avatar,
+                    'name' => Str::slug($request->name).'.'.$extension,
+                ];
+                $uploaded = $this->handleUploadFiles($files, null, 'users');
+                if (count($uploaded) > 0) {
+                    $uploaded = $uploaded[0];
+                    $this->handleDeleteFile($user->avatar);
+                }
+                $user->avatar = $uploaded;
+            }
+            $user->additional_info = $request->additional_info;
+            $user->save();
+
+            DB::commit();
+
+            return ApiResponse::success($user);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function updateEmail(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            if (!$user = auth()->user()) {
+                throw new SingleException(__('badaso::validation.auth.user_not_found'));
+            }
+
+            $request->validate([
+                'email' => 'required|email|unique:users,email',
+            ]);
+
+            $user = User::find($user->id);
+
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
+            if ($should_verify_email) {
+                $token = rand(111111, 999999);
+                $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
+                $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
+                $data = [
+                    'user_id' => $user->id,
+                    'email' => $request->email,
+                    'verification_token' => $token,
+                    'expired_at' => $expired_token,
+                    'count_incorrect' => 0,
+                ];
+
+                EmailReset::firstOrCreate($data);
+
+                $user->email = $request->email;
+
+                $this->sendVerificationToken(['user' => $user, 'token' => $token]);
+
+                DB::commit();
+
+                return ApiResponse::success([
+                    'should_verify_email' => true,
+                    'message' => 'An verification mail has been send to your email',
+                ]);
+            } else {
+                $user->email = $request->email;
+                $user->save();
+            }
+
+            DB::commit();
+
+            return ApiResponse::success([
+                'should_verify_email' => false,
+                'user' => $user,
+            ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function verifyEmail(Request $request)
+    {
+        try {
+            if (!$user = auth()->user()) {
+                throw new SingleException(__('badaso::validation.auth.user_not_found'));
+            }
+
+            $request->validate([
+                'email' => ['required', 'unique:users', 'email'],
+                'token' => ['required'],
+            ]);
+
+            $emai_reset = EmailReset::where('verification_token', $request->token)
+                ->where('user_id', $user->id)
+                ->first();
+
+            $user = User::find($user->id);
+
+            if ($emai_reset) {
+                if (strtotime(date('Y-m-d H:i:s')) > strtotime($emai_reset->expired_at)) {
+                    // $user_verification->delete();
+                    throw new SingleException('EXPIRED');
+                }
+                $user->email = $request->email;
+                $user->email_verified_at = date('Y-m-d H:i:s');
+                $user->save();
+
+                $emai_reset->delete();
+            } else {
+                throw new SingleException('Invalid verification token');
+            }
+
+            $token = auth()->login($user);
+
+            return $this->createNewToken($token, auth()->user());
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
     }
 }

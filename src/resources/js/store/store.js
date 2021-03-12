@@ -141,7 +141,7 @@ export default new Vuex.Store({
         .catch((err) => {});
     },
     FETCH_USER(state) {
-      api.auth
+      api.authuser
         .user()
         .then((res) => {
           state.user = res.data.user;

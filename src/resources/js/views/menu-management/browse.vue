@@ -1,23 +1,17 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button color="primary" type="relief"
-            :to="{name: 'MenuAdd'}"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button color="primary" type="relief" :to="{ name: 'MenuAdd' }"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_menus')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('menu.title') }}</h3>
+            <h3>{{ $t("menu.title") }}</h3>
           </div>
           <div>
             <vs-table
@@ -34,9 +28,11 @@
               :description-body="$t('menu.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="key"> {{ $t('menu.header.key') }} </vs-th>
-                <vs-th sort-key="displayName"> {{ $t('menu.header.displayName') }} </vs-th>
-                <vs-th>{{ $t('menu.header.action') }}</vs-th>
+                <vs-th sort-key="key"> {{ $t("menu.header.key") }} </vs-th>
+                <vs-th sort-key="displayName">
+                  {{ $t("menu.header.displayName") }}
+                </vs-th>
+                <vs-th>{{ $t("menu.header.action") }}</vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -51,15 +47,16 @@
                   <vs-td :data="data[index].displayName">
                     {{ data[index].displayName }}
                   </vs-td>
-                  <vs-td
-                    style="width: 1%; white-space: nowrap"
-                  >
+                  <vs-td style="width: 1%; white-space: nowrap">
                     <vs-button
                       color="primary"
                       type="relief"
                       @click.stop
                       v-if="$helper.isAllowed('edit_menus')"
-                      :to="{name: 'MenuBuilder', params: {id: data[index].id}}"
+                      :to="{
+                        name: 'MenuBuilder',
+                        params: { id: data[index].id },
+                      }"
                       ><vs-icon icon="list"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -67,7 +64,7 @@
                       type="relief"
                       @click.stop
                       v-if="$helper.isAllowed('edit_menus')"
-                      :to="{name: 'MenuEdit', params: {id: data[index].id}}"
+                      :to="{ name: 'MenuEdit', params: { id: data[index].id } }"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -91,7 +88,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t('menu.warning.notAllowedToBrowse') }}</h3>
+              <h3>{{ $t("menu.warning.notAllowedToBrowse") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -100,9 +97,9 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 export default {
-  components: { BadasoBreadcrumb },
+  components: { BadasoBreadcrumbRow },
   name: "Browse",
   data: () => ({
     selected: [],
@@ -119,20 +116,18 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteMenu,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
-        }
+        },
       });
     },
     getMenuList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .browse()
         .then((response) => {
@@ -142,16 +137,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     deleteMenu() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .delete({
           menu_id: this.willDeleteId,
@@ -164,7 +157,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

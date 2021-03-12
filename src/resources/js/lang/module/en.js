@@ -89,7 +89,23 @@ export default {
 
   "myProfile": {
     "title": "My Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "profile": "Profile",
+    "email": "Email",
+    "password": "Password",
+    "oldPassword": "Current Password",
+    "newPassword": "New Password",
+    "newPasswordConfirmation": "New Password Confirmation",
+    "name": "Name",
+    "avatar": "Avatar",
+    "additionalInfo": "Additional info",
+    "token": "Verification Code",
+    "buttons": {
+      "updateProfile": "Update Profile",
+      "updateEmail": "Update Email",
+      "verifyEmail": "Verify Email",
+      "changePassword": "Change Password"
+    }
   },
 
   "404": {

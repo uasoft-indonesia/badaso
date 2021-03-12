@@ -1,18 +1,16 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button color="primary" type="relief" :to="{ name: 'SiteAdd' }"
-            v-if="$helper.isAllowed('add_configurations')"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'SiteAdd' }"
+          v-if="$helper.isAllowed('add_configurations')"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_configurations')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -208,8 +206,12 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <vs-button color="primary" type="relief" @click="submitMultipleEdit">
-                <vs-icon icon="save"></vs-icon> {{ $t('site.edit.multiple') }}
+              <vs-button
+                color="primary"
+                type="relief"
+                @click="submitMultipleEdit"
+              >
+                <vs-icon icon="save"></vs-icon> {{ $t("site.edit.multiple") }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -220,7 +222,7 @@
 </template>
 <script>
 import _ from "lodash";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 import BadasoText from "../../components/BadasoText";
 import BadasoPassword from "../../components/BadasoPassword";
 import BadasoTextarea from "../../components/BadasoTextarea";
@@ -249,7 +251,7 @@ import BadasoEmail from "../../components/BadasoEmail.vue";
 export default {
   name: "Browse",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
     BadasoText,
     BadasoPassword,
     BadasoTextarea,
@@ -273,7 +275,7 @@ export default {
     BadasoUploadFile,
     BadasoUploadFileMultiple,
     BadasoHidden,
-    BadasoEmail
+    BadasoEmail,
   },
   data: () => ({
     configurations: [],
@@ -295,11 +297,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteConfiguration,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteConfigurationId = null;
         },
@@ -308,14 +310,12 @@ export default {
     acceptAlert(color) {
       this.$vs.notify({
         color: "danger",
-        title: this.$t('site.deletedImage.title'),
-        text: this.$t('site.deletedImage.text'),
+        title: this.$t("site.deletedImage.title"),
+        text: this.$t("site.deletedImage.text"),
       });
     },
     getConfigurationList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.configuration
         .browse()
         .then((response) => {
@@ -329,8 +329,7 @@ export default {
               if (data.type === "switch") {
                 data.value = data.value == "1" ? true : false;
               }
-            } catch (error) {
-            }
+            } catch (error) {}
             return data;
           });
           this.configurations = JSON.parse(JSON.stringify(configurations));
@@ -338,7 +337,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -348,9 +347,7 @@ export default {
       return _.filter(this.configurations, ["group", group]);
     },
     deleteConfiguration() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.configuration
         .delete({
           id: this.willDeleteConfigurationId,
@@ -363,16 +360,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     submitForm(config) {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.configuration
         .edit(this.$caseConvert.snake(config))
         .then((response) => {
@@ -380,45 +375,43 @@ export default {
           this.getConfigurationList();
           this.$store.commit("FETCH_CONFIGURATION");
           this.$vs.notify({
-            title: this.$t('alert.success'),
-            text: this.$t('site.configUpdated'),
+            title: this.$t("alert.success"),
+            text: this.$t("site.configUpdated"),
             color: "success",
           });
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     submitMultipleEdit() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.configuration
-        .editMultiple({configurations: this.configurations})
+        .editMultiple({ configurations: this.configurations })
         .then((response) => {
           this.$vs.loading.close();
           this.getConfigurationList();
           this.$store.commit("FETCH_CONFIGURATION");
           this.$vs.notify({
-            title: this.$t('alert.success'),
-            text: this.$t('site.configUpdated'),
+            title: this.$t("alert.success"),
+            text: this.$t("site.configUpdated"),
             color: "success",
           });
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
-    }
+    },
   },
 };
 </script>

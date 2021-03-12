@@ -1,16 +1,11 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4"> </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row></badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('crud.title') }}</h3>
+            <h3>{{ $t("crud.title") }}</h3>
           </div>
           <div>
             <vs-table
@@ -27,8 +22,10 @@
               :description-body="$t('crud.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="tableName"> {{ $t('crud.header.table') }} </vs-th>
-                <vs-th> {{ $t('crud.header.action') }} </vs-th>
+                <vs-th sort-key="tableName">
+                  {{ $t("crud.header.table") }}
+                </vs-th>
+                <vs-th> {{ $t("crud.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -84,7 +81,7 @@
                         name: 'CRUDManagementAdd',
                         params: { tableName: data[index].tableName },
                       }"
-                      >{{ $t('crud.body.button') }}</vs-button
+                      >{{ $t("crud.body.button") }}</vs-button
                     >
                   </vs-td>
                 </vs-tr>
@@ -99,7 +96,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t('crud.warning.notAllowed') }}</h3>
+              <h3>{{ $t("crud.warning.notAllowed") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -108,9 +105,9 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 export default {
-  components: { BadasoBreadcrumb },
+  components: { BadasoBreadcrumbRow },
   name: "Browse",
   data: () => ({
     descriptionItems: [10, 50, 100],
@@ -127,20 +124,18 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteCRUDData,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
       });
     },
     getTableList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.crud
         .browse()
         .then((response) => {
@@ -150,16 +145,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     deleteCRUDData() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.crud
         .delete({
           id: this.willDeleteId,
@@ -172,7 +165,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

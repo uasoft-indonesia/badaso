@@ -88,8 +88,24 @@ export default {
   },
 
   "myProfile": {
-    "title": "Profil Saya",
-    "logout": "Keluar"
+    "title": "My Profile",
+    "logout": "Logout",
+    "profile": "Profile",
+    "email": "Email",
+    "password": "Password",
+    "oldPassword": "Current Password",
+    "newPassword": "New Password",
+    "newPasswordConfirmation": "New Password Confirmation",
+    "name": "Name",
+    "avatar": "Avatar",
+    "additionalInfo": "Additional info",
+    "token": "Verification Code",
+    "buttons": {
+      "updateProfile": "Update Profile",
+      "updateEmail": "Update Email",
+      "verifyEmail": "Verify Email",
+      "changePassword": "Change Password"
+    }
   },
 
   "404": {

@@ -1,15 +1,11 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('add_users')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('user.add.title') }}</h3>
+            <h3>{{ $t("user.add.title") }}</h3>
           </div>
           <vs-row>
             <badaso-text
@@ -57,7 +53,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t('user.add.button') }}
+                <vs-icon icon="save"></vs-icon> {{ $t("user.add.button") }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -68,7 +64,7 @@
 </template>
 <script>
 import BadasoText from "../../components/BadasoText";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 import BadasoPassword from "../../components/BadasoPassword.vue";
 import BadasoCodeEditor from "../../components/BadasoCodeEditor.vue";
 import BadasoUploadImage from "../../components/BadasoUploadImage.vue";
@@ -77,7 +73,7 @@ export default {
   name: "Browse",
   components: {
     BadasoText,
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
     BadasoCodeEditor,
     BadasoPassword,
     BadasoUploadImage,
@@ -100,9 +96,7 @@ export default {
         if (this.user.additionalInfo && this.user.additionalInfo != "") {
           JSON.parse(this.user.additionalInfo);
         }
-        this.$vs.loading({
-          type: "sound",
-        });
+        this.$vs.loading(this.$loadingConfig);
         this.$api.user
           .add({
             email: this.user.email,
@@ -116,18 +110,18 @@ export default {
             this.$router.push({ name: "UserBrowse" });
           })
           .catch((error) => {
-            this.errors = error.errors
+            this.errors = error.errors;
             this.$vs.loading.close();
             this.$vs.notify({
-              title: this.$t('alert.danger'),
+              title: this.$t("alert.danger"),
               text: error.message,
               color: "danger",
             });
           });
       } catch (e) {
         this.$vs.notify({
-          title: this.$t('alert.danger'),
-          text: this.$t('user.add.field.additionalInfo.invalid'),
+          title: this.$t("alert.danger"),
+          text: this.$t("user.add.field.additionalInfo.invalid"),
           color: "danger",
         });
       }

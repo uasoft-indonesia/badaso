@@ -40,6 +40,9 @@ Vue.prototype.$constants = {
   MOBILE: 'mobile',
   DESKTOP: 'desktop'
 }
+Vue.prototype.$loadingConfig = {
+  type: "sound",
+}
 
 let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
 ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX

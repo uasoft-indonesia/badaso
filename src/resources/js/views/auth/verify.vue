@@ -43,7 +43,9 @@
           $t("verifyEmail.button")
         }}</vs-button>
         <div class="d-flex pt-3 pb-3">
-            <span class="con-slot-label">Not receive email or token expired?</span>
+          <span class="con-slot-label"
+            >Not receive email or token expired?</span
+          >
           <vs-button
             v-if="retry || expired"
             type="relief"
@@ -101,10 +103,8 @@ export default {
       }
     },
     verify() {
-      this.errors = {}
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.errors = {};
+      this.$vs.loading(this.$loadingConfig);
       this.$api.auth
         .verify({
           email: this.email,
@@ -138,10 +138,8 @@ export default {
         });
     },
     requestVerificationToken() {
-      this.errors = {}
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.errors = {};
+      this.$vs.loading(this.$loadingConfig);
       this.$api.auth
         .reRequestVerificationToken({
           token: this.token,
@@ -149,7 +147,7 @@ export default {
         })
         .then((response) => {
           this.retry = false;
-          this.timeWait = 60
+          this.timeWait = 60;
           this.startCounter();
 
           this.$vs.loading.close();

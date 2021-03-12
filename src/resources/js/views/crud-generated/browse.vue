@@ -1,39 +1,40 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb full></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button
-            color="primary"
-            type="relief"
-            :to="{ name: 'EntityAdd' }"
-            v-if="isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
-          >
-          <vs-button
-            color="success"
-            type="relief"
-            :to="{ name: 'EntitySort' }"
-            v-if="isCanSort && $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
-            ><vs-icon icon="list"></vs-icon> {{ $t('action.sort') }}</vs-button
-          >
-          <vs-button
-            color="danger"
-            type="relief"
-            v-if="
-              selected.length > 0 &&
-                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
-            "
-            @click.stop
-            @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row full>
+      <template slot="action">
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'EntityAdd' }"
+          v-if="
+            isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
+          "
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+        <vs-button
+          color="success"
+          type="relief"
+          :to="{ name: 'EntitySort' }"
+          v-if="
+            isCanSort &&
+              $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
+          "
+          ><vs-icon icon="list"></vs-icon> {{ $t("action.sort") }}</vs-button
+        >
+        <vs-button
+          color="danger"
+          type="relief"
+          v-if="
+            selected.length > 0 &&
+              $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
+          "
+          @click.stop
+          @click="confirmDeleteMultiple"
+          ><vs-icon icon="delete_sweep"></vs-icon>
+          {{ $t("action.bulkDelete") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
@@ -52,7 +53,9 @@
               description
               :description-items="descriptionItems"
               :description-title="$t('crudGenerated.footer.descriptionTitle')"
-              :description-connector="$t('crudGenerated.footer.descriptionConnector')"
+              :description-connector="
+                $t('crudGenerated.footer.descriptionConnector')
+              "
               :description-body="$t('crudGenerated.footer.descriptionBody')"
               multiple
             >
@@ -65,7 +68,7 @@
                 >
                   {{ dataRow.displayName }}
                 </vs-th>
-                <vs-th> {{ $t('crudGenerated.header.action') }} </vs-th>
+                <vs-th> {{ $t("crudGenerated.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -217,7 +220,10 @@
                       }"
                       v-if="
                         isCanRead &&
-                          $helper.isAllowedToModifyGeneratedCRUD('read', dataType.name)
+                          $helper.isAllowedToModifyGeneratedCRUD(
+                            'read',
+                            dataType.name
+                          )
                       "
                       ><vs-icon icon="visibility"></vs-icon
                     ></vs-button>
@@ -234,7 +240,10 @@
                       }"
                       v-if="
                         isCanEdit &&
-                          $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
+                          $helper.isAllowedToModifyGeneratedCRUD(
+                            'edit',
+                            dataType
+                          )
                       "
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
@@ -243,7 +252,12 @@
                       type="relief"
                       @click.stop
                       @click="confirmDelete(data[index].id)"
-                      v-if="$helper.isAllowedToModifyGeneratedCRUD('delete', dataType)"
+                      v-if="
+                        $helper.isAllowedToModifyGeneratedCRUD(
+                          'delete',
+                          dataType
+                        )
+                      "
                       ><vs-icon icon="delete"></vs-icon
                     ></vs-button>
                   </vs-td>
@@ -438,7 +452,10 @@
                         }"
                         v-if="
                           isCanRead &&
-                            $helper.isAllowedToModifyGeneratedCRUD('read', dataType)
+                            $helper.isAllowedToModifyGeneratedCRUD(
+                              'read',
+                              dataType
+                            )
                         "
                         ><vs-icon icon="visibility"></vs-icon
                       ></vs-button>
@@ -455,7 +472,10 @@
                         }"
                         v-if="
                           isCanEdit &&
-                            $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
+                            $helper.isAllowedToModifyGeneratedCRUD(
+                              'edit',
+                              dataType
+                            )
                         "
                         ><vs-icon icon="edit"></vs-icon
                       ></vs-button>
@@ -465,7 +485,10 @@
                         @click.stop
                         @click="confirmDelete(data[index].id)"
                         v-if="
-                          $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
+                          $helper.isAllowedToModifyGeneratedCRUD(
+                            'delete',
+                            dataType
+                          )
                         "
                         ><vs-icon icon="delete"></vs-icon
                       ></vs-button>
@@ -506,7 +529,11 @@
           <vs-row>
             <vs-col vs-lg="12">
               <h3>
-                {{ $t('crudGenerated.warning.notAllowedToBrowse', { tableName: dataType.displayNameSingular}) }}
+                {{
+                  $t("crudGenerated.warning.notAllowedToBrowse", {
+                    tableName: dataType.displayNameSingular,
+                  })
+                }}
               </h3>
             </vs-col>
           </vs-row>
@@ -517,10 +544,10 @@
 </template>
 <script>
 import * as _ from "lodash";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 import BadasoSelect from "../../components/BadasoSelect.vue";
 export default {
-  components: { BadasoBreadcrumb, BadasoSelect },
+  components: { BadasoBreadcrumbRow, BadasoSelect },
   name: "Browse",
   data: () => ({
     descriptionItems: [10, 50, 100],
@@ -560,11 +587,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteRecord,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -574,18 +601,16 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteRecords,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {},
       });
     },
     getEntity() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .browse({
           slug: this.$route.params.slug,
@@ -626,16 +651,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     deleteRecord() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .delete({
           slug: this.$route.params.slug,
@@ -653,7 +676,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -661,9 +684,7 @@ export default {
     },
     deleteRecords() {
       const ids = this.selected.map((item) => item.id);
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .deleteMultiple({
           slug: this.$route.params.slug,
@@ -681,7 +702,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

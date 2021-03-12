@@ -1,10 +1,6 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row></badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('edit_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -341,7 +337,7 @@
                   <vs-col col-lg="12" class="mb-2">
                     <table class="table">
                       <tr>
-                        <td>{{$t("crud.add.header.field")}}</td>
+                        <td>{{ $t("crud.add.header.field") }}</td>
                         <td>
                           <strong>{{ field.field }}</strong>
                         </td>
@@ -362,7 +358,7 @@
                         </td>
                       </tr>
                       <tr>
-                        <td>{{$t("crud.add.header.visibility")}}</td>
+                        <td>{{ $t("crud.add.header.visibility") }}</td>
                         <td>
                           <vs-checkbox
                             v-model="field.browse"
@@ -397,7 +393,8 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">{{$t("crud.add.header.inputType")}}
+                        <td colspan="2">
+                          {{ $t("crud.add.header.inputType") }}
                           <vs-select
                             class="selectExample"
                             v-model="field.type"
@@ -413,7 +410,8 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">{{$t("crud.add.header.displayName")}}
+                        <td colspan="2">
+                          {{ $t("crud.add.header.displayName") }}
                           <vs-input
                             class="inputx"
                             :placeholder="$t('crud.add.body.displayName')"
@@ -422,7 +420,8 @@
                         </td>
                       </tr>
                       <tr>
-                        <td colspan="2">{{$t("crud.add.header.optionalDetails")}}
+                        <td colspan="2">
+                          {{ $t("crud.add.header.optionalDetails") }}
                           <badaso-code-editor
                             v-model="field.details"
                             v-if="field.type !== 'relation'"
@@ -548,7 +547,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
@@ -560,7 +559,7 @@ export default {
   name: "Browse",
   components: {
     draggable,
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
     BadasoText,
     BadasoSwitch,
     BadasoSelect,
@@ -670,9 +669,7 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.crud
         .edit(this.crudData)
         .then((response) => {
@@ -692,9 +689,7 @@ export default {
         });
     },
     getTableDetail() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.crud
         .read({
           table: this.$route.params.tableName,
@@ -757,9 +752,7 @@ export default {
         });
     },
     getRelationTypes() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.data
         .tableRelations()
         .then((response) => {
@@ -776,9 +769,7 @@ export default {
         });
     },
     getDestinationTables() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.table
         .browse()
         .then((response) => {
@@ -795,9 +786,7 @@ export default {
         });
     },
     getDestinationTableColumns(table) {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.table
         .read({
           table,

@@ -12,6 +12,7 @@ import AuthContainer from "./../layout/auth/AuthContainer.vue";
 import LandingPageContainer from "./../layout/landing-page/LandingPageContainer.vue";
 
 import Home from "./../views/home.vue";
+import Profile from "./../views/user/profile.vue";
 
 import PageNotFound from "./../views/error/404.vue";
 
@@ -70,6 +71,14 @@ const router = new VueRouter({
           component: Home,
           meta: {
             title: "Home",
+          },
+        },
+        {
+          path: prefix + "/profile",
+          name: "Profile",
+          component: Profile,
+          meta: {
+            title: "Profile",
           },
         },
 

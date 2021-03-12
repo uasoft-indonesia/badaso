@@ -27,8 +27,7 @@
             v-if="user.id"
             icon="person_outline"
             :to="{
-              name: 'UserRead',
-              params: { id: user.id },
+              name: 'Profile',
             }"
           >
             Profile

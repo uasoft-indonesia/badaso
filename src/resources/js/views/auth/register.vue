@@ -114,9 +114,7 @@ export default {
   }),
   methods: {
     register() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.auth
         .register({
           name: this.name,

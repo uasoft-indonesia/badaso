@@ -30,14 +30,20 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/login', 'BadasoAuthController@login');
             Route::post('/logout', 'BadasoAuthController@logout');
             Route::post('/register', 'BadasoAuthController@register');
-            Route::post('/change-password', 'BadasoAuthController@changePassword');
             Route::post('/forgot-password', 'BadasoAuthController@forgetPassword');
             Route::post('/forgot-password-verify', 'BadasoAuthController@validateTokenForgetPassword');
             Route::post('/reset-password', 'BadasoAuthController@resetPassword');
             Route::post('/refresh-token', 'BadasoAuthController@refreshToken');
             Route::post('/verify', 'BadasoAuthController@verify');
-            Route::post('/user', 'BadasoAuthController@getAuthenticatedUser');
             Route::post('/re-request-verification', 'BadasoAuthController@reRequestVerification');
+        });
+
+        Route::group(['prefix' => 'auth/user'], function () {
+            Route::get('/', 'BadasoAuthController@getAuthenticatedUser');
+            Route::put('/change-password', 'BadasoAuthController@changePassword');
+            Route::put('/profile', 'BadasoAuthController@updateProfile');
+            Route::put('/email', 'BadasoAuthController@updateEmail');
+            Route::post('/verify-email', 'BadasoAuthController@verifyEmail');
         });
 
         Route::group(['prefix' => 'file'], function () {

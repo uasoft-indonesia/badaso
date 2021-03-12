@@ -98,13 +98,11 @@ export default {
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-admin",
     requestVerify: false,
-    errors: {}
+    errors: {},
   }),
   methods: {
     forgotPassword() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.auth
         .forgotPassword({
           email: this.email,
@@ -130,9 +128,7 @@ export default {
     },
     verify() {
       this.errors = {};
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.auth
         .forgotPasswordVerifyToken({
           email: this.email,

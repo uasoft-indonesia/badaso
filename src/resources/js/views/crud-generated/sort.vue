@@ -1,15 +1,17 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb full></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('crudGenerated.sort.title', { tableName: dataType.displayNameSingular }) }}</h3>
+            <h3>
+              {{
+                $t("crudGenerated.sort.title", {
+                  tableName: dataType.displayNameSingular,
+                })
+              }}
+            </h3>
           </div>
           <vs-row>
             <vs-col vs-lg="12">
@@ -51,7 +53,11 @@
           <vs-row>
             <vs-col vs-lg="12">
               <h3>
-                {{ $t('crudGenerated.warning.notAllowedToRead', { tableName: dataType.displayNameSingular }) }}
+                {{
+                  $t("crudGenerated.warning.notAllowedToRead", {
+                    tableName: dataType.displayNameSingular,
+                  })
+                }}
               </h3>
             </vs-col>
           </vs-row>
@@ -63,13 +69,13 @@
 <script>
 import _ from "lodash";
 import draggable from "vuedraggable";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 
 export default {
   name: "Sort",
   components: {
     draggable,
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     dataType: {},
@@ -81,9 +87,7 @@ export default {
   },
   methods: {
     getAllEntityData() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .all({
           slug: this.$route.params.slug,
@@ -96,16 +100,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     sortData(e) {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .sort({
           slug: this.$route.params.slug,
@@ -117,7 +119,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

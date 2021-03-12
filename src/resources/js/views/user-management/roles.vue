@@ -1,27 +1,26 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_user_role')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('user.roles.title') }}</h3>
+            <h3>{{ $t("user.roles.title") }}</h3>
           </div>
           <vs-table search :data="userRoles" stripe>
             <template slot="thead">
-              <vs-th  v-if="$helper.isAllowed('add_or_edit_user_role')"> </vs-th>
-              <vs-th> {{ $t('user.roles.header.name') }} </vs-th>
-              <vs-th> {{ $t('user.roles.header.description') }} </vs-th>
-              <vs-th> {{ $t('user.roles.header.action') }} </vs-th>
+              <vs-th v-if="$helper.isAllowed('add_or_edit_user_role')"> </vs-th>
+              <vs-th> {{ $t("user.roles.header.name") }} </vs-th>
+              <vs-th> {{ $t("user.roles.header.description") }} </vs-th>
+              <vs-th> {{ $t("user.roles.header.action") }} </vs-th>
             </template>
 
             <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                <vs-td style="width: 1%"  v-if="$helper.isAllowed('add_or_edit_user_role')">
+                <vs-td
+                  style="width: 1%"
+                  v-if="$helper.isAllowed('add_or_edit_user_role')"
+                >
                   <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
                 <vs-td
@@ -58,7 +57,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t('user.roles.button') }}
+                <vs-icon icon="save"></vs-icon> {{ $t("user.roles.button") }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -68,12 +67,12 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 
 export default {
   name: "Roles",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     roles: [],
@@ -84,9 +83,7 @@ export default {
   },
   methods: {
     getUserRoles() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.user
         .roles({
           userId: this.$route.params.id,
@@ -98,7 +95,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -110,9 +107,7 @@ export default {
       });
       selectedRoles = selectedRoles.map((role) => role.id);
 
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.user
         .addRoles({
           userId: this.$route.params.id,
@@ -122,15 +117,15 @@ export default {
           this.$vs.loading.close();
           this.getUserRoles();
           this.$vs.notify({
-            title: this.$t('user.roles.success.title'),
-            text: this.$t('user.roles.success.text'),
+            title: this.$t("user.roles.success.title"),
+            text: this.$t("user.roles.success.text"),
             color: "success",
           });
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

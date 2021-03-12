@@ -1,5 +1,6 @@
 import activitylog from './modules/activitylog'
 import auth from './modules/auth'
+import authuser from './modules/authuser'
 import crud from './modules/crud'
 import configuration from './modules/configuration'
 import menu from './modules/menu'
@@ -15,6 +16,7 @@ import dashboard from './modules/dashboard'
 export default {
   activitylog,
   auth,
+  authuser,
   crud,
   configuration,
   menu,

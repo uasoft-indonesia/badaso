@@ -50,12 +50,12 @@
 }
 
 .vs-table--content::-webkit-scrollbar-thumb {
-  background-color: rgba(var(--vs-primary), 0.2);
+  background-color: $scoll-color;
   border-radius: 20px;
 }
 
 .vs-table--content::-webkit-scrollbar-thumb:hover {
-  background-color: #2962ff;
+  background-color: $scoll-hover-color;
 }
 
 .vs-col::-webkit-scrollbar-track {
@@ -68,12 +68,12 @@
 }
 
 .vs-col::-webkit-scrollbar-thumb {
-  background-color: rgba(var(--vs-primary), 0.2);
+  background-color: $scoll-color;
   border-radius: 20px;
 }
 
 .vs-col::-webkit-scrollbar-thumb:hover {
-  background-color: #2962ff;
+  background-color: $scoll-hover-color;
 }
 
 .vdatetime-input {
@@ -142,4 +142,39 @@
 			}
 		}
 	}
+}
+
+.vs-sidebar--items::-webkit-scrollbar-thumb {
+  background-color: $scoll-color;
+}
+.vs-sidebar--items::-webkit-scrollbar-thumb:hover {
+  background-color: $scoll-hover-color;
+}
+.vs-sidebar {
+  background: $sidebar-bg;
+}
+
+.con-vs-card {
+  background: $card-bg;
+}
+
+.vs-con-table {
+  background: $card-bg;
+}
+
+.vs-table--tbody-table tr {
+  background: $card-bg;
+}
+
+.vs-pagination--ul {
+  background: unset;
+}
+
+.footer{
+  width: calc(100% + 35px);
+  background-color: $footer-bg;
+  padding: 15px;
+  text-align: right;
+  z-index: 100000;
+  margin-left: -20px;
 }

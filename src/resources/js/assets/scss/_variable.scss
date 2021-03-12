@@ -18,6 +18,9 @@ $logo-padding:0 12px;
 //
 $body-color: #2b2b2b;
 $body-bg:#f0f5f9;
+$sidebar-bg: #fff;
+$footer-bg: #fff;
+$card-bg: #fff;
 $primary: #2962FF;
 $success: #36bea6;
 $danger: #f62d51;
@@ -110,3 +113,6 @@ $theme-radius:4px;
 
 // S Comments
 $border-color: rgba(0, 0, 0, 0.1);
+
+$scoll-color: rgba(var(--vs-primary), 0.2);
+$scoll-hover-color: #2962ff;

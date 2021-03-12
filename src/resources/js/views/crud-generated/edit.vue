@@ -1,15 +1,17 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb full></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('crudGenerated.edit.title', { tableName: dataType.displayNameSingular }) }}</h3>
+            <h3>
+              {{
+                $t("crudGenerated.edit.title", {
+                  tableName: dataType.displayNameSingular,
+                })
+              }}
+            </h3>
           </div>
           <vs-row>
             <vs-col vs-lg="12" v-if="!isValid">
@@ -227,15 +229,27 @@
                 :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
               ></badaso-code-editor>
               <badaso-select
-                v-if="dataRow.type === 'relation' && dataRow.relation.relationType === 'belongs_to'"
+                v-if="
+                  dataRow.type === 'relation' &&
+                    dataRow.relation.relationType === 'belongs_to'
+                "
                 :label="dataRow.displayName"
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
                 size="12"
-                :items="relationData[$caseConvert.stringSnakeToCamel(dataRow.relation.destinationTable)]"
+                :items="
+                  relationData[
+                    $caseConvert.stringSnakeToCamel(
+                      dataRow.relation.destinationTable
+                    )
+                  ]
+                "
               ></badaso-select>
               <badaso-text
-                v-if="dataRow.type === 'relation' && dataRow.relation.relationType !== 'belongs_to'"
+                v-if="
+                  dataRow.type === 'relation' &&
+                    dataRow.relation.relationType !== 'belongs_to'
+                "
                 :label="dataRow.displayName"
                 :placeholder="dataRow.displayName"
                 v-model="dataRow.value"
@@ -250,7 +264,8 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t('crudGenerated.edit.button') }}
+                <vs-icon icon="save"></vs-icon>
+                {{ $t("crudGenerated.edit.button") }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -262,7 +277,13 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t('crudGenerated.warning.notAllowedToEdit', { tableName: dataType.displayNameSingular }) }}</h3>
+              <h3>
+                {{
+                  $t("crudGenerated.warning.notAllowedToEdit", {
+                    tableName: dataType.displayNameSingular,
+                  })
+                }}
+              </h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -272,7 +293,7 @@
 </template>
 <script>
 import * as _ from "lodash";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 import BadasoText from "../../components/BadasoText";
 import BadasoPassword from "../../components/BadasoPassword";
 import BadasoTextarea from "../../components/BadasoTextarea";
@@ -302,7 +323,7 @@ import BadasoEmail from "../../components/BadasoEmail";
 export default {
   name: "Browse",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
     BadasoText,
     BadasoPassword,
     BadasoTextarea,
@@ -327,7 +348,7 @@ export default {
     BadasoUploadFileMultiple,
     BadasoHidden,
     BadasoCodeEditor,
-    BadasoEmail
+    BadasoEmail,
   },
   data: () => ({
     isValid: true,
@@ -355,9 +376,7 @@ export default {
         return;
       }
 
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .edit({
           slug: this.$route.params.slug,
@@ -375,16 +394,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     getDetailEntity() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.entity
         .read({
           slug: this.$route.params.slug,
@@ -396,9 +413,9 @@ export default {
           this.record = response.data.entities;
           let dataRows = this.dataType.dataRows.map((data) => {
             try {
-              data.add = data.add === 1
-              data.edit = data.edit === 1
-              data.read = data.read === 1
+              data.add = data.add === 1;
+              data.edit = data.edit === 1;
+              data.read = data.read === 1;
               data.details = JSON.parse(data.details);
 
               if (
@@ -434,7 +451,7 @@ export default {
                     ].replace(" ", "T")
                   : null;
               } else if (data.value === undefined && data.type === "hidden") {
-                data.value = data.details.value ? data.details.value : '';
+                data.value = data.details.value ? data.details.value : "";
               } else if (
                 data.type === "text" ||
                 data.type === "hidden" ||
@@ -454,8 +471,7 @@ export default {
                   this.$caseConvert.stringSnakeToCamel(data.field)
                 ];
               }
-            } catch (error) {
-            }
+            } catch (error) {}
             return data;
           });
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
@@ -463,16 +479,14 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     getRelationDataBySlug() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.table
         .relationDataBySlug({
           slug: this.$route.params.slug,
@@ -484,7 +498,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

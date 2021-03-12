@@ -108,9 +108,7 @@ export default {
   }),
   methods: {
     login() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.auth
         .login({
           email: this.email,

@@ -21,9 +21,14 @@ export default {
     register: apiPrefix + '/v1/auth/register',
     verify: apiPrefix + '/v1/auth/verify',
     refreshToken: apiPrefix + '/v1/auth/refresh-token',
-    user: apiPrefix + '/v1/auth/user',
-    changePassword: apiPrefix + '/v1/auth/change-password',
     reRequestVerificationToken: apiPrefix + '/v1/auth/re-request-verification'
+  },
+  authuser: {
+    user: apiPrefix + '/v1/auth/user',
+    changePassword: apiPrefix + '/v1/auth/user/change-password',
+    updateProfile: apiPrefix + '/v1/auth/user/profile',
+    updateEmail: apiPrefix + '/v1/auth/user/email',
+    verifyEmail: apiPrefix + '/v1/auth/user/verify-email',
   },
   crudManagement: {
     browse: apiPrefix + '/v1/crud',

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row></badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('read_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -232,7 +228,7 @@
 </template>
 <script>
 import draggable from "vuedraggable";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
@@ -243,7 +239,7 @@ export default {
   name: "Browse",
   components: {
     draggable,
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
     BadasoText,
     BadasoSwitch,
     BadasoSelect,
@@ -301,9 +297,7 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.crud
         .add(this.$caseConvert.snake(this.crudData))
         .then((response) => {
@@ -321,9 +315,7 @@ export default {
         });
     },
     getTableDetail() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.table
         .read({
           table: this.$route.params.tableName,

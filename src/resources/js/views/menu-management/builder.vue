@@ -44,12 +44,14 @@
       </vs-row>
       <vs-row vs-type="flex" vs-justify="space-between">
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button color="primary" @click="saveMenuItem()" type="filled"
-            >{{ $t('menu.builder.popup.add.button.add') }}</vs-button
-          >
+          <vs-button color="primary" @click="saveMenuItem()" type="filled">{{
+            $t("menu.builder.popup.add.button.add")
+          }}</vs-button>
         </vs-col>
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button color="danger"  @click="closeModal()">{{ $t('menu.builder.popup.add.button.cancel') }}</vs-button>
+          <vs-button color="danger" @click="closeModal()">{{
+            $t("menu.builder.popup.add.button.cancel")
+          }}</vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
@@ -96,45 +98,37 @@
         ></badaso-color-picker>
       </vs-row>
       <vs-row vs-type="flex" vs-justify="flex-end">
-        <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end">
-          
-        </vs-col>
+        <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end"> </vs-col>
       </vs-row>
       <vs-row vs-type="flex" vs-justify="space-between">
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-         <vs-button
+          <vs-button
             v-if="menuItem.id"
             color="primary"
             @click="updateMenuItem()"
             type="filled"
-            >{{ $t('menu.builder.popup.edit.button.edit') }}</vs-button
+            >{{ $t("menu.builder.popup.edit.button.edit") }}</vs-button
           >
         </vs-col>
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button color="danger" @click="closeModal()">{{ $t('menu.builder.popup.edit.button.cancel') }}</vs-button>
+          <vs-button color="danger" @click="closeModal()">{{
+            $t("menu.builder.popup.edit.button.cancel")
+          }}</vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4" v-if="$helper.isAllowed('add_menu_items')">
-        <div style="float: right">
-          <vs-button
-            color="primary"
-            type="relief"
-            @click="addMenuItem()"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.addItem') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row>
+      <template slot="action" v-if="$helper.isAllowed('add_menu_items')">
+        <vs-button color="primary" type="relief" @click="addMenuItem()"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.addItem") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('edit_menus')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('menu.builder.title') }}</h3>
+            <h3>{{ $t("menu.builder.title") }}</h3>
           </div>
           <div class="row">
             <div class="col-12">
@@ -167,7 +161,10 @@
                         type="relief"
                         @click.stop
                         v-if="$helper.isAllowed('edit_menu_items')"
-                        :to="{name: 'MenuPermissions', params: {id: $route.params.id, itemId: data.id}}"
+                        :to="{
+                          name: 'MenuPermissions',
+                          params: { id: $route.params.id, itemId: data.id },
+                        }"
                         ><vs-icon icon="list"></vs-icon
                       ></vs-button>
                       <vs-button
@@ -200,7 +197,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t('menu.warning.notAllowedToEdit') }}</h3>
+              <h3>{{ $t("menu.warning.notAllowedToEdit") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -209,7 +206,7 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow";
 import { DraggableTree } from "vue-draggable-nested-tree";
 import _ from "lodash";
 import BadasoText from "../../components/BadasoText";
@@ -219,7 +216,7 @@ import BadasoColorPicker from "../../components/BadasoColorPicker";
 export default {
   name: "Builder",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
     Tree: DraggableTree,
     BadasoText,
     BadasoSelect,
@@ -259,11 +256,11 @@ export default {
   mounted() {
     this.menuItemTargets = [
       {
-        label: this.$t('menu.builder.popup.add.field.target.value.thisTab'),
+        label: this.$t("menu.builder.popup.add.field.target.value.thisTab"),
         value: "_self",
       },
       {
-        label: this.$t('menu.builder.popup.add.field.target.value.newTab'),
+        label: this.$t("menu.builder.popup.add.field.target.value.newTab"),
         value: "_blank",
       },
     ];
@@ -275,11 +272,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteMenuItem,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -287,9 +284,7 @@ export default {
     },
     getMenuItems() {
       this.arrangeItems = false;
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .browseItem({
           menuId: this.$route.params.id,
@@ -302,7 +297,7 @@ export default {
         })
         .catch((error) => {
           this.$vs.notify({
-            title: is.$t('alert.danger'),
+            title: is.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -388,9 +383,7 @@ export default {
       return ls;
     },
     startArrangeItems() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       let menuItems = this.buildArrangeItems(this.menuItems);
       this.$api.menu
         .arrangeItems({
@@ -405,7 +398,7 @@ export default {
         })
         .catch((error) => {
           this.$vs.notify({
-            title: is.$t('alert.danger'),
+            title: is.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -414,13 +407,15 @@ export default {
     },
     editMenuItem(menuItem) {
       this.menuItem = menuItem;
-      this.menuItem.target = menuItem.target ? menuItem.target : this.menuItemTargets[0].value;
+      this.menuItem.target = menuItem.target
+        ? menuItem.target
+        : this.menuItemTargets[0].value;
       this.editMenuItemPopUp = true;
     },
     addMenuItem(menuItem) {
       this.menuItem = {
         color: "",
-        target: this.menuItemTargets[0].value
+        target: this.menuItemTargets[0].value,
       };
       this.addMenuItemPopUp = true;
     },
@@ -429,10 +424,8 @@ export default {
       this.editMenuItemPopUp = false;
     },
     saveMenuItem() {
-      this.errors = {}
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.errors = {};
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .addItem({ ...this.menuItem, menuId: this.$route.params.id })
         .then((response) => {
@@ -443,9 +436,9 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          this.errors = error.errors
+          this.errors = error.errors;
           this.$vs.notify({
-            title: is.$t('alert.danger'),
+            title: is.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -453,10 +446,8 @@ export default {
         });
     },
     deleteMenuItem() {
-      this.errors = {}
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.errors = {};
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .deleteItem({
           menuId: this.$route.params.id,
@@ -470,9 +461,9 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          this.errors = error.errors
+          this.errors = error.errors;
           this.$vs.notify({
-            title: is.$t('alert.danger'),
+            title: is.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -480,10 +471,8 @@ export default {
         });
     },
     updateMenuItem() {
-      this.errors = {}
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.errors = {};
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .editItem({
           menuId: this.$route.params.id,
@@ -502,9 +491,9 @@ export default {
           this.$vs.loading.close();
         })
         .catch((error) => {
-          this.errors = error.errors
+          this.errors = error.errors;
           this.$vs.notify({
-            title: is.$t('alert.danger'),
+            title: is.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

@@ -1,31 +1,30 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button color="primary" type="relief" :to="{ name: 'UserAdd' }"
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'UserAdd' }"
           v-if="$helper.isAllowed('add_users')"
-            ><vs-icon icon="add"></vs-icon> {{ $t('action.add') }}</vs-button
-          >
-          <vs-button
-            color="danger"
-            type="relief"
-            v-if="selected.length > 0 && $helper.isAllowed('delete_users')"
-            @click.stop
-            @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon> {{ $t('action.bulkDelete') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+        <vs-button
+          color="danger"
+          type="relief"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_users')"
+          @click.stop
+          @click="confirmDeleteMultiple"
+          ><vs-icon icon="delete_sweep"></vs-icon>
+          {{ $t("action.bulkDelete") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_users')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t('user.title') }}</h3>
+            <h3>{{ $t("user.title") }}</h3>
           </div>
           <div>
             <vs-table
@@ -43,9 +42,9 @@
               :description-body="$t('user.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th sort-key="name"> {{ $t('user.header.name') }} </vs-th>
-                <vs-th sort-key="email"> {{ $t('user.header.email') }} </vs-th>
-                <vs-th> {{ $t('user.header.action') }} </vs-th>
+                <vs-th sort-key="name"> {{ $t("user.header.name") }} </vs-th>
+                <vs-th sort-key="email"> {{ $t("user.header.email") }} </vs-th>
+                <vs-th> {{ $t("user.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
@@ -72,7 +71,10 @@
                       color="primary"
                       type="relief"
                       @click.stop
-                      :to="{name: 'UserRoles', params: {id: data[indextr].id}}"
+                      :to="{
+                        name: 'UserRoles',
+                        params: { id: data[indextr].id },
+                      }"
                       v-if="$helper.isAllowed('browse_user_role')"
                       ><vs-icon icon="list"></vs-icon
                     ></vs-button>
@@ -106,11 +108,11 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 export default {
   name: "Browse",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     selected: [],
@@ -127,11 +129,11 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.deleteUser,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
@@ -141,38 +143,34 @@ export default {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
-        title: this.$t('action.delete.title'),
-        text: this.$t('action.delete.text'),
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
         accept: this.bulkDeleteUser,
-        acceptText: this.$t('action.delete.accept'),
-        cancelText: this.$t('action.delete.cancel'),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
         cancel: () => {},
       });
     },
     getUserList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.user
         .browse()
         .then((response) => {
           this.$vs.loading.close();
-          this.selected = []
+          this.selected = [];
           this.users = response.data.users;
         })
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
         });
     },
     deleteUser() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.user
         .delete({
           id: this.willDeleteId,
@@ -184,7 +182,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
@@ -192,9 +190,7 @@ export default {
     },
     bulkDeleteUser() {
       const ids = this.selected.map((item) => item.id);
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.user
         .deleteMultiple({
           ids: ids.join(","),
@@ -206,7 +202,7 @@ export default {
         .catch((error) => {
           this.$vs.loading.close();
           this.$vs.notify({
-            title: this.$t('alert.danger'),
+            title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });

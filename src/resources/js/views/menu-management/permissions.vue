@@ -1,10 +1,6 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_role_permission')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -17,7 +13,7 @@
             stripe
             pagination
             max-items="10"
-        >
+          >
             <template slot="thead">
               <vs-th v-if="$helper.isAllowed('edit_menu_items')"> </vs-th>
               <vs-th> Key </vs-th>
@@ -26,7 +22,10 @@
 
             <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
-                <vs-td style="width: 1%" v-if="$helper.isAllowed('edit_menu_items')">
+                <vs-td
+                  style="width: 1%"
+                  v-if="$helper.isAllowed('edit_menu_items')"
+                >
                   <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
                 <vs-td
@@ -50,7 +49,8 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Set selected permissions for menu item
+                <vs-icon icon="save"></vs-icon> Set selected permissions for
+                menu item
               </vs-button>
             </vs-col>
           </vs-row>
@@ -71,12 +71,12 @@
   </div>
 </template>
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 
 export default {
   name: "Permissions",
   components: {
-    BadasoBreadcrumb,
+    BadasoBreadcrumbRow,
   },
   data: () => ({
     menuItemPermissions: [],
@@ -86,9 +86,7 @@ export default {
   },
   methods: {
     getMenuItemPermissions() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .getItemPermissions({
           menuId: this.$route.params.id,
@@ -108,14 +106,16 @@ export default {
         });
     },
     submitForm() {
-      let selectedPermissions = this.menuItemPermissions.filter(function(permission) {
-        return permission.selected === 1 || permission.selected === true
+      let selectedPermissions = this.menuItemPermissions.filter(function(
+        permission
+      ) {
+        return permission.selected === 1 || permission.selected === true;
       });
-      selectedPermissions = selectedPermissions.map((permission) => permission.id);
+      selectedPermissions = selectedPermissions.map(
+        (permission) => permission.id
+      );
 
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .setItemPermissions({
           menuId: this.$route.params.id,
@@ -130,7 +130,7 @@ export default {
           this.getMenuItemPermissions();
           this.$vs.notify({
             title: "Success",
-            text: 'Permissions has been set',
+            text: "Permissions has been set",
             color: "success",
           });
         })
