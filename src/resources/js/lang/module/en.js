@@ -98,7 +98,7 @@ export default {
     "newPasswordConfirmation": "New Password Confirmation",
     "name": "Name",
     "avatar": "Avatar",
-    "additionalInfo": "Additional info",
+    "additionalInfo": "Additional info(optional)",
     "token": "Verification Code",
     "buttons": {
       "updateProfile": "Update Profile",

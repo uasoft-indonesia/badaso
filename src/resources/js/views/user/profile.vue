@@ -222,6 +222,7 @@ export default {
               color: "success",
             });
           } else {
+            this.$store.commit("FETCH_USER");
             this.$vs.notify({
               title: this.$t("alert.success"),
               text: "Email updated",
@@ -249,6 +250,7 @@ export default {
           token: this.token
         })
         .then((response) => {
+          this.$store.commit("FETCH_USER");
           this.shouldVerifyEmail = false
           this.token = ''
           this.$vs.loading.close();
