@@ -15,21 +15,21 @@
             <strong>{{ $t("licenceIssue.licenceEmpty") }}</strong>
             <p>
                 {{ $t("licenceIssue.licenceEmptyDescription") }}
-                <a href="" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
+                <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
             </p>
         </li>
         <li>
             <strong>{{ $t("licenceIssue.licenceInvalid") }}</strong>
             <p>
                 {{ $t("licenceIssue.licenceInvalidDescription") }}
-                <a href="" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
+                <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
             </p>
         </li>
         <li>
             <strong>{{ $t("licenceIssue.licenceUsersExpired") }}</strong>
             <p>
                 {{ $t("licenceIssue.licenceUsersExpiredDescription") }}
-                <a href="" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
+                <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
             </p>
         </li>
       </ul>
