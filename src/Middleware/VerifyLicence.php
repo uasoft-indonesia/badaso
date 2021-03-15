@@ -14,7 +14,7 @@ class VerifyLicence
     {
         $licence = env('BADASO_LICENCE_KEY');
         if (is_null($licence)) {
-            return ApiResponse::paymentRequired('Invalid Badaso Licence Key');
+            return ApiResponse::paymentRequired('BADASO_LICENCE_KEY not found');
         } else {
             // Call Badaso Dashboard API here
             try {

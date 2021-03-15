@@ -10,9 +10,12 @@ export default (error) => {
     localStorage.clear();
     window.location.reload();
   } else if (status === 402 || status === 412) {
-    store.commit('SET_LICENCE_ISSUE', true)
     let data = error.response.data;
     data.status = status
+    store.commit('SET_LICENCE_ISSUE', {
+      invalid: true,
+      message: data.message ? data.message : ''
+    })
     return Promise.reject(data);
   }
 

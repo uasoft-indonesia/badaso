@@ -1,33 +1,35 @@
 <template>
-    <vs-popup fullscreen title="Licence Issues" :active.sync="licenceIssue" style="z-index: 26000">
+    <vs-popup fullscreen :title="$t('licenceIssue.title')" :active.sync="licenceIssue.invalid" style="z-index: 26000">
       <vs-row>
         <vs-col>
         <p>
-        Mohon maaf, Badaso belum bisa digunakan dikarenakan ada issue pada lisensi anda
+        {{ $t("licenceIssue.message") }}
       </p>
+      <h3 style="text-align: center;">{{licenceIssue.message}}</h3>
+      <br />
       <p>
-        Berikut adalah beberapa masalah yang bisa terjadi pada lisensi:
+        {{ $t("licenceIssue.listTitle") }}
       </p>
       <ul>
         <li>
-            <strong>Lisensi Kosong</strong>
+            <strong>{{ $t("licenceIssue.licenceEmpty") }}</strong>
             <p>
-                Anda belum memasukkan BADASO_DONATION_KEY pada .env. Harap isi dahulu sebelum bisa menggunakan badaso.
-                Untuk petunjuk lebih lengkap, bisa di lihat disini.
+                {{ $t("licenceIssue.licenceEmptyDescription") }}
+                <a href="" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
             </p>
         </li>
         <li>
-            <strong>Lisensi Invalid</strong>
+            <strong>{{ $t("licenceIssue.licenceInvalid") }}</strong>
             <p>
-                BADASO_DONATION_KEY tidak diemukan. Harap pastikan sudah sama dengan yang anda dapatkan pada Badaso Dashboard.
-                Untuk petunjuk lebih lengkap, bisa di lihat disini.
+                {{ $t("licenceIssue.licenceInvalidDescription") }}
+                <a href="" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
             </p>
         </li>
         <li>
-            <strong>Masa Aktif Kadaluarsa</strong>
+            <strong>{{ $t("licenceIssue.licenceUsersExpired") }}</strong>
             <p>
-                Masa aktif anda sudah habis. Mohon untuk menambahkan masa aktif anda pada Badaso Dashboard supaya licence anda dapat digunakan kembali.
-                Untuk petunjuk lebih lengkap, bisa di lihat disini.
+                {{ $t("licenceIssue.licenceUsersExpiredDescription") }}
+                <a href="" target="_blank"><vs-icon icon="open_in_new"></vs-icon></a>
             </p>
         </li>
       </ul>
