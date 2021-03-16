@@ -54,18 +54,9 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
 Before you install badaso, make sure your laravel can run.
 - install badaso from github
   - add this to composer.json
-```json
-  "require": {
-      "uasoft-indonesia/badaso": {version},
-  },
-  "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/uasoft-indonesia/badaso.git"
-        }
-    ]
+```bash
+  composer require uasoft-indonesia/badaso
 ```
-- run ```composer install```
 - register badaso provider dan jwt provider in config/app.php
 ```
     /*
