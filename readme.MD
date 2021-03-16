@@ -19,7 +19,7 @@ Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX an
 | spatie/laravel-activitylog | 3.9.1 | "spatie/laravel-activitylog": "3.9.1" |
 | spatie/laravel-backup | 5.12.1 | "spatie/laravel-backup":"5.12.1" |
 | spatie/flysystem-dropbox | 1.2.2 | "spatie/flysystem-dropbox": "1.2.2" |
-| nao-pon/flysystem-google-driv" | 1.1.13 | "nao-pon/flysystem-google-drive": "1.1.13" |
+| nao-pon/flysystem-google-drive | 1.1.13 | "nao-pon/flysystem-google-drive": "1.1.13" |
 | league/flysystem-aws-s3-v3 | 1.0.28 | "league/flysystem-aws-s3-v3": "1.0.28" |
 
   - Vue
