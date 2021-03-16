@@ -31,7 +31,12 @@ export default new Vuex.Store({
       'key': 'en',
       'label': 'English',
     },
-    licenceIssue: false
+    licenceIssue: {
+      invalid: false
+    },
+    authorizationIssue: {
+      unauthorized: false
+    }
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -154,6 +159,13 @@ export default new Vuex.Store({
     },
     SET_LICENCE_ISSUE(state, value) {
       state.licenceIssue = value
+    },
+    SET_AUTH_ISSUE(state, value) {
+      state.authorizationIssue = value
+    },
+    LOGOUT(state) {
+      localStorage.clear();
+      window.location.reload();
     }
   },
   actions: {},

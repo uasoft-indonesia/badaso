@@ -3,13 +3,13 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Exception;
-use Illuminate\Http\Request;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Interfaces\WidgetInterface;
 
 class BadasoDashboardController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         try {
             $widgets = config('badaso.widgets');
@@ -17,8 +17,17 @@ class BadasoDashboardController extends Controller
             foreach ($widgets as $widget) {
                 $widget_class = new $widget();
                 if ($widget_class instanceof WidgetInterface) {
-                    $widget_data = $widget_class->run();
-                    $data[] = $widget_data;
+                    $permissions = $widget_class->getPermissions();
+                    if (is_null($permissions)) {
+                        $widget_data = $widget_class->run();
+                        $data[] = $widget_data;
+                    } else {
+                        $allowed = AuthenticatedUser::isAllowedTo($permissions);
+                        if ($allowed) {
+                            $widget_data = $widget_class->run();
+                            $data[] = $widget_data;
+                        }
+                    }
                 }
             }
 

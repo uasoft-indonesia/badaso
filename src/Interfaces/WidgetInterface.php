@@ -7,5 +7,7 @@ namespace Uasoft\Badaso\Interfaces;
  */
 interface WidgetInterface
 {
+    public function getPermissions();
+
     public function run($params = null);
 }

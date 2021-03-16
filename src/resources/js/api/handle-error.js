@@ -7,8 +7,11 @@ export default (error) => {
     data.status = status
     return Promise.reject(data);
   } else if (status === 401) {
-    localStorage.clear();
-    window.location.reload();
+    // localStorage.clear();
+    // window.location.reload();
+    store.commit('SET_AUTH_ISSUE', {
+      unauthorized: true,
+    })
   } else if (status === 402 || status === 412) {
     let data = error.response.data;
     data.status = status

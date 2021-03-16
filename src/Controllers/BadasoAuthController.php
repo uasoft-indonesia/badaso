@@ -175,7 +175,7 @@ class BadasoAuthController extends Controller
         $obj->access_token = $token;
         $obj->token_type = 'bearer';
         $obj->user = $user;
-        $obj->expires_in = auth()->factory()->getTTL() * 60;
+        $obj->expires_in = auth()->factory()->getTTL() * env('BADASO_AUTH_TOKEN_LIFETIME', 60);
 
         return ApiResponse::success($obj);
     }

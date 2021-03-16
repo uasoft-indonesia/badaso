@@ -794,5 +794,10 @@ export default {
     "licenceInvalidDescription": "BADASO_LICENCE_KEY was not found. Please make sure it is the same as what you get on Badaso Dashboard. For more complete instructions, please see here.",
     "licenceUsersExpired": "Active Period Expires",
     "licenceUsersExpiredDescription": "Your active period has expired. Please add your active period to Badaso Dashboard so that your license can be used again. For more complete instructions, please see here.",
-  }
+  },
+  "authorizationIssue": {
+    "title": "Authorization Issues",
+    "subtitle": "Sorry, cannot continue request because",
+    "message": "Authorization Failed, token expired or empty",
+  },
 }
