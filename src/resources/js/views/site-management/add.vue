@@ -14,6 +14,7 @@
               :label="$t('site.add.field.displayName.title')"
               :placeholder="$t('site.add.field.displayName.placeholder')"
               required
+              :alert="errors.displayName"
             ></badaso-text>
             <badaso-text
               v-model="config.key"
@@ -21,6 +22,7 @@
               :label="$t('site.add.field.key.title')"
               required
               :placeholder="$t('site.add.field.key.placeholder')"
+              :alert="errors.key"
             ></badaso-text>
             <badaso-select
               v-model="config.type"
@@ -28,6 +30,7 @@
               :label="$t('site.add.field.type.title')"
               :placeholder="$t('site.add.field.type.placeholder')"
               :items="componentList"
+              :alert="errors.type"
             ></badaso-select>
             <badaso-select
               v-model="config.group"
@@ -35,12 +38,13 @@
               :label="$t('site.add.field.group.title')"
               :placeholder="$t('site.add.field.group.placeholder')"
               :items="groupList"
+              :alert="errors.group"
             ></badaso-select>
             <vs-col vs-lg="12">
               <label for="" class="vs-input--label">{{
                 $t("site.add.field.options.title")
               }}</label>
-              <badaso-code-editor v-model="config.options">
+              <badaso-code-editor v-model="config.details" :alert="errors.details">
               </badaso-code-editor>
             </vs-col>
             <vs-col vs-lg="12">
@@ -81,12 +85,13 @@ export default {
     BadasoCodeEditor,
   },
   data: () => ({
+    errors: {},
     config: {
       displayName: "",
       key: "",
       type: "",
       group: "",
-      options: "",
+      details: "",
     },
     example: {
       items: [
@@ -119,6 +124,7 @@ export default {
           this.$router.push({ name: "SiteBrowse" });
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$vs.loading.close();
           this.$vs.notify({
             title: this.$t("alert.danger"),

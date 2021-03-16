@@ -8,7 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Configuration extends Model
 {
     use LogsActivity;
-    
+
     protected $fillable = [
         'key',
         'display_name',
@@ -17,6 +17,7 @@ class Configuration extends Model
         'type',
         'order',
         'group',
+        'can_delete',
     ];
 
     protected static $logAttributes = true;
@@ -26,5 +27,10 @@ class Configuration extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
+    }
+
+    public function getCanDeleteAttribute($value)
+    {
+        return $value == 1;
     }
 }

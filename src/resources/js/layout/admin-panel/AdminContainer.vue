@@ -8,6 +8,7 @@
       :logo="adminPanelLogo"
       :title="adminPanelTitle"
       :windowWidth="windowWidth"
+      :logoConfig="adminPanelLogoConfig"
     />
     <!---Sidebar-->
     <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" :view="viewType" />
@@ -62,6 +63,12 @@ export default {
       get() {
         let config = this.$store.getters.getConfig
         return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#000000"
+      }
+    },
+    adminPanelLogoConfig: {
+      get() {
+        let config = this.$store.getters.getConfig
+        return  config.adminPanelLogoConfig ?  config.adminPanelLogoConfig : "logo_and_text"
       }
     },
     adminPanelHeaderFontColor: {

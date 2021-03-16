@@ -30,35 +30,35 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-text>
                 <badaso-email
                   v-if="config.type === 'email'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-email>
                 <badaso-password
                   v-if="config.type === 'password'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-password>
                 <badaso-textarea
                   v-if="config.type === 'textarea'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-textarea>
                 <badaso-checkbox
                   v-if="config.type === 'checkbox'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                   :items="config.details.items"
                 ></badaso-checkbox>
                 <badaso-search
@@ -66,49 +66,49 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-search>
                 <badaso-number
                   v-if="config.type === 'number'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-number>
                 <badaso-url
                   v-if="config.type === 'url'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-url>
                 <badaso-time
                   v-if="config.type === 'time'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-time>
                 <badaso-date
                   v-if="config.type === 'date'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-date>
                 <badaso-datetime
                   v-if="config.type === 'datetime'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                 ></badaso-datetime>
                 <badaso-select
                   v-if="config.type === 'select'"
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                   :items="config.details.items"
                 ></badaso-select>
                 <badaso-radio
@@ -116,34 +116,34 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                   :items="config.details.items"
                 ></badaso-radio>
                 <badaso-switch
                   v-if="config.type === 'switch'"
                   :label="config.displayName"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-switch>
                 <badaso-slider
                   v-if="config.type === 'slider'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-slider>
                 <badaso-editor
                   v-if="config.type === 'editor'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-editor>
                 <badaso-tags
                   v-if="config.type === 'tags'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-tags>
                 <badaso-hidden
@@ -158,28 +158,28 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   v-model="config.value"
-                  size="12"
+                  size="10"
                   :items="config.details.items"
                 ></badaso-select-multiple>
                 <badaso-upload-image
                   v-if="config.type === 'upload_image'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-upload-image>
                 <badaso-upload-file
                   v-if="config.type === 'upload_file'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-upload-file>
                 <badaso-color-picker
                   v-if="config.type === 'color_picker'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-color-picker>
 
@@ -187,16 +187,28 @@
                   v-if="config.type === 'upload_image_multiple'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-upload-image-multiple>
                 <badaso-upload-file-multiple
                   v-if="config.type === 'upload_file_multiple'"
                   :label="config.displayName"
                   :placeholder="config.value"
-                  size="12"
+                  size="10"
                   v-model="config.value"
                 ></badaso-upload-file-multiple>
+
+                <vs-col vs-lg="2">
+                  <br />
+                  <vs-button
+                    color="danger"
+                    type="relief"
+                    @click.stop
+                    @click="openConfirm(config.id)"
+                    v-if="$helper.isAllowed('delete_configurations') && config.canDelete"
+                    ><vs-icon icon="delete"></vs-icon>
+                  </vs-button>
+                </vs-col>
               </vs-row>
             </vs-tab>
           </vs-tabs>
@@ -328,6 +340,24 @@ export default {
               }
               if (data.type === "switch") {
                 data.value = data.value == "1" ? true : false;
+              }
+              const typeRequiredItems = [
+                "checkbox",
+                "radio",
+                "select",
+                "select_multiple",
+              ];
+              if (typeRequiredItems.includes(data.type)) {
+                if (!data.details || !data.details.items) {
+                  data.details = {};
+                  data.details.items = [];
+                  this.$vs.notify({
+                    title: this.$t("alert.danger"),
+                    text:
+                      "Invalid options for Checkbox, Radio, Select, Select-multiple.",
+                    color: "danger",
+                  });
+                }
               }
             } catch (error) {}
             return data;
