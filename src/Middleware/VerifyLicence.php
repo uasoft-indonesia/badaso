@@ -19,7 +19,7 @@ class VerifyLicence
             // Call Badaso Dashboard API here
             try {
                 $client = new Client();
-                $req = $client->request('POST', 'https:/badaso-dashboard.uatech.co.id/api/verify-licence', [
+                $req = $client->request('POST', 'https://badaso-dashboard.uatech.co.id/api/verify-licence', [
                     'json' => [
                         'licence' => $licence,
                     ],
