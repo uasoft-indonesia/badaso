@@ -171,11 +171,13 @@ class BadasoAuthController extends Controller
 
     protected function createNewToken($token, $user)
     {
+        $ttl = env('BADASO_AUTH_TOKEN_LIFETIME', 60);
+        $ttl = $ttl == '' ? 60 : $ttl;
         $obj = new stdClass();
         $obj->access_token = $token;
         $obj->token_type = 'bearer';
         $obj->user = $user;
-        $obj->expires_in = auth()->factory()->getTTL() * env('BADASO_AUTH_TOKEN_LIFETIME', 60);
+        $obj->expires_in = auth()->factory()->getTTL() * $ttl;
 
         return ApiResponse::success($obj);
     }

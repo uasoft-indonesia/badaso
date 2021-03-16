@@ -23,6 +23,7 @@ return [
         'role_permissions',
         'user_roles',
         'user_verifications',
+        'email_resets',
     ],
     'watch_tables' => [
         // table names for generating CRUD_DATA seeders.

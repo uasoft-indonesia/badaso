@@ -143,6 +143,8 @@ Before you install badaso, make sure your laravel can run.
     BACKUP_DISK=
 
     #must be filled in
+    BADASO_LICENCE_KEY=
+    BADASO_AUTH_TOKEN_LIFETIME=60
     MIX_ADMIN_PANEL_ROUTE_PREFIX=
     MIX_DEFAULT_MENU=
     MIX_API_ROUTE_PREFIX=

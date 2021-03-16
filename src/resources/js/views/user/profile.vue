@@ -167,6 +167,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.user = response.data.user
+          this.user.additionalInfo = this.user.additionalInfo ? JSON.parse(this.user.additionalInfo) : ''
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -185,7 +186,7 @@ export default {
         .updateProfile({
           name: this.user.name,
           avatar: this.user.avatar.base64,
-          additionalInfo: JSON.stringify(this.user.additionalInfo),
+          additionalInfo: this.user.additionalInfo !== '' ? JSON.stringify(this.user.additionalInfo) : null,
         })
         .then((response) => {
           this.$store.commit("FETCH_USER");
