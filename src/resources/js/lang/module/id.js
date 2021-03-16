@@ -790,5 +790,10 @@ export default {
     "licenceInvalidDescription": "BADASO_LICENCE_KEY tidak diemukan. Harap pastikan sudah sama dengan yang anda dapatkan pada Badaso Dashboard. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
     "licenceUsersExpired": "Masa Aktif Kadaluarsa",
     "licenceUsersExpiredDescription": "Masa aktif anda sudah habis. Mohon untuk menambahkan masa aktif anda pada Badaso Dashboard supaya licence anda dapat digunakan kembali. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
-  }
+  },
+  "authorizationIssue": {
+    "title": "Authorization Issues",
+    "subtitle": "Maaf, belum bisa melanjutkan aktivitas karena",
+    "message": "Otorisasi gagal, token telah kadaluarsa atau kosong",
+  },
 }
