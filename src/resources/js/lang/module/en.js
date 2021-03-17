@@ -800,4 +800,80 @@ export default {
     "subtitle": "Sorry, cannot continue request because",
     "message": "Authorization Failed, token expired or empty",
   },
+
+  "database": {
+    "browse": {
+      "title": "Database",
+      "addButton": "Add Table",
+      "alterButton": "Alter Table",
+      "dropButton": "Drop Table",
+    },
+    "add": {
+      "title": "Add Table",
+      "field": {
+        "table": "Table Name"
+      },
+      "row": {
+        "title": "Add Table Field",
+        "subtitle": "Please read the {0} before you create the migration.",
+        "field": {
+          "fieldName": "Field Name",
+          "fieldType": "Field Type",
+          "fieldLength": "Length",
+          "fieldDefault": "Default",
+          "fieldNull": "Nullable",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Attribute",
+          "fieldIncrement": "Auto Increment",
+          "add": "Add"
+        }
+      },
+      "error": {
+        "fieldName": "Field name is required.",
+        "fieldType": "Field type is required.",
+        "tableName": "Table name is required.",
+        "fieldLength": "Field length is required.",
+      },
+      "footer": {
+        "descriptionTitle": "Registries",
+        "descriptionConnector": "of",
+        "descriptionBody": "Pages"
+      },
+      "button": "Save"
+    },
+    "edit": {
+      "title": "Alter Table",
+      "field": {
+        "table": "Table Name"
+      },
+      "row": {
+        "title": "Alter Table Field",
+        "subtitle": "Please read the {0} before you create the migration.",
+        "field": {
+          "fieldName": "Field Name",
+          "fieldType": "Field Type",
+          "fieldLength": "Length",
+          "fieldDefault": "Default",
+          "fieldNull": "Nullable",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Attribute",
+          "fieldIncrement": "Auto Increment",
+          "action": "Action",
+          "add": "Add"
+        }
+      },
+      "error": {
+        "fieldName": "Field name is required.",
+        "fieldType": "Field type is required.",
+        "tableName": "Table name is required.",
+        "fieldLength": "Field length is required.",
+      },
+      "footer": {
+        "descriptionTitle": "Registries",
+        "descriptionConnector": "of",
+        "descriptionBody": "Pages"
+      },
+      "button": "Save"
+    },
+  }
 }

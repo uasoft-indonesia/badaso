@@ -790,5 +790,81 @@ export default {
     "licenceInvalidDescription": "BADASO_LICENCE_KEY tidak diemukan. Harap pastikan sudah sama dengan yang anda dapatkan pada Badaso Dashboard. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
     "licenceUsersExpired": "Masa Aktif Kadaluarsa",
     "licenceUsersExpiredDescription": "Masa aktif anda sudah habis. Mohon untuk menambahkan masa aktif anda pada Badaso Dashboard supaya licence anda dapat digunakan kembali. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
+  },
+  
+  "database": {
+    "browse": {
+      "title": "Basis Data",
+      "addButton": "Tambah Tabel",
+      "alterButton": "Ubah Tabel",
+      "dropButton": "Hapus Tabel",
+    },
+    "add": {
+      "title": "Tambah Tabel",
+      "field": {
+        "table": "Nama Tabel"
+      },
+      "row": {
+        "title": "Tambah Field Tabel",
+        "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
+        "field": {
+          "fieldName": "Nama Field",
+          "fieldType": "Tipe Field",
+          "fieldLength": "Panjang Field",
+          "fieldDefault": "Default",
+          "fieldNull": "Boleh Kosong",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Atribut",
+          "fieldIncrement": "Auto Increment",
+          "add": "Add"
+        }
+      },
+      "error": {
+        "fieldName": "Field name dibutuhkan.",
+        "fieldType": "Field type dibutuhkan.",
+        "tableName": "Table name dibutuhkan.",
+        "fieldLength": "Field length dibutuhkan.",
+      },
+      "footer": {
+        "descriptionTitle": "Baris yang ditampilkan",
+        "descriptionConnector": "dari",
+        "descriptionBody": "Halaman"
+      },
+      "button": "Simpan"
+    },
+    "edit": {
+      "title": "Alter Tabel",
+      "field": {
+        "table": "Nama Tabel"
+      },
+      "row": {
+        "title": "Alter Field Tabel",
+        "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
+        "field": {
+          "fieldName": "Nama Field",
+          "fieldType": "Tipe Field",
+          "fieldLength": "Panjang Field",
+          "fieldDefault": "Default",
+          "fieldNull": "Boleh Kosong",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Atribut",
+          "fieldIncrement": "Auto Increment",
+          "action": "Aksi",
+          "add": "Add"
+        }
+      },
+      "error": {
+        "fieldName": "Field name dibutuhkan.",
+        "fieldType": "Field type dibutuhkan.",
+        "tableName": "Table name dibutuhkan.",
+        "fieldLength": "Field length dibutuhkan.",
+      },
+      "footer": {
+        "descriptionTitle": "Baris yang ditampilkan",
+        "descriptionConnector": "dari",
+        "descriptionBody": "Halaman"
+      },
+      "button": "Simpan"
+    }
   }
 }

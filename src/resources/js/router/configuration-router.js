@@ -26,6 +26,10 @@ import CRUDManagementRead from "./../views/crud-management/read";
 import CRUDManagementEdit from "./../views/crud-management/edit";
 import CRUDManagementAdd from "./../views/crud-management/add";
 
+import DatabaseBrowse from "./../views/database/browse";
+import DatabaseAdd from "./../views/database/add";
+import DatabaseAlter from "./../views/database/edit";
+
 import SiteBrowse from "./../views/site-management/browse";
 import SiteAdd from "./../views/site-management/add";
 
@@ -228,6 +232,31 @@ export default [
     component: CRUDManagementAdd,
     meta: {
       title: "Add CRUD",
+    },
+  },
+
+  {
+    path: prefix + "/database",
+    name: "DatabaseBrowse",
+    component: DatabaseBrowse,
+    meta: {
+      title: "Browse Database",
+    },
+  },
+  {
+    path: prefix + "/database/add",
+    name: "DatabaseAdd",
+    component: DatabaseAdd,
+    meta: {
+      title: "Add Database",
+    },
+  },
+  {
+    path: prefix + "/database/alter/:tableName",
+    name: "DatabaseAlter",
+    component: DatabaseAlter,
+    meta: {
+      title: "Alter Database",
     },
   },
 

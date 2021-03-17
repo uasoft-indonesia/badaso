@@ -12,6 +12,7 @@ import entity from './modules/entity'
 import file from './modules/file'
 import table from './modules/table'
 import dashboard from './modules/dashboard'
+import database from './modules/database'
 
 export default {
   activitylog,
@@ -27,5 +28,6 @@ export default {
   data,
   file,
   table,
-  dashboard
+  dashboard,
+  database
 }

@@ -47,5 +47,7 @@ class PermissionsSeeder extends Seeder
         Permission::generateFor('users');
 
         Permission::generateFor('configurations');
+
+        Permission::generateFor('database');
     }
 }

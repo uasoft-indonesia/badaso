@@ -16,4 +16,10 @@ return [
         'header_invalid' => 'Base64 header is invalid',
         'mimetype_invalid' => 'Base64 mimetype is invalid',
     ],
+    'database' => [
+        'table_already_exists' => 'Tabel :table sudah ada.',
+        'table_name_already_exists' => 'Nama tabel dari :table sudah ada.',
+        'migration_created' => 'Migration berhasil dibuat dan dijalankan.',
+        'table_not_found' => 'Table :table tidak ada.',
+    ]
 ];

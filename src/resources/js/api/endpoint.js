@@ -109,4 +109,11 @@ export default {
     view: apiPrefix + '/v1/file/view',
     download: apiPrefix + '/v1/file/download'
   },
+  database: {
+    browse: apiPrefix + '/v1/database',
+    read: apiPrefix + '/v1/database/read',
+    edit: apiPrefix + '/v1/database/edit',
+    add: apiPrefix + '/v1/database/add',
+    // delete: apiPrefix + '/v1/crud/delete',
+  },
 }
