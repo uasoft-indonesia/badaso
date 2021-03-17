@@ -35,9 +35,9 @@ Badaso is a free and open-source headless CMS delivering your content anywhere y
 - **Scalable** - Like your another laravel projects !
 - **Easy maintenance** - Like your another laravel projects !
 
-## Getting Started
+## Instalation
 
-<a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/introduction/" target="_blank">Read the Getting Started tutorial</a>
+<a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">Instalation Documentation</a>. You can see this link for instalation.
 
 ## Sponsor
 
@@ -48,9 +48,11 @@ Coming soon..
 
 Coming soon..
 
+
 ## Community support
 
 Coming soon..
+
 
 ## License
 
