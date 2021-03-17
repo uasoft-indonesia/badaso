@@ -25,7 +25,7 @@
 
 <br>
 
-Badaso is a free and open-source headless CMS delivering your content anywhere you need.
+Badaso is a open-source Laravel headless CMS (with SPA dashboard + CRUD + API generator & more) for more productivity !
 
 - **Modern Dashboard** - Elegant design, fully customizable and SPA based on Vue.js
 - **Advanced CRUD generator** - Build your application faster and be more productive !
@@ -35,24 +35,26 @@ Badaso is a free and open-source headless CMS delivering your content anywhere y
 - **Scalable** - Like your another laravel projects !
 - **Easy maintenance** - Like your another laravel projects !
 
-## Instalation
+## Getting started (installation, how to use & more)
 
-<a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">Instalation Documentation</a>. You can see this link for instalation.
+You can see <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">official badaso documentation</a>.
 
 ## Sponsor
 
-Coming soon..
-
+Coming soon.
 
 ## Contributing
 
-Coming soon..
+Thank you for considering contributing to badaso ! please read our [contributing guideline](./contributing.md) before submitting a Pull Request to the project.
 
+For documentation repo <a href="https://github.com/uasoft-indonesia/badaso-documentation" target="_blank">click here</a>.
 
 ## Community support
 
-Coming soon..
+For general help using badaso, please refer to the <a href="https://badaso-docs.uatech.co.id/docs/" target="_blank">official badaso documentation</a>. For additional help, you can use one of these channels to ask a question:
 
+- <a href="https://github.com/uasoft-indonesia/badaso/discussions" target="_blank">Github discussions</a> (Questions and Discussions)
+- <a href="https://github.com/uasoft-indonesia/badaso/issues" target="_blank">Github issues</a> (Bug reports, Contributions)
 
 ## License
 
