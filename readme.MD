@@ -18,7 +18,8 @@
 
 <br>
 
-## Features
+Badaso is a free and open-source headless CMS delivering your content anywhere you need.
+
 - **Modern Dashboard** - Elegant design, fully customizable and SPA based on Vue.js
 - **Advanced CRUD generator** - Build your application faster and be more productive !
 - **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
