@@ -1,250 +1,44 @@
-# Badaso
-Laravel CRUD Generator with SPA interface
+<p align="center">
+  <a href="https://badaso-docs.uatech.co.id/">
+    <img src="https://i.ibb.co/M84RfhZ/Badaso-1.png" width="318px" alt="Badaso logo" />
+  </a>
+</p>
+<h3 align="center">Laravel headless CMS.</h3>
+<p align="center">SPA dashboard + CRUD + API generator & more.</p>
+<p align="center"><a href="https://badaso-demo.uatech.co.id/admin-panel/login">Try live demo</a></p>
+<br />
 
-## what is badaso
-Badaso is Scalable SPA Laravel admin dashboard + API generator with full AJAX and REST API based.
+<br>
 
-# Requirement!
-  - Laravel with laravel requirement. (note: tested with Laravel 5.8)
-  badaso needs some PHP/Laravel library
+<p align="center">
+  <a href="https://badaso-docs.uatech.co.id/">
+    <img src="https://i.ibb.co/f8yLw9F/screencapture-badaso-demo-uatech-co-id-admin-panel-crud-2021-03-17-08-58-57-1.png" alt="Administration panel" />
+  </a>
+</p>
 
-| Library | Versi | JSON |
-| ------ | ------ | ------ |
-| webpatser/laravel-uuid | ^3.0 | "webpatser/laravel-uuid": "^3.0" |
-| doctrine/dbal | 2.12 | "doctrine/dbal": "2.12" |
-| tymon/jwt-auth | ^1.0 | "tymon/jwt-auth": "^1.0" |
-| lcobucci/jwt | 3.3.3 | "lcobucci/jwt": "3.3.3" |
-| larapack/doctrine-support | ~0.1.4 | "larapack/doctrine-support": "~0.1.4" |
-| arcanedev/log-viewer | ~4.2.0 | "arcanedev/log-viewer": "~4.2.0" |
-| spatie/laravel-activitylog | 3.9.1 | "spatie/laravel-activitylog": "3.9.1" |
-| spatie/laravel-backup | 5.12.1 | "spatie/laravel-backup":"5.12.1" |
-| spatie/flysystem-dropbox | 1.2.2 | "spatie/flysystem-dropbox": "1.2.2" |
-| nao-pon/flysystem-google-drive | 1.1.13 | "nao-pon/flysystem-google-drive": "1.1.13" |
-| league/flysystem-aws-s3-v3 | 1.0.28 | "league/flysystem-aws-s3-v3": "1.0.28" |
+<br>
 
-  - Vue
-  badaso needs some JS/Vue library
+## Features
+- **Modern Dashboard** - Elegant design, fully customizable and SPA based on Vue.js
+- **Advanced CRUD generator** - Build your application faster and be more productive !
+- **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
+- **Secure** - Stand with laravel make it secured as laravel
+- **Modular** - Install custom library in seconds like another your laravel projects
+- **Scalable** - Like your another laravel projects !
+- **Easy maintenance** - Like your another laravel projects !
 
-| Library | Versi | JSON |
-| ------ | ------ | ------ |
-|	axios	|	^0.18	|	axios: "^0.18"	|
-|	lodash	|	^4.17.4	|	lodash: "^4.17.4"	|
-|	vue	|	^2.5.7	|	vue: "^2.5.7"	|
-|	@johmun/vue-tags-input	|	^2.1.0	|	@johmun/vue-tags-input: "^2.1.0"	|
-|	chart.js	|	^2.8.0	|	chart.js: "^2.8.0"	|
-|	luxon	|	^1.25.0	|	luxon: "^1.25.0"	|
-| moment | ^2.29.1 | moment: "^2.29.1" |
-|	material-icons	|	^0.3.1	|	material-icons: "^0.3.1"	|
-|	prismjs	|	^1.17.1	|	prismjs: "^1.17.1"	|
-|	vue-chartjs	|	^3.4.2	|	vue-chartjs: "^3.4.2"	|
-|	vue-color	|	^2.7.1	|	vue-color: "^2.7.1"	|
-|	vue-datetime	|	^1.0.0-beta.14	|	vue-datetime: "^1.0.0-beta.14"	|
-|	vue-draggable-nested-tree	|	^3.0.0-beta2	|	vue-draggable-nested-tree: "^3.0.0-beta2"	|
-|	vue-i18n | ^8.22.4	|	vue-i18n: "^8.22.4"	|
-|	vue-prism-editor	|	^1.2.2	|	vue-prism-editor: "^1.2.2"	|
-|	vue-router	|	^3.1.3	|	vue-router: "^3.1.3"	|
-|	vue2-editor	|	^2.10.2	|	vue2-editor: "^2.10.2"	|
-|	vuedraggable	|	^2.24.3	|	vuedraggable: "^2.24.3"	|
-|	vuesax	|	3.12.2	|	vuesax: "3.12.2"	|
-|	vuex	|	^3.1.1	|	vuex: "^3.1.1"	|
-|	vuex-persistedstate	|	^4.0.0-beta.1	|	vuex-persistedstate: "^4.0.0-beta.1"	|
-|	weekstart	|	^1.0.1	|	weekstart: "^1.0.1"	|
+## Getting Started
 
-# Instalation
-Before you install badaso, make sure your laravel can run.
-- install badaso from github
-  - add this to composer.json
-```bash
-  composer require uasoft-indonesia/badaso
-```
-- register badaso provider dan jwt provider in config/app.php
-```
-    /*
-     * Badaso
-     */
-    Uasoft\Badaso\Providers\BadasoServiceProvider::class,
+<a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/introduction/" target="_blank">Read the Getting Started tutorial</a>
 
-    /*
-     * JWT
-     */
-    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
-```
-- register jwt aliases
-```
-    /*
-     * JWT
-     */
-    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-```
-- run ```php artisan vendor:publish --tag=Badaso```
-- run ```php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"```
-- run ```php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="migrations"```
-- run ```php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="config"```
-- run ```composer dump-autoload```
-- run ```php artisan migrate```
-- run ```php artisan db:seed --class=BadasoSeeder```
-- copy JS library to packages.json, looks like
-```javascript
-{
-  "devDependencies": {
-    "axios": "^0.18",
-    "bootstrap": "^4.0.0",
-    "popper.js": "^1.12",
-    "cross-env": "^5.1",
-    "jquery": "^3.2",
-    "laravel-mix": "^2.0",
-    "lodash": "^4.17.4",
-    "vue": "^2.5.7"
-  },
-  "dependencies": {
-    "@johmun/vue-tags-input": "^2.1.0",
-    "chart.js": "^2.8.0",
-    "luxon": "^1.25.0",
-    "moment": "^2.29.1",
-    "material-icons": "^0.3.1",
-    "prismjs": "^1.17.1",
-    "vue-chartjs": "^3.4.2",
-    "vue-color": "^2.7.1",
-    "vue-datetime": "^1.0.0-beta.14",
-    "vue-draggable-nested-tree": "^3.0.0-beta2",
-    "vue-i18n": "^8.22.4",
-    "vue-prism-editor": "^1.2.2",
-    "vue-router": "^3.1.3",
-    "vue2-editor": "^2.10.2",
-    "vuedraggable": "^2.24.3",
-    "vuesax": "3.12.2",
-    "vuex": "^3.1.1",
-    "vuex-persistedstate": "^4.0.0-beta.1",
-    "weekstart": "^1.0.1"
-  }
-}
+## Contributing
 
-```
-- run ```npm install```
-- add this path to webpack.mix.js
-```json
-    mix.js('resources/js/badaso/app.js', 'public/js/badaso.js')
-```
-- add this to env
-```
-#REQUIRED. Set a key as secret key for generating JWT token
-JWT_SECRET=
+Coming soon..
 
-#OPTIONAL. Laravel file system driver, default public
-FILESYSTEM_DRIVER=
+## Community support
 
-#OPTIONAL. Set JWT Token lifetime, default 60 minutes
-BADASO_AUTH_TOKEN_LIFETIME=
+Coming soon..
 
-#REQUIRED. Licence key that can accuired in Badaso Dashbord
-BADASO_LICENCE_KEY=
+## License
 
-#REQUIRED. Set Route prefix for your dashboard. Access dashboard via {HOST}/{MIX_ADMIN_PANEL_ROUTE_PREFIX}
-MIX_ADMIN_PANEL_ROUTE_PREFIX=
-
-#REQUIRED. Set default menu to generate menu in dashboard. By default Badaso provide `admin` as default menu
-MIX_DEFAULT_MENU=
-
-#REQUIRED. Set prefix for api that badaso provide. By default Badaso provide `badaso-api` as prefix. 
-MIX_API_ROUTE_PREFIX=
-
-#REQUIRED. Badaso provide Log Viewer feature. please set a route to access this feature
-MIX_LOG_VIEWER_ROUTE=
-
-#OPTIONAL. Format to display date in UI
-MIX_DATE_FORMAT=
-
-#OPTIONAL. Format to display time in UI
-MIX_TIME_FORMAT=
-
-#OPTIONAL. Format to display datetime in UI
-MIX_DATETIME_FORMAT=
-
-#OPTIONAL. Set AWS credential if use aws as storage
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_DEFAULT_REGION=
-AWS_BUCKET=
-AWS_URL=
-
-#OPTIONAL. Set Google Drive credential if use Google Drive as storage
-GOOGLE_DRIVE_CLIENT_ID=
-GOOGLE_DRIVE_CLIENT_SECRET=
-GOOGLE_DRIVE_REFRESH_TOKEN=
-GOOGLE_DRIVE_FOLDER_ID=
-
-#OPTIONAL. Set Dropbox credential if use Dropbox as storage
-DROPBOX_AUTH_TOKEN=
-
-#OPTIONAL. Badaso provide backup feature. please fill variable below to use this feature.
-#fill with one of all,database,files, backup will not run if BACKUP_TARGET empty
-BACKUP_TARGET=
-#fill with many of s3,google,dropbox, backup will not run if BACKUP_TARGET empty
-BACKUP_DISK=
-```
-- set badaso as default auth
-```
-    'defaults' => [
-        'guard' => 'badaso_guard',
-        'passwords' => 'users',
-    ],
-```
-- Add badaso guard at config/auth.php
-```
-    'badaso_guard' => [
-        'driver' => 'jwt',
-        'provider' => 'badaso_users',
-    ],
-```
-- add badaso auth providers at config/auth.php
-```
-    'badaso_users' => [
-        'driver' => 'eloquent',
-        'model' => \Uasoft\Badaso\Models\User::class,
-    ],
-```
-- add dump to config/database.php -> connections.mysql
-```
-    // Add dump configuration for spatie/laravel-backup >                     https://docs.spatie.be/laravel-backup/v5/installation-and-setup/#dumping-the-database
-    'dump' => [
-        'dump_binary_path' => env('DUMP_BINARY_PATH', 'C:\xampp\mysql\bin'), // only the path, so without `mysqldump` or `pg_dump`
-        'use_single_transaction',
-        'timeout' => 60 * 5, // 5 minute timeout
-        // 'exclude_tables' => [],
-        // 'add_extra_option' => ''
-    ],
-```
-- add backup drivers to config/filesystemphp
-```
-    's3' => [
-        'driver' => 's3',
-        'key' => env('AWS_ACCESS_KEY_ID'),
-        'secret' => env('AWS_SECRET_ACCESS_KEY'),
-        'region' => env('AWS_DEFAULT_REGION'),
-        'bucket' => env('AWS_BUCKET'),
-        'url' => env('AWS_URL'),
-    ],
-
-    'google' => [
-        'driver' => 'google',
-        'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
-        'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET'),
-        'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN'),
-        'folderId' => env('GOOGLE_DRIVE_FOLDER_ID'),
-    ],
-
-    'dropbox' => [
-        'driver' => 'dropbox',
-        'authorization_token' => env('DROPBOX_AUTH_TOKEN'),
-    ],
-```
-- for development, run
-```
-    npm run watch
-```
-
-- create admin
-```
-php artisan badaso:admin your@email.com --create
-```
+See the [LICENSE](./LICENSE) file for licensing information.
