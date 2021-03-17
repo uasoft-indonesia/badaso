@@ -5,7 +5,7 @@
 </p>
 <h3 align="center">Laravel headless CMS.</h3>
 <p align="center">SPA dashboard + CRUD + API generator & more.</p>
-<p align="center"><a href="#demo">Try live demo</a></p>
+<p align="center"><a href="#live-demo">Try live demo</a></p>
 <br />
 
 <p align="center">
