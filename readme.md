@@ -1,11 +1,11 @@
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.ibb.co/M84RfhZ/Badaso-1.png" width="318px" alt="Badaso logo" />
+    <img src="https://i.ibb.co/6Yx8HbP/Badaso-1.png" width="318px" alt="Badaso logo" />
   </a>
 </p>
 <h3 align="center">Laravel headless CMS.</h3>
 <p align="center">SPA dashboard + CRUD + API generator & more.</p>
-<p align="center"><a href="https://badaso-demo.uatech.co.id/admin-panel/login">Try live demo</a></p>
+<p align="center"><a href="#demo">Try live demo</a></p>
 <br />
 
 <p align="center">
@@ -35,6 +35,12 @@ Badaso is a open-source Laravel headless CMS (with SPA dashboard + CRUD + API ge
 - **Scalable** - Like your another laravel projects !
 - **Easy maintenance** - Like your another laravel projects !
 
+## Live demo
+
+<a href="https://badaso-demo.uatech.co.id/admin-panel/login" target="_blank">Click here for live demo</a> (some error may happen because random test by a lot of random people)
+
+Live demo will reset every one day 
+
 ## Getting started (installation, how to use & more)
 
 You can see <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">official badaso documentation</a>.
@@ -55,6 +61,7 @@ For general help using badaso, please refer to the <a href="https://badaso-docs.
 
 - <a href="https://github.com/uasoft-indonesia/badaso/discussions" target="_blank">Github discussions</a> (Questions and Discussions)
 - <a href="https://github.com/uasoft-indonesia/badaso/issues" target="_blank">Github issues</a> (Bug reports, Contributions)
+- Youtube tutorial (coming soon)
 
 ## License
 
