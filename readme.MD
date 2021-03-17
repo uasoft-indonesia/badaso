@@ -9,9 +9,9 @@
 <br />
 
 <p align="center">
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/badge/download-1000-yellowgreen" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/badge/packages-1.0.0--alpha.4-yellowgreen" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/badge/packages-MIT-yellowgreen" alt="License"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/uasoft-indonesia/badaso" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/uasoft-indonesia/badaso" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/l/uasoft-indonesia/badaso" alt="License"></a>
 </p>
 
 
