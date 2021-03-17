@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.ibb.co/f8yLw9F/screencapture-badaso-demo-uatech-co-id-admin-panel-crud-2021-03-17-08-58-57-1.png" alt="Administration panel" />
+    <img src="https://i.ibb.co/3YC3DXc/screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
   </a>
 </p>
 
