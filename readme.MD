@@ -8,6 +8,13 @@
 <p align="center"><a href="https://badaso-demo.uatech.co.id/admin-panel/login">Try live demo</a></p>
 <br />
 
+<p align="center">
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/badge/download-1000-yellowgreen" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/badge/packages-1.0.0--alpha.4-yellowgreen" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/badge/packages-MIT-yellowgreen" alt="License"></a>
+</p>
+
+
 <br>
 
 <p align="center">
