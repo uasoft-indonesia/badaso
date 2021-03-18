@@ -1,3 +1,8 @@
+<p align="center">
+  <a href="https://badaso-docs.uatech.co.id/">
+    <img src="https://i.ibb.co/6Yx8HbP/Badaso-1.png" width="318px" alt="Badaso logo" />
+  </a>
+</p>
 <h3 align="center">Laravel headless CMS.</h3>
 <p align="center">SPA dashboard + CRUD + API generator & more.</p>
 <p align="center"><a href="#live-demo">Try live demo</a></p>
