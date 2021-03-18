@@ -1,8 +1,3 @@
-<p align="center">
-  <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.ibb.co/HtYPdkC/Screen-Shot-2021-03-18-at-17-30-39.png" width="318px" alt="Badaso logo" />
-  </a>
-</p>
 <h3 align="center">Laravel headless CMS.</h3>
 <p align="center">SPA dashboard + CRUD + API generator & more.</p>
 <p align="center"><a href="#live-demo">Try live demo</a></p>
@@ -19,7 +14,7 @@
 
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.ibb.co/3YC3DXc/screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
+    <img src="https://i.imgur.com/oROOCjk.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
   </a>
 </p>
 
