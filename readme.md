@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.ibb.co/6Yx8HbP/Badaso-1.png" width="318px" alt="Badaso logo" />
+    <img src="https://i.ibb.co/HtYPdkC/Screen-Shot-2021-03-18-at-17-30-39.png" width="318px" alt="Badaso logo" />
   </a>
 </p>
 <h3 align="center">Laravel headless CMS.</h3>
@@ -65,4 +65,4 @@ For general help using badaso, please refer to the <a href="https://badaso-docs.
 
 ## License
 
-See the [LICENSE](./LICENSE) file for licensing information.
+See the [license](./license) file for licensing information.
