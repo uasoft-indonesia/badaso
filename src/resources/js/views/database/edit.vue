@@ -18,10 +18,13 @@
               :label="$t('database.edit.field.table')"
               :placeholder="$t('database.edit.field.table')"
               required
-              :alert="errors.table"
-            >
-            </badaso-text>
+            ></badaso-text>
           </vs-row>
+          <div v-if="$v.databaseData.table.modifiedName.$dirty">
+            <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.required">
+              {{ $t('database.edit.row.field.tableName') }}
+            </i18n>
+          </div>
         </vs-card>
       </vs-col>
       <vs-col vs-lg="12">
@@ -37,6 +40,7 @@
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldType') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldLength') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldDefault') }}</th>
+                  <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.asDefined') }}</th>
                   <th style="min-width: 100px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldNull') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldIndex') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldAttribute') }}</th>
@@ -57,6 +61,9 @@
                     {{item.fieldDefault}}
                   </td>
                   <td>
+                    {{item.asDefined}}
+                  </td>
+                  <td>
                     {{item.fieldNull}}
                   </td>
                   <td>
@@ -72,7 +79,7 @@
                     <vs-button color="success" type="relief" @click="editField(item, index)">
                       <vs-icon icon="edit"></vs-icon>
                     </vs-button>
-                    <vs-button color="danger" type="relief" @click="dropField(index)">
+                    <vs-button color="danger" type="relief" @click="dropField(item, index)">
                       <vs-icon icon="delete"></vs-icon>
                     </vs-button>
                   </td>
@@ -80,14 +87,20 @@
                 <tr>
                   <td>
                     <vs-input
-                      class="inputx"
+                      class="inputx mb-2"
                       :placeholder="$t('database.edit.row.field.fieldName')"
                       v-model="fields.fieldName"
-                      :alert="errors.fieldName"
                     />
+
+                    <div v-if="$v.fields.fieldName.$dirty">
+                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.required">
+                        {{ $t('database.edit.row.field.fieldName') }}
+                      </i18n>
+                    </div>
                   </td>
+                  
                   <td>
-                    <vs-select class="selectExample" v-model="fields.fieldType" :alert="errors.fieldType">
+                    <vs-select class="selectExample mb-2" v-model="fields.fieldType">
                       <vs-select-item
                         :key="index"
                         :value="item.value"
@@ -95,19 +108,29 @@
                         v-for="(item, index) in fieldTypeList"
                       />
                     </vs-select>
-                    <span style="color: rgba(var(--vs-danger),1)" v-if="errors.fieldType">{{ errors.fieldType }}</span>
+
+                    <div v-if="$v.fields.fieldType.$dirty">
+                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldType.required">
+                        {{ $t('database.edit.row.field.fieldType') }}
+                      </i18n>
+                    </div>
                   </td>
+
                   <td>
                     <vs-input
                       class="inputx"
                       :placeholder="$t('database.edit.row.field.fieldLength')"
                       v-model="fields.fieldLength"
-                      :alert="errors.fieldLength"
                     />
-                    <span style="color: rgba(var(--vs-danger),1)" v-if="errors.fieldLength">{{ errors.fieldLength }}</span>
+                    
+                    <div v-if="$v.fields.fieldLength.$dirty">
+                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldLength.required">
+                        {{ $t('database.edit.row.field.fieldLength') }}
+                      </i18n>
+                    </div>
                   </td>
                   <td>
-                    <vs-select class="selectExample mb-2" v-model="fields.fieldDefault" :alert="errors.fieldDefault">
+                    <vs-select class="selectExample mb-2" v-model="fields.fieldDefault">
                       <vs-select-item
                         :key="index"
                         :value="item.value"
@@ -115,25 +138,33 @@
                         v-for="(item, index) in fieldDefaultList"
                       />
                     </vs-select>
+                  </td>
+
+                  <td>
                     <vs-input
                       v-if="fields.fieldDefault == 'as_defined'"
                       class="inputx"
-                      :placeholder="$t('database.add.row.field.fieldDefault')"
+                      :placeholder="$t('database.edit.row.field.fieldDefault')"
                       v-model="fields.asDefined"
-                      :alert="errors.asDefined"
                     />
+
+                    <div v-if="$v.fields.asDefined.$dirty">
+                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.asDefined.required">
+                        {{ $t('database.edit.row.field.fieldDefault') }}
+                      </i18n>
+                    </div>
                   </td>
+
                   <td>
                     <vs-checkbox
                       v-model="fields.fieldNull"
                       class="mb-1"
                       style="justify-content: start;"
-                      :alert="errors.fieldNull"
                       ></vs-checkbox
                     >
                   </td>
                   <td>
-                    <vs-select class="selectExample" v-model="fields.fieldIndex" :alert="errors.fieldIndex">
+                    <vs-select class="selectExample" v-model="fields.fieldIndex">
                       <vs-select-item
                         :key="index"
                         :value="item.value"
@@ -143,7 +174,7 @@
                     </vs-select>
                   </td>
                   <td>
-                    <vs-select class="selectExample" v-model="fields.fieldAttribute" :alert="errors.fieldAttribute">
+                    <vs-select class="selectExample" v-model="fields.fieldAttribute">
                       <vs-select-item
                         :key="index"
                         :value="item.value"
@@ -157,11 +188,11 @@
                       v-model="fields.fieldIncrement"
                       class="mb-1"
                       style="justify-content: start;"
-                      :alert="errors.fieldIncrement"
+                      :disabled="hasAutoIncrement"
                       ></vs-checkbox>
                   </td>
                   <td>
-                    <vs-button color="primary" type="relief" @click="setField()">
+                    <vs-button color="primary" type="relief" @click.prevent="setField()">
                       {{ $t('database.edit.row.field.add') }}
                     </vs-button>
                   </td>
@@ -194,12 +225,13 @@
         </vs-card>
       </vs-col>
     </vs-row>
+
     <vs-prompt
       color="success"
       @accept="saveEdit()"
-      :is-valid="validEdit"
       :active.sync="editDialog"
       title="Edit"
+      :is-valid="!$v.edit.$invalid"
       :accept-text="$t('action.delete.accept')"
       :cancel-text="$t('action.delete.cancel')">
       <div class="con-exemple-prompt">
@@ -210,8 +242,13 @@
               :label="$t('database.edit.row.field.fieldName')"
               :placeholder="$t('database.edit.row.field.fieldName')"
               v-model="edit.fieldName"
-              :alert="errors.fieldName"
             />
+
+            <div v-if="$v.edit.fieldName.$dirty">
+              <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldName.required">
+                {{ $t('database.edit.row.field.fieldName') }}
+              </i18n>
+            </div>
           </vs-col>
 
           <vs-col vs-lg="6">
@@ -220,12 +257,17 @@
               :placeholder="$t('database.edit.row.field.fieldLength')"
               :label="$t('database.edit.row.field.fieldLength')"
               v-model="edit.fieldLength"
-              :alert="errors.fieldLength"
             />
+
+            <div v-if="$v.edit.fieldLength.$dirty">
+              <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldLength.required">
+                {{ $t('database.edit.row.field.fieldLength') }}
+              </i18n>
+            </div>
           </vs-col>
 
           <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldType')" v-model="edit.fieldType" :alert="errors.fieldType">
+            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldType')" v-model="edit.fieldType">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -233,10 +275,16 @@
                 v-for="(item, index) in fieldTypeList"
               />
             </vs-select>
+
+            <div v-if="$v.edit.fieldType.$dirty">
+              <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldType.required">
+                {{ $t('database.edit.row.field.fieldType') }}
+              </i18n>
+            </div>
           </vs-col>
 
           <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldDefault')" v-model="edit.fieldDefault" :alert="errors.fieldDefault">
+            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldDefault')" v-model="edit.fieldDefault">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -248,12 +296,17 @@
               v-if="edit.fieldDefault == 'as_defined'"
               class="inputx mb-2"
               v-model="edit.asDefined"
-              :alert="errors.asDefined"
             />
+
+            <div v-if="$v.edit.asDefined.$dirty">
+              <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.asDefined.required">
+                {{ $t('database.edit.row.field.fieldDefault') }}
+              </i18n>
+            </div>
           </vs-col>
 
           <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldIndex')" v-model="edit.fieldIndex" :alert="errors.fieldIndex">
+            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldIndex')" v-model="edit.fieldIndex">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -268,7 +321,6 @@
               v-model="edit.fieldNull"
               class="mb-4 mt-4"
               style="justify-content: start;"
-              :alert="errors.fieldNull"
               >
               {{ $t('database.edit.row.field.fieldNull') }}
             </vs-checkbox>
@@ -279,12 +331,12 @@
               v-model="edit.fieldIncrement"
               class="mb-4 mt-4"
               style="justify-content: start;"
-              :alert="errors.fieldIncrement"
+              :disabled="hasAutoIncrement"
               >{{ $t('database.edit.row.field.fieldIncrement') }}</vs-checkbox>
           </vs-col>
         
           <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldAttribute')" v-model="edit.fieldAttribute" :alert="errors.fieldAttribute">
+            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldAttribute')" v-model="edit.fieldAttribute">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -296,6 +348,18 @@
         </vs-row>
       </div>
     </vs-prompt>
+
+    <vs-prompt
+      color="danger"
+      @accept="saveDrop()"
+      :active.sync="deleteDialog"
+      title="Delete"
+      :accept-text="$t('action.delete.accept')"
+      :cancel-text="$t('action.delete.cancel')">
+      <div class="con-exemple-prompt">
+        {{ $t('database.edit.row.drop') }}
+      </div>
+    </vs-prompt>
   </div>
 </template>
 <script>
@@ -305,6 +369,7 @@ import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoHidden from '../../components/BadasoHidden.vue';
+import { required, requiredIf } from 'vuelidate/lib/validators'
 
 export default {
   name: "Browse",
@@ -317,7 +382,6 @@ export default {
     BadasoHidden,
   },
   data: () => ({
-    errors: {},
     breadcrumb: [],
     fields: {
       fieldName: "",
@@ -344,6 +408,7 @@ export default {
     deleteDialog: false,
     willEdit: "",
     willDelete: "",
+    deletedItem: "",
     edit: {
       fieldName: "",
       fieldType: "",
@@ -355,7 +420,53 @@ export default {
       fieldIncrement: false,
       asDefined: null,
     },
+    hasAutoIncrement: false
   }),
+  validations: {
+    fields :{
+      fieldName: {
+        required,
+      },
+      fieldType: {
+        required,
+      },
+      fieldLength: {
+        required: requiredIf(function () {
+          return this.lengthRequiredIf
+        })
+      },
+      asDefined: {
+        required: requiredIf(function () {
+          return this.defaultRequiredIf
+        }),
+      }
+    },
+    databaseData: {
+      table: {
+        modifiedName: {
+          required
+        }
+      }
+    },
+    edit :{
+      fieldName: {
+        required,
+      },
+      fieldType: {
+        required,
+      },
+      fieldLength: {
+        required: requiredIf(function () {
+          return this.editLengthRequiredIf
+        })
+      },
+      asDefined: {
+        required: requiredIf(function () {
+          return this.editDefaultRequiredIf
+        }),
+      }
+    },
+  },
   computed: {
     fieldTypeList: {
       get() {
@@ -377,14 +488,65 @@ export default {
         return this.$helper.getMigrationAttributeList();
       }
     },
-    validEdit() {
-      return (this.edit.fieldName !== null && this.edit.fieldType !== null)
-    }
+    lengthRequiredIf: {
+      get() {
+        return this.fields.fieldType == 'double' || this.fields.fieldType == 'decimal' || this.fields.fieldType == 'float' || this.fields.fieldType == 'varchar' || this.fields.fieldType == 'char' || this.fields.fieldType == 'set' || this.fields.fieldType == 'enum'
+      }
+    },
+    defaultRequiredIf: {
+      get() {
+        return this.fields.fieldDefault == 'as_defined'
+      }
+    },
+    editLengthRequiredIf: {
+      get() {
+        return this.edit.fieldType == 'double' || this.edit.fieldType == 'decimal' || this.edit.fieldType == 'float' || this.edit.fieldType == 'varchar' || this.edit.fieldType == 'char' || this.edit.fieldType == 'set' || this.edit.fieldType == 'enum'
+      }
+    },
+    editDefaultRequiredIf: {
+      get() {
+        return this.edit.fieldDefault == 'as_defined'
+      }
+    },
   },
   mounted() {
     this.getInfoTable();
   },
   methods: {
+    getFieldLength(column) {
+      if (column.type == 'decimal' || column.type == 'double' || column.type == 'float') {
+        return column.precision + ',' + column.scale;
+      } else if(column.type == 'enum' || column.type == 'set') {
+        return column.options.join()
+      } else if(column.type == 'date') {
+        return null
+      } else {
+        return column.length
+      }
+    },
+
+    getFieldDefault(column) {
+      if (column.default === 'CURRENT_TIMESTAMP') {
+        return 'CURRENT_TIMESTAMP'.toLowerCase()
+      } else if (column.default === null || column.default === 'null') {
+        return null
+      } else {
+        return 'as_defined'
+      }
+    },
+
+    getFieldAsDefined(column) {
+      if (column.default === 'CURRENT_TIMESTAMP') {
+        return;
+      } else if (column.default === null || column.default === 'null') {
+        return null
+      } else if (column.default === '') {
+        return ''
+      } else {
+        return column.default
+      }
+    },
+
     getInfoTable() {
       this.$vs.loading({
         type: "sound",
@@ -396,22 +558,26 @@ export default {
       .then((response) => {
         let data = response.data["\u0000*\u0000items"];
         for (const [key, column] of Object.entries(data)) {
+          console.log(data);
           this.databaseData.fields.currentFields.push({
             fieldName: column.name,
             fieldType: column.type,
-            fieldLength: column.type == 'decimal' || column.type == 'double' || column.type == 'float' ? column.precision + ',' + column.scale : column.length,
-            fieldDefault: column.default,
+            fieldLength: this.getFieldLength(column),
+            fieldDefault: this.getFieldDefault(column),
             fieldNull: column.notnull ? false : true,
-            fieldIndex: Object.keys(column.indexes).length > 0 ? Object.keys(column.indexes).toString().toLowerCase() : null,
+            fieldIndex: Object.keys(column.indexes).length > 0 ? Object.values(column.indexes)[0].type.toString().toLowerCase() : null,
             fieldAttribute: column.unsigned == true ? 'unsigned' : null,
-            fieldIncrement: column.autoincrement
+            fieldIncrement: column.autoincrement,
+            asDefined: this.getFieldAsDefined(column)
           })
+
+          if (column.autoincrement === true) {
+            this.hasAutoIncrement = true
+          }
         }
 
         this.databaseData.table.currentName = this.$route.params.tableName
         this.databaseData.table.modifiedName = this.$route.params.tableName
-
-        console.log(this.databaseData);
         this.$vs.loading.close();
       })
       .catch((error) => {
@@ -425,14 +591,11 @@ export default {
     },
 
     submitForm() {
-      if (this.databaseData.table.modifiedName == '' || this.databaseData.table.modifiedName == undefined) {
-        this.errors['tableName'] = this.$t('database.edit.error.tableName');
-      } else {
+      this.$v.databaseData.$touch()
+      if (!this.$v.databaseData.$invalid) {
         this.$vs.loading({
           type: "sound",
         });
-
-        console.log(this.databaseData);
 
         this.$api.database
           .edit(this.databaseData)
@@ -460,16 +623,12 @@ export default {
     },
 
     setField() {
-      let errorCount = this.validate()
-
-      if (errorCount == 0) {
-        this.errors = {}
-
+      this.$v.fields.$touch()
+      if (!this.$v.fields.$invalid) {
         this.databaseData.fields.modifiedFields.push({
           modifyType: "CREATE",
           ...this.fields
         })
-
         this.databaseData.fields.currentFields.push({
           ...this.fields
         })
@@ -489,70 +648,34 @@ export default {
       this.fields.fieldIncrement = false
     },
 
-    validate() {
-      var error = 0;
-
-      if (this.fields.fieldName == "" || this.fields.fieldName == undefined) {
-        this.errors['fieldName'] = this.$t('database.add.error.fieldName');
-        error++
-      } 
-      
-      if (this.fields.fieldType == "" || this.fields.fieldType == undefined) {
-        this.errors['fieldType'] = this.$t('database.add.error.fieldType');
-        error++
-      }
-
-      if ((this.fields.fieldLength == null || this.fields.fieldLength == "" || this.fields.fieldLength == undefined) && (this.fields.fieldType == "varchar" || this.fields.fieldType == "char")) {
-        this.errors['fieldLength'] = this.$t('database.add.error.fieldLength');
-        error++
-      }
-
-      return error
-    },
-
     editField(item, index) {
       this.editDialog = true
-      this.edit = {
-        ...item
-      },
+      this.edit = { ...item },
 
       this.willEdit = index
     },
 
     saveEdit() {
-      let isFieldModified = 0;
+      this.$v.edit.$touch()
+      if (!this.$v.edit.$invalid) {
+        let isFieldModified = 0;
 
-      for (const [index, field] of Object.entries(Object.entries(this.databaseData.fields.currentFields[this.willEdit]))) {
-        console.log(field[1]);
-        console.log(this.edit[field[0]]);
-        if(field[1] !== this.edit[field[0]]) {
-          isFieldModified++
-        }
-      }
-
-      if (isFieldModified > 0) {
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldName !== this.edit.fieldName) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "RENAME",
-            current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
-            new: this.edit.fieldName
-          })
+        for (const [index, field] of Object.entries(Object.entries(this.databaseData.fields.currentFields[this.willEdit]))) {
+          if(field[1] !== this.edit[field[0]]) {
+            isFieldModified++
+          }
         }
 
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldType !== this.edit.fieldType) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_TYPE",
-            fieldType: this.databaseData.fields.currentFields[this.willEdit].fieldLength,
-            fieldType: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldType,
-              new: this.edit.fieldType
-            },
-          })
-        }
+        if (isFieldModified > 0) {
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldName !== this.edit.fieldName) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "RENAME",
+              current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
+              new: this.edit.fieldName
+            })
+          }
 
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldLength !== this.edit.fieldLength) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_LENGTH",
+          let row = {
             fieldName: {
               current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
               new: this.edit.fieldName
@@ -565,19 +688,9 @@ export default {
               current: this.databaseData.fields.currentFields[this.willEdit].fieldLength,
               new: this.edit.fieldLength,
             },
-          })
-        }
-
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldDefault !== this.edit.fieldDefault) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_DEFAULT",
-            fieldName: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
-              new: this.edit.fieldName
-            },
-            fieldType: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldType,
-              new: this.edit.fieldType
+            fieldIndex: {
+              current: this.databaseData.fields.currentFields[this.willEdit].fieldIndex,
+              new: this.edit.fieldIndex
             },
             fieldDefault: {
               current: this.databaseData.fields.currentFields[this.willEdit].fieldDefault,
@@ -587,91 +700,103 @@ export default {
               current: this.databaseData.fields.currentFields[this.willEdit].asDefined,
               new: this.edit.asDefined
             },
-          })
-        }
-
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldNull !== this.edit.fieldNull) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_NULL",
-            fieldName: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
-              new: this.edit.fieldName
-            },
-            fieldType: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldType,
-              new: this.edit.fieldType
-            },
             fieldNull: {
               current: this.databaseData.fields.currentFields[this.willEdit].fieldNull,
               new: this.edit.fieldNull
-            },
-          })
-        }
-
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldIndex !== this.edit.fieldIndex) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_INDEX",
-            fieldName: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
-              new: this.edit.fieldName
-            },
-            fieldType: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldType,
-              new: this.edit.fieldType
             },
             fieldIndex: {
               current: this.databaseData.fields.currentFields[this.willEdit].fieldIndex,
               new: this.edit.fieldIndex
             },
-          })
-        }
-
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldAttribute !== this.edit.fieldAttribute) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_ATTRIBUTE",
-            fieldName: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
-              new: this.edit.fieldName
-            },
-            fieldType: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldType,
-              new: this.edit.fieldType
+            fieldIncrement: {
+              current: this.databaseData.fields.currentFields[this.willEdit].fieldIncrement,
+              new: this.edit.fieldIncrement
             },
             fieldAttribute: {
               current: this.databaseData.fields.currentFields[this.willEdit].fieldAttribute,
               new: this.edit.fieldAttribute
             },
-          })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldType !== this.edit.fieldType) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_TYPE",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldLength !== this.edit.fieldLength) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_LENGTH",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldDefault !== this.edit.fieldDefault) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_DEFAULT",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].asDefined !== this.edit.asDefined) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_DEFINED",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldNull !== this.edit.fieldNull) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_NULL",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldIndex !== this.edit.fieldIndex) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_INDEX",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldAttribute !== this.edit.fieldAttribute) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_ATTRIBUTE",
+              ...row
+            })
+          }
+
+          if (this.databaseData.fields.currentFields[this.willEdit].fieldIncrement !== this.edit.fieldIncrement) {
+            this.databaseData.fields.modifiedFields.push({
+              modifyType: "UPDATE_INCREMENT",
+              ...row
+            })
+          }
         }
 
-        if (this.databaseData.fields.currentFields[this.willEdit].fieldIncrement !== this.edit.fieldIncrement) {
-          this.databaseData.fields.modifiedFields.push({
-            modifyType: "UPDATE_INCREMENT",
-            fieldName: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldName,
-              new: this.edit.fieldName
-            },
-            fieldType: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldType,
-              new: this.edit.fieldType
-            },
-            fieldIncrement: {
-              current: this.databaseData.fields.currentFields[this.willEdit].fieldIncrement,
-              new: this.edit.fieldIncrement
-            },
-          })
+        this.databaseData.fields.currentFields[this.willEdit] = {
+          ...this.edit
         }
-      }
-
-      this.databaseData.fields.currentFields[this.willEdit] = {
-        ...this.edit
       }
     },
 
-    dropField(index) {
+    dropField(item, index) {
       this.deleteDialog = true
+      this.deletedItem = item,
       this.willDelete = index
     },
+
+    saveDrop() {
+      this.databaseData.fields.modifiedFields.push({
+        modifyType: "DROP_FIELD",
+        field: this.deletedItem,
+      })
+
+      this.databaseData.fields.currentFields.splice(this.willDelete, 1)
+
+      console.log(this.databaseData.fields);
+    }
 
   },
 };

@@ -21,6 +21,8 @@ class BadasoDatabaseController extends Controller
     /** @var FileGenerator */
     private $file_generator;
 
+    private $file_name;
+
     public function __construct(FileGenerator $file_generator)
     {
         $this->file_generator = $file_generator;
@@ -66,7 +68,7 @@ class BadasoDatabaseController extends Controller
                 'rows' => 'required',
             ]);
 
-            $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows);
+            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows);
 
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/'
@@ -77,13 +79,13 @@ class BadasoDatabaseController extends Controller
                     $msg = __('badaso::validation.database.migration_created');
                     return ApiResponse::success($msg);
                     break;
-                case 1:
-                case 2:
-                    $this->file_generator->deleteMigrationFiles($request->table, 'create');
-                    return ApiResponse::failed($e);
+                default:
+                    $this->file_generator->deleteMigrationFiles($this->file_name);
+                    return ApiResponse::failed(__('badaso::validation.database.migration_failed'));
             }
 
         } catch (Exception $e) {
+            $this->file_generator->deleteMigrationFiles($this->file_name);
             return ApiResponse::failed($e);
         }
 
@@ -95,12 +97,6 @@ class BadasoDatabaseController extends Controller
             $request->validate([
                 'table' => [
                     'required',
-                    'unique:data_types,slug',
-                    function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
-                            $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
-                        }
-                    },
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
             ]);
@@ -139,15 +135,92 @@ class BadasoDatabaseController extends Controller
             $table = $data['table'];
 
             if (count($fields['modified_fields']) > 0) {
-                $this->file_generator->generateBDOAlterMigrationFile($table, collect($fields['modified_fields'])->sortBy('modify_type')->reverse()->toArray(), 'alter');
+                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, collect($fields['modified_fields'])->sortBy('modify_type')->reverse()->toArray(), 'alter');
             }
+
+            if ($table['current_name'] !== $table['modified_name']) {
+                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, null, 'rename');
+            }
+            
+            $exitCode = Artisan::call('migrate', [
+                '--path' => 'database/migrations/badaso/'
+            ]);
+
+            switch ($exitCode) {
+                case 0:
+                    return ApiResponse::success(__('badaso::validation.database.alter_migration_created', ['table' => $table['modified_name']]));
+                    break;
+                default:
+                    foreach ($this->file_name as $name) {
+                        $this->file_generator->deleteMigrationFiles($name);
+                    }
+                    return ApiResponse::failed(__('badaso::validation.database.migration_failed'));
+            }
+
+        } catch (Exception $e) {
+            if (isset($this->file_name)) {
+                foreach ($this->file_name as $name) {
+                    $this->file_generator->deleteMigrationFiles($name);
+                }
+            }
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function delete(Request $request)
+    {
+        try {
+            $request->validate([
+                'table' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if (!Schema::hasTable($value)) {
+                            $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
+                        }
+                    },
+                    Rule::notIn(Badaso::getProtectedTables()),
+                ],
+            ]);
+
+            $columns = SchemaManager::describeTable($request->table)->all();
+
+            $rows = array_map(function ($column) {
+                return [
+                    "field_name" => $column['name'],
+                    "field_type" => $column['type'],
+                    "field_null" => !$column['null'],
+                    "field_increment" => $column['autoincrement'],
+                    "field_length" => $column['length'],
+                    "field_default" => $column['default'] ? 'as_defined' : $column['default'],
+                    "field_index" => $column['indexes'] == [] ? null : Str::lower(current($column['indexes'])['type']),
+                    "field_attribute" => $column['unsigned'] ? 'unsigned' : null,
+                    "as_defined" => $column['default'] ?? null
+                ];
+            }, $columns);
+
+            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'drop', $rows);
 
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/'
             ]);
 
-            dd($exitCode);
+            switch ($exitCode) {
+                case 0:
+                    return ApiResponse::success(__('badaso::validation.database.migration_dropped', ['table' => $request->table]));
+                    break;
+                default:
+                    foreach ($this->file_name as $name) {
+                        $this->file_generator->deleteMigrationFiles($name);
+                    }
+                    return ApiResponse::failed(__('badaso::validation.database.migration_failed'));
+            }
         } catch (Exception $e) {
+            if (isset($this->file_name)) {
+                foreach ($this->file_name as $name) {
+                    $this->file_generator->deleteMigrationFiles($name);
+                }
+            }
+
             return ApiResponse::failed($e);
         }
     }

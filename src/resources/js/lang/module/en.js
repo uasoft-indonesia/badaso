@@ -1,4 +1,9 @@
 export default {
+  "vuelidate": {
+    "required": "{0} is required.",
+    "requiredIf": "{0} is required.",
+    "integer": "{0} must be integer."
+  },
   "login": {
     "title": "Login Here",
     "subtitle": "Welcome back, please login to your account.",
@@ -817,14 +822,17 @@ export default {
         "title": "Add Table Field",
         "subtitle": "Please read the {0} before you create the migration.",
         "field": {
+          "tableName": "Table Name",
           "fieldName": "Field Name",
           "fieldType": "Field Type",
           "fieldLength": "Length",
           "fieldDefault": "Default",
+          "asDefined": "User Defined Default Value",
           "fieldNull": "Nullable",
           "fieldIndex": "Index",
           "fieldAttribute": "Attribute",
           "fieldIncrement": "Auto Increment",
+          "action": "Action",
           "add": "Add"
         }
       },
@@ -850,17 +858,20 @@ export default {
         "title": "Alter Table Field",
         "subtitle": "Please read the {0} before you create the migration.",
         "field": {
+          "tableName": "Table Name",
           "fieldName": "Field Name",
           "fieldType": "Field Type",
           "fieldLength": "Length",
           "fieldDefault": "Default",
+          "asDefined": "User Defined Default Value",
           "fieldNull": "Nullable",
           "fieldIndex": "Index",
           "fieldAttribute": "Attribute",
           "fieldIncrement": "Auto Increment",
           "action": "Action",
           "add": "Add"
-        }
+        },
+        "drop": "Are you sure want to delete this field?"
       },
       "error": {
         "fieldName": "Field name is required.",

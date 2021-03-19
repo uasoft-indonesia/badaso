@@ -152,10 +152,6 @@ export default {
         value: "datetime"
       },
       {
-        label: "Timestamp",
-        value: "timestamp"
-      },
-      {
         label: "Time",
         value: "time"
       },

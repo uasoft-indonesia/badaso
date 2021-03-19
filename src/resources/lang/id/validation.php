@@ -20,6 +20,10 @@ return [
         'table_already_exists' => 'Tabel :table sudah ada.',
         'table_name_already_exists' => 'Nama tabel dari :table sudah ada.',
         'migration_created' => 'Migration berhasil dibuat dan dijalankan.',
+        'migration_failed' => 'Migration gagal dibuat dan dijalankan.',
+        'migration_dropped' => 'Tabel :table berhasil dihapus.',
+        'alter_migration_created' => 'Alter table :table berhasil dibuat dan dijalankan.',
         'table_not_found' => 'Table :table tidak ada.',
+        'nothing_changed' => 'Request valid, namun tidak ada perubahan yang terjadi.',
     ]
 ];

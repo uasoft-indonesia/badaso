@@ -68,7 +68,7 @@ class FileSystem
     /**
      * Get alter migration filename.
      */
-    public function getAlterMigrationFileName(string $name, string $className): string
+    public function getAlterMigrationFileName(array $name, string $className): string
     {
         $prefix = $this->parser->convertPascalToSnake($className);
         return Carbon::now()->format('Y_m_d_his') . '_' . $prefix;
@@ -135,10 +135,8 @@ class FileSystem
      */
     public function deleteMigrationFiles(string $file_name): string
     {
-        $migration_file = $this->getMigrationFileNoDate($file_name, $this->getMigrationFolderPath());
-
-        if ($this->filesystem->exists($migration_file)) {
-            return $this->filesystem->delete($migration_file);
+        if ($this->filesystem->exists($file_name)) {
+            return $this->filesystem->delete($file_name);
         }
 
         return false;
@@ -177,18 +175,17 @@ class FileSystem
     /**
      * Generate Alter Migration Class Name.
      */
-    public function generateAlterMigrationClassName(string $model_slug, string $prefix): string
+    public function generateAlterMigrationClassName(array $table, string $prefix): string
     {
-        $model_string = '';
-        $prefix = ucfirst($prefix);
-        $randomise = Str::lower($this->parser->getRandomCharacter(4));
+        $current_model_name = ucfirst($table['current_name']);
+        $modified_model_name = ucfirst($table['modified_name']);
 
-        $model_name = explode('-', $model_slug);
-        foreach ($model_name as $model_name_exploded) {
-            $model_string .= ucfirst($model_name_exploded);
+        if ($prefix == 'rename') {
+            return ucfirst($prefix).ucfirst($current_model_name).'To'.ucfirst($modified_model_name).'Table';
+        } else {
+            $randomise = Str::lower($this->parser->getRandomCharacter(4));
+            return ucfirst($prefix).ucfirst($modified_model_name).'Table'.ucfirst($randomise);
         }
-
-        return $prefix.ucfirst($model_string).'Table'.ucfirst($randomise);
     }
 
     /**

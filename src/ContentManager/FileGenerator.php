@@ -291,14 +291,16 @@ class FileGenerator
 
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
         
-        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows);
-        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name);
+        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
+        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
         
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
         $stub = $this->content_manager->replaceString('{{schema_down}}', $schema_down, $stub);
 
-        return $this->file_system->addContentToMigrationFile($migration_file, $stub);
+        $result = $this->file_system->addContentToMigrationFile($migration_file, $stub);
+
+        return $migration_file;
     }
 
     /**
@@ -306,54 +308,35 @@ class FileGenerator
      */
     public function deleteMigrationFiles(string $table_name, string $prefix)
     {
-        $migration_file_name = $this->file_system->getMigrationFileName($table_name, $prefix);
-        $this->file_system->deleteMigrationFiles($migration_file_name);
+        $this->file_system->deleteMigrationFiles($file_name);
     }
 
     /**
      * Generate Badaso Alter Migration File
      */
-    public function generateBDOAlterMigrationFile(array $table, array $rows, string $prefix = null): string
+    public function generateBDOAlterMigrationFile(array $table, array $rows = null, string $prefix): string
     {
-        $table_name = $table['current_name'];
-
-        $migration_class_name = $this->file_system->generateAlterMigrationClassName($table_name, $prefix);
+        $migration_class_name = $this->file_system->generateAlterMigrationClassName($table, $prefix);
         
         $stub = $this->file_system->getFileContent(
             $this->file_system->getStubPath().'../stubs/migration.stub'
         );
         
-        $migration_file_name = $this->file_system->getAlterMigrationFileName($table_name, $migration_class_name);
+        $migration_file_name = $this->file_system->getAlterMigrationFileName($table, $migration_class_name);
             
         $migration_folder_path = $this->file_system->getMigrationFolderPath();
         
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
 
-        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows);
-        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows);
+        $schema_up = $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix);
+        $schema_down = $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
         $stub = $this->content_manager->replaceString('{{schema_down}}', $schema_down, $stub);
         
-        return $this->file_system->addContentToMigrationFile($migration_file, $stub);
-    }
+        $result = $this->file_system->addContentToMigrationFile($migration_file, $stub);
 
-    /**
-     * Delete Migration Files
-     */
-    public function deleteAlterMigrationFiles(string $table_name, string $prefix)
-    {
-        $migration_file_name = '';
-        switch ($prefix) {
-            case 'Create':
-                $migration_file_name = $this->file_system->getMigrationFileNameNoDate($table_name, 'create');
-                break;
-            case 'Add':
-            case 'Alter':
-                $migration_file_name = $this->file_system->getMigrationFileNameNoDate($table_name, 'add');
-        }
-
-        $this->file_system->deleteMigrationFiles($migration_file_name);
+        return $migration_file;
     }
 }

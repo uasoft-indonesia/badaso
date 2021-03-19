@@ -181,20 +181,12 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             }
         });
 
-        Route::group(['prefix' => 'database'], function () {
+        Route::group(['prefix' => 'database'], function () {            
             Route::get('/', 'BadasoDatabaseController@browse')->middleware(BadasoCheckPermissions::class.':browse_database');
-            Route::get('/read', 'BadasoDatabaseController@read');
-            Route::put('/edit', 'BadasoDatabaseController@edit');
-            Route::post('/add', 'BadasoDatabaseController@add');
+            Route::get('/read', 'BadasoDatabaseController@read')->middleware(BadasoCheckPermissions::class.':read_database');
+            Route::put('/edit', 'BadasoDatabaseController@edit')->middleware(BadasoCheckPermissions::class.':edit_database');
+            Route::post('/add', 'BadasoDatabaseController@add')->middleware(BadasoCheckPermissions::class.':add_database');
             Route::delete('/delete', 'BadasoDatabaseController@delete')->middleware(BadasoCheckPermissions::class.':delete_database');
-            Route::get('/read-by-slug', 'BadasoDatabaseController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_database');
-            
-            // Route::get('/', 'BadasoDatabaseController@browse')->middleware(BadasoCheckPermissions::class.':browse_database');
-            // Route::get('/read', 'BadasoDatabaseController@read')->middleware(BadasoCheckPermissions::class.':read_database');
-            // Route::put('/edit', 'BadasoDatabaseController@edit')->middleware(BadasoCheckPermissions::class.':edit_database');
-            // Route::post('/add', 'BadasoDatabaseController@add')->middleware(BadasoCheckPermissions::class.':add_database');
-            // Route::delete('/delete', 'BadasoDatabaseController@delete')->middleware(BadasoCheckPermissions::class.':delete_database');
-            // Route::get('/read-by-slug', 'BadasoDatabaseController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_database');
         });
     });
 });

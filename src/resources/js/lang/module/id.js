@@ -1,4 +1,9 @@
 export default {
+  "vuelidate": {
+    "required": "{0} harus diisi.",
+    "requiredIf": "{0} harus diisi.",
+    "integer": "{0} harus integer."
+  },
   "login": {
     "title": "Masuk",
     "subtitle": "Selamat datang kembali, silakan masuk ke akun Anda.",
@@ -808,16 +813,19 @@ export default {
         "title": "Tambah Field Tabel",
         "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
         "field": {
+          "tableName": "Nama Table",
           "fieldName": "Nama Field",
           "fieldType": "Tipe Field",
           "fieldLength": "Panjang Field",
           "fieldDefault": "Default",
+          "asDefined": "Nilau Default",
           "fieldNull": "Boleh Kosong",
           "fieldIndex": "Index",
           "fieldAttribute": "Atribut",
           "fieldIncrement": "Auto Increment",
           "add": "Add"
-        }
+        },
+        "drop": "Yakin ingin menghapus field ini?"
       },
       "error": {
         "fieldName": "Field name dibutuhkan.",
@@ -841,10 +849,12 @@ export default {
         "title": "Alter Field Tabel",
         "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
         "field": {
+          "tableName": "Nama Table",
           "fieldName": "Nama Field",
           "fieldType": "Tipe Field",
           "fieldLength": "Panjang Field",
           "fieldDefault": "Default",
+          "asDefined": "Nilau Default",
           "fieldNull": "Boleh Kosong",
           "fieldIndex": "Index",
           "fieldAttribute": "Atribut",
