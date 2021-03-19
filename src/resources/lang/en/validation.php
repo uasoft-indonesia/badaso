@@ -16,4 +16,9 @@ return [
         'header_invalid' => 'Base64 header is invalid',
         'mimetype_invalid' => 'Base64 mimetype is invalid',
     ],
+    'verification' => [
+        'email_sended' => 'An verification mail has been send to your email',
+        'invalid_verification_token' => 'Invalid verification token',
+        'verification_not_found' => 'Verification not found',
+    ],
 ];
