@@ -6,6 +6,7 @@ use Closure;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 
 class VerifyLicence
@@ -19,7 +20,7 @@ class VerifyLicence
             // Call Badaso Dashboard API here
             try {
                 $client = new Client();
-                $req = $client->request('POST', 'https://badaso-dashboard.uatech.co.id/api/verify-licence', [
+                $req = $client->request('POST', Badaso::getBadasoVerifyApi(), [
                     'json' => [
                         'licence' => $licence,
                     ],
