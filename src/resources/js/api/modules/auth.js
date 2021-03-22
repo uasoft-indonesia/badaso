@@ -8,12 +8,6 @@ export default {
       if (res.data.accessToken) {
         let token = res.data.accessToken;
         localStorage.setItem("token", token);
-        let date = new Date();
-        let timeNow = date.getTime();
-        localStorage.setItem(
-          window.btoa("tokenAccessTime"),
-          window.btoa(timeNow)
-        );
       }
     });
     return response;
