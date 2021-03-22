@@ -26,8 +26,6 @@
 import Navbar from "./header/Navbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
 import Footer from "./footer/Footer.vue";
-import BadasoLicenceBlocker from "../../components/BadasoLicenceBlocker";
-import BadasoUnauthorize from "../../components/BadasoUnauthorize";
 
 export default {
   name: "AdminContainer",
@@ -35,8 +33,6 @@ export default {
     Navbar,
     SideBar,
     Footer,
-    BadasoLicenceBlocker,
-    BadasoUnauthorize
   },
   data: () => ({
     topbarColor: "#2962ff",

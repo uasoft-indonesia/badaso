@@ -8,12 +8,10 @@
 </template>
 
 <script>
-import BadasoLicenceBlocker from "../../components/BadasoLicenceBlocker";
 
 export default {
   name: "AuthContainer",
   components: {
-    BadasoLicenceBlocker
   }
 };
 </script>
@@ -21,6 +19,5 @@ export default {
 <style>
 .login-register-bg {
     margin: 0 auto;
-    /* background: url(/badaso-images/background/auth-bg.jpg) no-repeat 50%; */
 }
 </style>
