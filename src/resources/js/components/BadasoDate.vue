@@ -1,11 +1,5 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <!-- <vs-input
-        type="date"
-        :label="label"
-        :value="value"
-        @input="handleInput($event)"
-    /> -->
     <label for="" class="vs-input--label">{{ label }}</label>
     <div class="datetime-box">
       <datetime
@@ -20,7 +14,7 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info"></p>
+        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info+'<br />'"></p>
       </div>
       <div v-else>
         <span class="text-danger" v-html="alert"></span>

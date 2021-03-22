@@ -22,7 +22,11 @@
           </small>
         </h4>
         -->
-        <badaso-sidebar-group :title="user.name" :subTitle="user.email" icon="person_pin">
+        <badaso-sidebar-group
+          :title="user.name"
+          :subTitle="user.email"
+          icon="person_pin"
+        >
           <vs-sidebar-item
             v-if="user.id"
             icon="person_outline"
@@ -36,7 +40,12 @@
             Logout
           </vs-sidebar-item>
         </badaso-sidebar-group>
-        <vs-select v-model="selectedLang" width="100%" style="padding: 10px;" v-if="view == $constants.MOBILE">
+        <vs-select
+          v-model="selectedLang"
+          width="100%"
+          style="padding: 10px;"
+          v-if="view == $constants.MOBILE"
+        >
           <vs-select-item
             :key="index"
             :value="item.key ? item.key : item"
@@ -113,7 +122,9 @@
         :title="configurationMenu.menu.displayName"
         open
         :icon="configurationMenu.menu.icon"
-        v-if="configurationMenu.menuItems && configurationMenu.menuItems.length > 0"
+        v-if="
+          configurationMenu.menuItems && configurationMenu.menuItems.length > 0
+        "
       >
         <template v-for="(menu, index) in configurationMenu.menuItems">
           <badaso-sidebar-group
@@ -154,8 +165,8 @@
               :style="`color: ${menu.color}`"
               @click="open(menu.url)"
             >
-            <span class="hide-in-minisidebar">{{ menu.title }}</span>
-          </vs-sidebar-item>
+              <span class="hide-in-minisidebar">{{ menu.title }}</span>
+            </vs-sidebar-item>
             <vs-sidebar-item
               v-else
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
@@ -164,8 +175,8 @@
               :style="`color: ${menu.color}`"
               :to="menu.url"
             >
-            <span class="hide-in-minisidebar">{{ menu.title }}</span>
-          </vs-sidebar-item>
+              <span class="hide-in-minisidebar">{{ menu.title }}</span>
+            </vs-sidebar-item>
           </div>
         </template>
       </badaso-sidebar-group>
@@ -174,14 +185,11 @@
 </template>
 
 <script>
-import _ from 'lodash';
-import BadasoSidebarGroup from "../../../components/BadasoSidebarGroup";
+import _ from "lodash";
 
 export default {
   name: "SideBar",
-  components: {
-    BadasoSidebarGroup,
-  },
+  components: {},
   props: {
     parent: {
       type: String,
@@ -196,7 +204,7 @@ export default {
     },
     view: {
       type: String,
-      default: 'desktop'
+      default: "desktop",
     },
   },
   data: () => ({
@@ -247,16 +255,14 @@ export default {
       get() {
         let selected = this.$store.getters.getSelectedLocale;
         if (selected.key) {
-          selected = selected.key
+          selected = selected.key;
         }
         return selected;
       },
       set(val) {
-        this.setLocale(_.find(this.getLocale, ['key', val]));
+        this.setLocale(_.find(this.getLocale, ["key", val]));
       },
     },
-  },
-  watch: {
   },
   methods: {
     open(url) {

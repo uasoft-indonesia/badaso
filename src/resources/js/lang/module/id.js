@@ -689,6 +689,7 @@ export default {
       "description": "Deskripsi",
       "tableName": "Nama Tabel",
       "alwaysAllow": "Selalu diizinkan",
+      "isPublic": "Is Public",
       "action": "Aksi",
     },
     "footer": {

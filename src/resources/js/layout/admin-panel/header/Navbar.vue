@@ -71,12 +71,9 @@
 </template>
 
 <script>
-import BadasoNavbar from "../../../components/BadasoNavbar";
-
 export default {
   name: "Navbar",
   components: {
-    BadasoNavbar,
   },
   props: {
     topbarColor: {

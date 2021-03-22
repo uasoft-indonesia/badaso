@@ -16,7 +16,7 @@
             class="text-danger"
             v-for="(info, index) in alert"
             :key="index"
-            v-html="info"
+            v-html="info+'<br />'"
           ></p>
         </div>
         <div v-else>
@@ -39,7 +39,7 @@
             class="text-danger"
             v-for="(info, index) in alert"
             :key="index"
-            v-html="info"
+            v-html="info+'<br />'"
           ></span>
         </div>
         <div v-else>
@@ -62,6 +62,7 @@ import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 
 export default {
+  name: "BadasoCodeEditor",
   components: {
     PrismEditor,
   },
