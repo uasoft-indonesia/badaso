@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Support\Facades\Schema;
 use Uasoft\Badaso\Models\DataType;
+use Uasoft\Badaso\Helpers\MigrationParser;
 
 class FileGenerator
 {
@@ -27,17 +28,21 @@ class FileGenerator
     /** @var DatabaseManager */
     private $database_manager;
 
+    private $migration_parser;
+
     /**
      * FilesGenerator constructor.
      */
     public function __construct(
         ContentManager $content_manager,
         FileSystem $file_system,
-        DatabaseManager $database_manager
+        DatabaseManager $database_manager,
+        MigrationParser $migration_parser
     ) {
         $this->content_manager = $content_manager;
         $this->file_system = $file_system;
         $this->database_manager = $database_manager;
+        $this->migration_parser = $migration_parser;
     }
 
     /**
@@ -267,5 +272,71 @@ class FileGenerator
         }
 
         return $data_array;
+    }
+
+    /**
+     * Generate Badaso Migration File
+     */
+    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows): string
+    {
+        $migration_class_name = $this->file_system->generateMigrationClassName($table_name, $prefix);
+
+        $stub = $this->file_system->getFileContent(
+            $this->file_system->getStubPath().'../stubs/migration.stub'
+        );
+
+        $migration_file_name = $this->file_system->getMigrationFileName($table_name, $prefix);
+
+        $migration_folder_path = $this->file_system->getMigrationFolderPath();
+
+        $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
+        
+        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
+        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
+        
+        $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
+        $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
+        $stub = $this->content_manager->replaceString('{{schema_down}}', $schema_down, $stub);
+
+        $result = $this->file_system->addContentToMigrationFile($migration_file, $stub);
+
+        return $migration_file;
+    }
+
+    /**
+     * Delete Migration Files
+     */
+    public function deleteMigrationFiles(string $file_name)
+    {
+        $this->file_system->deleteMigrationFiles($file_name);
+    }
+
+    /**
+     * Generate Badaso Alter Migration File
+     */
+    public function generateBDOAlterMigrationFile(array $table, array $rows = null, string $prefix): string
+    {
+        $migration_class_name = $this->file_system->generateAlterMigrationClassName($table, $prefix);
+        
+        $stub = $this->file_system->getFileContent(
+            $this->file_system->getStubPath().'../stubs/migration.stub'
+        );
+        
+        $migration_file_name = $this->file_system->getAlterMigrationFileName($table, $migration_class_name);
+            
+        $migration_folder_path = $this->file_system->getMigrationFolderPath();
+        
+        $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
+
+        $schema_up = $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix);
+        $schema_down = $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix);
+
+        $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
+        $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
+        $stub = $this->content_manager->replaceString('{{schema_down}}', $schema_down, $stub);
+        
+        $result = $this->file_system->addContentToMigrationFile($migration_file, $stub);
+
+        return $migration_file;
     }
 }

@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuesax from "vuesax";
 import VueI18n from "vue-i18n";
 import { Datetime } from "vue-datetime";
+import Vuelidate from 'vuelidate';
 
 import "vuesax/dist/vuesax.css"; //Vuesax styles
 import "material-icons/iconfont/material-icons.css";
@@ -26,6 +27,7 @@ Vue.use(Vuesax);
 Vue.use(VueI18n);
 Vue.use(Datetime);
 Vue.component("datetime", Datetime);
+Vue.use(Vuelidate);
 
 const requireComponent = require.context(
   "./components",

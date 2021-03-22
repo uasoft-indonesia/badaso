@@ -180,5 +180,15 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                 // do nothing, might just be because table not yet migrated.
             }
         });
+
+        Route::group(['prefix' => 'database'], function () {            
+            Route::get('/', 'BadasoDatabaseController@browse')->middleware(BadasoCheckPermissions::class.':browse_database');
+            Route::get('/read', 'BadasoDatabaseController@read')->middleware(BadasoCheckPermissions::class.':read_database');
+            Route::put('/edit', 'BadasoDatabaseController@edit')->middleware(BadasoCheckPermissions::class.':edit_database');
+            Route::post('/add', 'BadasoDatabaseController@add')->middleware(BadasoCheckPermissions::class.':add_database');
+            Route::delete('/delete', 'BadasoDatabaseController@delete')->middleware(BadasoCheckPermissions::class.':delete_database');
+            Route::post('/rollback', 'BadasoDatabaseController@rollback')->middleware(BadasoCheckPermissions::class.':rollback_database');
+            Route::get('/migration/browse', 'BadasoDatabaseController@migrationBrowse')->middleware(BadasoCheckPermissions::class.':browse_migration');
+        });
     });
 });

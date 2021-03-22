@@ -1,4 +1,9 @@
 export default {
+  "vuelidate": {
+    "required": "{0} harus diisi.",
+    "requiredIf": "{0} harus diisi.",
+    "integer": "{0} harus integer."
+  },
   "login": {
     "title": "Masuk",
     "subtitle": "Selamat datang kembali, silakan masuk ke akun Anda.",
@@ -147,7 +152,7 @@ export default {
       "description": "Deskripsi",
       "dateLogged": "Tanggal Dicatat",
       "action": "Aksi",
-    }, 
+    },
     "footer": {
       "descriptionTitle": "Baris yang ditampilkan",
       "descriptionConnector": "dari",
@@ -201,7 +206,7 @@ export default {
       },
       "button": "Save"
     },
-    "edit":  {
+    "edit": {
       "multiple": "Simpan Konfigurasi"
     }
   },
@@ -656,7 +661,7 @@ export default {
       "title": "Detail Wewenang",
       "name": "Nama",
       "displayName": "Nama Tampilan",
-      "description": "Deskripsi", 
+      "description": "Deskripsi",
       "button": {
         "edit": "Ubah",
         "permission": "Izin"
@@ -797,4 +802,97 @@ export default {
     "subtitle": "Maaf, belum bisa melanjutkan aktivitas karena",
     "message": "Otorisasi gagal, token telah kadaluarsa atau kosong",
   },
+  "database": {
+    "browse": {
+      "title": "Basis Data",
+      "addButton": "Tambah Tabel",
+      "alterButton": "Ubah Tabel",
+      "rollbackButton": "Rollback Table",
+      "dropButton": "Hapus Tabel",
+    },
+    "add": {
+      "title": "Tambah Tabel",
+      "field": {
+        "table": "Nama Tabel"
+      },
+      "row": {
+        "title": "Tambah Field Tabel",
+        "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
+        "field": {
+          "tableName": "Nama Table",
+          "fieldName": "Nama Field",
+          "fieldType": "Tipe Field",
+          "fieldLength": "Panjang Field",
+          "fieldDefault": "Default",
+          "asDefined": "Nilau Default",
+          "fieldNull": "Boleh Kosong",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Atribut",
+          "fieldIncrement": "Auto Increment",
+          "add": "Add"
+        },
+        "drop": "Yakin ingin menghapus field ini?"
+      },
+      "error": {
+        "fieldName": "Field name dibutuhkan.",
+        "fieldType": "Field type dibutuhkan.",
+        "tableName": "Table name dibutuhkan.",
+        "fieldLength": "Field length dibutuhkan.",
+      },
+      "footer": {
+        "descriptionTitle": "Baris yang ditampilkan",
+        "descriptionConnector": "dari",
+        "descriptionBody": "Halaman"
+      },
+      "button": "Simpan"
+    },
+    "edit": {
+      "title": "Alter Tabel",
+      "field": {
+        "table": "Nama Tabel"
+      },
+      "row": {
+        "title": "Alter Field Tabel",
+        "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
+        "field": {
+          "tableName": "Nama Table",
+          "fieldName": "Nama Field",
+          "fieldType": "Tipe Field",
+          "fieldLength": "Panjang Field",
+          "fieldDefault": "Default",
+          "asDefined": "Nilau Default",
+          "fieldNull": "Boleh Kosong",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Atribut",
+          "fieldIncrement": "Auto Increment",
+          "action": "Aksi",
+          "add": "Add"
+        }
+      },
+      "error": {
+        "fieldName": "Field name dibutuhkan.",
+        "fieldType": "Field type dibutuhkan.",
+        "tableName": "Table name dibutuhkan.",
+        "fieldLength": "Field length dibutuhkan.",
+      },
+      "footer": {
+        "descriptionTitle": "Baris yang ditampilkan",
+        "descriptionConnector": "dari",
+        "descriptionBody": "Halaman"
+      },
+      "button": "Simpan"
+    },
+    "rollback": {
+      "title": "Rollback",
+      "label": "Masukan step rollback"
+    },
+    "migration": {
+      "header": {
+        "migration": "Nama Migrasi"
+      },
+      "button": {
+        "rollback": "Rollback Tabel"
+      }
+    }
+  }
 }

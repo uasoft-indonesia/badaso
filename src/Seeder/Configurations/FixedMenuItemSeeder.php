@@ -83,6 +83,19 @@ class FixedMenuItemSeeder extends Seeder
                 ],
                 5 => [
                     'menu_id' => '2',
+                    'title' => 'Database Management',
+                    'url' => '/database',
+                    'target' => '_self',
+                    'icon_class' => 'inventory',
+                    'color' => '',
+                    'parent_id' => null,
+                    'order' => 5,
+                    'permissions' => 'browse_database',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
+                6 => [
+                    'menu_id' => '2',
                     'title' => 'Site Management',
                     'url' => '/site',
                     'target' => '_self',
@@ -94,7 +107,7 @@ class FixedMenuItemSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
-                6 => [
+                7 => [
                     'menu_id' => '2',
                     'title' => 'Activity Log',
                     'url' => '/activity-log',
@@ -107,7 +120,7 @@ class FixedMenuItemSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
-                7 => [
+                8 => [
                     'menu_id' => '2',
                     'title' => 'Log Viewer',
                     'url' => '/log-viewer',
