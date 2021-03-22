@@ -111,11 +111,14 @@ export default {
   methods: {
     login() {
       this.$vs.loading(this.$loadingConfig);
+      this.$store.commit("SET_AUTH_ISSUE", {
+        unauthorized: false,
+      });
       this.$api.auth
         .login({
           email: this.email,
           password: this.password,
-          remember: this.rememberMe
+          remember: this.rememberMe,
         })
         .then((response) => {
           this.$vs.loading.close();

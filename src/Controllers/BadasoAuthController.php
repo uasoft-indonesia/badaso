@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use JWTAuth;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
@@ -41,22 +40,23 @@ class BadasoAuthController extends Controller
     {
         try {
             $remember = $request->get('remember', false);
-            $request->validate([
-                'email' => ['required'],
-                'password' => ['required'],
-            ]);
-
-            $token = null;
-
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password,
             ];
+            $request->validate([
+                'email' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($credentials) {
+                        if (!$token = auth()->attempt($credentials)) {
+                            $fail(__('badaso::validation.auth.invalid_credentials'));
+                        }
+                    },
+                ],
+                'password' => ['required'],
+            ]);
 
-            // if (!$token = JWTAuth::attempt($credentials)) {
-            if (!$token = auth()->attempt($credentials)) {
-                throw new SingleException(__('badaso::validation.auth.invalid_credentials'));
-            }
+            $token = auth()->attempt($credentials);
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {

@@ -45,7 +45,7 @@ export default {
       },
       set(val) {
         if (val === false) {
-          this.$store.commit("LOGOUT");
+          this.$store.commit("LOGOUT"); 
         }
       },
     },

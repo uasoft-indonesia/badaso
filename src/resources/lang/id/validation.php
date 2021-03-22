@@ -2,7 +2,7 @@
 
 return [
     'auth' => [
-        'invalid_credentials' => 'Credential tidak valid',
+        'invalid_credentials' => 'Email atau password tidak valid',
         'user_not_found' => 'Pengguna tidak ditemukan',
         'wrong_old_password' => 'Password lama tidak valid',
         'password_not_changes' => 'Password baru dan password lama harus berbeda',
