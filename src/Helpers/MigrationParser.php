@@ -87,6 +87,14 @@ class MigrationParser
     $table->%s('%s'%s)%s->charset('')->collation('')->change();
     TXT;
 
+    const DROP_PRIMARY_KEY = <<<'TXT'
+    $table->dropPrimary('%s');
+    TXT;
+
+    const ADD_PRIMARY_KEY = <<<'TXT'
+    $table->primary('%s');
+    TXT;
+
     const CHANGE_COLUMN_LENGTH = <<<'TXT'
     $table->%s('%s'%s)->charset('')->collation('')->change();
     TXT;
@@ -127,7 +135,7 @@ class MigrationParser
             );
         }
 
-        return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9), self::getMigrationFields($name, $rows)));
+        return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows)));
     }
 
     public static function getMigrationSchemaDown($name, $rows = [], $prefix = null) {
@@ -164,6 +172,17 @@ class MigrationParser
 
                 if ($altered_field > 0) {
                     $fields = self::getAlterMigrationUpFields($rows);
+                    /**
+                     * Positioning schema in migration app
+                     * 1. Indexes (Dropping / Adding)
+                     * 2. Changes
+                     * 3. Renaming
+                     */
+
+                    if (isset($fields['indexes']) && count($fields['indexes']) > 0 ) {
+                        $stub .= sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['indexes'])).PHP_EOL.PHP_EOL;
+                    }
+
                     $stub .= sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['change']));
         
                     if (isset($fields['rename']) && count($fields['rename']) > 0 ) {
@@ -217,7 +236,19 @@ class MigrationParser
 
                 if ($altered_field > 0) {
                     $fields = self::getAlterMigrationDownFields($rows, $name);
-                    $stub = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['change']));
+
+                    /**
+                     * Positioning schema in migration app
+                     * 1. Indexes (Dropping / Adding)
+                     * 2. Changes
+                     * 3. Renaming
+                     */
+
+                    if (isset($fields['indexes']) && count($fields['indexes']) > 0 ) {
+                        $stub .= sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['indexes'])).PHP_EOL.PHP_EOL;
+                    }
+
+                    $stub .= sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['change']));
         
                     if (isset($fields['rename']) && count($fields['rename']) > 0 ) {
                         $stub .= PHP_EOL.PHP_EOL. sprintf(self::RENAME_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['rename']));
@@ -279,6 +310,7 @@ class MigrationParser
     {
         $stub = [];
         $rename = [];
+        $indexes = [];
 
         foreach ($rows as $index => $row) {
             if ($row['modify_type'] == 'RENAME') {
@@ -327,6 +359,17 @@ class MigrationParser
                     self::getMigrationAttributeField($row['field_attribute']['new'])
                 );
             } elseif ($row['modify_type'] == 'UPDATE_INCREMENT')  {
+                if ($row['field_increment']['new'] == true && $row['field_increment']['current'] == false) {
+                    $indexes[] = sprintf(
+                        self::DROP_PRIMARY_KEY,
+                        $row['field_name']['current'],
+                    );
+
+                    $indexes[] = sprintf(
+                        self::ADD_PRIMARY_KEY,
+                        $row['field_name']['current'],
+                    );
+                }
                 $stub[] = sprintf(
                     self::CHANGE_COLUMN,
                     self::getMigrationTypeField($row['field_type']['new'] ?? $row['field_type']['current']),
@@ -351,14 +394,16 @@ class MigrationParser
 
         $stub = array_unique($stub);
         $rename = array_unique($rename);
+        $indexes = array_unique($indexes);
 
-        return ['change' => $stub, 'rename' => $rename];
+        return ['change' => $stub, 'rename' => $rename, 'indexes' => $indexes];
     }
 
     public static function getAlterMigrationDownFields(array $rows, $table = null)
     {
         $stub = [];
         $rename = [];
+        $indexes = [];
 
         foreach ($rows as $index => $row) {
             if ($row['modify_type'] == 'RENAME') {
@@ -387,26 +432,47 @@ class MigrationParser
                         $row['field_name']['new'],
                         $row['field_index']['new']
                     );
-                }
+                } else if ($row['modify_type'] == 'UPDATE_INCREMENT') {
+                    if ($row['field_increment']['new'] == false && $row['field_increment']['current'] == true) {
+                        $indexes[] = sprintf(
+                            self::DROP_PRIMARY_KEY,
+                            $row['field_name']['new'],
+                        );
 
-                $stub[] = sprintf(
-                    self::CHANGE_FIELD_STUB,
-                    self::getMigrationTypeField($row['field_type']['current']),
-                    $row['field_name']['new'],
-                    self::getMigrationLengthField($row['field_length']['current'], $row['field_type']['current']),
-                    self::getMigrationDefaultField($row['field_type']['current'], $row['field_default']['current']),
-                    self::getMigrationNullField($row['field_null']['current']),
-                    self::getMigrationIndexField($row['field_index']['current'], $row['field_name']['current'], $row['field_increment']['current']),
-                    self::getMigrationAttributeField($row['field_attribute']['current']),
-                    self::getMigrationIncrementField($row['field_increment']['current'] ?? $row['field_increment']['new'])
-                );
+                        $indexes[] = sprintf(
+                            self::ADD_PRIMARY_KEY,
+                            $row['field_name']['new'],
+                        );
+                    }
+
+                    $stub[] = sprintf(
+                        self::CHANGE_COLUMN,
+                        self::getMigrationTypeField($row['field_type']['current']),
+                        $row['field_name']['new'],
+                        null,
+                        self::getMigrationIncrementField($row['field_increment']['current'] ?? $row['field_increment']['new'])
+                    );
+                } else {
+                    $stub[] = sprintf(
+                        self::CHANGE_FIELD_STUB,
+                        self::getMigrationTypeField($row['field_type']['current']),
+                        $row['field_name']['new'],
+                        self::getMigrationLengthField($row['field_length']['current'], $row['field_type']['current']),
+                        self::getMigrationDefaultField($row['field_type']['current'], $row['field_default']['current']),
+                        self::getMigrationNullField($row['field_null']['current']),
+                        self::getMigrationIndexField($row['field_index']['current'], $row['field_name']['current'], $row['field_increment']['current']),
+                        self::getMigrationAttributeField($row['field_attribute']['current']),
+                        self::getMigrationIncrementField($row['field_increment']['current'] ?? $row['field_increment']['new'])
+                    );
+                }
             } 
         }
 
         $stub = array_unique($stub);
         $rename = array_unique($rename);
+        $indexes = array_unique($indexes);
 
-        return ['change' => $stub, 'rename' => $rename];
+        return ['change' => $stub, 'rename' => $rename, 'indexes' => $indexes];
     }
 
     public static function getMigrationTypeField($fieldType) {
@@ -501,7 +567,7 @@ class MigrationParser
     public static function getMigrationIndexField($field, $name, $increment) {
         if ($field === null) {
             return;
-        } elseif ($increment === true) {
+        } elseif ($increment === true && $field === 'primary') {
             return;
         } else {
             return sprintf(self::FIELD_INDEX, $field);

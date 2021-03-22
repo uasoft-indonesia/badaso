@@ -188,7 +188,6 @@
                       v-model="fields.fieldIncrement"
                       class="mb-1"
                       style="justify-content: start;"
-                      :disabled="hasAutoIncrement"
                       ></vs-checkbox>
                   </td>
                   <td>
@@ -331,7 +330,6 @@
               v-model="edit.fieldIncrement"
               class="mb-4 mt-4"
               style="justify-content: start;"
-              :disabled="hasAutoIncrement"
               >{{ $t('database.edit.row.field.fieldIncrement') }}</vs-checkbox>
           </vs-col>
         
@@ -420,7 +418,6 @@ export default {
       fieldIncrement: false,
       asDefined: null,
     },
-    hasAutoIncrement: false
   }),
   validations: {
     fields :{
@@ -558,7 +555,6 @@ export default {
       .then((response) => {
         let data = response.data["\u0000*\u0000items"];
         for (const [key, column] of Object.entries(data)) {
-          console.log(data);
           this.databaseData.fields.currentFields.push({
             fieldName: column.name,
             fieldType: column.type,
@@ -570,10 +566,6 @@ export default {
             fieldIncrement: column.autoincrement,
             asDefined: this.getFieldAsDefined(column)
           })
-
-          if (column.autoincrement === true) {
-            this.hasAutoIncrement = true
-          }
         }
 
         this.databaseData.table.currentName = this.$route.params.tableName
@@ -652,7 +644,7 @@ export default {
       this.editDialog = true
       this.edit = { ...item },
 
-      this.willEdit = index
+      this.willEdit = index;
     },
 
     saveEdit() {
@@ -794,8 +786,6 @@ export default {
       })
 
       this.databaseData.fields.currentFields.splice(this.willDelete, 1)
-
-      console.log(this.databaseData.fields);
     }
 
   },

@@ -34,12 +34,27 @@ export default {
     });
   },
 
-  // delete(data) {
-  //     let paramData = {
-  //         data: data
-  //     }
-  //   return auth.refreshToken().then((res) => {
-  //     return resource.delete(endpoint.crudManagement.delete, paramData);
-  //   });
-  // },
+  delete(data) {
+    let paramData = {
+      data: data
+    }
+    return auth.refreshToken().then((res) => {
+      return resource.delete(endpoint.database.delete, paramData);
+    });
+  },
+
+  browseMigration(data = {}) {
+    return auth.refreshToken().then((res) => {
+      let ep = endpoint.database.browseMigration;
+      let qs = QueryString(data);
+      let url = ep + qs;
+      return resource.get(url);
+    });
+  },
+
+  rollback(data) {
+    return auth.refreshToken().then((res) => {
+      return resource.post(endpoint.database.rollback, data);
+    });
+  }
 };

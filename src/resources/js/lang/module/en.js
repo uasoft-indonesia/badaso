@@ -805,12 +805,12 @@ export default {
     "subtitle": "Sorry, cannot continue request because",
     "message": "Authorization Failed, token expired or empty",
   },
-
   "database": {
     "browse": {
       "title": "Database",
       "addButton": "Add Table",
       "alterButton": "Alter Table",
+      "rollbackButton": "Rollback Table",
       "dropButton": "Drop Table",
     },
     "add": {
@@ -886,5 +886,20 @@ export default {
       },
       "button": "Save"
     },
+    "rollback": {
+      "title": "Rollback",
+      "label": "Enter rollback step"
+    },
+    "warning": {
+      "docs": "* Please read the {0} before using this feature."
+    },
+    "migration": {
+      "header": {
+        "migration": "Migration Name"
+      },
+      "button": {
+        "rollback": "Rollback Table"
+      }
+    }
   }
 }

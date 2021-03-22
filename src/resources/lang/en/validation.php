@@ -16,6 +16,11 @@ return [
         'header_invalid' => 'Base64 header is invalid',
         'mimetype_invalid' => 'Base64 mimetype is invalid',
     ],
+    'verification' => [
+        'email_sended' => 'An verification mail has been send to your email',
+        'invalid_verification_token' => 'Invalid verification token',
+        'verification_not_found' => 'Verification not found',
+    ],
     'database' => [
         'table_already_exists' => 'Table :table already exists.',
         'table_name_already_exists' => 'Table name of :table already exists.',
@@ -25,5 +30,7 @@ return [
         'alter_migration_created' => 'Alter table :table successfully created and migrated.',
         'table_not_found' => 'Table :table does not exists',
         'nothing_changed' => 'Request was successful, but nothing changed.',
+        'rollback_success' => 'Rollback success.',
+        'rollback_failed' => 'Rollback failed.'
     ]
 ];

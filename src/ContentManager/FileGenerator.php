@@ -306,7 +306,7 @@ class FileGenerator
     /**
      * Delete Migration Files
      */
-    public function deleteMigrationFiles(string $table_name, string $prefix)
+    public function deleteMigrationFiles(string $file_name)
     {
         $this->file_system->deleteMigrationFiles($file_name);
     }

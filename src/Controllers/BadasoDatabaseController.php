@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Uasoft\Badaso\Models\Migration;
 
 class BadasoDatabaseController extends Controller
 {
@@ -209,18 +210,48 @@ class BadasoDatabaseController extends Controller
                     return ApiResponse::success(__('badaso::validation.database.migration_dropped', ['table' => $request->table]));
                     break;
                 default:
-                    foreach ($this->file_name as $name) {
-                        $this->file_generator->deleteMigrationFiles($name);
-                    }
+                    $this->file_generator->deleteMigrationFiles($this->file_name);
                     return ApiResponse::failed(__('badaso::validation.database.migration_failed'));
             }
         } catch (Exception $e) {
-            if (isset($this->file_name)) {
-                foreach ($this->file_name as $name) {
-                    $this->file_generator->deleteMigrationFiles($name);
-                }
+            $this->file_generator->deleteMigrationFiles($this->file_name);
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function rollback(Request $request) {
+        try {
+            $request->validate([
+                'step' => [
+                    'required',
+                    'numeric'
+                ],
+            ]);
+            
+            $exitCode = Artisan::call('migrate:rollback', [
+                '--path' => 'database/migrations/badaso/',
+                '--step' => $request->step
+            ]);
+
+            switch ($exitCode) {
+                case 0:
+                    return ApiResponse::success(__('badaso::validation.database.rollback_success'));
+                    break;
+                default:
+                    return ApiResponse::failed(__('badaso::validation.database.rollback_failed'));
             }
 
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function migrationBrowse() {
+        try {
+            $migration = Migration::all();
+
+            return ApiResponse::success($migration->toArray());
+        } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
     }

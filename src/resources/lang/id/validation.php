@@ -25,5 +25,7 @@ return [
         'alter_migration_created' => 'Alter table :table berhasil dibuat dan dijalankan.',
         'table_not_found' => 'Table :table tidak ada.',
         'nothing_changed' => 'Request valid, namun tidak ada perubahan yang terjadi.',
+        'rollback_success' => 'Rollback sukses.',
+        'rollback_failed' => 'Rollback gagal.'
     ]
 ];

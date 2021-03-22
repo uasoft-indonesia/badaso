@@ -32,6 +32,11 @@
         <vs-card>
           <div slot="header">
             <h3>{{ $t("database.add.row.title") }}</h3>
+            <span style="color: rgba(var(--vs-danger),1)">
+              <i18n path="database.warning.docs">
+                <a target="_blank" href="https://badaso-docs.uatech.co.id/docs/en/core-concept/database-management/">docs</a>
+              </i18n>
+            </span>
           </div>
           <vs-row>
             <vs-col col-lg="12" style="overflow-x: auto">
@@ -291,7 +296,7 @@ export default {
     databaseData: {
       table: "",
       rows: [],
-    },
+    }
   }),
   validations: {
     fields: {
@@ -356,7 +361,7 @@ export default {
             this.$vs.loading.close();
             this.$vs.notify({
               title: this.$t("alert.success"),
-              text: response.message,
+              text: response.data,
               color: "success",
             });
             this.$store.commit("FETCH_MENU");

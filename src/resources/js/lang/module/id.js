@@ -152,7 +152,7 @@ export default {
       "description": "Deskripsi",
       "dateLogged": "Tanggal Dicatat",
       "action": "Aksi",
-    }, 
+    },
     "footer": {
       "descriptionTitle": "Baris yang ditampilkan",
       "descriptionConnector": "dari",
@@ -206,7 +206,7 @@ export default {
       },
       "button": "Save"
     },
-    "edit":  {
+    "edit": {
       "multiple": "Simpan Konfigurasi"
     }
   },
@@ -661,7 +661,7 @@ export default {
       "title": "Detail Wewenang",
       "name": "Nama",
       "displayName": "Nama Tampilan",
-      "description": "Deskripsi", 
+      "description": "Deskripsi",
       "button": {
         "edit": "Ubah",
         "permission": "Izin"
@@ -796,12 +796,17 @@ export default {
     "licenceUsersExpired": "Masa Aktif Kadaluarsa",
     "licenceUsersExpiredDescription": "Masa aktif anda sudah habis. Mohon untuk menambahkan masa aktif anda pada Badaso Dashboard supaya licence anda dapat digunakan kembali. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
   },
-  
+  "authorizationIssue": {
+    "title": "Authorization Issues",
+    "subtitle": "Maaf, belum bisa melanjutkan aktivitas karena",
+    "message": "Otorisasi gagal, token telah kadaluarsa atau kosong",
+  },
   "database": {
     "browse": {
       "title": "Basis Data",
       "addButton": "Tambah Tabel",
       "alterButton": "Ubah Tabel",
+      "rollbackButton": "Rollback Table",
       "dropButton": "Hapus Tabel",
     },
     "add": {
@@ -875,6 +880,18 @@ export default {
         "descriptionBody": "Halaman"
       },
       "button": "Simpan"
+    },
+    "rollback": {
+      "title": "Rollback",
+      "label": "Masukan step rollback"
+    },
+    "migration": {
+      "header": {
+        "migration": "Nama Migrasi"
+      },
+      "button": {
+        "rollback": "Rollback Tabel"
+      }
     }
   }
 }

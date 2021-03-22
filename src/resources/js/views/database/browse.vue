@@ -10,9 +10,49 @@
             v-if="$helper.isAllowed('add_database')"
             ><vs-icon icon="add"></vs-icon> {{ $t('database.browse.addButton') }}</vs-button
           >
+          <vs-button color="success" type="relief" @click="openRollbackDialog()"
+            v-if="$helper.isAllowed('rollback_database')"
+            ><vs-icon icon="refresh"></vs-icon> {{ $t('database.browse.rollbackButton') }}</vs-button
+          >
         </div>
       </vs-col>
     </vs-row>
+
+    <vs-popup @cancel="rollbackDialog = false" @accept="rollback" :active.sync="rollbackDialog" :accept-text="$t('action.delete.accept')" :cancel-text="$t('action.delete.cancel')" :title="$t('database.rollback.title')" color="success">
+      <vs-table :data="migration">
+        <template slot="thead">
+          <vs-th sort-key="migration"> {{ $t('database.migration.header.migration') }} </vs-th>
+          <vs-th> {{ $t('crud.header.action') }} </vs-th>
+        </template>
+        <template slot-scope="{ data }">
+          <vs-tr
+            :data="table"
+            :key="index"
+            stripe
+            v-for="(table, index) in data"
+          >
+            <vs-td :data="data[index].migration">
+              {{ data[index].migration }}
+            </vs-td>
+            <vs-td>
+              <vs-checkbox v-model="willRollbackIndex" :vs-value="index" @change="setRollbackIndex()" :disabled="disableCheckbox(index)"></vs-checkbox>
+            </vs-td>
+          </vs-tr>
+        </template>
+      </vs-table>
+      <vs-row>
+        <vs-spacer></vs-spacer>
+        <vs-button
+          color="danger"
+          type="relief"
+          @click="rollback()"
+          v-if="$helper.isAllowed('rollback_database')"
+        >
+          {{ $t('database.migration.button.rollback') }}
+        </vs-button>
+      </vs-row>
+    </vs-popup>
+
     <vs-row v-if="$helper.isAllowed('browse_database')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -47,41 +87,7 @@
                   <vs-td :data="data[index].tableName">
                     {{ data[index].tableName }}
                   </vs-td>
-                  <vs-td
-                    style="width: 1%; white-space: nowrap"
-                    v-if="data[index].crudData"
-                  >
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'EntityBrowse',
-                        params: { slug: data[index].crudData.slug },
-                      }"
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('edit_crud_data')"
-                      :to="{
-                        name: 'CRUDManagementEdit',
-                        params: { tableName: data[index].tableName },
-                      }"
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('delete_crud_data')"
-                      @click="openConfirm(data[index].crudData.id)"
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
-                  </vs-td>
-                  <vs-td v-else style="width: 1%; white-space: nowrap">
+                  <vs-td style="width: 1%; white-space: nowrap">
                     <vs-button
                       color="primary"
                       type="relief"
@@ -95,12 +101,8 @@
                     <vs-button
                       color="danger"
                       type="relief"
-                      @click.stop
+                      @click="openConfirm(data[index].tableName)"
                       v-if="$helper.isAllowed('delete_database')"
-                      :to="{
-                        name: 'CRUDManagementAdd',
-                        params: { tableName: data[index].tableName },
-                      }"
                       >{{ $t('database.browse.dropButton') }}</vs-button>
                   </vs-td>
                 </vs-tr>
@@ -132,24 +134,32 @@ export default {
     descriptionItems: [10, 50, 100],
     selected: [],
     tables: [],
-    willDeleteId: null,
+    tableName: null,
+    rollbackDialog: false,
+    rollbackSteps: 0,
+    migration: [],
+    willRollbackIndex: [],
+    rollbackIndex: null
   }),
   mounted() {
     this.getTableList();
   },
   methods: {
-    openConfirm(id) {
-      this.willDeleteId = id;
+    disableCheckbox(index) {
+      return this.willRollbackIndex.includes(index-1)
+    },
+    openConfirm(tableName) {
+      this.tableName = tableName;
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
         title: this.$t('action.delete.title'),
         text: this.$t('action.delete.text'),
-        accept: this.deleteCRUDData,
+        accept: this.deleteDatabase,
         acceptText: this.$t('action.delete.accept'),
         cancelText: this.$t('action.delete.cancel'),
         cancel: () => {
-          this.willDeleteId = null;
+          this.tableName = null;
         },
       });
     },
@@ -172,13 +182,13 @@ export default {
           });
         });
     },
-    deleteCRUDData() {
+    deleteDatabase() {
       this.$vs.loading({
         type: "sound",
       });
-      this.$api.crud
+      this.$api.database
         .delete({
-          id: this.willDeleteId,
+          table: this.tableName,
         })
         .then((response) => {
           this.$vs.loading.close();
@@ -194,6 +204,86 @@ export default {
           });
         });
     },
+    getMigration() {
+      this.$vs.loading({
+        type: "sound",
+      });
+
+      this.$api.database
+        .browseMigration()
+        .then((response) => {
+          this.rollbackDialog = true
+          this.migration = response.data;
+          this.$vs.loading.close();
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t('alert.danger'),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    openRollbackDialog() {
+      this.getMigration()
+      this.willRollbackIndex = []
+      this.rollbackSteps = 0
+      this.rollbackIndex = null
+    },
+    rollback() {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.database
+        .rollback({
+          step: this.rollbackSteps,
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.getMigration()
+          this.$vs.notify({
+            title: this.$t('alert.success'),
+            text: response.data,
+            color: "success",
+          });
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t('alert.danger'),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    setRollbackIndex() {
+      let flag = this.willRollbackIndex;
+      let total = this.migration.length;
+      let diff = total - Math.min(...flag);
+      let items = [];
+
+      if (this.rollbackIndex === null) {
+        for (let index = total; index > flag; index--) {
+          items.push(index) 
+        }
+
+        this.rollbackSteps = diff
+        this.willRollbackIndex.push(...items);
+        this.rollbackIndex = Math.min(...flag)
+      } else if (this.rollbackIndex > Math.min(...flag)) {
+        for (let index = total; index > Math.min(...flag); index--) {
+          items.push(index) 
+        }
+        this.rollbackSteps = diff
+        this.willRollbackIndex.push(...items);
+        this.rollbackIndex = Math.min(...flag)
+      } else {
+        this.willRollbackIndex = []
+        this.rollbackSteps = 0
+        this.rollbackIndex = null
+      }
+    }
   },
 };
 </script>
