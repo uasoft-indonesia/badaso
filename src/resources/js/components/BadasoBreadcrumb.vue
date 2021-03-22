@@ -15,7 +15,7 @@
 import _ from "lodash";
 
 export default {
-  name: "BadasoText",
+  name: "BadasoBreadcrumb",
   components: {},
   data: () => ({
     items: [],

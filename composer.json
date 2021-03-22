@@ -18,8 +18,8 @@
     },
     "license": "MIT",
     "authors": [{
-        "name": "UASOFT Fikri",
-        "email": "fikri@uatech.co.id"
+        "name": "UASOFT",
+        "email": "hello@uatech.co.id"
     }],
     "minimum-stability": "dev",
     "autoload": {

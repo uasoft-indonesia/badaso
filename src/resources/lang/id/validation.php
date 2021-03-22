@@ -2,19 +2,24 @@
 
 return [
     'auth' => [
-        'invalid_credentials' => 'Invalid credentials',
-        'user_not_found' => 'User not found',
-        'wrong_old_password' => 'Invalid old password',
-        'password_not_changes' => 'new password must be different with old password',
+        'invalid_credentials' => 'Email atau password tidak valid',
+        'user_not_found' => 'Pengguna tidak ditemukan',
+        'wrong_old_password' => 'Password lama tidak valid',
+        'password_not_changes' => 'Password baru dan password lama harus berbeda',
     ],
     'bread' => [
-        'table_not_found' => 'Table :table does not exists',
-        'table_column_not_found' => 'Invalid rows, Field :table_column does not exists',
+        'table_not_found' => 'Table :table tidak ditemukan',
+        'table_column_not_found' => 'Row tidak valid, Field :table_column tidak ditemukan',
     ],
     'base64' => [
-        'length_invalid' => 'Base64 format is invalid',
-        'header_invalid' => 'Base64 header is invalid',
-        'mimetype_invalid' => 'Base64 mimetype is invalid',
+        'length_invalid' => 'Format base64 tidak valid',
+        'header_invalid' => 'Header base64 tidak valid',
+        'mimetype_invalid' => 'Mimetype base64 tidak valid',
+    ],
+    'verification' => [
+        'email_sended' => 'Email verifikasi telah dikirim ke alamat email yang dimasukkan',
+        'invalid_verification_token' => 'Token verifikasi tidak valid',
+        'verification_not_found' => 'Verifikasi tidak ditemukan',
     ],
     'database' => [
         'table_already_exists' => 'Tabel :table sudah ada.',

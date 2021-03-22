@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Traits\FileHandler;
@@ -120,7 +121,7 @@ class BadasoConfigurationsController extends Controller
                     } else {
                         $updated_configuration->value = $configuration['value'];
                     }
-                    $updated_configuration->details = $configuration['details'];
+                    $updated_configuration->details = json_encode($configuration['details']);
                     $updated_configuration->type = $configuration['type'];
                     $updated_configuration->order = $configuration['order'];
                     $updated_configuration->group = $configuration['group'];
@@ -147,9 +148,28 @@ class BadasoConfigurationsController extends Controller
                 'display_name' => 'required',
                 'group' => 'required',
                 'type' => 'required',
+                'details' => [
+                    function ($attribute, $value, $fail) use ($request) {
+                        if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
+                            json_decode($value);
+                            $is_json = (json_last_error() == JSON_ERROR_NONE);
+                            if (!$is_json) {
+                                $fail('The details must be a valid JSON string.');
+                            }
+                        }
+                    },
+                    function ($attribute, $value, $fail) use ($request) {
+                        if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
+                            if (!isset($value) || is_null($value)) {
+                                $fail('Options is required for  Checkbox, Radio, Select, Select-multiple');
+                            }
+                        }
+                    },
+                ],
             ]);
             $configuration = new Configuration();
             $data = $request->all();
+            $data['can_delete'] = $request->get('can_delete', true);
             $configuration_fillable = $configuration->getFillable();
             foreach ($data as $key => $value) {
                 $property = Str::snake($key);
@@ -178,7 +198,12 @@ class BadasoConfigurationsController extends Controller
                 'id' => 'required',
             ]);
 
-            Configuration::find($request->id)->delete();
+            $config = Configuration::find($request->id);
+            if ($config->can_delete) {
+                $config->delete();
+            } else {
+                throw new SingleException('Cannot delete this config');
+            }
 
             DB::commit();
 

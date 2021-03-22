@@ -8,12 +8,6 @@ export default {
       if (res.data.accessToken) {
         let token = res.data.accessToken;
         localStorage.setItem("token", token);
-        let date = new Date();
-        let timeNow = date.getTime();
-        localStorage.setItem(
-          window.btoa("tokenAccessTime"),
-          window.btoa(timeNow)
-        );
       }
     });
     return response;
@@ -78,39 +72,12 @@ export default {
   },
 
   refreshToken() {
-    let date = new Date();
-    let timeNow = date.getTime();
-    let lastTokenAccessTime = localStorage.getItem(
-      window.btoa("tokenAccessTime")
-    );
-    if (lastTokenAccessTime == null) {
-      let response = resource.post(endpoint.auth.refreshToken);
-      response.then((res) => {
-        let token = res.data.accessToken;
-        localStorage.setItem("token", token);
-        localStorage.setItem(
-          window.btoa("tokenAccessTime"),
-          window.btoa(timeNow)
-        );
-      });
-      return response;
-    } else {
-      let accessTime = window.atob(lastTokenAccessTime);
-      if (timeNow - accessTime > 3000000) {
-        let response = resource.post(endpoint.auth.refreshToken);
-        response.then((res) => {
-          let token = res.data.accessToken;
-          localStorage.setItem("token", token);
-          localStorage.setItem(
-            window.btoa("tokenAccessTime"),
-            window.btoa(timeNow)
-          );
-        });
-        return response;
-      }
-    }
-
-    return Promise.resolve("TOKEN ALIVE");
+    let response = resource.post(endpoint.auth.refreshToken);
+    response.then((res) => {
+      let token = res.data.accessToken;
+      localStorage.setItem("token", token);
+    });
+    return response;
   },
 
   user() {

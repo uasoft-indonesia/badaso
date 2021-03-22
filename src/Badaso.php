@@ -86,6 +86,8 @@ class Badaso
         'user_verifications',
     ];
 
+    protected $badaso_cloud_api = 'https://badaso.uatech.co.id';
+
     public function model($name)
     {
         return app($this->models[Str::studly($name)]);
@@ -114,5 +116,20 @@ class Badaso
     public function getProtectedTables()
     {
         return config('badaso.hidden_tables', []);
+    }
+
+    public function getBadasoCloudApi()
+    {
+        return $this->badaso_cloud_api;
+    }
+
+    public function getBadasoVerifyApi()
+    {
+        return $this->badaso_cloud_api.'/api/verify-licence';
+    }
+
+    public function getDefaultJwtTokenLifetime()
+    {
+        return 60 * 24; // a day
     }
 }

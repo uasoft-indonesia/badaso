@@ -8,6 +8,7 @@
       :logo="adminPanelLogo"
       :title="adminPanelTitle"
       :windowWidth="windowWidth"
+      :logoConfig="adminPanelLogoConfig"
     />
     <!---Sidebar-->
     <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" :view="viewType" />
@@ -25,8 +26,6 @@
 import Navbar from "./header/Navbar.vue";
 import SideBar from "./sidebar/SideBar.vue";
 import Footer from "./footer/Footer.vue";
-import BadasoLicenceBlocker from "../../components/BadasoLicenceBlocker";
-import BadasoUnauthorize from "../../components/BadasoUnauthorize";
 
 export default {
   name: "AdminContainer",
@@ -34,8 +33,6 @@ export default {
     Navbar,
     SideBar,
     Footer,
-    BadasoLicenceBlocker,
-    BadasoUnauthorize
   },
   data: () => ({
     topbarColor: "#2962ff",
@@ -61,13 +58,19 @@ export default {
     adminPanelHeaderColor: {
       get() {
         let config = this.$store.getters.getConfig
-        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#000000"
+        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#fff"
+      }
+    },
+    adminPanelLogoConfig: {
+      get() {
+        let config = this.$store.getters.getConfig
+        return  config.adminPanelLogoConfig ?  config.adminPanelLogoConfig : "logo_and_text"
       }
     },
     adminPanelHeaderFontColor: {
       get() {
         let config = this.$store.getters.getConfig
-        return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#06bbd3"
+        return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#000"
       }
     },
     reduceSidebar: {

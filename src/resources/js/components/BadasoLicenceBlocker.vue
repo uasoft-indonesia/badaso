@@ -4,6 +4,7 @@
     :title="$t('licenceIssue.title')"
     :active.sync="licenceIssue.invalid"
     style="z-index: 26000"
+    button-close-hidden	
   >
     <vs-row>
       <vs-col>

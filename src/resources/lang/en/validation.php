@@ -2,7 +2,7 @@
 
 return [
     'auth' => [
-        'invalid_credentials' => 'Invalid credentials',
+        'invalid_credentials' => 'Invalid email or password',
         'user_not_found' => 'User not found',
         'wrong_old_password' => 'Invalid old password',
         'password_not_changes' => 'new password must be different with old password',

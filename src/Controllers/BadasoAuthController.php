@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use JWTAuth;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
+use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Helpers\CheckBase64;
@@ -39,22 +39,24 @@ class BadasoAuthController extends Controller
     public function login(Request $request)
     {
         try {
-            $request->validate([
-                'email' => ['required'],
-                'password' => ['required'],
-            ]);
-
-            $token = null;
-
+            $remember = $request->get('remember', false);
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password,
             ];
+            $request->validate([
+                'email' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($credentials) {
+                        if (!$token = auth()->attempt($credentials)) {
+                            $fail(__('badaso::validation.auth.invalid_credentials'));
+                        }
+                    },
+                ],
+                'password' => ['required'],
+            ]);
 
-            // if (!$token = JWTAuth::attempt($credentials)) {
-            if (!$token = auth()->attempt($credentials)) {
-                throw new SingleException(__('badaso::validation.auth.invalid_credentials'));
-            }
+            $token = auth()->attempt($credentials);
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {
@@ -64,7 +66,7 @@ class BadasoAuthController extends Controller
                 }
             }
 
-            return $this->createNewToken($token, auth()->user());
+            return $this->createNewToken($token, auth()->user(), $remember);
         } catch (JWTException $e) {
             return ApiResponse::failed($e);
         } catch (Exception $e) {
@@ -132,7 +134,7 @@ class BadasoAuthController extends Controller
                 DB::commit();
 
                 return ApiResponse::success([
-                    'message' => 'An verification mail has been send to your email',
+                    'message' => __('badaso::validation.verification.email_sended'),
                 ]);
             }
         } catch (Exception $e) {
@@ -160,7 +162,6 @@ class BadasoAuthController extends Controller
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
-            // $user->token_payload = auth()->payload();
             $data['user'] = json_decode(json_encode($user));
 
             return ApiResponse::success($data);
@@ -169,10 +170,19 @@ class BadasoAuthController extends Controller
         }
     }
 
-    protected function createNewToken($token, $user)
+    protected function createNewToken($token, $user, $remember = false)
     {
-        $ttl = env('BADASO_AUTH_TOKEN_LIFETIME', 60);
-        $ttl = $ttl == '' ? 60 : $ttl;
+        $remember_lifetime = 60 * 24 * 30;
+        $ttl = env('BADASO_AUTH_TOKEN_LIFETIME', Badaso::getDefaultJwtTokenLifetime());
+        if ($ttl != '') {
+            $ttl = (int) $ttl;
+        } else {
+            $ttl = Badaso::getDefaultJwtTokenLifetime();
+        }
+        if ($remember && $ttl < $remember_lifetime) {
+            $ttl = $remember_lifetime;
+        }
+
         $obj = new stdClass();
         $obj->access_token = $token;
         $obj->token_type = 'bearer';
@@ -210,7 +220,7 @@ class BadasoAuthController extends Controller
 
                 $user_verification->delete();
             } else {
-                throw new SingleException('Invalid verification token');
+                throw new SingleException(__('badaso::validation.verification.invalid_verification_token'));
             }
 
             $token = auth()->login($user);
@@ -377,7 +387,7 @@ class BadasoAuthController extends Controller
                 ->first();
 
             if (!$user_verification) {
-                throw new SingleException('Verification not found');
+                throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
 
             $token = rand(111111, 999999);
@@ -393,7 +403,7 @@ class BadasoAuthController extends Controller
             DB::commit();
 
             return ApiResponse::success([
-                'message' => 'An verification mail has been send to your email',
+                'message' => __('badaso::validation.verification.email_sended'),
             ]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -504,7 +514,7 @@ class BadasoAuthController extends Controller
 
                 return ApiResponse::success([
                     'should_verify_email' => true,
-                    'message' => 'An verification mail has been send to your email',
+                    'message' => __('badaso::validation.verification.email_sended'),
                 ]);
             } else {
                 $user->email = $request->email;
@@ -553,7 +563,7 @@ class BadasoAuthController extends Controller
 
                 $emai_reset->delete();
             } else {
-                throw new SingleException('Invalid verification token');
+                throw new SingleException(__('badaso::validation.verification.invalid_verification_token'));
             }
 
             $token = auth()->login($user);

@@ -4,8 +4,8 @@ import QueryString from "../query-string";
 export default {
   view(file) {
     let data = {
-      file
-    }
+      file,
+    };
     let ep = endpoint.file.view;
     let qs = QueryString(data);
     let url = ep + qs;
@@ -14,8 +14,8 @@ export default {
 
   download(file) {
     let data = {
-      file
-    }
+      file,
+    };
     let ep = endpoint.file.download;
     let qs = QueryString(data);
     let url = ep + qs;

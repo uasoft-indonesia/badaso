@@ -1,8 +1,8 @@
-import Browse from "./../views/crud-generated/browse.vue";
-import Add from "./../views/crud-generated/add.vue";
-import Edit from "./../views/crud-generated/edit.vue";
-import Read from "./../views/crud-generated/read.vue";
-import Sort from "./../views/crud-generated/sort.vue";
+import Browse from "./../pages/crud-generated/browse.vue";
+import Add from "./../pages/crud-generated/add.vue";
+import Edit from "./../pages/crud-generated/edit.vue";
+import Read from "./../pages/crud-generated/read.vue";
+import Sort from "./../pages/crud-generated/sort.vue";
 
 let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX

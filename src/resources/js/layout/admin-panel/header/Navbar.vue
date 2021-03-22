@@ -7,10 +7,10 @@
       active-text-color="rgba(255,255,255,1)"
       :style="{ color: topbarFontColor }"
     >
-      <div slot="logo">
+      <div slot="logo" v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'">
         <img :src="logo" v-if="logo" alt="Dashboard" />
       </div>
-      <div slot="title">
+      <div slot="title" v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'">
         <span class="logo-text" v-if="title">{{ title }}</span>
       </div>
       <div slot="navigation">
@@ -71,12 +71,9 @@
 </template>
 
 <script>
-import BadasoNavbar from "../../../components/BadasoNavbar";
-
 export default {
   name: "Navbar",
   components: {
-    BadasoNavbar,
   },
   props: {
     topbarColor: {
@@ -91,6 +88,9 @@ export default {
       type: String,
     },
     logo: {
+      type: String,
+    },
+    logoConfig: {
       type: String,
     },
     view: {

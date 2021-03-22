@@ -198,7 +198,6 @@ abstract class Controller extends BaseController
 
     public function getDataList($slug, $request)
     {
-        DB::enableQueryLog();
         $data_type = $this->getDataType($slug);
         $data = [];
         $records = [];

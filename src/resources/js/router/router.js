@@ -11,23 +11,21 @@ import AdminContainer from "./../layout/admin-panel/AdminContainer.vue";
 import AuthContainer from "./../layout/auth/AuthContainer.vue";
 import LandingPageContainer from "./../layout/landing-page/LandingPageContainer.vue";
 
-import Home from "./../views/home.vue";
-import Profile from "./../views/user/profile.vue";
+import Home from "./../pages/home.vue";
+import Profile from "./../pages/user/profile.vue";
+import PageNotFound from "./../pages/error/404.vue";
 
-import PageNotFound from "./../views/error/404.vue";
-
-Vue.use(VueRouter);
-
-let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 
-let prefix = "/" + prefix_env;
+const prefix = "/" + prefix_env;
 
 const menuKey = process.env.MIX_DEFAULT_MENU
-        ? process.env.MIX_DEFAULT_MENU
-        : "admin";
+  ? process.env.MIX_DEFAULT_MENU
+  : "admin";
 
+Vue.use(VueRouter);
 const router = new VueRouter({
   mode: "history",
   routes: [
@@ -96,6 +94,9 @@ const router = new VueRouter({
           path: prefix + "/404",
           name: "PageNotFound",
           component: PageNotFound,
+          meta: {
+            title: "Page Not Found",
+          },
         },
       ],
     },
