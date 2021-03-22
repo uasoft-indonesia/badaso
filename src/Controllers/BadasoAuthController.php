@@ -40,6 +40,7 @@ class BadasoAuthController extends Controller
     public function login(Request $request)
     {
         try {
+            $remember = $request->get('remember', false);
             $request->validate([
                 'email' => ['required'],
                 'password' => ['required'],
@@ -65,7 +66,7 @@ class BadasoAuthController extends Controller
                 }
             }
 
-            return $this->createNewToken($token, auth()->user());
+            return $this->createNewToken($token, auth()->user(), $remember);
         } catch (JWTException $e) {
             return ApiResponse::failed($e);
         } catch (Exception $e) {
@@ -169,10 +170,19 @@ class BadasoAuthController extends Controller
         }
     }
 
-    protected function createNewToken($token, $user)
+    protected function createNewToken($token, $user, $remember = false)
     {
+        $remember_lifetime = 60 * 24 * 30;
         $ttl = env('BADASO_AUTH_TOKEN_LIFETIME', Badaso::getDefaultJwtTokenLifetime());
-        $ttl = $ttl == '' ? Badaso::getDefaultJwtTokenLifetime() : $ttl;
+        if ($ttl != '') {
+            $ttl = (int) $ttl;
+        } else {
+            $ttl = Badaso::getDefaultJwtTokenLifetime();
+        }
+        if ($remember && $ttl < $remember_lifetime) {
+            $ttl = $remember_lifetime;
+        }
+
         $obj = new stdClass();
         $obj->access_token = $token;
         $obj->token_type = 'bearer';

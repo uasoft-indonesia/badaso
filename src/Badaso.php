@@ -130,6 +130,6 @@ class Badaso
 
     public function getDefaultJwtTokenLifetime()
     {
-        return 60 * 24;
+        return 60 * 24; // a day
     }
 }

@@ -63,7 +63,7 @@
               <input
                 type="checkbox"
                 class="vs-checkbox--input"
-                value="false"
+                v-model="rememberMe"
               /><span
                 class="checkbox_x vs-checkbox"
                 style="border: 2px solid rgb(180, 180, 180);"
@@ -105,6 +105,7 @@ export default {
     baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-admin",
+    rememberMe: false,
     errors: {},
   }),
   methods: {
@@ -114,6 +115,7 @@ export default {
         .login({
           email: this.email,
           password: this.password,
+          remember: this.rememberMe
         })
         .then((response) => {
           this.$vs.loading.close();
