@@ -58,7 +58,7 @@ export default {
     adminPanelHeaderColor: {
       get() {
         let config = this.$store.getters.getConfig
-        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#000000"
+        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#fff"
       }
     },
     adminPanelLogoConfig: {
@@ -70,7 +70,7 @@ export default {
     adminPanelHeaderFontColor: {
       get() {
         let config = this.$store.getters.getConfig
-        return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#06bbd3"
+        return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#000"
       }
     },
     reduceSidebar: {
