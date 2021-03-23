@@ -26,13 +26,12 @@ import CRUDManagementRead from "./../pages/crud-management/read";
 import CRUDManagementEdit from "./../pages/crud-management/edit";
 import CRUDManagementAdd from "./../pages/crud-management/add";
 
-import DatabaseBrowse from "./../views/database/browse";
-import DatabaseAdd from "./../views/database/add";
-import DatabaseAlter from "./../views/database/edit";
+import DatabaseBrowse from "./../pages/database/browse";
+import DatabaseAdd from "./../pages/database/add";
+import DatabaseAlter from "./../pages/database/edit";
 
-import SiteBrowse from "./../views/site-management/browse";
-import SiteAdd from "./../views/site-management/add";
-
+import SiteBrowse from "./../pages/site-management/browse";
+import SiteAdd from "./../pages/site-management/add";
 
 import ActivityLogBrowse from './../pages/activity-log/browse'
 import ActivityLogRead from './../pages/activity-log/read'
