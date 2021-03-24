@@ -163,7 +163,7 @@ class FileSystem
     public function generateMigrationClassName(string $model_slug, string $prefix): string
     {
         $model_string = '';
-
+        $model_slug = str_replace('_', '', $model_slug);
         $model_name = explode('-', $model_slug);
         foreach ($model_name as $model_name_exploded) {
             $model_string .= ucfirst($model_name_exploded);
@@ -179,6 +179,8 @@ class FileSystem
     {
         $current_model_name = ucfirst($table['current_name']);
         $modified_model_name = ucfirst($table['modified_name']);
+        $current_model_name = str_replace('_', '', $current_model_name);
+        $modified_model_name = str_replace('_', '', $modified_model_name);
 
         if ($prefix == 'rename') {
             return ucfirst($prefix).ucfirst($current_model_name).'To'.ucfirst($modified_model_name).'Table';

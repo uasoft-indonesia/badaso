@@ -271,7 +271,7 @@ class BadasoDatabaseController extends Controller
         }
     }
 
-    public function migrationBrowse()
+    public function browseMigration()
     {
         try {
             $migration = Migration::all();
@@ -343,6 +343,14 @@ class BadasoDatabaseController extends Controller
             }
 
             return ApiResponse::success(__('badaso::validation.database.migration_deleted'));
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function getDbmsFieldType() {
+        try {
+            return Badaso::getBadasoDbmsFieldType();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

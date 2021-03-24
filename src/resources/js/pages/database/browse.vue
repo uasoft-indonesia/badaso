@@ -1,22 +1,17 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-      <vs-col vs-lg="4">
-        <div style="float: right">
-          <vs-button color="primary" type="relief" :to="{ name: 'DatabaseAdd' }"
-            v-if="$helper.isAllowed('add_database')"
-            ><vs-icon icon="add"></vs-icon> {{ $t('database.browse.addButton') }}</vs-button
-          >
-          <vs-button color="success" type="relief" @click="openRollbackDialog()"
-            v-if="$helper.isAllowed('rollback_database')"
-            ><vs-icon icon="refresh"></vs-icon> {{ $t('database.browse.rollbackButton') }}</vs-button
-          >
-        </div>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button color="primary" type="relief" :to="{ name: 'DatabaseAdd' }"
+        v-if="$helper.isAllowed('add_database')"
+        ><vs-icon icon="add"></vs-icon> {{ $t('database.browse.addButton') }}</vs-button
+      >
+      <vs-button color="success" type="relief" @click="openRollbackDialog()"
+        v-if="$helper.isAllowed('rollback_database')"
+        ><vs-icon icon="refresh"></vs-icon> {{ $t('database.browse.rollbackButton') }}</vs-button
+      >
+      </template>
+    </badaso-breadcrumb-row>
 
     <vs-popup
       :title="$t('database.browse.warning.title')"

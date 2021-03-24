@@ -60,5 +60,12 @@ export default {
 
   deleteMigration(data) {
     return resource.post(endpoint.database.deleteMigration, data);
+  },
+
+  getType(data = {}) {
+    let ep = endpoint.database.getType;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
   }
 };

@@ -188,10 +188,11 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/add', 'BadasoDatabaseController@add')->middleware(BadasoCheckPermissions::class.':add_database');
             Route::delete('/delete', 'BadasoDatabaseController@delete')->middleware(BadasoCheckPermissions::class.':delete_database');
             Route::post('/rollback', 'BadasoDatabaseController@rollback')->middleware(BadasoCheckPermissions::class.':rollback_database');
-            Route::get('/migration/browse', 'BadasoDatabaseController@migrationBrowse')->middleware(BadasoCheckPermissions::class.':browse_migration');
+            Route::get('/migration/browse', 'BadasoDatabaseController@browseMigration')->middleware(BadasoCheckPermissions::class.':browse_migration');
             Route::get('/migration/status', 'BadasoDatabaseController@checkMigrateStatus');
             Route::get('/migration/migrate', 'BadasoDatabaseController@migrate')->middleware(BadasoCheckPermissions::class.':migrate_database');
-            Route::post('/migration/delete', 'BadasoDatabaseController@deleteMigration');
+            Route::post('/migration/delete', 'BadasoDatabaseController@deleteMigration')->middleware(BadasoCheckPermissions::class.':delete_migration');
+            Route::get('/type', 'BadasoDatabaseController@getDbmsFieldType')->middleware([BadasoCheckPermissions::class.':add_database', BadasoCheckPermissions::class.':edit_database']);
         });
     });
 });

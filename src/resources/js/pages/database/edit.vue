@@ -1,10 +1,6 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row></badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('edit_database')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -31,7 +27,7 @@
                   {{ $t('database.edit.row.field.tableName') }} <br>
                 </i18n>
 
-                <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.alphaNum">
+                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.alphaNumAndUnderscoreValidator">
                   {{ $t('database.edit.row.field.tableName') }} <br>
                 </i18n>
 
@@ -118,7 +114,7 @@
                         {{ $t('database.edit.row.field.fieldName') }}
                       </i18n>
 
-                      <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.alphaNum">
+                      <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.alphaNumAndUnderscoreValidator">
                         {{ $t('database.edit.row.field.fieldName') }}
                       </i18n>
 
@@ -235,16 +231,14 @@
       <vs-col vs-lg="12">
         <vs-card>
           <vs-row vs-align="center">
-            <vs-col vs-lg="12">
+            <vs-col vs-lg="2">
               <vs-button color="primary" type="relief" @click="submitForm()">
                 <vs-icon icon="save"></vs-icon> {{ $t('database.edit.button') }}
               </vs-button>
             </vs-col>
-            <vs-col vs-lg="2" vs-align="center">
-              <div v-if="$v.databaseData.fields.currentFields.$dirty" class="d-inline-grid">
-                <i18n path="vuelidate.rowsRequired" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.fields.currentFields.required">
-                </i18n>
-              </div>
+            <vs-col vs-lg="10" vs-align="center" v-if="$v.databaseData.fields.currentFields.$dirty" class="d-inline-grid">
+              <i18n path="vuelidate.rowsRequired" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.fields.currentFields.required">
+              </i18n>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -262,7 +256,7 @@
       </vs-col>
     </vs-row>
 
-    <!-- EDIT FORM -->
+    <!-- EDIT FIELD FORM -->
 
     <vs-popup
       color="success"
@@ -285,7 +279,7 @@
                 {{ $t('database.edit.row.field.fieldName') }}
               </i18n>
 
-              <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldName.alphaNum">
+              <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldName.alphaNumAndUnderscoreValidator">
                 {{ $t('database.edit.row.field.fieldName') }}
               </i18n>
 
@@ -405,6 +399,8 @@
       </div>
     </vs-popup>
 
+    <!-- DROP FIELD DIALOG -->
+
     <vs-prompt
       color="danger"
       @accept="saveDrop()"
@@ -425,7 +421,8 @@ import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoHidden from '../../components/BadasoHidden.vue';
-import { required, requiredIf, maxLength, alphaNum } from 'vuelidate/lib/validators'
+import { required, requiredIf, maxLength, helpers } from 'vuelidate/lib/validators'
+const alphaNumAndUnderscoreValidator = helpers.regex('alphaNumAndDot', /^[a-zA-Z\d_]*$/i);
 
 export default {
   name: "Browse",
@@ -477,13 +474,14 @@ export default {
       fieldIncrement: false,
       asDefined: null,
     },
+    fieldTypeList: []
   }),
   validations: {
     fields :{
       fieldName: {
         required,
         maxLength: maxLength(64),
-        alphaNum
+        alphaNumAndUnderscoreValidator
       },
       fieldType: {
         required,
@@ -504,7 +502,7 @@ export default {
         modifiedName: {
           required,
           maxLength: maxLength(64),
-          alphaNum
+          alphaNumAndUnderscoreValidator
         }
       },
       fields: {
@@ -516,7 +514,8 @@ export default {
     edit :{
       fieldName: {
         required,
-        maxLength: maxLength(64)
+        maxLength: maxLength(64),
+        alphaNumAndUnderscoreValidator
       },
       fieldType: {
         required,
@@ -534,11 +533,6 @@ export default {
     },
   },
   computed: {
-    fieldTypeList: {
-      get() {
-        return this.$databaseHelper.getMigrationTypeList();
-      },
-    },
     fieldIndexList: {
       get() {
         return this.$databaseHelper.getMigrationIndexList();
@@ -577,8 +571,28 @@ export default {
   },
   mounted() {
     this.getInfoTable();
+    this.getFieldTypeList();
   },
   methods: {
+    getFieldTypeList () {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.database
+        .getType()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.fieldTypeList = response
+        })
+        .catch((error) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: message,
+            color: "danger",
+          });
+        });
+    },
+
     getFieldLength(column) {
       if (column.type == 'decimal' || column.type == 'double' || column.type == 'float') {
         return column.precision + ',' + column.scale;
@@ -622,7 +636,6 @@ export default {
         table: this.$route.params.tableName,
       })
       .then((response) => {
-        console.log(response);
         let data = response.data.columns;
         for (const [key, column] of Object.entries(data)) {
           this.databaseData.fields.currentFields.push({
@@ -713,7 +726,8 @@ export default {
 
     editField(item, index) {
       this.editDialog = true
-      this.edit = { ...item },
+
+      this.edit = {...item}
 
       this.willEdit = index;
     },
@@ -837,6 +851,8 @@ export default {
             })
           }
         }
+
+        this.editDialog = false
 
         this.databaseData.fields.currentFields[this.willEdit] = {
           ...this.edit

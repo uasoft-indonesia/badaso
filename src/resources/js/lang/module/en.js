@@ -5,7 +5,8 @@ export default {
     "integer": "* {0} must be integer.",
     "rowsRequired": "* Please fill in the field.",
     "maxLength": "* {field} must have at most {length} letters.",
-    "alphaNum": "* {0} is not alphanumeric."
+    "alphaNum": "* {0} is not alphanumeric.",
+    "alphaNumAndUnderscoreValidator": "* {0} only alphanumeric and underscore (_) allowed.",
   },
   "login": {
     "title": "Login Here",
@@ -499,6 +500,10 @@ export default {
             "url": "Url",
             "target": {
               "title": "Target",
+              "value": {
+                "thisTab": "This tab",
+                "newTab": "New tab"
+              }
             },
             "icon": {
               "title": "Icon",
@@ -867,7 +872,6 @@ export default {
       },
       "row": {
         "title": "Alter Table Field",
-        "subtitle": "Please read the {0} before you create the migration.",
         "field": {
           "timestamp": "Timestamp",
           "tableName": "Table Name",

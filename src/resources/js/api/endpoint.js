@@ -120,5 +120,6 @@ export default {
     check: apiPrefix + '/v1/database/migration/status',
     migrate: apiPrefix + '/v1/database/migration/migrate',
     deleteMigration: apiPrefix + '/v1/database/migration/delete',
+    getType: apiPrefix + '/v1/database/type',
   },
 }

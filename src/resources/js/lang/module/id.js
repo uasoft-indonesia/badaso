@@ -5,7 +5,8 @@ export default {
     "integer": "* {0} harus integer.",
     "rowsRequired": "* Mohon field diisi terlebih dahulu.",
     "maxLength": "* {field} harus memiliki paling banyak {length} huruf.",
-    "alphaNum": "* {0} bukan alfanumerik."
+    "alphaNum": "* {0} bukan alfanumerik.",
+    "alphaNumAndUnderscoreValidator": "* {0} hanya alfanumerik dan underscore (_) diperbolehkan.",
   },
   "login": {
     "title": "Masuk",
@@ -125,6 +126,7 @@ export default {
   "action": {
     "bulkDelete": "Hapus Massal",
     "add": "Tambah",
+    "edit": "Ubah",
     "delete": {
       "title": "Konfirmasi",
       "text": "Apakah Anda yakin ingin menghapus?",
@@ -765,6 +767,12 @@ export default {
   },
 
   "crudGenerated": {
+    "warning": {
+      "notAllowedToBrowse": "Anda tidak diizinkan untuk mengakses {tableName}",
+      "notAllowedToAdd": "Anda tidak diizinkan untuk menambahkan {tableName}",
+      "notAllowedToEdit": "Anda tidak diizinkan untuk mengubah {tableName}",
+      "notAllowedToRead": "Anda tidak diizinkan untuk melihat {tableName}",
+    },
     "header": {
       "action": "Aksi"
     },
@@ -864,7 +872,6 @@ export default {
       },
       "row": {
         "title": "Alter Field Tabel",
-        "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
         "field": {
           "timestamp": "Timestamp",
           "tableName": "Nama Table",
@@ -879,7 +886,8 @@ export default {
           "fieldIncrement": "Auto Increment",
           "action": "Aksi",
           "add": "Add"
-        }
+        },
+        "drop": "Are you sure want to delete this field?"
       },
       "error": {
         "fieldName": "Field name dibutuhkan.",
@@ -897,6 +905,9 @@ export default {
     "rollback": {
       "title": "Rollback",
       "label": "Masukan step rollback"
+    },
+    "warning": {
+      "docs": "Mohon baca artikel {0} sebelum kamu membuat migrasi."
     },
     "migration": {
       "header": {

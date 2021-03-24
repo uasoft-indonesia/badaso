@@ -1,10 +1,6 @@
 <template>
   <div>
-    <vs-row>
-      <vs-col vs-lg="8">
-        <badaso-breadcrumb></badaso-breadcrumb>
-      </vs-col>
-    </vs-row>
+    <badaso-breadcrumb-row></badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('add_database')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -30,7 +26,7 @@
                 <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.required">
                   {{ $t('database.add.row.field.tableName') }}
                 </i18n>
-                <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.alphaNum">
+                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator">
                   {{ $t('database.add.row.field.tableName') }}
                 </i18n>
                 <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.maxLength">
@@ -146,7 +142,7 @@
                       <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.required">
                         {{ $t('database.add.row.field.fieldName') }}
                       </i18n>
-                      <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.alphaNum">
+                      <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.alphaNumAndUnderscoreValidator">
                         {{ $t('database.add.row.field.fieldName') }}
                       </i18n>
                       <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.maxLength">
@@ -277,7 +273,7 @@
                 <vs-icon icon="save"></vs-icon> {{ $t("database.add.button") }}
               </vs-button>
             </vs-col>
-            <vs-col vs-lg="2" vs-align="center" v-if="$v.databaseData.rows.$dirty" class="d-inline-grid">
+            <vs-col vs-lg="10" vs-align="center" v-if="$v.databaseData.rows.$dirty" class="d-inline-grid">
               <i18n path="vuelidate.rowsRequired" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.rows.required">
               </i18n>
             </vs-col>
@@ -316,7 +312,8 @@ import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoHidden from "../../components/BadasoHidden.vue";
-import { required, requiredIf, maxLength, alphaNum } from "vuelidate/lib/validators";
+import { required, requiredIf, maxLength, helpers } from "vuelidate/lib/validators";
+const alphaNumAndUnderscoreValidator = helpers.regex('alphaNumAndDot', /^[a-zA-Z\d_]*$/i);
 
 export default {
   name: "Browse",
@@ -347,14 +344,15 @@ export default {
       rows: [],
     },
     willDelete: null,
-    deleteDialog: false
+    deleteDialog: false,
+    fieldTypeList: []
   }),
   validations: {
     fields: {
       fieldName: {
         required,
         maxLength: maxLength(64),
-        alphaNum
+        alphaNumAndUnderscoreValidator
       },
       fieldType: {
         required,
@@ -374,7 +372,7 @@ export default {
       table: {
         required,
         maxLength: maxLength(64),
-        alphaNum
+        alphaNumAndUnderscoreValidator
       },
       rows: {
         required,
@@ -394,11 +392,6 @@ export default {
     }
   },
   computed: {
-    fieldTypeList: {
-      get() {
-        return this.$databaseHelper.getMigrationTypeList();
-      },
-    },
     fieldIndexList: {
       get() {
         return this.$databaseHelper.getMigrationIndexList();
@@ -435,7 +428,28 @@ export default {
       }
     },
   },
+  mounted() {
+    this.getFieldTypeList()
+  },
   methods: {
+    getFieldTypeList () {
+      this.$vs.loading({
+        type: "sound",
+      });
+      this.$api.database
+        .getType()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.fieldTypeList = response
+        })
+        .catch((error) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: message,
+            color: "danger",
+          });
+        });
+    },
     submitForm() {
       this.$v.databaseData.$touch();
       if (!this.$v.databaseData.$invalid) {
