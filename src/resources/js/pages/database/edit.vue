@@ -571,24 +571,19 @@ export default {
   },
   mounted() {
     this.getInfoTable();
-    this.getFieldTypeList();
+    this.getDbmsFieldType();
   },
   methods: {
-    getFieldTypeList () {
-      this.$vs.loading({
-        type: "sound",
-      });
+    getDbmsFieldType() {
       this.$api.database
         .getType()
         .then((response) => {
-          this.$vs.loading.close();
-          this.fieldTypeList = response
+          this.fieldTypeList = JSON.parse(response.data)
         })
         .catch((error) => {
-          this.$vs.loading.close();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: message,
+            text: error.message,
             color: "danger",
           });
         });
@@ -629,9 +624,7 @@ export default {
     },
 
     getInfoTable() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.database
       .read({
         table: this.$route.params.tableName,
@@ -670,9 +663,7 @@ export default {
     submitForm() {
       this.$v.databaseData.$touch()
       if (!this.$v.databaseData.$invalid) {
-        this.$vs.loading({
-          type: "sound",
-        });
+        this.$vs.loading(this.$loadingConfig);
 
         this.$api.database
           .edit(this.databaseData)

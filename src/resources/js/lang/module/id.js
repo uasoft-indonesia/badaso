@@ -904,7 +904,9 @@ export default {
     },
     "rollback": {
       "title": "Rollback",
-      "label": "Masukan step rollback"
+      "label": "Masukan step rollback",
+      "checkbox": "Hapus File Migrasi?",
+      "invalid": "Silakan pilih migrasi yang ingin di-rollback."
     },
     "warning": {
       "docs": "Mohon baca artikel {0} sebelum kamu membuat migrasi."

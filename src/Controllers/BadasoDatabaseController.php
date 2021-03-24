@@ -350,7 +350,7 @@ class BadasoDatabaseController extends Controller
 
     public function getDbmsFieldType() {
         try {
-            return Badaso::getBadasoDbmsFieldType();
+            return ApiResponse::success(Badaso::getBadasoDbmsFieldType());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

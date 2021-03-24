@@ -904,7 +904,9 @@ export default {
     },
     "rollback": {
       "title": "Rollback",
-      "label": "Enter rollback step"
+      "label": "Enter rollback step",
+      "checkbox": "Delete Migration File?",
+      "invalid": "Please select the migration that you want to rollback."
     },
     "warning": {
       "docs": "* Please read the {0} before using this feature."

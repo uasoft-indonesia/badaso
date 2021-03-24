@@ -40,9 +40,9 @@
       </div>
     </vs-popup>
 
-    <vs-popup @cancel="rollbackDialog = false" @accept="rollback" :active.sync="rollbackDialog" :accept-text="$t('action.delete.accept')" :cancel-text="$t('action.delete.cancel')" :title="$t('database.rollback.title')" color="success" style="z-index: 26000">
+    <vs-popup @close="rollbackDialog = false; $v.$reset(); isDeleteFile = false" @accept="rollback" :active.sync="rollbackDialog" :accept-text="$t('action.delete.accept')" :cancel-text="$t('action.delete.cancel')" :title="$t('database.rollback.title')" color="success" style="z-index: 26000">
       <vs-row>
-        <vs-table :data="migration">
+        <vs-table :data="migration" class="w-100">
         <template slot="thead">
           <vs-th sort-key="migration"> {{ $t('database.migration.header.migration') }} </vs-th>
           <vs-th> {{ $t('crud.header.action') }} </vs-th>
@@ -64,17 +64,26 @@
         </template>
       </vs-table>
       </vs-row>
-      <vs-row>
-        <vs-spacer></vs-spacer>
-        <vs-checkbox v-model="isDeleteFile" class="mr-2">Delete Migration File ?</vs-checkbox>
-        <vs-button
-          color="danger"
-          type="relief"
-          @click="rollback()"
-          v-if="$helper.isAllowed('rollback_database')"
-        >
-          {{ $t('database.migration.button.rollback') }}
-        </vs-button>
+      <vs-row vs-align="center" class="mb-0">
+        <vs-col vs-lg="12" vs-sm="12" vs-align="center">
+          <div v-if="$v.$dirty">
+            <p v-if="$v.$invalid" style="color: rgba(var(--vs-danger),1)">{{ $t('database.rollback.invalid') }}</p>
+          </div>
+        </vs-col>
+        <vs-col vs-lg="12" vs-sm="12" vs-align="center">
+          <vs-row class="mb-0" vs-align="center">
+            <vs-spacer></vs-spacer>
+            <vs-checkbox v-model="isDeleteFile" class="mr-2">{{ $t('database.rollback.checkbox') }}</vs-checkbox>
+            <vs-button
+              color="danger"
+              type="relief"
+              @click="rollback()"
+              v-if="$helper.isAllowed('rollback_database')"
+            >
+              {{ $t('database.migration.button.rollback') }}
+            </vs-button>
+          </vs-row>
+        </vs-col>
       </vs-row>
     </vs-popup>
 
@@ -152,6 +161,8 @@
 </template>
 <script>
 import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   components: { BadasoBreadcrumb },
   name: "Browse",
@@ -171,10 +182,17 @@ export default {
     notMigratedFile: [],
     isDeleteFile: false
   }),
+  validations: {
+    willRollbackFile: {
+      required
+    },
+    willRollbackIndex: {
+      required
+    }
+  },
   mounted() {
     this.getStatusMigration();
     this.getTableList();
-    process.env.NODE_ENV === 'development' ? this.isDeleteFile = false : this.isDeleteFile = true
   },
   methods: {
     goBack() {
@@ -187,12 +205,10 @@ export default {
       this.$api.database
         .check()
         .then((response) => {
-          this.$vs.loading.close();
           this.isNotMigrated = response.data.notMigrated
           this.notMigratedFile = response.data.data
         })
         .catch((error) => {
-          this.$vs.loading.close();
           this.$vs.notify({
             title: this.$t('alert.danger'),
             text: error.message,
@@ -216,9 +232,7 @@ export default {
       });
     },
     getTableList() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.crud
         .browse()
         .then((response) => {
@@ -235,9 +249,7 @@ export default {
         });
     },
     deleteDatabase() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
       this.$api.database
         .delete({
           table: this.tableName,
@@ -256,9 +268,7 @@ export default {
         });
     },
     getMigration() {
-      this.$vs.loading({
-        type: "sound",
-      });
+      this.$vs.loading(this.$loadingConfig);
 
       this.$api.database
         .browseMigration()
@@ -283,51 +293,53 @@ export default {
       this.rollbackDialog = true
     },
     rollback() {
-      this.$vs.loading({
-        type: "sound",
-      });
-      this.$api.database
-        .rollback({
-          step: this.rollbackSteps,
-        })
-        .then((response) => {
-          this.$vs.loading.close();
-          
-          if (this.isDeleteFile == true) {
-            this.$api.database
-              .deleteMigration({
-                file_name: this.willRollbackFile
-              })
-              .then((response) => {
-                this.$vs.loading.close();
-              })
-              .catch((error) => {
-                this.$vs.loading.close();
-                this.$vs.notify({
-                  title: this.$t('alert.danger'),
-                  text: error.message,
-                  color: "danger",
+      this.$v.$touch()
+      if (!this.$v.$invalid) {
+        this.$vs.loading(this.$loadingConfig);
+        this.$api.database
+          .rollback({
+            step: this.rollbackSteps,
+          })
+          .then((response) => {
+            this.$vs.loading.close();
+            
+            if (this.isDeleteFile == true) {
+              this.$vs.loading(this.$loadingConfig);
+              this.$api.database
+                .deleteMigration({
+                  file_name: this.willRollbackFile
+                })
+                .then((response) => {
+                  this.$vs.loading.close();
+                })
+                .catch((error) => {
+                  this.$vs.loading.close();
+                  this.$vs.notify({
+                    title: this.$t('alert.danger'),
+                    text: error.message,
+                    color: "danger",
+                  });
                 });
-              });
-          }
+            }
 
-          this.getMigration();
-          this.getTableList();
-          this.$vs.notify({
-            title: this.$t('alert.success'),
-            text: response.data,
-            color: "success",
+            this.getMigration();
+            this.getTableList();
+            this.$vs.notify({
+              title: this.$t('alert.success'),
+              text: response.data,
+              color: "success",
+            });
+          })
+          .catch((error) => {
+            this.$vs.loading.close();
+            this.$vs.notify({
+              title: this.$t('alert.danger'),
+              text: error.message,
+              color: "danger",
+            });
           });
-        })
-        .catch((error) => {
-          this.$vs.loading.close();
-          this.$vs.notify({
-            title: this.$t('alert.danger'),
-            text: error.message,
-            color: "danger",
-          });
-        });
-      this.rollbackDialog = false
+        this.rollbackDialog = false
+      }
     },
     setRollbackIndex(data) {
       let flag = this.willRollbackIndex;
@@ -370,6 +382,7 @@ export default {
       }
     },
     migrate() {
+      this.$vs.loading(this.$loadingConfig);
       this.$api.database
         .migrate()
         .then((response) => {
@@ -392,6 +405,7 @@ export default {
         });
     },
     deleteMigration() {
+      this.$vs.loading(this.$loadingConfig);
       this.$api.database
         .deleteMigration({
           file_name: this.notMigratedFile
