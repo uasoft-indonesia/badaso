@@ -27,6 +27,8 @@ return [
         'migration_created' => 'Migration berhasil dibuat dan dijalankan.',
         'migration_failed' => 'Migration gagal dibuat dan dijalankan.',
         'migration_dropped' => 'Tabel :table berhasil dihapus.',
+        'migration_success' => 'Migration berhasil dijalankan.',
+        'migration_deleted' => 'Migration berhasil dihapus.',
         'alter_migration_created' => 'Alter table :table berhasil dibuat dan dijalankan.',
         'table_not_found' => 'Table :table tidak ada.',
         'nothing_changed' => 'Request valid, namun tidak ada perubahan yang terjadi.',

@@ -1,8 +1,11 @@
 export default {
   "vuelidate": {
-    "required": "{0} harus diisi.",
-    "requiredIf": "{0} harus diisi.",
-    "integer": "{0} harus integer."
+    "required": "* {0} harus diisi.",
+    "requiredIf": "* {0} harus diisi.",
+    "integer": "* {0} harus integer.",
+    "rowsRequired": "* Mohon field diisi terlebih dahulu.",
+    "maxLength": "* {field} harus memiliki paling banyak {length} huruf.",
+    "alphaNum": "* {0} bukan alfanumerik."
   },
   "login": {
     "title": "Masuk",
@@ -807,8 +810,15 @@ export default {
       "title": "Basis Data",
       "addButton": "Tambah Tabel",
       "alterButton": "Ubah Tabel",
-      "rollbackButton": "Rollback Table",
+      "rollbackButton": "Rollback Migration",
       "dropButton": "Hapus Tabel",
+      "goBackButton": "Kembali",
+      "deleteMigrationButton": "Hapus File Migration",
+      "migrateButton": "Migrate",
+      "warning": {
+        "title": "Migration Tidak Sinkron",
+        "notAllowed": "Sebelum Anda dapat menggunakan Database Management, Anda harus memigrasi file yang belum dimigrasi atau Anda dapat menghapus file migrasi. Berikut ini daftar dari file migrasi yang belum dimigrasi:"
+      }
     },
     "add": {
       "title": "Tambah Tabel",
@@ -819,10 +829,11 @@ export default {
         "title": "Tambah Field Tabel",
         "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
         "field": {
+          "timestamp": "Timestamp",
           "tableName": "Nama Table",
           "fieldName": "Nama Field",
           "fieldType": "Tipe Field",
-          "fieldLength": "Panjang Field",
+          "fieldLength": "Panjang Field/Nilai Field",
           "fieldDefault": "Default",
           "asDefined": "Nilau Default",
           "fieldNull": "Boleh Kosong",
@@ -855,6 +866,7 @@ export default {
         "title": "Alter Field Tabel",
         "subtitle": "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
         "field": {
+          "timestamp": "Timestamp",
           "tableName": "Nama Table",
           "fieldName": "Nama Field",
           "fieldType": "Tipe Field",
@@ -891,7 +903,7 @@ export default {
         "migration": "Nama Migrasi"
       },
       "button": {
-        "rollback": "Rollback Tabel"
+        "rollback": "Rollback Migration"
       }
     }
   }

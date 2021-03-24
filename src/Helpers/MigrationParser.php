@@ -127,7 +127,11 @@ class MigrationParser
     $table->%s('%s');
     TXT;
 
-    public static function getMigrationSchemaUp($name, $rows, $prefix = null) {
+    const TIMESTAMP = <<<'TXT'
+    $table->timestamps();
+    TXT;
+
+    public static function getMigrationSchemaUp($name, $rows, $prefix = null, bool $timestamp = true) {
         if ($prefix == 'drop') {
             return sprintf(
                 self::MIGRATION_DOWN_WRAPPER,
@@ -135,12 +139,12 @@ class MigrationParser
             );
         }
 
-        return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows)));
+        return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows, $timestamp)));
     }
 
-    public static function getMigrationSchemaDown($name, $rows = [], $prefix = null) {
+    public static function getMigrationSchemaDown($name, $rows = [], $prefix = null, bool $timestamp = true) {
         if ($prefix == 'drop') {
-            return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows)));
+            return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows, $timestamp)));
         }
 
         return sprintf(
@@ -285,21 +289,29 @@ class MigrationParser
         return $stub;
     }
 
-    public static function getMigrationFields($name, $rows)
+    public static function getMigrationFields($name, $rows, $timestamp)
     {
         $fields = [];
 
         foreach ($rows as $row) {
+            if (!in_array($row['field_name'], ['updated_at', 'created_at']) && !in_array($row['field_type'], ['timestamp'])) {
+                $fields[] = sprintf(
+                    self::FIELD_STUB,
+                    self::getMigrationTypeField($row['field_type']),
+                    $row['field_name'],
+                    self::getMigrationLengthField($row['field_length'], $row['field_type']),
+                    self::getMigrationDefaultField($row['field_type'], $row['field_default'], $row['as_defined']),
+                    self::getMigrationNullField($row['field_null']),
+                    self::getMigrationIndexField($row['field_index'], $row['field_name'], $row['field_increment']),
+                    self::getMigrationAttributeField($row['field_attribute']),
+                    self::getMigrationIncrementField($row['field_increment'])
+                );
+            }
+        }
+
+        if ($timestamp == true) {
             $fields[] = sprintf(
-                self::FIELD_STUB,
-                self::getMigrationTypeField($row['field_type']),
-                $row['field_name'],
-                self::getMigrationLengthField($row['field_length'], $row['field_type']),
-                self::getMigrationDefaultField($row['field_type'], $row['field_default'], $row['as_defined']),
-                self::getMigrationNullField($row['field_null']),
-                self::getMigrationIndexField($row['field_index'], $row['field_name'], $row['field_increment']),
-                self::getMigrationAttributeField($row['field_attribute']),
-                self::getMigrationIncrementField($row['field_increment'])
+                self::TIMESTAMP
             );
         }
 
@@ -552,6 +564,8 @@ class MigrationParser
                 return sprintf(self::FIELD_DEFAULT_CURRENT_TIMESTAMP);
             } elseif ($field === 'as_defined') {
                 return sprintf(self::FIELD_DEFAULT, $asDefined['new'] ?? preg_replace('~^[\'"]?(.*?)[\'"]?$~', '$1', $asDefined));
+            } elseif ($fieldType === 'timestamp') {
+                return sprintf(self::FIELD_DEFAULT, 0);
             } else {
                 return sprintf(self::FIELD_DEFAULT, $field);
             }

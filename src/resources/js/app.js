@@ -13,6 +13,7 @@ import api from "./api/index";
 import handleError from "./api/handle-error";
 import router from "./router/router";
 import helper from "./utils/helper";
+import databaseHelper from "./utils/database-helper";
 import caseConvert from "./utils/case-convert";
 import store from "./store/store";
 import lang from "./lang/";
@@ -90,6 +91,7 @@ const i18n = new VueI18n({
 Vue.prototype.$api = api;
 Vue.prototype.$handleError = handleError;
 Vue.prototype.$helper = helper;
+Vue.prototype.$databaseHelper = databaseHelper;
 Vue.prototype.$caseConvert = caseConvert;
 Vue.prototype.$constants = {
   MOBILE: "mobile",

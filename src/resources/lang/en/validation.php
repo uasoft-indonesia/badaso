@@ -24,13 +24,14 @@ return [
     'database' => [
         'table_already_exists' => 'Table :table already exists.',
         'table_name_already_exists' => 'Table name of :table already exists.',
-        'migration_created' => 'Migration successfully created and migrated.',
-        'migration_failed' => 'Migration faield to create and migrate.',
+        'migration_failed' => 'Migration faield to migrate.',
         'migration_dropped' => 'Table :table successfully dropped.',
+        'migration_success' => 'Migration successfully migrated.',
+        'migration_deleted' => 'Migration successfully deleted.',
         'alter_migration_created' => 'Alter table :table successfully created and migrated.',
         'table_not_found' => 'Table :table does not exists',
         'nothing_changed' => 'Request was successful, but nothing changed.',
         'rollback_success' => 'Rollback success.',
-        'rollback_failed' => 'Rollback failed.'
+        'rollback_failed' => 'Rollback failed.',
     ]
 ];
