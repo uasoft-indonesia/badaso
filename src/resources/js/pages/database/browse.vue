@@ -402,7 +402,6 @@ export default {
           file_name: this.notMigratedFile
         })
         .then((response) => {
-          console.log(response);
           this.$vs.loading.close();
           this.getTableList();
           this.getStatusMigration();
