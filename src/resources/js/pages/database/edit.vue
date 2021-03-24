@@ -11,20 +11,41 @@
           <div slot="header">
             <h3>{{ $t('database.edit.title') }}</h3>
           </div>
-          <vs-row>
-            <badaso-text
-              v-model="databaseData.table.modifiedName"
-              size="6"
-              :label="$t('database.edit.field.table')"
-              :placeholder="$t('database.edit.field.table')"
-              required
-            ></badaso-text>
+          <vs-row vs-align="center">
+            <vs-col vs-lg="6" vs-align="center">
+              <badaso-text
+                v-model="databaseData.table.modifiedName"
+                size="12"
+                :label="$t('database.edit.field.table')"
+                :placeholder="$t('database.edit.field.table')"
+                required
+              >
+              </badaso-text>
+            </vs-col>
+            <vs-col vs-align="center" vs-lg="3">
+              <vs-checkbox v-model="databaseData.timestamp">{{ $t('database.edit.row.field.timestamp') }}</vs-checkbox>
+            </vs-col>
+            <vs-col vs-lg="12">
+              <div v-if="$v.databaseData.table.modifiedName.$dirty" class="d-inline-grid">
+                <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.required">
+                  {{ $t('database.edit.row.field.tableName') }} <br>
+                </i18n>
+
+                <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.alphaNum">
+                  {{ $t('database.edit.row.field.tableName') }} <br>
+                </i18n>
+
+                <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.maxLength">
+                  <template v-slot:field>
+                    {{ $t('database.edit.row.field.tableName') }}
+                  </template>
+                  <template v-slot:length>
+                    {{ $v.databaseData.table.modifiedName.$params.maxLength.max }}
+                  </template>
+                </i18n>
+              </div>
+            </vs-col>
           </vs-row>
-          <div v-if="$v.databaseData.table.modifiedName.$dirty">
-            <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.required">
-              {{ $t('database.edit.row.field.tableName') }}
-            </i18n>
-          </div>
         </vs-card>
       </vs-col>
       <vs-col vs-lg="12">
@@ -39,12 +60,12 @@
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldName') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldType') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldLength') }}</th>
+                  <th style="min-width: 100px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldIncrement') }}</th>
+                  <th style="min-width: 100px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldNull') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldDefault') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.asDefined') }}</th>
-                  <th style="min-width: 100px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldNull') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldIndex') }}</th>
                   <th style="min-width: 200px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldAttribute') }}</th>
-                  <th style="min-width: 100px; word-wrap: nowrap;">{{ $t('database.edit.row.field.fieldIncrement') }}</th>
                   <th style="min-width: 150px; word-wrap: nowrap;">{{ $t('database.edit.row.field.action') }}</th>
                 </thead>
                 <tr :key="index" v-for="(item, index) in databaseData.fields.currentFields" >
@@ -58,22 +79,22 @@
                     {{item.fieldLength}}
                   </td>
                   <td>
+                    {{item.fieldIncrement}}
+                  </td>
+                  <td>
+                    {{item.fieldNull}}
+                  </td>
+                  <td>
                     {{item.fieldDefault}}
                   </td>
                   <td>
                     {{item.asDefined}}
                   </td>
                   <td>
-                    {{item.fieldNull}}
-                  </td>
-                  <td>
                     {{item.fieldIndex}}
                   </td>
                   <td>
                     {{item.fieldAttribute}}
-                  </td>
-                  <td>
-                    {{item.fieldIncrement}}
                   </td>
                   <td>
                     <vs-button color="success" type="relief" @click="editField(item, index)">
@@ -92,24 +113,36 @@
                       v-model="fields.fieldName"
                     />
 
-                    <div v-if="$v.fields.fieldName.$dirty">
+                    <div v-if="$v.fields.fieldName.$dirty" class="d-inline-grid">
                       <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.required">
                         {{ $t('database.edit.row.field.fieldName') }}
+                      </i18n>
+
+                      <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.alphaNum">
+                        {{ $t('database.edit.row.field.fieldName') }}
+                      </i18n>
+
+                      <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.maxLength">
+                        <template v-slot:field>
+                          {{ $t('database.edit.row.field.fieldName') }}
+                        </template>
+                        <template v-slot:length>
+                          {{ $v.fields.fieldName.$params.maxLength.max }}
+                        </template>
                       </i18n>
                     </div>
                   </td>
                   
                   <td>
-                    <vs-select class="selectExample mb-2" v-model="fields.fieldType">
-                      <vs-select-item
-                        :key="index"
-                        :value="item.value"
-                        :text="item.label"
-                        v-for="(item, index) in fieldTypeList"
-                      />
+                    <vs-select class="w-100 selectExample mb-2" v-model="fields.fieldType">
+                      <div :key="index" v-for="item, index in fieldTypeList">
+                        <vs-select-group :title="item.title" v-if="item.group">
+                          <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in item.group"/>
+                        </vs-select-group>
+                      </div>
                     </vs-select>
 
-                    <div v-if="$v.fields.fieldType.$dirty">
+                    <div v-if="$v.fields.fieldType.$dirty" class="d-inline-grid">
                       <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldType.required">
                         {{ $t('database.edit.row.field.fieldType') }}
                       </i18n>
@@ -123,38 +156,19 @@
                       v-model="fields.fieldLength"
                     />
                     
-                    <div v-if="$v.fields.fieldLength.$dirty">
+                    <div v-if="$v.fields.fieldLength.$dirty" class="d-inline-grid">
                       <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldLength.required">
                         {{ $t('database.edit.row.field.fieldLength') }}
                       </i18n>
                     </div>
                   </td>
                   <td>
-                    <vs-select class="selectExample mb-2" v-model="fields.fieldDefault">
-                      <vs-select-item
-                        :key="index"
-                        :value="item.value"
-                        :text="item.label"
-                        v-for="(item, index) in fieldDefaultList"
-                      />
-                    </vs-select>
+                    <vs-checkbox
+                      v-model="fields.fieldIncrement"
+                      class="mb-1"
+                      style="justify-content: start;"
+                      ></vs-checkbox>
                   </td>
-
-                  <td>
-                    <vs-input
-                      v-if="fields.fieldDefault == 'as_defined'"
-                      class="inputx"
-                      :placeholder="$t('database.edit.row.field.fieldDefault')"
-                      v-model="fields.asDefined"
-                    />
-
-                    <div v-if="$v.fields.asDefined.$dirty">
-                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.asDefined.required">
-                        {{ $t('database.edit.row.field.fieldDefault') }}
-                      </i18n>
-                    </div>
-                  </td>
-
                   <td>
                     <vs-checkbox
                       v-model="fields.fieldNull"
@@ -164,7 +178,31 @@
                     >
                   </td>
                   <td>
-                    <vs-select class="selectExample" v-model="fields.fieldIndex">
+                    <vs-select class="w-100 selectExample mb-2" v-model="fields.fieldDefault">
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.label"
+                        v-for="(item, index) in fieldDefaultList"
+                      />
+                    </vs-select>
+                  </td>
+                  <td>
+                    <vs-input
+                      v-if="fields.fieldDefault == 'as_defined'"
+                      class="inputx"
+                      :placeholder="$t('database.edit.row.field.fieldDefault')"
+                      v-model="fields.asDefined"
+                    />
+
+                    <div v-if="$v.fields.asDefined.$dirty" class="d-inline-grid">
+                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.asDefined.required">
+                        {{ $t('database.edit.row.field.fieldDefault') }}
+                      </i18n>
+                    </div>
+                  </td>
+                  <td>
+                    <vs-select class="w-100 selectExample" v-model="fields.fieldIndex">
                       <vs-select-item
                         :key="index"
                         :value="item.value"
@@ -174,7 +212,7 @@
                     </vs-select>
                   </td>
                   <td>
-                    <vs-select class="selectExample" v-model="fields.fieldAttribute">
+                    <vs-select class="w-100 selectExample" v-model="fields.fieldAttribute">
                       <vs-select-item
                         :key="index"
                         :value="item.value"
@@ -182,13 +220,6 @@
                         v-for="(item, index) in fieldAttributeList"
                       />
                     </vs-select>
-                  </td>
-                  <td>
-                    <vs-checkbox
-                      v-model="fields.fieldIncrement"
-                      class="mb-1"
-                      style="justify-content: start;"
-                      ></vs-checkbox>
                   </td>
                   <td>
                     <vs-button color="primary" type="relief" @click.prevent="setField()">
@@ -203,11 +234,17 @@
       </vs-col>
       <vs-col vs-lg="12">
         <vs-card>
-          <vs-row>
+          <vs-row vs-align="center">
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm()">
                 <vs-icon icon="save"></vs-icon> {{ $t('database.edit.button') }}
               </vs-button>
+            </vs-col>
+            <vs-col vs-lg="2" vs-align="center">
+              <div v-if="$v.databaseData.fields.currentFields.$dirty" class="d-inline-grid">
+                <i18n path="vuelidate.rowsRequired" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.fields.currentFields.required">
+                </i18n>
+              </div>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -225,17 +262,17 @@
       </vs-col>
     </vs-row>
 
-    <vs-prompt
+    <!-- EDIT FORM -->
+
+    <vs-popup
       color="success"
-      @accept="saveEdit()"
+      classContent="popup-example"
       :active.sync="editDialog"
       title="Edit"
-      :is-valid="!$v.edit.$invalid"
-      :accept-text="$t('action.delete.accept')"
-      :cancel-text="$t('action.delete.cancel')">
+      :is-valid="!$v.edit.$invalid">
       <div class="con-exemple-prompt">
-        <vs-row>
-          <vs-col vs-lg="6">
+        <vs-row vs-align="center">
+          <vs-col vs-lg="12">
             <vs-input
               class="inputx mb-2"
               :label="$t('database.edit.row.field.fieldName')"
@@ -243,9 +280,22 @@
               v-model="edit.fieldName"
             />
 
-            <div v-if="$v.edit.fieldName.$dirty">
+            <div v-if="$v.edit.fieldName.$dirty" class="d-inline-grid">
               <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldName.required">
                 {{ $t('database.edit.row.field.fieldName') }}
+              </i18n>
+
+              <i18n path="vuelidate.alphaNum" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldName.alphaNum">
+                {{ $t('database.edit.row.field.fieldName') }}
+              </i18n>
+
+              <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldName.maxLength">
+                <template v-slot:field>
+                  {{ $t('database.edit.row.field.fieldName') }}
+                </template>
+                <template v-slot:length>
+                  {{ $v.edit.fieldName.$params.maxLength.max }}
+                </template>
               </i18n>
             </div>
           </vs-col>
@@ -258,32 +308,49 @@
               v-model="edit.fieldLength"
             />
 
-            <div v-if="$v.edit.fieldLength.$dirty">
+            <div v-if="$v.edit.fieldLength.$dirty" class="d-inline-grid">
               <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldLength.required">
                 {{ $t('database.edit.row.field.fieldLength') }}
               </i18n>
             </div>
           </vs-col>
 
-          <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldType')" v-model="edit.fieldType">
-              <vs-select-item
-                :key="index"
-                :value="item.value"
-                :text="item.label"
-                v-for="(item, index) in fieldTypeList"
-              />
+          <vs-col vs-lg="6">
+            <vs-select class="w-100 selectExample mb-2" :label="$t('database.edit.row.field.fieldType')" v-model="edit.fieldType">
+              <div :key="index" v-for="item, index in fieldTypeList">
+                <vs-select-group :title="item.title" v-if="item.group">
+                  <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in item.group"/>
+                </vs-select-group>
+              </div>
             </vs-select>
 
-            <div v-if="$v.edit.fieldType.$dirty">
+            <div v-if="$v.edit.fieldType.$dirty" class="d-inline-grid">
               <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.fieldType.required">
                 {{ $t('database.edit.row.field.fieldType') }}
               </i18n>
             </div>
           </vs-col>
 
-          <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldDefault')" v-model="edit.fieldDefault">
+          <vs-col vs-lg="3" vs-align="center">
+            <vs-checkbox
+              v-model="edit.fieldNull"
+              class="mb-4 mt-4"
+              style="justify-content: start;"
+              >
+              {{ $t('database.edit.row.field.fieldNull') }}
+            </vs-checkbox>
+          </vs-col>
+
+          <vs-col vs-lg="3" vs-align="center">
+            <vs-checkbox
+              v-model="edit.fieldIncrement"
+              class="mb-4 mt-4"
+              style="justify-content: start;"
+              >{{ $t('database.edit.row.field.fieldIncrement') }}</vs-checkbox>
+          </vs-col>
+
+          <vs-col vs-lg="6">
+            <vs-select class="w-100 selectExample mb-2" :label="$t('database.edit.row.field.fieldDefault')" v-model="edit.fieldDefault">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -297,15 +364,15 @@
               v-model="edit.asDefined"
             />
 
-            <div v-if="$v.edit.asDefined.$dirty">
+            <div v-if="$v.edit.asDefined.$dirty" class="d-inline-grid">
               <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.edit.asDefined.required">
                 {{ $t('database.edit.row.field.fieldDefault') }}
               </i18n>
             </div>
           </vs-col>
 
-          <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldIndex')" v-model="edit.fieldIndex">
+          <vs-col vs-lg="6">
+            <vs-select class="w-100 selectExample mb-2" :label="$t('database.edit.row.field.fieldIndex')" v-model="edit.fieldIndex">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -314,27 +381,9 @@
               />
             </vs-select>
           </vs-col>
-
-          <vs-col vs-lg="6">
-            <vs-checkbox
-              v-model="edit.fieldNull"
-              class="mb-4 mt-4"
-              style="justify-content: start;"
-              >
-              {{ $t('database.edit.row.field.fieldNull') }}
-            </vs-checkbox>
-          </vs-col>
-
-          <vs-col vs-lg="6">
-            <vs-checkbox
-              v-model="edit.fieldIncrement"
-              class="mb-4 mt-4"
-              style="justify-content: start;"
-              >{{ $t('database.edit.row.field.fieldIncrement') }}</vs-checkbox>
-          </vs-col>
         
-          <vs-col vs-lg="12">
-            <vs-select class="selectExample mb-2" :label="$t('database.edit.row.field.fieldAttribute')" v-model="edit.fieldAttribute">
+          <vs-col vs-lg="6" vs-xs="12">
+            <vs-select class="w-100 selectExample mb-2 w-100" :label="$t('database.edit.row.field.fieldAttribute')" v-model="edit.fieldAttribute">
               <vs-select-item
                 :key="index"
                 :value="item.value"
@@ -344,8 +393,17 @@
             </vs-select>
           </vs-col>
         </vs-row>
+        <vs-row vs-align="center" class="mt-4">
+          <vs-spacer></vs-spacer>
+          <vs-button color="danger" class="mr-2" type="relief" @click="editDialog = false">
+            {{ $t('action.delete.cancel') }}
+          </vs-button>
+          <vs-button color="primary" type="relief" @click="saveEdit()">
+            <vs-icon icon="save"></vs-icon> {{ $t('action.delete.accept') }}
+          </vs-button>
+        </vs-row>
       </div>
-    </vs-prompt>
+    </vs-popup>
 
     <vs-prompt
       color="danger"
@@ -367,7 +425,7 @@ import BadasoText from "../../components/BadasoText";
 import BadasoSwitch from "../../components/BadasoSwitch";
 import BadasoSelect from "../../components/BadasoSelect";
 import BadasoHidden from '../../components/BadasoHidden.vue';
-import { required, requiredIf } from 'vuelidate/lib/validators'
+import { required, requiredIf, maxLength, alphaNum } from 'vuelidate/lib/validators'
 
 export default {
   name: "Browse",
@@ -397,6 +455,7 @@ export default {
         currentName: "",
         modifiedName: ""
       },
+      timestamp: true,
       fields: {
         currentFields: [],
         modifiedFields: []
@@ -423,6 +482,8 @@ export default {
     fields :{
       fieldName: {
         required,
+        maxLength: maxLength(64),
+        alphaNum
       },
       fieldType: {
         required,
@@ -441,6 +502,13 @@ export default {
     databaseData: {
       table: {
         modifiedName: {
+          required,
+          maxLength: maxLength(64),
+          alphaNum
+        }
+      },
+      fields: {
+        currentFields: {
           required
         }
       }
@@ -448,6 +516,7 @@ export default {
     edit :{
       fieldName: {
         required,
+        maxLength: maxLength(64)
       },
       fieldType: {
         required,
@@ -467,22 +536,22 @@ export default {
   computed: {
     fieldTypeList: {
       get() {
-        return this.$helper.getMigrationTypeList();
+        return this.$databaseHelper.getMigrationTypeList();
       },
     },
     fieldIndexList: {
       get() {
-        return this.$helper.getMigrationIndexList();
+        return this.$databaseHelper.getMigrationIndexList();
       }
     },
     fieldDefaultList: {
       get() {
-        return this.$helper.getMigrationDefaultList();
+        return this.$databaseHelper.getMigrationDefaultList();
       }
     },
     fieldAttributeList: {
       get() {
-        return this.$helper.getMigrationAttributeList();
+        return this.$databaseHelper.getMigrationAttributeList();
       }
     },
     lengthRequiredIf: {
@@ -553,7 +622,8 @@ export default {
         table: this.$route.params.tableName,
       })
       .then((response) => {
-        let data = response.data["\u0000*\u0000items"];
+        console.log(response);
+        let data = response.data.columns;
         for (const [key, column] of Object.entries(data)) {
           this.databaseData.fields.currentFields.push({
             fieldName: column.name,
@@ -570,6 +640,7 @@ export default {
 
         this.databaseData.table.currentName = this.$route.params.tableName
         this.databaseData.table.modifiedName = this.$route.params.tableName
+        this.databaseData.timestamp = response.data.timestamp
         this.$vs.loading.close();
       })
       .catch((error) => {

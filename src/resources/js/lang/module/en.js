@@ -1,8 +1,11 @@
 export default {
   "vuelidate": {
-    "required": "{0} is required.",
-    "requiredIf": "{0} is required.",
-    "integer": "{0} must be integer."
+    "required": "* {0} is required.",
+    "requiredIf": "* {0} is required.",
+    "integer": "* {0} must be integer.",
+    "rowsRequired": "* Please fill in the field.",
+    "maxLength": "* {field} must have at most {length} letters.",
+    "alphaNum": "* {0} is not alphanumeric."
   },
   "login": {
     "title": "Login Here",
@@ -810,8 +813,15 @@ export default {
       "title": "Database",
       "addButton": "Add Table",
       "alterButton": "Alter Table",
-      "rollbackButton": "Rollback Table",
+      "rollbackButton": "Rollback Migration",
       "dropButton": "Drop Table",
+      "goBackButton": "Go Back",
+      "deleteMigrationButton": "Delete Migration File",
+      "migrateButton": "Migrate",
+      "warning": {
+        "title": "Migration Not Sync",
+        "notAllowed": "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:"
+      }
     },
     "add": {
       "title": "Add Table",
@@ -822,10 +832,11 @@ export default {
         "title": "Add Table Field",
         "subtitle": "Please read the {0} before you create the migration.",
         "field": {
+          "timestamp": "Timestamp",
           "tableName": "Table Name",
           "fieldName": "Field Name",
           "fieldType": "Field Type",
-          "fieldLength": "Length",
+          "fieldLength": "Length/Value",
           "fieldDefault": "Default",
           "asDefined": "User Defined Default Value",
           "fieldNull": "Nullable",
@@ -858,6 +869,7 @@ export default {
         "title": "Alter Table Field",
         "subtitle": "Please read the {0} before you create the migration.",
         "field": {
+          "timestamp": "Timestamp",
           "tableName": "Table Name",
           "fieldName": "Field Name",
           "fieldType": "Field Type",
@@ -898,7 +910,7 @@ export default {
         "migration": "Migration Name"
       },
       "button": {
-        "rollback": "Rollback Table"
+        "rollback": "Rollback Migration"
       }
     }
   }

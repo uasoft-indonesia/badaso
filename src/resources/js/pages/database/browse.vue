@@ -18,8 +18,36 @@
       </vs-col>
     </vs-row>
 
-    <vs-popup @cancel="rollbackDialog = false" @accept="rollback" :active.sync="rollbackDialog" :accept-text="$t('action.delete.accept')" :cancel-text="$t('action.delete.cancel')" :title="$t('database.rollback.title')" color="success">
-      <vs-table :data="migration">
+    <vs-popup
+      :title="$t('database.browse.warning.title')"
+      :active.sync="isNotMigrated"
+      @close="isNotMigrated = true"
+      style="z-index: 26000"
+      button-close-hidden
+    >
+      <p>{{ $t('database.browse.warning.notAllowed') }}</p>
+      <p v-for="(data,index) in notMigratedFile" :key="index">{{ data }}</p>
+
+      <vs-divider class="mt-4"></vs-divider>
+
+      <div style="float: right">
+        <vs-button color="warning" type="relief" @click="goBack()"
+          ><vs-icon icon="chevron_left"></vs-icon> {{ $t('database.browse.goBackButton') }}</vs-button
+        >
+        <vs-button color="danger" type="relief" @click="deleteMigration()"
+          v-if="$helper.isAllowed('delete_migration')"
+          ><vs-icon icon="delete"></vs-icon> {{ $t('database.browse.deleteMigrationButton') }}</vs-button
+        >
+        <vs-button color="success" type="relief" @click="migrate()"
+          v-if="$helper.isAllowed('migrate_database')"
+          ><vs-icon icon="arrow_upward"></vs-icon> {{ $t('database.browse.migrateButton') }}</vs-button
+        >
+      </div>
+    </vs-popup>
+
+    <vs-popup @cancel="rollbackDialog = false" @accept="rollback" :active.sync="rollbackDialog" :accept-text="$t('action.delete.accept')" :cancel-text="$t('action.delete.cancel')" :title="$t('database.rollback.title')" color="success" style="z-index: 26000">
+      <vs-row>
+        <vs-table :data="migration">
         <template slot="thead">
           <vs-th sort-key="migration"> {{ $t('database.migration.header.migration') }} </vs-th>
           <vs-th> {{ $t('crud.header.action') }} </vs-th>
@@ -35,13 +63,15 @@
               {{ data[index].migration }}
             </vs-td>
             <vs-td>
-              <vs-checkbox v-model="willRollbackIndex" :vs-value="index" @change="setRollbackIndex()" :disabled="disableCheckbox(index)"></vs-checkbox>
+              <vs-checkbox v-model="willRollbackIndex" :vs-value="index" @change="setRollbackIndex(data)" :disabled="disableCheckbox(index)"></vs-checkbox>
             </vs-td>
           </vs-tr>
         </template>
       </vs-table>
+      </vs-row>
       <vs-row>
         <vs-spacer></vs-spacer>
+        <vs-checkbox v-model="isDeleteFile" class="mr-2">Delete Migration File ?</vs-checkbox>
         <vs-button
           color="danger"
           type="relief"
@@ -139,14 +169,41 @@ export default {
     rollbackSteps: 0,
     migration: [],
     willRollbackIndex: [],
-    rollbackIndex: null
+    willRollbackFile: [],
+    rollbackIndex: null,
+    message: null,
+    isNotMigrated: false,
+    notMigratedFile: [],
+    isDeleteFile: false
   }),
   mounted() {
+    this.getStatusMigration();
     this.getTableList();
+    process.env.NODE_ENV === 'development' ? this.isDeleteFile = false : this.isDeleteFile = true
   },
   methods: {
+    goBack() {
+      this.$router.back()
+    },
     disableCheckbox(index) {
       return this.willRollbackIndex.includes(index-1)
+    },
+    getStatusMigration() {
+      this.$api.database
+        .check()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.isNotMigrated = response.data.notMigrated
+          this.notMigratedFile = response.data.data
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t('alert.danger'),
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
     openConfirm(tableName) {
       this.tableName = tableName;
@@ -193,7 +250,6 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getTableList();
-          this.$store.commit("FETCH_MENU");
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -212,7 +268,6 @@ export default {
       this.$api.database
         .browseMigration()
         .then((response) => {
-          this.rollbackDialog = true
           this.migration = response.data;
           this.$vs.loading.close();
         })
@@ -230,6 +285,7 @@ export default {
       this.willRollbackIndex = []
       this.rollbackSteps = 0
       this.rollbackIndex = null
+      this.rollbackDialog = true
     },
     rollback() {
       this.$vs.loading({
@@ -241,7 +297,27 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.getMigration()
+          
+          if (this.isDeleteFile == true) {
+            this.$api.database
+              .deleteMigration({
+                file_name: this.willRollbackFile
+              })
+              .then((response) => {
+                this.$vs.loading.close();
+              })
+              .catch((error) => {
+                this.$vs.loading.close();
+                this.$vs.notify({
+                  title: this.$t('alert.danger'),
+                  text: error.message,
+                  color: "danger",
+                });
+              });
+          }
+
+          this.getMigration();
+          this.getTableList();
           this.$vs.notify({
             title: this.$t('alert.success'),
             text: response.data,
@@ -256,11 +332,13 @@ export default {
             color: "danger",
           });
         });
+      this.rollbackDialog = false
     },
-    setRollbackIndex() {
+    setRollbackIndex(data) {
       let flag = this.willRollbackIndex;
       let total = this.migration.length;
       let diff = total - Math.min(...flag);
+      let rollbackFileName = [];
       let items = [];
 
       if (this.rollbackIndex === null) {
@@ -268,21 +346,79 @@ export default {
           items.push(index) 
         }
 
+        for (let index = Math.min(...flag); index < total; index++) {
+          rollbackFileName.push(data[index].migration)
+        }
+
         this.rollbackSteps = diff
         this.willRollbackIndex.push(...items);
-        this.rollbackIndex = Math.min(...flag)
+        this.rollbackIndex = Math.min(...flag);
+        this.willRollbackFile = rollbackFileName;
       } else if (this.rollbackIndex > Math.min(...flag)) {
         for (let index = total; index > Math.min(...flag); index--) {
           items.push(index) 
         }
+
+        for (let index = Math.min(...flag); index < total; index++) {
+          rollbackFileName.push(data[index].migration)
+        }
+
         this.rollbackSteps = diff
         this.willRollbackIndex.push(...items);
         this.rollbackIndex = Math.min(...flag)
+        this.willRollbackFile = rollbackFileName;
       } else {
         this.willRollbackIndex = []
         this.rollbackSteps = 0
         this.rollbackIndex = null
+        this.willRollbackFile = []
       }
+    },
+    migrate() {
+      this.$api.database
+        .migrate()
+        .then((response) => {
+          this.$vs.loading.close();
+          this.getTableList();
+          this.getStatusMigration();
+          this.$vs.notify({
+            title: this.$t('alert.success'),
+            text: response.message,
+            color: "success",
+          });
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t('alert.danger'),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    deleteMigration() {
+      this.$api.database
+        .deleteMigration({
+          file_name: this.notMigratedFile
+        })
+        .then((response) => {
+          this.$vs.loading.close();
+          this.getTableList();
+          this.getStatusMigration();
+          this.$vs.notify({
+            title: this.$t('alert.success'),
+            text: response.message,
+            color: "success",
+          });
+        })
+        .catch((error) => {
+          this.$vs.loading.close();
+          this.$vs.notify({
+            title: this.$t('alert.danger'),
+            text: error.message,
+            color: "danger",
+          });
+        });
     }
   },
 };

@@ -5,56 +5,60 @@ import QueryString from "../query-string";
 
 export default {
   browse(data = {}) {
-    return auth.refreshToken().then((res) => {
-      let ep = endpoint.database.browse;
-      let qs = QueryString(data);
-      let url = ep + qs;
-      return resource.get(url);
-    });
+    let ep = endpoint.database.browse;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
   },
 
   read(data) {
-    return auth.refreshToken().then((res) => {
-      let ep = endpoint.database.read;
-      let qs = QueryString(data);
-      let url = ep + qs;
-      return resource.get(url);
-    });
+    let ep = endpoint.database.read;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
   },
 
   edit(data) {
-    return auth.refreshToken().then((res) => {
-      return resource.put(endpoint.database.edit, data);
-    });
+    return resource.put(endpoint.database.edit, data);
   },
 
   add(data) {
-    return auth.refreshToken().then((res) => {
-      return resource.post(endpoint.database.add, data);
-    });
+    return resource.post(endpoint.database.add, data);
   },
 
   delete(data) {
     let paramData = {
       data: data
     }
-    return auth.refreshToken().then((res) => {
-      return resource.delete(endpoint.database.delete, paramData);
-    });
+    return resource.delete(endpoint.database.delete, paramData);
   },
 
   browseMigration(data = {}) {
-    return auth.refreshToken().then((res) => {
-      let ep = endpoint.database.browseMigration;
-      let qs = QueryString(data);
-      let url = ep + qs;
-      return resource.get(url);
-    });
+    let ep = endpoint.database.browseMigration;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
   },
 
   rollback(data) {
-    return auth.refreshToken().then((res) => {
-      return resource.post(endpoint.database.rollback, data);
-    });
+    return resource.post(endpoint.database.rollback, data);
+  },
+
+  check(data = {}) {
+    let ep = endpoint.database.check;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
+  migrate(data = {}) {
+    let ep = endpoint.database.migrate;
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
+  deleteMigration(data) {
+    return resource.post(endpoint.database.deleteMigration, data);
   }
 };

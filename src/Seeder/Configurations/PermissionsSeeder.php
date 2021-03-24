@@ -28,7 +28,9 @@ class PermissionsSeeder extends Seeder
 
             'browse_logviewer',
             'rollback_database',
-            'browse_migration'
+            'migrate_database',
+            'browse_migration',
+            'delete_migration',
         ];
 
         foreach ($keys as $key) {

@@ -277,7 +277,7 @@ class FileGenerator
     /**
      * Generate Badaso Migration File
      */
-    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows): string
+    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows, bool $timestamp = true): string
     {
         $migration_class_name = $this->file_system->generateMigrationClassName($table_name, $prefix);
 
@@ -291,8 +291,8 @@ class FileGenerator
 
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
         
-        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
-        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
+        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix, $timestamp);
+        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix, $timestamp);
         
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);

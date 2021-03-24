@@ -117,5 +117,8 @@ export default {
     delete: apiPrefix + '/v1/database/delete',
     rollback: apiPrefix + '/v1/database/rollback',
     browseMigration: apiPrefix + '/v1/database/migration/browse',
+    check: apiPrefix + '/v1/database/migration/status',
+    migrate: apiPrefix + '/v1/database/migration/migrate',
+    deleteMigration: apiPrefix + '/v1/database/migration/delete',
   },
 }
