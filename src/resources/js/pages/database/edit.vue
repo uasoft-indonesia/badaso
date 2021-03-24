@@ -585,6 +585,7 @@ export default {
           this.fieldTypeList = response
         })
         .catch((error) => {
+          this.$vs.loading.close();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: message,
