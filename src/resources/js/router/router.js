@@ -1,19 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import PublicRoute from "./public-router";
-import AdminRoute from "./admin-router";
-import AuthRoute from "./auth-router";
-import ConfigurationRoute from "./configuration-router";
-import GeneratedRoute from "./generated-router";
-
 import AdminContainer from "./../layout/admin-panel/AdminContainer.vue";
 import AuthContainer from "./../layout/auth/AuthContainer.vue";
 import LandingPageContainer from "./../layout/landing-page/LandingPageContainer.vue";
 
 import Home from "./../pages/home.vue";
 import Profile from "./../pages/user/profile.vue";
-import PageNotFound from "./../pages/error/404.vue";
+import PageNotFound from "./../pages/error/PageNotFound.vue";
 
 const prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -25,7 +19,33 @@ const menuKey = process.env.MIX_DEFAULT_MENU
   ? process.env.MIX_DEFAULT_MENU
   : "admin";
 
+const adminRouters = require.context("./admin", false, /\.js$/); // 
+const authRouters = require.context("./auth", false, /\.js$/); // 
+const publicRouters = require.context("./public", false, /\.js$/); // 
+const otherRouters = require.context("./others", false, /\.js$/); // 
+
+let _authRouters = []
+authRouters.keys().forEach((fileName) => {
+  _authRouters = [..._authRouters, ...authRouters(fileName).default]
+})
+
+let _publicRouters = []
+publicRouters.keys().forEach((fileName) => {
+  _publicRouters = [..._publicRouters, ...publicRouters(fileName).default]
+})
+
+let _adminRouters = []
+adminRouters.keys().forEach((fileName) => {
+  _adminRouters = [..._adminRouters, ...adminRouters(fileName).default]
+})
+
+let _otherRouters = []
+otherRouters.keys().forEach((fileName) => {
+  _otherRouters = [..._otherRouters, ...otherRouters(fileName).default]
+})
+
 Vue.use(VueRouter);
+
 const router = new VueRouter({
   mode: "history",
   routes: [
@@ -36,7 +56,7 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: [...AuthRoute],
+      children: _authRouters
     },
     {
       path: "",
@@ -45,7 +65,7 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: [...PublicRoute],
+      children: _publicRouters
     },
     {
       path: "",
@@ -79,12 +99,10 @@ const router = new VueRouter({
             title: "Profile",
           },
         },
-
-        ...ConfigurationRoute,
-        ...AdminRoute,
-        ...GeneratedRoute,
+        ..._adminRouters
       ],
     },
+    ..._otherRouters,
     {
       path: "*",
       component: AuthContainer,

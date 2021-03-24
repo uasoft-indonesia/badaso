@@ -1,8 +1,8 @@
-import Login from "./../pages/auth/login.vue";
-import Register from "./../pages/auth/register.vue";
-import Verify from "./../pages/auth/verify.vue";
-import ForgotPassword from "./../pages/auth/forgot-password.vue";
-import ResetPassword from "./../pages/auth/reset-password.vue";
+import Login from "./../../pages/auth/login.vue";
+import Register from "./../../pages/auth/register.vue";
+import Verify from "./../../pages/auth/verify.vue";
+import ForgotPassword from "./../../pages/auth/forgot-password.vue";
+import ResetPassword from "./../../pages/auth/reset-password.vue";
 
 let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX

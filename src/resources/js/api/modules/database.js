@@ -1,69 +1,71 @@
 import resource from "../resource";
-import auth from "./auth";
-import endpoint from "../endpoint";
 import QueryString from "../query-string";
+
+let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+? '/' + process.env.MIX_API_ROUTE_PREFIX
+: "/badaso-api";
 
 export default {
   browse(data = {}) {
-    let ep = endpoint.database.browse;
+    let ep = apiPrefix + '/v1/database';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   read(data) {
-    let ep = endpoint.database.read;
+    let ep = apiPrefix + '/v1/database/read';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   edit(data) {
-    return resource.put(endpoint.database.edit, data);
+    return resource.put(apiPrefix + '/v1/database/edit', data);
   },
 
   add(data) {
-    return resource.post(endpoint.database.add, data);
+    return resource.post(apiPrefix + '/v1/database/add', data);
   },
 
   delete(data) {
     let paramData = {
       data: data
     }
-    return resource.delete(endpoint.database.delete, paramData);
+    return resource.delete(apiPrefix + '/v1/database/delete', paramData);
   },
 
   browseMigration(data = {}) {
-    let ep = endpoint.database.browseMigration;
+    let ep = apiPrefix + '/v1/database/migration/browse';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   rollback(data) {
-    return resource.post(endpoint.database.rollback, data);
+    return resource.post(apiPrefix + '/v1/database/rollback', data);
   },
 
   check(data = {}) {
-    let ep = endpoint.database.check;
+    let ep = apiPrefix + '/v1/database/migration/status';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   migrate(data = {}) {
-    let ep = endpoint.database.migrate;
+    let ep = apiPrefix + '/v1/database/migration/migrate';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   deleteMigration(data) {
-    return resource.post(endpoint.database.deleteMigration, data);
+    return resource.post(apiPrefix + '/v1/database/migration/delete', data);
   },
 
   getType(data = {}) {
-    let ep = endpoint.database.getType;
+    let ep = apiPrefix + '/v1/database/type';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);

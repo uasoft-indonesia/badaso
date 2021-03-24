@@ -1,24 +1,27 @@
 import resource from "../resource";
-import endpoint from "../endpoint";
+
+let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+? '/' + process.env.MIX_API_ROUTE_PREFIX
+: "/badaso-api";
 
 export default {
   user() {
-    return resource.get(endpoint.authuser.user);
+    return resource.get(apiPrefix + '/v1/auth/user');
   },
 
   changePassword(data) {
-    return resource.put(endpoint.authuser.changePassword, data);
+    return resource.put(apiPrefix + '/v1/auth/user/change-password', data);
   },
 
   updateProfile(data) {
-    return resource.put(endpoint.authuser.updateProfile, data);
+    return resource.put(apiPrefix + '/v1/auth/user/profile', data);
   },
 
   updateEmail(data) {
-    return resource.put(endpoint.authuser.updateEmail, data);
+    return resource.put(apiPrefix + '/v1/auth/user/email', data);
   },
 
   verifyEmail(data) {
-    return resource.post(endpoint.authuser.verifyEmail, data);
+    return resource.post(apiPrefix + '/v1/auth/user/verify-email', data);
   },
 };
