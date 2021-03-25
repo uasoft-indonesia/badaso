@@ -13,12 +13,12 @@ export default {
   computed: {
     getSelectedLocale: {
       get() {
-        return this.$store.getters.getSelectedLocale
+        return this.$store.getters['badaso/getSelectedLocale']
       }
     },
   },
   mounted() {
-    this.$store.commit("FETCH_CONFIGURATION_GROUPS");
+    this.$store.commit("badaso/FETCH_CONFIGURATION_GROUPS");
     this.$i18n.locale = this.getSelectedLocale.key
   }
 };

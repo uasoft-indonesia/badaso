@@ -226,11 +226,12 @@
     </vs-row>
   </div>
 </template>
+
 <script>
 import draggable from "vuedraggable";
 
 export default {
-  name: "CRUDManagementRead",
+  name: "CrudManagementRead",
   components: {
     draggable,
   },
@@ -267,7 +268,7 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters.getComponent;
+        return this.$store.getters['badaso/getComponent'];
       },
     },
   },
@@ -290,8 +291,8 @@ export default {
         .add(this.$caseConvert.snake(this.crudData))
         .then((response) => {
           this.$vs.loading.close();
-          this.$store.commit("FETCH_MENU");
-          this.$router.push({ name: "CRUDManagementBrowseBrowse" });
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$router.push({ name: "CrudManagementBrowseBrowse" });
         })
         .catch((error) => {
           this.$vs.loading.close();

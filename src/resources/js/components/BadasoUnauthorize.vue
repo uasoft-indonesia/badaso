@@ -32,32 +32,32 @@ export default {
   components: {},
   data: () => ({}),
   mounted() {
-    this.$store.commit("SET_AUTH_ISSUE", {
+    this.$store.commit("badaso/SET_AUTH_ISSUE", {
       unauthorized: false,
     });
   },
   computed: {
     unauthorize: {
       get() {
-        return this.$store.state.authorizationIssue
-          ? this.$store.state.authorizationIssue.unauthorized
+        return this.$store.state.badaso.authorizationIssue
+          ? this.$store.state.badaso.authorizationIssue.unauthorized
           : false;
       },
       set(val) {
         if (val === false) {
-          this.$store.commit("LOGOUT"); 
+          this.$store.commit("badaso/LOGOUT"); 
         }
       },
     },
     authorizationIssue: {
       get() {
-        return this.$store.state.authorizationIssue;
+        return this.$store.state.badaso.authorizationIssue;
       },
     },
   },
 	methods: {
 		login() {
-			this.$store.commit("LOGOUT");
+			this.$store.commit("badaso/LOGOUT");
 		}
 	}
 };

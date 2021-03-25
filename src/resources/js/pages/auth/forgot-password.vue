@@ -67,7 +67,7 @@
               class="text-danger"
               v-for="(info, index) in errors.token"
               :key="index"
-              v-html="info"
+              v-html="info+'<br />'"
             ></span>
           </div>
           <div v-else>
@@ -84,7 +84,7 @@
 
 <script>
 export default {
-  name: "ForgotPassword",
+  name: "AuthForgotPassword",
   data: () => ({
     email: "",
     password: "",
@@ -138,7 +138,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.$router.push({
-            name: "ResetPassword",
+            name: "AuthResetPassword",
             query: {
               email: this.email,
               token: this.token,

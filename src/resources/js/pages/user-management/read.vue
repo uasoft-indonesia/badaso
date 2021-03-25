@@ -5,7 +5,7 @@
         <vs-button
           color="warning"
           type="relief"
-          :to="{ name: 'UserEdit', params: { id: $route.params.id } }"
+          :to="{ name: 'UserManagementEdit', params: { id: $route.params.id } }"
           v-if="$helper.isAllowed('edit_users')"
           ><vs-icon icon="edit"></vs-icon> {{ $t("action.edit") }}</vs-button
         >
@@ -13,7 +13,7 @@
           color="primary"
           type="relief"
           @click.stop
-          :to="{ name: 'UserRoles', params: { id: $route.params.id } }"
+          :to="{ name: 'UserManagementRoles', params: { id: $route.params.id } }"
           v-if="$helper.isAllowed('browse_user_role')"
           ><vs-icon icon="list"></vs-icon> {{ $t("action.roles") }}</vs-button
         >

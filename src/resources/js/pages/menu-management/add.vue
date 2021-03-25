@@ -63,7 +63,7 @@
 
 <script>
 export default {
-  name: "MenuAdd",
+  name: "MenuManagementAdd",
   components: {
   },
   data: () => ({
@@ -82,9 +82,9 @@ export default {
         .add(this.menu)
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({ name: "MenuBrowse" });
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
+          this.$router.push({ name: "MenuManagementBrowse" });
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
         })
         .catch((error) => {
           this.errors = error.errors;

@@ -2,7 +2,7 @@
   <div>
     <badaso-breadcrumb-row>
       <template slot="action">
-        <vs-button color="primary" type="relief" :to="{ name: 'MenuAdd' }"
+        <vs-button color="primary" type="relief" :to="{ name: 'MenuManagementAdd' }"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
       </template>
@@ -54,7 +54,7 @@
                       @click.stop
                       v-if="$helper.isAllowed('edit_menus')"
                       :to="{
-                        name: 'MenuBuilder',
+                        name: 'MenuManagementBuilder',
                         params: { id: data[index].id },
                       }"
                       ><vs-icon icon="list"></vs-icon
@@ -64,7 +64,7 @@
                       type="relief"
                       @click.stop
                       v-if="$helper.isAllowed('edit_menus')"
-                      :to="{ name: 'MenuEdit', params: { id: data[index].id } }"
+                      :to="{ name: 'MenuManagementEdit', params: { id: data[index].id } }"
                       ><vs-icon icon="edit"></vs-icon
                     ></vs-button>
                     <vs-button
@@ -101,7 +101,7 @@
 export default {
   components: {
   },
-  name: "MenuBrowse",
+  name: "MenuManagementBrowse",
   data: () => ({
     selected: [],
     descriptionItems: [10, 50, 100],
@@ -153,7 +153,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getMenuList();
-          this.$store.commit("FETCH_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
           this.$vs.loading.close();

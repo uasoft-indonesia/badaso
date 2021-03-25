@@ -121,9 +121,9 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
-          this.$store.commit("FETCH_USER");
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
+          this.$store.commit("badaso/FETCH_USER");
           this.getRolePermissions();
           this.$vs.notify({
             title: this.$t("role.permission.success.title"),

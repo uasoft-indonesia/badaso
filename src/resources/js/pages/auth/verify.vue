@@ -32,7 +32,7 @@
               class="text-danger"
               v-for="(info, index) in errors.token"
               :key="index"
-              v-html="info"
+              v-html="info+'<br />'"
             ></span>
           </div>
           <div v-else>
@@ -69,7 +69,7 @@
 
 <script>
 export default {
-  name: "Verify",
+  name: "AuthVerify",
   data: () => ({
     email: "",
     token: "",

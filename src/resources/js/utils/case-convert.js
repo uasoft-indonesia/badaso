@@ -49,5 +49,12 @@ export default {
     })
     let string = newStrings.join('')
     return string;
+  },
+  kebab(string) {
+    let kebab = string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+    if (kebab.charAt(0) === '-') {
+      kebab = kebab.substring(1)
+    }
+    return kebab;
   }
 };

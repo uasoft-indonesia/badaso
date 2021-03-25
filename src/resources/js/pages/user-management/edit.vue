@@ -81,7 +81,7 @@ export default {
   computed: {
     loggedInUser: {
       get() {
-        let user = this.$store.getters.getUser;
+        let user = this.$store.getters['badaso/getUser'];
         return user;
       },
     },
@@ -127,10 +127,10 @@ export default {
         })
         .then((response) => {
           if (this.loggedInUser.id === this.user.id) {
-            this.$store.commit("FETCH_USER");
+            this.$store.commit("badaso/FETCH_USER");
           }
           this.$vs.loading.close();
-          this.$router.push({ name: "UserBrowse" });
+          this.$router.push({ name: "UserManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;

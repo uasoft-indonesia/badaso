@@ -7,15 +7,13 @@ export default (error) => {
     data.status = status
     return Promise.reject(data);
   } else if (status === 401) {
-    // localStorage.clear();
-    // window.location.reload();
-    store.commit('SET_AUTH_ISSUE', {
+    store.commit('badaso/SET_AUTH_ISSUE', {
       unauthorized: true,
     })
   } else if (status === 402 || status === 412) {
     let data = error.response.data;
     data.status = status
-    store.commit('SET_LICENCE_ISSUE', {
+    store.commit('badaso/SET_LICENCE_ISSUE', {
       invalid: true,
       message: data.message ? data.message : ''
     })

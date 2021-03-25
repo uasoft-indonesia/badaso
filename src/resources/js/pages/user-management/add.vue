@@ -97,7 +97,7 @@ export default {
           })
           .then((response) => {
             this.$vs.loading.close();
-            this.$router.push({ name: "UserBrowse" });
+            this.$router.push({ name: "UserManagementBrowse" });
           })
           .catch((error) => {
             this.errors = error.errors;

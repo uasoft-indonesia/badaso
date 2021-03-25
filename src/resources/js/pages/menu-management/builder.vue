@@ -162,7 +162,7 @@
                         @click.stop
                         v-if="$helper.isAllowed('edit_menu_items')"
                         :to="{
-                          name: 'MenuPermissions',
+                          name: 'MenuManagementPermissions',
                           params: { id: $route.params.id, itemId: data.id },
                         }"
                         ><vs-icon icon="list"></vs-icon
@@ -210,7 +210,7 @@ import { DraggableTree } from "vue-draggable-nested-tree";
 import _ from "lodash";
 
 export default {
-  name: "MenuBuilder",
+  name: "MenuManagementBuilder",
   components: {
     Tree: DraggableTree,
   },
@@ -384,8 +384,8 @@ export default {
         })
         .then((response) => {
           this.getMenuItems();
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {
@@ -423,8 +423,8 @@ export default {
         .then((response) => {
           this.getMenuItems();
           this.addMenuItemPopUp = false;
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {
@@ -448,8 +448,8 @@ export default {
         .then((response) => {
           this.willDeleteId = null;
           this.getMenuItems();
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {
@@ -478,8 +478,8 @@ export default {
         .then((response) => {
           this.editMenuItemPopUp = false;
           this.getMenuItems();
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$vs.loading.close();
         })
         .catch((error) => {

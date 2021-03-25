@@ -57,7 +57,7 @@
                       @click.stop
                       v-if="$helper.isAllowed('edit_crud_data')"
                       :to="{
-                        name: 'CRUDManagementEdit',
+                        name: 'CrudManagementEdit',
                         params: { tableName: data[index].tableName },
                       }"
                       ><vs-icon icon="edit"></vs-icon
@@ -78,7 +78,7 @@
                       @click.stop
                       v-if="$helper.isAllowed('add_crud_data')"
                       :to="{
-                        name: 'CRUDManagementAdd',
+                        name: 'CrudManagementAdd',
                         params: { tableName: data[index].tableName },
                       }"
                       >{{ $t("crud.body.button") }}</vs-button
@@ -104,11 +104,12 @@
     </vs-row>
   </div>
 </template>
+
 <script>
 export default {
   components: { 
   },
-  name: "CRUDManagementBrowse",
+  name: "CrudManagementBrowse",
   data: () => ({
     descriptionItems: [10, 50, 100],
     selected: [],
@@ -160,7 +161,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getTableList();
-          this.$store.commit("FETCH_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
           this.$vs.loading.close();

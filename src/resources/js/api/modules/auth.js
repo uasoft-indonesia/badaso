@@ -18,7 +18,7 @@ export default {
   },
 
   logout() {
-    let ap = apiPrefix + '/v1/auth/logout';
+    let ep = apiPrefix + '/v1/auth/logout';
     let response = resource.post(ep);
     response.then((res) => {
       localStorage.clear();

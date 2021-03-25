@@ -305,25 +305,16 @@
     </vs-prompt>
   </div>
 </template>
+
 <script>
 import draggable from "vuedraggable";
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb";
-import BadasoText from "../../components/BadasoText";
-import BadasoSwitch from "../../components/BadasoSwitch";
-import BadasoSelect from "../../components/BadasoSelect";
-import BadasoHidden from "../../components/BadasoHidden.vue";
 import { required, requiredIf, maxLength, helpers } from "vuelidate/lib/validators";
 const alphaNumAndUnderscoreValidator = helpers.regex('alphaNumAndDot', /^[a-zA-Z\d_]*$/i);
 
 export default {
-  name: "Browse",
+  name: "DatabaseManagementAdd",
   components: {
     draggable,
-    BadasoBreadcrumb,
-    BadasoText,
-    BadasoSwitch,
-    BadasoSelect,
-    BadasoHidden,
   },
   data: () => ({
     breadcrumb: [],
@@ -463,9 +454,9 @@ export default {
               text: response.data,
               color: "success",
             });
-            this.$store.commit("FETCH_MENU");
-            this.$store.commit("FETCH_USER");
-            this.$router.push({ name: "DatabaseBrowse" });
+            this.$store.commit("badaso/FETCH_MENU");
+            this.$store.commit("badaso/FETCH_USER");
+            this.$router.push({ name: "DatabaseManagementBrowse" });
           })
           .catch((error) => {
             let message = error.message;

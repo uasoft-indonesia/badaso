@@ -5,7 +5,7 @@
         <vs-button
           color="primary"
           type="relief"
-          :to="{ name: 'PermissionAdd' }"
+          :to="{ name: 'PermissionManagementAdd' }"
           v-if="$helper.isAllowed('add_permissions')"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
@@ -90,7 +90,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'PermissionRead',
+                        name: 'PermissionManagementRead',
                         params: { id: data[indextr].id },
                       }"
                       ><vs-icon icon="visibility"></vs-icon
@@ -100,7 +100,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'PermissionEdit',
+                        name: 'PermissionManagementEdit',
                         params: { id: data[indextr].id },
                       }"
                       v-if="$helper.isAllowed('edit_permissions')"
@@ -138,7 +138,7 @@
 
 <script>
 export default {
-  name: "PermissionBrowse",
+  name: "PermissionManagementBrowse",
   components: {
   },
   data: () => ({

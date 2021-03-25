@@ -1,23 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import AdminContainer from "./../layout/admin-panel/AdminContainer.vue";
-import AuthContainer from "./../layout/auth/AuthContainer.vue";
-import LandingPageContainer from "./../layout/landing-page/LandingPageContainer.vue";
+import AdminContainer from "./../layout/admin/Container";
+import AuthContainer from "./../layout/auth/Container";
+import LandingPageContainer from "./../layout/public/Container";
 
-import Home from "./../pages/home.vue";
-import Profile from "./../pages/user/profile.vue";
 import PageNotFound from "./../pages/error/PageNotFound.vue";
 
-const prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "badaso-admin";
-
-const prefix = "/" + prefix_env;
-
-const menuKey = process.env.MIX_DEFAULT_MENU
-  ? process.env.MIX_DEFAULT_MENU
-  : "admin";
+const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? '/' + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  : "/badaso-admin";
 
 const adminRouters = require.context("./admin", false, /\.js$/); // 
 const authRouters = require.context("./auth", false, /\.js$/); // 
@@ -60,7 +52,7 @@ const router = new VueRouter({
     },
     {
       path: "",
-      name: "LandingPage",
+      name: "Public",
       component: LandingPageContainer,
       meta: {
         guest: true,
@@ -69,47 +61,21 @@ const router = new VueRouter({
     },
     {
       path: "",
-      name: "AdminPanel",
+      name: "Admin",
       component: AdminContainer,
       meta: {
         authenticatedUser: true,
       },
-      children: [
-        {
-          path: prefix,
-          redirect: prefix + "/home",
-        },
-        {
-          path: prefix + "/" + menuKey,
-          redirect: prefix + "/home",
-        },
-        {
-          path: prefix + "/home",
-          name: "Home",
-          component: Home,
-          meta: {
-            title: "Home",
-          },
-        },
-        {
-          path: prefix + "/profile",
-          name: "Profile",
-          component: Profile,
-          meta: {
-            title: "Profile",
-          },
-        },
-        ..._adminRouters
-      ],
+      children: _adminRouters,
     },
     ..._otherRouters,
     {
       path: "*",
       component: AuthContainer,
-      redirect: prefix + "/404",
+      redirect: prefix + "/page-not-found",
       children: [
         {
-          path: prefix + "/404",
+          path: prefix + "/page-not-found",
           name: "PageNotFound",
           component: PageNotFound,
           meta: {
@@ -125,7 +91,7 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? to.meta.title : to.name;
   if (to.matched.some((record) => record.meta.authenticatedUser)) {
     if (localStorage.getItem("token") == null) {
-      next({ name: "Login" });
+      next({ name: "AuthLogin" });
     } else {
       next();
     }

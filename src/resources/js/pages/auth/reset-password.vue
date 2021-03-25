@@ -48,7 +48,7 @@
 
 <script>
 export default {
-  name: "ResetPassword",
+  name: "AuthResetPassword",
   data: () => ({
     password: "",
     passwordConfirmation: "",
@@ -80,7 +80,7 @@ export default {
             message: this.$t("resetPassword.message.success"),
           };
           setTimeout(() => {
-            this.$router.push({ name: "Login" });
+            this.$router.push({ name: "AuthLogin" });
           }, 5000);
         })
         .catch((error) => {

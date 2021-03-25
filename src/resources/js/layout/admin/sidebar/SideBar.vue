@@ -31,7 +31,7 @@
             v-if="user.id"
             icon="person_outline"
             :to="{
-              name: 'Profile',
+              name: 'UserProfile',
             }"
           >
             Profile
@@ -219,41 +219,41 @@ export default {
     //This is for mobile trigger
     isSidebarActive: {
       get() {
-        return this.$store.state.isSidebarActive;
+        return this.$store.state.badaso.isSidebarActive;
       },
       set(val) {
-        this.$store.commit("IS_SIDEBAR_ACTIVE", val);
+        this.$store.commit("badaso/IS_SIDEBAR_ACTIVE", val);
       },
     },
     reduceSidebar: {
       get() {
-        return this.$store.state.reduceSidebar;
+        return this.$store.state.badaso.reduceSidebar;
       },
     },
     mainMenu: {
       get() {
-        return this.$store.getters.getMenu;
+        return this.$store.getters['badaso/getMenu'];
       },
     },
     configurationMenu: {
       get() {
-        return this.$store.getters.getConfigurationMenu;
+        return this.$store.getters['badaso/getConfigurationMenu'];
       },
     },
     user: {
       get() {
-        let user = this.$store.getters.getUser;
+        let user = this.$store.getters['badaso/getUser'];
         return user;
       },
     },
     getLocale: {
       get() {
-        return this.$store.getters.getLocale;
+        return this.$store.getters['badaso/getLocale'];
       },
     },
     selectedLang: {
       get() {
-        let selected = this.$store.getters.getSelectedLocale;
+        let selected = this.$store.getters['badaso/getSelectedLocale'];
         if (selected.key) {
           selected = selected.key;
         }
@@ -276,7 +276,7 @@ export default {
         .logout()
         .then((response) => {
           localStorage.clear();
-          this.$router.push({ name: "Login" });
+          this.$router.push({ name: "AuthLogin" });
         })
         .catch((error) => {
           this.$vs.notify({
@@ -288,12 +288,12 @@ export default {
     },
     setLocale(item) {
       this.$i18n.locale = item.key;
-      this.$store.commit("SET_LOCALE", item);
+      this.$store.commit("badaso/SET_LOCALE", item);
     },
   },
   mounted() {
-    this.$store.commit("FETCH_MENU");
-    this.$store.commit("FETCH_CONFIGURATION_MENU");
+    this.$store.commit("badaso/FETCH_MENU");
+    this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
   },
 };
 </script>

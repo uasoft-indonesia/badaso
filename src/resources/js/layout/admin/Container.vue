@@ -14,7 +14,7 @@
     <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" :view="viewType" />
     <!---Page Container-->
     <div class="main-container-fluid">
-      <router-view class="content"></router-view>
+      <router-view class="content" :key="$route.path"></router-view>
       <Footer></Footer>
     </div>
     <badaso-licence-blocker />
@@ -45,50 +45,50 @@ export default {
   computed: {
     adminPanelTitle:{
       get() {
-        let config = this.$store.getters.getConfig
+        let config = this.$store.getters['badaso/getConfig']
         return  config.adminPanelTitle ?  config.adminPanelTitle : 'Badaso'
       }
     },
     adminPanelLogo:{
       get() {
-        let config = this.$store.getters.getConfig
+        let config = this.$store.getters['badaso/getConfig']
         return  this.$api.file.view(config.adminPanelLogo)
       }
     },
     adminPanelHeaderColor: {
       get() {
-        let config = this.$store.getters.getConfig
+        let config = this.$store.getters['badaso/getConfig']
         return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#fff"
       }
     },
     adminPanelLogoConfig: {
       get() {
-        let config = this.$store.getters.getConfig
+        let config = this.$store.getters['badaso/getConfig']
         return  config.adminPanelLogoConfig ?  config.adminPanelLogoConfig : "logo_and_text"
       }
     },
     adminPanelHeaderFontColor: {
       get() {
-        let config = this.$store.getters.getConfig
+        let config = this.$store.getters['badaso/getConfig']
         return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#000"
       }
     },
     reduceSidebar: {
       get() {
-        return this.$store.state.reduceSidebar;
+        return this.$store.state.badaso.reduceSidebar;
       }
     },
     licenceIssue: {
       get() {
-        return this.$store.state.licenceIssue;
+        return this.$store.state.badaso.licenceIssue;
       }
     }
   },
   mounted() {
-    this.$store.commit("FETCH_COMPONENT");
-    this.$store.commit("FETCH_CONFIGURATION");
-    this.$store.commit("FETCH_USER");
-    this.$store.commit("SET_LICENCE_ISSUE", false);
+    this.$store.commit("badaso/FETCH_COMPONENT");
+    this.$store.commit("badaso/FETCH_CONFIGURATION");
+    this.$store.commit("badaso/FETCH_USER");
+    this.$store.commit("badaso/SET_LICENCE_ISSUE", false);
 
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleWindowResize);
@@ -105,7 +105,7 @@ export default {
       this.$api.auth
         .logout()
         .then((response) => {
-          this.$router.push({name: "Login"})
+          this.$router.push({name: "AuthLogin"})
         })
         .catch((error) => {
           this.$vs.notify({
@@ -116,17 +116,17 @@ export default {
         });
     },
     handleWindowResize(event) {
-      this.$store.commit("REDUCE_SIDEBAR", false);
+      this.$store.commit("badaso/REDUCE_SIDEBAR", false);
       this.windowWidth = event.currentTarget.innerWidth;
       this.setSidebar()
       this.setViewType()
     },
     setSidebar() {
       if (this.windowWidth < 768) {
-        this.$store.commit("IS_SIDEBAR_ACTIVE", false);
+        this.$store.commit("badaso/IS_SIDEBAR_ACTIVE", false);
         this.doNotClose = false;
       } else {
-        this.$store.commit("IS_SIDEBAR_ACTIVE", true);
+        this.$store.commit("badaso/IS_SIDEBAR_ACTIVE", true);
         this.doNotClose = true;
       }
     },

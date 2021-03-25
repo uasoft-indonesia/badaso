@@ -545,7 +545,7 @@
 import draggable from "vuedraggable";
 
 export default {
-  name: "CRUDManagementAdd",
+  name: "CrudManagementAdd",
   components: {
     draggable,
   },
@@ -596,7 +596,7 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters.getComponent;
+        return this.$store.getters['badaso/getComponent'];
       },
     },
   },
@@ -664,9 +664,9 @@ export default {
         .add(this.crudData)
         .then((response) => {
           this.$vs.loading.close();
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_USER");
-          this.$router.push({ name: "CRUDManagementBrowse" });
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_USER");
+          this.$router.push({ name: "CrudManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;

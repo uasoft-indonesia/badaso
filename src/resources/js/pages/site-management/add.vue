@@ -97,12 +97,12 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters.getComponent;
+        return this.$store.getters['badaso/getComponent'];
       },
     },
     groupList: {
       get() {
-        return this.$store.getters.getSiteGroup;
+        return this.$store.getters['badaso/getSiteGroup'];
       },
     },
   },
@@ -113,7 +113,7 @@ export default {
         .add(this.$caseConvert.snake(this.config))
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({ name: "SiteBrowse" });
+          this.$router.push({ name: "SiteManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors
