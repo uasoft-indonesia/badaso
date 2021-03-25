@@ -5,7 +5,7 @@
         <vs-button
           color="primary"
           type="relief"
-          :to="{ name: 'UserAdd' }"
+          :to="{ name: 'UserManagementAdd' }"
           v-if="$helper.isAllowed('add_users')"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
@@ -61,7 +61,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'UserRead',
+                        name: 'UserManagementRead',
                         params: { id: data[indextr].id },
                       }"
                       v-if="$helper.isAllowed('read_users')"
@@ -72,7 +72,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'UserRoles',
+                        name: 'UserManagementRoles',
                         params: { id: data[indextr].id },
                       }"
                       v-if="$helper.isAllowed('browse_user_role')"
@@ -83,7 +83,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'UserEdit',
+                        name: 'UserManagementEdit',
                         params: { id: data[indextr].id },
                       }"
                       v-if="$helper.isAllowed('edit_users')"

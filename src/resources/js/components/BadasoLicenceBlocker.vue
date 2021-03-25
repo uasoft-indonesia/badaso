@@ -62,14 +62,14 @@ export default {
   components: {},
   data: () => ({}),
   mounted() {
-    this.$store.commit("SET_LICENCE_ISSUE", {
+    this.$store.commit("badaso/SET_LICENCE_ISSUE", {
       invalid: false
     });
   },
   computed: {
     licenceIssue: {
       get() {
-        return this.$store.state.licenceIssue;
+        return this.$store.state.badaso.licenceIssue;
       },
     },
   },

@@ -104,38 +104,38 @@ export default {
   computed: {
     user: {
       get() {
-        let user = this.$store.getters.getUser;
+        let user = this.$store.getters['badaso/getUser'];
         return user;
       },
     },
     isSidebarActive: {
       get() {
-        return this.$store.state.isSidebarActive;
+        return this.$store.state.badaso.isSidebarActive;
       },
     },
     isReduceSidebar: {
       get() {
-        return this.$store.state.reduceSidebar;
+        return this.$store.state.badaso.reduceSidebar;
       },
     },
     getLocale: {
       get() {
-        return this.$store.getters.getLocale;
+        return this.$store.getters['badaso/getLocale'];
       },
     },
     getSelectedLocale: {
       get() {
-        return this.$store.getters.getSelectedLocale;
+        return this.$store.getters['badaso/getSelectedLocale'];
       },
     },
   },
   methods: {
     //This is for sidebar trigger in mobile
     reduceSidebar() {
-      this.$store.commit("REDUCE_SIDEBAR", !this.isReduceSidebar);
+      this.$store.commit("badaso/REDUCE_SIDEBAR", !this.isReduceSidebar);
     },
     activeSidebar() {
-      this.$store.commit("IS_SIDEBAR_ACTIVE", !this.isSidebarActive);
+      this.$store.commit("badaso/IS_SIDEBAR_ACTIVE", !this.isSidebarActive);
     },
     logout() {
       this.$api.auth
@@ -154,7 +154,7 @@ export default {
     },
     setLocale(item) {
       this.$i18n.locale = item.key;
-      this.$store.commit("SET_LOCALE", item);
+      this.$store.commit("badaso/SET_LOCALE", item);
     },
   },
   mounted() {},

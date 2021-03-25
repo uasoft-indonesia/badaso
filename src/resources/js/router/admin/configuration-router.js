@@ -1,80 +1,42 @@
-import PermissionBrowse from "./../../pages/permission-management/browse";
-import PermissionRead from "./../../pages/permission-management/read";
-import PermissionEdit from "./../../pages/permission-management/edit";
-import PermissionAdd from "./../../pages/permission-management/add";
+import Pages from './../../pages/index'
 
-import RoleBrowse from "./../../pages/role-management/browse";
-import RoleRead from "./../../pages/role-management/read";
-import RoleEdit from "./../../pages/role-management/edit";
-import RoleAdd from "./../../pages/role-management/add";
-import RolePermissions from "./../../pages/role-management/permissions";
-
-import UserBrowse from "./../../pages/user-management/browse";
-import UserRead from "./../../pages/user-management/read";
-import UserEdit from "./../../pages/user-management/edit";
-import UserAdd from "./../../pages/user-management/add";
-import UserRoles from "./../../pages/user-management/roles";
-
-import MenuBrowse from "./../../pages/menu-management/browse";
-import MenuEdit from "./../../pages/menu-management/edit";
-import MenuAdd from "./../../pages/menu-management/add";
-import MenuBuilder from "./../../pages/menu-management/builder";
-import MenuPermissions from "./../../pages/menu-management/permissions";
-
-import CRUDManagementBrowse from "./../../pages/crud-management/browse";
-import CRUDManagementRead from "./../../pages/crud-management/read";
-import CRUDManagementEdit from "./../../pages/crud-management/edit";
-import CRUDManagementAdd from "./../../pages/crud-management/add";
-
-import DatabaseBrowse from "./../../pages/database/browse";
-import DatabaseAdd from "./../../pages/database/add";
-import DatabaseAlter from "./../../pages/database/edit";
-
-import SiteBrowse from "./../../pages/site-management/browse";
-import SiteAdd from "./../../pages/site-management/add";
-
-import ActivityLogBrowse from './../../pages/activity-log/browse'
-import ActivityLogRead from './../../pages/activity-log/read'
-
-let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "badaso-admin";
+let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? '/' + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  : "/badaso-admin";
 
 let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
   ? process.env.MIX_LOG_VIEWER_ROUTE
   : "log-viewer";
 
-let prefix = "/" + prefix_env;
-
 export default [
   {
     path: prefix + "/permission",
-    name: "PermissionBrowse",
-    component: PermissionBrowse,
+    name: "PermissionManagementBrowse",
+    component: Pages,
     meta: {
       title: "Browse Permission",
     },
   },
   {
     path: prefix + "/permission/:id/detail",
-    name: "PermissionRead",
-    component: PermissionRead,
+    name: "PermissionManagementRead",
+    component: Pages,
     meta: {
       title: "Detail Permission",
     },
   },
   {
     path: prefix + "/permission/:id/edit",
-    name: "PermissionEdit",
-    component: PermissionEdit,
+    name: "PermissionManagementEdit",
+    component: Pages,
     meta: {
       title: "Edit Permission",
     },
   },
   {
     path: prefix + "/permission/add",
-    name: "PermissionAdd",
-    component: PermissionAdd,
+    name: "PermissionManagementAdd",
+    component: Pages,
     meta: {
       title: "Add Permission",
     },
@@ -82,40 +44,40 @@ export default [
 
   {
     path: prefix + "/role",
-    name: "RoleBrowse",
-    component: RoleBrowse,
+    name: "RoleManagementBrowse",
+    component: Pages,
     meta: {
       title: "Browse Role",
     },
   },
   {
     path: prefix + "/role/:id/detail",
-    name: "RoleRead",
-    component: RoleRead,
+    name: "RoleManagementRead",
+    component: Pages,
     meta: {
       title: "Detail Role",
     },
   },
   {
     path: prefix + "/role/:id/edit",
-    name: "RoleEdit",
-    component: RoleEdit,
+    name: "RoleManagementEdit",
+    component: Pages,
     meta: {
       title: "Edit Role",
     },
   },
   {
     path: prefix + "/role/:id/permissions",
-    name: "RolePermissions",
-    component: RolePermissions,
+    name: "RoleManagementPermissions",
+    component: Pages,
     meta: {
       title: "Browse Role Permission",
     },
   },
   {
     path: prefix + "/role/add",
-    name: "RoleAdd",
-    component: RoleAdd,
+    name: "RoleManagementAdd",
+    component: Pages,
     meta: {
       title: "Add Role",
     },
@@ -123,40 +85,40 @@ export default [
 
   {
     path: prefix + "/user",
-    name: "UserBrowse",
-    component: UserBrowse,
+    name: "UserManagementBrowse",
+    component: Pages,
     meta: {
       title: "Browse User",
     },
   },
   {
     path: prefix + "/user/:id/detail",
-    name: "UserRead",
-    component: UserRead,
+    name: "UserManagementRead",
+    component: Pages,
     meta: {
       title: "Detail User",
     },
   },
   {
     path: prefix + "/user/:id/edit",
-    name: "UserEdit",
-    component: UserEdit,
+    name: "UserManagementEdit",
+    component: Pages,
     meta: {
       title: "Edit User",
     },
   },
   {
     path: prefix + "/user/:id/roles",
-    name: "UserRoles",
-    component: UserRoles,
+    name: "UserManagementRoles",
+    component: Pages,
     meta: {
       title: "Browse User Roles",
     },
   },
   {
     path: prefix + "/user/add",
-    name: "UserAdd",
-    component: UserAdd,
+    name: "UserManagementAdd",
+    component: Pages,
     meta: {
       title: "Add User",
     },
@@ -164,72 +126,72 @@ export default [
 
   {
     path: prefix + "/menu",
-    name: "MenuBrowse",
-    component: MenuBrowse,
+    name: "MenuManagementBrowse",
+    component: Pages,
     meta: {
       title: "Browse Menu",
     },
   },
   {
     path: prefix + "/menu/:id/edit",
-    name: "MenuEdit",
-    component: MenuEdit,
+    name: "MenuManagementEdit",
+    component: Pages,
     meta: {
       title: "Edit Menu",
     },
   },
   {
     path: prefix + "/menu/:id/builder",
-    name: "MenuBuilder",
-    component: MenuBuilder,
+    name: "MenuManagementBuilder",
+    component: Pages,
     meta: {
       title: "Build Menu",
     },
   },
   {
     path: prefix + "/menu/:id/:itemId/permissions",
-    name: "MenuPermissions",
-    component: MenuPermissions,
+    name: "MenuManagementPermissions",
+    component: Pages,
     meta: {
       title: "Add Menu Item Permissions",
     },
   },
   {
     path: prefix + "/menu/add",
-    name: "MenuAdd",
-    component: MenuAdd,
+    name: "MenuManagementAdd",
+    component: Pages,
     meta: {
       title: "Add Menu",
     },
   },
   {
     path: prefix + "/crud",
-    name: "CRUDManagementBrowse",
-    component: CRUDManagementBrowse,
+    name: "CrudManagementBrowse",
+    component: Pages,
     meta: {
       title: "Browse CRUD",
     },
   },
   {
     path: prefix + "/crud/read",
-    name: "CRUDManagementRead",
-    component: CRUDManagementRead,
+    name: "CrudManagementRead",
+    component: Pages,
     meta: {
       title: "Detail CRUD",
     },
   },
   {
     path: prefix + "/crud/edit/:tableName",
-    name: "CRUDManagementEdit",
-    component: CRUDManagementEdit,
+    name: "CrudManagementEdit",
+    component: Pages,
     meta: {
       title: "Edit CRUD",
     },
   },
   {
     path: prefix + "/crud/add/:tableName",
-    name: "CRUDManagementAdd",
-    component: CRUDManagementAdd,
+    name: "CrudManagementAdd",
+    component: Pages,
     meta: {
       title: "Add CRUD",
     },
@@ -237,24 +199,24 @@ export default [
 
   {
     path: prefix + "/database",
-    name: "DatabaseBrowse",
-    component: DatabaseBrowse,
+    name: "DatabaseManagementBrowse",
+    component: Pages,
     meta: {
       title: "Browse Database",
     },
   },
   {
     path: prefix + "/database/add",
-    name: "DatabaseAdd",
-    component: DatabaseAdd,
+    name: "DatabaseManagementAdd",
+    component: Pages,
     meta: {
       title: "Add Database",
     },
   },
   {
     path: prefix + "/database/alter/:tableName",
-    name: "DatabaseAlter",
-    component: DatabaseAlter,
+    name: "DatabaseManagementAlter",
+    component: Pages,
     meta: {
       title: "Alter Database",
     },
@@ -262,16 +224,16 @@ export default [
 
   {
     path: prefix + "/site",
-    name: "SiteBrowse",
-    component: SiteBrowse,
+    name: "SiteManagementBrowse",
+    component: Pages,
     meta: {
       title: "Site Configuration",
     },
   },
   {
     path: prefix + "/site/add",
-    name: "SiteAdd",
-    component: SiteAdd,
+    name: "SiteManagementAdd",
+    component: Pages,
     meta: {
       title: "Add Site Configuration",
     },
@@ -279,7 +241,7 @@ export default [
   {
     path: prefix + "/activity-log",
     name: "ActivityLogBrowse",
-    component: ActivityLogBrowse,
+    component: Pages,
     meta: {
       title: "Browse Activity Log",
     },
@@ -287,7 +249,7 @@ export default [
   {
     path: prefix + "/activity-log/:id/detail",
     name: "ActivityLogRead",
-    component: ActivityLogRead,
+    component: Pages,
     meta: {
       title: "Detail Activity Log",
     },

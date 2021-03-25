@@ -75,7 +75,7 @@
 
 <script>
 export default {
-  name: "PermissionAdd",
+  name: "PermissionManagementAdd",
   components: {
   },
   data: () => ({
@@ -96,7 +96,7 @@ export default {
         .add(this.permission)
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({ name: "PermissionBrowse" });
+          this.$router.push({ name: "PermissionManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;

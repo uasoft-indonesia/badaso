@@ -80,7 +80,7 @@ export default {
         .add(this.role)
         .then((response) => {
           this.$vs.loading.close();
-          this.$router.push({ name: "RoleBrowse" });
+          this.$router.push({ name: "RoleManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;

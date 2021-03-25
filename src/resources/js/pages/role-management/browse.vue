@@ -5,7 +5,7 @@
         <vs-button
           color="primary"
           type="relief"
-          :to="{ name: 'RoleAdd' }"
+          :to="{ name: 'RoleManagementAdd' }"
           v-if="$helper.isAllowed('add_roles')"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
@@ -69,7 +69,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'RoleRead',
+                        name: 'RoleManagementRead',
                         params: { id: data[indextr].id },
                       }"
                       ><vs-icon icon="visibility"></vs-icon
@@ -79,7 +79,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'RolePermissions',
+                        name: 'RoleManagementPermissions',
                         params: { id: data[indextr].id },
                       }"
                       ><vs-icon icon="list"></vs-icon
@@ -89,7 +89,7 @@
                       type="relief"
                       @click.stop
                       :to="{
-                        name: 'RoleEdit',
+                        name: 'RoleManagementEdit',
                         params: { id: data[indextr].id },
                       }"
                       v-if="$helper.isAllowed('edit_roles')"

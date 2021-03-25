@@ -516,6 +516,18 @@ export default {
           }
         }
       }
+    },
+    "permission": {
+      "title": "Permissions",
+      "header": {
+        "key": "Key",
+        "description": "Description"
+      },
+      "button": "Set selected permissions for menu",
+      "success": {
+        "title": "Success",
+        "text": 'Permissions has been set',
+      }
     }
   },
 

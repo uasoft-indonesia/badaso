@@ -2,7 +2,6 @@
   <vs-col
     vs-lg="12"
     class="login-register-box"
-    style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
   >
     <vs-card class="mb-0">
       <div slot="header">
@@ -25,7 +24,7 @@
                 class="text-danger"
                 v-for="(info, index) in errors.email"
                 :key="index"
-                v-html="info"
+                v-html="info+'<br />'"
               ></span>
             </div>
             <div v-else>
@@ -98,7 +97,7 @@
 
 <script>
 export default {
-  name: "Login",
+  name: "AuthLogin",
   data: () => ({
     email: "",
     password: "",
@@ -111,7 +110,7 @@ export default {
   methods: {
     login() {
       this.$vs.loading(this.$loadingConfig);
-      this.$store.commit("SET_AUTH_ISSUE", {
+      this.$store.commit("badaso/SET_AUTH_ISSUE", {
         unauthorized: false,
       });
       this.$api.auth
@@ -126,7 +125,7 @@ export default {
             this.$router.push({ name: "Home" });
           } else {
             this.$router.push({
-              name: "Verify",
+              name: "AuthVerify",
               query: {
                 email: this.email,
               },
@@ -150,5 +149,9 @@ export default {
 <style>
 .login-register-box {
   max-width: 400px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0;
+  width: 100%;
 }
 </style>

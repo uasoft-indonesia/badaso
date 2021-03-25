@@ -5,7 +5,7 @@
         <vs-button
           color="warning"
           type="relief"
-          :to="{ name: 'PermissionEdit', params: { id: $route.params.id } }"
+          :to="{ name: 'PermissionManagementEdit', params: { id: $route.params.id } }"
           v-if="$helper.isAllowed('edit_permissions')"
           ><vs-icon icon="edit"></vs-icon>
           {{ $t("permission.detail.button") }}</vs-button
@@ -69,7 +69,7 @@
 
 <script>
 export default {
-  name: "PermissionRead",
+  name: "PermissionManagementRead",
   components: {
   },
   data: () => ({

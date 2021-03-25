@@ -5,7 +5,7 @@
         <vs-button
           color="primary"
           type="relief"
-          :to="{ name: 'SiteAdd' }"
+          :to="{ name: 'SiteManagementAdd' }"
           v-if="$helper.isAllowed('add_configurations')"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
@@ -246,7 +246,7 @@ export default {
   computed: {
     groupList: {
       get() {
-        return this.$store.getters.getSiteGroup;
+        return this.$store.getters['badaso/getSiteGroup'];
       },
     },
   },
@@ -335,7 +335,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getConfigurationList();
-          this.$store.commit("FETCH_MENU");
+          this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
           this.$vs.loading.close();
@@ -353,7 +353,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getConfigurationList();
-          this.$store.commit("FETCH_CONFIGURATION");
+          this.$store.commit("badaso/FETCH_CONFIGURATION");
           this.$vs.notify({
             title: this.$t("alert.success"),
             text: this.$t("site.configUpdated"),
@@ -376,7 +376,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.getConfigurationList();
-          this.$store.commit("FETCH_CONFIGURATION");
+          this.$store.commit("badaso/FETCH_CONFIGURATION");
           this.$vs.notify({
             title: this.$t("alert.success"),
             text: this.$t("site.configUpdated"),

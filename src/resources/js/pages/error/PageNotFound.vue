@@ -24,7 +24,7 @@ export default {
   data: () => ({}),
   methods: {
     goHome() {
-      this.$router.push({ name: "Login" });
+      this.$router.push({ name: "AuthLogin" });
     },
   },
 };

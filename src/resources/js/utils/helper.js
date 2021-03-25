@@ -54,7 +54,7 @@ export default {
   },
 
   isAllowed(permission) {
-    let userPermissions = store.getters.getUser.permissions;
+    let userPermissions = store.getters['badaso/getUser'].permissions;
     let result = _.find(userPermissions, function(o) {
       return o.key == permission;
     });
@@ -64,7 +64,7 @@ export default {
 
   isAllowedToModifyGeneratedCRUD(action, dataType) {
     if (dataType.generatePermissions === true || dataType.generatePermissions === 1) {
-      let userPermissions = store.getters.getUser.permissions;
+      let userPermissions = store.getters['badaso/getUser'].permissions;
       let result = _.find(userPermissions, function(o) {
         return o.key == action + '_' + dataType.name;
       });

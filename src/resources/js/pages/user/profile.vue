@@ -126,7 +126,7 @@
 
 <script>
 export default {
-  name: "Profile",
+  name: "UserProfile",
   components: {
   },
   data: () => ({
@@ -177,7 +177,7 @@ export default {
           additionalInfo: this.user.additionalInfo !== '' ? JSON.stringify(this.user.additionalInfo) : null,
         })
         .then((response) => {
-          this.$store.commit("FETCH_USER");
+          this.$store.commit("badaso/FETCH_USER");
           this.$vs.loading.close();
           this.$vs.notify({
             title: this.$t("alert.success"),
@@ -211,7 +211,7 @@ export default {
               color: "success",
             });
           } else {
-            this.$store.commit("FETCH_USER");
+            this.$store.commit("badaso/FETCH_USER");
             this.$vs.notify({
               title: this.$t("alert.success"),
               text: "Email updated",
@@ -239,7 +239,7 @@ export default {
           token: this.token
         })
         .then((response) => {
-          this.$store.commit("FETCH_USER");
+          this.$store.commit("badaso/FETCH_USER");
           this.shouldVerifyEmail = false
           this.token = ''
           this.$vs.loading.close();

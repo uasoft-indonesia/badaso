@@ -1,15 +1,36 @@
-let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "badaso-admin";
+import Pages from './../../pages/index'
 
-let prefix = "/" + prefix_env;
+let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? '/' + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  : "/badaso-admin";
+
+const menuKey = process.env.MIX_DEFAULT_MENU
+  ? process.env.MIX_DEFAULT_MENU
+  : "admin";
 
 export default [
-    // your public route here
-    // example
-    //   {
-    //     path: prefix + "/test",
-    //     name: "Test",
-    //     component: Test,
-    //   },
+  {
+    path: prefix,
+    redirect: prefix + "/home",
+  },
+  {
+    path: prefix + "/" + menuKey,
+    redirect: prefix + "/home",
+  },
+  {
+    path: prefix + "/home",
+    name: "Home",
+    component: Pages,
+    meta: {
+      title: "Home",
+    },
+  },
+  {
+    path: prefix + "/profile",
+    name: "UserProfile",
+    component: Pages,
+    meta: {
+      title: "User Profile",
+    },
+  },
 ];

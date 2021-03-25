@@ -38,7 +38,7 @@
                     type="relief"
                     @click.stop
                     :to="{
-                      name: 'RoleRead',
+                      name: 'RoleManagementRead',
                       params: { id: data[indextr].id },
                     }"
                     v-if="$helper.isAllowed('read_role')"

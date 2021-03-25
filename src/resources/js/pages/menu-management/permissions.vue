@@ -5,7 +5,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>Permissions</h3>
+            <h3>{{ $t("menu.permission.title") }}</h3>
           </div>
           <vs-table
             search
@@ -16,8 +16,8 @@
           >
             <template slot="thead">
               <vs-th v-if="$helper.isAllowed('edit_menu_items')"> </vs-th>
-              <vs-th> Key </vs-th>
-              <vs-th> Description </vs-th>
+              <vs-th> {{ $t("menu.permission.header.key") }} </vs-th>
+              <vs-th> {{ $t("menu.permission.header.description") }} </vs-th>
             </template>
 
             <template slot-scope="{ data }">
@@ -49,8 +49,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> Set selected permissions for
-                menu item
+                <vs-icon icon="save"></vs-icon> {{ $t("menu.permission.button") }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -62,7 +61,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>You're not allowed to browse Menu Item Permissions</h3>
+              <h3>{{ $t("menu.warning.notAllowedToAdd") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -70,14 +69,11 @@
     </vs-row>
   </div>
 </template>
-<script>
-// import BadasoBreadcrumbRow from "../../components/BadasoBreadcrumbRow.vue";
 
+<script>
 export default {
   name: "MenuPermissions",
-  components: {
-    // BadasoBreadcrumbRow,
-  },
+  components: {},
   data: () => ({
     menuItemPermissions: [],
   }),
@@ -124,9 +120,9 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
-          this.$store.commit("FETCH_MENU");
-          this.$store.commit("FETCH_CONFIGURATION_MENU");
-          this.$store.commit("FETCH_USER");
+          this.$store.commit("badaso/FETCH_MENU");
+          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
+          this.$store.commit("badaso/FETCH_USER");
           this.getMenuItemPermissions();
           this.$vs.notify({
             title: "Success",

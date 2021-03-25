@@ -25,7 +25,7 @@
                 class="text-danger"
                 v-for="(info, index) in errors.name"
                 :key="index"
-                v-html="info"
+                v-html="info+'<br />'"
               ></span>
             </div>
             <div v-else>
@@ -102,7 +102,7 @@
 
 <script>
 export default {
-  name: "Register",
+  name: "AuthRegister",
   data: () => ({
     errors: {},
     name: "",
@@ -129,7 +129,7 @@ export default {
             this.$router.push({ name: "Login" });
           } else {
             this.$router.push({
-              name: "Verify",
+              name: "AuthVerify",
               query: {
                 email: this.email,
               },

@@ -1,14 +1,8 @@
-import Browse from "./../../pages/crud-generated/browse.vue";
-import Add from "./../../pages/crud-generated/add.vue";
-import Edit from "./../../pages/crud-generated/edit.vue";
-import Read from "./../../pages/crud-generated/read.vue";
-import Sort from "./../../pages/crud-generated/sort.vue";
+import Pages from "./../../pages/index";
 
-let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "badaso-admin";
-
-let prefix = "/" + prefix_env;
+let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? '/'+process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  : "/badaso-admin";
 
 const menuKey = process.env.MIX_DEFAULT_MENU
         ? process.env.MIX_DEFAULT_MENU
@@ -17,42 +11,42 @@ const menuKey = process.env.MIX_DEFAULT_MENU
 export default [
   {
     path: prefix + "/"+ menuKey + "/:slug",
-    name: "EntityBrowse",
-    component: Browse,
+    name: "CrudGeneratedBrowse",
+    component: Pages,
     meta: {
-      title: "Browse Entity",
+      title: "Browse Data",
     },
   },
   {
     path: prefix + "/"+ menuKey + "/:slug/add",
-    name: "EntityAdd",
-    component: Add,
+    name: "CrudGeneratedAdd",
+    component: Pages,
     meta: {
-      title: "Add Entity",
+      title: "Add Data",
     },
   },
   {
     path: prefix + "/"+ menuKey + "/:slug/sort",
-    name: "EntitySort",
-    component: Sort,
+    name: "CrudGeneratedSort",
+    component: Pages,
     meta: {
-      title: "Sort Data Entity",
+      title: "Sort Data Data",
     },
   },
   {
     path: prefix + "/"+ menuKey + "/:slug/:id",
-    name: "EntityRead",
-    component: Read,
+    name: "CrudGeneratedRead",
+    component: Pages,
     meta: {
-      title: "Detail Entity",
+      title: "Detail Data",
     },
   },
   {
     path: prefix + "/"+ menuKey + "/:slug/:id/edit",
-    name: "EntityEdit",
-    component: Edit,
+    name: "CrudGeneratedEdit",
+    component: Pages,
     meta: {
-      title: "Edit Entity",
+      title: "Edit Data",
     },
   },
 ];

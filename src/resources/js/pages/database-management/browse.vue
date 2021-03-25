@@ -2,7 +2,7 @@
   <div>
     <badaso-breadcrumb-row>
       <template slot="action">
-        <vs-button color="primary" type="relief" :to="{ name: 'DatabaseAdd' }"
+        <vs-button color="primary" type="relief" :to="{ name: 'DatabaseManagementAdd' }"
         v-if="$helper.isAllowed('add_database')"
         ><vs-icon icon="add"></vs-icon> {{ $t('database.browse.addButton') }}</vs-button
       >
@@ -128,7 +128,7 @@
                       @click.stop
                       v-if="$helper.isAllowed('edit_database')"
                       :to="{
-                        name: 'DatabaseAlter',
+                        name: 'DatabaseManagementAlter',
                         params: { tableName: data[index].tableName },
                       }"
                       >{{ $t('database.browse.alterButton') }}</vs-button>
@@ -159,13 +159,13 @@
     </vs-row>
   </div>
 </template>
+
 <script>
-import BadasoBreadcrumb from "../../components/BadasoBreadcrumb.vue";
 import { required } from 'vuelidate/lib/validators'
 
 export default {
-  components: { BadasoBreadcrumb },
-  name: "Browse",
+  components: { },
+  name: "DatabaseManagementBrowse",
   data: () => ({
     descriptionItems: [10, 50, 100],
     selected: [],

@@ -516,6 +516,18 @@ export default {
           }
         }
       }
+    },
+    "permission": {
+      "title": "Izin",
+      "header": {
+        "key": "Kunci",
+        "description": "Deskripsi"
+      },
+      "button": "Tetapkan izin yang dipilih untuk wewenang",
+      "success": {
+        "title": "Sukses",
+        "text": "Izin telah ditetapkan",
+      }
     }
   },
 
