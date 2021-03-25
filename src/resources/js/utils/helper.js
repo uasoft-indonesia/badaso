@@ -95,5 +95,5 @@ export default {
     }
   
     return url.protocol === "http:" || url.protocol === "https:";
-  }
+  },
 };

@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: "404",
+  name: "PageNotFound",
   data: () => ({}),
   methods: {
     goHome() {

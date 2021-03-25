@@ -1,88 +1,91 @@
 import resource from "../resource";
-import endpoint from "../endpoint";
 import QueryString from "../query-string";
+
+let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+? '/' + process.env.MIX_API_ROUTE_PREFIX
+: "/badaso-api";
 
 export default {
   browseItemByKey(data) {
-    let ep = endpoint.menu.browseItemByKey;
+    let ep = apiPrefix + '/v1/menus/item-by-key';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   browse(data = {}) {
-    let ep = endpoint.menu.browse;
+    let ep = apiPrefix + '/v1/menus';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   read(data) {
-    let ep = endpoint.menu.read;
+    let ep = apiPrefix + '/v1/menus/read';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   edit(data) {
-    return resource.put(endpoint.menu.edit, data);
+    return resource.put(apiPrefix + '/v1/menus/edit', data);
   },
 
   add(data) {
-    return resource.post(endpoint.menu.add, data);
+    return resource.post(apiPrefix + '/v1/menus/add', data);
   },
 
   delete(data) {
     let paramData = {
       data: data,
     };
-    return resource.delete(endpoint.menu.delete, paramData);
+    return resource.delete(apiPrefix + '/v1/menus/delete', paramData);
   },
 
   browseItem(data) {
-    let ep = endpoint.menu.browseItem;
+    let ep = apiPrefix + '/v1/menus/item';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   arrangeItems(data) {
-    return resource.put(endpoint.menu.arrangeItems, data);
+    return resource.put(apiPrefix + '/v1/menus/arrange-items', data);
   },
 
   readItem(data) {
-    let ep = ep.menu.readItem;
+    let ep = apiPrefix + '/v1/menus/item/read';
     let qs = QueryString(data);
-    let url = endpoint + qs;
+    let url = ep + qs;
     return resource.get(url);
   },
 
   editItem(data) {
-    return resource.put(endpoint.menu.editItem, data);
+    return resource.put(apiPrefix + '/v1/menus/item/edit', data);
   },
 
   editItemOrder(data) {
-    return resource.put(endpoint.menu.editItemOrder, data);
+    return resource.put(apiPrefix + '/v1/menus/item/edit-order', data);
   },
 
   addItem(data) {
-    return resource.post(endpoint.menu.addItem, data);
+    return resource.post(apiPrefix + '/v1/menus/item/add', data);
   },
 
   deleteItem(data) {
     let paramData = {
       data: data,
     };
-    return resource.delete(endpoint.menu.deleteItem, paramData);
+    return resource.delete(apiPrefix + '/v1/menus/item/delete', paramData);
   },
 
   getItemPermissions(data = {}) {
-    let ep = endpoint.menu.itemPermissions;
+    let ep = apiPrefix + '/v1/menus/item/permissions';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
   setItemPermissions(data) {
-    return resource.put(endpoint.menu.itemPermissions, data);
+    return resource.put(apiPrefix + '/v1/menus/item/permissions', data);
   },
 };

@@ -21,4 +21,18 @@ return [
         'invalid_verification_token' => 'Token verifikasi tidak valid',
         'verification_not_found' => 'Verifikasi tidak ditemukan',
     ],
+    'database' => [
+        'table_already_exists' => 'Tabel :table sudah ada.',
+        'table_name_already_exists' => 'Nama tabel dari :table sudah ada.',
+        'migration_created' => 'Migration berhasil dibuat dan dijalankan.',
+        'migration_failed' => 'Migration gagal dibuat dan dijalankan.',
+        'migration_dropped' => 'Tabel :table berhasil dihapus.',
+        'migration_success' => 'Migration berhasil dijalankan.',
+        'migration_deleted' => 'Migration berhasil dihapus.',
+        'alter_migration_created' => 'Alter table :table berhasil dibuat dan dijalankan.',
+        'table_not_found' => 'Table :table tidak ada.',
+        'nothing_changed' => 'Request valid, namun tidak ada perubahan yang terjadi.',
+        'rollback_success' => 'Rollback sukses.',
+        'rollback_failed' => 'Rollback gagal.'
+    ]
 ];

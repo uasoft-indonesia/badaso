@@ -1,4 +1,13 @@
 export default {
+  "vuelidate": {
+    "required": "* {0} is required.",
+    "requiredIf": "* {0} is required.",
+    "integer": "* {0} must be integer.",
+    "rowsRequired": "* Please fill in the field.",
+    "maxLength": "* {field} must have at most {length} letters.",
+    "alphaNum": "* {0} is not alphanumeric.",
+    "alphaNumAndUnderscoreValidator": "* {0} only alphanumeric and underscore (_) allowed.",
+  },
   "login": {
     "title": "Login Here",
     "subtitle": "Welcome back, please login to your account.",
@@ -491,6 +500,10 @@ export default {
             "url": "Url",
             "target": {
               "title": "Target",
+              "value": {
+                "thisTab": "This tab",
+                "newTab": "New tab"
+              }
             },
             "icon": {
               "title": "Icon",
@@ -800,4 +813,111 @@ export default {
     "subtitle": "Sorry, cannot continue request because",
     "message": "Authorization Failed, token expired or empty",
   },
+  "database": {
+    "browse": {
+      "title": "Database",
+      "addButton": "Add Table",
+      "alterButton": "Alter Table",
+      "rollbackButton": "Rollback Migration",
+      "dropButton": "Drop Table",
+      "goBackButton": "Go Back",
+      "deleteMigrationButton": "Delete Migration File",
+      "migrateButton": "Migrate",
+      "warning": {
+        "title": "Migration Not Sync",
+        "notAllowed": "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:"
+      }
+    },
+    "add": {
+      "title": "Add Table",
+      "field": {
+        "table": "Table Name"
+      },
+      "row": {
+        "title": "Add Table Field",
+        "subtitle": "Please read the {0} before you create the migration.",
+        "field": {
+          "timestamp": "Timestamp",
+          "tableName": "Table Name",
+          "fieldName": "Field Name",
+          "fieldType": "Field Type",
+          "fieldLength": "Length/Value",
+          "fieldDefault": "Default",
+          "asDefined": "User Defined Default Value",
+          "fieldNull": "Nullable",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Attribute",
+          "fieldIncrement": "Auto Increment",
+          "action": "Action",
+          "add": "Add"
+        }
+      },
+      "error": {
+        "fieldName": "Field name is required.",
+        "fieldType": "Field type is required.",
+        "tableName": "Table name is required.",
+        "fieldLength": "Field length is required.",
+      },
+      "footer": {
+        "descriptionTitle": "Registries",
+        "descriptionConnector": "of",
+        "descriptionBody": "Pages"
+      },
+      "button": "Save"
+    },
+    "edit": {
+      "title": "Alter Table",
+      "field": {
+        "table": "Table Name"
+      },
+      "row": {
+        "title": "Alter Table Field",
+        "field": {
+          "timestamp": "Timestamp",
+          "tableName": "Table Name",
+          "fieldName": "Field Name",
+          "fieldType": "Field Type",
+          "fieldLength": "Length",
+          "fieldDefault": "Default",
+          "asDefined": "User Defined Default Value",
+          "fieldNull": "Nullable",
+          "fieldIndex": "Index",
+          "fieldAttribute": "Attribute",
+          "fieldIncrement": "Auto Increment",
+          "action": "Action",
+          "add": "Add"
+        },
+        "drop": "Are you sure want to delete this field?"
+      },
+      "error": {
+        "fieldName": "Field name is required.",
+        "fieldType": "Field type is required.",
+        "tableName": "Table name is required.",
+        "fieldLength": "Field length is required.",
+      },
+      "footer": {
+        "descriptionTitle": "Registries",
+        "descriptionConnector": "of",
+        "descriptionBody": "Pages"
+      },
+      "button": "Save"
+    },
+    "rollback": {
+      "title": "Rollback",
+      "label": "Enter rollback step",
+      "checkbox": "Delete Migration File?",
+      "invalid": "Please select the migration that you want to rollback."
+    },
+    "warning": {
+      "docs": "* Please read the {0} before using this feature."
+    },
+    "migration": {
+      "header": {
+        "migration": "Migration Name"
+      },
+      "button": {
+        "rollback": "Rollback Migration"
+      }
+    }
+  }
 }

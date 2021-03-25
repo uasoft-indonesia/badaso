@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuesax from "vuesax";
 import VueI18n from "vue-i18n";
 import { Datetime } from "vue-datetime";
+import Vuelidate from 'vuelidate';
 
 import "vuesax/dist/vuesax.css"; //Vuesax styles
 import "material-icons/iconfont/material-icons.css";
@@ -12,6 +13,7 @@ import api from "./api/index";
 import handleError from "./api/handle-error";
 import router from "./router/router";
 import helper from "./utils/helper";
+import databaseHelper from "./utils/database-helper";
 import caseConvert from "./utils/case-convert";
 import store from "./store/store";
 import lang from "./lang/";
@@ -26,6 +28,7 @@ Vue.use(Vuesax);
 Vue.use(VueI18n);
 Vue.use(Datetime);
 Vue.component("datetime", Datetime);
+Vue.use(Vuelidate);
 
 const requireComponent = require.context(
   "./components",
@@ -88,6 +91,7 @@ const i18n = new VueI18n({
 Vue.prototype.$api = api;
 Vue.prototype.$handleError = handleError;
 Vue.prototype.$helper = helper;
+Vue.prototype.$databaseHelper = databaseHelper;
 Vue.prototype.$caseConvert = caseConvert;
 Vue.prototype.$constants = {
   MOBILE: "mobile",

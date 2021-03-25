@@ -1,36 +1,40 @@
-import PermissionBrowse from "./../pages/permission-management/browse";
-import PermissionRead from "./../pages/permission-management/read";
-import PermissionEdit from "./../pages/permission-management/edit";
-import PermissionAdd from "./../pages/permission-management/add";
+import PermissionBrowse from "./../../pages/permission-management/browse";
+import PermissionRead from "./../../pages/permission-management/read";
+import PermissionEdit from "./../../pages/permission-management/edit";
+import PermissionAdd from "./../../pages/permission-management/add";
 
-import RoleBrowse from "./../pages/role-management/browse";
-import RoleRead from "./../pages/role-management/read";
-import RoleEdit from "./../pages/role-management/edit";
-import RoleAdd from "./../pages/role-management/add";
-import RolePermissions from "./../pages/role-management/permissions";
+import RoleBrowse from "./../../pages/role-management/browse";
+import RoleRead from "./../../pages/role-management/read";
+import RoleEdit from "./../../pages/role-management/edit";
+import RoleAdd from "./../../pages/role-management/add";
+import RolePermissions from "./../../pages/role-management/permissions";
 
-import UserBrowse from "./../pages/user-management/browse";
-import UserRead from "./../pages/user-management/read";
-import UserEdit from "./../pages/user-management/edit";
-import UserAdd from "./../pages/user-management/add";
-import UserRoles from "./../pages/user-management/roles";
+import UserBrowse from "./../../pages/user-management/browse";
+import UserRead from "./../../pages/user-management/read";
+import UserEdit from "./../../pages/user-management/edit";
+import UserAdd from "./../../pages/user-management/add";
+import UserRoles from "./../../pages/user-management/roles";
 
-import MenuBrowse from "./../pages/menu-management/browse";
-import MenuEdit from "./../pages/menu-management/edit";
-import MenuAdd from "./../pages/menu-management/add";
-import MenuBuilder from "./../pages/menu-management/builder";
-import MenuPermissions from "./../pages/menu-management/permissions";
+import MenuBrowse from "./../../pages/menu-management/browse";
+import MenuEdit from "./../../pages/menu-management/edit";
+import MenuAdd from "./../../pages/menu-management/add";
+import MenuBuilder from "./../../pages/menu-management/builder";
+import MenuPermissions from "./../../pages/menu-management/permissions";
 
-import CRUDManagementBrowse from "./../pages/crud-management/browse";
-import CRUDManagementRead from "./../pages/crud-management/read";
-import CRUDManagementEdit from "./../pages/crud-management/edit";
-import CRUDManagementAdd from "./../pages/crud-management/add";
+import CRUDManagementBrowse from "./../../pages/crud-management/browse";
+import CRUDManagementRead from "./../../pages/crud-management/read";
+import CRUDManagementEdit from "./../../pages/crud-management/edit";
+import CRUDManagementAdd from "./../../pages/crud-management/add";
 
-import SiteBrowse from "./../pages/site-management/browse";
-import SiteAdd from "./../pages/site-management/add";
+import DatabaseBrowse from "./../../pages/database/browse";
+import DatabaseAdd from "./../../pages/database/add";
+import DatabaseAlter from "./../../pages/database/edit";
 
-import ActivityLogBrowse from './../pages/activity-log/browse'
-import ActivityLogRead from './../pages/activity-log/read'
+import SiteBrowse from "./../../pages/site-management/browse";
+import SiteAdd from "./../../pages/site-management/add";
+
+import ActivityLogBrowse from './../../pages/activity-log/browse'
+import ActivityLogRead from './../../pages/activity-log/read'
 
 let prefix_env = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -228,6 +232,31 @@ export default [
     component: CRUDManagementAdd,
     meta: {
       title: "Add CRUD",
+    },
+  },
+
+  {
+    path: prefix + "/database",
+    name: "DatabaseBrowse",
+    component: DatabaseBrowse,
+    meta: {
+      title: "Browse Database",
+    },
+  },
+  {
+    path: prefix + "/database/add",
+    name: "DatabaseAdd",
+    component: DatabaseAdd,
+    meta: {
+      title: "Add Database",
+    },
+  },
+  {
+    path: prefix + "/database/alter/:tableName",
+    name: "DatabaseAlter",
+    component: DatabaseAlter,
+    meta: {
+      title: "Alter Database",
     },
   },
 

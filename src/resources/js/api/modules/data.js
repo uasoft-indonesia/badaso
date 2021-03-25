@@ -1,30 +1,33 @@
 import resource from "../resource";
-import endpoint from "../endpoint";
 import QueryString from "../query-string";
+
+let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+? '/' + process.env.MIX_API_ROUTE_PREFIX
+: "/badaso-api";
 
 export default {
   component(data = {}) {
-    let ep = endpoint.data.component;
+    let ep = apiPrefix + '/v1/data/components';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   filterOperator(data = {}) {
-    let ep = endpoint.data.filterOperator;
+    let ep = apiPrefix + '/v1/data/filter-operators';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   tableRelations(data = {}) {
-    let ep = endpoint.data.tableRelations;
+    let ep = apiPrefix + '/v1/data/table-relations';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
   configurationGroups(data = {}) {
-    let ep = endpoint.data.configurationGroups;
+    let ep = apiPrefix + '/v1/data/configuration-groups';
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);

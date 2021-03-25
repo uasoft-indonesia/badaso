@@ -1,34 +1,39 @@
 import resource from "../resource";
-import endpoint from "../endpoint";
 import QueryString from "../query-string";
+
+let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+? '/' + process.env.MIX_API_ROUTE_PREFIX
+: "/badaso-api";
+
+const entity_prefix = apiPrefix + '/v1/entities';
 
 export default {
   browse(data = {}) {
-    let ep = endpoint.entity + "/" + data.slug;
+    let ep = entity_prefix + "/" + data.slug;
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   all(data = {}) {
-    let ep = endpoint.entity + "/" + data.slug + "/all";
+    let ep = entity_prefix + "/" + data.slug + "/all";
     let url = ep;
     return resource.get(url);
   },
 
   read(data) {
-    let ep = endpoint.entity + "/" + data.slug + "/read";
+    let ep = entity_prefix + "/" + data.slug + "/read";
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
   },
 
   edit(data) {
-    return resource.put(endpoint.entity + "/" + data.slug + "/edit", data);
+    return resource.put(entity_prefix + "/" + data.slug + "/edit", data);
   },
 
   add(data) {
-    return resource.post(endpoint.entity + "/" + data.slug + "/add", data);
+    return resource.post(entity_prefix + "/" + data.slug + "/add", data);
   },
 
   delete(data) {
@@ -36,7 +41,7 @@ export default {
       data: data,
     };
     return resource.delete(
-      endpoint.entity + "/" + data.slug + "/delete",
+      entity_prefix + "/" + data.slug + "/delete",
       paramData
     );
   },
@@ -45,11 +50,11 @@ export default {
       data: data,
     };
     return resource.delete(
-      endpoint.entity + "/" + data.slug + "/delete-multiple",
+      entity_prefix + "/" + data.slug + "/delete-multiple",
       paramData
     );
   },
   sort(data) {
-    return resource.put(endpoint.entity + "/" + data.slug + "/sort", data);
+    return resource.put(entity_prefix + "/" + data.slug + "/sort", data);
   },
 };

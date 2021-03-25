@@ -88,6 +88,160 @@ class Badaso
 
     protected $badaso_cloud_api = 'https://badaso.uatech.co.id';
 
+    protected $badaso_dbms_field_type = '
+    [
+        {
+           "title": "Frequently used",
+           "group": [
+              {
+                 "label": "Integer",
+                 "value": "integer"
+              },
+              {
+                 "label": "Varchar",
+                 "value": "varchar"
+              },
+              {
+                 "label": "Text",
+                 "value": "text"
+              },
+              {
+                 "label": "Date",
+                 "value": "date"
+              }
+           ]
+        },
+        {
+           "title": "Numeric",
+           "group": [
+              {
+                 "label": "Tiny Integer",
+                 "value": "tinyint"
+              },
+              {
+                 "label": "Small Integer",
+                 "value": "smallint"
+              },
+              {
+                 "label": "Medium Integer",
+                 "value": "mediumint"
+              },
+              {
+                 "label": "Big Integer",
+                 "value": "bigint"
+              },
+              {
+                 "label": "Decimal",
+                 "value": "decimal"
+              },
+              {
+                 "label": "Float",
+                 "value": "float"
+              },
+              {
+                 "label": "Double",
+                 "value": "double"
+              },
+              {
+                 "label": "Boolean",
+                 "value": "boolean"
+              }
+           ]
+        },
+        {
+           "title": "Date and Time",
+           "group": [
+              {
+                 "label": "Datetime",
+                 "value": "datetime"
+              },
+              {
+                 "label": "Time",
+                 "value": "time"
+              },
+              {
+                 "label": "Year",
+                 "value": "year"
+              }
+           ]
+        },
+        {
+           "title": "String",
+           "group": [
+              {
+                 "label": "Char",
+                 "value": "char"
+              },
+              {
+                 "label": "Medium Text",
+                 "value": "mediumtext"
+              },
+              {
+                 "label": "Long Text",
+                 "value": "longtext"
+              },
+              {
+                 "label": "BLOB",
+                 "value": "blob"
+              },
+              {
+                 "label": "Enum",
+                 "value": "enum"
+              },
+              {
+                 "label": "Set",
+                 "value": "set"
+              }
+           ]
+        },
+        {
+           "title": "Spatial",
+           "group": [
+              {
+                 "label": "Geometry",
+                 "value": "geometry"
+              },
+              {
+                 "label": "Point",
+                 "value": "point"
+              },
+              {
+                 "label": "Multi Point",
+                 "value": "multipoint"
+              },
+              {
+                 "label": "Polygon",
+                 "value": "polygon"
+              },
+              {
+                 "label": "Multi Polygon",
+                 "value": "multipolygon"
+              },
+              {
+                 "label": "Linestring",
+                 "value": "linestring"
+              },
+              {
+                 "label": "Multi Linestring",
+                 "value": "multilinestring"
+              },
+              {
+                 "label": "Geometry Collection",
+                 "value": "geometrycollection"
+              }
+           ]
+        },
+        {
+           "title": "JSON",
+           "group": [
+              {
+                 "label": "JSON",
+                 "value": "json"
+              }
+           ]
+        }
+    ]';
+
     public function model($name)
     {
         return app($this->models[Str::studly($name)]);
@@ -131,5 +285,10 @@ class Badaso
     public function getDefaultJwtTokenLifetime()
     {
         return 60 * 24; // a day
+    }
+
+    public function getBadasoDbmsFieldType()
+    {
+        return $this->badaso_dbms_field_type;
     }
 }
