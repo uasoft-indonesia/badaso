@@ -29,7 +29,7 @@ class BadasoServiceProvider extends ServiceProvider
         });
 
         $this->loadMigrationsFrom(__DIR__.'/../Migrations');
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'Badaso');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'badaso');
         $this->loadRoutesFrom(__DIR__.'/../Routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../Routes/api.php');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'badaso');
