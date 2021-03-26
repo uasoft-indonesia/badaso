@@ -11,7 +11,6 @@
 <p align="center">
 <a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/uasoft-indonesia/badaso" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/uasoft-indonesia/badaso" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/l/uasoft-indonesia/badaso" alt="License"></a>
 </p>
 
 
