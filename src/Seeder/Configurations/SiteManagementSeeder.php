@@ -55,7 +55,7 @@ class SiteManagementSeeder extends Seeder
                 3 => [
                     'key' => 'adminPanelHeaderColor',
                     'display_name' => 'Admin Panel Header Color',
-                    'value' => '#2962ff',
+                    'value' => '#000',
                     'details' => '',
                     'type' => 'color_picker',
                     'order' => 4,
@@ -101,7 +101,6 @@ class SiteManagementSeeder extends Seeder
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
                 7 => [
-                    'id' => 11,
                     'key' => 'adminPanelLogoConfig',
                     'display_name' => 'Admin Panel Logo Config',
                     'value' => 'logo_and_text',
