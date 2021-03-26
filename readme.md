@@ -29,10 +29,11 @@ Badaso is a open-source Laravel headless CMS (with PWA dashboard + CRUD + API ge
 - **Modern PWA  Dashboard** - Elegant design, fully customizable, Fast and SPA based on Vue.js with PWA technology (offline mode, dekstop installation and more)
 - **Advanced CRUD generator** - Build your application faster and be more productive !
 - **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
-- **Secure** - Stand with laravel make it secured as laravel
+- **Secure** - Build based on laravel make it secure as laravel
 - **Modular** - Install custom library in seconds like another your laravel projects
 - **Scalable** - Like your another laravel projects !
 - **Easy maintenance** - Like your another laravel projects !
+- **Long time support** - Don't be scare to use badaso on your long-term project.
 
 ## Live demo
 
@@ -60,7 +61,9 @@ Coming soon.
 
 ## Backer 
 
-You need a badaso_license_key to running badaso software for only $1/month for unlimited projects ! (after we release the stable version)
+For keep badaso up to date and keep support your awesome long-term project up to date.
+
+You need a badaso_license_key to running badaso for only $1/month for unlimited projects ! (after we release the stable version)
 
 But if you wanna support badaso more, we appreciate it so much and will keep badaso up to update and support your awesome long-term projects !
 
@@ -88,7 +91,7 @@ For documentation repo contributing [click here](https://github.com/uasoft-indon
 
 ## Credits
 
-Thanks to these awesome projects to make badaso real :
+Thanks to these awesome projects that make badaso awesome :
 
 - [laravel/laravel](https://github.com/laravel/laravel) (Framework)
 - [vuejs/vue](https://github.com/vuejs/vue) (Javascript framework)
