@@ -33,7 +33,7 @@ Badaso is a open-source Laravel Vue headless CMS (with PWA dashboard + CRUD + AP
 - **Modular** - Install custom library in seconds like another your laravel projects
 - **Scalable** - Like your another laravel projects !
 - **Easy maintenance** - Like your another laravel projects !
-- **Long time support** - Don't be scare to use badaso on your long-term project.
+- **Long time support** - Great choice for  your long-term project.
 
 ## Live demo
 
