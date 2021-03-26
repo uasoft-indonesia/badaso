@@ -4,7 +4,7 @@
   </a>
 </p>
 <h3 align="center">Laravel headless CMS.</h3>
-<p align="center">SPA dashboard + CRUD + API generator & more.</p>
+<p align="center">PWA dashboard + CRUD + API generator & more.</p>
 <p align="center"><a href="#live-demo">Try live demo</a></p>
 <br />
 
@@ -25,9 +25,9 @@
 
 <br>
 
-Badaso is a open-source Laravel headless CMS (with SPA dashboard + CRUD + API generator & more) for more productivity !
+Badaso is a open-source Laravel headless CMS (with PWA dashboard + CRUD + API generator & more) for more productivity !
 
-- **Modern Dashboard** - Elegant design, fully customizable and SPA based on Vue.js
+- **Modern PWA  Dashboard** - Elegant design, fully customizable, Fast and SPA based on Vue.js with PWA technology (offline mode, dekstop installation and more)
 - **Advanced CRUD generator** - Build your application faster and be more productive !
 - **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
 - **Secure** - Stand with laravel make it secured as laravel
@@ -45,24 +45,68 @@ Live demo will reset every one day
 
 You can see <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">official badaso documentation</a>.
 
+## Community support
+
+For general help using badaso, please refer to the [official badaso documentation](https://badaso-docs.uatech.co.id/docs/). 
+
+For additional help, you can use one of these channels to ask a question:
+
+- [Github discussion](https://github.com/uasoft-indonesia/badaso/discussions) (Questions and Discussions)
+- [Github issues](https://github.com/uasoft-indonesia/badaso/issues) (Bug reports, Contributions)
+- Youtube tutorial (coming soon)
+
 ## Sponsor
 
 Coming soon.
 
+## Backer 
+
+You need a badaso_license_key to running badaso software for only $1/month for unlimited projects ! (after we release the stable version)
+
+But if you wanna support badaso more, we appreciate it so much and will keep badaso up to update and support your awesome long-term projects !
+
+- [Become a backer on OpenCollective](https://opencollective.com/badaso)
+- Become a backer on Patreon (coming soon)
+- One-time donation via Paypal (coming soon)
+
+Good financial support will make badaso keep up to date and keep support your awesome long-term projects !
+
+Thanks to all backer on OpenCollective !
+
+<a href="https://opencollective.com/badaso#backers" target="_blank"><img src="https://opencollective.com/badaso/backers.svg?width=890"></a>
+
 ## Contributing
 
-Thank you for considering contributing to badaso ! please read our [contributing guideline](./contributing.md) before submitting a Pull Request to the project.
+Thank you for considering contributing to badaso ! 
 
-For documentation repo <a href="https://github.com/uasoft-indonesia/badaso-documentation" target="_blank">click here</a>.
+Please read our [contributing guideline](./CONTRIBUTING.md) before submitting a Pull Request to the project.
 
-## Community support
+Thanks for all contributors !
 
-For general help using badaso, please refer to the <a href="https://badaso-docs.uatech.co.id/docs/" target="_blank">official badaso documentation</a>. For additional help, you can use one of these channels to ask a question:
+<a href="https://github.com/uasoft-indonesia/badaso/graphs/contributors"><img src="https://opencollective.com/badaso/contributors.svg?width=890&button=false" /></a>
 
-- <a href="https://github.com/uasoft-indonesia/badaso/discussions" target="_blank">Github discussions</a> (Questions and Discussions)
-- <a href="https://github.com/uasoft-indonesia/badaso/issues" target="_blank">Github issues</a> (Bug reports, Contributions)
-- Youtube tutorial (coming soon)
+For documentation repo contributing [click here](https://github.com/uasoft-indonesia/badaso-documentation).
+
+## Credits
+
+Thanks to these awesome projects to make badaso real :
+
+- [laravel/laravel](https://github.com/laravel/laravel) (Framework)
+- [vuejs/vue](https://github.com/vuejs/vue) (Javascript framework)
+- [lusaxweb/vuesax](https://github.com/lusaxweb/vuesax) (Vue component)
+- [spatie/laravel-backup](https://github.com/spatie/laravel-backup) (automation production database & application backup)
+- [spatie/laravel-activitylog](https://github.com/spatie/laravel-activitylog) (logging dashboard activity)
+- [spatie/flysystem-dropbox](https://github.com/spatie/flysystem-dropbox) (dropbox cloud storage integration)
+- [nao-pon/flysystem-google-drive](https://github.com/nao-pon/flysystem-google-drive) (google drive cloud storage integration)
+- [league/flysystem-aws-s3-v3](https://github.com/league/flysystem-aws-s3-v3) (aws S3 cloud storage integration)
+- [guzzlehttp/guzzle](https://github.com/guzzlehttp/guzzle) (advanced http request)
+- [webpatser/laravel-uuid](https://github.com/webpatser/laravel-uuid) (uuid provider)
+- [lcobucci/jwt](https://github.com/lcobucci/jwt) (JWT provider)
+- [tymon/jwt-auth](https://github.com/tymon/jwt-auth) (JWT auth provider)
+- [arcanedev/log-viewer](https://github.com/) (application logging GUI)
+
+All financial support that badaso get, will also share to project above for support the ecosystem and make badaso keep up to date and keep your awesome long-term projects running.
 
 ## License
 
-See the [license](./license) file for licensing information.
+See the [LICENSE](./LICENSE) file for licensing information.
