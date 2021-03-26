@@ -44,14 +44,22 @@
       </vs-row>
       <vs-row vs-type="flex" vs-justify="space-between">
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button color="primary" @click="saveMenuItem()" type="filled">{{
-            $t("menu.builder.popup.add.button.add")
-          }}</vs-button>
+          <vs-button
+            class="btn-block"
+            color="danger"
+            @click="closeModal()"
+            type="relief"
+            >{{ $t("menu.builder.popup.add.button.cancel") }}</vs-button
+          >
         </vs-col>
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button color="danger" @click="closeModal()">{{
-            $t("menu.builder.popup.add.button.cancel")
-          }}</vs-button>
+          <vs-button
+            class="btn-block"
+            color="primary"
+            @click="saveMenuItem()"
+            type="relief"
+            >{{ $t("menu.builder.popup.add.button.add") }}</vs-button
+          >
         </vs-col>
       </vs-row>
     </vs-popup>
@@ -103,17 +111,22 @@
       <vs-row vs-type="flex" vs-justify="space-between">
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
           <vs-button
-            v-if="menuItem.id"
-            color="primary"
-            @click="updateMenuItem()"
-            type="filled"
-            >{{ $t("menu.builder.popup.edit.button.edit") }}</vs-button
+            class="btn-block"
+            color="danger"
+            @click="closeModal()"
+            type="relief"
+            >{{ $t("menu.builder.popup.edit.button.cancel") }}</vs-button
           >
         </vs-col>
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button color="danger" @click="closeModal()">{{
-            $t("menu.builder.popup.edit.button.cancel")
-          }}</vs-button>
+          <vs-button
+            class="btn-block"
+            v-if="menuItem.id"
+            color="primary"
+            @click="updateMenuItem()"
+            type="relief"
+            >{{ $t("menu.builder.popup.edit.button.edit") }}</vs-button
+          >
         </vs-col>
       </vs-row>
     </vs-popup>

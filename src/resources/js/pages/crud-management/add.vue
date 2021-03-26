@@ -299,17 +299,21 @@
                         <vs-row vs-type="flex" vs-justify="space-between">
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                             <vs-button
-                              color="primary"
-                              @click="saveRelation(field)"
-                              >{{ $t("crud.add.body.saveRelation") }}</vs-button
+                              class="btn-block"
+                              color="danger"
+                              @click="field.setRelation = false"
+                              type="relief"
+                              >{{ $t("crud.add.body.cancelRelation") }}</vs-button
                             >
                           </vs-col>
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                             <vs-button
-                              color="danger"
-                              @click="field.setRelation = false"
+                              class="btn-block"
+                              color="primary"
+                              @click="saveRelation(field)"
+                              type="relief"
                               >{{
-                                $t("crud.add.body.cancelRelation")
+                                $t("crud.add.body.saveRelation")
                               }}</vs-button
                             >
                           </vs-col>
