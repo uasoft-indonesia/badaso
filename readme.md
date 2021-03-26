@@ -26,7 +26,7 @@
 
 Badaso is a open-source Laravel headless CMS (with PWA dashboard + CRUD + API generator & more) for more productivity !
 
-- **Modern PWA  Dashboard** - Elegant design, fully customizable, Fast and SPA based on Vue.js with PWA technology (offline mode, dekstop installation and more)
+- **Modern PWA  Dashboard** - Elegant design, fully customizable, Fast and SPA based on Vue.js with PWA technology (service worker, offline mode, dekstop installation and more)
 - **Advanced CRUD generator** - Build your application faster and be more productive !
 - **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
 - **Secure** - Build based on laravel make it secure as laravel
