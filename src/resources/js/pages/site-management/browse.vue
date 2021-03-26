@@ -11,10 +11,10 @@
         >
       </template>
     </badaso-breadcrumb-row>
-    <vs-row v-if="$helper.isAllowed('browse_configurations')">
+    <vs-row v-if="$helper.isAllowed('browse_configurations') && groupList.length > 0">
       <vs-col vs-lg="12">
         <vs-card>
-          <vs-tabs>
+          <vs-tabs :color="adminPanelHeaderFontColor">
             <vs-tab
               v-for="(group, index) in groupList"
               :key="index"
@@ -248,6 +248,11 @@ export default {
       get() {
         return this.$store.getters['badaso/getSiteGroup'];
       },
+    },
+    adminPanelHeaderFontColor: {
+      get() {
+        return "#06bbd3"
+      }
     },
   },
   mounted() {

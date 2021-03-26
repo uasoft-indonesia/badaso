@@ -4,7 +4,7 @@
     <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
-          <vs-tabs>
+          <vs-tabs :color="adminPanelHeaderFontColor">
             <vs-tab :label="$t('myProfile.profile')">
               <vs-row style="padding-top: 20px;">
                 <badaso-text
@@ -145,6 +145,13 @@ export default {
   }),
   mounted() {
     this.getUser()
+  },
+  computed: {
+    adminPanelHeaderFontColor: {
+      get() {
+        return "#06bbd3"
+      }
+    },
   },
   methods: {
     getUser() {

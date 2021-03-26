@@ -1,131 +1,240 @@
 .small-icon .vs-icon {
-	font-size: 17px;
+  font-size: 17px;
 }
 
 .vs-input--input {
-	border-radius: 2px;
+  border-radius: 2px;
 }
 
 .con-vs-card {
-	margin-bottom: $vs-column-bottom-margin;
-	border-radius: $theme-radius;
+  margin-bottom: $vs-column-bottom-margin;
+  border-radius: $theme-radius;
 
-	.vs-card--content,
-	.vs-card--header {
-		padding: 15px;
-	}
+  .vs-card--content,
+  .vs-card--header {
+    padding: 15px;
+  }
 }
 
 .vs-button.small {
-	padding: 7px 15px;
+  padding: 7px 15px;
 }
 
 .vs-icon {
-	vertical-align: middle;
+  vertical-align: middle;
 }
 
 .vs-dropdown--item .vs-dropdown--item-link {
-	padding: 10px;
+  padding: 10px;
 }
 
 .vs-sidebar-primary .vs-sidebar-item-active {
-	font-weight: normal;
-	border-right: 0px !important;
+  font-weight: normal;
+  border-right: 0px !important;
 
-	a {
-		opacity: .8 !important;
-		color: inherit !important;
-	}
+  a {
+    opacity: 0.8 !important;
+    color: inherit !important;
+  }
 }
 
 .vs-input-large .vs-icon {
-	top: 13px;
-	border-left: 0px;
+  top: 13px;
+  border-left: 0px;
 }
 
 @include media-breakpoint-up(sm) {
-	.vs-row>.vs-col {
-		padding: $vs-column-padding;
-
-	}
+  .vs-row > .vs-col {
+    padding: $vs-column-padding;
+  }
 }
 
 .vs-checkbox--check .vs-icon,
 .vs-input--icon {
-	font-size: 1rem;
+  font-size: 1rem;
 }
 
 .btn-alignment {
-	.vs-button {
-		margin-bottom: 5px;
-		margin-right: 5px;
-	}
+  .vs-button {
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
 }
 
 .vs-button {
-	border-radius: $theme-radius;
+  border-radius: $theme-radius;
 }
 
 .vs-button .vs-icon {
-	font-size: 1rem;
+  font-size: 1rem;
 }
 
 .list-alignment {
-	li {
-		margin-bottom: 10px;
-		margin-right: 5px;
-	}
+  li {
+    margin-bottom: 10px;
+    margin-right: 5px;
+  }
 }
 
 // S Comment
 .dropdownbtn-alignment {
-	.btnx {
-		border-radius: $theme-radius 0 0 $theme-radius;
-	}
+  .btnx {
+    border-radius: $theme-radius 0 0 $theme-radius;
+  }
 
-	.btn-drop {
-		border-radius: 0 $theme-radius $theme-radius 0;
-		border-left: 1px solid $border-color;
-	}
+  .btn-drop {
+    border-radius: 0 $theme-radius $theme-radius 0;
+    border-left: 1px solid $border-color;
+  }
 }
 
 .collapse:not(.show) {
-	display: block;
+  display: block;
 }
 
 .vs-pagination--ul {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .vs-sidebar--background {
-	background: none;
+  background: none;
 }
 
 .vs-switch--text {
-	.vs-icon {
-		font-size: 12px;
-	}
+  .vs-icon {
+    font-size: 12px;
+  }
 }
 
 .vs-input-number {
-	display: inline-flex;
+  display: inline-flex;
 }
 
 th .sort-th,
 th .vs-table-text {
-	padding: 10px;
+  padding: 10px;
 }
 
 .vs-table--search {
-	margin: 15px;
+  margin: 15px;
 }
 
 .vs-tabs--ul {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .vs-notifications {
-	border-radius: $theme-radius;
+  border-radius: $theme-radius;
 }
 
-// S Comment
+.vs-card--content {
+  .vs-breadcrumb--ol {
+    margin-bottom: 0;
+  }
+}
+
+.vs-input {
+  width: 100%;
+}
+
+.con-vs-dialog .vs-dialog footer {
+  padding: 10px;
+}
+
+.td-check {
+  width: 50px;
+}
+
+.con-td-check {
+  box-shadow: none !important;
+}
+
+.vs-table--search {
+  margin-left: 15px !important;
+}
+
+.vs-select--options {
+  z-index: 21000;
+}
+
+.vs-table--content::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.vs-table--content::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+.vs-table--content::-webkit-scrollbar-thumb {
+  background-color: $scoll-color;
+  border-radius: 20px;
+}
+
+.vs-table--content::-webkit-scrollbar-thumb:hover {
+  background-color: $scoll-hover-color;
+}
+
+.vs-col::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.vs-col::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+
+.vs-col::-webkit-scrollbar-thumb {
+  background-color: $scoll-color;
+  border-radius: 20px;
+}
+
+.vs-col::-webkit-scrollbar-thumb:hover {
+  background-color: $scoll-hover-color;
+}
+
+.con-vs-slider {
+  min-width: unset;
+}
+
+.con-vs-card {
+  background: $card-bg;
+}
+
+.vs-con-table {
+  background: $card-bg;
+}
+
+.vs-table--tbody-table tr {
+  background: $card-bg;
+}
+
+.vs-pagination--ul {
+  background: unset;
+}
+
+.vs-description-primary {
+  color: $primary !important;
+}
+
+.vs-pagination-primary {
+  .effect {
+    background: $primary !important;
+  }
+
+  .vs-pagination--buttons:hover {
+    background: $primary !important;
+  }
+}
+
+// .vs-tabs-primary {
+// 	.con-ul-tabs {
+// 		.activeChild button {
+// 			color: $primary !important;
+// 		}
+
+// 		button:not(:disabled):hover {
+// 			color: $primary !important;
+// 		}
+// 	}
+// }
