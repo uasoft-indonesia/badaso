@@ -78,9 +78,9 @@ export default {
         return this.$store.state.badaso.reduceSidebar;
       }
     },
-    licenceIssue: {
+    keyIssue: {
       get() {
-        return this.$store.state.badaso.licenceIssue;
+        return this.$store.state.badaso.keyIssue;
       }
     }
   },
@@ -88,7 +88,7 @@ export default {
     this.$store.commit("badaso/FETCH_COMPONENT");
     this.$store.commit("badaso/FETCH_CONFIGURATION");
     this.$store.commit("badaso/FETCH_USER");
-    this.$store.commit("badaso/SET_LICENCE_ISSUE", false);
+    this.$store.commit("badaso/SET_KEY_ISSUE", false);
 
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleWindowResize);

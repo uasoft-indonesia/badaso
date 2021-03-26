@@ -13,7 +13,7 @@ export default (error) => {
   } else if (status === 402 || status === 412) {
     let data = error.response.data;
     data.status = status
-    store.commit('badaso/SET_LICENCE_ISSUE', {
+    store.commit('badaso/SET_KEY_ISSUE', {
       invalid: true,
       message: data.message ? data.message : ''
     })

@@ -1,26 +1,26 @@
 <template>
   <vs-popup
     fullscreen
-    :title="$t('licenceIssue.title')"
-    :active.sync="licenceIssue.invalid"
+    :title="$t('keyIssue.title')"
+    :active.sync="keyIssue.invalid"
     style="z-index: 26000"
     button-close-hidden	
   >
     <vs-row>
       <vs-col>
         <p>
-          {{ $t("licenceIssue.message") }}
+          {{ $t("keyIssue.message") }}
         </p>
-        <h3 style="text-align: center;">{{ licenceIssue.message }}</h3>
+        <h3 style="text-align: center;">{{ keyIssue.message }}</h3>
         <br />
         <p>
-          {{ $t("licenceIssue.listTitle") }}
+          {{ $t("keyIssue.listTitle") }}
         </p>
         <ul>
           <li>
-            <strong>{{ $t("licenceIssue.licenceEmpty") }}</strong>
+            <strong>{{ $t("keyIssue.licenceEmpty") }}</strong>
             <p>
-              {{ $t("licenceIssue.licenceEmptyDescription") }}
+              {{ $t("keyIssue.licenceEmptyDescription") }}
               <a
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
@@ -29,9 +29,9 @@
             </p>
           </li>
           <li>
-            <strong>{{ $t("licenceIssue.licenceInvalid") }}</strong>
+            <strong>{{ $t("keyIssue.licenceInvalid") }}</strong>
             <p>
-              {{ $t("licenceIssue.licenceInvalidDescription") }}
+              {{ $t("keyIssue.licenceInvalidDescription") }}
               <a
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
@@ -40,9 +40,9 @@
             </p>
           </li>
           <li>
-            <strong>{{ $t("licenceIssue.licenceUsersExpired") }}</strong>
+            <strong>{{ $t("keyIssue.licenceUsersExpired") }}</strong>
             <p>
-              {{ $t("licenceIssue.licenceUsersExpiredDescription") }}
+              {{ $t("keyIssue.licenceUsersExpiredDescription") }}
               <a
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
@@ -62,14 +62,14 @@ export default {
   components: {},
   data: () => ({}),
   mounted() {
-    this.$store.commit("badaso/SET_LICENCE_ISSUE", {
+    this.$store.commit("badaso/SET_KEY_ISSUE", {
       invalid: false
     });
   },
   computed: {
-    licenceIssue: {
+    keyIssue: {
       get() {
-        return this.$store.state.badaso.licenceIssue;
+        return this.$store.state.badaso.keyIssue;
       },
     },
   },

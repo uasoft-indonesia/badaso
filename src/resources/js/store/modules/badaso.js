@@ -28,7 +28,7 @@ namespaced: true,
       key: "en",
       label: "English",
     },
-    licenceIssue: {
+    keyIssue: {
       invalid: false,
     },
     authorizationIssue: {
@@ -153,8 +153,8 @@ namespaced: true,
     SET_LOCALE(state, value) {
       state.selectedLocale = value;
     },
-    SET_LICENCE_ISSUE(state, value) {
-      state.licenceIssue = value;
+    SET_KEY_ISSUE(state, value) {
+      state.keyIssue = value;
     },
     SET_AUTH_ISSUE(state, value) {
       state.authorizationIssue = value;

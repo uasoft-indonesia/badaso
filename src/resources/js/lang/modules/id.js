@@ -809,14 +809,14 @@ export default {
       "title": "Menyortir {tableName}",
     }
   },
-  "licenceIssue": {
+  "keyIssue": {
     "title": "Licence Issues",
     "message": "Mohon maaf, Badaso belum bisa digunakan dikarenakan ada issue pada lisensi anda",
     "listTitle": "Berikut adalah beberapa masalah yang bisa terjadi pada lisensi:",
     "licenceEmpty": "Lisensi Kosong",
-    "licenceEmptyDescription": "Anda belum memasukkan BADASO_LICENCE_KEY pada .env. Harap isi dahulu sebelum bisa menggunakan badaso. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
+    "licenceEmptyDescription": "Anda belum memasukkan BADASO_KEY pada .env. Harap isi dahulu sebelum bisa menggunakan badaso. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
     "licenceInvalid": "Lisensi Invalid",
-    "licenceInvalidDescription": "BADASO_LICENCE_KEY tidak diemukan. Harap pastikan sudah sama dengan yang anda dapatkan pada Badaso Dashboard. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
+    "licenceInvalidDescription": "BADASO_KEY tidak diemukan. Harap pastikan sudah sama dengan yang anda dapatkan pada Badaso Dashboard. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
     "licenceUsersExpired": "Masa Aktif Kadaluarsa",
     "licenceUsersExpiredDescription": "Masa aktif anda sudah habis. Mohon untuk menambahkan masa aktif anda pada Badaso Dashboard supaya licence anda dapat digunakan kembali. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
   },
