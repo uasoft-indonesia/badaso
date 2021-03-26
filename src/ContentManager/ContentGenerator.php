@@ -163,10 +163,13 @@ class ContentGenerator
      */
     public function getMenuInsertStatements($data_type): string
     {
+        $menu_key = config('badaso.default_menu');
+        $url = '/'.$menu_key.'/'.$data_type->slug;
+
         return sprintf(
             self::MENU_INSERT_STATEMENT,
             $data_type->display_name_plural,
-            $data_type->slug
+            $url
         );
     }
 
