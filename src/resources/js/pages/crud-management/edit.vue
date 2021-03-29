@@ -67,6 +67,7 @@
               size="6"
               :label="$t('crud.edit.field.icon.title')"
               :placeholder="$t('crud.edit.field.icon.placeholder')"
+              :additionalInfo="$t('menu.builder.popup.edit.field.icon.description')"
               :alert="errors.icon"
             ></badaso-text>
             <badaso-text
