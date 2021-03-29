@@ -810,15 +810,15 @@ export default {
     }
   },
   "keyIssue": {
-    "title": "Licence Issues",
+    "title": "License Issues",
     "message": "Sorry, Badaso cannot be used because there is an issue on your license",
     "listTitle": "Here are some of the problems that can occur with a license:",
-    "licenceEmpty": "License Empty",
-    "licenceEmptyDescription": "You haven't entered BADASO_KEY in .env. Please fill in before you can use Badaso. For more complete instructions, please see here.",
-    "licenceInvalid": "License Invalid",
-    "licenceInvalidDescription": "BADASO_KEY was not found. Please make sure it is the same as what you get on Badaso Dashboard. For more complete instructions, please see here.",
-    "licenceUsersExpired": "Active Period Expires",
-    "licenceUsersExpiredDescription": "Your active period has expired. Please add your active period to Badaso Dashboard so that your license can be used again. For more complete instructions, please see here.",
+    "licenseEmpty": "License Empty",
+    "licenseEmptyDescription": "You haven't entered BADASO_LICENSE_KEY in .env. Please fill in before you can use Badaso. For more complete instructions, please see here.",
+    "licenseInvalid": "License Invalid",
+    "licenseInvalidDescription": "BADASO_LICENSE_KEY was not found. Please make sure it is the same as what you get on Badaso Dashboard. For more complete instructions, please see here.",
+    "licenseUsersExpired": "Active Period Expires",
+    "licenseUsersExpiredDescription": "Your active period has expired. Please add your active period to Badaso Dashboard so that your license can be used again. For more complete instructions, please see here.",
   },
   "authorizationIssue": {
     "title": "Authorization Issues",

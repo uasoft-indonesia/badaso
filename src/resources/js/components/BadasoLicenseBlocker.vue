@@ -4,7 +4,7 @@
     :title="$t('keyIssue.title')"
     :active.sync="keyIssue.invalid"
     style="z-index: 26000"
-    button-close-hidden	
+    button-close-hidden
   >
     <vs-row>
       <vs-col>
@@ -18,9 +18,9 @@
         </p>
         <ul>
           <li>
-            <strong>{{ $t("keyIssue.licenceEmpty") }}</strong>
+            <strong>{{ $t("keyIssue.licenseEmpty") }}</strong>
             <p>
-              {{ $t("keyIssue.licenceEmptyDescription") }}
+              {{ $t("keyIssue.licenseEmptyDescription") }}
               <a
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
@@ -29,9 +29,9 @@
             </p>
           </li>
           <li>
-            <strong>{{ $t("keyIssue.licenceInvalid") }}</strong>
+            <strong>{{ $t("keyIssue.licenseInvalid") }}</strong>
             <p>
-              {{ $t("keyIssue.licenceInvalidDescription") }}
+              {{ $t("keyIssue.licenseInvalidDescription") }}
               <a
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
@@ -40,9 +40,9 @@
             </p>
           </li>
           <li>
-            <strong>{{ $t("keyIssue.licenceUsersExpired") }}</strong>
+            <strong>{{ $t("keyIssue.licenseUsersExpired") }}</strong>
             <p>
-              {{ $t("keyIssue.licenceUsersExpiredDescription") }}
+              {{ $t("keyIssue.licenseUsersExpiredDescription") }}
               <a
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
@@ -58,12 +58,12 @@
 
 <script>
 export default {
-  name: "BadasoLicenceBlocker",
+  name: "BadasoLicenseBlocker",
   components: {},
   data: () => ({}),
   mounted() {
     this.$store.commit("badaso/SET_KEY_ISSUE", {
-      invalid: false
+      invalid: false,
     });
   },
   computed: {

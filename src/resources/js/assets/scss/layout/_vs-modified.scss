@@ -227,14 +227,11 @@ th .vs-table-text {
   }
 }
 
-// .vs-tabs-primary {
-// 	.con-ul-tabs {
-// 		.activeChild button {
-// 			color: $primary !important;
-// 		}
+.vs-switch-primary.vs-switch-active {
+  background: $primary;
+}
 
-// 		button:not(:disabled):hover {
-// 			color: $primary !important;
-// 		}
-// 	}
-// }
+.vs-checkbox-primary input:checked+.vs-checkbox {
+  border: 2px solid $primary!important;
+  background: $primary;
+}
