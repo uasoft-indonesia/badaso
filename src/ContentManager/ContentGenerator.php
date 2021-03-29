@@ -34,7 +34,7 @@ class ContentGenerator
                     $menu_item->fill([
                         'title' => '%s',
                         'target' => '_self',
-                        'icon_class' => null,
+                        'icon_class' => '%s',
                         'color' => null,
                         'parent_id' => null,
                         'order' => $order,
@@ -45,7 +45,7 @@ class ContentGenerator
                     $menu_item->url = '%s';
                     $menu_item->title = '%s';
                     $menu_item->target = '_self';
-                    $menu_item->icon_class = null;
+                    $menu_item->icon_class = '%s';
                     $menu_item->color = null;
                     $menu_item->parent_id = null;
                     $menu_item->order = $order;
@@ -184,8 +184,10 @@ class ContentGenerator
             self::MENU_INSERT_STATEMENT,
             $url,
             $data_type->display_name_plural,
+            $data_type->icon,
             $url,
-            $data_type->display_name_plural
+            $data_type->display_name_plural,
+            $data_type->icon
         );
     }
 
