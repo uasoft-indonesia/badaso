@@ -279,7 +279,7 @@ class Badaso
 
     public function getBadasoVerifyApi()
     {
-        return $this->badaso_cloud_api.'/api/verify-licence';
+        return $this->badaso_cloud_api.'/api/verify-license';
     }
 
     public function getDefaultJwtTokenLifetime()
@@ -290,5 +290,15 @@ class Badaso
     public function getBadasoDbmsFieldType()
     {
         return $this->badaso_dbms_field_type;
+    }
+
+    public function getConfig($key, $default_value = null)
+    {
+        $value = config($key);
+        if (is_null($value) || $value == '') {
+            return $default_value;
+        }
+
+        return $value;
     }
 }

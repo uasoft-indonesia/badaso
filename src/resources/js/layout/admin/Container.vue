@@ -17,7 +17,7 @@
       <router-view class="content" :key="$route.path"></router-view>
       <Footer></Footer>
     </div>
-    <badaso-licence-blocker />
+    <badaso-license-blocker />
     <badaso-unauthorize />
   </div>
 </template>

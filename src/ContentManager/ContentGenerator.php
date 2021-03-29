@@ -25,7 +25,6 @@ class ContentGenerator
 
                 $menu_item = Badaso::model('MenuItem')->firstOrNew([
                     'menu_id' => $menu->id,
-                    'title' => '%s',
                     'url' => '%s',
                 ]);
 
@@ -168,7 +167,6 @@ class ContentGenerator
 
         return sprintf(
             self::MENU_INSERT_STATEMENT,
-            $data_type->display_name_plural,
             $url
         );
     }

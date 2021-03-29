@@ -3,7 +3,7 @@
     <vs-row class="full-height login-register-bg">
       <router-view  :key="$route.path"></router-view>
     </vs-row>
-    <badaso-licence-blocker />
+    <badaso-license-blocker />
   </div>
 </template>
 

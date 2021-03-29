@@ -9,20 +9,20 @@ use GuzzleHttp\Exception\BadResponseException;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 
-class VerifyLicence
+class VerifyLicense
 {
     public function handle($request, Closure $next)
     {
-        $licence = env('BADASO_KEY');
-        if (is_null($licence)) {
-            return ApiResponse::paymentRequired('BADASO_KEY not found');
+        $license = env('BADASO_LICENSE_KEY');
+        if (is_null($license)) {
+            return ApiResponse::paymentRequired('BADASO_LICENSE_KEY not found');
         } else {
             // Call Badaso Dashboard API here
             try {
                 $client = new Client();
                 $req = $client->request('POST', Badaso::getBadasoVerifyApi(), [
                     'json' => [
-                        'licence' => $licence,
+                        'license' => $license,
                     ],
                 ]);
             } catch (BadResponseException $e) {
