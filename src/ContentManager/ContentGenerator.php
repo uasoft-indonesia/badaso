@@ -23,27 +23,39 @@ class ContentGenerator
     const MENU_INSERT_STATEMENT = <<<'TXT'
     $menu = Badaso::model('Menu')->where('key', config('badaso.default_menu'))->firstOrFail();
 
-                $menu_item = Badaso::model('MenuItem')->firstOrNew([
-                    'menu_id' => $menu->id,
-                    'url' => '%s',
-                ]);
+                $menu_item = Badaso::model('MenuItem')
+                    ->where('menu_id', $menu->id)
+                    ->where('url', '%s')
+                    ->first();
 
                 $order = Badaso::model('MenuItem')->highestOrderMenuItem();
 
-                if (!$menu_item->exists) {
+                if (!is_null($menu_item)) {
                     $menu_item->fill([
+                        'title' => '%s',
                         'target' => '_self',
                         'icon_class' => null,
                         'color' => null,
                         'parent_id' => null,
                         'order' => $order,
                     ])->save();
+                } else {
+                    $menu_item = new MenuItem();
+                    $menu_item->menu_id = $menu->id;
+                    $menu_item->url = '%s';
+                    $menu_item->title = '%s';
+                    $menu_item->target = '_self';
+                    $menu_item->icon_class = null;
+                    $menu_item->color = null;
+                    $menu_item->parent_id = null;
+                    $menu_item->order = $order;
+                    $menu_item->save();
                 }
     TXT;
 
     /** @var string Menu Delete Statement */
     const MENU_DELETE_STATEMENT = <<<'TXT'
-    $menuItem = Badaso::model('MenuItem')::where('url', $data_type->slug);
+    $menuItem = Badaso::model('MenuItem')::where('url', '%s');
 
                 if ($menuItem->exists()) {
                     $menuItem->delete();
@@ -135,7 +147,10 @@ class ContentGenerator
      */
     public function generateMenuDeleteStatements($data_type): string
     {
-        return sprintf(self::MENU_DELETE_STATEMENT, $data_type->slug);
+        $menu_key = config('badaso.default_menu');
+        $url = '/'.$menu_key.'/'.$data_type->slug;
+
+        return sprintf(self::MENU_DELETE_STATEMENT, $url);
     }
 
     /**
@@ -167,7 +182,10 @@ class ContentGenerator
 
         return sprintf(
             self::MENU_INSERT_STATEMENT,
-            $url
+            $url,
+            $data_type->display_name_plural,
+            $url,
+            $data_type->display_name_plural
         );
     }
 
