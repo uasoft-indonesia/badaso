@@ -64,7 +64,7 @@ class FileGenerator
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
-        $data_type->details = json_encode($data_type->details);
+        $data_type->details = (!is_null($data_type->details)) ? json_encode($data_type->details) : null;
 
         $stub = $this->content_manager->replaceString('{{class}}', $seeder_class_name, $stub);
 
