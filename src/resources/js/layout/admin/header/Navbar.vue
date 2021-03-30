@@ -45,15 +45,16 @@
           left
           class="cursor-pointer ml-1 mr-md-3"
         >
-          <a class="text-white-dark" href="#"
+          <a class="text-white-dark" href="#" :style="{ color: topbarFontColor }"
             ><vs-icon icon="notifications"></vs-icon
           ></a>
           <vs-dropdown-menu class="topbar-dd">
             <div
-              class="d-flex align-items-center p-3 bg-danger text-white mb-2 preview"
+              class="d-flex align-items-center p-3 mb-2 preview"
+              :style="{ backgroundColor: topbarFontColor, color: topbarColor }"
             >
               <div class="ml-2">
-                <h4 class="mb-0 text-white">0 New</h4>
+                <h4 class="mb-0">0 New</h4>
                 <p class="mb-0">Notification</p>
               </div>
             </div>

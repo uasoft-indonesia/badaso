@@ -34,6 +34,6 @@ class SendUserVerification extends Mailable
     {
         return $this
             ->subject('Email Verification | Badaso')
-            ->markdown('Badaso::mail.email-verification');
+            ->markdown('badaso::mail.email-verification');
     }
 }

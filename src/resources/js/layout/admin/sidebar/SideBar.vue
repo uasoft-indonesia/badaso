@@ -27,7 +27,7 @@
           :subTitle="user.email"
           icon="person_pin"
         >
-          <vs-sidebar-item
+          <badaso-sidebar-item
             v-if="user.id"
             icon="person_outline"
             :to="{
@@ -35,10 +35,10 @@
             }"
           >
             Profile
-          </vs-sidebar-item>
-          <vs-sidebar-item icon="logout" @click="logout()">
+          </badaso-sidebar-item>
+          <badaso-sidebar-item icon="logout" @click="logout()">
             Logout
-          </vs-sidebar-item>
+          </badaso-sidebar-item>
         </badaso-sidebar-group>
         <vs-select
           v-model="selectedLang"
@@ -54,9 +54,9 @@
           />
         </vs-select>
       </div>
-      <vs-sidebar-item icon="dashboard" :to="`/${prefix}/home`">
+      <badaso-sidebar-item icon="dashboard" :to="`/${prefix}/home`">
         <span class="hide-in-minisidebar">{{ $t("sidebar.dashboard") }}</span>
-      </vs-sidebar-item>
+      </badaso-sidebar-item>
       <badaso-sidebar-group
         :title="mainMenu.menu.displayName"
         open
@@ -71,49 +71,53 @@
             :icon="menu.iconClass"
           >
             <template v-for="(childMenu, indexChildMenu) in menu.children">
-              <vs-sidebar-item
+              <badaso-sidebar-item
                 v-if="$helper.isValidHttpUrl(childMenu.url)"
                 :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
-                @click="open(childMenu.url)"
+                :href="menu.url"
                 :key="`menu-${index}-${indexChildMenu}`"
                 :index="`${index}.${indexChildMenu}`"
                 :style="`color: ${childMenu.color}`"
+                :target="menu.target"
               >
                 <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
-              </vs-sidebar-item>
-              <vs-sidebar-item
+              </badaso-sidebar-item>
+              <badaso-sidebar-item
                 v-else
                 :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
                 :to="childMenu.url"
                 :key="`menu-${index}-${indexChildMenu}`"
                 :index="`${index}.${indexChildMenu}`"
                 :style="`color: ${childMenu.color}`"
+                :target="menu.target"
               >
                 <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
-              </vs-sidebar-item>
+              </badaso-sidebar-item>
             </template>
           </badaso-sidebar-group>
           <div v-else>
-            <vs-sidebar-item
+            <badaso-sidebar-item
               v-if="$helper.isValidHttpUrl(menu.url)"
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
-              @click="open(menu.url)"
+              :href="menu.url"
               :key="`menu-${index}`"
               :index="index"
               :style="`color: ${menu.color}`"
+              :target="menu.target"
             >
               <span class="hide-in-minisidebar">{{ menu.title }}</span>
-            </vs-sidebar-item>
-            <vs-sidebar-item
+            </badaso-sidebar-item>
+            <badaso-sidebar-item
               v-else
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
               :to="menu.url"
               :key="`menu-${index}`"
               :index="index"
               :style="`color: ${menu.color}`"
+              :target="menu.target"
             >
               <span class="hide-in-minisidebar">{{ menu.title }}</span>
-            </vs-sidebar-item>
+            </badaso-sidebar-item>
           </div>
         </template>
       </badaso-sidebar-group>
@@ -134,49 +138,53 @@
             :icon="menu.iconClass"
           >
             <template v-for="(childMenu, indexChildMenu) in menu.children">
-              <vs-sidebar-item
+              <badaso-sidebar-item
                 v-if="$helper.isValidHttpUrl(childMenu.url)"
                 :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
-                @click="open(childMenu.url)"
+                :href="menu.url"
                 :key="`menu-${index}-${indexChildMenu}`"
                 :index="`${index}.${indexChildMenu}`"
                 :style="`color: ${childMenu.color}`"
+                :target="menu.target"
               >
                 <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
-              </vs-sidebar-item>
-              <vs-sidebar-item
+              </badaso-sidebar-item>
+              <badaso-sidebar-item
                 v-else
                 :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
                 :to="childMenu.url"
                 :key="`menu-${index}-${indexChildMenu}`"
                 :index="`${index}.${indexChildMenu}`"
                 :style="`color: ${childMenu.color}`"
+                :target="menu.target"
               >
                 <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
-              </vs-sidebar-item>
+              </badaso-sidebar-item>
             </template>
           </badaso-sidebar-group>
           <div v-else>
-            <vs-sidebar-item
+            <badaso-sidebar-item
               v-if="$helper.isValidHttpUrl(menu.url)"
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
               :key="`menu-${index}`"
               :index="index"
               :style="`color: ${menu.color}`"
-              @click="open(menu.url)"
+              :href="menu.url"
+              :target="menu.target"
             >
               <span class="hide-in-minisidebar">{{ menu.title }}</span>
-            </vs-sidebar-item>
-            <vs-sidebar-item
+            </badaso-sidebar-item>
+            <badaso-sidebar-item
               v-else
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
               :key="`menu-${index}`"
               :index="index"
               :style="`color: ${menu.color}`"
               :to="menu.url"
+              :target="menu.target"
             >
               <span class="hide-in-minisidebar">{{ menu.title }}</span>
-            </vs-sidebar-item>
+            </badaso-sidebar-item>
           </div>
         </template>
       </badaso-sidebar-group>

@@ -174,10 +174,15 @@ class BadasoMenuController extends Controller
                 'target' => ['required'],
             ]);
 
+            $url = $request->get('url');
+            if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+                $url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
+            }
+
             $new_menu_item = new MenuItem();
             $new_menu_item->menu_id = $request->get('menu_id');
             $new_menu_item->title = $request->get('title');
-            $new_menu_item->url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
+            $new_menu_item->url = $url;
             $new_menu_item->target = $request->get('target') ? $request->get('target') : '_self';
             $new_menu_item->icon_class = $request->get('icon_class');
             $new_menu_item->color = $request->get('color');
@@ -233,10 +238,15 @@ class BadasoMenuController extends Controller
                 'target' => ['required'],
             ]);
 
+            $url = $request->get('url');
+            if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+                $url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
+            }
+
             $menu_item = MenuItem::find($request->menu_item_id);
             $menu_item->menu_id = $request->get('menu_id');
             $menu_item->title = $request->get('title');
-            $menu_item->url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
+            $menu_item->url = $url;
             $menu_item->target = $request->get('target') ? $request->get('target') : '_self';
             $menu_item->icon_class = $request->get('icon_class');
             $menu_item->color = $request->get('color');

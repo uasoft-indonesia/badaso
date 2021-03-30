@@ -151,7 +151,7 @@ export default {
         this.updateColors(val);
         this.$emit("input", val);
       }
-    },
+    }
   },
   mounted() {
     this.setColor(this.color || "#000000");
