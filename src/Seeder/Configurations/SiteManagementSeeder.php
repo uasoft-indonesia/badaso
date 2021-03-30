@@ -55,7 +55,7 @@ class SiteManagementSeeder extends Seeder
                 3 => [
                     'key' => 'adminPanelHeaderColor',
                     'display_name' => 'Admin Panel Header Color',
-                    'value' => '#000',
+                    'value' => '#fff',
                     'details' => '',
                     'type' => 'color_picker',
                     'order' => 4,

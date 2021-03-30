@@ -33,6 +33,6 @@ class ForgotPassword extends Mailable
     public function build()
     {
         return $this
-            ->markdown('Badaso::mail.forgot-password');
+            ->markdown('badaso::mail.forgot-password');
     }
 }

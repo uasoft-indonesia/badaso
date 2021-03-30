@@ -63,73 +63,6 @@
         </vs-col>
       </vs-row>
     </vs-popup>
-    <vs-popup
-      class="holamundo"
-      :title="$t('menu.builder.popup.edit.title')"
-      :active.sync="editMenuItemPopUp"
-    >
-      <vs-row>
-        <badaso-text
-          v-model="menuItem.title"
-          size="12"
-          :label="$t('menu.builder.popup.edit.field.title')"
-          placeholder=""
-          :alert="errors.tile"
-        ></badaso-text>
-        <badaso-text
-          v-model="menuItem.url"
-          size="12"
-          :label="$t('menu.builder.popup.edit.field.url')"
-          placeholder=""
-          :alert="errors.url"
-        ></badaso-text>
-        <badaso-select
-          v-model="menuItem.target"
-          size="12"
-          :label="$t('menu.builder.popup.edit.field.target.title')"
-          :items="menuItemTargets"
-          placeholder=""
-          :alert="errors.target"
-        ></badaso-select>
-        <badaso-text
-          v-model="menuItem.iconClass"
-          size="12"
-          :label="$t('menu.builder.popup.edit.field.icon.title')"
-          placeholder=""
-          :additionalInfo="$t('menu.builder.popup.edit.field.icon.description')"
-          :alert="errors.icon"
-        ></badaso-text>
-        <badaso-color-picker
-          size="12"
-          v-model="menuItem.color"
-          :alert="errors.color"
-        ></badaso-color-picker>
-      </vs-row>
-      <vs-row vs-type="flex" vs-justify="flex-end">
-        <vs-col vs-lg="12" vs-type="flex" vs-align="flex-end"> </vs-col>
-      </vs-row>
-      <vs-row vs-type="flex" vs-justify="space-between">
-        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button
-            class="btn-block"
-            color="danger"
-            @click="closeModal()"
-            type="relief"
-            >{{ $t("menu.builder.popup.edit.button.cancel") }}</vs-button
-          >
-        </vs-col>
-        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-          <vs-button
-            class="btn-block"
-            v-if="menuItem.id"
-            color="primary"
-            @click="updateMenuItem()"
-            type="relief"
-            >{{ $t("menu.builder.popup.edit.button.edit") }}</vs-button
-          >
-        </vs-col>
-      </vs-row>
-    </vs-popup>
     <badaso-breadcrumb-row>
       <template slot="action" v-if="$helper.isAllowed('add_menu_items')">
         <vs-button color="primary" type="relief" @click="addMenuItem()"
@@ -197,6 +130,71 @@
                         ><vs-icon icon="delete"></vs-icon
                       ></vs-button>
                     </div>
+                    <vs-popup
+                      class="holamundo"
+                      :title="$t('menu.builder.popup.edit.title')"
+                      :active.sync="data.editItem"
+                    >
+                      <vs-row>
+                        <badaso-text
+                          v-model="data.title"
+                          size="12"
+                          :label="$t('menu.builder.popup.edit.field.title')"
+                          placeholder=""
+                          :alert="errors.tile"
+                        ></badaso-text>
+                        <badaso-text
+                          v-model="data.url"
+                          size="12"
+                          :label="$t('menu.builder.popup.edit.field.url')"
+                          placeholder=""
+                          :alert="errors.url"
+                        ></badaso-text>
+                        
+                        <badaso-select
+                          v-model="data.target"
+                          size="12"
+                          :label="$t('menu.builder.popup.edit.field.target.title')"
+                          :items="menuItemTargets"
+                          placeholder=""
+                          :alert="errors.target"
+                        ></badaso-select>
+                        
+                        <badaso-text
+                          v-model="data.iconClass"
+                          size="12"
+                          :label="$t('menu.builder.popup.edit.field.icon.title')"
+                          placeholder=""
+                          :additionalInfo="$t('menu.builder.popup.edit.field.icon.description')"
+                          :alert="errors.icon"
+                        ></badaso-text>
+                        <badaso-color-picker
+                          size="12"
+                          v-model="data.color"
+                          :alert="errors.color"
+                        ></badaso-color-picker>
+                      </vs-row>
+                      <vs-row vs-type="flex" vs-justify="space-between">
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button
+                              class="btn-block"
+                              color="danger"
+                              @click="closeModal()"
+                              type="relief"
+                              >{{ $t("menu.builder.popup.edit.button.cancel") }}</vs-button
+                            >
+                          </vs-col>
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button
+                              class="btn-block"
+                              color="primary"
+                              @click="updateMenuItem(data)"
+                              type="relief"
+                              >{{ $t("menu.builder.popup.edit.button.edit") }}</vs-button
+                            >
+                          </vs-col>
+                        </vs-row>
+                    </vs-popup>
                   </template>
                 </div>
               </Tree>
@@ -295,7 +293,14 @@ export default {
           menuId: this.$route.params.id,
         })
         .then((response) => {
-          this.menuItems = response.data.menuItems;
+          this.menuItems = response.data.menuItems.map((item) => {
+            let _item = item
+            _item.editItem = false
+            _item.title = item.title ? item.title : ''
+            _item.iconClass = item.iconClass ? item.iconClass : ''
+            _item.color = item.color ? item.color : '#000000'
+            return _item;
+          });
           this.savedItems = [...response.data.menuItems];
           this.flatSavedItems = this.flattenItems([...response.data.menuItems]);
           this.$vs.loading.close();
@@ -411,11 +416,7 @@ export default {
         });
     },
     editMenuItem(menuItem) {
-      this.menuItem = menuItem;
-      this.menuItem.target = menuItem.target
-        ? menuItem.target
-        : this.menuItemTargets[0].value;
-      this.editMenuItemPopUp = true;
+      menuItem.editItem = true
     },
     addMenuItem(menuItem) {
       this.menuItem = {
@@ -475,18 +476,18 @@ export default {
           this.$vs.loading.close();
         });
     },
-    updateMenuItem() {
+    updateMenuItem(data) {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
       this.$api.menu
         .editItem({
           menuId: this.$route.params.id,
-          menuItemId: this.menuItem.id,
-          title: this.menuItem.title,
-          url: this.menuItem.url,
-          target: this.menuItem.target,
-          iconClass: this.menuItem.iconClass,
-          color: this.menuItem.color,
+          menuItemId: data.id,
+          title: data.title,
+          url: data.url,
+          target: data.target,
+          iconClass: data.iconClass,
+          color: data.color,
         })
         .then((response) => {
           this.editMenuItemPopUp = false;

@@ -115,6 +115,7 @@ Vue.prototype.$constants = {
 };
 Vue.prototype.$loadingConfig = {
   type: "sound",
+  color: "#06bbd3"
 };
 
 let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX

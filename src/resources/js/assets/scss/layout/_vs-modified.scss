@@ -235,3 +235,13 @@ th .vs-table-text {
   border: 2px solid $primary!important;
   background: $primary;
 }
+
+.vs-progress-primary {
+  .vs-progress--foreground {
+    background: $primary; 
+  }
+
+  .vs-progress--indeterminate {
+    background: $primary; 
+  }
+}
