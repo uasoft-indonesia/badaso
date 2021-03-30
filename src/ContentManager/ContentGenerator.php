@@ -37,6 +37,7 @@ class ContentGenerator
                         'icon_class' => '%s',
                         'color' => null,
                         'parent_id' => null,
+                        'permissions' => '%s',
                         'order' => $order,
                     ])->save();
                 } else {
@@ -48,6 +49,7 @@ class ContentGenerator
                     $menu_item->icon_class = '%s';
                     $menu_item->color = null;
                     $menu_item->parent_id = null;
+                    $menu_item->permissions = '%s';
                     $menu_item->order = $order;
                     $menu_item->save();
                 }
@@ -185,9 +187,11 @@ class ContentGenerator
             $url,
             $data_type->display_name_plural,
             $data_type->icon,
+            $data_type->generate_permissions ? 'browse_'.$data_type->name : null,
             $url,
             $data_type->display_name_plural,
-            $data_type->icon
+            $data_type->icon,
+            $data_type->generate_permissions ? 'browse_'.$data_type->name : null
         );
     }
 
