@@ -6,6 +6,20 @@
     <title>Badaso</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>window.Laravel = { csrfToken: '{{ csrf_token() }}' }</script>
+
+    <!-- Favicon -->
+    <?php
+        use Uasoft\Badaso\Helpers\Config;
+
+        $favicon = Config::get('favicon');
+        $api_prefix = env('MIX_API_ROUTE_PREFIX');
+    ?>
+
+    @if(!$favicon || $favicon == '')
+        <link rel="shortcut icon" href="{{ asset('badaso-images/badaso-logo.png') }}" type="image/png">
+    @else
+        <link rel="shortcut icon" href="{{'/'.$api_prefix.'/v1/file/view?file='.$favicon}}" type="image/png">
+    @endif
 </head>
 <body>
     <div id="app"></div>

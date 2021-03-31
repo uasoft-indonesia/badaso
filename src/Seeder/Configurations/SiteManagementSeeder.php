@@ -112,6 +112,18 @@ class SiteManagementSeeder extends Seeder
                     'created_at' => '2021-03-16 05:36:00',
                     'updated_at' => '2021-03-16 05:36:00',
                 ],
+                8 => [
+                    'key' => 'favicon',
+                    'display_name' => 'Favicon',
+                    'value' => '',
+                    'details' => '',
+                    'type' => 'upload_image',
+                    'order' => 7,
+                    'group' => 'adminPanel',
+                    'can_delete' => 0,
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_settings = [];

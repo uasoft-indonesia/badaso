@@ -4,18 +4,29 @@ namespace Uasoft\Badaso\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Helpers\ApiResponse;
 use Spatie\Activitylog\Models\Activity;
+use Uasoft\Badaso\Helpers\ApiResponse;
 
 class BadasoActivityLogController extends Controller
 {
     public function browse(Request $request)
     {
         try {
-            $activitylog = Activity::orderBy('created_at', 'DESC')->get();
+            $limit = $request->get('limit', 10);
+            $filter = '%'.$request->get('filter', '').'%';
 
-            $data['activitylog'] = $activitylog;
+            $activitylog = Activity::orderBy('created_at', 'DESC')
+                ->where('log_name', 'LIKE', $filter)
+                ->orWhere('description', 'LIKE', $filter)
+                ->orWhere('subject_id', 'LIKE', $filter)
+                ->orWhere('subject_type', 'LIKE', $filter)
+                ->orWhere('causer_id', 'LIKE', $filter)
+                ->orWhere('causer_type', 'LIKE', $filter)
+                ->orWhere('properties', 'LIKE', $filter)
+                ->paginate($limit);
+
+            $data = json_decode(json_encode($activitylog));
+            $data->activitylog = $activitylog->getCollection();
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
