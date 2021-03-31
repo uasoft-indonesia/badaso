@@ -103,7 +103,7 @@ class SiteManagementSeeder extends Seeder
                 7 => [
                     'key' => 'adminPanelLogoConfig',
                     'display_name' => 'Admin Panel Logo Config',
-                    'value' => 'logo_and_text',
+                    'value' => 'logo_only',
                     'details' => '{"items":[{"label":"Logo Only","value":"logo_only"},{"label":"Text Only","value":"text_only"},{"label":"Logo & Text","value":"logo_and_text"}]}',
                     'type' => 'select',
                     'order' => 1,
