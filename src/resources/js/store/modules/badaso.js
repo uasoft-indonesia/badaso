@@ -34,6 +34,7 @@ namespaced: true,
     authorizationIssue: {
       unauthorized: false,
     },
+    verified: false
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -163,6 +164,18 @@ namespaced: true,
       localStorage.clear();
       window.location.reload();
     },
+    VERIFY_BADASO(state) {
+      api.badaso.verify()
+      .then((res) => {
+        state.verified = true;
+      })
+      .catch((err) => {
+        state.keyIssue = {
+          invalid: true
+        }
+        state.verified = true;
+      });
+    },
   },
   actions: {},
   getters: {
@@ -189,6 +202,9 @@ namespaced: true,
     },
     getSelectedLocale: (state) => {
       return state.selectedLocale;
+    },
+    isVerified: (state) => {
+      return state.verified;
     },
   },
   plugins: [createPersistedState()],

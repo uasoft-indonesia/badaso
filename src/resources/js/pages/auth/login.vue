@@ -145,13 +145,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.login-register-box {
-  max-width: 400px;
-  justify-content: center;
-  align-items: center;
-  margin-left: 0;
-  width: 100%;
-}
-</style>

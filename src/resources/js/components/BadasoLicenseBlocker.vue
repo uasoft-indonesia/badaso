@@ -62,9 +62,6 @@ export default {
   components: {},
   data: () => ({}),
   mounted() {
-    this.$store.commit("badaso/SET_KEY_ISSUE", {
-      invalid: false,
-    });
   },
   computed: {
     keyIssue: {

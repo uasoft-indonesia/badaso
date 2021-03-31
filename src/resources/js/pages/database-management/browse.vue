@@ -77,7 +77,7 @@
             <vs-button
               color="danger"
               type="relief"
-              @click="rollback()"
+              @click="confirmRollback()"
               v-if="$helper.isAllowed('rollback_database')"
             >
               {{ $t('database.migration.button.rollback') }}
@@ -291,6 +291,17 @@ export default {
       this.rollbackSteps = 0
       this.rollbackIndex = null
       this.rollbackDialog = true
+    },
+    confirmRollback() {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: this.$t("action.rollbackMigration.title"),
+        text: this.$t("action.rollbackMigration.text"),
+        accept: this.rollback,
+        acceptText: this.$t("action.rollbackMigration.accept"),
+        cancelText: this.$t("action.rollbackMigration.cancel"),
+      });
     },
     rollback() {
       this.$v.$touch()

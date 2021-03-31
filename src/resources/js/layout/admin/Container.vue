@@ -17,7 +17,6 @@
       <router-view class="content" :key="$route.path"></router-view>
       <Footer></Footer>
     </div>
-    <badaso-license-blocker />
     <badaso-unauthorize />
   </div>
 </template>
@@ -78,17 +77,12 @@ export default {
         return this.$store.state.badaso.reduceSidebar;
       }
     },
-    keyIssue: {
-      get() {
-        return this.$store.state.badaso.keyIssue;
-      }
-    }
   },
   mounted() {
     this.$store.commit("badaso/FETCH_COMPONENT");
+    this.$store.commit("badaso/FETCH_CONFIGURATION_GROUPS");
     this.$store.commit("badaso/FETCH_CONFIGURATION");
     this.$store.commit("badaso/FETCH_USER");
-    this.$store.commit("badaso/SET_KEY_ISSUE", false);
 
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleWindowResize);

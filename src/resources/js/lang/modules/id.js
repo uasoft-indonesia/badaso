@@ -135,7 +135,13 @@ export default {
     },
     "addItem": "Tambahkan Item",
     "roles": "Wewenang",
-    "sort": "Menyortir"
+    "sort": "Menyortir",
+    "rollbackMigration": {
+      "title": "Rollback Migration",
+      "text": "Apakah Anda yakin?",
+      "accept": "Ya",
+      "cancel": "Tidak"
+    }
   },
 
   "alert": {

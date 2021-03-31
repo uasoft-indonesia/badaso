@@ -135,7 +135,13 @@ export default {
     },
     "addItem": "Add Item",
     "roles": "Roles",
-    "sort": "Sort"
+    "sort": "Sort",
+    "rollbackMigration": {
+      "title": "Rollback Migration",
+      "text": "Are you sure?",
+      "accept": "Accept",
+      "cancel": "Cancel"
+    }
   },
 
   "alert": {
