@@ -340,6 +340,7 @@ export default {
           });
         this.rollbackDialog = false
       }
+      this.getStatusMigration();
     },
     setRollbackIndex(data) {
       let flag = this.willRollbackIndex;
@@ -387,8 +388,6 @@ export default {
         .migrate()
         .then((response) => {
           this.$vs.loading.close();
-          this.getTableList();
-          this.getStatusMigration();
           this.$vs.notify({
             title: this.$t('alert.success'),
             text: response.message,
@@ -403,6 +402,8 @@ export default {
             color: "danger",
           });
         });
+      this.getTableList();
+      this.getStatusMigration();
     },
     deleteMigration() {
       this.$vs.loading(this.$loadingConfig);
@@ -428,6 +429,8 @@ export default {
             color: "danger",
           });
         });
+      this.getTableList();
+      this.getStatusMigration();
     }
   },
 };
