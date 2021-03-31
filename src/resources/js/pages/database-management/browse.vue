@@ -29,7 +29,7 @@
         <vs-button color="warning" type="relief" @click="goBack()"
           ><vs-icon icon="chevron_left"></vs-icon> {{ $t('database.browse.goBackButton') }}</vs-button
         >
-        <vs-button color="danger" type="relief" @click="deleteMigration()"
+        <vs-button color="danger" type="relief" @click="confirmDelete()"
           v-if="$helper.isAllowed('delete_migration')"
           ><vs-icon icon="delete"></vs-icon> {{ $t('database.browse.deleteMigrationButton') }}</vs-button
         >
@@ -331,8 +331,9 @@ export default {
                     color: "danger",
                   });
                 });
+            } else {
+              this.getStatusMigration();
             }
-
             this.getMigration();
             this.getTableList();
             this.$vs.notify({
@@ -351,7 +352,6 @@ export default {
           });
         this.rollbackDialog = false
       }
-      this.getStatusMigration();
     },
     setRollbackIndex(data) {
       let flag = this.willRollbackIndex;
@@ -399,6 +399,8 @@ export default {
         .migrate()
         .then((response) => {
           this.$vs.loading.close();
+          this.getTableList();
+          this.getStatusMigration();
           this.$vs.notify({
             title: this.$t('alert.success'),
             text: response.message,
@@ -413,8 +415,17 @@ export default {
             color: "danger",
           });
         });
-      this.getTableList();
-      this.getStatusMigration();
+    },
+    confirmDelete() {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
+        accept: this.deleteMigration,
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
+      });
     },
     deleteMigration() {
       this.$vs.loading(this.$loadingConfig);
