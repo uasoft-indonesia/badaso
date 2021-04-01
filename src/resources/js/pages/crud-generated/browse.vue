@@ -558,6 +558,7 @@
                     <vs-pagination
                       :total="totalItem"
                       v-model="page"
+                      style="margin-bottom: 0;"
                     ></vs-pagination>
                   </vs-col>
                 </vs-row>

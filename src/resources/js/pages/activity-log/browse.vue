@@ -133,27 +133,27 @@
                     vs-sm="12"
                     vs-xs="12"
                   >
-                  <div style="display: contents;">
-                    <span
-                      style="margin-right:5px"
-                    >
-                      Registries: {{ data.from }} - {{ data.to }} of {{ data.total }} | Pages:
-                    </span>
-                    <vs-select
-                      placeholder="Row Per Page"
-                      v-model="limit"
-                      width="100px"
-                    >
-                      <vs-select-item
-                        :key="index"
-                        :value="item"
-                        :text="item"
-                        v-for="(item, index) in descriptionItems"
-                      />
-                    </vs-select>
-                    </ul>
-                  </div>
-                    
+                    <div style="display: contents;">
+                      <span
+                        style="margin-right:5px"
+                      >
+                        Registries: {{ data.from }} - {{ data.to }} of {{ data.total }} | Pages:
+                      </span>
+                      <vs-select
+                        placeholder="Row Per Page"
+                        v-model="limit"
+                        width="100px"
+                      >
+                        <vs-select-item
+                          :key="index"
+                          :value="item"
+                          :text="item"
+                          v-for="(item, index) in descriptionItems"
+                        />
+                      </vs-select>
+                      </ul>
+                    </div>
+                      
                   </vs-col>
                   <vs-col class="vs-pagination--mb"
                     vs-type="flex"
@@ -167,6 +167,7 @@
                     <vs-pagination
                       :total="totalItem"
                       v-model="page"
+                      style="margin-bottom: 0;"
                     ></vs-pagination>
                   </vs-col>
                 </vs-row>
