@@ -65,7 +65,7 @@ export default {
   methods: {
     resetPassword() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.auth
+      this.$api.badasoAuth
         .resetPassword({
           email: this.$router.currentRoute.query.email,
           token: this.$router.currentRoute.query.token,

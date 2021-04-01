@@ -2,7 +2,10 @@
   <div>
     <badaso-breadcrumb-row>
       <template slot="action">
-        <vs-button color="primary" type="relief" :to="{ name: 'MenuManagementAdd' }"
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'MenuManagementAdd' }"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
       </template>
@@ -14,7 +17,7 @@
             <h3>{{ $t("menu.title") }}</h3>
           </div>
           <div>
-            <vs-table
+            <badaso-table
               v-model="selected"
               pagination
               max-items="10"
@@ -48,37 +51,46 @@
                     {{ data[index].displayName }}
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="primary"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('edit_menus')"
-                      :to="{
-                        name: 'MenuManagementBuilder',
-                        params: { id: data[index].id },
-                      }"
-                      ><vs-icon icon="list"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('edit_menus')"
-                      :to="{ name: 'MenuManagementEdit', params: { id: data[index].id } }"
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('delete_menus')"
-                      @click="openConfirm(data[index].id)"
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="list"
+                          v-if="$helper.isAllowed('edit_menus')"
+                          :to="{
+                            name: 'MenuManagementBuilder',
+                            params: { id: data[index].id },
+                          }"
+                        >
+                          Manage Items
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="edit"
+                          v-if="$helper.isAllowed('edit_menus')"
+                          :to="{
+                            name: 'MenuManagementEdit',
+                            params: { id: data[index].id },
+                          }"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          v-if="$helper.isAllowed('delete_menus')"
+                          @click="openConfirm(data[index].id)"
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
+            </badaso-table>
           </div>
         </vs-card>
       </vs-col>
@@ -99,8 +111,7 @@
 
 <script>
 export default {
-  components: {
-  },
+  components: {},
   name: "MenuManagementBrowse",
   data: () => ({
     selected: [],
@@ -129,7 +140,7 @@ export default {
     },
     getMenuList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -146,7 +157,7 @@ export default {
     },
     deleteMenu() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .delete({
           menu_id: this.willDeleteId,
         })

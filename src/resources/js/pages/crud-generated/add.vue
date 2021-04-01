@@ -327,7 +327,7 @@ export default {
         return;
       }
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .add({
           slug: this.$route.params.slug,
           data: dataRows,
@@ -353,7 +353,7 @@ export default {
     },
     getDataType() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.crud
+      this.$api.badasoCrud
         .readBySlug({
           slug: this.$route.params.slug,
         })
@@ -404,7 +404,7 @@ export default {
     },
     getRelationDataBySlug() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.table
+      this.$api.badasoTable
         .relationDataBySlug({
           slug: this.$route.params.slug,
         })

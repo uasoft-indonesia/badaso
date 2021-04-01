@@ -87,7 +87,7 @@ export default {
   methods: {
     getAllEntityData() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .all({
           slug: this.$route.params.slug,
         })
@@ -107,7 +107,7 @@ export default {
     },
     sortData(e) {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .sort({
           slug: this.$route.params.slug,
           data: this.data,

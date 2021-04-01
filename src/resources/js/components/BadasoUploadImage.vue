@@ -18,7 +18,7 @@
     </div>
     <div class="image-container" v-else-if="isString(value) && value !== ''">
         <vs-button class="delete-image" color="danger" icon="close" @click="deleteStoredFile(value)"></vs-button>
-        <img :src="`${$api.file.view(value)}`" class="image" />
+        <img :src="`${$api.badasoFile.view(value)}`" class="image" />
     </div>
       </vs-col>
     </vs-row>

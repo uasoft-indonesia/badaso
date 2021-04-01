@@ -86,7 +86,7 @@ export default {
   methods: {
     getRolePermissions() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .permissions({
           roleId: this.$route.params.id,
         })
@@ -114,7 +114,7 @@ export default {
       );
 
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .addPermissions({
           roleId: this.$route.params.id,
           permissions: selectedPermissions,

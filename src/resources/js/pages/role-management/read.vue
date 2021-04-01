@@ -61,7 +61,7 @@ export default {
   methods: {
     getRoleDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .read({
           id: this.$route.params.id,
         })

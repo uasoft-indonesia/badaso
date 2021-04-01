@@ -27,7 +27,7 @@
             <h3>{{ $t("permission.title") }}</h3>
           </div>
           <div>
-            <vs-table
+            <badaso-table
               multiple
               v-model="selected"
               pagination
@@ -84,40 +84,46 @@
                     <span v-if="data[indextr].isPublic === 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
-                  <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'PermissionManagementRead',
-                        params: { id: data[indextr].id },
-                      }"
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'PermissionManagementEdit',
-                        params: { id: data[indextr].id },
-                      }"
-                      v-if="$helper.isAllowed('edit_permissions')"
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      @click="confirmDelete(data[indextr].id)"
-                      v-if="$helper.isAllowed('delete_permissions')"
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
+                  <vs-td style="width: 1%;">
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="visibility"
+                          :to="{
+                            name: 'PermissionManagementRead',
+                            params: { id: data[indextr].id },
+                          }"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="edit"
+                          :to="{
+                            name: 'PermissionManagementEdit',
+                            params: { id: data[indextr].id },
+                          }"
+                          v-if="$helper.isAllowed('edit_permissions')"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          @click="confirmDelete(data[indextr].id)"
+                          v-if="$helper.isAllowed('delete_permissions')"
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
+            </badaso-table>
           </div>
         </vs-card>
       </vs-col>
@@ -139,8 +145,7 @@
 <script>
 export default {
   name: "PermissionManagementBrowse",
-  components: {
-  },
+  components: {},
   data: () => ({
     selected: [],
     descriptionItems: [10, 50, 100],
@@ -178,7 +183,7 @@ export default {
     },
     getPermissionList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.permission
+      this.$api.badasoPermission
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -196,7 +201,7 @@ export default {
     },
     deletePermission() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.permission
+      this.$api.badasoPermission
         .delete({
           id: this.willDeleteId,
         })
@@ -216,7 +221,7 @@ export default {
     bulkDeletePermission() {
       const ids = this.selected.map((item) => item.id);
       this.$vs.loading(this.$loadingConfig);
-      this.$api.permission
+      this.$api.badasoPermission
         .deleteMultiple({
           ids: ids.join(","),
         })

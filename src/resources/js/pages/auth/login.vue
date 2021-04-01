@@ -113,7 +113,7 @@ export default {
           this.$store.commit("badaso/SET_AUTH_ISSUE", {
             unauthorized: false,
           });
-          this.$api.auth
+          this.$api.badasoAuth
             .login({
               email: this.email,
               password: this.password,

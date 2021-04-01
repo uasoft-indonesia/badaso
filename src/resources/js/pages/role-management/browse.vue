@@ -27,7 +27,7 @@
             <h3>{{ $t("role.title") }}</h3>
           </div>
           <div>
-            <vs-table
+            <badaso-table
               multiple
               v-model="selected"
               pagination
@@ -64,49 +64,54 @@
                     {{ data[indextr].description }}
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'RoleManagementRead',
-                        params: { id: data[indextr].id },
-                      }"
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="primary"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'RoleManagementPermissions',
-                        params: { id: data[indextr].id },
-                      }"
-                      ><vs-icon icon="list"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'RoleManagementEdit',
-                        params: { id: data[indextr].id },
-                      }"
-                      v-if="$helper.isAllowed('edit_roles')"
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      @click="confirmDelete(data[indextr].id)"
-                      v-if="$helper.isAllowed('delete_roles')"
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="visibility"
+                          :to="{
+                            name: 'RoleManagementRead',
+                            params: { id: data[indextr].id },
+                          }"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="list"
+                          :to="{
+                            name: 'RoleManagementPermissions',
+                            params: { id: data[indextr].id },
+                          }"
+                        >
+                          Permission
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="edit"
+                          :to="{
+                            name: 'RoleManagementEdit',
+                            params: { id: data[indextr].id },
+                          }"
+                          v-if="$helper.isAllowed('edit_roles')"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          @click="confirmDelete(data[indextr].id)"
+                          v-if="$helper.isAllowed('delete_roles')"
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
+            </badaso-table>
           </div>
         </vs-card>
       </vs-col>
@@ -169,7 +174,7 @@ export default {
     },
     getRoleList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -187,7 +192,7 @@ export default {
     },
     deleteRole() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .delete({
           id: this.willDeleteId,
         })
@@ -207,7 +212,7 @@ export default {
     bulkDeleteRole() {
       const ids = this.selected.map((item) => item.id);
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .deleteMultiple({
           ids: ids.join(","),
         })

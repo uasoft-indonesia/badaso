@@ -92,7 +92,7 @@ export default {
   methods: {
     getPermissionDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.permission
+      this.$api.badasoPermission
         .read({
           id: this.$route.params.id,
         })
@@ -118,7 +118,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading();
-      this.$api.permission
+      this.$api.badasoPermission
         .edit(this.permission)
         .then((response) => {
           this.$vs.loading.close();

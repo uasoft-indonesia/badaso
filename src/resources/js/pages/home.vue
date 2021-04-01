@@ -29,7 +29,7 @@ export default {
   methods: {
     getDashboardData() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.dashboard
+      this.$api.badasoDashboard
         .index()
         .then((response) => {
           this.$vs.loading.close();

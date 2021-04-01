@@ -287,7 +287,7 @@ export default {
   methods: {
     submitForm() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.crud
+      this.$api.badasoCrud
         .add(this.$caseConvert.snake(this.crudData))
         .then((response) => {
           this.$vs.loading.close();
@@ -305,7 +305,7 @@ export default {
     },
     getTableDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.table
+      this.$api.badasoTable
         .read({
           table: this.$route.params.tableName,
         })

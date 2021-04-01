@@ -104,7 +104,7 @@ export default {
   methods: {
     forgotPassword() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.auth
+      this.$api.badasoAuth
         .forgotPassword({
           email: this.email,
         })
@@ -130,7 +130,7 @@ export default {
     verify() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.auth
+      this.$api.badasoAuth
         .forgotPasswordVerifyToken({
           email: this.email,
           token: this.token,

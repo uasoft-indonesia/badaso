@@ -82,7 +82,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading();
-      this.$api.menu
+      this.$api.badasoMenu
         .edit(this.menu)
         .then((response) => {
           this.$vs.loading.close();
@@ -102,7 +102,7 @@ export default {
     },
     getMenuDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .read({
           menuId: this.$route.params.id,
         })

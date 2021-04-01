@@ -106,7 +106,7 @@ export default {
     verify() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.auth
+      this.$api.badasoAuth
         .verify({
           email: this.email,
           token: this.token,
@@ -141,7 +141,7 @@ export default {
     requestVerificationToken() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.auth
+      this.$api.badasoAuth
         .reRequestVerificationToken({
           token: this.token,
           email: this.email,

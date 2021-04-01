@@ -665,7 +665,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.crud
+      this.$api.badasoCrud
         .add(this.crudData)
         .then((response) => {
           this.$vs.loading.close();
@@ -685,7 +685,7 @@ export default {
     },
     getTableDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.table
+      this.$api.badasoTable
         .read({
           table: this.$route.params.tableName,
         })
@@ -722,7 +722,7 @@ export default {
     },
     getRelationTypes() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.data
+      this.$api.badasoData
         .tableRelations()
         .then((response) => {
           this.$vs.loading.close();
@@ -739,7 +739,7 @@ export default {
     },
     getDestinationTables() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.table
+      this.$api.badasoTable
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -756,7 +756,7 @@ export default {
     },
     getDestinationTableColumns(table) {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.table
+      this.$api.badasoTable
         .read({
           table,
         })
