@@ -76,7 +76,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.role
+      this.$api.badasoRole
         .add(this.role)
         .then((response) => {
           this.$vs.loading.close();

@@ -51,7 +51,7 @@ export default {
     adminPanelLogo:{
       get() {
         let config = this.$store.getters['badaso/getConfig']
-        return  this.$api.file.view(config.adminPanelLogo)
+        return  this.$api.badasoFile.view(config.adminPanelLogo)
       }
     },
     adminPanelHeaderColor: {
@@ -96,7 +96,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$api.auth
+      this.$api.badasoAuth
         .logout()
         .then((response) => {
           this.$router.push({name: "AuthLogin"})

@@ -95,43 +95,83 @@
                     {{ $helper.formatDate(record.createdAt) }}
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'ActivityLogRead',
-                        params: { id: record.id },
-                      }"
-                      v-if="$helper.isAllowed('read_activitylogs')"
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          :to="{
+                            name: 'ActivityLogRead',
+                            params: { id: record.id },
+                          }"
+                          icon="visibility"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
             </vs-table>
-            <vs-row class="mt-3">
-                <vs-col vs-lg="3">
-                  <vs-select
-                    placeholder="Row Per Page"
-                    v-model="limit"
-                    width="100%"
+            <div class="con-pagination-table vs-table--pagination">
+              <vs-row class="mt-3"
+                vs-justify="space-between"
+                vs-type="flex"
+                vs-w="12"
+              >
+                  <vs-col
+                    class="vs-pagination--mb"
+                    vs-type="flex"
+                    vs-justify="flex-start"
+                    vs-align="center"
+                    vs-lg="6"
+                    vs-md="12"
+                    vs-sm="12"
+                    vs-xs="12"
                   >
-                    <vs-select-item
-                      :key="index"
-                      :value="item"
-                      :text="item"
-                      v-for="(item, index) in descriptionItems"
-                    />
-                  </vs-select>
-                </vs-col>
-                <vs-col vs-lg="9">
-                  <vs-pagination
-                    :total="totalItem"
-                    v-model="page"
-                  ></vs-pagination>
-                </vs-col>
-              </vs-row>
+                    <div style="display: contents;">
+                      <span
+                        style="margin-right:5px"
+                      >
+                        Registries: {{ data.from }} - {{ data.to }} of {{ data.total }} | Pages:
+                      </span>
+                      <vs-select
+                        placeholder="Row Per Page"
+                        v-model="limit"
+                        width="100px"
+                      >
+                        <vs-select-item
+                          :key="index"
+                          :value="item"
+                          :text="item"
+                          v-for="(item, index) in descriptionItems"
+                        />
+                      </vs-select>
+                      </ul>
+                    </div>
+                      
+                  </vs-col>
+                  <vs-col class="vs-pagination--mb"
+                    vs-type="flex"
+                    vs-justify="flex-end"
+                    vs-align="center"
+                    vs-lg="6"
+                    vs-md="12"
+                    vs-sm="12"
+                    vs-xs="12"
+                  >
+                    <vs-pagination
+                      :total="totalItem"
+                      v-model="page"
+                      style="margin-bottom: 0;"
+                    ></vs-pagination>
+                  </vs-col>
+                </vs-row>
+            </div>
           </div>
         </vs-card>
       </vs-col>
@@ -156,6 +196,7 @@ export default {
   name: "ActivityLogBrowse",
   components: {},
   data: () => ({
+    data: {},
     selected: [],
     descriptionItems: [10, 50, 100, 200],
     activitylogs: [],
@@ -188,7 +229,7 @@ export default {
     },
     getActivityLogList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.activitylog
+      this.$api.badasoActivityLog
         .browse({
           filter: this.filter,
           limit: this.limit,
@@ -197,6 +238,7 @@ export default {
         .then((response) => {
           this.$vs.loading.close();
           this.selected = [];
+          this.data = response.data
           this.activitylogs = response.data.activitylog;
           this.totalItem = response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)

@@ -83,7 +83,7 @@ export default {
   methods: {
     getMenuItemPermissions() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .getItemPermissions({
           menuId: this.$route.params.id,
           menuItemId: this.$route.params.itemId,
@@ -112,7 +112,7 @@ export default {
       );
 
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .setItemPermissions({
           menuId: this.$route.params.id,
           menuItemId: this.$route.params.itemId,

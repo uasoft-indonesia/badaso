@@ -41,7 +41,7 @@
                     <img
                       v-if="dataRow.type === 'upload_image'"
                       :src="
-                        `${$api.file.view(
+                        `${$api.badasoFile.view(
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )}`
                       "
@@ -57,7 +57,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )"
                         :key="indexImage"
-                        :src="`${$api.file.view(image)}`"
+                        :src="`${$api.badasoFile.view(image)}`"
                         width="100%"
                         alt=""
                         style="margin-bottom: 10px;"
@@ -82,7 +82,7 @@
                     <a
                       v-else-if="dataRow.type === 'upload_file'"
                       :href="
-                        `${$api.file.download(
+                        `${$api.badasoFile.download(
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )}`
                       "
@@ -102,7 +102,7 @@
                         :key="indexFile"
                       >
                         <a
-                          :href="`${$api.file.download(file)}`"
+                          :href="`${$api.badasoFile.download(file)}`"
                           target="_blank"
                           >{{ file }}</a
                         >
@@ -201,7 +201,7 @@ export default {
   methods: {
     getDetailEntity() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,

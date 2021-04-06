@@ -92,7 +92,7 @@ export default {
   methods: {
     getUserDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .read({
           id: this.$route.params.id,
         })
@@ -116,7 +116,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .edit({
           id: this.$route.params.id,
           email: this.user.email,

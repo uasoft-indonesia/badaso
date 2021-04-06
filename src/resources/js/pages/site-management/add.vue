@@ -109,7 +109,7 @@ export default {
   methods: {
     submitForm() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.configuration
+      this.$api.badasoConfiguration
         .add(this.$caseConvert.snake(this.config))
         .then((response) => {
           this.$vs.loading.close();

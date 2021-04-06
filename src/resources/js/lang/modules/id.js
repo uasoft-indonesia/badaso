@@ -827,7 +827,7 @@ export default {
     "licenseUsersExpiredDescription": "Masa aktif anda sudah habis. Mohon untuk menambahkan masa aktif anda pada Badaso Dashboard supaya license anda dapat digunakan kembali. Untuk petunjuk lebih lengkap, bisa di lihat disini.",
   },
   "authorizationIssue": {
-    "title": "Authorization Issues",
+    "title": "Sesi telah kadaluarsa",
     "subtitle": "Maaf, belum bisa melanjutkan aktivitas karena",
     "message": "Otorisasi gagal, token telah kadaluarsa atau kosong",
   },

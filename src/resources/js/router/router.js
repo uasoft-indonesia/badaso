@@ -8,33 +8,79 @@ import LandingPageContainer from "./../layout/public/Container";
 import PageNotFound from "./../pages/error/PageNotFound.vue";
 
 const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? '/' + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-admin";
 
-const adminRouters = require.context("./admin", false, /\.js$/); // 
-const authRouters = require.context("./auth", false, /\.js$/); // 
-const publicRouters = require.context("./public", false, /\.js$/); // 
-const otherRouters = require.context("./others", false, /\.js$/); // 
+let _authRouters = [];
+let _publicRouters = [];
+let _adminRouters = [];
+let _otherRouters = [];
 
-let _authRouters = []
-authRouters.keys().forEach((fileName) => {
-  _authRouters = [..._authRouters, ...authRouters(fileName).default]
-})
+// DYNAMIC IMPORT BADASO ROUTERS
+try {
+  const authRouters = require.context("./auth", false, /\.js$/); //
+  authRouters.keys().forEach((fileName) => {
+    _authRouters = [..._authRouters, ...authRouters(fileName).default];
+  });
 
-let _publicRouters = []
-publicRouters.keys().forEach((fileName) => {
-  _publicRouters = [..._publicRouters, ...publicRouters(fileName).default]
-})
+  const publicRouters = require.context("./public", false, /\.js$/); //
+  publicRouters.keys().forEach((fileName) => {
+    _publicRouters = [..._publicRouters, ...publicRouters(fileName).default];
+  });
 
-let _adminRouters = []
-adminRouters.keys().forEach((fileName) => {
-  _adminRouters = [..._adminRouters, ...adminRouters(fileName).default]
-})
+  const adminRouters = require.context("./admin", false, /\.js$/); //
+  adminRouters.keys().forEach((fileName) => {
+    _adminRouters = [..._adminRouters, ...adminRouters(fileName).default];
+  });
 
-let _otherRouters = []
-otherRouters.keys().forEach((fileName) => {
-  _otherRouters = [..._otherRouters, ...otherRouters(fileName).default]
-})
+  const otherRouters = require.context("./others", false, /\.js$/); //
+  otherRouters.keys().forEach((fileName) => {
+    _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
+  });
+} catch (error) {
+  console.info("There is no badaso routers");
+}
+
+// DYNAMIC IMPORT CUSTOM ROUTERS
+try {
+  const authRouters = require.context(
+    "../../../../../../../resources/js/badaso/routers/auth",
+    false,
+    /\.js$/
+  ); //
+  authRouters.keys().forEach((fileName) => {
+    _authRouters = [..._authRouters, ...authRouters(fileName).default];
+  });
+
+  const publicRouters = require.context(
+    "../../../../../../../resources/js/badaso/routers/public",
+    false,
+    /\.js$/
+  ); //
+  publicRouters.keys().forEach((fileName) => {
+    _publicRouters = [..._publicRouters, ...publicRouters(fileName).default];
+  });
+
+  const adminRouters = require.context(
+    "../../../../../../../resources/js/badaso/routers/admin",
+    false,
+    /\.js$/
+  ); //
+  adminRouters.keys().forEach((fileName) => {
+    _adminRouters = [..._adminRouters, ...adminRouters(fileName).default];
+  });
+
+  const otherRouters = require.context(
+    "../../../../../../../resources/js/badaso/routers/others",
+    false,
+    /\.js$/
+  ); //
+  otherRouters.keys().forEach((fileName) => {
+    _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
+  });
+} catch (error) {
+  console.info("There is no custom routers");
+}
 
 Vue.use(VueRouter);
 
@@ -48,7 +94,7 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: _authRouters
+      children: _authRouters,
     },
     {
       path: "",
@@ -57,7 +103,7 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: _publicRouters
+      children: _publicRouters,
     },
     {
       path: "",

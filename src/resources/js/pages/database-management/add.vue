@@ -425,7 +425,7 @@ export default {
   methods: {
     getDbmsFieldType() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.database
+      this.$api.badasoDatabase
         .getType()
         .then((response) => {
           this.$vs.loading.close();
@@ -445,7 +445,7 @@ export default {
       if (!this.$v.databaseData.$invalid) {
         this.$v.databaseData.$reset();
         this.$vs.loading(this.$loadingConfig);
-        this.$api.database
+        this.$api.badasoDatabase
           .add(this.databaseData)
           .then((response) => {
             this.$vs.loading.close();

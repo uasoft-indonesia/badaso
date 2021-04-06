@@ -769,7 +769,7 @@ export default {
   },
   methods: {
     getDbmsFieldType() {
-      this.$api.database
+      this.$api.badasoDatabase
         .getType()
         .then((response) => {
           this.fieldTypeList = JSON.parse(response.data);
@@ -823,7 +823,7 @@ export default {
 
     getInfoTable() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.database
+      this.$api.badasoDatabase
         .read({
           table: this.$route.params.tableName,
         })
@@ -868,7 +868,7 @@ export default {
       if (!this.$v.databaseData.$invalid) {
         this.$vs.loading(this.$loadingConfig);
 
-        this.$api.database
+        this.$api.badasoDatabase
           .edit(this.databaseData)
           .then((response) => {
             this.$vs.loading.close();

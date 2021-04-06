@@ -102,33 +102,39 @@
                       </div>
                     </div>
                     <div class="data-action">
-                      <vs-button
-                        color="primary"
-                        type="relief"
-                        @click.stop
-                        v-if="$helper.isAllowed('edit_menu_items')"
-                        :to="{
-                          name: 'MenuManagementPermissions',
-                          params: { id: $route.params.id, itemId: data.id },
-                        }"
-                        ><vs-icon icon="list"></vs-icon
-                      ></vs-button>
-                      <vs-button
-                        color="warning"
-                        type="relief"
-                        @click.stop
-                        @click="editMenuItem(data)"
-                        v-if="$helper.isAllowed('edit_menu_items')"
-                        ><vs-icon icon="edit"></vs-icon
-                      ></vs-button>
-                      <vs-button
-                        color="danger"
-                        type="relief"
-                        @click.stop
-                        @click="openConfirm(data.id)"
-                        v-if="$helper.isAllowed('delete_menu_items')"
-                        ><vs-icon icon="delete"></vs-icon
-                      ></vs-button>
+                      <badaso-dropdown vs-trigger-click>
+                        <vs-button
+                          size="large"
+                          type="flat"
+                          icon="more_vert"
+                        ></vs-button>
+                        <vs-dropdown-menu>
+                          <badaso-dropdown-item
+                            icon="list"
+                            v-if="$helper.isAllowed('edit_menu_items')"
+                            :to="{
+                              name: 'MenuManagementPermissions',
+                              params: { id: $route.params.id, itemId: data.id },
+                            }"
+                          >
+                            Menu Permission
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            icon="edit"
+                            @click="editMenuItem(data)"
+                            v-if="$helper.isAllowed('edit_menu_items')"
+                          >
+                            Edit
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            icon="delete"
+                            @click="openConfirm(data.id)"
+                            v-if="$helper.isAllowed('delete_menu_items')"
+                          >
+                            Delete
+                          </badaso-dropdown-item>
+                        </vs-dropdown-menu>
+                      </badaso-dropdown>
                     </div>
                     <vs-popup
                       class="holamundo"
@@ -150,22 +156,28 @@
                           placeholder=""
                           :alert="errors.url"
                         ></badaso-text>
-                        
+
                         <badaso-select
                           v-model="data.target"
                           size="12"
-                          :label="$t('menu.builder.popup.edit.field.target.title')"
+                          :label="
+                            $t('menu.builder.popup.edit.field.target.title')
+                          "
                           :items="menuItemTargets"
                           placeholder=""
                           :alert="errors.target"
                         ></badaso-select>
-                        
+
                         <badaso-text
                           v-model="data.iconClass"
                           size="12"
-                          :label="$t('menu.builder.popup.edit.field.icon.title')"
+                          :label="
+                            $t('menu.builder.popup.edit.field.icon.title')
+                          "
                           placeholder=""
-                          :additionalInfo="$t('menu.builder.popup.edit.field.icon.description')"
+                          :additionalInfo="
+                            $t('menu.builder.popup.edit.field.icon.description')
+                          "
                           :alert="errors.icon"
                         ></badaso-text>
                         <badaso-color-picker
@@ -175,25 +187,29 @@
                         ></badaso-color-picker>
                       </vs-row>
                       <vs-row vs-type="flex" vs-justify="space-between">
-                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                            <vs-button
-                              class="btn-block"
-                              color="danger"
-                              @click="closeModal()"
-                              type="relief"
-                              >{{ $t("menu.builder.popup.edit.button.cancel") }}</vs-button
-                            >
-                          </vs-col>
-                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                            <vs-button
-                              class="btn-block"
-                              color="primary"
-                              @click="updateMenuItem(data)"
-                              type="relief"
-                              >{{ $t("menu.builder.popup.edit.button.edit") }}</vs-button
-                            >
-                          </vs-col>
-                        </vs-row>
+                        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                          <vs-button
+                            class="btn-block"
+                            color="danger"
+                            @click="closeModal()"
+                            type="relief"
+                            >{{
+                              $t("menu.builder.popup.edit.button.cancel")
+                            }}</vs-button
+                          >
+                        </vs-col>
+                        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                          <vs-button
+                            class="btn-block"
+                            color="primary"
+                            @click="updateMenuItem(data)"
+                            type="relief"
+                            >{{
+                              $t("menu.builder.popup.edit.button.edit")
+                            }}</vs-button
+                          >
+                        </vs-col>
+                      </vs-row>
                     </vs-popup>
                   </template>
                 </div>
@@ -288,17 +304,17 @@ export default {
     getMenuItems() {
       this.arrangeItems = false;
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .browseItem({
           menuId: this.$route.params.id,
         })
         .then((response) => {
           this.menuItems = response.data.menuItems.map((item) => {
-            let _item = item
-            _item.editItem = false
-            _item.title = item.title ? item.title : ''
-            _item.iconClass = item.iconClass ? item.iconClass : ''
-            _item.color = item.color ? item.color : '#000000'
+            let _item = item;
+            _item.editItem = false;
+            _item.title = item.title ? item.title : "";
+            _item.iconClass = item.iconClass ? item.iconClass : "";
+            _item.color = item.color ? item.color : "#000000";
             return _item;
           });
           this.savedItems = [...response.data.menuItems];
@@ -395,7 +411,7 @@ export default {
     startArrangeItems() {
       this.$vs.loading(this.$loadingConfig);
       let menuItems = this.buildArrangeItems(this.menuItems);
-      this.$api.menu
+      this.$api.badasoMenu
         .arrangeItems({
           menuId: this.$route.params.id,
           menuItems: menuItems,
@@ -416,7 +432,7 @@ export default {
         });
     },
     editMenuItem(menuItem) {
-      menuItem.editItem = true
+      menuItem.editItem = true;
     },
     addMenuItem(menuItem) {
       this.menuItem = {
@@ -432,7 +448,7 @@ export default {
     saveMenuItem() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .addItem({ ...this.menuItem, menuId: this.$route.params.id })
         .then((response) => {
           this.getMenuItems();
@@ -454,7 +470,7 @@ export default {
     deleteMenuItem() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .deleteItem({
           menuId: this.$route.params.id,
           menuItemId: this.menuItemIdWillBeDeleted,
@@ -479,7 +495,7 @@ export default {
     updateMenuItem(data) {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.menu
+      this.$api.badasoMenu
         .editItem({
           menuId: this.$route.params.id,
           menuItemId: data.id,

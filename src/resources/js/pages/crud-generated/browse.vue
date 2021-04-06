@@ -42,7 +42,7 @@
             <h3>{{ dataType.displayNameSingular }}</h3>
           </div>
           <div>
-            <vs-table
+            <badaso-table
               v-if="dataType.serverSide !== 1"
               v-model="selected"
               pagination
@@ -90,7 +90,7 @@
                     <img
                       v-if="dataRow.type === 'upload_image'"
                       :src="
-                        `${$api.file.view(
+                        `${$api.badasoFile.view(
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )}`
                       "
@@ -106,7 +106,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )"
                         :key="indexImage"
-                        :src="`${$api.file.view(image)}`"
+                        :src="`${$api.badasoFile.view(image)}`"
                         width="100%"
                         alt=""
                         style="margin-bottom: 10px;"
@@ -131,7 +131,7 @@
                     <a
                       v-else-if="dataRow.type === 'upload_file'"
                       :href="
-                        `${$api.file.download(
+                        `${$api.badasoFile.download(
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         )}`
                       "
@@ -151,7 +151,7 @@
                         :key="indexFile"
                       >
                         <a
-                          :href="`${$api.file.download(file)}`"
+                          :href="`${$api.badasoFile.download(file)}`"
                           target="_blank"
                           >{{ file }}</a
                         >
@@ -207,63 +207,69 @@
                     }}</span>
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'CrudGeneratedRead',
-                        params: {
-                          id: data[index].id,
-                          slug: $route.params.slug,
-                        },
-                      }"
-                      v-if="
-                        isCanRead &&
-                          $helper.isAllowedToModifyGeneratedCRUD(
-                            'read',
-                            dataType.name
-                          )
-                      "
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'CrudGeneratedEdit',
-                        params: {
-                          id: data[index].id,
-                          slug: $route.params.slug,
-                        },
-                      }"
-                      v-if="
-                        isCanEdit &&
-                          $helper.isAllowedToModifyGeneratedCRUD(
-                            'edit',
-                            dataType
-                          )
-                      "
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      @click="confirmDelete(data[index].id)"
-                      v-if="
-                        $helper.isAllowedToModifyGeneratedCRUD(
-                          'delete',
-                          dataType
-                        )
-                      "
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          :to="{
+                            name: 'CrudGeneratedRead',
+                            params: {
+                              id: data[index].id,
+                              slug: $route.params.slug,
+                            },
+                          }"
+                          v-if="
+                            isCanRead &&
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'read',
+                                dataType.name
+                              )
+                          "
+                          icon="visibility"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          :to="{
+                            name: 'CrudGeneratedEdit',
+                            params: {
+                              id: data[index].id,
+                              slug: $route.params.slug,
+                            },
+                          }"
+                          v-if="
+                            isCanEdit &&
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'edit',
+                                dataType
+                              )
+                          "
+                          icon="edit"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          @click="confirmDelete(data[index].id)"
+                          v-if="
+                            $helper.isAllowedToModifyGeneratedCRUD(
+                              'delete',
+                              dataType
+                            )
+                          "
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
+            </badaso-table>
             <div v-else>
               <vs-table v-model="selected" :data="records" stripe multiple>
                 <template slot="header">
@@ -310,7 +316,7 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${$api.file.view(
+                          `${$api.badasoFile.view(
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
                             ]
@@ -330,7 +336,7 @@
                             ]
                           )"
                           :key="indexImage"
-                          :src="`${$api.file.view(image)}`"
+                          :src="`${$api.badasoFile.view(image)}`"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -355,7 +361,7 @@
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
-                          `${$api.file.download(
+                          `${$api.badasoFile.download(
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
                             ]
@@ -379,7 +385,7 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${$api.file.download(file)}`"
+                            :href="`${$api.badasoFile.download(file)}`"
                             target="_blank"
                             >{{ file }}</a
                           >
@@ -439,85 +445,124 @@
                       }}</span>
                     </vs-td>
                     <vs-td style="width: 1%; white-space: nowrap">
-                      <vs-button
-                        color="success"
-                        type="relief"
-                        @click.stop
-                        :to="{
-                          name: 'CrudGeneratedRead',
-                          params: {
-                            id: data[index].id,
-                            slug: $route.params.slug,
-                          },
-                        }"
-                        v-if="
-                          isCanRead &&
-                            $helper.isAllowedToModifyGeneratedCRUD(
-                              'read',
-                              dataType
-                            )
-                        "
-                        ><vs-icon icon="visibility"></vs-icon
-                      ></vs-button>
-                      <vs-button
-                        color="warning"
-                        type="relief"
-                        @click.stop
-                        :to="{
-                          name: 'CrudGeneratedEdit',
-                          params: {
-                            id: data[index].id,
-                            slug: $route.params.slug,
-                          },
-                        }"
-                        v-if="
-                          isCanEdit &&
-                            $helper.isAllowedToModifyGeneratedCRUD(
-                              'edit',
-                              dataType
-                            )
-                        "
-                        ><vs-icon icon="edit"></vs-icon
-                      ></vs-button>
-                      <vs-button
-                        color="danger"
-                        type="relief"
-                        @click.stop
-                        @click="confirmDelete(data[index].id)"
-                        v-if="
-                          $helper.isAllowedToModifyGeneratedCRUD(
-                            'delete',
-                            dataType
-                          )
-                        "
-                        ><vs-icon icon="delete"></vs-icon
-                      ></vs-button>
+                      <badaso-dropdown vs-trigger-click>
+                        <vs-button
+                          size="large"
+                          type="flat"
+                          icon="more_vert"
+                        ></vs-button>
+                        <vs-dropdown-menu>
+                          <badaso-dropdown-item
+                            :to="{
+                              name: 'CrudGeneratedRead',
+                              params: {
+                                id: data[index].id,
+                                slug: $route.params.slug,
+                              },
+                            }"
+                            v-if="
+                              isCanRead &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'read',
+                                  dataType
+                                )
+                            "
+                            icon="visibility"
+                          >
+                            Detail
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            :to="{
+                              name: 'CrudGeneratedEdit',
+                              params: {
+                                id: data[index].id,
+                                slug: $route.params.slug,
+                              },
+                            }"
+                            v-if="
+                              isCanEdit &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                )
+                            "
+                            icon="edit"
+                          >
+                            Edit
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            icon="delete"
+                            @click="confirmDelete(data[index].id)"
+                            v-if="
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'delete',
+                                dataType
+                              )
+                            "
+                          >
+                            Delete
+                          </badaso-dropdown-item>
+                        </vs-dropdown-menu>
+                      </badaso-dropdown>
                     </vs-td>
                   </vs-tr>
                 </template>
               </vs-table>
-              <vs-row class="mt-3">
-                <vs-col vs-lg="3">
-                  <vs-select
-                    placeholder="Row Per Page"
-                    v-model="limit"
-                    width="100%"
+              <div class="con-pagination-table vs-table--pagination">
+              <vs-row class="mt-3"
+                vs-justify="space-between"
+                vs-type="flex"
+                vs-w="12"
+              >
+                  <vs-col
+                    class="vs-pagination--mb"
+                    vs-type="flex"
+                    vs-justify="flex-start"
+                    vs-align="center"
+                    vs-lg="6"
+                    vs-md="12"
+                    vs-sm="12"
+                    vs-xs="12"
                   >
-                    <vs-select-item
-                      :key="index"
-                      :value="item"
-                      :text="item"
-                      v-for="(item, index) in descriptionItems"
-                    />
-                  </vs-select>
-                </vs-col>
-                <vs-col vs-lg="9">
-                  <vs-pagination
-                    :total="totalItem"
-                    v-model="page"
-                  ></vs-pagination>
-                </vs-col>
-              </vs-row>
+                  <div style="display: contents;">
+                    <span
+                      style="margin-right:5px"
+                    >
+                      Registries: {{ data.from }} - {{ data.to }} of {{ data.total }} | Pages:
+                    </span>
+                    <vs-select
+                      placeholder="Row Per Page"
+                      v-model="limit"
+                      width="100px"
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item"
+                        :text="item"
+                        v-for="(item, index) in descriptionItems"
+                      />
+                    </vs-select>
+                    </ul>
+                  </div>
+                    
+                  </vs-col>
+                  <vs-col class="vs-pagination--mb"
+                    vs-type="flex"
+                    vs-justify="flex-end"
+                    vs-align="center"
+                    vs-lg="6"
+                    vs-md="12"
+                    vs-sm="12"
+                    vs-xs="12"
+                  >
+                    <vs-pagination
+                      :total="totalItem"
+                      v-model="page"
+                      style="margin-bottom: 0;"
+                    ></vs-pagination>
+                  </vs-col>
+                </vs-row>
+            </div>
             </div>
           </div>
         </vs-card>
@@ -546,10 +591,10 @@
 <script>
 import * as _ from "lodash";
 export default {
-  components: {
-  },
+  components: {},
   name: "CrudGeneratedBrowse",
   data: () => ({
+    data: {},
     descriptionItems: [10, 50, 100],
     selected: [],
     records: [],
@@ -611,7 +656,7 @@ export default {
     },
     getEntity() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .browse({
           slug: this.$route.params.slug,
           limit: this.limit,
@@ -622,6 +667,7 @@ export default {
         })
         .then((response) => {
           this.$vs.loading.close();
+          this.data = response.data.entities;
           this.records = response.data.entities.data;
           this.totalItem =
             response.data.entities.total > 0
@@ -659,7 +705,7 @@ export default {
     },
     deleteRecord() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .delete({
           slug: this.$route.params.slug,
           data: [
@@ -685,7 +731,7 @@ export default {
     deleteRecords() {
       const ids = this.selected.map((item) => item.id);
       this.$vs.loading(this.$loadingConfig);
-      this.$api.entity
+      this.$api.badasoEntity
         .deleteMultiple({
           slug: this.$route.params.slug,
           data: [

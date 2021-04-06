@@ -81,7 +81,7 @@ export default {
   methods: {
     getUserRoles() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .roles({
           userId: this.$route.params.id,
         })
@@ -105,7 +105,7 @@ export default {
       selectedRoles = selectedRoles.map((role) => role.id);
 
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .addRoles({
           userId: this.$route.params.id,
           roles: selectedRoles,

@@ -116,7 +116,7 @@ export default {
   methods: {
     register() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.auth
+      this.$api.badasoAuth
         .register({
           name: this.name,
           email: this.email,

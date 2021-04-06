@@ -29,7 +29,7 @@
             @click="deleteStoredFile(imageData)"
           ></vs-button>
           <img
-            :src="`${$api.file.view(imageData)}`"
+            :src="`${$api.badasoFile.view(imageData)}`"
             class="image"
           />
         </div>

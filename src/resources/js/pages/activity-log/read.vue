@@ -56,7 +56,7 @@
                 }}</span>
               </th>
               <td v-if="index === 'avatar'">
-                <img :src="`${$api.file.view(item)}`" width="100%" alt="" />
+                <img :src="`${$api.badasoFile.view(item)}`" width="100%" alt="" />
               </td>
               <td v-else>{{ item === null ? "null" : item }}</td>
             </tr>
@@ -76,7 +76,7 @@
                 }}</span>
               </th>
               <td v-if="index === 'avatar'">
-                <img :src="`${$api.file.view(item)}`" width="100%" alt="" />
+                <img :src="`${$api.badasoFile.view(item)}`" width="100%" alt="" />
               </td>
               <td v-else>{{ item === null ? "null" : item }}</td>
             </tr>
@@ -163,7 +163,7 @@ export default {
   methods: {
     getActivityLogDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.activitylog
+      this.$api.badasoActivityLog
         .read({
           id: this.$route.params.id,
         })
