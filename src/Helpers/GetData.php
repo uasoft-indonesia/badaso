@@ -138,6 +138,11 @@ class GetData
         $data = collect($records);
 
         $entities['data'] = $data;
+        $entities['from,'] = $page ? (($page - 1) * $limit) + 1 : 0;
+        $entities['to'] = 0;
+        if ($page) {
+            $entities['to'] = count($data) > $limit ? $page * $limit : (($page - 1) * $limit) + count($data);
+        }
         $entities['total'] = $total;
 
         return $entities;

@@ -27,7 +27,7 @@
             <h3>{{ $t("user.title") }}</h3>
           </div>
           <div>
-            <vs-table
+            <badaso-table
               multiple
               v-model="selected"
               pagination
@@ -56,51 +56,56 @@
                     {{ data[indextr].email }}
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'UserManagementRead',
-                        params: { id: data[indextr].id },
-                      }"
-                      v-if="$helper.isAllowed('read_users')"
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="primary"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'UserManagementRoles',
-                        params: { id: data[indextr].id },
-                      }"
-                      v-if="$helper.isAllowed('browse_user_role')"
-                      ><vs-icon icon="list"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'UserManagementEdit',
-                        params: { id: data[indextr].id },
-                      }"
-                      v-if="$helper.isAllowed('edit_users')"
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      @click="confirmDelete(data[indextr].id)"
-                      v-if="$helper.isAllowed('delete_users')"
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="visibility"
+                          :to="{
+                            name: 'UserManagementRead',
+                            params: { id: data[indextr].id },
+                          }"
+                          v-if="$helper.isAllowed('read_users')"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="list"
+                          :to="{
+                            name: 'UserManagementRoles',
+                            params: { id: data[indextr].id },
+                          }"
+                          v-if="$helper.isAllowed('browse_user_role')"
+                        >
+                          Roles
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="edit"
+                          :to="{
+                            name: 'UserManagementEdit',
+                            params: { id: data[indextr].id },
+                          }"
+                          v-if="$helper.isAllowed('edit_users')"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          @click="confirmDelete(data[indextr].id)"
+                          v-if="$helper.isAllowed('delete_users')"
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
+            </badaso-table>
           </div>
         </vs-card>
       </vs-col>
@@ -111,8 +116,7 @@
 <script>
 export default {
   name: "UserManagementBrowse",
-  components: {
-  },
+  components: {},
   data: () => ({
     selected: [],
     descriptionItems: [10, 50, 100],
@@ -152,7 +156,7 @@ export default {
     },
     getUserList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -170,7 +174,7 @@ export default {
     },
     deleteUser() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .delete({
           id: this.willDeleteId,
         })
@@ -190,7 +194,7 @@ export default {
     bulkDeleteUser() {
       const ids = this.selected.map((item) => item.id);
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .deleteMultiple({
           ids: ids.join(","),
         })

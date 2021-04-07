@@ -157,7 +157,7 @@ export default {
     getUser() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.authuser
+      this.$api.badasoAuthUser
         .user({})
         .then((response) => {
           this.$vs.loading.close();
@@ -177,7 +177,7 @@ export default {
     updateProfile() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.authuser
+      this.$api.badasoAuthUser
         .updateProfile({
           name: this.user.name,
           avatar: this.user.avatar.base64,
@@ -205,7 +205,7 @@ export default {
     updateEmail() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.authuser
+      this.$api.badasoAuthUser
         .updateEmail({
           email: this.user.email,
         })
@@ -240,7 +240,7 @@ export default {
     verifyEmail() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.authuser
+      this.$api.badasoAuthUser
         .verifyEmail({
           email: this.user.email,
           token: this.token
@@ -269,7 +269,7 @@ export default {
     changePassword() {
       this.errors = {};
       this.$vs.loading(this.$loadingConfig);
-      this.$api.authuser
+      this.$api.badasoAuthUser
         .changePassword({
           oldPassword: this.user.oldPassword,
           newPassword: this.user.newPassword,

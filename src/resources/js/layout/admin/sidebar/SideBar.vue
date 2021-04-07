@@ -12,7 +12,7 @@
       :reduce="reduceSidebar"
     >
       <div class="header-sidebar text-center" slot="header">
-        <vs-avatar size="70px" :src="`${$api.file.view(user.avatar)}`" />
+        <vs-avatar size="70px" :src="`${$api.badasoFile.view(user.avatar)}`" />
         <!--
         <h4>
           {{user.name}}
@@ -280,7 +280,7 @@ export default {
       window.open(url);
     },
     logout() {
-      this.$api.auth
+      this.$api.badasoAuth
         .logout()
         .then((response) => {
           localStorage.clear();

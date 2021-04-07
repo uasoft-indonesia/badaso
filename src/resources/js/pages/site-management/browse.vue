@@ -283,7 +283,7 @@ export default {
     },
     getConfigurationList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.configuration
+      this.$api.badasoConfiguration
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -333,7 +333,7 @@ export default {
     },
     deleteConfiguration() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.configuration
+      this.$api.badasoConfiguration
         .delete({
           id: this.willDeleteConfigurationId,
         })
@@ -353,7 +353,7 @@ export default {
     },
     submitForm(config) {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.configuration
+      this.$api.badasoConfiguration
         .edit(this.$caseConvert.snake(config))
         .then((response) => {
           this.$vs.loading.close();
@@ -376,7 +376,7 @@ export default {
     },
     submitMultipleEdit() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.configuration
+      this.$api.badasoConfiguration
         .editMultiple({ configurations: this.configurations })
         .then((response) => {
           this.$vs.loading.close();

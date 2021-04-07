@@ -92,7 +92,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading();
-      this.$api.permission
+      this.$api.badasoPermission
         .add(this.permission)
         .then((response) => {
           this.$vs.loading.close();

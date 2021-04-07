@@ -1,8 +1,5 @@
 <template>
-  <vs-col
-    vs-lg="12"
-    class="login-register-box"
-  >
+  <vs-col vs-lg="12" class="login-register-box">
     <vs-card class="mb-0">
       <div slot="header">
         <h3 class="mb-1">{{ $t("login.title") }}</h3>
@@ -24,7 +21,7 @@
                 class="text-danger"
                 v-for="(info, index) in errors.email"
                 :key="index"
-                v-html="info+'<br />'"
+                v-html="info + '<br />'"
               ></span>
             </div>
             <div v-else>
@@ -110,30 +107,42 @@ export default {
   methods: {
     login() {
       this.$vs.loading(this.$loadingConfig);
-      this.$store.commit("badaso/SET_AUTH_ISSUE", {
-        unauthorized: false,
-      });
-      this.$api.auth
-        .login({
-          email: this.email,
-          password: this.password,
-          remember: this.rememberMe,
-        })
-        .then((response) => {
-          this.$vs.loading.close();
-          if (response.data.accessToken) {
-            this.$router.push({ name: "Home" });
-          } else {
-            this.$router.push({
-              name: "AuthVerify",
-              query: {
-                email: this.email,
-              },
+      this.$api.badaso
+        .verify()
+        .then((res) => {
+          this.$store.commit("badaso/SET_AUTH_ISSUE", {
+            unauthorized: false,
+          });
+          this.$api.badasoAuth
+            .login({
+              email: this.email,
+              password: this.password,
+              remember: this.rememberMe,
+            })
+            .then((response) => {
+              this.$vs.loading.close();
+              if (response.data.accessToken) {
+                this.$router.push({ name: "Home" });
+              } else {
+                this.$router.push({
+                  name: "AuthVerify",
+                  query: {
+                    email: this.email,
+                  },
+                });
+              }
+            })
+            .catch((error) => {
+              this.errors = error.errors;
+              this.$vs.loading.close();
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: error.message,
+                color: "danger",
+              });
             });
-          }
         })
         .catch((error) => {
-          this.errors = error.errors;
           this.$vs.loading.close();
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -145,13 +154,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.login-register-box {
-  max-width: 400px;
-  justify-content: center;
-  align-items: center;
-  margin-left: 0;
-  width: 100%;
-}
-</style>

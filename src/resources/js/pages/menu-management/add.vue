@@ -78,7 +78,7 @@ export default {
     submitForm() {
       this.errors = {};
       this.$vs.loading();
-      this.$api.menu
+      this.$api.badasoMenu
         .add(this.menu)
         .then((response) => {
           this.$vs.loading.close();

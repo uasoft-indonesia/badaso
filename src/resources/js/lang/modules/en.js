@@ -135,7 +135,13 @@ export default {
     },
     "addItem": "Add Item",
     "roles": "Roles",
-    "sort": "Sort"
+    "sort": "Sort",
+    "rollbackMigration": {
+      "title": "Rollback Migration",
+      "text": "Are you sure?",
+      "accept": "Accept",
+      "cancel": "Cancel"
+    }
   },
 
   "alert": {
@@ -821,7 +827,7 @@ export default {
     "licenseUsersExpiredDescription": "Your active period has expired. Please add your active period to Badaso Dashboard so that your license can be used again. For more complete instructions, please see here.",
   },
   "authorizationIssue": {
-    "title": "Authorization Issues",
+    "title": "Session Expired",
     "subtitle": "Sorry, cannot continue request because",
     "message": "Authorization Failed, token expired or empty",
   },

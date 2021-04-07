@@ -8,7 +8,7 @@
             <h3>{{ $t("crud.title") }}</h3>
           </div>
           <div>
-            <vs-table
+            <badaso-table
               v-model="selected"
               pagination
               max-items="10"
@@ -41,52 +41,66 @@
                     style="width: 1%; white-space: nowrap"
                     v-if="data[index].crudData"
                   >
-                    <vs-button
-                      color="success"
-                      type="relief"
-                      @click.stop
-                      :to="{
-                        name: 'EntityBrowse',
-                        params: { slug: data[index].crudData.slug },
-                      }"
-                      ><vs-icon icon="visibility"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="warning"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('edit_crud_data')"
-                      :to="{
-                        name: 'CrudManagementEdit',
-                        params: { tableName: data[index].tableName },
-                      }"
-                      ><vs-icon icon="edit"></vs-icon
-                    ></vs-button>
-                    <vs-button
-                      color="danger"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('delete_crud_data')"
-                      @click="openConfirm(data[index].crudData.id)"
-                      ><vs-icon icon="delete"></vs-icon
-                    ></vs-button>
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="visibility"
+                          :to="{
+                            name: 'CrudGeneratedBrowse',
+                            params: { slug: data[index].crudData.slug },
+                          }"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="edit"
+                          v-if="$helper.isAllowed('edit_crud_data')"
+                          :to="{
+                            name: 'CrudManagementEdit',
+                            params: { tableName: data[index].tableName },
+                          }"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          v-if="$helper.isAllowed('delete_crud_data')"
+                          @click="openConfirm(data[index].crudData.id)"
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                   <vs-td v-else style="width: 1%; white-space: nowrap">
-                    <vs-button
-                      color="primary"
-                      type="relief"
-                      @click.stop
-                      v-if="$helper.isAllowed('add_crud_data')"
-                      :to="{
-                        name: 'CrudManagementAdd',
-                        params: { tableName: data[index].tableName },
-                      }"
-                      >{{ $t("crud.body.button") }}</vs-button
-                    >
+                    <badaso-dropdown vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+                      <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="add"
+                          v-if="$helper.isAllowed('add_crud_data')"
+                          :to="{
+                            name: 'CrudManagementAdd',
+                            params: { tableName: data[index].tableName },
+                          }"
+                        >
+                          {{ $t("crud.body.button") }}
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </badaso-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
+            </badaso-table>
           </div>
         </vs-card>
       </vs-col>
@@ -107,8 +121,7 @@
 
 <script>
 export default {
-  components: { 
-  },
+  components: {},
   name: "CrudManagementBrowse",
   data: () => ({
     descriptionItems: [10, 50, 100],
@@ -137,7 +150,7 @@ export default {
     },
     getTableList() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.crud
+      this.$api.badasoCrud
         .browse()
         .then((response) => {
           this.$vs.loading.close();
@@ -154,7 +167,7 @@ export default {
     },
     deleteCRUDData() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.crud
+      this.$api.badasoCrud
         .delete({
           id: this.willDeleteId,
         })

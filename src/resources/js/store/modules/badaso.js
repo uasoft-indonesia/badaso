@@ -1,9 +1,9 @@
 import api from "../../api";
 import createPersistedState from "vuex-persistedstate";
-import helpers from '../../utils/helper'
+import helpers from "../../utils/helper";
 
 export default {
-namespaced: true,
+  namespaced: true,
   state: {
     isSidebarActive: false,
     reduceSidebar: false,
@@ -34,6 +34,7 @@ namespaced: true,
     authorizationIssue: {
       unauthorized: false,
     },
+    verified: false,
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -50,7 +51,7 @@ namespaced: true,
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
-      api.menu
+      api.badasoMenu
         .browseItemByKey({
           menu_key: menuKey,
         })
@@ -86,7 +87,7 @@ namespaced: true,
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
-      api.menu
+      api.badasoMenu
         .browseItemByKey({
           menu_key: "configuration",
         })
@@ -119,7 +120,7 @@ namespaced: true,
         .catch((err) => {});
     },
     FETCH_COMPONENT(state) {
-      api.data
+      api.badasoData
         .component()
         .then((res) => {
           state.componentList = res.data.components;
@@ -127,7 +128,7 @@ namespaced: true,
         .catch((err) => {});
     },
     FETCH_CONFIGURATION_GROUPS(state) {
-      api.data
+      api.badasoData
         .configurationGroups()
         .then((res) => {
           state.groupList = res.data.groups;
@@ -135,7 +136,7 @@ namespaced: true,
         .catch((err) => {});
     },
     FETCH_CONFIGURATION(state) {
-      api.configuration
+      api.badasoConfiguration
         .applyable()
         .then((res) => {
           state.config = res.data.configuration;
@@ -143,7 +144,7 @@ namespaced: true,
         .catch((err) => {});
     },
     FETCH_USER(state) {
-      api.authuser
+      api.badasoAuthUser
         .user()
         .then((res) => {
           state.user = res.data.user;
@@ -162,6 +163,19 @@ namespaced: true,
     LOGOUT(state) {
       localStorage.clear();
       window.location.reload();
+    },
+    VERIFY_BADASO(state) {
+      api.badaso
+        .verify()
+        .then((res) => {
+          state.verified = true;
+        })
+        .catch((err) => {
+          state.keyIssue = {
+            invalid: true,
+          };
+          state.verified = true;
+        });
     },
   },
   actions: {},
@@ -189,6 +203,9 @@ namespaced: true,
     },
     getSelectedLocale: (state) => {
       return state.selectedLocale;
+    },
+    isVerified: (state) => {
+      return state.verified;
     },
   },
   plugins: [createPersistedState()],

@@ -14,7 +14,7 @@
         <span class="logo-text" v-if="title">{{ title }}</span>
       </div>
       <div slot="navigation">
-        <div class="cursor-pointer" @click.stop="reduceSidebar" v-if="view == $constants.DEKSTOP">
+        <div class="cursor-pointer" @click.stop="reduceSidebar" v-if="view == $constants.DESKTOP">
           <vs-icon icon="menu"></vs-icon>
         </div>
         <div class="cursor-pointer" @click.stop="activeSidebar" v-if="view == $constants.MOBILE">
@@ -51,7 +51,7 @@
           <vs-dropdown-menu class="topbar-dd">
             <div
               class="d-flex align-items-center p-3 mb-2 preview"
-              :style="{ backgroundColor: topbarFontColor, color: topbarColor }"
+              :style="{ backgroundColor: topbarColor, color: topbarFontColor }"
             >
               <div class="ml-2">
                 <h4 class="mb-0">0 New</h4>
@@ -139,7 +139,7 @@ export default {
       this.$store.commit("badaso/IS_SIDEBAR_ACTIVE", !this.isSidebarActive);
     },
     logout() {
-      this.$api.auth
+      this.$api.badasoAuth
         .logout()
         .then((response) => {
           localStorage.clear();

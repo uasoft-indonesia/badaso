@@ -30,7 +30,7 @@
               <th>{{ $t("user.detail.avatar") }}</th>
               <td>
                 <img
-                  :src="`${$api.file.view(user.avatar)}`"
+                  :src="`${$api.badasoFile.view(user.avatar)}`"
                   width="100%"
                   alt=""
                 />
@@ -71,7 +71,7 @@ export default {
   methods: {
     getUserDetail() {
       this.$vs.loading(this.$loadingConfig);
-      this.$api.user
+      this.$api.badasoUser
         .read({
           id: this.$route.params.id,
         })

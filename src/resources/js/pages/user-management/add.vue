@@ -87,7 +87,7 @@ export default {
           JSON.parse(this.user.additionalInfo);
         }
         this.$vs.loading(this.$loadingConfig);
-        this.$api.user
+        this.$api.badasoUser
           .add({
             email: this.user.email,
             name: this.user.name,

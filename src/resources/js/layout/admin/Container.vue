@@ -17,7 +17,6 @@
       <router-view class="content" :key="$route.path"></router-view>
       <Footer></Footer>
     </div>
-    <badaso-license-blocker />
     <badaso-unauthorize />
   </div>
 </template>
@@ -52,7 +51,7 @@ export default {
     adminPanelLogo:{
       get() {
         let config = this.$store.getters['badaso/getConfig']
-        return  this.$api.file.view(config.adminPanelLogo)
+        return  this.$api.badasoFile.view(config.adminPanelLogo)
       }
     },
     adminPanelHeaderColor: {
@@ -78,17 +77,11 @@ export default {
         return this.$store.state.badaso.reduceSidebar;
       }
     },
-    keyIssue: {
-      get() {
-        return this.$store.state.badaso.keyIssue;
-      }
-    }
   },
   mounted() {
     this.$store.commit("badaso/FETCH_COMPONENT");
-    this.$store.commit("badaso/FETCH_CONFIGURATION");
+    this.$store.commit("badaso/FETCH_CONFIGURATION_GROUPS");
     this.$store.commit("badaso/FETCH_USER");
-    this.$store.commit("badaso/SET_KEY_ISSUE", false);
 
     this.$nextTick(() => {
       window.addEventListener("resize", this.handleWindowResize);
@@ -102,7 +95,7 @@ export default {
   },
   methods: {
     logout() {
-      this.$api.auth
+      this.$api.badasoAuth
         .logout()
         .then((response) => {
           this.$router.push({name: "AuthLogin"})
@@ -134,7 +127,7 @@ export default {
       if (this.windowWidth < 768) {
         this.viewType = this.$constants.MOBILE
       } else {
-        this.viewType = this.$constants.DEKSTOP
+        this.viewType = this.$constants.DESKTOP
       }
     }
   },

@@ -16,3 +16,21 @@
 		}
 	}
 }
+
+.login-register-bg {
+    margin: 0 auto;
+    background: url('/badaso-images/auth-bg.jpg');
+    background-size: cover;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+}
+
+.login-register-box {
+	max-width: 400px;
+	justify-content: center;
+	align-items: center;
+	margin-left: 0;
+	width: 100%;
+  }

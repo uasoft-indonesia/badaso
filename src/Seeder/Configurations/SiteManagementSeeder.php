@@ -103,7 +103,7 @@ class SiteManagementSeeder extends Seeder
                 7 => [
                     'key' => 'adminPanelLogoConfig',
                     'display_name' => 'Admin Panel Logo Config',
-                    'value' => 'logo_and_text',
+                    'value' => 'logo_only',
                     'details' => '{"items":[{"label":"Logo Only","value":"logo_only"},{"label":"Text Only","value":"text_only"},{"label":"Logo & Text","value":"logo_and_text"}]}',
                     'type' => 'select',
                     'order' => 1,
@@ -111,6 +111,18 @@ class SiteManagementSeeder extends Seeder
                     'can_delete' => 0,
                     'created_at' => '2021-03-16 05:36:00',
                     'updated_at' => '2021-03-16 05:36:00',
+                ],
+                8 => [
+                    'key' => 'favicon',
+                    'display_name' => 'Favicon',
+                    'value' => '',
+                    'details' => '',
+                    'type' => 'upload_image',
+                    'order' => 7,
+                    'group' => 'adminPanel',
+                    'can_delete' => 0,
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
