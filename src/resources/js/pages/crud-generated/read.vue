@@ -200,14 +200,14 @@ export default {
   },
   methods: {
     getDetailEntity() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoEntity
         .read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.dataType = response.data.dataType;
           this.record = response.data.entities;
 
@@ -223,7 +223,7 @@ export default {
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

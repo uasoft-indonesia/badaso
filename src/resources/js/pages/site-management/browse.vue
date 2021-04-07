@@ -282,11 +282,11 @@ export default {
       });
     },
     getConfigurationList() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoConfiguration
         .browse()
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           let configurations = response.data.configurations.map((data) => {
             try {
               data.details = JSON.parse(data.details);
@@ -320,7 +320,7 @@ export default {
           this.configurations = JSON.parse(JSON.stringify(configurations));
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -332,18 +332,18 @@ export default {
       return _.filter(this.configurations, ["group", group]);
     },
     deleteConfiguration() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoConfiguration
         .delete({
           id: this.willDeleteConfigurationId,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.getConfigurationList();
           this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -352,11 +352,11 @@ export default {
         });
     },
     submitForm(config) {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoConfiguration
         .edit(this.$caseConvert.snake(config))
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.getConfigurationList();
           this.$store.commit("badaso/FETCH_CONFIGURATION");
           this.$vs.notify({
@@ -366,7 +366,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -375,11 +375,11 @@ export default {
         });
     },
     submitMultipleEdit() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoConfiguration
         .editMultiple({ configurations: this.configurations })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.getConfigurationList();
           this.$store.commit("badaso/FETCH_CONFIGURATION");
           this.$vs.notify({
@@ -389,7 +389,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

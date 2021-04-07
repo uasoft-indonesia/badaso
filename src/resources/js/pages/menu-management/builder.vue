@@ -303,7 +303,7 @@ export default {
     },
     getMenuItems() {
       this.arrangeItems = false;
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .browseItem({
           menuId: this.$route.params.id,
@@ -319,7 +319,7 @@ export default {
           });
           this.savedItems = [...response.data.menuItems];
           this.flatSavedItems = this.flattenItems([...response.data.menuItems]);
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
           this.$vs.notify({
@@ -327,7 +327,7 @@ export default {
             text: error.message,
             color: "danger",
           });
-          this.$vs.loading.close();
+          this.$closeLoader()
         });
     },
     saveMenuOrder() {
@@ -409,7 +409,7 @@ export default {
       return ls;
     },
     startArrangeItems() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       let menuItems = this.buildArrangeItems(this.menuItems);
       this.$api.badasoMenu
         .arrangeItems({
@@ -420,7 +420,7 @@ export default {
           this.getMenuItems();
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
           this.$vs.notify({
@@ -428,7 +428,7 @@ export default {
             text: error.message,
             color: "danger",
           });
-          this.$vs.loading.close();
+          this.$closeLoader()
         });
     },
     editMenuItem(menuItem) {
@@ -447,7 +447,7 @@ export default {
     },
     saveMenuItem() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .addItem({ ...this.menuItem, menuId: this.$route.params.id })
         .then((response) => {
@@ -455,7 +455,7 @@ export default {
           this.addMenuItemPopUp = false;
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -464,12 +464,12 @@ export default {
             text: error.message,
             color: "danger",
           });
-          this.$vs.loading.close();
+          this.$closeLoader()
         });
     },
     deleteMenuItem() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .deleteItem({
           menuId: this.$route.params.id,
@@ -480,7 +480,7 @@ export default {
           this.getMenuItems();
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -489,12 +489,12 @@ export default {
             text: error.message,
             color: "danger",
           });
-          this.$vs.loading.close();
+          this.$closeLoader()
         });
     },
     updateMenuItem(data) {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .editItem({
           menuId: this.$route.params.id,
@@ -510,7 +510,7 @@ export default {
           this.getMenuItems();
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -519,7 +519,7 @@ export default {
             text: error.message,
             color: "danger",
           });
-          this.$vs.loading.close();
+          this.$closeLoader()
         });
     },
   },

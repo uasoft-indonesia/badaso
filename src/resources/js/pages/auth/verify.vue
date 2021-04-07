@@ -103,19 +103,19 @@ export default {
     },
     verify() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuth
         .verify({
           email: this.email,
           token: this.token,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "Home" });
         })
         .catch((error) => {
           this.processing = false;
-          this.$vs.loading.close();
+          this.$closeLoader()
           if (error.message && error.message === "EXPIRED") {
             this.expired = true;
             this.errors = {
@@ -138,7 +138,7 @@ export default {
     },
     requestVerificationToken() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuth
         .reRequestVerificationToken({
           token: this.token,
@@ -149,7 +149,7 @@ export default {
           this.timeWait = 60;
           this.startCounter();
 
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.success"),
             text: response.data.message,
@@ -164,7 +164,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

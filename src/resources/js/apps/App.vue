@@ -3,6 +3,10 @@
     <router-view v-if="verified && !keyIssue.invalid"></router-view>
     <badaso-loading-page v-else title="Verifying Badaso" />
     <badaso-license-blocker />
+    <vs-prompt :active.sync="loader" buttons-hidden :title="message" type="confirm">
+      <vs-progress indeterminate color="primary">primary</vs-progress>
+    </vs-prompt>
+    <badaso-loader ref="loader" />
   </div>
 </template>
 
@@ -10,8 +14,19 @@
 export default {
   name: "app",
   components: {},
-  data: () => ({}),
-  methods: {},
+  data: () => ({
+    loader: false,
+      message: "Loading",
+  }),
+  methods: {
+    openLoader(payload = null) {
+      this.message = payload ? payload.message : "Loading";
+      this.loader = true;
+    },
+    closeLoader() {
+      this.loader = false;
+    },
+  },
   computed: {
     getSelectedLocale: {
       get() {

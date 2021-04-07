@@ -286,16 +286,16 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoCrud
         .add(this.$caseConvert.snake(this.crudData))
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$store.commit("badaso/FETCH_MENU");
           this.$router.push({ name: "CrudManagementBrowseBrowse" });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: "Danger",
             text: error.message,
@@ -304,7 +304,7 @@ export default {
         });
     },
     getTableDetail() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoTable
         .read({
           table: this.$route.params.tableName,
@@ -333,10 +333,10 @@ export default {
               order: 1,
             };
           });
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
         });
     },
   },

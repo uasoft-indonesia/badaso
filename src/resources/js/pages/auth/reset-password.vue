@@ -61,7 +61,7 @@ export default {
   }),
   methods: {
     resetPassword() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuth
         .resetPassword({
           email: this.$router.currentRoute.query.email,
@@ -70,7 +70,7 @@ export default {
           password_confirmation: this.passwordConfirmation,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.res = {
             status: "success",
             icon: "done",
@@ -81,7 +81,7 @@ export default {
           }, 5000);
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.res = {
             status: "danger",
             icon: "dangerous",

@@ -85,17 +85,17 @@ export default {
   },
   methods: {
     getRolePermissions() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoRole
         .permissions({
           roleId: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.rolePermissions = [...response.data.rolePermissions];
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -113,14 +113,14 @@ export default {
         (permission) => permission.id
       );
 
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoRole
         .addPermissions({
           roleId: this.$route.params.id,
           permissions: selectedPermissions,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$store.commit("badaso/FETCH_USER");
@@ -132,7 +132,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

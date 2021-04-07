@@ -156,17 +156,17 @@ export default {
   methods: {
     getUser() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuthUser
         .user({})
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.user = response.data.user
           this.user.additionalInfo = this.user.additionalInfo ? JSON.parse(this.user.additionalInfo) : ''
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -176,7 +176,7 @@ export default {
     },
     updateProfile() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuthUser
         .updateProfile({
           name: this.user.name,
@@ -185,7 +185,7 @@ export default {
         })
         .then((response) => {
           this.$store.commit("badaso/FETCH_USER");
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.success"),
             text: "Profile updated",
@@ -194,7 +194,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -204,7 +204,7 @@ export default {
     },
     updateEmail() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuthUser
         .updateEmail({
           email: this.user.email,
@@ -225,11 +225,11 @@ export default {
               color: "success",
             });
           }
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -239,7 +239,7 @@ export default {
     },
     verifyEmail() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuthUser
         .verifyEmail({
           email: this.user.email,
@@ -249,7 +249,7 @@ export default {
           this.$store.commit("badaso/FETCH_USER");
           this.shouldVerifyEmail = false
           this.token = ''
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
               title: this.$t("alert.success"),
               text: "Email updated",
@@ -258,7 +258,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -268,7 +268,7 @@ export default {
     },
     changePassword() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuthUser
         .changePassword({
           oldPassword: this.user.oldPassword,
@@ -276,7 +276,7 @@ export default {
           newPasswordConfirmation: this.user.newPasswordConfirmation
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.user.oldPassword = '';
           this.user.newPassword = '';
           this.user.newPasswordConfirmation = '';
@@ -288,7 +288,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

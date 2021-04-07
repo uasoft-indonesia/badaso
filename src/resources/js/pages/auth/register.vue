@@ -112,7 +112,7 @@ export default {
   }),
   methods: {
     register() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuth
         .register({
           name: this.name,
@@ -121,7 +121,7 @@ export default {
           passwordConfirmation: this.passwordConfirmation,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           if (response.data.accessToken) {
             this.$router.push({ name: "Login" });
           } else {
@@ -135,7 +135,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
