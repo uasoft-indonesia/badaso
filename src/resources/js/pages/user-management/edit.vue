@@ -121,7 +121,7 @@ export default {
           id: this.$route.params.id,
           email: this.user.email,
           name: this.user.name,
-          avatar: this.user.avatar.base64,
+          avatar: this.user.avatar ? this.user.avatar.base64 : null,
           password: this.user.password,
           additionalInfo: JSON.stringify(this.user.additionalInfo),
         })

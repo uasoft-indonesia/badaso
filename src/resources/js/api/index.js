@@ -53,7 +53,7 @@ try {
     exported[property] = modules(fileName).default;
   });
 } catch (error) {
-  console.info("There is no custom api helper");
+  console.info("Failed to load custom api module", error);
 }
 
 export default exported;

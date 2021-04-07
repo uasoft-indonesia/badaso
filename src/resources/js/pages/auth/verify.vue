@@ -14,9 +14,7 @@
     </vs-alert>
 
     <vs-card class="mb-0">
-      <div slot="header">
-        <h3 class="mb-1">{{ $t("verifyEmail.title") }}</h3>
-      </div>
+      <badaso-auth-card-header slot="header">{{ $t("verifyEmail.title") }}</badaso-auth-card-header>
       <form novalidate="novalidate">
         <vs-input
           icon="lock"

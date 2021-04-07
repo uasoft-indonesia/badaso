@@ -1,10 +1,7 @@
 <template>
   <vs-col vs-lg="12" class="login-register-box">
-    <vs-card class="mb-0">
-      <div slot="header">
-        <h3 class="mb-1">{{ $t("login.title") }}</h3>
-        <p class="mb-0">{{ $t("login.subtitle") }}</p>
-      </div>
+    <vs-card class="mb-0"> 
+      <badaso-auth-card-header slot="header">{{ $t("login.title") }}</badaso-auth-card-header>
       <div>
         <form @submit="login()">
           <vs-input

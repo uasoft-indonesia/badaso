@@ -38,7 +38,7 @@ try {
     _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
   });
 } catch (error) {
-  console.info("There is no badaso routers");
+  console.info("Failed to load badaso routers", error);
 }
 
 // DYNAMIC IMPORT CUSTOM ROUTERS
@@ -79,7 +79,7 @@ try {
     _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
   });
 } catch (error) {
-  console.info("There is no custom routers");
+  console.info("Failed to load custom routers", error);
 }
 
 Vue.use(VueRouter);

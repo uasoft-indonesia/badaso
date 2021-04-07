@@ -14,10 +14,7 @@
     </vs-alert>
 
     <vs-card class="mb-0" v-if="!requestVerify">
-      <div slot="header">
-        <h3 class="mb-1">{{ $t("forgotPassword.title") }}</h3>
-        <p class="mb-0">{{ $t("forgotPassword.subtitle") }}</p>
-      </div>
+      <badaso-auth-card-header slot="header">{{ $t("forgotPassword.title") }}</badaso-auth-card-header>
       <div>
         <vs-input
           icon="email"
