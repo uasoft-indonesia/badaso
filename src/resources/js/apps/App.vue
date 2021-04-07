@@ -3,7 +3,8 @@
     <router-view v-if="verified && !keyIssue.invalid"></router-view>
     <badaso-loading-page v-else title="Verifying Badaso" />
     <badaso-license-blocker />
-    <vs-prompt :active.sync="loader" buttons-hidden :title="message" type="confirm">
+    <vs-prompt :active.sync="loader" buttons-hidden :title="message" type="confirm" class="badaso-loader">
+      <br />
       <vs-progress indeterminate color="primary">primary</vs-progress>
     </vs-prompt>
     <badaso-loader ref="loader" />
