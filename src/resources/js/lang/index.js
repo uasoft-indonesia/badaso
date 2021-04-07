@@ -25,7 +25,7 @@ try {
     exported[property] = modules(fileName).default;
   });
 } catch (error) {
-  console.info("There is no badaso lang");
+  console.info("Failed to load badaso languages", error);
 }
 
 // DYNAMIC IMPORT CUSTOM LANG
@@ -59,7 +59,7 @@ try {
     }
   });
 } catch (error) {
-  console.info("There is no custom lang");
+  console.info("Failed to load custom languages", error);
 }
 
 export default exported;

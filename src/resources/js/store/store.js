@@ -26,7 +26,7 @@ try {
     exported[property] = modules(fileName).default;
   });
 } catch (error) {
-  console.info("There is no badaso stores");
+  console.info("Failed to load badaso stores", error);
 }
 
 // DYNAMIC IMPORT CUSTOM STORES
@@ -56,7 +56,7 @@ try {
     exported[property] = customModules(fileName).default;
   });
 } catch (error) {
-  console.info("There is no custom stores");
+  console.info("Failed to load custom stores", error);
 }
 
 Vue.use(Vuex);

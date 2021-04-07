@@ -5,10 +5,7 @@
     style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
   >
     <vs-card class="mb-0">
-      <div slot="header">
-        <h3 class="mb-1">{{ $t("register.title") }}</h3>
-        <p class="mb-0">{{ $t("register.subtitle") }}</p>
-      </div>
+      <badaso-auth-card-header slot="header">{{ $t("register.title") }}</badaso-auth-card-header>
       <div>
         <form novalidate="novalidate">
           <vs-input
