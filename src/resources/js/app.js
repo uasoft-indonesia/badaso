@@ -191,6 +191,22 @@ let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 Vue.prototype.$baseUrl = "/" + baseUrl;
 
+Vue.prototype.$openLoader = function (payload) {
+  try {
+    this.$root.$children[0].openLoader(payload)
+  } catch (error) {
+    console.log('Open Loader', error)
+  }
+}
+
+Vue.prototype.$closeLoader = function () {
+  try {
+    this.$root.$children[0].closeLoader()
+  } catch (error) {
+    console.log('Close Loader', error)
+  }
+}
+
 const app = new Vue({
   store,
   router,

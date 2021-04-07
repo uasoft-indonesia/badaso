@@ -108,16 +108,16 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoConfiguration
         .add(this.$caseConvert.snake(this.config))
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "SiteManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

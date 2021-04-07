@@ -162,20 +162,20 @@ export default {
   },
   methods: {
     getActivityLogDetail() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoActivityLog
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.activitylog = response.data.activitylog;
           this.subject = response.data.subject;
           this.causer = response.data.causer;
           this.properties = response.data.properties;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

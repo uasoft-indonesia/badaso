@@ -100,13 +100,13 @@ export default {
   }),
   methods: {
     forgotPassword() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuth
         .forgotPassword({
           email: this.email,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.res = {
             status: "success",
             icon: "done",
@@ -115,7 +115,7 @@ export default {
           this.requestVerify = true;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.errors = error.errors;
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -126,14 +126,14 @@ export default {
     },
     verify() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoAuth
         .forgotPasswordVerifyToken({
           email: this.email,
           token: this.token,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({
             name: "AuthResetPassword",
             query: {
@@ -143,7 +143,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.errors = error.errors;
           this.$vs.notify({
             title: this.$t("alert.danger"),

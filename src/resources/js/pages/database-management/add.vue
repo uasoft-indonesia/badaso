@@ -424,15 +424,15 @@ export default {
   },
   methods: {
     getDbmsFieldType() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoDatabase
         .getType()
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.fieldTypeList = JSON.parse(response.data)
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -444,11 +444,11 @@ export default {
       this.$v.databaseData.$touch();
       if (!this.$v.databaseData.$invalid) {
         this.$v.databaseData.$reset();
-        this.$vs.loading(this.$loadingConfig);
+        this.$openLoader()
         this.$api.badasoDatabase
           .add(this.databaseData)
           .then((response) => {
-            this.$vs.loading.close();
+            this.$closeLoader()
             this.$vs.notify({
               title: this.$t("alert.success"),
               text: response.data,
@@ -460,7 +460,7 @@ export default {
           })
           .catch((error) => {
             let message = error.message;
-            this.$vs.loading.close();
+            this.$closeLoader()
 
             if (error.errors.table) {
               message = error.errors.table[0]

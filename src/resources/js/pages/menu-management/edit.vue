@@ -85,14 +85,14 @@ export default {
       this.$api.badasoMenu
         .edit(this.menu)
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "MenuManagementBrowse" });
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -101,18 +101,18 @@ export default {
         });
     },
     getMenuDetail() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .read({
           menuId: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.menu = response.data.menu;
           this.menu.menuId = this.menu.id;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

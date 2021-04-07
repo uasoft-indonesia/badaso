@@ -82,18 +82,18 @@ export default {
   },
   methods: {
     getMenuItemPermissions() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .getItemPermissions({
           menuId: this.$route.params.id,
           menuItemId: this.$route.params.itemId,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.menuItemPermissions = [...response.data.menuItemPermissions];
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: "Danger",
             text: error.message,
@@ -111,7 +111,7 @@ export default {
         (permission) => permission.id
       );
 
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoMenu
         .setItemPermissions({
           menuId: this.$route.params.id,
@@ -119,7 +119,7 @@ export default {
           permissions: selectedPermissions,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$store.commit("badaso/FETCH_USER");
@@ -131,7 +131,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: "Danger",
             text: error.message,

@@ -91,13 +91,13 @@ export default {
   },
   methods: {
     getPermissionDetail() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoPermission
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.permission = response.data.permission;
           this.permission.alwaysAllow = this.permission.alwaysAllow === 1;
           this.permission.isPublic = this.permission.isPublic === 1;
@@ -107,7 +107,7 @@ export default {
               : this.permission.description;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -121,12 +121,12 @@ export default {
       this.$api.badasoPermission
         .edit(this.permission)
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "PermissionManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

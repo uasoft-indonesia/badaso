@@ -86,18 +86,18 @@ export default {
   },
   methods: {
     getAllEntityData() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoEntity
         .all({
           slug: this.$route.params.slug,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.dataType = response.data.dataType;
           this.data = response.data.entities.data;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -106,17 +106,17 @@ export default {
         });
     },
     sortData(e) {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoEntity
         .sort({
           slug: this.$route.params.slug,
           data: this.data,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
