@@ -9,7 +9,7 @@ export default {
     "alphaNumAndUnderscoreValidator": "* {0} only alphanumeric and underscore (_) allowed.",
   },
   "login": {
-    "title": "Login Here",
+    "title": "Dashboard",
     "subtitle": "Welcome back, please login to your account.",
     "field": {
       "email": "Email",

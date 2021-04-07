@@ -80,17 +80,17 @@ export default {
   },
   methods: {
     getUserRoles() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoUser
         .roles({
           userId: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.userRoles = [...response.data.userRoles];
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -104,14 +104,14 @@ export default {
       });
       selectedRoles = selectedRoles.map((role) => role.id);
 
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoUser
         .addRoles({
           userId: this.$route.params.id,
           roles: selectedRoles,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.getUserRoles();
           this.$vs.notify({
             title: this.$t("user.roles.success.title"),
@@ -120,7 +120,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

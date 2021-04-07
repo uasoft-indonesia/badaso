@@ -228,7 +228,7 @@ export default {
       this.getActivityLogList()
     },
     getActivityLogList() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoActivityLog
         .browse({
           filter: this.filter,
@@ -236,7 +236,7 @@ export default {
           page: this.page,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.selected = [];
           this.data = response.data
           this.activitylogs = response.data.activitylog;
@@ -245,7 +245,7 @@ export default {
               : 1;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

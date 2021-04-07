@@ -86,7 +86,7 @@ export default {
         if (this.user.additionalInfo && this.user.additionalInfo != "") {
           JSON.parse(this.user.additionalInfo);
         }
-        this.$vs.loading(this.$loadingConfig);
+        this.$openLoader()
         this.$api.badasoUser
           .add({
             email: this.user.email,
@@ -96,12 +96,12 @@ export default {
             additionalInfo: this.user.additionalInfo,
           })
           .then((response) => {
-            this.$vs.loading.close();
+            this.$closeLoader()
             this.$router.push({ name: "UserManagementBrowse" });
           })
           .catch((error) => {
             this.errors = error.errors;
-            this.$vs.loading.close();
+            this.$closeLoader()
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: error.message,

@@ -155,16 +155,16 @@ export default {
       });
     },
     getUserList() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoUser
         .browse()
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.selected = [];
           this.users = response.data.users;
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -173,17 +173,17 @@ export default {
         });
     },
     deleteUser() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoUser
         .delete({
           id: this.willDeleteId,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.getUserList();
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -193,17 +193,17 @@ export default {
     },
     bulkDeleteUser() {
       const ids = this.selected.map((item) => item.id);
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoUser
         .deleteMultiple({
           ids: ids.join(","),
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.getUserList();
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

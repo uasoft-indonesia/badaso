@@ -28,11 +28,11 @@ export default {
   },
   methods: {
     getDashboardData() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoDashboard
         .index()
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.dashboardData = response.data;
           if (this.dashboardData.length >= 4) {
             this.col = 3;
@@ -43,7 +43,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

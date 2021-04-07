@@ -75,16 +75,16 @@ export default {
   methods: {
     submitForm() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoRole
         .add(this.role)
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "RoleManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

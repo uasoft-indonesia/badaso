@@ -95,12 +95,12 @@ export default {
       this.$api.badasoPermission
         .add(this.permission)
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "PermissionManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

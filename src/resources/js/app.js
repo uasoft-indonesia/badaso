@@ -48,7 +48,7 @@ try {
     Vue.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {
-  console.info("There is no badaso component");
+  console.info("Failed to load badaso components", error);
 }
 
 // DYNAMIC IMPORT CUSTOM COMPONENT
@@ -76,7 +76,7 @@ try {
     Vue.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {
-  console.info("There is no custom component");
+  console.info("Failed to load custom components", error);
 }
 
 // DYNAMIC IMPORT BADASO UTILS
@@ -106,7 +106,7 @@ try {
     Vue.prototype["$" + utilName] = requireUtils(fileName).default;
   });
 } catch (error) {
-  console.info("There is no custom utils");
+  console.info("Failed to load badaso utils", error);
 }
 
 // DYNAMIC IMPORT CUSTOM UTILS
@@ -136,7 +136,7 @@ try {
     Vue.prototype["$" + utilName] = requireCustomUtils(fileName).default;
   });
 } catch (error) {
-  console.info("There is no custom utils");
+  console.info("Failed to load custom utils", error);
 }
 
 // DYNAMIC IMPORT CUSTOM PAGES
@@ -165,7 +165,7 @@ try {
     Vue.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {
-  console.info("There is no custom pages");
+  console.info("Failed to load custom pages", error);
 }
 
 const i18n = new VueI18n({
@@ -190,6 +190,22 @@ let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 Vue.prototype.$baseUrl = "/" + baseUrl;
+
+Vue.prototype.$openLoader = function (payload) {
+  try {
+    this.$root.$children[0].openLoader(payload)
+  } catch (error) {
+    console.log('Open Loader', error)
+  }
+}
+
+Vue.prototype.$closeLoader = function () {
+  try {
+    this.$root.$children[0].closeLoader()
+  } catch (error) {
+    console.log('Close Loader', error)
+  }
+}
 
 const app = new Vue({
   store,

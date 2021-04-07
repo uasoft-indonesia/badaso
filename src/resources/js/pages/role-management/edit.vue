@@ -76,13 +76,13 @@ export default {
   },
   methods: {
     getRoleDetail() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoRole
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.role = response.data.role;
           this.role.name = this.role.name ? this.role.name : "";
           this.role.displayName = this.role.displayName
@@ -93,7 +93,7 @@ export default {
             : "";
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: "Danger",
             text: error.message,
@@ -103,16 +103,16 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoRole
         .edit(this.role)
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$router.push({ name: "RoleManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: "Danger",
             text: error.message,

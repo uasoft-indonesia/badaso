@@ -70,18 +70,18 @@ export default {
   },
   methods: {
     getUserDetail() {
-      this.$vs.loading(this.$loadingConfig);
+      this.$openLoader()
       this.$api.badasoUser
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.user = response.data.user;
           this.user.additionalInfo = JSON.parse(this.user.additionalInfo);
         })
         .catch((error) => {
-          this.$vs.loading.close();
+          this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

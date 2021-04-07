@@ -60,7 +60,7 @@ class BadasoUserController extends Controller
                 'avatar' => [
                     function ($attribute, $value, $fail) {
                         $check = new CheckBase64($value);
-                        if (!$check->isValid()) {
+                        if ($value != '' && !$check->isValid()) {
                             $fail($check->getMessage());
                         }
                     },
