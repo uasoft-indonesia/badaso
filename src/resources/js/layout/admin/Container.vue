@@ -81,7 +81,6 @@ export default {
   mounted() {
     this.$store.commit("badaso/FETCH_COMPONENT");
     this.$store.commit("badaso/FETCH_CONFIGURATION_GROUPS");
-    this.$store.commit("badaso/FETCH_CONFIGURATION");
     this.$store.commit("badaso/FETCH_USER");
 
     this.$nextTick(() => {
@@ -128,7 +127,7 @@ export default {
       if (this.windowWidth < 768) {
         this.viewType = this.$constants.MOBILE
       } else {
-        this.viewType = this.$constants.DEKSTOP
+        this.viewType = this.$constants.DESKTOP
       }
     }
   },

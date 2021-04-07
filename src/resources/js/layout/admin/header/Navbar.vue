@@ -14,7 +14,7 @@
         <span class="logo-text" v-if="title">{{ title }}</span>
       </div>
       <div slot="navigation">
-        <div class="cursor-pointer" @click.stop="reduceSidebar" v-if="view == $constants.DEKSTOP">
+        <div class="cursor-pointer" @click.stop="reduceSidebar" v-if="view == $constants.DESKTOP">
           <vs-icon icon="menu"></vs-icon>
         </div>
         <div class="cursor-pointer" @click.stop="activeSidebar" v-if="view == $constants.MOBILE">
