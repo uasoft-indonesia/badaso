@@ -11,6 +11,7 @@ import "./assets/scss/style.scss";
 
 import api from "./api/index";
 import handleError from "./api/handle-error";
+import resource from "./api/resource";
 import router from "./router/router";
 import store from "./store/store";
 import lang from "./lang/";
@@ -175,6 +176,7 @@ const i18n = new VueI18n({
 
 Vue.prototype.$api = api;
 Vue.prototype.$handleError = handleError;
+Vue.prototype.$resource = resource;
 Vue.prototype.$constants = {
   MOBILE: "mobile",
   DESKTOP: "desktop",

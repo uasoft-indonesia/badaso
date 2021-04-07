@@ -31,6 +31,7 @@ export default {
   },
   mounted() {
     this.$i18n.locale = this.getSelectedLocale.key
+    this.$store.commit("badaso/FETCH_CONFIGURATION");
   },
   beforeMount() {
     this.$store.commit("badaso/VERIFY_BADASO");

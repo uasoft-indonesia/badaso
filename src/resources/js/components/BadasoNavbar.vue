@@ -8,7 +8,7 @@
     ]"
     class="vs-navbar"
   >
-    <div v-if="viewType == $constants.DEKSTOP" style="display: contents;">
+    <div v-if="viewType == $constants.DESKTOP" style="display: contents;">
       <div class="themelogo">
         <slot name="logo"> </slot>
         &nbsp;
@@ -86,7 +86,7 @@ export default {
       if (this.windowWidth < 768) {
         this.viewType = this.$constants.MOBILE;
       } else {
-        this.viewType = this.$constants.DEKSTOP;
+        this.viewType = this.$constants.DESKTOP;
       }
     },
   },
