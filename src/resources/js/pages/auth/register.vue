@@ -123,7 +123,7 @@ export default {
         .then((response) => {
           this.$closeLoader()
           if (response.data.accessToken) {
-            this.$router.push({ name: "Login" });
+            this.$router.push({ name: "AuthLogin" });
           } else {
             this.$router.push({
               name: "AuthVerify",

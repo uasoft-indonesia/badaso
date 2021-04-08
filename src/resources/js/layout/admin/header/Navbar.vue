@@ -144,7 +144,7 @@ export default {
         .logout()
         .then((response) => {
           localStorage.clear();
-          this.$router.push({ name: "Login" });
+          this.$router.push({ name: "AuthLogin" });
         })
         .catch((error) => {
           this.$vs.notify({
