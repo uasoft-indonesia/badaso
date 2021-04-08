@@ -77,9 +77,8 @@ class BadasoUserRoleController extends Controller
         try {
             $request->validate([
                 'user_id' => 'required|exists:users,id',
-                'roles' => 'required',
             ]);
-            $roles = $request->roles;
+            $roles = $request->get('roles', []);
 
             $user = User::find($request->user_id);
             if (!is_null($user)) {

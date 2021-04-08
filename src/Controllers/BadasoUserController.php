@@ -143,6 +143,9 @@ class BadasoUserController extends Controller
             $user->avatar = $uploaded;
             $user->additional_info = $request->additional_info;
             $user->password = Hash::make($request->password);
+            if ($request->email_verified) {
+                $user->email_verified_at = date('Y-m-d H:i:s');
+            }
             $user->save();
 
             DB::commit();
