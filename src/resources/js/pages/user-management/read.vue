@@ -45,6 +45,13 @@
               <td>{{ user.email }}</td>
             </tr>
             <tr>
+              <th>{{ $t("user.detail.emailVerified") }}</th>
+              <td>
+                <span v-if="user.emailVerified">Yes</span>
+                <span v-else>No</span>
+              </td>
+            </tr>
+            <tr>
               <th>{{ $t("user.detail.additionalInfo") }}</th>
               <td>
                 <pre>{{ user.additionalInfo }}</pre>

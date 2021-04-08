@@ -1,6 +1,7 @@
 import api from "../../api";
 import createPersistedState from "vuex-persistedstate";
 import helpers from "../../utils/helper";
+import lang from "../../lang";
 
 export default {
   namespaced: true,
@@ -14,16 +15,7 @@ export default {
     groupList: [],
     config: {},
     user: {},
-    locale: [
-      {
-        key: "en",
-        label: "English",
-      },
-      {
-        key: "id",
-        label: "Indonesia",
-      },
-    ],
+    locale: lang.languages,
     selectedLocale: {
       key: "en",
       label: "English",

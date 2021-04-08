@@ -49,7 +49,7 @@
           <vs-select-item
             :key="index"
             :value="item.key ? item.key : item"
-            :text="item.label ? item.label : item"
+            :text="item.label ? item.label : item.key ? item.key : item"
             v-for="(item, index) in getLocale"
           />
         </vs-select>

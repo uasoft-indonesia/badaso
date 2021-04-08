@@ -171,7 +171,7 @@ try {
 const i18n = new VueI18n({
   locale: "id",
   fallbackLocale: "en",
-  messages: lang,
+  messages: lang.i18n,
 });
 
 Vue.prototype.$api = api;

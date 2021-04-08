@@ -38,6 +38,8 @@ class BadasoUserController extends Controller
 
             $user = User::find($request->id);
 
+            $user->email_verified = !is_null($user->email_verified_at);
+
             $data['user'] = $user;
 
             return ApiResponse::success($data);
@@ -89,6 +91,10 @@ class BadasoUserController extends Controller
             if ($request->password && $request->password != '') {
                 $user->password = Hash::make($request->password);
             }
+            if ($request->email_verified) {
+                $user->email_verified_at = date('Y-m-d H:i:s');
+            }
+
             $user->save();
 
             DB::commit();

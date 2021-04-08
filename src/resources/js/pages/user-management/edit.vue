@@ -29,6 +29,15 @@
               :placeholder="$t('user.edit.field.password.placeholder')"
               :alert="errors.password"
             ></badaso-password>
+            <badaso-switch
+              v-model="user.emailVerified"
+              size="6"
+              :label="$t('user.edit.field.emailVerified.title')"
+              :placeholder="$t('user.edit.field.emailVerified.placeholder')"
+              :alert="errors.emailVerified"
+              onLabel="Yes"
+              offLabel="No"
+            ></badaso-switch>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -66,8 +75,7 @@
 <script>
 export default {
   name: "UserManagementEdit",
-  components: {
-  },
+  components: {},
   data: () => ({
     errors: {},
     user: {
@@ -75,13 +83,14 @@ export default {
       name: "",
       avatar: {},
       password: "",
+      emailVerified: false,
       additionalInfo: "",
     },
   }),
   computed: {
     loggedInUser: {
       get() {
-        let user = this.$store.getters['badaso/getUser'];
+        let user = this.$store.getters["badaso/getUser"];
         return user;
       },
     },
@@ -91,13 +100,13 @@ export default {
   },
   methods: {
     getUserDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoUser
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.user = response.data.user;
           this.user.password = "";
           this.user.additionalInfo = this.user.additionalInfo
@@ -105,7 +114,7 @@ export default {
             : "";
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -115,7 +124,7 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoUser
         .edit({
           id: this.$route.params.id,
@@ -123,18 +132,19 @@ export default {
           name: this.user.name,
           avatar: this.user.avatar ? this.user.avatar.base64 : null,
           password: this.user.password,
+          emailVerified: this.user.emailVerified,
           additionalInfo: JSON.stringify(this.user.additionalInfo),
         })
         .then((response) => {
           if (this.loggedInUser.id === this.user.id) {
             this.$store.commit("badaso/FETCH_USER");
           }
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({ name: "UserManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

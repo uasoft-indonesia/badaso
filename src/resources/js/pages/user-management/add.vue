@@ -29,6 +29,15 @@
               :placeholder="$t('user.add.field.password.placeholder')"
               :alert="errors.password"
             ></badaso-password>
+            <badaso-switch
+              v-model="user.emailVerified"
+              size="6"
+              :label="$t('user.add.field.emailVerified.title')"
+              :placeholder="$t('user.add.field.emailVerified.placeholder')"
+              :alert="errors.emailVerified"
+              onLabel="Yes"
+              offLabel="No"
+            ></badaso-switch>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -75,6 +84,7 @@ export default {
       name: "",
       avatar: {},
       password: "",
+      emailVerified: false,
       additionalInfo: "",
     },
   }),
@@ -93,6 +103,7 @@ export default {
             name: this.user.name,
             avatar: this.user.avatar.base64,
             password: this.user.password,
+            emailVerified: this.user.emailVerified,
             additionalInfo: this.user.additionalInfo,
           })
           .then((response) => {
