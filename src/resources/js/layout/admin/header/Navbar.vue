@@ -34,7 +34,8 @@
               :key="index"
               v-on:click="setLocale(item)"
             >
-              {{ item.label }}
+              <span v-if="item.label">{{ item.label }}</span>
+              <span v-else>{{ item.key }}</span>
             </vs-dropdown-item>
           </vs-dropdown-menu>
         </vs-dropdown>

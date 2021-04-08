@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 let exported = {};
+let languages = []
 
 // DYNAMIC IMPORT BADASO LANG
 try {
@@ -22,6 +23,11 @@ try {
         }
       })
       .join("");
+    
+      languages.push({
+        label: modules(fileName).label,
+        key: property
+      })
     exported[property] = modules(fileName).default;
   });
 } catch (error) {
@@ -56,10 +62,17 @@ try {
       exported[property] = _.merge(exported[property], modules(fileName).default);
     } else {
       exported[property] = modules(fileName).default;
+      languages.push({
+        label: modules(fileName).label,
+        key: property
+      })
     }
   });
 } catch (error) {
   console.info("Failed to load custom languages", error);
 }
 
-export default exported;
+export default {
+  languages,
+  i18n: exported
+};

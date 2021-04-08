@@ -1,3 +1,5 @@
+export const label = 'Indonesia'
+
 export default {
   "vuelidate": {
     "required": "* {0} harus diisi.",
@@ -564,6 +566,10 @@ export default {
           "title": "Kata sandi",
           "placeholder": "Kata sandi"
         },
+        "emailVerified": {
+          "title": "Verifikasi",
+          "placeholder": "Verifikasi"
+        },
         "avatar": {
           "title": "Avatar",
           "placeholder": "Avatar"
@@ -591,6 +597,10 @@ export default {
           "title": "Kata sandi",
           "placeholder": "Biarkan kosong jika tidak diubah"
         },
+        "emailVerified": {
+          "title": "Verifikasi",
+          "placeholder": "Verifikasi"
+        },
         "avatar": {
           "title": "Avatar",
           "placeholder": "Avatar Baru"
@@ -609,6 +619,7 @@ export default {
       "name": "Nama",
       "email": "Email",
       "additionalInfo": "Info Tambahan",
+      "emailVerified": "Email Diverifikasi"
     },
     "roles": {
       "title": "Wewenang",
