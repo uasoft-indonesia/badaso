@@ -1,3 +1,5 @@
+export const label = 'English';
+
 export default {
   "vuelidate": {
     "required": "* {0} is required.",
@@ -564,6 +566,10 @@ export default {
           "title": "Password",
           "placeholder": "Password"
         },
+        "emailVerified": {
+          "title": "Is Email Verified",
+          "placeholder": "Is Email Verified"
+        },
         "avatar": {
           "title": "Avatar",
           "placeholder": "Avatar"
@@ -591,6 +597,10 @@ export default {
           "title": "Password",
           "placeholder": "Leave blank if unchanged"
         },
+        "emailVerified": {
+          "title": "Is Email Verified",
+          "placeholder": "Is Email Verified"
+        },
         "avatar": {
           "title": "Avatar",
           "placeholder": "New Avatar"
@@ -609,6 +619,7 @@ export default {
       "name": "Name",
       "email": "Email",
       "additionalInfo": "Additional Info",
+      "emailVerified": "Is Email Verified"
     },
     "roles": {
       "title": "Roles",

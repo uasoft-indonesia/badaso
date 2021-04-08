@@ -4,13 +4,14 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
     // use HasFactory;
-    use Notifiable, LogsActivity;
+    use Notifiable;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -70,7 +71,7 @@ class User extends Authenticatable implements JWTSubject
         'avatar',
         'additional_info',
     ];
-    
+
     protected static $logFillable = [
         'name',
         'email',
