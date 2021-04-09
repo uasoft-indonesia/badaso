@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <transition name="dialog-t">
     <div
       v-if="isPrompt ? active : fActive"
