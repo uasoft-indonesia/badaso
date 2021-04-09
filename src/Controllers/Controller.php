@@ -77,7 +77,7 @@ abstract class Controller extends BaseController
         $data_rows = collect($data_type->dataRows)->where('add', 1)->all();
         $rules = [];
         foreach ($data_rows as $row) {
-            if ($row->required == 0) {
+            if ($row->required == 1) {
                 $rules[$row->field][] = 'required';
                 if ($row->type == 'relation') {
                     $relation_detail = [];

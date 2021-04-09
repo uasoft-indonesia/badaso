@@ -91,7 +91,7 @@ export default {
   methods: {
     submitForm() {
       this.errors = {};
-      this.$vs.loading();
+      this.$openLoader();
       this.$api.badasoPermission
         .add(this.permission)
         .then((response) => {
