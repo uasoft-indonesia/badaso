@@ -117,7 +117,7 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.$vs.loading();
+      this.$openLoader();
       this.$api.badasoPermission
         .edit(this.permission)
         .then((response) => {

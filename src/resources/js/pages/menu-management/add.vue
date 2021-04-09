@@ -77,7 +77,7 @@ export default {
   methods: {
     submitForm() {
       this.errors = {};
-      this.$vs.loading();
+      this.$openLoader();
       this.$api.badasoMenu
         .add(this.menu)
         .then((response) => {
