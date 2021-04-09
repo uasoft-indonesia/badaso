@@ -245,3 +245,11 @@ th .vs-table-text {
     background: $primary; 
   }
 }
+
+.vs-dialog-primary .vs-dialog .after {
+  background: $primary;
+}
+
+.vs-dialog-primary .vs-dialog .vs-dialog-header {
+  color: $primary;
+}
