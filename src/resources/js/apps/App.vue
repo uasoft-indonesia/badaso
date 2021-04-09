@@ -3,10 +3,18 @@
     <router-view v-if="verified && !keyIssue.invalid"></router-view>
     <badaso-loading-page v-else title="Verifying Badaso" />
     <badaso-license-blocker />
-    <vs-prompt :active.sync="loader" buttons-hidden :title="message" type="confirm" class="badaso-loader">
+    <badaso-prompt
+      :active.sync="loader"
+      buttons-hidden
+      :title="title"
+      type="confirm"
+      class="badaso-loader"
+      :color="color"
+      :headerColor="headerColor"
+    >
       <br />
-      <vs-progress indeterminate color="primary">primary</vs-progress>
-    </vs-prompt>
+      <vs-progress indeterminate :color="color">primary</vs-progress>
+    </badaso-prompt>
     <badaso-loader ref="loader" />
   </div>
 </template>
@@ -17,11 +25,15 @@ export default {
   components: {},
   data: () => ({
     loader: false,
-      message: "Loading",
+    title: "Loading",
+    color: "primary",
+    headerColor: null,
   }),
   methods: {
     openLoader(payload = null) {
-      this.message = payload ? payload.message : "Loading";
+      this.title = payload ? payload.title : "Loading";
+      this.color = payload ? payload.color : "primary";
+      this.headerColor = payload ? payload.headerColor : null;
       this.loader = true;
     },
     closeLoader() {
@@ -31,13 +43,13 @@ export default {
   computed: {
     getSelectedLocale: {
       get() {
-        return this.$store.getters['badaso/getSelectedLocale']
-      }
+        return this.$store.getters["badaso/getSelectedLocale"];
+      },
     },
     verified: {
       get() {
-        return this.$store.getters['badaso/isVerified']
-      }
+        return this.$store.getters["badaso/isVerified"];
+      },
     },
     keyIssue: {
       get() {
@@ -46,11 +58,11 @@ export default {
     },
   },
   mounted() {
-    this.$i18n.locale = this.getSelectedLocale.key
+    this.$i18n.locale = this.getSelectedLocale.key;
     this.$store.commit("badaso/FETCH_CONFIGURATION");
   },
   beforeMount() {
     this.$store.commit("badaso/VERIFY_BADASO");
-  }
+  },
 };
 </script>
