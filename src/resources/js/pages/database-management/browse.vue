@@ -287,15 +287,15 @@ export default {
       });
     },
     getTableList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoCrud
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -304,17 +304,17 @@ export default {
         });
     },
     deleteDatabase() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoDatabase
         .delete({
           table: this.tableName,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getTableList();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -323,16 +323,16 @@ export default {
         });
     },
     getMigration() {
-      this.$openLoader()
+      this.$openLoader();
 
       this.$api.badasoDatabase
         .browseMigration()
         .then((response) => {
           this.migration = response.data;
-          this.$closeLoader()
+          this.$closeLoader();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -361,25 +361,25 @@ export default {
     rollback() {
       this.$v.$touch();
       if (!this.$v.$invalid) {
-        this.$openLoader()
+        this.$openLoader();
         this.$api.badasoDatabase
           .rollback({
             step: this.rollbackSteps,
           })
           .then((response) => {
-            this.$closeLoader()
+            this.$closeLoader();
 
             if (this.isDeleteFile == true) {
-              this.$openLoader()
+              this.$openLoader();
               this.$api.badasoDatabase
                 .deleteMigration({
                   file_name: this.willRollbackFile,
                 })
                 .then((response) => {
-                  this.$closeLoader()
+                  this.$closeLoader();
                 })
                 .catch((error) => {
-                  this.$closeLoader()
+                  this.$closeLoader();
                   this.$vs.notify({
                     title: this.$t("alert.danger"),
                     text: error.message,
@@ -398,7 +398,7 @@ export default {
             });
           })
           .catch((error) => {
-            this.$closeLoader()
+            this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: error.message,
@@ -449,11 +449,11 @@ export default {
       }
     },
     migrate() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoDatabase
         .migrate()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getTableList();
           this.getStatusMigration();
           this.$vs.notify({
@@ -463,7 +463,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -483,13 +483,13 @@ export default {
       });
     },
     deleteMigration() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoDatabase
         .deleteMigration({
           file_name: this.notMigratedFile,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getTableList();
           this.getStatusMigration();
           this.$vs.notify({
@@ -499,7 +499,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

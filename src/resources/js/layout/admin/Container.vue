@@ -11,7 +11,11 @@
       :logoConfig="adminPanelLogoConfig"
     />
     <!---Sidebar-->
-    <SideBar parent=".main-wrapper" :doNotClose="this.doNotClose" :view="viewType" />
+    <SideBar
+      parent=".main-wrapper"
+      :doNotClose="this.doNotClose"
+      :view="viewType"
+    />
     <!---Page Container-->
     <div class="main-container-fluid">
       <router-view class="content" :key="$route.path"></router-view>
@@ -38,44 +42,50 @@ export default {
     logotitle: "Badaso",
     image: "",
     windowWidth: window.innerWidth,
-    viewType: '',
+    viewType: "",
     doNotClose: false,
   }),
   computed: {
-    adminPanelTitle:{
+    adminPanelTitle: {
       get() {
-        let config = this.$store.getters['badaso/getConfig']
-        return  config.adminPanelTitle ?  config.adminPanelTitle : 'Badaso'
-      }
+        let config = this.$store.getters["badaso/getConfig"];
+        return config.adminPanelTitle ? config.adminPanelTitle : "Badaso";
+      },
     },
-    adminPanelLogo:{
+    adminPanelLogo: {
       get() {
-        let config = this.$store.getters['badaso/getConfig']
-        return  this.$api.badasoFile.view(config.adminPanelLogo)
-      }
+        let config = this.$store.getters["badaso/getConfig"];
+        return this.$api.badasoFile.view(config.adminPanelLogo);
+      },
     },
     adminPanelHeaderColor: {
       get() {
-        let config = this.$store.getters['badaso/getConfig']
-        return  config.adminPanelHeaderColor ?  config.adminPanelHeaderColor : "#fff"
-      }
+        let config = this.$store.getters["badaso/getConfig"];
+        return config.adminPanelHeaderColor
+          ? config.adminPanelHeaderColor
+          : "#fff";
+      },
     },
     adminPanelLogoConfig: {
       get() {
-        let config = this.$store.getters['badaso/getConfig']
-        return  config.adminPanelLogoConfig ?  config.adminPanelLogoConfig : "logo_and_text"
-      }
+        let config = this.$store.getters["badaso/getConfig"];
+        return config.adminPanelLogoConfig
+          ? config.adminPanelLogoConfig
+          : "logo_and_text";
+      },
     },
     adminPanelHeaderFontColor: {
       get() {
-        let config = this.$store.getters['badaso/getConfig']
-        return  config.adminPanelHeaderFontColor ?  config.adminPanelHeaderFontColor : "#000"
-      }
+        let config = this.$store.getters["badaso/getConfig"];
+        return config.adminPanelHeaderFontColor
+          ? config.adminPanelHeaderFontColor
+          : "#000";
+      },
     },
     reduceSidebar: {
       get() {
         return this.$store.state.badaso.reduceSidebar;
-      }
+      },
     },
   },
   mounted() {
@@ -87,8 +97,8 @@ export default {
       window.addEventListener("resize", this.handleWindowResize);
     });
 
-    this.setSidebar()
-    this.setViewType()
+    this.setSidebar();
+    this.setViewType();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.handleWindowResize);
@@ -98,7 +108,7 @@ export default {
       this.$api.badasoAuth
         .logout()
         .then((response) => {
-          this.$router.push({name: "AuthLogin"})
+          this.$router.push({ name: "AuthLogin" });
         })
         .catch((error) => {
           this.$vs.notify({
@@ -111,8 +121,8 @@ export default {
     handleWindowResize(event) {
       this.$store.commit("badaso/REDUCE_SIDEBAR", false);
       this.windowWidth = event.currentTarget.innerWidth;
-      this.setSidebar()
-      this.setViewType()
+      this.setSidebar();
+      this.setViewType();
     },
     setSidebar() {
       if (this.windowWidth < 768) {
@@ -125,16 +135,16 @@ export default {
     },
     setViewType() {
       if (this.windowWidth < 768) {
-        this.viewType = this.$constants.MOBILE
+        this.viewType = this.$constants.MOBILE;
       } else {
-        this.viewType = this.$constants.DESKTOP
+        this.viewType = this.$constants.DESKTOP;
       }
-    }
+    },
   },
 };
 </script>
 <style>
-  .content {
-    min-height: calc(100vh - 142px);
-  }
+.content {
+  min-height: calc(100vh - 142px);
+}
 </style>

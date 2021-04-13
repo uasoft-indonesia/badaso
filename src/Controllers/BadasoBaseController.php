@@ -124,7 +124,7 @@ class BadasoBaseController extends Controller
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
-                ->withProperties(['attributes' => $data])
+                ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
@@ -146,6 +146,8 @@ class BadasoBaseController extends Controller
                 'data' => [
                     'required',
                 ],
+                'data.*.field' => ['required'],
+                'data.*.value' => ['required'],
             ]);
 
             $slug = $this->getSlug($request);
@@ -178,6 +180,8 @@ class BadasoBaseController extends Controller
                 'data' => [
                     'required',
                 ],
+                'data.*.field' => ['required'],
+                'data.*.value' => ['required'],
             ]);
 
             $slug = $this->getSlug($request);

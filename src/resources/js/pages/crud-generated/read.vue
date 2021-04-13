@@ -189,8 +189,7 @@ import _ from "lodash";
 
 export default {
   name: "CrudGeneratedRead",
-  components: {
-  },
+  components: {},
   data: () => ({
     dataType: {},
     record: {},
@@ -200,14 +199,14 @@ export default {
   },
   methods: {
     getDetailEntity() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoEntity
         .read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.dataType = response.data.dataType;
           this.record = response.data.entities;
 
@@ -223,7 +222,7 @@ export default {
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

@@ -297,8 +297,7 @@ import * as _ from "lodash";
 
 export default {
   name: "CrudGeneratedEdit",
-  components: {
-  },
+  components: {},
   data: () => ({
     isValid: true,
     errors: {},
@@ -325,14 +324,14 @@ export default {
         return;
       }
 
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoEntity
         .edit({
           slug: this.$route.params.slug,
           data: dataRows,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({
             name: "CrudGeneratedBrowse",
             params: {
@@ -341,7 +340,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -350,14 +349,14 @@ export default {
         });
     },
     getDetailEntity() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoEntity
         .read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.dataType = response.data.dataType;
           this.record = response.data.entities;
           let dataRows = this.dataType.dataRows.map((data) => {
@@ -426,7 +425,7 @@ export default {
           this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -435,17 +434,17 @@ export default {
         });
     },
     getRelationDataBySlug() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoTable
         .relationDataBySlug({
           slug: this.$route.params.slug,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.relationData = response.data;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

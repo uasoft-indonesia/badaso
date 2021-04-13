@@ -232,6 +232,8 @@ abstract class Controller extends BaseController
     {
         $data_type = $this->getDataType($slug);
         $fields = collect($data_type->dataRows)->where('read', 1)->pluck('field')->all();
+        $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
+        $fields = array_merge($fields, $ids);
         $data = null;
         $record = null;
         if ($data_type->model_name) {
@@ -268,9 +270,7 @@ abstract class Controller extends BaseController
             $model = app($data_type->model_name);
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
-                if (is_null($data_row)) {
-                    // $model->{$key} = $value;
-                } else {
+                if (!is_null($data_row)) {
                     $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                 }
             }
@@ -282,10 +282,12 @@ abstract class Controller extends BaseController
             $data['updated_at'] = $timestamp;
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
-                if (is_null($data_row)) {
-                    // $new_data[$key] = $value;
-                } else {
+                if (!is_null($data_row)) {
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
+                } else {
+                    if (in_array($key, ['created_at', 'updated_at'])) {
+                        $new_data[$key] = $value;
+                    }
                 }
             }
             $id = DB::table($data_type->name)->insertGetId($new_data);

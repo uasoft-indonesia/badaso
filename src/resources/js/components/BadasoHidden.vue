@@ -1,9 +1,5 @@
 <template>
-    <vs-input
-      type="hidden"
-      :value="value"
-      @input="handleInput($event)"
-    />
+  <vs-input type="hidden" :value="value" @input="handleInput($event)" />
 </template>
 
 <script>
@@ -34,7 +30,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String|Array,
+      type: String | Array,
       default: "",
     },
   },

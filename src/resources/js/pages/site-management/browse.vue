@@ -11,7 +11,9 @@
         >
       </template>
     </badaso-breadcrumb-row>
-    <vs-row v-if="$helper.isAllowed('browse_configurations') && groupList.length > 0">
+    <vs-row
+      v-if="$helper.isAllowed('browse_configurations') && groupList.length > 0"
+    >
       <vs-col vs-lg="12">
         <vs-card>
           <vs-tabs :color="adminPanelHeaderFontColor">
@@ -205,7 +207,10 @@
                     type="relief"
                     @click.stop
                     @click="openConfirm(config.id)"
-                    v-if="$helper.isAllowed('delete_configurations') && config.canDelete"
+                    v-if="
+                      $helper.isAllowed('delete_configurations') &&
+                        config.canDelete
+                    "
                     ><vs-icon icon="delete"></vs-icon>
                   </vs-button>
                 </vs-col>
@@ -237,8 +242,7 @@ import _ from "lodash";
 
 export default {
   name: "SiteManagementBrowse",
-  components: {
-  },
+  components: {},
   data: () => ({
     configurations: [],
     willDeleteConfigurationId: null,
@@ -246,13 +250,13 @@ export default {
   computed: {
     groupList: {
       get() {
-        return this.$store.getters['badaso/getSiteGroup'];
+        return this.$store.getters["badaso/getSiteGroup"];
       },
     },
     adminPanelHeaderFontColor: {
       get() {
-        return "#06bbd3"
-      }
+        return "#06bbd3";
+      },
     },
   },
   mounted() {
@@ -282,11 +286,11 @@ export default {
       });
     },
     getConfigurationList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoConfiguration
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           let configurations = response.data.configurations.map((data) => {
             try {
               data.details = JSON.parse(data.details);
@@ -320,7 +324,7 @@ export default {
           this.configurations = JSON.parse(JSON.stringify(configurations));
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -332,18 +336,18 @@ export default {
       return _.filter(this.configurations, ["group", group]);
     },
     deleteConfiguration() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoConfiguration
         .delete({
           id: this.willDeleteConfigurationId,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getConfigurationList();
           this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -352,11 +356,11 @@ export default {
         });
     },
     submitForm(config) {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoConfiguration
         .edit(this.$caseConvert.snake(config))
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getConfigurationList();
           this.$store.commit("badaso/FETCH_CONFIGURATION");
           this.$vs.notify({
@@ -366,7 +370,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -375,11 +379,11 @@ export default {
         });
     },
     submitMultipleEdit() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoConfiguration
         .editMultiple({ configurations: this.configurations })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getConfigurationList();
           this.$store.commit("badaso/FETCH_CONFIGURATION");
           this.$vs.notify({
@@ -389,7 +393,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

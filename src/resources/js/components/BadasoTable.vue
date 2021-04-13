@@ -1,43 +1,34 @@
 <template>
   <div
-    :class="[{'stripe': stripe, 'hoverFlat': hoverFlat}, `vs-table-${color}`]"
-    class="vs-component vs-con-table">
+    :class="[{ stripe: stripe, hoverFlat: hoverFlat }, `vs-table-${color}`]"
+    class="vs-component vs-con-table"
+  >
     <!-- header -->
     <header class="header-table vs-table--header">
       <slot name="header"></slot>
-      <div
-        v-if="search"
-        class="con-input-search vs-table--search">
+      <div v-if="search" class="con-input-search vs-table--search">
         <input
           v-model="searchx"
           class="input-search vs-table--search-input"
-          type="text">
+          type="text"
+        />
         <vs-icon icon="search"></vs-icon>
       </div>
     </header>
     <div class="con-tablex vs-table--content">
-      <div
-        :style="styleConTbody"
-        class="vs-con-tbody vs-table--tbody ">
-        <table
-          ref="table"
-          class="vs-table vs-table--tbody-table">
-          <thead
-            ref="thead"
-            class="vs-table--thead">
+      <div :style="styleConTbody" class="vs-con-tbody vs-table--tbody ">
+        <table ref="table" class="vs-table vs-table--tbody-table">
+          <thead ref="thead" class="vs-table--thead">
             <tr>
-              <th
-                v-if="multiple || hasExpadableData"
-                class="td-check">
-                <span
-                  v-if="multiple"
-                  class="con-td-check">
+              <th v-if="multiple || hasExpadableData" class="td-check">
+                <span v-if="multiple" class="con-td-check">
                   <vs-checkbox
                     :key="isCheckedLine ? 'remove' : 'check'"
                     :icon="isCheckedLine ? 'remove' : 'check'"
                     :checked="isCheckedMultiple"
                     size="small"
-                    @change="changeCheckedMultiple"/>
+                    @change="changeCheckedMultiple"
+                  />
                 </span>
               </th>
               <slot name="thead"></slot>
@@ -46,15 +37,11 @@
           <slot :data="datax"></slot>
         </table>
       </div>
-      <div
-        v-if="isNoData"
-        class="not-data-table vs-table--not-data">
+      <div v-if="isNoData" class="not-data-table vs-table--not-data">
         {{ noDataText }}
       </div>
 
-      <div
-        v-if="pagination"
-        class="con-pagination-table vs-table--pagination">
+      <div v-if="pagination" class="con-pagination-table vs-table--pagination">
         <badaso-pagination
           v-model="currentx"
           :total="searchx && !sst ? getTotalPagesSearch : getTotalPages"
@@ -76,87 +63,87 @@
 <script>
 export default {
   name: "BadasoTable",
-  props:{
-    value:{},
+  props: {
+    value: {},
     color: {
-      default:'primary',
-      type: String
+      default: "primary",
+      type: String,
     },
     noDataText: {
-      default: 'No data Available',
-      type: String
+      default: "No data Available",
+      type: String,
     },
-    stripe:{
+    stripe: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    hoverFlat:{
+    hoverFlat: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    maxHeight:{
-      default: 'auto',
-      type: String
+    maxHeight: {
+      default: "auto",
+      type: String,
     },
-    multiple:{
+    multiple: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    data:{
+    data: {
       default: null,
     },
-    notSpacer:{
-      default:false,
-      type:Boolean
-    },
-    search:{
+    notSpacer: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    maxItems:{
+    search: {
+      default: false,
+      type: Boolean,
+    },
+    maxItems: {
       default: 5,
-      type: [Number, String]
+      type: [Number, String],
     },
-    pagination:{
+    pagination: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    description:{
+    description: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    descriptionItems:{
+    descriptionItems: {
       default: () => [],
-      type: Array
+      type: Array,
     },
     descriptionTitle: {
-      type:String,
+      type: String,
     },
     descriptionConnector: {
-      type:String,
+      type: String,
     },
     descriptionBody: {
-      type:String,
+      type: String,
     },
     currentPage: {
       default: 1,
-      type: Number | String
+      type: Number | String,
     },
-    sst:{
+    sst: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
     total: {
       type: Number,
-      default: 0
+      default: 0,
     },
     onlyClickCheckbox: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
-  data:()=>({
-    headerWidth: '100%',
+  data: () => ({
+    headerWidth: "100%",
     trs: [],
     datax: [],
     searchx: null,
@@ -164,97 +151,102 @@ export default {
     maxItemsx: 5,
     hasExpadableData: false,
     currentSortKey: null,
-    currentSortType: null
+    currentSortType: null,
   }),
-  computed:{
+  computed: {
     getTotalPages() {
-      const totalLength = this.sst && this.total ? this.total : this.data.length
-      return Math.ceil(totalLength / this.maxItemsx)
+      const totalLength =
+        this.sst && this.total ? this.total : this.data.length;
+      return Math.ceil(totalLength / this.maxItemsx);
     },
     getTotalPagesSearch() {
-      return Math.ceil(this.queriedResults.length / this.maxItems)
+      return Math.ceil(this.queriedResults.length / this.maxItems);
     },
     queriedResults() {
-      let queriedResults = this.data
-      if(this.searchx && this.search) {
-        let dataBase = this.data
-        queriedResults = dataBase.filter((tr)=>{
-          let values = this.getValues(tr).toString().toLowerCase()
-          return values.indexOf(this.searchx.toLowerCase()) != -1
-        })
+      let queriedResults = this.data;
+      if (this.searchx && this.search) {
+        let dataBase = this.data;
+        queriedResults = dataBase.filter((tr) => {
+          let values = this.getValues(tr)
+            .toString()
+            .toLowerCase();
+          return values.indexOf(this.searchx.toLowerCase()) != -1;
+        });
       }
-      return queriedResults
+      return queriedResults;
     },
     isNoData() {
-      if(typeof(this.datax) == Object) {
-        return this.datax? Object.keys(this.datax).length == 0:false && this.search
+      if (typeof this.datax == Object) {
+        return this.datax
+          ? Object.keys(this.datax).length == 0
+          : false && this.search;
       } else {
-        return this.datax?this.datax.length == 0:false && this.search
+        return this.datax ? this.datax.length == 0 : false && this.search;
       }
     },
-    isCheckedLine () {
-      let lengthx = this.data.length
-      let lengthSelected = this.value.length
-      return lengthx !== lengthSelected
+    isCheckedLine() {
+      let lengthx = this.data.length;
+      let lengthSelected = this.value.length;
+      return lengthx !== lengthSelected;
     },
-    isCheckedMultiple () {
-      return this.value.length > 0
+    isCheckedMultiple() {
+      return this.value.length > 0;
     },
-    styleConTbody () {
+    styleConTbody() {
       return {
         maxHeight: this.maxHeight,
-        overflow: this.maxHeight != 'auto'?'auto':null
-      }
+        overflow: this.maxHeight != "auto" ? "auto" : null,
+      };
     },
-    getThs () {
-      let ths = this.$slots.thead.filter(item => item.tag )
-      return ths.length
+    getThs() {
+      let ths = this.$slots.thead.filter((item) => item.tag);
+      return ths.length;
     },
-    tableHeaderStyle () {
+    tableHeaderStyle() {
       return {
-        width: this.headerWidth
-      }
+        width: this.headerWidth,
+      };
     },
   },
-  watch:{
+  watch: {
     currentPage() {
-      this.currentx = this.currentPage
+      this.currentx = this.currentPage;
     },
     currentx() {
-      if(this.sst) {
-        this.$emit('change-page', this.currentx)
+      if (this.sst) {
+        this.$emit("change-page", this.currentx);
       } else {
-        this.loadData()
+        this.loadData();
       }
     },
     maxItems(val) {
-      this.maxItemsx = val
-      this.loadData()
+      this.maxItemsx = val;
+      this.loadData();
     },
     maxItemsx() {
-      this.loadData()
+      this.loadData();
     },
     data() {
-      this.loadData()
+      this.loadData();
       this.$nextTick(() => {
-        if(this.datax.length > 0) {
-          this.changeTdsWidth()
+        if (this.datax.length > 0) {
+          this.changeTdsWidth();
         }
-      })
+      });
     },
     searchx() {
-      if(this.sst) {
-        this.$emit('search', this.searchx)
+      if (this.sst) {
+        this.$emit("search", this.searchx);
       } else {
-        this.loadData()
-        this.currentx = 1
+        this.loadData();
+        this.currentx = 1;
       }
-    }
+    },
   },
-  mounted () {
-    window.addEventListener('resize', this.listenerChangeWidth)
-    this.maxItemsx = this.maxItems
-    this.loadData()
+  mounted() {
+    window.addEventListener("resize", this.listenerChangeWidth);
+    this.maxItemsx = this.maxItems;
+    this.loadData();
 
     // this.$nextTick(() => {
     //   if(this.datax.length > 0) {
@@ -262,38 +254,42 @@ export default {
     //   }
     // })
   },
-  destroyed () {
-    window.removeEventListener('resize', this.listenerChangeWidth)
+  destroyed() {
+    window.removeEventListener("resize", this.listenerChangeWidth);
   },
-  methods:{
+  methods: {
     loadData() {
-      let max = Math.ceil(this.currentx * this.maxItemsx)
-      let min = max - this.maxItemsx
+      let max = Math.ceil(this.currentx * this.maxItemsx);
+      let min = max - this.maxItemsx;
 
-      if(!this.searchx || this.sst) {
-        this.datax = this.pagination ? this.getItems(min, max) : this.sortItems(this.data) || [];
+      if (!this.searchx || this.sst) {
+        this.datax = this.pagination
+          ? this.getItems(min, max)
+          : this.sortItems(this.data) || [];
       } else {
-        this.datax = this.pagination ? this.getItemsSearch(min, max) : this.getItemsSearch(min, max) || []
+        this.datax = this.pagination
+          ? this.getItemsSearch(min, max)
+          : this.getItemsSearch(min, max) || [];
       }
     },
     getItems(min, max) {
       let dataBase = this.sortItems(this.data);
 
-      let items = []
+      let items = [];
       dataBase.forEach((item, index) => {
-        if(index >= min && index < max) {
-          items.push(item)
+        if (index >= min && index < max) {
+          items.push(item);
         }
-      })
-      return items
+      });
+      return items;
     },
     sortItems(data) {
       const { currentSortKey, currentSortType } = this;
-      function compare(a,b) {
+      function compare(a, b) {
         if (a[currentSortKey] < b[currentSortKey])
-          return currentSortType == 'desc'?1:-1;
+          return currentSortType == "desc" ? 1 : -1;
         if (a[currentSortKey] > b[currentSortKey])
-          return currentSortType == 'desc'?-1:1;
+          return currentSortType == "desc" ? -1 : 1;
         return 0;
       }
       return currentSortType !== null ? [...data].sort(compare) : [...data];
@@ -301,114 +297,123 @@ export default {
     getItemsSearch(min, max) {
       const search = this.normalize(this.searchx);
 
-      return this.sortItems(this.data).filter((tr)=>{
-        return this.normalize(this.getValues(tr).toString()).indexOf(search) != -1
-      }).filter((_, index) => {
-        return (index >= min && index < max);
-      });
+      return this.sortItems(this.data)
+        .filter((tr) => {
+          return (
+            this.normalize(this.getValues(tr).toString()).indexOf(search) != -1
+          );
+        })
+        .filter((_, index) => {
+          return index >= min && index < max;
+        });
     },
     sort(key, sortType) {
       this.currentSortKey = key;
       this.currentSortType = sortType;
-      if(this.sst) {
-        this.$emit('sort', key, sortType)
-        return
+      if (this.sst) {
+        this.$emit("sort", key, sortType);
+        return;
       }
       this.loadData();
     },
     normalize(string) {
-      return string.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      return string
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
     },
     getValues: function getValues(obj) {
       function flattenDeep(val) {
-        return Object.values(val || []).reduce((acc, val) => (typeof val === 'object') ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
+        return Object.values(val || []).reduce(
+          (acc, val) =>
+            typeof val === "object"
+              ? acc.concat(flattenDeep(val))
+              : acc.concat(val),
+          []
+        );
       }
 
-      return flattenDeep(obj).filter(function (item) {
-        return (typeof item === 'string') || (typeof item === 'number');
+      return flattenDeep(obj).filter(function(item) {
+        return typeof item === "string" || typeof item === "number";
       });
     },
-    changeCheckedMultiple () {
-      let lengthx = this.data.length
-      let lengthSelected = this.value.length
-      let selectedx = (lengthx - lengthSelected)
+    changeCheckedMultiple() {
+      let lengthx = this.data.length;
+      let lengthSelected = this.value.length;
+      let selectedx = lengthx - lengthSelected;
       if (selectedx == 0) {
-        this.$emit('input', [])
+        this.$emit("input", []);
       } else {
-        this.$emit('input', this.data)
+        this.$emit("input", this.data);
       }
     },
     handleCheckbox(tr) {
-      if(this.multiple && this.onlyClickCheckbox){
-        let val = this.value.slice(0)
-        if(val.includes(tr)) {
-          val.splice(val.indexOf(tr),1)
+      if (this.multiple && this.onlyClickCheckbox) {
+        let val = this.value.slice(0);
+        if (val.includes(tr)) {
+          val.splice(val.indexOf(tr), 1);
         } else {
-          val.push(tr)
+          val.push(tr);
         }
 
-        this.$emit('input', val)
-        this.$emit('selected', tr)
+        this.$emit("input", val);
+        this.$emit("selected", tr);
       }
     },
-    clicktr (tr, isTr) {
-      if(this.multiple && isTr && !this.onlyClickCheckbox){
-        let val = this.value.slice(0)
-        if(val.includes(tr)) {
-          val.splice(val.indexOf(tr),1)
+    clicktr(tr, isTr) {
+      if (this.multiple && isTr && !this.onlyClickCheckbox) {
+        let val = this.value.slice(0);
+        if (val.includes(tr)) {
+          val.splice(val.indexOf(tr), 1);
         } else {
-          val.push(tr)
+          val.push(tr);
         }
 
-        this.$emit('input', val)
-        this.$emit('selected', tr)
+        this.$emit("input", val);
+        this.$emit("selected", tr);
       } else if (isTr && !this.onlyClickCheckbox) {
-        this.$emit('input', tr)
-        this.$emit('selected', tr)
+        this.$emit("input", tr);
+        this.$emit("selected", tr);
       }
     },
-    dblclicktr (tr, isTr) {
-
+    dblclicktr(tr, isTr) {
       if (isTr) {
-        this.$emit('dblSelection',tr)
+        this.$emit("dblSelection", tr);
       }
-
     },
-    listenerChangeWidth () {
-      this.headerWidth = `${this.$refs.table.offsetWidth}px`
-      this.changeTdsWidth()
+    listenerChangeWidth() {
+      this.headerWidth = `${this.$refs.table.offsetWidth}px`;
+      this.changeTdsWidth();
     },
     changeTdsWidth() {
-      if(!this.value) return
+      if (!this.value) return;
 
-      let tbody = this.$refs.table.querySelector('tbody')
+      let tbody = this.$refs.table.querySelector("tbody");
 
       // Adding condition removes querySelector none error - if tbody isnot present
-      if(tbody) {
-        let trvs = tbody.querySelector('.tr-values')
-        if (trvs === undefined || trvs === null ) return
-        let tds = trvs.querySelectorAll('.td')
+      if (tbody) {
+        let trvs = tbody.querySelector(".tr-values");
+        if (trvs === undefined || trvs === null) return;
+        let tds = trvs.querySelectorAll(".td");
 
-        let tdsx = []
+        let tdsx = [];
 
         tds.forEach((td, index) => {
-          tdsx.push({index: index, widthx: td.offsetWidth})
+          tdsx.push({ index: index, widthx: td.offsetWidth });
         });
 
-
-        let colgrouptable = this.$refs.colgrouptable
-        if (colgrouptable !== undefined && colgrouptable !== null ) {
-          let colsTable = colgrouptable.querySelectorAll('.col')
+        let colgrouptable = this.$refs.colgrouptable;
+        if (colgrouptable !== undefined && colgrouptable !== null) {
+          let colsTable = colgrouptable.querySelectorAll(".col");
           colsTable.forEach((col, index) => {
-            col.setAttribute('width', tdsx[index].widthx)
+            col.setAttribute("width", tdsx[index].widthx);
           });
         }
-
       }
     },
-    changeMaxItems (index) {
-      this.maxItemsx = this.descriptionItems[index]
-    }
-  }
-}
+    changeMaxItems(index) {
+      this.maxItemsx = this.descriptionItems[index];
+    },
+  },
+};
 </script>

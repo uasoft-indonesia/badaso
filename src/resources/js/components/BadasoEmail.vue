@@ -13,7 +13,12 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info+'<br />'"></p>
+        <p
+          class="text-danger"
+          v-for="(info, index) in alert"
+          :key="index"
+          v-html="info + '<br />'"
+        ></p>
       </div>
       <div v-else>
         <span class="text-danger" v-html="alert"></span>
@@ -41,7 +46,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String|Array,
+      type: String | Array,
       default: "",
     },
     placeholder: {
@@ -73,25 +78,25 @@ export default {
   computed: {
     displayLabel: function() {
       if (this.required) {
-        return this.label + ' *'
+        return this.label + " *";
       } else {
-        return this.label
+        return this.label;
       }
-    }
+    },
   },
   methods: {
     handleInput(val) {
-       if (!this.validEmail(val)) {
-        this.alert = 'Please input correct email.';
+      if (!this.validEmail(val)) {
+        this.alert = "Please input correct email.";
       } else {
-        this.alert = null
+        this.alert = null;
       }
       this.$emit("input", val);
     },
-    validEmail: function (email) {
+    validEmail: function(email) {
       var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return re.test(email);
-    }
+    },
   },
 };
 </script>

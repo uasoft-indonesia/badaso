@@ -1,6 +1,6 @@
 export default {
   snake(obj) {
-    if (typeof obj == 'string') {
+    if (typeof obj == "string") {
       return obj.replace(/([A-Z])/g, function($1) {
         return "_" + $1.toLowerCase();
       });
@@ -29,32 +29,34 @@ export default {
 
       // Array
       if (Array.isArray(obj[newName])) {
-          for (let index = 0; index < obj[newName].length; index++) {
-            if (typeof obj[newName] == "object") {
-                obj[newName] = this.snake(obj[newName]);
-              }
+        for (let index = 0; index < obj[newName].length; index++) {
+          if (typeof obj[newName] == "object") {
+            obj[newName] = this.snake(obj[newName]);
           }
+        }
       }
     }
     return obj;
   },
   stringSnakeToCamel(str) {
-    let strings = str.split('_')
+    let strings = str.split("_");
     let newStrings = strings.map((string, index) => {
       if (index > 0) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
+        return string.charAt(0).toUpperCase() + string.slice(1);
       } else {
-        return string
+        return string;
       }
-    })
-    let string = newStrings.join('')
+    });
+    let string = newStrings.join("");
     return string;
   },
   kebab(string) {
-    let kebab = string.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-    if (kebab.charAt(0) === '-') {
-      kebab = kebab.substring(1)
+    let kebab = string
+      .replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, "$1-$2")
+      .toLowerCase();
+    if (kebab.charAt(0) === "-") {
+      kebab = kebab.substring(1);
     }
     return kebab;
-  }
+  },
 };

@@ -822,7 +822,7 @@ export default {
     },
 
     getInfoTable() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoDatabase
         .read({
           table: this.$route.params.tableName,
@@ -851,10 +851,10 @@ export default {
           this.databaseData.table.currentName = this.$route.params.tableName;
           this.databaseData.table.modifiedName = this.$route.params.tableName;
           this.databaseData.timestamp = response.data.timestamp;
-          this.$closeLoader()
+          this.$closeLoader();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -866,12 +866,12 @@ export default {
     submitForm() {
       this.$v.databaseData.$touch();
       if (!this.$v.databaseData.$invalid) {
-        this.$openLoader()
+        this.$openLoader();
 
         this.$api.badasoDatabase
           .edit(this.databaseData)
           .then((response) => {
-            this.$closeLoader()
+            this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.success"),
               text: response.message,
@@ -883,7 +883,7 @@ export default {
           })
           .catch((error) => {
             this.errors = error.error;
-            this.$closeLoader()
+            this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: error.message,

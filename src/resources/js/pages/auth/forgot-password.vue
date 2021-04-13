@@ -14,7 +14,9 @@
     </vs-alert>
 
     <vs-card class="mb-0" v-if="!requestVerify">
-      <badaso-auth-card-header slot="header">{{ $t("forgotPassword.title") }}</badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">{{
+        $t("forgotPassword.title")
+      }}</badaso-auth-card-header>
       <div>
         <vs-input
           icon="email"
@@ -64,7 +66,7 @@
               class="text-danger"
               v-for="(info, index) in errors.token"
               :key="index"
-              v-html="info+'<br />'"
+              v-html="info + '<br />'"
             ></span>
           </div>
           <div v-else>
@@ -100,13 +102,13 @@ export default {
   }),
   methods: {
     forgotPassword() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoAuth
         .forgotPassword({
           email: this.email,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.res = {
             status: "success",
             icon: "done",
@@ -115,7 +117,7 @@ export default {
           this.requestVerify = true;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.errors = error.errors;
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -126,14 +128,14 @@ export default {
     },
     verify() {
       this.errors = {};
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoAuth
         .forgotPasswordVerifyToken({
           email: this.email,
           token: this.token,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({
             name: "AuthResetPassword",
             query: {
@@ -143,7 +145,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.errors = error.errors;
           this.$vs.notify({
             title: this.$t("alert.danger"),

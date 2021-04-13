@@ -1,6 +1,10 @@
 <template>
   <div>
-    <vs-icon icon="arrow_back_ios" style="cursor:pointer; float:left; padding-top: 0.6rem;" @click="goBack()"></vs-icon>
+    <vs-icon
+      icon="arrow_back_ios"
+      style="cursor:pointer; float:left; padding-top: 0.6rem;"
+      @click="goBack()"
+    ></vs-icon>
     <vs-breadcrumb>
       <li v-for="(item, index) in items" :key="index">
         <router-link :to="item.url">{{ item.title }}</router-link>
@@ -57,9 +61,9 @@ export default {
   methods: {
     goBack() {
       if (window.history.length > 2) {
-        this.$router.go(-1)
+        this.$router.go(-1);
       }
-    }
+    },
   },
 };
 </script>

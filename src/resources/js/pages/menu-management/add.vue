@@ -64,8 +64,7 @@
 <script>
 export default {
   name: "MenuManagementAdd",
-  components: {
-  },
+  components: {},
   data: () => ({
     errors: {},
     menu: {
@@ -81,14 +80,14 @@ export default {
       this.$api.badasoMenu
         .add(this.menu)
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({ name: "MenuManagementBrowse" });
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

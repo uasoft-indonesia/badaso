@@ -12,14 +12,14 @@ export default {
     displayName = displayNameWord.join(" ");
     return displayName;
   },
-  
+
   generateDisplayNamePlural(fieldName) {
     let displayName = this.generateDisplayName(fieldName);
     var lastChar = displayName.substr(displayName.length - 1);
     if (lastChar) {
       return displayName;
     } else {
-      return displayName + 's';
+      return displayName + "s";
     }
   },
 
@@ -49,12 +49,12 @@ export default {
     return str;
   },
 
-  isArray(value){
-    return Array.isArray(value)
+  isArray(value) {
+    return Array.isArray(value);
   },
 
   isAllowed(permission) {
-    let userPermissions = store.getters['badaso/getUser'].permissions;
+    let userPermissions = store.getters["badaso/getUser"].permissions;
     let result = _.find(userPermissions, function(o) {
       return o.key == permission;
     });
@@ -63,10 +63,13 @@ export default {
   },
 
   isAllowedToModifyGeneratedCRUD(action, dataType) {
-    if (dataType.generatePermissions === true || dataType.generatePermissions === 1) {
-      let userPermissions = store.getters['badaso/getUser'].permissions;
+    if (
+      dataType.generatePermissions === true ||
+      dataType.generatePermissions === 1
+    ) {
+      let userPermissions = store.getters["badaso/getUser"].permissions;
       let result = _.find(userPermissions, function(o) {
-        return o.key == action + '_' + dataType.name;
+        return o.key == action + "_" + dataType.name;
       });
       if (result) return true;
       else return false;
@@ -76,24 +79,28 @@ export default {
   },
 
   formatDate(value) {
-    let date = process.env.MIX_DATE_FORMAT ? process.env.MIX_DATE_FORMAT : 'MMMM Do YYYY';
-    let time = process.env.MIX_TIME_FORMAT ? process.env.MIX_TIME_FORMAT : 'h:mm:ss a';
+    let date = process.env.MIX_DATE_FORMAT
+      ? process.env.MIX_DATE_FORMAT
+      : "MMMM Do YYYY";
+    let time = process.env.MIX_TIME_FORMAT
+      ? process.env.MIX_TIME_FORMAT
+      : "h:mm:ss a";
     return moment(value).format(`${date}, ${time}`);
   },
 
   isObjectEmpty(object) {
-    return Object.keys(object).length === 0
+    return Object.keys(object).length === 0;
   },
 
   isValidHttpUrl(string) {
     let url;
-    
+
     try {
       url = new URL(string);
     } catch (_) {
-      return false;  
+      return false;
     }
-  
+
     return url.protocol === "http:" || url.protocol === "https:";
   },
 };

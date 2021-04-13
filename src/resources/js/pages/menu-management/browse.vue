@@ -139,15 +139,15 @@ export default {
       });
     },
     getMenuList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoMenu
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.menus = response.data.menus;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -156,18 +156,18 @@ export default {
         });
     },
     deleteMenu() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoMenu
         .delete({
           menu_id: this.willDeleteId,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getMenuList();
           this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

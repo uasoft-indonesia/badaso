@@ -56,7 +56,11 @@
                 }}</span>
               </th>
               <td v-if="index === 'avatar'">
-                <img :src="`${$api.badasoFile.view(item)}`" width="100%" alt="" />
+                <img
+                  :src="`${$api.badasoFile.view(item)}`"
+                  width="100%"
+                  alt=""
+                />
               </td>
               <td v-else>{{ item === null ? "null" : item }}</td>
             </tr>
@@ -76,7 +80,11 @@
                 }}</span>
               </th>
               <td v-if="index === 'avatar'">
-                <img :src="`${$api.badasoFile.view(item)}`" width="100%" alt="" />
+                <img
+                  :src="`${$api.badasoFile.view(item)}`"
+                  width="100%"
+                  alt=""
+                />
               </td>
               <td v-else>{{ item === null ? "null" : item }}</td>
             </tr>
@@ -124,8 +132,7 @@
 <script>
 export default {
   name: "ActivityLogRead",
-  components: {
-  },
+  components: {},
   filters: {
     replaceTitle: function(title) {
       return title.replace(/([A-Z])/g, " $1").trim();
@@ -162,20 +169,20 @@ export default {
   },
   methods: {
     getActivityLogDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoActivityLog
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.activitylog = response.data.activitylog;
           this.subject = response.data.subject;
           this.causer = response.data.causer;
           this.properties = response.data.properties;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

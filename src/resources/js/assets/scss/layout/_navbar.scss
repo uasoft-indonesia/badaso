@@ -22,15 +22,15 @@
 
   .vs-con-items {
     width: 100%;
-	@media screen and (max-width: 800px) {
-		display: flex;
-		width: 100%;
-		justify-content: flex-start;
-	}
-	@media screen and (max-width: 768px) {
-		display: none;
-		width: 100%;
-	}
+    @media screen and (max-width: 800px) {
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+    }
+    @media screen and (max-width: 768px) {
+      display: none;
+      width: 100%;
+    }
   }
 
   .vs-navbar--header {
@@ -114,35 +114,34 @@
 /******User dd*******/
 
 .vs-navbar {
-  justify-content: unset; 
+  justify-content: unset;
 
-	@media screen and (max-width: 800px) {
-		display: flex;
-	}
+  @media screen and (max-width: 800px) {
+    display: flex;
+  }
 
-	@media screen and (max-width: 767px) {
-		display: block;
-	}
+  @media screen and (max-width: 767px) {
+    display: block;
+  }
 }
 
-
 .vs-navbar--header {
-	@media screen and (max-width: 800px) {
-		all: unset;
-	}
+  @media screen and (max-width: 800px) {
+    all: unset;
+  }
 
-	@media screen and (max-width: 767px) {
-		display: -webkit-box !important;
-		display: -ms-flexbox !important;
-		display: flex !important;
-		-webkit-box-align: center !important;
-		-ms-flex-align: center !important;
-		align-items: center !important;
-		-webkit-box-pack: justify !important;
-		-ms-flex-pack: justify !important;
-		justify-content: space-between !important;
+  @media screen and (max-width: 767px) {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -webkit-box-align: center !important;
+    -ms-flex-align: center !important;
+    align-items: center !important;
+    -webkit-box-pack: justify !important;
+    -ms-flex-pack: justify !important;
+    justify-content: space-between !important;
 
     min-height: 60px;
     padding: 0px 15px 0px 15px;
-	}
+  }
 }

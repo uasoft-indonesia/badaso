@@ -19,19 +19,33 @@
               </badaso-text>
             </vs-col>
             <vs-col vs-align="center" vs-lg="3">
-              <vs-checkbox v-model="databaseData.timestamp">{{ $t('database.add.row.field.timestamp') }}</vs-checkbox>
+              <vs-checkbox v-model="databaseData.timestamp">{{
+                $t("database.add.row.field.timestamp")
+              }}</vs-checkbox>
             </vs-col>
             <vs-col vs-lg="12">
               <div v-if="$v.databaseData.table.$dirty" class="d-inline-grid">
-                <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.required">
-                  {{ $t('database.add.row.field.tableName') }}
+                <i18n
+                  path="vuelidate.required"
+                  style="color: rgba(var(--vs-danger),1)"
+                  v-if="!$v.databaseData.table.required"
+                >
+                  {{ $t("database.add.row.field.tableName") }}
                 </i18n>
-                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator">
-                  {{ $t('database.add.row.field.tableName') }}
+                <i18n
+                  path="vuelidate.alphaNumAndUnderscoreValidator"
+                  style="color: rgba(var(--vs-danger),1)"
+                  v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator"
+                >
+                  {{ $t("database.add.row.field.tableName") }}
                 </i18n>
-                <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.maxLength">
+                <i18n
+                  path="vuelidate.maxLength"
+                  style="color: rgba(var(--vs-danger),1)"
+                  v-if="!$v.databaseData.table.maxLength"
+                >
                   <template v-slot:field>
-                    {{ $t('database.add.row.field.tableName') }}
+                    {{ $t("database.add.row.field.tableName") }}
                   </template>
                   <template v-slot:length>
                     {{ $v.databaseData.table.$params.maxLength.max }}
@@ -48,7 +62,11 @@
             <h3>{{ $t("database.add.row.title") }}</h3>
             <span style="color: rgba(var(--vs-danger),1)">
               <i18n path="database.warning.docs">
-                <a target="_blank" href="https://badaso-docs.uatech.co.id/docs/en/core-concept/database-management/">docs</a>
+                <a
+                  target="_blank"
+                  href="https://badaso-docs.uatech.co.id/docs/en/core-concept/database-management/"
+                  >docs</a
+                >
               </i18n>
             </span>
           </div>
@@ -124,12 +142,17 @@
                       {{ item.fieldAttribute }}
                     </td>
                     <td>
-                      <vs-button color="danger" type="relief" @click="dropField(item, index)">
+                      <vs-button
+                        color="danger"
+                        type="relief"
+                        @click="dropField(item, index)"
+                      >
                         <vs-icon icon="delete"></vs-icon>
                       </vs-button>
                     </td>
                   </tr>
                 </draggable>
+
                 <tr>
                   <td colspan="2">
                     <vs-input
@@ -138,16 +161,33 @@
                       v-model="fields.fieldName"
                     />
 
-                    <div v-if="$v.fields.fieldName.$dirty" class="d-inline-grid">
-                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.required">
-                        {{ $t('database.add.row.field.fieldName') }}
+                    <div
+                      v-if="$v.fields.fieldName.$dirty"
+                      class="d-inline-grid"
+                    >
+                      <i18n
+                        path="vuelidate.required"
+                        style="color: rgba(var(--vs-danger),1)"
+                        v-if="!$v.fields.fieldName.required"
+                      >
+                        {{ $t("database.add.row.field.fieldName") }}
                       </i18n>
-                      <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.alphaNumAndUnderscoreValidator">
-                        {{ $t('database.add.row.field.fieldName') }}
+                      <i18n
+                        path="vuelidate.alphaNumAndUnderscoreValidator"
+                        style="color: rgba(var(--vs-danger),1)"
+                        v-if="
+                          !$v.fields.fieldName.alphaNumAndUnderscoreValidator
+                        "
+                      >
+                        {{ $t("database.add.row.field.fieldName") }}
                       </i18n>
-                      <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldName.maxLength">
+                      <i18n
+                        path="vuelidate.maxLength"
+                        style="color: rgba(var(--vs-danger),1)"
+                        v-if="!$v.fields.fieldName.maxLength"
+                      >
                         <template v-slot:field>
-                          {{ $t('database.add.row.field.fieldName') }}
+                          {{ $t("database.add.row.field.fieldName") }}
                         </template>
                         <template v-slot:length>
                           {{ $v.fields.fieldName.$params.maxLength.max }}
@@ -156,17 +196,32 @@
                     </div>
                   </td>
                   <td>
-                    <vs-select class="selectExample mb-2" v-model="fields.fieldType">
-                      <div :key="index" v-for="item, index in fieldTypeList">
+                    <vs-select
+                      class="selectExample mb-2"
+                      v-model="fields.fieldType"
+                    >
+                      <div :key="index" v-for="(item, index) in fieldTypeList">
                         <vs-select-group :title="item.title" v-if="item.group">
-                          <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in item.group"/>
+                          <vs-select-item
+                            :key="index"
+                            :value="item.value"
+                            :text="item.label"
+                            v-for="(item, index) in item.group"
+                          />
                         </vs-select-group>
                       </div>
                     </vs-select>
 
-                    <div v-if="$v.fields.fieldType.$dirty" class="d-inline-grid">
-                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldType.required">
-                        {{ $t('database.add.row.field.fieldType') }}
+                    <div
+                      v-if="$v.fields.fieldType.$dirty"
+                      class="d-inline-grid"
+                    >
+                      <i18n
+                        path="vuelidate.required"
+                        style="color: rgba(var(--vs-danger),1)"
+                        v-if="!$v.fields.fieldType.required"
+                      >
+                        {{ $t("database.add.row.field.fieldType") }}
                       </i18n>
                     </div>
                   </td>
@@ -177,9 +232,16 @@
                       v-model="fields.fieldLength"
                     />
 
-                    <div v-if="$v.fields.fieldLength.$dirty" class="d-inline-grid">
-                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.fieldLength.required">
-                        {{ $t('database.add.row.field.fieldLength') }}
+                    <div
+                      v-if="$v.fields.fieldLength.$dirty"
+                      class="d-inline-grid"
+                    >
+                      <i18n
+                        path="vuelidate.required"
+                        style="color: rgba(var(--vs-danger),1)"
+                        v-if="!$v.fields.fieldLength.required"
+                      >
+                        {{ $t("database.add.row.field.fieldLength") }}
                       </i18n>
                     </div>
                   </td>
@@ -218,9 +280,16 @@
                       v-model="fields.asDefined"
                     />
 
-                    <div v-if="$v.fields.asDefined.$dirty" class="d-inline-grid">
-                      <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.fields.asDefined.required">
-                        {{ $t('database.add.row.field.fieldDefault') }}
+                    <div
+                      v-if="$v.fields.asDefined.$dirty"
+                      class="d-inline-grid"
+                    >
+                      <i18n
+                        path="vuelidate.required"
+                        style="color: rgba(var(--vs-danger),1)"
+                        v-if="!$v.fields.asDefined.required"
+                      >
+                        {{ $t("database.add.row.field.fieldDefault") }}
                       </i18n>
                     </div>
                   </td>
@@ -273,8 +342,17 @@
                 <vs-icon icon="save"></vs-icon> {{ $t("database.add.button") }}
               </vs-button>
             </vs-col>
-            <vs-col vs-lg="10" vs-align="center" v-if="$v.databaseData.rows.$dirty" class="d-inline-grid">
-              <i18n path="vuelidate.rowsRequired" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.rows.required">
+            <vs-col
+              vs-lg="10"
+              vs-align="center"
+              v-if="$v.databaseData.rows.$dirty"
+              class="d-inline-grid"
+            >
+              <i18n
+                path="vuelidate.rowsRequired"
+                style="color: rgba(var(--vs-danger),1)"
+                v-if="!$v.databaseData.rows.required"
+              >
               </i18n>
             </vs-col>
           </vs-row>
@@ -298,9 +376,10 @@
       :active.sync="deleteDialog"
       title="Delete"
       :accept-text="$t('action.delete.accept')"
-      :cancel-text="$t('action.delete.cancel')">
+      :cancel-text="$t('action.delete.cancel')"
+    >
       <div class="con-exemple-prompt">
-        {{ $t('database.edit.row.drop') }}
+        {{ $t("database.edit.row.drop") }}
       </div>
     </vs-prompt>
   </div>
@@ -308,8 +387,16 @@
 
 <script>
 import draggable from "vuedraggable";
-import { required, requiredIf, maxLength, helpers } from "vuelidate/lib/validators";
-const alphaNumAndUnderscoreValidator = helpers.regex('alphaNumAndDot', /^[a-zA-Z\d_]*$/i);
+import {
+  required,
+  requiredIf,
+  maxLength,
+  helpers,
+} from "vuelidate/lib/validators";
+const alphaNumAndUnderscoreValidator = helpers.regex(
+  "alphaNumAndDot",
+  /^[a-zA-Z\d_]*$/i
+);
 
 export default {
   name: "DatabaseManagementAdd",
@@ -336,25 +423,25 @@ export default {
     },
     willDelete: null,
     deleteDialog: false,
-    fieldTypeList: []
+    fieldTypeList: [],
   }),
   validations: {
     fields: {
       fieldName: {
         required,
         maxLength: maxLength(64),
-        alphaNumAndUnderscoreValidator
+        alphaNumAndUnderscoreValidator,
       },
       fieldType: {
         required,
       },
       fieldLength: {
-        required: requiredIf(function () {
+        required: requiredIf(function() {
           return this.lengthRequiredIf;
         }),
       },
       asDefined: {
-        required: requiredIf(function () {
+        required: requiredIf(function() {
           return this.defaultRequiredIf;
         }),
       },
@@ -363,7 +450,7 @@ export default {
       table: {
         required,
         maxLength: maxLength(64),
-        alphaNumAndUnderscoreValidator
+        alphaNumAndUnderscoreValidator,
       },
       rows: {
         required,
@@ -371,16 +458,16 @@ export default {
     },
   },
   watch: {
-    'fields.fieldIncrement': function (newVal) {
+    "fields.fieldIncrement": function(newVal) {
       if (newVal) {
-        this.fields.fieldIndex = 'primary'
+        this.fields.fieldIndex = "primary";
         if (this.fields.fieldType == "") {
-          this.fields.fieldType = 'bigint'
+          this.fields.fieldType = "bigint";
         }
       } else {
-        this.fields.fieldIndex = null
+        this.fields.fieldIndex = null;
       }
-    }
+    },
   },
   computed: {
     fieldIndexList: {
@@ -400,39 +487,55 @@ export default {
     },
     lengthRequiredIf: {
       get() {
-        return this.fields.fieldType == 'double' || this.fields.fieldType == 'decimal' || this.fields.fieldType == 'float' || this.fields.fieldType == 'varchar' || this.fields.fieldType == 'char' || this.fields.fieldType == 'set' || this.fields.fieldType == 'enum'
-      }
+        return (
+          this.fields.fieldType == "double" ||
+          this.fields.fieldType == "decimal" ||
+          this.fields.fieldType == "float" ||
+          this.fields.fieldType == "varchar" ||
+          this.fields.fieldType == "char" ||
+          this.fields.fieldType == "set" ||
+          this.fields.fieldType == "enum"
+        );
+      },
     },
     defaultRequiredIf: {
       get() {
-        return this.fields.fieldDefault == 'as_defined'
-      }
+        return this.fields.fieldDefault == "as_defined";
+      },
     },
     editLengthRequiredIf: {
       get() {
-        return this.edit.fieldType == 'double' || this.edit.fieldType == 'decimal' || this.edit.fieldType == 'float' || this.edit.fieldType == 'varchar' || this.edit.fieldType == 'char' || this.edit.fieldType == 'set' || this.edit.fieldType == 'enum'
-      }
+        return (
+          this.edit.fieldType == "double" ||
+          this.edit.fieldType == "decimal" ||
+          this.edit.fieldType == "float" ||
+          this.edit.fieldType == "varchar" ||
+          this.edit.fieldType == "char" ||
+          this.edit.fieldType == "set" ||
+          this.edit.fieldType == "enum"
+        );
+      },
     },
     editDefaultRequiredIf: {
       get() {
-        return this.edit.fieldDefault == 'as_defined'
-      }
+        return this.edit.fieldDefault == "as_defined";
+      },
     },
   },
   mounted() {
-    this.getDbmsFieldType()
+    this.getDbmsFieldType();
   },
   methods: {
     getDbmsFieldType() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoDatabase
         .getType()
         .then((response) => {
-          this.$closeLoader()
-          this.fieldTypeList = JSON.parse(response.data)
+          this.$closeLoader();
+          this.fieldTypeList = JSON.parse(response.data);
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -444,11 +547,11 @@ export default {
       this.$v.databaseData.$touch();
       if (!this.$v.databaseData.$invalid) {
         this.$v.databaseData.$reset();
-        this.$openLoader()
+        this.$openLoader();
         this.$api.badasoDatabase
           .add(this.databaseData)
           .then((response) => {
-            this.$closeLoader()
+            this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.success"),
               text: response.data,
@@ -460,10 +563,10 @@ export default {
           })
           .catch((error) => {
             let message = error.message;
-            this.$closeLoader()
+            this.$closeLoader();
 
             if (error.errors.table) {
-              message = error.errors.table[0]
+              message = error.errors.table[0];
             }
 
             this.$vs.notify({
@@ -498,14 +601,13 @@ export default {
     },
 
     dropField(item, index) {
-      this.deleteDialog = true
-      this.deletedItem = item,
-      this.willDelete = index
+      this.deleteDialog = true;
+      (this.deletedItem = item), (this.willDelete = index);
     },
 
     saveDrop() {
-      this.databaseData.rows.splice(this.willDelete, 1)
-    }
+      this.databaseData.rows.splice(this.willDelete, 1);
+    },
   },
 };
 </script>

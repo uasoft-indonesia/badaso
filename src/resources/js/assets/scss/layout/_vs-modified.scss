@@ -231,18 +231,18 @@ th .vs-table-text {
   background: $primary;
 }
 
-.vs-checkbox-primary input:checked+.vs-checkbox {
-  border: 2px solid $primary!important;
+.vs-checkbox-primary input:checked + .vs-checkbox {
+  border: 2px solid $primary !important;
   background: $primary;
 }
 
 .vs-progress-primary {
   .vs-progress--foreground {
-    background: $primary; 
+    background: $primary;
   }
 
   .vs-progress--indeterminate {
-    background: $primary; 
+    background: $primary;
   }
 }
 

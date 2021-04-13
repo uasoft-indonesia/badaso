@@ -240,28 +240,28 @@ export default {
     },
     mainMenu: {
       get() {
-        return this.$store.getters['badaso/getMenu'];
+        return this.$store.getters["badaso/getMenu"];
       },
     },
     configurationMenu: {
       get() {
-        return this.$store.getters['badaso/getConfigurationMenu'];
+        return this.$store.getters["badaso/getConfigurationMenu"];
       },
     },
     user: {
       get() {
-        let user = this.$store.getters['badaso/getUser'];
+        let user = this.$store.getters["badaso/getUser"];
         return user;
       },
     },
     getLocale: {
       get() {
-        return this.$store.getters['badaso/getLocale'];
+        return this.$store.getters["badaso/getLocale"];
       },
     },
     selectedLang: {
       get() {
-        let selected = this.$store.getters['badaso/getSelectedLocale'];
+        let selected = this.$store.getters["badaso/getSelectedLocale"];
         if (selected.key) {
           selected = selected.key;
         }

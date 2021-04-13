@@ -1,131 +1,131 @@
 .sidebarx {
-	.vs-sidebar {
-		&.vs-sidebar-parent {
-			top: $topbar-height;
-			min-height: calc(100vh - 60px);
-			position: fixed;
-			padding-bottom: 60px;
-			z-index: 15000;
-		}
-	}
-	.vs-sidebar--background {
-		z-index: 14000;
-	}
-	.vs-sidebar--item {
-		a {
-			padding: 15px 15px 15px 18px;
-			i {
-				margin-right: 5px;
-			}
-		}
+  .vs-sidebar {
+    &.vs-sidebar-parent {
+      top: $topbar-height;
+      min-height: calc(100vh - 60px);
+      position: fixed;
+      padding-bottom: 60px;
+      z-index: 15000;
+    }
+  }
+  .vs-sidebar--background {
+    z-index: 14000;
+  }
+  .vs-sidebar--item {
+    a {
+      padding: 15px 15px 15px 18px;
+      i {
+        margin-right: 5px;
+      }
+    }
 
-		a:hover {
-			color: $primary;
-		}
-	}
-	.vs-sidebar-primary {
-		a {
-			&.router-link-exact-active {
-				color: $primary !important;
-			border-left: 3px solid $primary;
-				font-weight: bold;
-				opacity: 1 !important;
-			}
-		}
-	}
+    a:hover {
+      color: $primary;
+    }
+  }
+  .vs-sidebar-primary {
+    a {
+      &.router-link-exact-active {
+        color: $primary !important;
+        border-left: 3px solid $primary;
+        font-weight: bold;
+        opacity: 1 !important;
+      }
+    }
+  }
 }
 .main-wrapper-full {
-	.sidebarx {
-		.vs-sidebar {
-			&.vs-sidebar-parent {
-				top: 0;
-				height: 100% !important;
-			}
-		}
-	}
+  .sidebarx {
+    .vs-sidebar {
+      &.vs-sidebar-parent {
+        top: 0;
+        height: 100% !important;
+      }
+    }
+  }
 }
 .vuesax-app-is-ltr {
-	.vs-sidebar-primary {
-		.vs-sidebar-item-active {
-			border-right: 0px !important;
-		}
-	}
-	.vs-sidebar-group {
-		&.vs-sidebar-group-open {
-			& > ul {
-				padding-left: 0 !important;
-			}
-		}
-	}
-	.vs-sidebar--item {
-		i {
-			&.material-icons {
-				margin-right: 16px;
-			}
-		}
-	}
+  .vs-sidebar-primary {
+    .vs-sidebar-item-active {
+      border-right: 0px !important;
+    }
+  }
+  .vs-sidebar-group {
+    &.vs-sidebar-group-open {
+      & > ul {
+        padding-left: 0 !important;
+      }
+    }
+  }
+  .vs-sidebar--item {
+    i {
+      &.material-icons {
+        margin-right: 16px;
+      }
+    }
+  }
 }
 .vs-sidebar {
-	&.vs-sidebar-reduce {
-		white-space: nowrap;
-		
-		.vs-sidebar--item {
-			i {
-				padding: 0px;
-			}
-		}
+  &.vs-sidebar-reduce {
+    white-space: nowrap;
 
-		.hide-in-minisidebar {
-			display: none;
-		}
-	}
+    .vs-sidebar--item {
+      i {
+        padding: 0px;
+      }
+    }
 
-	&.vs-sidebar-reduce:hover {
-		.hide-in-minisidebar {
-			display: block;
-		}
-	}
+    .hide-in-minisidebar {
+      display: none;
+    }
+  }
+
+  &.vs-sidebar-reduce:hover {
+    .hide-in-minisidebar {
+      display: block;
+    }
+  }
 }
 
 .header-sidebar {
-	.vs-sidebar-group {
-	  ul {
-		margin-bottom: 0;
-	  }
-	}
-  
-	.vs-sidebar-group.vs-sidebar-group-open {
-	  >ul {
-		.vs-sidebar--item {
-		  &:last-child {
-			border-bottom: none;
-		  }
-		}
-	  }
-	}  
-  }
-  
-  .vs-sidebar-group.vs-sidebar-group-open {
-	  >div {
-		  >h4 {
-			  >.vs-icon {
-				  -webkit-transform: rotate( 180deg );
-				  transform: rotate( 180deg );
-			  }
-		  }
-	  }
-  }
-  
-  .vs-sidebar--items::-webkit-scrollbar-thumb {
-	background-color: $scoll-color;
-  }
-  .vs-sidebar--items::-webkit-scrollbar-thumb:hover {
-	background-color: $scoll-hover-color;
-  }
-  .vs-sidebar {
-	background: $sidebar-bg;
+  .vs-sidebar-group {
+    ul {
+      margin-bottom: 0;
+    }
   }
 
-  .vs-sidebar-group h4 {
-	padding-left: 15px;
+  .vs-sidebar-group.vs-sidebar-group-open {
+    > ul {
+      .vs-sidebar--item {
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
   }
+}
+
+.vs-sidebar-group.vs-sidebar-group-open {
+  > div {
+    > h4 {
+      > .vs-icon {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+.vs-sidebar--items::-webkit-scrollbar-thumb {
+  background-color: $scoll-color;
+}
+.vs-sidebar--items::-webkit-scrollbar-thumb:hover {
+  background-color: $scoll-hover-color;
+}
+.vs-sidebar {
+  background: $sidebar-bg;
+}
+
+.vs-sidebar-group h4 {
+  padding-left: 15px;
+}

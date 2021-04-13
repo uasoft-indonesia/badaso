@@ -15,7 +15,6 @@
       <br />
       <vs-progress indeterminate :color="color">primary</vs-progress>
     </badaso-prompt>
-    <badaso-loader ref="loader" />
   </div>
 </template>
 

@@ -61,8 +61,7 @@ export default {
   name: "BadasoLicenseBlocker",
   components: {},
   data: () => ({}),
-  mounted() {
-  },
+  mounted() {},
   computed: {
     keyIssue: {
       get() {

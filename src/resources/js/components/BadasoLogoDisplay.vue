@@ -1,5 +1,10 @@
 <template>
-  <img v-if="adminPanelLogo && adminPanelLogo != ''" :src="adminPanelLogo" alt="adminPanelTitle" style="max-width: 100%; max-height: 30px; float: right;" />
+  <img
+    v-if="adminPanelLogo && adminPanelLogo != ''"
+    :src="adminPanelLogo"
+    alt="adminPanelTitle"
+    style="max-width: 100%; max-height: 30px; float: right;"
+  />
 </template>
 
 <script>
@@ -17,7 +22,7 @@ export default {
     adminPanelLogo: {
       get() {
         let config = this.$store.getters["badaso/getConfig"];
-        if (config.adminPanelLogo && config.adminPanelLogo != '') {
+        if (config.adminPanelLogo && config.adminPanelLogo != "") {
           return this.$api.badasoFile.view(config.adminPanelLogo);
         } else {
           return null;

@@ -19,7 +19,12 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info+'<br />'"></p>
+        <p
+          class="text-danger"
+          v-for="(info, index) in alert"
+          :key="index"
+          v-html="info + '<br />'"
+        ></p>
       </div>
       <div v-else>
         <span class="text-danger" v-html="alert"></span>
@@ -49,7 +54,7 @@ export default {
     value: {
       type: Array,
       default: () => {
-        return []
+        return [];
       },
     },
     items: {
@@ -61,7 +66,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String|Array,
+      type: String | Array,
       default: "",
     },
   },

@@ -1,7 +1,7 @@
-import Pages from './../../pages/index'
+import Pages from "./../../pages/index";
 
 let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? '/' + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+  ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-admin";
 
 let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
@@ -257,7 +257,9 @@ export default [
   {
     path: prefix + "/" + log_viewer,
     name: "LogViewer",
-    beforeEnter() { location.href = "/" + log_viewer},
+    beforeEnter() {
+      location.href = "/" + log_viewer;
+    },
     meta: {
       title: "Browse Log Viewer",
     },

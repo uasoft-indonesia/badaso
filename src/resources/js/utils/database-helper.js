@@ -4,29 +4,29 @@ export default {
       {
         label: "-",
         value: null,
-        default: true
+        default: true,
       },
       {
         label: "Unique",
         value: "unique",
-        default: false
+        default: false,
       },
       {
         label: "Index",
         value: "index",
-        default: false
+        default: false,
       },
       {
         label: "Spatial Index",
         value: "spatialIndex",
-        default: false
+        default: false,
       },
       {
         label: "Primary",
         value: "primary",
-        default: false
+        default: false,
       },
-    ]
+    ];
   },
 
   getMigrationDefaultList() {
@@ -34,36 +34,36 @@ export default {
       {
         label: "-",
         value: null,
-        default: true
+        default: true,
       },
       {
         label: "As Defined",
         value: "as_defined",
-        default: false
+        default: false,
       },
       {
         label: "Current Timestamp",
         value: "current_timestamp",
-        default: false
+        default: false,
       },
       {
         label: "Null",
         value: "null",
-        default: false
-      }
-    ]
+        default: false,
+      },
+    ];
   },
 
   getMigrationAttributeList() {
     return [
       {
         label: "-",
-        value: null
+        value: null,
       },
       {
         label: "Unsigned",
         value: "unsigned",
-      }
-    ]
+      },
+    ];
   },
-}
+};

@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 let exported = {};
-let languages = []
+let languages = [];
 
 // DYNAMIC IMPORT BADASO LANG
 try {
@@ -23,11 +23,11 @@ try {
         }
       })
       .join("");
-    
-      languages.push({
-        label: modules(fileName).label,
-        key: property
-      })
+
+    languages.push({
+      label: modules(fileName).label,
+      key: property,
+    });
     exported[property] = modules(fileName).default;
   });
 } catch (error) {
@@ -59,13 +59,16 @@ try {
       })
       .join("");
     if (exported[property]) {
-      exported[property] = _.merge(exported[property], modules(fileName).default);
+      exported[property] = _.merge(
+        exported[property],
+        modules(fileName).default
+      );
     } else {
       exported[property] = modules(fileName).default;
       languages.push({
         label: modules(fileName).label,
-        key: property
-      })
+        key: property,
+      });
     }
   });
 } catch (error) {
@@ -74,5 +77,5 @@ try {
 
 export default {
   languages,
-  i18n: exported
+  i18n: exported,
 };

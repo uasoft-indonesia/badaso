@@ -61,8 +61,7 @@
 <script>
 export default {
   name: "RoleManagementAdd",
-  components: {
-  },
+  components: {},
   data: () => ({
     errors: {},
     role: {
@@ -75,16 +74,16 @@ export default {
   methods: {
     submitForm() {
       this.errors = {};
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .add(this.role)
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({ name: "RoleManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

@@ -44,7 +44,10 @@
               <label for="" class="vs-input--label">{{
                 $t("site.add.field.options.title")
               }}</label>
-              <badaso-code-editor v-model="config.details" :alert="errors.details">
+              <badaso-code-editor
+                v-model="config.details"
+                :alert="errors.details"
+              >
               </badaso-code-editor>
             </vs-col>
             <vs-col vs-lg="12">
@@ -74,8 +77,7 @@
 <script>
 export default {
   name: "SiteManagementAdd",
-  components: {
-  },
+  components: {},
   data: () => ({
     errors: {},
     config: {
@@ -97,27 +99,27 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters['badaso/getComponent'];
+        return this.$store.getters["badaso/getComponent"];
       },
     },
     groupList: {
       get() {
-        return this.$store.getters['badaso/getSiteGroup'];
+        return this.$store.getters["badaso/getSiteGroup"];
       },
     },
   },
   methods: {
     submitForm() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoConfiguration
         .add(this.$caseConvert.snake(this.config))
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({ name: "SiteManagementBrowse" });
         })
         .catch((error) => {
-          this.errors = error.errors
-          this.$closeLoader()
+          this.errors = error.errors;
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

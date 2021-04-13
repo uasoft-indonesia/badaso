@@ -29,7 +29,9 @@
             style="font-size: 1rem"
           ></vs-icon>
         </div>
-        <div style="margin-top: auto; margin-bottom: auto; margin-left: 10px; white-space: nowrap;">
+        <div
+          style="margin-top: auto; margin-bottom: auto; margin-left: 10px; white-space: nowrap;"
+        >
           <slot />
         </div>
       </div>
@@ -52,7 +54,9 @@
             style="font-size: 1rem"
           ></vs-icon>
         </div>
-        <div style="margin-top: auto; margin-bottom: auto; margin-left: 10px; white-space: nowrap;">
+        <div
+          style="margin-top: auto; margin-bottom: auto; margin-left: 10px; white-space: nowrap;"
+        >
           <slot />
         </div>
       </div>

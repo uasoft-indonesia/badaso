@@ -149,15 +149,15 @@ export default {
       });
     },
     getTableList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoCrud
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -166,18 +166,18 @@ export default {
         });
     },
     deleteCRUDData() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoCrud
         .delete({
           id: this.willDeleteId,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getTableList();
           this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

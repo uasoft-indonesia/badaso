@@ -14,7 +14,10 @@
           color="primary"
           type="relief"
           @click.stop
-          :to="{ name: 'RoleManagementPermissions', params: { id: $route.params.id } }"
+          :to="{
+            name: 'RoleManagementPermissions',
+            params: { id: $route.params.id },
+          }"
           v-if="$helper.isAllowed('browse_role_permission')"
           ><vs-icon icon="list"></vs-icon>
           {{ $t("role.detail.button.permission") }}</vs-button
@@ -50,8 +53,7 @@
 <script>
 export default {
   name: "RoleManagementRead",
-  components: {
-  },
+  components: {},
   data: () => ({
     role: {},
   }),
@@ -60,17 +62,17 @@ export default {
   },
   methods: {
     getRoleDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.role = response.data.role;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

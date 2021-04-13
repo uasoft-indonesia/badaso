@@ -76,10 +76,10 @@ export default {
 </script>
 
 <style>
-    .vs-breadcrumb--ol {
-        margin-bottom: 0;
-    }
-    .vs-row {
-        margin-bottom: 1rem;
-    }
+.vs-breadcrumb--ol {
+  margin-bottom: 0;
+}
+.vs-row {
+  margin-bottom: 1rem;
+}
 </style>

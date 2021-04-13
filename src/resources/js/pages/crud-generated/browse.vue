@@ -35,7 +35,17 @@
         >
       </template>
     </badaso-breadcrumb-row>
+
     <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
+      <vs-col vs-lg="12">
+        <vs-alert :active="Object.keys(errors).length > 0" color="danger" icon="new_releases" style="margin-bottom: 20px;" >
+          <span v-for="key in Object.keys(errors)">
+            <span v-for="err in errors[key]">
+              {{err}}
+            </span>
+          </span>
+        </vs-alert>
+      </vs-col>
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -594,6 +604,7 @@ export default {
   components: {},
   name: "CrudGeneratedBrowse",
   data: () => ({
+    errors: {},
     data: {},
     descriptionItems: [10, 50, 100],
     selected: [],
@@ -720,6 +731,7 @@ export default {
           this.getEntity();
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -746,6 +758,7 @@ export default {
           this.getEntity();
         })
         .catch((error) => {
+          this.errors = error.errors
           this.$closeLoader()
           this.$vs.notify({
             title: this.$t("alert.danger"),
