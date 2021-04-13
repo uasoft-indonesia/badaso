@@ -38,7 +38,143 @@ To do : complete this section
 
 ## Development Workflow
 
-To do : complete this section
+Before develop Badaso, please get BADASO_LICENSE_KEY by  register on <a href="https://badaso.uatech.co.id/" target="_blank">Badaso</a> or contact badaso core team. This key must be included in the laravel project's .env.
+Steps for registering and getting a license on Badaso Dashboard can be found on <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">Badaso Docs</a>.
+
+### Installation step
+
+After getting the license, you can proceed to Badaso installation.
+
+1, Clone badaso into Laravel project. Sample:
+- Root Laravel Project
+  - packages // new folder
+    - uasoft-indonesia // new folder
+      - badaso // clone here
+
+cd into uasoft-indonesia directory, then run
+```
+git clone https://github.com/uasoft-indonesia/badaso.git
+```
+
+2. Add the following Badaso provider and JWT provider to ```config/app.php```.
+
+```
+'providers' => [
+  ...,
+  Uasoft\Badaso\Providers\BadasoServiceProvider::class,
+  Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+]
+```
+
+3. Add the following aliases to ```config/app.php```.
+```
+'aliases' => [
+  ...,
+  'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+  'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+]
+```
+
+4. Run the following commands in sequence.
+```
+php artisan vendor:publish --tag=Badaso
+php artisan vendor:publish --provider="Spatie\Backup\BackupServiceProvider"
+php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="config"
+composer dump-autoload
+php artisan migrate
+php artisan db:seed --class=BadasoSeeder
+```
+
+5. Run the following commands to update dependencies in package.json and webpack.
+```
+php artisan badaso:setup
+```
+
+6. Open the ```env``` file then add the following lines and fill in the value of each value if needed.
+```
+#Set a key as secret key for generating JWT token
+JWT_SECRET=
+
+#Set JWT Token lifetime, default 60 minutes
+BADASO_AUTH_TOKEN_LIFETIME=
+
+#License key that can accuired in Badaso Dashbord
+BADASO_LICENSE_KEY=
+
+#Set default menu to generate menu in dashboard. 
+#By default Badaso provide `admin` as default menu
+MIX_DEFAULT_MENU=admin
+
+#Set Route prefix for your dashboard. 
+#Access dashboard via {HOST}/{MIX_ADMIN_PANEL_ROUTE_PREFIX}
+MIX_ADMIN_PANEL_ROUTE_PREFIX=dashboard
+
+#Set prefix for api that badaso provide. By default 
+#Badaso provide `badaso-api` as prefix. 
+MIX_API_ROUTE_PREFIX=admin
+
+#Badaso provide Log Viewer feature. please set a route to access this feature
+MIX_LOG_VIEWER_ROUTE="log-viewer"
+```
+:::important
+MIX_ADMIN_PANEL_ROUTE_PREFIX, MIX_API_ROUTE_PREFIX & MIX_LOG_VIEWER_ROUTE should be different
+:::
+
+7. Add the following Badaso guard and auth provider in ```config/auth.php```. Make sure to use Badaso guard as auth default in ```config/auth.php```.
+<!--DOCUSAURUS_CODE_TABS-->
+<!--PHP-->
+```php
+return [
+  'defaults' => [
+    'guard' => 'badaso_guard',
+    'passwords' => 'users',
+  ],
+
+  'guards' => [
+    ...,
+    'badaso_guard' => [
+        'driver' => 'jwt',
+        'provider' => 'badaso_users',
+    ],
+  ],
+
+  'providers' => [
+    ...,
+    'badaso_users' => [
+        'driver' => 'eloquent',
+        'model' => \Uasoft\Badaso\Models\User::class,
+    ],
+  ],
+
+  ...,
+]
+```
+<!--END_DOCUSAURUS_CODE_TABS-->
+
+8. Create an admin account by typing the following command.
+```
+php artisan badaso:admin your@email.com --create
+```
+
+9. Run the command ```npm install``` to install all of dependencies
+10. Update webpack.mix.js from
+```
+// Badaso
+mix.js(
+        "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
+        "public/js/badaso.js"
+    )
+```
+into
+```
+// Badaso
+mix.js(
+        "packages/uasoft-indonesia/badaso/src/resources/js/app.js",
+        "public/js/badaso.js"
+    )
+```
+10. Run laravel with the command ```npm run watch``` if it is under development environment or ```npm run prod``` for production environment.
 
 ## Running the tests
 
