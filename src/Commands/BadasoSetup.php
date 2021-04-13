@@ -96,16 +96,13 @@ class BadasoSetup extends Command
         if ($this->checkExist($mix_file, $search)) {
             $data =
         <<<EOT
+
         // Badaso
         mix
             .js(
                 "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
                 "public/js/badaso.js"
             )
-            .sass(
-                'vendor/uasoft-indonesia/badaso/src/resources/sass/app.scss',
-                'public/css/badaso.css'
-            );
         EOT;
 
             $this->file->append($mix_file, $data);
