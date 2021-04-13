@@ -75,8 +75,7 @@
 <script>
 export default {
   name: "RoleManagementPermission",
-  components: {
-  },
+  components: {},
   data: () => ({
     rolePermissions: [],
   }),
@@ -85,17 +84,17 @@ export default {
   },
   methods: {
     getRolePermissions() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .permissions({
           roleId: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.rolePermissions = [...response.data.rolePermissions];
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -113,14 +112,14 @@ export default {
         (permission) => permission.id
       );
 
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .addPermissions({
           roleId: this.$route.params.id,
           permissions: selectedPermissions,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$store.commit("badaso/FETCH_USER");
@@ -132,7 +131,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

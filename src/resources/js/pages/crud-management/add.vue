@@ -66,7 +66,9 @@
               size="6"
               :label="$t('crud.add.field.icon.title')"
               :placeholder="$t('crud.add.field.icon.placeholder')"
-              :additionalInfo="$t('menu.builder.popup.edit.field.icon.description')"
+              :additionalInfo="
+                $t('menu.builder.popup.edit.field.icon.description')
+              "
               :alert="errors.icon"
             ></badaso-text>
             <badaso-text
@@ -304,7 +306,9 @@
                               color="danger"
                               @click="field.setRelation = false"
                               type="relief"
-                              >{{ $t("crud.add.body.cancelRelation") }}</vs-button
+                              >{{
+                                $t("crud.add.body.cancelRelation")
+                              }}</vs-button
                             >
                           </vs-col>
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
@@ -313,9 +317,7 @@
                               color="primary"
                               @click="saveRelation(field)"
                               type="relief"
-                              >{{
-                                $t("crud.add.body.saveRelation")
-                              }}</vs-button
+                              >{{ $t("crud.add.body.saveRelation") }}</vs-button
                             >
                           </vs-col>
                         </vs-row>
@@ -601,7 +603,7 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters['badaso/getComponent'];
+        return this.$store.getters["badaso/getComponent"];
       },
     },
   },
@@ -664,18 +666,18 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoCrud
         .add(this.crudData)
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_USER");
           this.$router.push({ name: "CrudManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -684,7 +686,7 @@ export default {
         });
     },
     getTableDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoTable
         .read({
           table: this.$route.params.tableName,
@@ -714,22 +716,22 @@ export default {
               setRelation: false,
             };
           });
-          this.$closeLoader()
+          this.$closeLoader();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
         });
     },
     getRelationTypes() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoData
         .tableRelations()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.relationTypes = response.data.tableRelations;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -738,15 +740,15 @@ export default {
         });
     },
     getDestinationTables() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoTable
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.destinationTables = response.data.tables;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -755,17 +757,17 @@ export default {
         });
     },
     getDestinationTableColumns(table) {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoTable
         .read({
           table,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.destinationTableColumns = response.data.tableFields;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

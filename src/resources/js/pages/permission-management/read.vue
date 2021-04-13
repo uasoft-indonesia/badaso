@@ -5,7 +5,10 @@
         <vs-button
           color="warning"
           type="relief"
-          :to="{ name: 'PermissionManagementEdit', params: { id: $route.params.id } }"
+          :to="{
+            name: 'PermissionManagementEdit',
+            params: { id: $route.params.id },
+          }"
           v-if="$helper.isAllowed('edit_permissions')"
           ><vs-icon icon="edit"></vs-icon>
           {{ $t("permission.detail.button") }}</vs-button
@@ -70,8 +73,7 @@
 <script>
 export default {
   name: "PermissionManagementRead",
-  components: {
-  },
+  components: {},
   data: () => ({
     permission: {},
   }),
@@ -80,17 +82,17 @@ export default {
   },
   methods: {
     getPermissionDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoPermission
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.permission = response.data.permission;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

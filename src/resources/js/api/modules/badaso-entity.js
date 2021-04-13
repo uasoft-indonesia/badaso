@@ -2,10 +2,10 @@ import resource from "../resource";
 import QueryString from "../query-string";
 
 let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
-? '/' + process.env.MIX_API_ROUTE_PREFIX
-: "/badaso-api";
+  ? "/" + process.env.MIX_API_ROUTE_PREFIX
+  : "/badaso-api";
 
-const entity_prefix = apiPrefix + '/v1/entities';
+const entity_prefix = apiPrefix + "/v1/entities";
 
 export default {
   browse(data = {}) {

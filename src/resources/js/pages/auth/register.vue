@@ -5,7 +5,9 @@
     style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
   >
     <vs-card class="mb-0">
-      <badaso-auth-card-header slot="header">{{ $t("register.title") }}</badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">{{
+        $t("register.title")
+      }}</badaso-auth-card-header>
       <div>
         <form novalidate="novalidate">
           <vs-input
@@ -22,7 +24,7 @@
                 class="text-danger"
                 v-for="(info, index) in errors.name"
                 :key="index"
-                v-html="info+'<br />'"
+                v-html="info + '<br />'"
               ></span>
             </div>
             <div v-else>
@@ -112,7 +114,7 @@ export default {
   }),
   methods: {
     register() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoAuth
         .register({
           name: this.name,
@@ -121,7 +123,7 @@ export default {
           passwordConfirmation: this.passwordConfirmation,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           if (response.data.accessToken) {
             this.$router.push({ name: "AuthLogin" });
           } else {
@@ -135,7 +137,7 @@ export default {
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

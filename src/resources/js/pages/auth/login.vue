@@ -1,7 +1,9 @@
 <template>
   <vs-col vs-lg="12" class="login-register-box">
-    <vs-card class="mb-0"> 
-      <badaso-auth-card-header slot="header">{{ $t("login.title") }}</badaso-auth-card-header>
+    <vs-card class="mb-0">
+      <badaso-auth-card-header slot="header">{{
+        $t("login.title")
+      }}</badaso-auth-card-header>
       <div>
         <form @submit="login()">
           <vs-input
@@ -103,7 +105,7 @@ export default {
   }),
   methods: {
     login() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badaso
         .verify()
         .then((res) => {
@@ -117,7 +119,7 @@ export default {
               remember: this.rememberMe,
             })
             .then((response) => {
-              this.$closeLoader()
+              this.$closeLoader();
               if (response.data.accessToken) {
                 this.$router.push({ name: "Home" });
               } else {
@@ -131,7 +133,7 @@ export default {
             })
             .catch((error) => {
               this.errors = error.errors;
-              this.$closeLoader()
+              this.$closeLoader();
               this.$vs.notify({
                 title: this.$t("alert.danger"),
                 text: error.message,
@@ -140,7 +142,7 @@ export default {
             });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

@@ -13,7 +13,10 @@
           color="primary"
           type="relief"
           @click.stop
-          :to="{ name: 'UserManagementRoles', params: { id: $route.params.id } }"
+          :to="{
+            name: 'UserManagementRoles',
+            params: { id: $route.params.id },
+          }"
           v-if="$helper.isAllowed('browse_user_role')"
           ><vs-icon icon="list"></vs-icon> {{ $t("action.roles") }}</vs-button
         >
@@ -67,8 +70,7 @@
 <script>
 export default {
   name: "UserManagementRead",
-  components: {
-  },
+  components: {},
   data: () => ({
     user: {},
   }),
@@ -77,18 +79,18 @@ export default {
   },
   methods: {
     getUserDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoUser
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.user = response.data.user;
           this.user.additionalInfo = JSON.parse(this.user.additionalInfo);
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

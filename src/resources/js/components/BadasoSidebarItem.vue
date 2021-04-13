@@ -1,78 +1,62 @@
 <template>
   <div
-    :class="{'vs-sidebar-item-active':getActive}"
+    :class="{ 'vs-sidebar-item-active': getActive }"
     class="vs-sidebar--item"
-    @click="setIndexActive">
-    <router-link
-      v-if="to && target === '_self'"
-      :to="to">
-      <vs-icon
-        :icon-pack="iconPack"
-        :icon="icon">
-      </vs-icon>
+    @click="setIndexActive"
+  >
+    <router-link v-if="to && target === '_self'" :to="to">
+      <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
       <slot></slot>
     </router-link>
-    <a
-      v-else-if="to && target != '_self'"
-      :target="target"
-      :href="to">
-      <vs-icon
-        :icon-pack="iconPack"
-        :icon="icon">
-      </vs-icon>
+    <a v-else-if="to && target != '_self'" :target="target" :href="to">
+      <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
       <slot></slot>
     </a>
-    <a
-      v-else
-      :target="target"
-      :href="href">
-      <vs-icon
-        :icon-pack="iconPack"
-        :icon="icon">
-      </vs-icon>
+    <a v-else :target="target" :href="href">
+      <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
       <slot></slot>
     </a>
   </div>
 </template>
 <script>
 export default {
-  name:'BadasoSidebarItem',
-  props:{
+  name: "BadasoSidebarItem",
+  props: {
     icon: {
       default: null,
-      type: String
+      type: String,
     },
     iconPack: {
-      default: 'material-icons',
-      type: String
+      default: "material-icons",
+      type: String,
     },
     href: {
-      default:'#',
-      type: String
+      default: "#",
+      type: String,
     },
     target: {
-      default:'_self',
-      type: String
+      default: "_self",
+      type: String,
     },
     to: {
-      default:null,
-      type: [String, Object]
+      default: null,
+      type: [String, Object],
     },
     index: {
       default: null,
-      type: [String, Number]
+      type: [String, Number],
     },
   },
-  computed:{
-    getActive () {
-      return this.$parent.getActive() == this.index
-    }
+  computed: {
+    getActive() {
+      return this.$parent.getActive() == this.index;
+    },
   },
-  methods:{
-    setIndexActive () {
-      this.$parent.setIndexActive(this.index)
-      this.$emit('click')
-    }
-  }
-}
+  methods: {
+    setIndexActive() {
+      this.$parent.setIndexActive(this.index);
+      this.$emit("click");
+    },
+  },
+};
 </script>

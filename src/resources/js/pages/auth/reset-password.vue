@@ -14,7 +14,9 @@
     </vs-alert>
 
     <vs-card class="mb-0">
-      <badaso-auth-card-header slot="header">{{ $t("resetPassword.title") }}</badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">{{
+        $t("resetPassword.title")
+      }}</badaso-auth-card-header>
       <div>
         <vs-input
           icon="lock"
@@ -61,7 +63,7 @@ export default {
   }),
   methods: {
     resetPassword() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoAuth
         .resetPassword({
           email: this.$router.currentRoute.query.email,
@@ -70,7 +72,7 @@ export default {
           password_confirmation: this.passwordConfirmation,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.res = {
             status: "success",
             icon: "done",
@@ -81,7 +83,7 @@ export default {
           }, 5000);
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.res = {
             status: "danger",
             icon: "dangerous",

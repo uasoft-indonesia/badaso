@@ -268,7 +268,7 @@ export default {
   computed: {
     componentList: {
       get() {
-        return this.$store.getters['badaso/getComponent'];
+        return this.$store.getters["badaso/getComponent"];
       },
     },
   },
@@ -286,16 +286,16 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoCrud
         .add(this.$caseConvert.snake(this.crudData))
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$store.commit("badaso/FETCH_MENU");
           this.$router.push({ name: "CrudManagementBrowseBrowse" });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: "Danger",
             text: error.message,
@@ -304,7 +304,7 @@ export default {
         });
     },
     getTableDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoTable
         .read({
           table: this.$route.params.tableName,
@@ -333,10 +333,10 @@ export default {
               order: 1,
             };
           });
-          this.$closeLoader()
+          this.$closeLoader();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
         });
     },
   },

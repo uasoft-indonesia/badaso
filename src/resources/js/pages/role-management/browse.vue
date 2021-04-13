@@ -133,8 +133,7 @@
 <script>
 export default {
   name: "RoleManagementBrowse",
-  components: {
-  },
+  components: {},
   data: () => ({
     selected: [],
     descriptionItems: [10, 50, 100],
@@ -173,16 +172,16 @@ export default {
       });
     },
     getRoleList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.selected = [];
           this.roles = response.data.roles;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -191,17 +190,17 @@ export default {
         });
     },
     deleteRole() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .delete({
           id: this.willDeleteId,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getRoleList();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -211,17 +210,17 @@ export default {
     },
     bulkDeleteRole() {
       const ids = this.selected.map((item) => item.id);
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .deleteMultiple({
           ids: ids.join(","),
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getRoleList();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

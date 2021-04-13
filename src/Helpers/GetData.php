@@ -11,6 +11,9 @@ class GetData
     public static function serverSideWithModel($data_type, $builder_params)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
+        $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
+        $fields = array_merge($fields, $ids);
+
         $model = app($data_type->model_name);
         $limit = $builder_params['limit'];
         $order_field = $builder_params['order_field'];
@@ -58,6 +61,9 @@ class GetData
     public static function clientSideWithModel($data_type, $builder_params)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
+        $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
+        $fields = array_merge($fields, $ids);
+
         $model = app($data_type->model_name);
         $order_field = $builder_params['order_field'];
         $order_direction = $builder_params['order_direction'];
@@ -95,6 +101,9 @@ class GetData
     public static function serverSideWithQueryBuilder($data_type, $builder_params)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
+        $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
+        $fields = array_merge($fields, $ids);
+
         $limit = $builder_params['limit'];
         $page = $builder_params['page'];
         $order_field = $builder_params['order_field'];
@@ -151,7 +160,8 @@ class GetData
     public static function clientSideWithQueryBuilder($data_type, $builder_params)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
-
+        $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
+        $fields = array_merge($fields, $ids);
         $order_field = $builder_params['order_field'];
         $order_direction = $builder_params['order_direction'];
 

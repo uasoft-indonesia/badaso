@@ -61,8 +61,7 @@
 <script>
 export default {
   name: "RoleManagementEdit",
-  components: {
-  },
+  components: {},
   data: () => ({
     errors: {},
     role: {
@@ -76,13 +75,13 @@ export default {
   },
   methods: {
     getRoleDetail() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .read({
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.role = response.data.role;
           this.role.name = this.role.name ? this.role.name : "";
           this.role.displayName = this.role.displayName
@@ -93,7 +92,7 @@ export default {
             : "";
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: "Danger",
             text: error.message,
@@ -103,16 +102,16 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoRole
         .edit(this.role)
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$router.push({ name: "RoleManagementBrowse" });
         })
         .catch((error) => {
           this.errors = error.errors;
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: "Danger",
             text: error.message,

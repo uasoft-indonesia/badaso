@@ -29,7 +29,11 @@ Vue.use(Vuelidate);
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
-  const requireComponent = require.context("./components", false, /[\w-]+\.vue$/);
+  const requireComponent = require.context(
+    "./components",
+    false,
+    /[\w-]+\.vue$/
+  );
   requireComponent.keys().forEach((fileName) => {
     const componentConfig = requireComponent(fileName);
     const componentName = fileName
@@ -81,11 +85,7 @@ try {
 
 // DYNAMIC IMPORT BADASO UTILS
 try {
-  const requireUtils = require.context(
-    "./utils",
-    false,
-    /\.js$/
-  );
+  const requireUtils = require.context("./utils", false, /\.js$/);
   requireUtils.keys().forEach((fileName) => {
     let utilName = fileName
       .replace("./", "")
@@ -191,21 +191,21 @@ let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-admin";
 Vue.prototype.$baseUrl = "/" + baseUrl;
 
-Vue.prototype.$openLoader = function (payload) {
+Vue.prototype.$openLoader = function(payload) {
   try {
-    this.$root.$children[0].openLoader(payload)
+    this.$root.$children[0].openLoader(payload);
   } catch (error) {
-    console.log('Open Loader', error)
+    console.log("Open Loader", error);
   }
-}
+};
 
-Vue.prototype.$closeLoader = function () {
+Vue.prototype.$closeLoader = function() {
   try {
-    this.$root.$children[0].closeLoader()
+    this.$root.$children[0].closeLoader();
   } catch (error) {
-    console.log('Close Loader', error)
+    console.log("Close Loader", error);
   }
-}
+};
 
 const app = new Vue({
   store,

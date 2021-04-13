@@ -75,8 +75,7 @@
 <script>
 export default {
   name: "UserManagementAdd",
-  components: {
-  },
+  components: {},
   data: () => ({
     errors: {},
     user: {
@@ -96,7 +95,7 @@ export default {
         if (this.user.additionalInfo && this.user.additionalInfo != "") {
           JSON.parse(this.user.additionalInfo);
         }
-        this.$openLoader()
+        this.$openLoader();
         this.$api.badasoUser
           .add({
             email: this.user.email,
@@ -107,12 +106,12 @@ export default {
             additionalInfo: this.user.additionalInfo,
           })
           .then((response) => {
-            this.$closeLoader()
+            this.$closeLoader();
             this.$router.push({ name: "UserManagementBrowse" });
           })
           .catch((error) => {
             this.errors = error.errors;
-            this.$closeLoader()
+            this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: error.message,

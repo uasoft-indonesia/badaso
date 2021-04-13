@@ -9,30 +9,36 @@
       icon-after="true"
     ></vs-input>
     <vs-row>
-    <vs-col vs-lg="4" vs-sm="12" v-for="(fileData, index) in value" :key="index" style="float: left">
-      <div class="file-container">
-        <vs-button
-          class="delete-file"
-          color="danger"
-          icon="close"
-          @click="deleteFilePicked(fileData)"
-        ></vs-button>
-        <div class="file">
-          <a
-            v-if="fileData.name"
-            target="_blank"
-            :href="`${$api.badasoFile.download(fileData.name)}`"
-            >{{ fileData.name }}</a
-          >
-          <a
-            v-else
-            target="_blank"
-            :href="`${$api.badasoFile.download(fileData)}`"
-            >{{ fileData.split('/').reverse()[0] }}</a
-          >
+      <vs-col
+        vs-lg="4"
+        vs-sm="12"
+        v-for="(fileData, index) in value"
+        :key="index"
+        style="float: left"
+      >
+        <div class="file-container">
+          <vs-button
+            class="delete-file"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(fileData)"
+          ></vs-button>
+          <div class="file">
+            <a
+              v-if="fileData.name"
+              target="_blank"
+              :href="`${$api.badasoFile.download(fileData.name)}`"
+              >{{ fileData.name }}</a
+            >
+            <a
+              v-else
+              target="_blank"
+              :href="`${$api.badasoFile.download(fileData)}`"
+              >{{ fileData.split("/").reverse()[0] }}</a
+            >
+          </div>
         </div>
-      </div>
-    </vs-col>
+      </vs-col>
     </vs-row>
     <input
       type="file"
@@ -44,7 +50,12 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info+'<br />'"></p>
+        <p
+          class="text-danger"
+          v-for="(info, index) in alert"
+          :key="index"
+          v-html="info + '<br />'"
+        ></p>
       </div>
       <div v-else>
         <span class="text-danger" v-html="alert"></span>
@@ -82,7 +93,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String|Array,
+      type: String | Array,
       default: "",
     },
   },

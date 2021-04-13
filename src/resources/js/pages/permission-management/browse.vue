@@ -182,16 +182,16 @@ export default {
       });
     },
     getPermissionList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoPermission
         .browse()
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.selected = [];
           this.permissions = response.data.permissions;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -200,17 +200,17 @@ export default {
         });
     },
     deletePermission() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoPermission
         .delete({
           id: this.willDeleteId,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getPermissionList();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -220,17 +220,17 @@ export default {
     },
     bulkDeletePermission() {
       const ids = this.selected.map((item) => item.id);
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoPermission
         .deleteMultiple({
           ids: ids.join(","),
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getPermissionList();
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

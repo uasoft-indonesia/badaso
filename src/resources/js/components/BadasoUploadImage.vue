@@ -12,14 +12,27 @@
     ></vs-input>
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12">
-        <div class="image-container"  v-if="imageData.base64">
-        <vs-button class="delete-image" color="danger" icon="close" @click="deleteFilePicked(imageData)"></vs-button>
-        <img :src="imageData.base64" class="image" />
-    </div>
-    <div class="image-container" v-else-if="isString(value) && value !== ''">
-        <vs-button class="delete-image" color="danger" icon="close" @click="deleteStoredFile(value)"></vs-button>
-        <img :src="`${$api.badasoFile.view(value)}`" class="image" />
-    </div>
+        <div class="image-container" v-if="imageData.base64">
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(imageData)"
+          ></vs-button>
+          <img :src="imageData.base64" class="image" />
+        </div>
+        <div
+          class="image-container"
+          v-else-if="isString(value) && value !== ''"
+        >
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteStoredFile(value)"
+          ></vs-button>
+          <img :src="`${$api.badasoFile.view(value)}`" class="image" />
+        </div>
       </vs-col>
     </vs-row>
     <input
@@ -32,7 +45,12 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info+'<br />'"></p>
+        <p
+          class="text-danger"
+          v-for="(info, index) in alert"
+          :key="index"
+          v-html="info + '<br />'"
+        ></p>
       </div>
       <div v-else>
         <span class="text-danger" v-html="alert"></span>
@@ -58,7 +76,7 @@ export default {
       default: "Upload Image",
     },
     value: {
-      type: Object|String,
+      type: Object | String,
       default: () => {
         return null;
       },
@@ -68,15 +86,15 @@ export default {
       default: "",
     },
     alert: {
-      type: String|Array,
+      type: String | Array,
       default: "",
     },
   },
   data() {
     return {
       imageData: {
-        name: '',
-        base64: '',
+        name: "",
+        base64: "",
         file: {},
       },
     };
@@ -93,7 +111,7 @@ export default {
           this.errorMessages = ["Out of limit size"];
           return;
         }
-        let imageData = {}
+        let imageData = {};
         imageData.name = files[0].name;
         if (imageData.name.lastIndexOf(".") <= 0) {
           return;
@@ -103,7 +121,7 @@ export default {
         fr.addEventListener("load", () => {
           imageData.base64 = fr.result;
           imageData.file = files[0];
-          this.imageData = imageData
+          this.imageData = imageData;
         });
       } else {
         this.imageData.name = "";
@@ -115,17 +133,15 @@ export default {
       }, 200);
     },
     deleteFilePicked(e) {
-      this.imageData = {}
+      this.imageData = {};
     },
     deleteStoredFile(e) {
       this.$emit("input", null);
     },
     isString(str) {
-      if (typeof str === 'string' || str instanceof String)
-        return true
-      else
-        return false
-    }
+      if (typeof str === "string" || str instanceof String) return true;
+      else return false;
+    },
   },
 };
 </script>
@@ -140,16 +156,16 @@ export default {
   max-width: unset;
 }
 .image {
-    width: 100%
+  width: 100%;
 }
 
 .delete-image {
-    opacity: 0;
-    position: absolute;
-    transition: all .2s ease
+  opacity: 0;
+  position: absolute;
+  transition: all 0.2s ease;
 }
 
 .image-container:hover .delete-image {
-    opacity: 1;
+  opacity: 1;
 }
 </style>

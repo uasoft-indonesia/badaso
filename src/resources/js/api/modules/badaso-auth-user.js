@@ -1,27 +1,27 @@
 import resource from "../resource";
 
 let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
-? '/' + process.env.MIX_API_ROUTE_PREFIX
-: "/badaso-api";
+  ? "/" + process.env.MIX_API_ROUTE_PREFIX
+  : "/badaso-api";
 
 export default {
   user() {
-    return resource.get(apiPrefix + '/v1/auth/user');
+    return resource.get(apiPrefix + "/v1/auth/user");
   },
 
   changePassword(data) {
-    return resource.put(apiPrefix + '/v1/auth/user/change-password', data);
+    return resource.put(apiPrefix + "/v1/auth/user/change-password", data);
   },
 
   updateProfile(data) {
-    return resource.put(apiPrefix + '/v1/auth/user/profile', data);
+    return resource.put(apiPrefix + "/v1/auth/user/profile", data);
   },
 
   updateEmail(data) {
-    return resource.put(apiPrefix + '/v1/auth/user/email', data);
+    return resource.put(apiPrefix + "/v1/auth/user/email", data);
   },
 
   verifyEmail(data) {
-    return resource.post(apiPrefix + '/v1/auth/user/verify-email', data);
+    return resource.post(apiPrefix + "/v1/auth/user/verify-email", data);
   },
 };

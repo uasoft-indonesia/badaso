@@ -69,8 +69,7 @@
 <script>
 export default {
   name: "UserManagementRoles",
-  components: {
-  },
+  components: {},
   data: () => ({
     roles: [],
     userRoles: [],
@@ -80,17 +79,17 @@ export default {
   },
   methods: {
     getUserRoles() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoUser
         .roles({
           userId: this.$route.params.id,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.userRoles = [...response.data.userRoles];
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -104,14 +103,14 @@ export default {
       });
       selectedRoles = selectedRoles.map((role) => role.id);
 
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoUser
         .addRoles({
           userId: this.$route.params.id,
           roles: selectedRoles,
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getUserRoles();
           this.$vs.notify({
             title: this.$t("user.roles.success.title"),
@@ -120,7 +119,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,

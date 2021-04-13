@@ -31,7 +31,7 @@ a:hover {
 }
 
 .cursor-pointer {
-  cursor: pointer
+  cursor: pointer;
 }
 
 button:focus {
@@ -83,7 +83,6 @@ hr {
 .full-height {
   min-height: 100vh;
 }
-
 
 // S Comment
 .col-1,
@@ -173,11 +172,11 @@ hr {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--vs-primary), .2);
+    background-color: rgba(var(--vs-primary), 0.2);
     border-radius: 20px;
 
     &:hover {
-      background-color: rgba(var(--vs-primary), .5);
+      background-color: rgba(var(--vs-primary), 0.5);
     }
   }
 }

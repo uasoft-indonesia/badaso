@@ -11,7 +11,12 @@
       icon-after="true"
     ></vs-input>
     <vs-row>
-      <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
+      <vs-col
+        vs-lg="4"
+        vs-sm="12"
+        v-for="(imageData, index) in value"
+        :key="index"
+      >
         <div class="image-container" v-if="imageData.base64">
           <vs-button
             class="delete-image"
@@ -28,10 +33,7 @@
             icon="close"
             @click="deleteStoredFile(imageData)"
           ></vs-button>
-          <img
-            :src="`${$api.badasoFile.view(imageData)}`"
-            class="image"
-          />
+          <img :src="`${$api.badasoFile.view(imageData)}`" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -47,7 +49,12 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p class="text-danger" v-for="(info, index) in alert" :key="index" v-html="info+'<br />'"></p>
+        <p
+          class="text-danger"
+          v-for="(info, index) in alert"
+          :key="index"
+          v-html="info + '<br />'"
+        ></p>
       </div>
       <div v-else>
         <span class="text-danger" v-html="alert"></span>
@@ -85,7 +92,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String|Array,
+      type: String | Array,
       default: "",
     },
   },

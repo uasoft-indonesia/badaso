@@ -7,17 +7,31 @@
       active-text-color="rgba(255,255,255,1)"
       :style="{ color: topbarFontColor }"
     >
-      <div slot="logo" v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'">
+      <div
+        slot="logo"
+        v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
+      >
         <img :src="logo" v-if="logo" alt="Dashboard" />
       </div>
-      <div slot="title" v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'">
+      <div
+        slot="title"
+        v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'"
+      >
         <span class="logo-text" v-if="title">{{ title }}</span>
       </div>
       <div slot="navigation">
-        <div class="cursor-pointer" @click.stop="reduceSidebar" v-if="view == $constants.DESKTOP">
+        <div
+          class="cursor-pointer"
+          @click.stop="reduceSidebar"
+          v-if="view == $constants.DESKTOP"
+        >
           <vs-icon icon="menu"></vs-icon>
         </div>
-        <div class="cursor-pointer" @click.stop="activeSidebar" v-if="view == $constants.MOBILE">
+        <div
+          class="cursor-pointer"
+          @click.stop="activeSidebar"
+          v-if="view == $constants.MOBILE"
+        >
           <vs-icon icon="menu"></vs-icon>
         </div>
       </div>
@@ -41,12 +55,11 @@
         </vs-dropdown>
       </div>
       <div slot="right_menu">
-        <vs-dropdown
-          vs-trigger-click
-          left
-          class="cursor-pointer ml-1 mr-md-3"
-        >
-          <a class="text-white-dark" href="#" :style="{ color: topbarFontColor }"
+        <vs-dropdown vs-trigger-click left class="cursor-pointer ml-1 mr-md-3">
+          <a
+            class="text-white-dark"
+            href="#"
+            :style="{ color: topbarFontColor }"
             ><vs-icon icon="notifications"></vs-icon
           ></a>
           <vs-dropdown-menu class="topbar-dd">
@@ -75,8 +88,7 @@
 <script>
 export default {
   name: "Navbar",
-  components: {
-  },
+  components: {},
   props: {
     topbarColor: {
       type: String,
@@ -106,7 +118,7 @@ export default {
   computed: {
     user: {
       get() {
-        let user = this.$store.getters['badaso/getUser'];
+        let user = this.$store.getters["badaso/getUser"];
         return user;
       },
     },
@@ -122,12 +134,12 @@ export default {
     },
     getLocale: {
       get() {
-        return this.$store.getters['badaso/getLocale'];
+        return this.$store.getters["badaso/getLocale"];
       },
     },
     getSelectedLocale: {
       get() {
-        return this.$store.getters['badaso/getSelectedLocale'];
+        return this.$store.getters["badaso/getSelectedLocale"];
       },
     },
   },
