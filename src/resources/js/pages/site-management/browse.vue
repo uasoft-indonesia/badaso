@@ -220,7 +220,7 @@
         </vs-card>
       </vs-col>
       <vs-col vs-lg="12">
-        <vs-card>
+        <vs-card class="action-card">
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button

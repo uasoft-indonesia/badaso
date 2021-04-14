@@ -1,6 +1,6 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label for="" class="vs-input--label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
     <div class="input-group color-picker" ref="colorpicker">
       <input
         type="text"
@@ -64,7 +64,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Color picker",
+      default: "",
     },
     placeholder: {
       type: String,

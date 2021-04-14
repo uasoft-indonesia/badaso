@@ -46,7 +46,7 @@
     </vs-row>
     <vs-row v-if="$helper.isAllowed('add_or_edit_role_permission')">
       <vs-col vs-lg="12">
-        <vs-card>
+        <vs-card class="action-card">
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">

@@ -39,7 +39,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Text",
+      default: "",
     },
     additionalInfo: {
       type: String,

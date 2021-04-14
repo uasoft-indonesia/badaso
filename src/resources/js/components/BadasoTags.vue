@@ -1,6 +1,6 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label for="" class="vs-input--label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
     <vue-tags-input v-model="tag" :tags="tags" @tags-changed="handleInput" />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
@@ -39,7 +39,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Tags",
+      default: "",
     },
     placeholder: {
       type: String,

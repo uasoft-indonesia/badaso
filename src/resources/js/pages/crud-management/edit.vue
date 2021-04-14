@@ -196,6 +196,12 @@
                           $t("crud.edit.body.required.no")
                         }}</span>
                       </span>
+                      <br />
+                      <span
+                        class="text-danger"
+                        v-for="err in errors[`rows.${index}.field`]"
+                        >{{ err }}</span
+                      >
                     </td>
                     <td>
                       <vs-checkbox
@@ -230,20 +236,18 @@
                       >
                     </td>
                     <td>
-                      <vs-select class="selectExample" v-model="field.type">
-                        <vs-select-item
-                          :key="index"
-                          :value="item.value"
-                          :text="item.label"
-                          v-for="(item, index) in componentList"
-                        />
-                      </vs-select>
+                      <badaso-select
+                        size="12"
+                        v-model="field.type"
+                        :items="componentList"
+                        :alert="errors[`rows.${index}.type`]"
+                      ></badaso-select>
                     </td>
                     <td>
-                      <vs-input
-                        class="inputx"
-                        :placeholder="$t('crud.edit.body.displayName')"
+                      <badaso-text
+                        :placeholder="$t('crud.add.body.displayName')"
                         v-model="field.displayName"
+                        :alert="errors[`rows.${index}.displayName`]"
                       />
                     </td>
                     <td>
@@ -364,6 +368,15 @@
                           }}</span>
                         </td>
                       </tr>
+                      <tr v-if="errors[`rows.${index}.field`]">
+                        <td colspan="2">
+                          <span
+                            class="text-danger"
+                            v-for="err in errors[`rows.${index}.field`]"
+                            >{{ err }}</span
+                          >
+                        </td>
+                      </tr>
                       <tr>
                         <td>{{ $t("crud.add.header.visibility") }}</td>
                         <td>
@@ -402,27 +415,21 @@
                       <tr>
                         <td colspan="2">
                           {{ $t("crud.add.header.inputType") }}
-                          <vs-select
-                            class="selectExample"
+                          <badaso-select
+                            size="12"
                             v-model="field.type"
-                            style="width: 100%"
-                          >
-                            <vs-select-item
-                              :key="index"
-                              :value="item.value"
-                              :text="item.label"
-                              v-for="(item, index) in componentList"
-                            />
-                          </vs-select>
+                            :items="componentList"
+                            :alert="errors[`rows.${index}.type`]"
+                          ></badaso-select>
                         </td>
                       </tr>
                       <tr>
                         <td colspan="2">
                           {{ $t("crud.add.header.displayName") }}
-                          <vs-input
-                            class="inputx"
+                          <badaso-text
                             :placeholder="$t('crud.add.body.displayName')"
                             v-model="field.displayName"
+                            :alert="errors[`rows.${index}.displayName`]"
                           />
                         </td>
                       </tr>
@@ -528,7 +535,7 @@
         </vs-card>
       </vs-col>
       <vs-col vs-lg="12">
-        <vs-card>
+        <vs-card class="action-card">
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">

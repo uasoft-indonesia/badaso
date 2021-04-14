@@ -1,6 +1,6 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label for="" class="vs-input--label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
     <vs-slider
       :min="min"
       :max="max"
@@ -36,7 +36,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Slider",
+      default: "",
     },
     placeholder: {
       type: String,

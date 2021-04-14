@@ -10,6 +10,7 @@ return [
     'crud' => [
         'table_not_found' => 'Table :table does not exists',
         'table_column_not_found' => 'Invalid rows, Field :table_column does not exists',
+        'table_column_not_have_default_value' => 'Invalid rows, Field :table_column has no default value, please tick the checkbox Add',
     ],
     'base64' => [
         'length_invalid' => 'Base64 format is invalid',
@@ -33,5 +34,5 @@ return [
         'nothing_changed' => 'Request was successful, but nothing changed.',
         'rollback_success' => 'Rollback success.',
         'rollback_failed' => 'Rollback failed.',
-    ]
+    ],
 ];

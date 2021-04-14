@@ -36,7 +36,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Search",
+      default: "",
     },
     placeholder: {
       type: String,

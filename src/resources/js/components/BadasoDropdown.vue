@@ -1,5 +1,4 @@
 <template>
-  <!-- @contextmenu.capture.prevent -->
   <button
     ref="dropdown"
     v-bind="$attrs"

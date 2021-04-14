@@ -1,6 +1,6 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label for="" class="vs-input--label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
     <ul class="list-inline mb-0">
       <li
         class="mb-3 mb-lg-0 list-inline-item"
@@ -45,7 +45,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Checkbox",
+      default: "",
     },
     placeholder: {
       type: String,

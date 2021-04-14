@@ -36,7 +36,7 @@ export default {
     },
     label: {
       type: String,
-      default: "URL",
+      default: "",
     },
     placeholder: {
       type: String,

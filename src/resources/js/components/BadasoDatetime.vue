@@ -1,12 +1,6 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <!-- <vs-input
-        type="time"
-        :label="label"
-        :value="value"
-        @input="handleInput($event)"
-    /> -->
-    <label for="" class="vs-input--label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
     <div class="datetime-box">
       <datetime
         :label="label"
@@ -47,7 +41,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Date Time",
+      default: "",
     },
     placeholder: {
       type: String,
