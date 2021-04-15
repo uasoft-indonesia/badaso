@@ -38,10 +38,15 @@
 
     <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
       <vs-col vs-lg="12">
-        <vs-alert :active="Object.keys(errors).length > 0" color="danger" icon="new_releases" style="margin-bottom: 20px;" >
+        <vs-alert
+          :active="Object.keys(errors).length > 0"
+          color="danger"
+          icon="new_releases"
+          style="margin-bottom: 20px;"
+        >
           <span v-for="key in Object.keys(errors)">
             <span v-for="err in errors[key]">
-              {{err}}
+              {{ err }}
             </span>
           </span>
         </vs-alert>
@@ -281,44 +286,46 @@
               </template>
             </badaso-table>
             <div v-else>
-              <vs-table v-model="selected" :data="records" stripe multiple>
-                <template slot="header">
-                  <div class="con-input-search vs-table--search">
-                    <input
-                      type="text"
-                      class="input-search vs-table--search-input"
-                      v-on:keyup.enter="handleSearch"
-                    />
-                    <i
-                      class="vs-icon notranslate icon-scale material-icons null"
-                      >search</i
-                    >
-                  </div>
-                </template>
+              <badaso-server-side-table
+                v-model="selected"
+                :data="records"
+                stripe
+                :pagination-data="data"
+                :description-items="descriptionItems"
+                :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                :description-connector="
+                  $t('crudGenerated.footer.descriptionConnector')
+                "
+                @search="handleSearch"
+                @changePage="handleChangePage"
+                @changeLimit="handleChangeLimit"
+                @select="handleSelect"
+                @sort="handleSort"
+              >
                 <template slot="thead">
-                  <vs-th
+                  <badaso-th
                     v-for="(dataRow, index) in dataType.dataRows"
                     v-if="dataRow.browse === 1"
-                    :key="index"
+                    :key="`header-${index}`"
                     :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
                   >
                     {{ dataRow.displayName }}
-                  </vs-th>
+                  </badaso-th>
                   <vs-th> Action </vs-th>
                 </template>
 
-                <template slot-scope="{ data }">
+                <template slot="tbody">
                   <vs-tr
                     :data="record"
                     :key="index"
-                    v-for="(record, index) in data"
+                    v-for="(record, index) in records"
                   >
                     <vs-td
                       v-for="(dataRow, indexColumn) in dataType.dataRows"
                       v-if="dataRow.browse === 1"
-                      :key="indexColumn"
+                      :key="`${index}-${indexColumn}`"
                       :data="
-                        data[index][
+                        record[
                           $caseConvert.stringSnakeToCamel(dataRow.field)
                         ]
                       "
@@ -466,7 +473,7 @@
                             :to="{
                               name: 'CrudGeneratedRead',
                               params: {
-                                id: data[index].id,
+                                id: record.id,
                                 slug: $route.params.slug,
                               },
                             }"
@@ -485,7 +492,7 @@
                             :to="{
                               name: 'CrudGeneratedEdit',
                               params: {
-                                id: data[index].id,
+                                id: record.id,
                                 slug: $route.params.slug,
                               },
                             }"
@@ -502,7 +509,7 @@
                           </badaso-dropdown-item>
                           <badaso-dropdown-item
                             icon="delete"
-                            @click="confirmDelete(data[index].id)"
+                            @click="confirmDelete(record.id)"
                             v-if="
                               $helper.isAllowedToModifyGeneratedCRUD(
                                 'delete',
@@ -517,62 +524,7 @@
                     </vs-td>
                   </vs-tr>
                 </template>
-              </vs-table>
-              <div class="con-pagination-table vs-table--pagination">
-              <vs-row class="mt-3"
-                vs-justify="space-between"
-                vs-type="flex"
-                vs-w="12"
-              >
-                  <vs-col
-                    class="vs-pagination--mb"
-                    vs-type="flex"
-                    vs-justify="flex-start"
-                    vs-align="center"
-                    vs-lg="6"
-                    vs-md="12"
-                    vs-sm="12"
-                    vs-xs="12"
-                  >
-                  <div style="display: contents;">
-                    <span
-                      style="margin-right:5px"
-                    >
-                      Registries: {{ data.from }} - {{ data.to }} of {{ data.total }} | Pages:
-                    </span>
-                    <vs-select
-                      placeholder="Row Per Page"
-                      v-model="limit"
-                      width="100px"
-                    >
-                      <vs-select-item
-                        :key="index"
-                        :value="item"
-                        :text="item"
-                        v-for="(item, index) in descriptionItems"
-                      />
-                    </vs-select>
-                    </ul>
-                  </div>
-                    
-                  </vs-col>
-                  <vs-col class="vs-pagination--mb"
-                    vs-type="flex"
-                    vs-justify="flex-end"
-                    vs-align="center"
-                    vs-lg="6"
-                    vs-md="12"
-                    vs-sm="12"
-                    vs-xs="12"
-                  >
-                    <vs-pagination
-                      :total="totalItem"
-                      v-model="page"
-                      style="margin-bottom: 0;"
-                    ></vs-pagination>
-                  </vs-col>
-                </vs-row>
-            </div>
+              </badaso-server-side-table>
             </div>
           </div>
         </vs-card>
@@ -627,12 +579,12 @@ export default {
     $route: function(to, from) {
       this.getEntity();
     },
-    page: function(to, from) {
-      this.handleChangePage(to);
-    },
-    limit: function(to, from) {
-      this.handleChangeLimit(to);
-    },
+    // page: function(to, from) {
+    //   this.handleChangePage(to);
+    // },
+    // limit: function(to, from) {
+    //   this.handleChangeLimit(to);
+    // },
   },
   mounted() {
     this.getEntity();
@@ -666,7 +618,7 @@ export default {
       });
     },
     getEntity() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoEntity
         .browse({
           slug: this.$route.params.slug,
@@ -677,7 +629,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.data = response.data.entities;
           this.records = response.data.entities.data;
           this.totalItem =
@@ -706,7 +658,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -715,7 +667,7 @@ export default {
         });
     },
     deleteRecord() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoEntity
         .delete({
           slug: this.$route.params.slug,
@@ -727,12 +679,12 @@ export default {
           ],
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getEntity();
         })
         .catch((error) => {
-          this.errors = error.errors
-          this.$closeLoader()
+          this.errors = error.errors;
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -742,7 +694,7 @@ export default {
     },
     deleteRecords() {
       const ids = this.selected.map((item) => item.id);
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoEntity
         .deleteMultiple({
           slug: this.$route.params.slug,
@@ -754,12 +706,12 @@ export default {
           ],
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.getEntity();
         })
         .catch((error) => {
-          this.errors = error.errors
-          this.$closeLoader()
+          this.errors = error.errors;
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -793,12 +745,16 @@ export default {
     },
     handleChangeLimit(limit) {
       this.page = 1;
+      this.limit = limit;
       this.getEntity();
     },
     handleSort(field, direction) {
       this.orderField = field;
       this.orderDirection = direction;
       this.getEntity();
+    },
+    handleSelect(data) {
+      this.selected = data;
     },
     displayRelationData(record, dataRow) {
       if (dataRow.relation) {

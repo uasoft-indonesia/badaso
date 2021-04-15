@@ -20,46 +20,47 @@
             <h3>{{ $t("activityLog.title") }}</h3>
           </div>
           <div>
-            <vs-table v-model="selected" :data="activitylogs" stripe>
-              <template slot="header">
-                <div class="con-input-search vs-table--search">
-                  <input
-                    type="text"
-                    class="input-search vs-table--search-input"
-                    v-on:keyup.enter="handleSearch"
-                  />
-                  <i
-                    class="vs-icon notranslate icon-scale material-icons null"
-                    >search</i
-                  >
-                </div>
-              </template>
+            <badaso-server-side-table
+              v-model="selected"
+              :data="activitylogs"
+              stripe
+              :pagination-data="data"
+              @search="handleSearch"
+              @changePage="handlePageChange"
+              @changeLimit="handleLimitChange"
+              @sort="handleSort"
+              :description-items="descriptionItems"
+                :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                :description-connector="
+                  $t('crudGenerated.footer.descriptionConnector')
+                "
+            >
               <template slot="thead">
-                <vs-th sort-key="logName">
+                <badaso-th sort-key="logName">
                   {{ $t("activityLog.header.logName") }}
-                </vs-th>
-                <vs-th sort-key="causerType">
+                </badaso-th>
+                <badaso-th sort-key="causerType">
                   {{ $t("activityLog.header.causerType") }}
-                </vs-th>
-                <vs-th sort-key="causerId">
+                </badaso-th>
+                <badaso-th sort-key="causerId">
                   {{ $t("activityLog.header.causerId") }}
-                </vs-th>
-                <vs-th sort-key="subjectType">
+                </badaso-th>
+                <badaso-th sort-key="subjectType">
                   {{ $t("activityLog.header.subjectType") }}
-                </vs-th>
-                <vs-th sort-key="subjectId">
+                </badaso-th>
+                <badaso-th sort-key="subjectId">
                   {{ $t("activityLog.header.subjectId") }}
-                </vs-th>
-                <vs-th sort-key="description">
+                </badaso-th>
+                <badaso-th sort-key="description">
                   {{ $t("activityLog.header.description") }}
-                </vs-th>
-                <vs-th sort-key="createdAt">
+                </badaso-th>
+                <badaso-th sort-key="createdAt">
                   {{ $t("activityLog.header.dateLogged") }}
-                </vs-th>
-                <vs-th> {{ $t("activityLog.header.action") }} </vs-th>
+                </badaso-th>
+                <badaso-th> {{ $t("activityLog.header.action") }} </badaso-th>
               </template>
 
-              <template slot-scope="{ data }">
+              <template slot="tbody">
                 <vs-tr
                   :data="record"
                   :key="index"
@@ -69,24 +70,16 @@
                     {{ record.logName ? record.logName : "-" }}
                   </vs-td>
                   <vs-td :data="record.causerType">
-                    {{
-                      record.causerType ? record.causerType : "-"
-                    }}
+                    {{ record.causerType ? record.causerType : "-" }}
                   </vs-td>
                   <vs-td :data="record.causerId">
                     {{ record.causerId ? record.causerId : "-" }}
                   </vs-td>
                   <vs-td :data="record.subjectType">
-                    {{
-                      record.subjectType
-                        ? record.subjectType
-                        : "-"
-                    }}
+                    {{ record.subjectType ? record.subjectType : "-" }}
                   </vs-td>
                   <vs-td :data="record.subjectId">
-                    {{
-                      record.subjectId ? record.subjectId : "-"
-                    }}
+                    {{ record.subjectId ? record.subjectId : "-" }}
                   </vs-td>
                   <vs-td :data="record.description">
                     {{ record.description }}
@@ -116,62 +109,7 @@
                   </vs-td>
                 </vs-tr>
               </template>
-            </vs-table>
-            <div class="con-pagination-table vs-table--pagination">
-              <vs-row class="mt-3"
-                vs-justify="space-between"
-                vs-type="flex"
-                vs-w="12"
-              >
-                  <vs-col
-                    class="vs-pagination--mb"
-                    vs-type="flex"
-                    vs-justify="flex-start"
-                    vs-align="center"
-                    vs-lg="6"
-                    vs-md="12"
-                    vs-sm="12"
-                    vs-xs="12"
-                  >
-                    <div style="display: contents;">
-                      <span
-                        style="margin-right:5px"
-                      >
-                        Registries: {{ data.from }} - {{ data.to }} of {{ data.total }} | Pages:
-                      </span>
-                      <vs-select
-                        placeholder="Row Per Page"
-                        v-model="limit"
-                        width="100px"
-                      >
-                        <vs-select-item
-                          :key="index"
-                          :value="item"
-                          :text="item"
-                          v-for="(item, index) in descriptionItems"
-                        />
-                      </vs-select>
-                      </ul>
-                    </div>
-                      
-                  </vs-col>
-                  <vs-col class="vs-pagination--mb"
-                    vs-type="flex"
-                    vs-justify="flex-end"
-                    vs-align="center"
-                    vs-lg="6"
-                    vs-md="12"
-                    vs-sm="12"
-                    vs-xs="12"
-                  >
-                    <vs-pagination
-                      :total="totalItem"
-                      v-model="page"
-                      style="margin-bottom: 0;"
-                    ></vs-pagination>
-                  </vs-col>
-                </vs-row>
-            </div>
+            </badaso-server-side-table>
           </div>
         </vs-card>
       </vs-col>
@@ -198,13 +136,15 @@ export default {
   data: () => ({
     data: {},
     selected: [],
-    descriptionItems: [10, 50, 100, 200],
+    descriptionItems: [10, 50, 100],
     activitylogs: [],
     willDeleteId: null,
     page: 1,
     limit: 10,
     totalItem: 0,
-    filter: ''
+    filter: "",
+    orderField: "",
+    orderDirection: "",
   }),
   mounted() {
     this.getActivityLogList();
@@ -214,7 +154,7 @@ export default {
       this.getActivityLogList();
     },
     limit: function(to, from) {
-      this.page = 1
+      this.page = 1;
       this.getActivityLogList();
     },
   },
@@ -222,27 +162,41 @@ export default {
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
-      this.getActivityLogList()
+      this.getActivityLogList();
+    },
+    handlePageChange(e) {
+      this.page = e;
+    },
+    handleLimitChange(e) {
+      this.limit = e;
+    },
+    handleSort(key, type) {
+      this.orderField = key
+      this.orderDirection = type
+      this.getActivityLogList();
     },
     getActivityLogList() {
-      this.$openLoader()
+      this.$openLoader();
       this.$api.badasoActivityLog
         .browse({
           filter: this.filter,
           limit: this.limit,
           page: this.page,
+          orderField: this.orderField,
+          orderDirection: this.orderDirection
         })
         .then((response) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.selected = [];
-          this.data = response.data
+          this.data = response.data;
           this.activitylogs = response.data.activitylog;
-          this.totalItem = response.data.total > 0
+          this.totalItem =
+            response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)
               : 1;
         })
         .catch((error) => {
-          this.$closeLoader()
+          this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
