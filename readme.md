@@ -3,7 +3,7 @@
     <img src="https://i.ibb.co/6Yx8HbP/Badaso-1.png" width="318px" alt="Badaso logo" />
   </a>
 </p>
-<h3 align="center">The First Laravel Vue headless PWA CMS.</h3>
+<h3 align="center">The First Open-Source Laravel Vue headless PWA CMS.</h3>
 <p align="center">PWA dashboard + CRUD + API generator & more.</p>
 <p align="center"><a href="#live-demo">Try live demo</a></p>
 <br />
