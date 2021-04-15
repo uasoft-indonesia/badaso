@@ -163,14 +163,20 @@ class MigrationParser
             );
         } else {
             if (isset($rows) && count($rows) > 0) {
+                /**
+                 * Here we separate modify type of fields
+                 */
                 $dropped_field = 0;
                 $altered_field = 0;
+                $added_field = 0;
 
                 foreach ($rows as $key => $value) {
                     if ($value['modify_type'] === 'DROP_FIELD') {
                         $dropped_field++;
-                    } else {
+                    } elseif ($value['modify_type'] !== "CREATE") {
                         $altered_field++;
+                    } elseif ($value['modify_type'] === "CREATE") {
+                        $added_field++;
                     }
                 }
 
@@ -204,11 +210,34 @@ class MigrationParser
                             );
                         }
 
-                        $fields[] = sprintf(
-                            self::DROP_FIELD,
-                            $value['field']['field_name']
-                        );
+                        if ($value['modify_type'] == 'DROP_FIELD') {
+                            $fields[] = sprintf(
+                                self::DROP_FIELD,
+                                $value['field']['field_name']
+                            );
+                        }
                     }
+                }
+
+                if ($added_field > 0) {
+                    foreach ($rows as $key => $value) {
+                        if ($value['modify_type'] == 'CREATE') {
+                            $fields[] = sprintf(
+                                self::FIELD_STUB,
+                                self::getMigrationTypeField($value['field_type']),
+                                $value['field_name'],
+                                self::getMigrationLengthField($value['field_length'], $value['field_type']),
+                                self::getMigrationDefaultField($value['field_type'], $value['field_default'], $value['as_defined']),
+                                self::getMigrationNullField($value['field_null']),
+                                self::getMigrationIndexField($value['field_index'], $value['field_name'], $value['field_increment']),
+                                self::getMigrationAttributeField($value['field_attribute']),
+                                self::getMigrationIncrementField($value['field_increment'])
+                            );
+                        }
+                    }
+                }
+
+                if ($dropped_field > 0 && $added_field > 0) {
                     $stub .= sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields));
                 }
             }
@@ -229,12 +258,15 @@ class MigrationParser
             if (isset($rows) && count($rows) > 0) {
                 $dropped_field = 0;
                 $altered_field = 0;
+                $added_field = 0;
 
                 foreach ($rows as $key => $value) {
                     if ($value['modify_type'] === 'DROP_FIELD') {
                         $dropped_field++;
-                    } else {
+                    } elseif ($value['modify_type'] !== "CREATE") {
                         $altered_field++;
+                    } elseif ($value['modify_type'] === "CREATE") {
+                        $added_field++;
                     }
                 }
 
@@ -269,18 +301,34 @@ class MigrationParser
                             );
                         }
 
-                        $fields[] = sprintf(
-                            self::FIELD_STUB,
-                            self::getMigrationTypeField($value['field']['field_type']),
-                            $value['field']['field_name'],
-                            self::getMigrationLengthField($value['field']['field_length'], $value['field']['field_type']),
-                            self::getMigrationDefaultField($value['field']['field_type'], $value['field']['field_default'], $value['field']['as_defined']),
-                            self::getMigrationNullField($value['field']['field_null']),
-                            self::getMigrationIndexField($value['field']['field_index'], $value['field']['field_name'], $value['field']['field_increment']),
-                            self::getMigrationAttributeField($value['field']['field_attribute']),
-                            self::getMigrationIncrementField($value['field']['field_increment'])
-                        );
+                        if ($value['modify_type'] == 'DROP_FIELD') {
+                            $fields[] = sprintf(
+                                self::FIELD_STUB,
+                                self::getMigrationTypeField($value['field']['field_type']),
+                                $value['field']['field_name'],
+                                self::getMigrationLengthField($value['field']['field_length'], $value['field']['field_type']),
+                                self::getMigrationDefaultField($value['field']['field_type'], $value['field']['field_default'], $value['field']['as_defined']),
+                                self::getMigrationNullField($value['field']['field_null']),
+                                self::getMigrationIndexField($value['field']['field_index'], $value['field']['field_name'], $value['field']['field_increment']),
+                                self::getMigrationAttributeField($value['field']['field_attribute']),
+                                self::getMigrationIncrementField($value['field']['field_increment'])
+                            );
+                        }
                     }
+                }
+
+                if ($added_field > 0) {
+                    foreach ($rows as $key => $value) {
+                        if ($value['modify_type'] == 'CREATE') {
+                            $fields[] = sprintf(
+                                self::DROP_FIELD,
+                                $value['field_name']
+                            );
+                        }
+                    }
+                }
+
+                if ($dropped_field > 0 && $added_field > 0) {
                     $stub .= sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields));
                 }
             }
