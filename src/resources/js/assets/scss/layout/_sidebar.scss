@@ -31,6 +31,12 @@
         font-weight: bold;
         opacity: 1 !important;
       }
+      &.router-link-active {
+        color: $primary !important;
+        border-left: 3px solid $primary;
+        font-weight: bold;
+        opacity: 1 !important;
+      }
     }
   }
 }
