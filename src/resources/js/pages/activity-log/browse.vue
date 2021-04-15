@@ -210,9 +210,6 @@ export default {
     this.getActivityLogList();
   },
   watch: {
-    $route: function(to, from) {
-      this.getEntity();
-    },
     page: function(to, from) {
       this.getActivityLogList();
     },
