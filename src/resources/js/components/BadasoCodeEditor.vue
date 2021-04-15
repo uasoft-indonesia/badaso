@@ -1,7 +1,7 @@
 <template>
   <div>
     <vs-col v-if="size !== ''" :vs-lg="size" vs-xs="12" class="mb-3">
-      <label for="" class="vs-input--label">{{ label }}</label>
+      <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
       <prism-editor
         class="my-editor"
         :value="value"

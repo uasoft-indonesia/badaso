@@ -41,8 +41,8 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/backup.php' => config_path('backup.php'),
             __DIR__.'/../Seeder/Configurations' => database_path('seeds'),
             __DIR__.'/../Seeder/CRUDData' => database_path('seeds/CRUDData'),
-            __DIR__.'/../resources/js/' => resource_path('js/badaso'),
             __DIR__.'/../Images/' => public_path(),
+            __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
         ], 'Badaso');
 

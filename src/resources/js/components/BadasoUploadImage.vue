@@ -69,7 +69,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Upload Image",
+      default: "",
     },
     placeholder: {
       type: String,

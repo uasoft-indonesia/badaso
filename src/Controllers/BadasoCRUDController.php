@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
@@ -121,13 +120,30 @@ class BadasoCRUDController extends Controller
                 'name' => [
                     'required',
                     "unique:data_types,name,{$request->id}",
-                    function ($attribute, $value, $fail) {
+                    function ($attribute, $value, $fail) use ($request) {
                         if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
                 'rows' => 'required',
+                'rows.*.field' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($request) {
+                        if (!Schema::hasColumn($request->name, $value)) {
+                            $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
+                        } else {
+                            $table_fields = SchemaManager::describeTable($request->name);
+                            $field = collect($table_fields)->where('field', $value)->first();
+                            $row = collect($request->rows)->where('field', $value)->first();
+                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                                $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
+                            }
+                        }
+                    },
+                ],
+                'rows.*.type' => 'required',
+                'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
             ]);
             $table_name = $request->input('name');
@@ -164,19 +180,6 @@ class BadasoCRUDController extends Controller
             $data_rows = $request->input('rows') ?? [];
             $new_data_rows = [];
             foreach ($data_rows as $index => $data_row) {
-                Validator::make($data_row, [
-                    'field' => [
-                        'required',
-                        function ($attribute, $value, $fail) use ($table_name) {
-                            if (!Schema::hasColumn($table_name, $value)) {
-                                $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
-                            }
-                        },
-                    ],
-                    'type' => 'required',
-                    'display_name' => 'required',
-                ])->validate();
-
                 $new_data_row = new DataRow();
                 $new_data_row->data_type_id = $data_type->id;
                 $new_data_row->field = $data_row['field'];
@@ -254,6 +257,23 @@ class BadasoCRUDController extends Controller
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
                 'rows' => 'required',
+                'rows.*.field' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($request) {
+                        if (!Schema::hasColumn($request->name, $value)) {
+                            $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
+                        } else {
+                            $table_fields = SchemaManager::describeTable($request->name);
+                            $field = collect($table_fields)->where('field', $value)->first();
+                            $row = collect($request->rows)->where('field', $value)->first();
+                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                                $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
+                            }
+                        }
+                    },
+                ],
+                'rows.*.type' => 'required',
+                'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
             ]);
             $table_name = $request->input('name');
@@ -278,19 +298,6 @@ class BadasoCRUDController extends Controller
             $data_rows = $request->input('rows') ?? [];
             $new_data_rows = [];
             foreach ($data_rows as $index => $data_row) {
-                Validator::make($data_row, [
-                    'field' => [
-                        'required',
-                        function ($attribute, $value, $fail) use ($table_name) {
-                            if (!Schema::hasColumn($table_name, $value)) {
-                                $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$table_name.{$value}"]));
-                            }
-                        },
-                    ],
-                    'type' => 'required',
-                    'display_name' => 'required',
-                ])->validate();
-
                 $new_data_row = new DataRow();
                 $new_data_row->data_type_id = $new_data_type->id;
                 $new_data_row->field = $data_row['field'];

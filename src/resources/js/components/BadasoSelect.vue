@@ -44,7 +44,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Select",
+      default: "",
     },
     placeholder: {
       type: String,

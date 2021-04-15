@@ -1,6 +1,6 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label for="" class="vs-input--label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
     <vs-textarea :value="value" @input="handleInput($event)" />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
@@ -31,7 +31,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Textarea",
+      default: "",
     },
     placeholder: {
       type: String,

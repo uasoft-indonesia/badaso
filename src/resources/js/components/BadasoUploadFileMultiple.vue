@@ -76,7 +76,7 @@ export default {
     },
     label: {
       type: String,
-      default: "Upload File Multiple",
+      default: "",
     },
     placeholder: {
       type: String,

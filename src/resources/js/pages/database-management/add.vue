@@ -335,7 +335,7 @@
         </vs-card>
       </vs-col>
       <vs-col vs-lg="12">
-        <vs-card>
+        <vs-card  class="action-card">
           <vs-row vs-align="center">
             <vs-col vs-lg="2">
               <vs-button color="primary" type="relief" @click="submitForm()">
