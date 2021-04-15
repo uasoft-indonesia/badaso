@@ -15,20 +15,10 @@
       vs-sm="12"
       vs-xs="12"
     >
-      <div style="display: contents;">
-        <span style="margin-right:5px">
-          {{ descriptionTitle }}: {{ minRows }} - {{ maxRows }}
-          {{ descriptionConnector }} {{ sizeArray }} | {{ descriptionBody }}:
-        </span>
-        <vs-select class="selectExample" v-model="pageSize" width="100px">
-          <vs-select-item
-            :key="index"
-            :value="row"
-            :text="row"
-            v-for="(row, index) in descriptionItems"
-          />
-        </vs-select>
-      </div>
+      <span class="vs-pagination-desc">
+        {{ descriptionTitle }}: {{ minRows }} - {{ maxRows }}
+        {{ descriptionConnector }} {{ sizeArray }}
+      </span>
     </vs-col>
     <vs-col
       class="vs-pagination--mb"
@@ -224,6 +214,9 @@ export default {
       let index = this.descriptionItems.indexOf(val);
       this.changeRowMaxItems(index);
     },
+    sizeArray() {
+      this.calculateMinMax(this.current)
+    }
   },
 
   async mounted() {
