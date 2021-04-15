@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.imgur.com/oROOCjk.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
+    <img src="https://i.imgur.com/PRfcYLv.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
   </a>
 </p>
 
