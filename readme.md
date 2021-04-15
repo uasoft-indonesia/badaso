@@ -37,13 +37,13 @@ Badaso is a open-source Laravel Vue headless CMS (with PWA dashboard + CRUD + AP
 
 ## Live demo
 
-<a href="https://badaso-demo.uatech.co.id/admin-panel/login" target="_blank">Click here for live demo</a> (some error may happen because random test by a lot of random people)
+<a href="https://badaso-demo.uatech.co.id" target="_blank">Click here for live demo</a> (some error may happen because random test by a lot of random people)
 
 Live demo will reset every one day 
 
 ## Getting started (installation, how to use & more)
 
-You can see <a href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/" target="_blank">official badaso documentation</a>.
+You can see <a href="https://badaso-docs.uatech.co.id" target="_blank">official badaso documentation</a>.
 
 ## Community support
 
