@@ -53,6 +53,8 @@ For additional help, you can use one of these channels to ask a question:
 
 - [Github discussion](https://github.com/uasoft-indonesia/badaso/discussions) (Questions and Discussions)
 - [Github issues](https://github.com/uasoft-indonesia/badaso/issues) (Bug reports, Contributions)
+- [Facebook groups](https://facebook.com/groups/badaso) (Discussion for active facebook users)
+- [Telegram groups](https://t.me/badaso_developers) (Discussion for active telegram users)
 - Youtube tutorial (coming soon)
 
 ## Sponsor
@@ -106,7 +108,7 @@ Thanks to these awesome projects that make badaso awesome :
 - [lcobucci/jwt](https://github.com/lcobucci/jwt) (JWT provider)
 - [tymon/jwt-auth](https://github.com/tymon/jwt-auth) (JWT auth provider)
 - [arcanedev/log-viewer](https://github.com/arcanedev/log-viewer]) (application logging GUI)
-- [the-control-group/voyager](https://github.com/the-control-group/voyager) (Reference)
+- [the-control-group/voyager](https://github.com/the-control-group/voyager) (reference)
 
 All financial support that badaso get, will also share to project above for support the ecosystem and make badaso keep up to date and keep your awesome long-term projects running.
 
