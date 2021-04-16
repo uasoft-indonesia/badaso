@@ -209,6 +209,10 @@ th .vs-table-text {
   background: $card-bg;
 }
 
+.vs-con-table.stripe .tr-values:nth-child(2n) {
+  background: rgba(0,0,0,.03) !important;
+}
+
 .vs-pagination--ul {
   background: unset;
 }
@@ -252,4 +256,49 @@ th .vs-table-text {
 
 .vs-dialog-primary .vs-dialog .vs-dialog-header {
   color: $primary;
+}
+
+.vs-pagination-desc {
+  margin-right: 5px;
+}
+
+@include media-breakpoint-down(sm) {
+  .vs-pagination-desc {
+    margin: auto;
+  }
+  .con-vs-pagination {
+    width: 100%;
+  }
+  .vs-pagination--ul {
+    display: none;
+  }
+  .vs-table--pagination .vs-pagination--buttons {
+    width: 40%;
+    border-radius: 5%;
+  }
+
+  .vs-table--search {
+    max-width: unset;
+    width: calc(100% - 30px);
+  }
+
+  .vs-table--search-input {
+    width: 100%;
+  }
+}
+
+
+.vs-table--content {
+  overflow: unset;
+}
+
+.vs-table--tbody {
+  overflow: auto;
+}
+.vs-table--thead {
+  border-bottom: solid 3px $grey;
+}
+
+.vs-table--search-input {
+  border: 1px solid rgba(0,0,0,.1);
 }

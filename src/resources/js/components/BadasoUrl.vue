@@ -6,6 +6,8 @@
       :placeholder="placeholder"
       :value="value"
       @input="handleInput($event)"
+      icon="http"
+      icon-after
     />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">

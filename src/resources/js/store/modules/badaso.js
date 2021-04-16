@@ -164,7 +164,7 @@ export default {
         })
         .catch((err) => {
           state.keyIssue = {
-            invalid: true,
+            ...err, invalid: true,
           };
           state.verified = true;
         });

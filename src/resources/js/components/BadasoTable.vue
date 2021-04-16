@@ -5,15 +5,32 @@
   >
     <!-- header -->
     <header class="header-table vs-table--header">
-      <slot name="header"></slot>
-      <div v-if="search" class="con-input-search vs-table--search">
-        <input
-          v-model="searchx"
-          class="input-search vs-table--search-input"
-          type="text"
-        />
-        <vs-icon icon="search"></vs-icon>
-      </div>
+      <vs-row style="margin-bottom: 0;">
+        <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="pagination">
+          <div style="display: flex; align-items: center; margin: 15px;">
+            Show&nbsp;
+            <vs-select class="selectExample" v-model="maxItemsx" width="100px">
+              <vs-select-item
+                :key="index"
+                :value="row"
+                :text="row"
+                v-for="(row, index) in descriptionItems"
+              />
+            </vs-select>
+            &nbsp;Entries
+          </div>
+        </vs-col>
+        <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="search">
+          <div class="con-input-search vs-table--search" style="float: right;">
+            <input
+              v-model="searchx"
+              class="input-search vs-table--search-input"
+              type="text"
+            />
+            <vs-icon icon="search"></vs-icon>
+          </div>
+        </vs-col>
+      </vs-row>
     </header>
     <div class="con-tablex vs-table--content">
       <div :style="styleConTbody" class="vs-con-tbody vs-table--tbody ">
