@@ -84,6 +84,7 @@ export default {
       key: "",
       tableName: "",
       alwaysAllow: false,
+      isPublic: false,
     },
   }),
   mounted() {},

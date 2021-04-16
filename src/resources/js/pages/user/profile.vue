@@ -173,7 +173,7 @@ export default {
       this.$api.badasoAuthUser
         .updateProfile({
           name: this.user.name,
-          avatar: this.user.avatar.base64,
+          avatar: this.user.avatar ? this.user.avatar.base64 : null,
           additionalInfo:
             this.user.additionalInfo !== ""
               ? JSON.stringify(this.user.additionalInfo)

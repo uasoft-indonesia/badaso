@@ -69,6 +69,7 @@
             :title="menu.title"
             open
             :icon="menu.iconClass"
+            :key="index"
           >
             <template v-for="(childMenu, indexChildMenu) in menu.children">
               <badaso-sidebar-item
@@ -95,7 +96,7 @@
               </badaso-sidebar-item>
             </template>
           </badaso-sidebar-group>
-          <div v-else>
+          <div v-else :key="index">
             <badaso-sidebar-item
               v-if="$helper.isValidHttpUrl(menu.url)"
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
@@ -136,6 +137,7 @@
             :title="menu.title"
             open
             :icon="menu.iconClass"
+            :key="index"
           >
             <template v-for="(childMenu, indexChildMenu) in menu.children">
               <badaso-sidebar-item
@@ -162,7 +164,7 @@
               </badaso-sidebar-item>
             </template>
           </badaso-sidebar-group>
-          <div v-else>
+          <div v-else :key="index">
             <badaso-sidebar-item
               v-if="$helper.isValidHttpUrl(menu.url)"
               :icon="menu.iconClass ? menu.iconClass : 'remove'"
