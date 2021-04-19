@@ -87,7 +87,7 @@ trait FileHandler
             readfile($path);
         } catch (Exception $e) {
             \Log::debug($e->getMessage());
-            $path = public_path('badaso-images/badaso.jpg');
+            $path = public_path('badaso-images/badaso.png');
             $mime = mime_content_type($path);
             header("Content-type:$mime");
             ob_clean();
