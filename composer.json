@@ -3,6 +3,7 @@
     "name": "uasoft-indonesia/badaso",
     "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
     "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator"],
+    "license": "SEE LICENSE IN LICENSE",
     "homepage": "https://badaso.uatech.co.id/",
     "support": {
         "issues": "https://github.com/uasoft-indonesia/badaso/issues",
