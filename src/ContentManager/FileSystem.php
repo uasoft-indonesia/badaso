@@ -60,9 +60,10 @@ class FileSystem
     /**
      * Get migration filename.
      */
-    public function getMigrationFileName(string $name, string $prefix): string
+    public function getMigrationFileName(string $name, string $prefix, string $className): string
     {
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix . '_' . $name . '_table';
+        $random = lcfirst(substr($className, -4));
+        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix . '_' . $name . '_table_' . $random;
     }
 
     /**
@@ -169,7 +170,9 @@ class FileSystem
             $model_string .= ucfirst($model_name_exploded);
         }
 
-        return ucfirst($prefix).ucfirst($model_string).'Table';
+        $randomise = Str::lower($this->parser->getRandomCharacter(4));
+
+        return ucfirst($prefix).ucfirst($model_string).'Table'.ucfirst($randomise);
     }
 
     /**
