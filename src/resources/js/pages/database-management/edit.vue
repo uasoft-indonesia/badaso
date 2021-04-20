@@ -48,6 +48,10 @@
           <div slot="header">
             <h3>{{ $t("database.edit.row.title") }}</h3>
           </div>
+          <badaso-alert-block>
+            <template slot="title">IMPORTANT</template>
+            <template slot="desc">Only the following column types can be "changed": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.</template>
+          </badaso-alert-block>
           <vs-row vs-justify="center" vs-align="center">
             <vs-col col-lg="12" style="overflow-x: auto">
               <vs-table :data="databaseData.fields.modifiedFields">
@@ -304,9 +308,6 @@
               >
               </i18n>
             </vs-col>
-            <vs-col>
-              <pre>{{ JSON.stringify(databaseData, null, '\t') }}</pre>
-            </vs-col>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -456,10 +457,8 @@ export default {
         return column.precision + "," + column.scale;
       } else if (column.type == "enum" || column.type == "set") {
         return column.options.join();
-      } else if (column.type == "date") {
+      } else if (column.type == "date" || column.type == "timestamp" || column.type == "longblob") {
         return null;
-      } else if (column.type == "timestamp") {
-        return null
       } else {
         return column.length;
       }
@@ -478,7 +477,7 @@ export default {
             this.databaseData.fields.modifiedFields.push({
               id: id,
               fieldName: column.name,
-              fieldType: column.type,
+              fieldType: column.type === 'longblob' ? 'blob' : column.type,
               fieldLength: this.getFieldLength(column),
               fieldNull: column.notnull ? false : true,
               fieldAttribute: column.unsigned,
@@ -496,7 +495,7 @@ export default {
             this.databaseData.fields.currentFields.push({
               id: id,
               fieldName: column.name,
-              fieldType: column.type,
+              fieldType: column.type === 'longblob' ? 'blob' : column.type,
               fieldLength: this.getFieldLength(column),
               fieldNull: column.notnull ? false : true,
               fieldAttribute: column.unsigned,
@@ -619,7 +618,7 @@ export default {
           fieldName: "created_at",
           fieldType: "timestamp",
           fieldLength: null,
-          fieldNull: false,
+          fieldNull: true,
           fieldAttribute: false,
           fieldIncrement: false,
           fieldIndex: null,
@@ -642,7 +641,7 @@ export default {
           fieldName: "updated_at",
           fieldType: "timestamp",
           fieldLength: null,
-          fieldNull: false,
+          fieldNull: true,
           fieldAttribute: false,
           fieldIncrement: false,
           fieldIndex: null,

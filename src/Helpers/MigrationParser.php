@@ -505,7 +505,7 @@ class MigrationParser
                     self::CHANGE_COLUMN_LENGTH,
                     self::getMigrationTypeField($row['field_type']),
                     $current_fields['field_name'],
-                    self::getMigrationLengthField($row['field_length'] ?? $current_fields['field_length'], $row['field_type'])
+                    self::getMigrationLengthField($row['field_length'], $row['field_type'])
                 );
             } 
             
@@ -812,6 +812,8 @@ class MigrationParser
             return sprintf(self::FIELD_DECIMAL_LENGTH, $field);
         } else if (in_array($fieldType, [null, 'null', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint'])) {
             return;
+        } else if (in_array($fieldType, ['double', 'float', 'decimal'])) {
+            return sprintf(self::FIELD_DECIMAL_LENGTH, $field);
         }
     }
 
