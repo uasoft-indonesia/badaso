@@ -10,6 +10,9 @@ export default {
     alphaNum: "* {0} bukan alfanumerik.",
     alphaNumAndUnderscoreValidator:
       "* {0} hanya alfanumerik dan underscore (_) diperbolehkan.",
+    unique: "* {0} harus unik.",
+    distinct: "* Hanya satu {0} dibolehkan.",
+    requiredPrimary: "* Hanya {0} dibolehkan."
   },
   login: {
     title: "Masuk",
@@ -150,6 +153,8 @@ export default {
       accept: "Ya",
       cancel: "Tidak",
     },
+    exportToExcel: "Export .xls",
+    exportToPdf: "Export .pdf",
   },
 
   alert: {
@@ -893,7 +898,7 @@ export default {
           asDefined: "Nilau Default",
           fieldNull: "Boleh Kosong",
           fieldIndex: "Index",
-          fieldAttribute: "Atribut",
+          fieldAttribute: "Unsigned",
           fieldIncrement: "Auto Increment",
           add: "Add",
         },
@@ -929,7 +934,7 @@ export default {
           asDefined: "Nilau Default",
           fieldNull: "Boleh Kosong",
           fieldIndex: "Index",
-          fieldAttribute: "Atribut",
+          fieldAttribute: "Unsigned",
           fieldIncrement: "Auto Increment",
           action: "Aksi",
           add: "Add",
@@ -957,6 +962,8 @@ export default {
     },
     warning: {
       docs: "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
+      exists: "Field {0} sudah ada.",
+      invalid: "Request tidak valid. Mohon periksa kembali field atau nama tabel jika valid atau tidak."
     },
     migration: {
       header: {

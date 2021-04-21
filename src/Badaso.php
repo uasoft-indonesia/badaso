@@ -162,6 +162,10 @@ class Badaso
               {
                  "label": "Year",
                  "value": "year"
+              },
+              {
+                 "label": "Timestamp",
+                 "value": "timestamp"
               }
            ]
         },
