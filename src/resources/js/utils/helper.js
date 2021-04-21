@@ -104,6 +104,13 @@ export default {
 
     return url.protocol === "http:" || url.protocol === "https:";
   },
+  objectFlip(obj) {
+    const ret = {};
+    Object.keys(obj).forEach(key => {
+      ret[obj[key]] = key;
+    });
+    return ret;
+  },
   uuid() {
     return uuidv4();
   }
