@@ -65,6 +65,8 @@ class BadasoSetup extends Command
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['chart.js'] = '^2.8.0';
+        $decoded_json['dependencies']['jspdf'] = '^2.3.1';
+        $decoded_json['dependencies']['jspdf-autotable'] = '^3.5.14';
         $decoded_json['dependencies']['luxon'] = '^1.25.0';
         $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['material-icons'] = '^0.3.1';
@@ -74,6 +76,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
         $decoded_json['dependencies']['vue-draggable-nested-tree'] = '^3.0.0-beta2';
         $decoded_json['dependencies']['vue-i18n'] = '^8.22.4';
+        $decoded_json['dependencies']['vue-json-excel'] = '^0.3.0';
         $decoded_json['dependencies']['vue-prism-editor'] = '^1.2.2';
         $decoded_json['dependencies']['vue-router'] = '^3.1.3';
         $decoded_json['dependencies']['vue2-editor'] = '^2.10.2';
