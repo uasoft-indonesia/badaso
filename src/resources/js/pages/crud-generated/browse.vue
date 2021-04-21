@@ -834,6 +834,7 @@ export default {
         startY: 15,
         // Default for all columns
         styles: { valign: 'middle' },
+        headStyles: { fillColor: [6, 187, 211] },
         // Override the default above for the text column
         columnStyles: { text: { cellWidth: 'wrap' } },
       })
