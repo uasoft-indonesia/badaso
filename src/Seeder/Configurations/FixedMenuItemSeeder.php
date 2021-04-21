@@ -133,14 +133,27 @@ class FixedMenuItemSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
+                9 => [
+                    'menu_id' => '2',
+                    'title' => 'File Manager',
+                    'url' => '/file-manager',
+                    'target' => '_self',
+                    'icon_class' => 'perm_media',
+                    'color' => '',
+                    'parent_id' => null,
+                    'order' => 8,
+                    'permissions' => 'browse_file_manager',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_menu_items = [];
             foreach ($menu_items as $key => $value) {
                 $menu_item = \DB::table('menu_items')
-                        ->where('menu_id', $value['menu_id'])
-                        ->where('url', $value['url'])
-                        ->first();
+                    ->where('menu_id', $value['menu_id'])
+                    ->where('url', $value['url'])
+                    ->first();
 
                 if (isset($menu_item)) {
                     continue;
@@ -150,7 +163,7 @@ class FixedMenuItemSeeder extends Seeder
 
             \DB::table('menu_items')->insert($new_menu_items);
         } catch (Exception $e) {
-            throw new Exception('Exception occur '.$e);
+            throw new Exception('Exception occur ' . $e);
             \DB::rollBack();
         }
 

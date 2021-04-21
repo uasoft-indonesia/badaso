@@ -966,4 +966,7 @@ export default {
       },
     },
   },
+  fileManager : {
+    'title' : 'File Manager'
+  },
 };

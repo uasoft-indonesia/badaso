@@ -51,6 +51,7 @@ import UserManagementRead from "./user-management/read";
 import UserManagementEdit from "./user-management/edit";
 import UserManagementAdd from "./user-management/add";
 import UserManagementRoles from "./user-management/roles";
+import FileManagerBrowse from "./file-manager/browse";
 
 export default {
   components: {
@@ -96,6 +97,7 @@ export default {
     UserManagementEdit,
     UserManagementAdd,
     UserManagementRoles,
+    FileManagerBrowse,
   },
   name: "ActivityLogIndex",
   data: () => ({
@@ -106,7 +108,6 @@ export default {
     const routeName = this.$route.name;
     const componentName = this.$caseConvert.kebab(routeName);
     const slug = this.$route.params ? this.$route.params.slug : "";
-
     this.globalComponentList = this.constructor.superOptions.components;
 
     if (routeName === "CrudGeneratedBrowse") {

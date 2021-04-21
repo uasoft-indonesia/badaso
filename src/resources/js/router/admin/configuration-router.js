@@ -264,4 +264,12 @@ export default [
       title: "Browse Log Viewer",
     },
   },
+  {
+    path: prefix + "/file-manager",
+    name: "FileManagerBrowse",
+    component: Pages,
+    meta: {
+      title: "File Manager",
+    },
+  },
 ];

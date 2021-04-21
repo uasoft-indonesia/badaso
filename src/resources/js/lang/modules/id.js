@@ -967,4 +967,7 @@ export default {
       },
     },
   },
+  fileManager: {
+    title: "Pengolahan File",
+  },
 };
