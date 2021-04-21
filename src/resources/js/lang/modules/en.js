@@ -150,6 +150,8 @@ export default {
       accept: "Accept",
       cancel: "Cancel",
     },
+    exportToExcel: "Export to .xls",
+    exportToPdf: "Export to .pdf",
   },
 
   alert: {

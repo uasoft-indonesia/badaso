@@ -2,6 +2,29 @@
   <div>
     <badaso-breadcrumb-row full>
       <template slot="action">
+        <download-excel
+            :data="records"
+            :fields="fieldsForExcel"
+            :worksheet="dataType.displayNameSingular"
+            :name="dataType.displayNameSingular + '.xls'"
+            style="display: contents"
+          >
+          <vs-button
+            color="primary"
+            type="relief"
+            v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
+            >
+            <vs-icon icon="add"></vs-icon> {{ $t("action.exportToExcel") }}
+          </vs-button>
+        </download-excel>
+        <vs-button
+          color="primary"
+          type="relief"
+          v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
+          @click="generatePdf"
+          >
+          <vs-icon icon="add"></vs-icon> {{ $t("action.exportToPdf") }}
+        </vs-button>
         <vs-button
           color="primary"
           type="relief"
@@ -552,8 +575,11 @@
 
 <script>
 import * as _ from "lodash";
+import downloadExcel from "vue-json-excel";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 export default {
-  components: {},
+  components: { downloadExcel },
   name: "CrudGeneratedBrowse",
   data: () => ({
     errors: {},
@@ -574,6 +600,8 @@ export default {
     orderField: "",
     orderDirection: "",
     rowPerPage: null,
+    fieldsForExcel: {},
+    fieldsForPdf: []
   }),
   watch: {
     $route: function(to, from) {
@@ -656,6 +684,8 @@ export default {
           if (this.dataType.orderColumn && this.dataType.orderDisplayColumn) {
             this.isCanSort = true;
           }
+
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -780,6 +810,50 @@ export default {
       } else {
         return null;
       }
+    },
+    prepareExcelExporter() {
+      for (const iterator of this.dataType.dataRows) {
+        this.fieldsForExcel[iterator.displayName] = this.$caseConvert.stringSnakeToCamel(iterator.field)
+      }
+
+      for (const iterator of this.dataType.dataRows) {
+        let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
+        this.fieldsForPdf.push(string.charAt(0).toUpperCase() + string.slice(1))
+      }
+    },
+    generatePdf() {
+      var data = this.records;
+
+      const result = data.map(Object.values);
+
+      const doc = new jsPDF('l');
+
+      doc.autoTable({
+        head: [this.fieldsForPdf],
+        body: result,
+        startY: 15,
+        // Default for all columns
+        styles: { valign: 'middle' },
+        // Override the default above for the text column
+        columnStyles: { text: { cellWidth: 'wrap' } },
+      })
+
+      let output = doc.output('blob');
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(output)
+        return
+      }
+
+      var data = window.URL.createObjectURL(output)
+      var link = document.createElement('a')
+      link.href = data
+      link.download = this.dataType.displayNameSingular + '.pdf'
+      link.click()
+      setTimeout(function () {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data)
+      }, 100)
     },
   },
 };
