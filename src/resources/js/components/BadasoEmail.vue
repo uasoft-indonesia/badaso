@@ -9,6 +9,8 @@
       :autofocus="autofocus"
       :value="value"
       @input="handleInput($event)"
+      icon="email"
+      icon-after
     />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">

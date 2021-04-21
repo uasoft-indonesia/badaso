@@ -10,7 +10,9 @@
         class="datetime-input"
         @input="handleInput($event)"
       ></datetime>
-      <vs-icon icon="schedule" class="datetime-icon"></vs-icon>
+      <div class="datetime-icon-box">
+        <vs-icon icon="schedule" class="datetime-icon"></vs-icon>
+        </diV>
     </div>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">

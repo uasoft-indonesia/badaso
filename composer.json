@@ -1,7 +1,15 @@
 {
-    "version": "1.0.0-alpha.26",
+    "version": "1.0.0-alpha.29",
     "name": "uasoft-indonesia/badaso",
-    "description": "CRUD generator with laravel-vue SPA",
+    "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
+    "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator"],
+    "license": "proprietary",
+    "homepage": "https://badaso.uatech.co.id/",
+    "support": {
+        "issues": "https://github.com/uasoft-indonesia/badaso/issues",
+        "discussion": "https://github.com/uasoft-indonesia/badaso/discussions",
+        "source": "https://github.com/uasoft-indonesia/voyager"
+    },
     "type": "library",
     "require": {
         "webpatser/laravel-uuid": "^3.0",
@@ -17,12 +25,11 @@
         "league/flysystem-aws-s3-v3": "1.0.28",
         "guzzlehttp/guzzle": "6.5.5"
     },
-    "license": "MIT",
     "authors": [{
         "name": "UASOFT",
         "email": "hello@uatech.co.id"
     }],
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "autoload": {
         "psr-4": {
             "Uasoft\\Badaso\\": "src/"

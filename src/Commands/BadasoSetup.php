@@ -3,6 +3,8 @@
 namespace Uasoft\Badaso\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BadasoSetup extends Command
@@ -40,11 +42,15 @@ class BadasoSetup extends Command
      */
     public function handle()
     {
-        $this->addNodePackages();
-        $this->addWebpackMix();
+        $this->updatePackageJson();
+        $this->updateWebpackMix();
+        $this->publishBadasoProvider();
+        $this->publishLaravelBackupProvider();
+        $this->publishLaravelActivityLogProvider();
+        $this->uploadDefaultUserImage();
     }
 
-    protected function addNodePackages()
+    protected function updatePackageJson()
     {
         $package_json = file_get_contents(base_path('package.json'));
         $decoded_json = json_decode($package_json, true);
@@ -74,13 +80,15 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vue2-editor'] = '^2.10.2';
         $decoded_json['dependencies']['vuedraggable'] = '^2.24.3';
         $decoded_json['dependencies']['vuelidate'] = '^0.7.6';
-        $decoded_json['dependencies']['vuesax'] = '3.12.2';
+        $decoded_json['dependencies']['vuesax'] = '^3.12.2';
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
 
         $encoded_json = json_encode($decoded_json, JSON_PRETTY_PRINT);
         file_put_contents(base_path('package.json'), $encoded_json);
+
+        $this->info('package.json updated');
     }
 
     protected function checkExist($file, $search)
@@ -88,7 +96,7 @@ class BadasoSetup extends Command
         return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
-    protected function addWebpackMix()
+    protected function updateWebpackMix()
     {
         // mix
         $mix_file = base_path('webpack.mix.js');
@@ -108,5 +116,39 @@ class BadasoSetup extends Command
 
             $this->file->append($mix_file, $data);
         }
+
+        $this->info('webpack.mix.js updated');
+    }
+
+    protected function publishBadasoProvider()
+    {
+        Artisan::call('vendor:publish', ['--tag' => 'Badaso']);
+
+        $this->info('Badaso provider published');
+    }
+
+    protected function publishLaravelBackupProvider()
+    {
+        Artisan::call('vendor:publish', [
+            '--provider' => "Spatie\Backup\BackupServiceProvider",
+        ]);
+
+        $this->info('Laravel backup provider published');
+    }
+
+    protected function publishLaravelActivityLogProvider()
+    {
+        Artisan::call('vendor:publish', [
+            '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
+            '--tag' => 'config',
+        ]);
+
+        $this->info('Laravel activity log provider published');
+    }
+
+    protected function uploadDefaultUserImage()
+    {
+        $img = file_get_contents(public_path('/badaso-images/default-user.png'));
+        Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
     }
 }
