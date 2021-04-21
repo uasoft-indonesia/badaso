@@ -154,7 +154,6 @@ class BadasoSetup extends Command
 
     protected function publishLaravelFileManager()
     {
-        Artisan::call('vendor:publish', ['--tag' => 'lfm_config']);
         Artisan::call('vendor:publish', ['--tag' => 'lfm_public']);
 
         $this->info('Fime Manager provider published');
