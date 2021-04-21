@@ -13,6 +13,7 @@
             color="primary"
             type="relief"
             v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
+            style="margin-bottom: 4px"
             >
             <vs-icon icon="file_upload"></vs-icon> {{ $t("action.exportToExcel") }}
           </vs-button>
