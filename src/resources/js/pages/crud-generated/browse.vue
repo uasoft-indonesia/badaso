@@ -14,7 +14,7 @@
             type="relief"
             v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
             >
-            <vs-icon icon="add"></vs-icon> {{ $t("action.exportToExcel") }}
+            <vs-icon icon="file_upload"></vs-icon> {{ $t("action.exportToExcel") }}
           </vs-button>
         </download-excel>
         <vs-button
@@ -23,7 +23,7 @@
           v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
           @click="generatePdf"
           >
-          <vs-icon icon="add"></vs-icon> {{ $t("action.exportToPdf") }}
+          <vs-icon icon="file_upload"></vs-icon> {{ $t("action.exportToPdf") }}
         </vs-button>
         <vs-button
           color="primary"
