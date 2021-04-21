@@ -26,29 +26,6 @@ class BadasoDatabaseController extends Controller
         $this->file_generator = $file_generator;
     }
 
-    // public function browse(Request $request)
-    // {
-    //     try {
-    //         $protected_tables = Badaso::getProtectedTables();
-    //         $tables = SchemaManager::listTables();
-    //         $tables_with_crud_data = [];
-    //         foreach ($tables as $key => $value) {
-    //             if (!in_array($key, $protected_tables)) {
-    //                 $table_with_crud_data = [];
-    //                 $table_with_crud_data['table_name'] = $key;
-    //                 $table_with_crud_data['crud_data'] = Badaso::model('DataType')::where('name', $key)->first();
-    //                 $tables_with_crud_data[] = $table_with_crud_data;
-    //             }
-    //         }
-
-    //         $data['tables_with_crud_data'] = $tables_with_crud_data;
-
-    //         return ApiResponse::success(collect($data)->toArray());
-    //     } catch (Exception $e) {
-    //         return APIResponse::failed($e);
-    //     }
-    // }
-
     public function add(Request $request)
     {
         try {
@@ -64,10 +41,11 @@ class BadasoDatabaseController extends Controller
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
                 'rows' => 'required',
-                'timestamp' => 'required|boolean',
+                'rows.*.field_name' => 'required|string|distinct',
+                'rows.*.field_type' => 'required|string',
             ]);
 
-            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->timestamp);
+            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows);
 
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/',
@@ -111,18 +89,8 @@ class BadasoDatabaseController extends Controller
             ]);
 
             $columns = SchemaManager::describeTable($request->table)->toArray();
-            $filteredColumn = [];
-            $timestamp = false;
 
-            foreach ($columns as $key => $value) {
-                if (in_array($key, ['updated_at', 'created_at']) && in_array($value['type'], ['timestamp'])) {
-                    $timestamp = true;
-                } else {
-                    $filteredColumn[$key] = $value;
-                }
-            }
-
-            return ApiResponse::success(['columns' => $filteredColumn, 'timestamp' => $timestamp]);
+            return ApiResponse::success(['columns' => $columns]);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -153,8 +121,8 @@ class BadasoDatabaseController extends Controller
             $fields = $data['fields'];
             $table = $data['table'];
 
-            if (count($fields['modified_fields']) > 0) {
-                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, collect($fields['modified_fields'])->sortBy('modify_type')->reverse()->toArray(), 'alter');
+            if (count($fields['current_fields']) > 0) {
+                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter');
             }
 
             if ($table['current_name'] !== $table['modified_name']) {

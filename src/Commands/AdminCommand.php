@@ -32,6 +32,9 @@ class AdminCommand extends Command
     {
         return [
             ['create', null, InputOption::VALUE_NONE, 'Create an admin user', null],
+            ['name', null, InputOption::VALUE_REQUIRED, 'Name of the user', null],
+            ['password', null, InputOption::VALUE_REQUIRED, 'Password of the user', null],
+            ['confirm_password', null, InputOption::VALUE_REQUIRED, 'Confirmation password', null]
         ];
     }
 
@@ -102,12 +105,23 @@ class AdminCommand extends Command
     protected function getUser($create = false)
     {
         $email = $this->argument('email');
+        $name = $this->option('name');
+        $password = $this->option('password');
+        $confirmPassword = $this->option('confirm_password');
 
         // If we need to create a new user go ahead and create it
         if ($create) {
-            $name = $this->ask('Enter the admin name');
-            $password = $this->secret('Enter admin password');
-            $confirmPassword = $this->secret('Confirm Password');
+            if (!$name) {
+                $name = $this->ask('Enter the admin name');
+            }
+
+            if (!$password) {
+                $password = $this->secret('Enter admin password');
+            }
+
+            if (!$confirmPassword) {
+                $confirmPassword = $this->secret('Confirm Password');
+            }
 
             // Ask for email if there wasnt set one
             if (!$email) {

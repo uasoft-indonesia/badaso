@@ -1,6 +1,7 @@
 import store from "./../store/store";
 import * as _ from "lodash";
 import moment from "moment";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   generateDisplayName(fieldName) {
@@ -109,5 +110,8 @@ export default {
       ret[obj[key]] = key;
     });
     return ret;
+  },
+  uuid() {
+    return uuidv4();
   }
 };
