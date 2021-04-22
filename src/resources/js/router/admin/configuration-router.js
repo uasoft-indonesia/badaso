@@ -272,4 +272,12 @@ export default [
       title: "File Manager",
     },
   },
+  {
+    path: prefix + "/firebase-edit",
+    name: "FirebaseEdit",
+    component: Pages,
+    meta: {
+      title: "Firebase",
+    },
+  },
 ];

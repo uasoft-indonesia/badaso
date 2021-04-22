@@ -52,6 +52,7 @@ import UserManagementEdit from "./user-management/edit";
 import UserManagementAdd from "./user-management/add";
 import UserManagementRoles from "./user-management/roles";
 import FileManagerBrowse from "./file-manager/browse";
+import FirebaseEdit from './firebase/edit'
 
 export default {
   components: {
@@ -98,6 +99,7 @@ export default {
     UserManagementAdd,
     UserManagementRoles,
     FileManagerBrowse,
+    FirebaseEdit
   },
   name: "ActivityLogIndex",
   data: () => ({

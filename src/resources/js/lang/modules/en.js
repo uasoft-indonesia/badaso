@@ -966,7 +966,24 @@ export default {
       },
     },
   },
-  fileManager : {
-    'title' : 'File Manager'
+  fileManager: {
+    title: "File Manager",
+  },
+  firebase: {
+    title : 'Firebase',
+    feature : 'Feature',
+    features : {
+      firebaseCloudMessage : 'Firebase Cloud Message'
+    },
+    form: {
+      apiKey: "API Key",
+      authDomain: "Auth Domain",
+      projectId: "Project Id",
+      storageBucket: "Storage Bucket",
+      messagingSenderId: "Message Sender",
+      appId: "App Id",
+      measurementId: "Measurement Id",
+      serverKey : "Server Key",
+    },
   },
 };
