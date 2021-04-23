@@ -45,6 +45,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/customization/' => resource_path('js/badaso'),
             __DIR__ . '/../resources/lang' => resource_path('lang/vendor/badaso'),
             __DIR__ . '/../Config/lfm.php' => config_path('lfm.php'),
+            __DIR__ . '/../resources/views/vendor' => resource_path('views/vendor'),
         ], 'Badaso');
 
         $this->publishes([
@@ -62,6 +63,7 @@ class BadasoServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/customization/' => resource_path('js/badaso'),
             __DIR__ . '/../Images/' => public_path(),
+            __DIR__ . '/../resources/views/vendor' => resource_path('views/vendor'),
             // __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
         ], 'BadasoResource');
     }

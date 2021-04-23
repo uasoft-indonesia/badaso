@@ -256,10 +256,11 @@ export default [
   },
   {
     path: prefix + "/" + log_viewer,
-    name: "LogViewer",
-    beforeEnter() {
-      location.href = "/" + log_viewer;
-    },
+    name: "LogViewerBrowse",
+    // beforeEnter() {
+    //   location.href = "/" + log_viewer;
+    // },
+    component : Pages,
     meta: {
       title: "Browse Log Viewer",
     },

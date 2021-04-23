@@ -969,6 +969,9 @@ export default {
   },
   fileManager: {
     title: "Pengolahan File",
+    warning: {
+      notAllowedToBrowse: "Anda tidak diizinkan untuk mengakses file manager.",
+    },
   },
   firebase: {
     title: "Firebase",
@@ -985,6 +988,12 @@ export default {
       appId: "Id App",
       measureId: "Id Measurement",
       serverKey: "Kunci Server",
+    },
+  },
+  logViewer: {
+    title: "Log Viewer",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
   },
 };
