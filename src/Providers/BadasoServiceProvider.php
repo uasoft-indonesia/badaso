@@ -12,6 +12,7 @@ use Uasoft\Badaso\Commands\BackupCommand;
 use Uasoft\Badaso\Commands\BadasoSetup;
 use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
+use L5Swagger\L5SwaggerServiceProvider;
 
 class BadasoServiceProvider extends ServiceProvider
 {
@@ -39,17 +40,24 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
             __DIR__.'/../Config/log-viewer.php' => config_path('log-viewer.php'),
             __DIR__.'/../Config/backup.php' => config_path('backup.php'),
+            __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
             __DIR__.'/../Seeder/Configurations' => database_path('seeds'),
             __DIR__.'/../Seeder/CRUDData' => database_path('seeds/CRUDData'),
             __DIR__.'/../Images/' => public_path(),
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
+
+            /**
+             * For swagger
+             */
+            __DIR__.'/../Models/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
         ], 'Badaso');
 
         $this->publishes([
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
             __DIR__.'/../Config/log-viewer.php' => config_path('log-viewer.php'),
             __DIR__.'/../Config/backup.php' => config_path('backup.php'),
+            __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
         ], 'BadasoConfig');
 
         $this->publishes([
@@ -76,6 +84,7 @@ class BadasoServiceProvider extends ServiceProvider
         $this->app->register(DropboxServiceProvider::class);
         $this->app->register(GoogleDriveServiceProvider::class);
         $this->app->register(LogViewerServiceProvider::class);
+        $this->app->register(L5SwaggerServiceProvider::class);
         $this->registerConsoleCommands();
     }
 

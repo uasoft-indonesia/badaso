@@ -20,6 +20,8 @@ use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 use Uasoft\Badaso\Models\Permission;
+use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
+use Uasoft\Badaso\Helpers\ApiDocs;
 
 class BadasoCRUDController extends Controller
 {
@@ -219,6 +221,8 @@ class BadasoCRUDController extends Controller
                 $new_data_rows[] = $new_data_row;
             }
 
+            $this->generateAPIDocs($table_name, $data_rows, $data_type);
+
             if ($data_type->generate_permissions) {
                 Permission::generateFor($data_type->name);
             } else {
@@ -334,6 +338,8 @@ class BadasoCRUDController extends Controller
 
             $new_data_type->data_rows = $new_data_rows;
 
+            $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
+
             if ($new_data_type->generate_permissions) {
                 Permission::generateFor($new_data_type->name);
             }
@@ -366,6 +372,8 @@ class BadasoCRUDController extends Controller
             ]);
 
             $data_type = DataType::find($request->id);
+
+            $this->deleteAPIDocs($data_type->name);
 
             Permission::removeFrom($data_type->name);
 
@@ -437,5 +445,27 @@ class BadasoCRUDController extends Controller
         $menu_key = config('badaso.default_menu');
         $url = '/'.$menu_key.'/'.$data_type->slug;
         MenuItem::where('url', $url)->delete();
+    }
+
+    private function generateAPIDocs($table_name, $data_rows, $data_type)
+    {
+        $filesystem = new LaravelFileSystem;
+        $file_path = ApiDocs::getFilePath($table_name);
+        $stub = ApiDocs::getStub($table_name, $data_rows, $data_type);
+        if (!$filesystem->put($file_path, $stub))  {
+            return false;
+        }
+        return true;
+    }
+
+    private function deleteAPIDocs($table_name)
+    {
+        $filesystem = new LaravelFileSystem;
+        $file_path = ApiDocs::getFilePath($table_name);
+        if($filesystem->exists($file_path)) {
+            return $filesystem->delete($file_path);
+        }
+
+        return false;
     }
 }
