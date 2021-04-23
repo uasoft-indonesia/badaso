@@ -125,6 +125,45 @@
               :items="crudData.rows"
               :alert="errors.defaultServerSideSearchField"
             ></badaso-hidden>
+            <div class="ml-3">
+              <label for="">{{
+                $t("crud.edit.field.activeEventNotification.title")
+              }}</label>
+              <vs-row>
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onCreate"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onCreate")
+                  }}</vs-checkbox
+                >
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onRead"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onRead")
+                  }}</vs-checkbox
+                >
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onUpdate"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onUpdate")
+                  }}</vs-checkbox
+                >
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onDelete"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onDelete")
+                  }}</vs-checkbox
+                >
+              </vs-row>
+            </div>
             <badaso-textarea
               size="12"
               :label="$t('crud.edit.field.description.title')"
@@ -598,12 +637,17 @@ export default {
       orderColumn: "",
       orderDisplayColumn: "",
       orderDirection: "",
+      notificationOnEvent: [],
       rows: [],
     },
     relationTypes: [],
     destinationTables: [],
     destinationTableColumns: [],
     relation: {},
+    onCreate: false,
+    onRead: false,
+    onUpdate: false,
+    onDelete: false,
   }),
   computed: {
     componentList: {
@@ -745,6 +789,16 @@ export default {
               setRelation: false,
             };
           });
+
+          let notificationOnEvent = JSON.parse(crudData.notificationOnEvent);
+          if (Array.isArray(notificationOnEvent)) {
+            this.onCreate = notificationOnEvent.includes("onCreate");
+            this.onRead = notificationOnEvent.includes("onRead");
+            this.onUpdate = notificationOnEvent.includes("onUpdate");
+            this.onDelete = notificationOnEvent.includes("onDelete");
+          }
+          crudData.notificationOnEvent = notificationOnEvent;
+
           this.crudData = JSON.parse(JSON.stringify(crudData));
           this.$closeLoader();
         })
@@ -804,6 +858,16 @@ export default {
             color: "danger",
           });
         });
+    },
+    onCheckBoxNotificationOnEvent() {
+      let notificationOnEvent = [];
+
+      if (this.onCreate) notificationOnEvent.push("onCreate");
+      if (this.onRead) notificationOnEvent.push("onRead");
+      if (this.onUpdate) notificationOnEvent.push("onUpdate");
+      if (this.onDelete) notificationOnEvent.push("onDelete");
+
+      this.crudData.notificationOnEvent = notificationOnEvent;
     },
   },
 };

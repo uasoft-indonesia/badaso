@@ -399,6 +399,15 @@ export default {
           title: "Bidang Pencarian Sisi Server Default",
           placeholder: "Bidang Pencarian Sisi Server Default",
         },
+        activeEventNotification: {
+          title: "Pemberitahuan Peristiwa Aktif",
+          label: {
+            onCreate: "Saat Buat",
+            onRead: "Saat Baca",
+            onUpdate: "Saat Update",
+            onDelete: "Saat Delete",
+          },
+        },
         description: {
           title: "Deskripsi",
           placeholder: "Deskripsi",

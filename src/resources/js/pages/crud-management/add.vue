@@ -122,6 +122,45 @@
               :items="fieldList"
               :alert="errors.defaultServerSideSearchField"
             ></badaso-hidden>
+            <div class="ml-3">
+              <label for="">{{
+                $t("crud.edit.field.activeEventNotification.title")
+              }}</label>
+              <vs-row>
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onCreate"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onCreate")
+                  }}</vs-checkbox
+                >
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onRead"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onRead")
+                  }}</vs-checkbox
+                >
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onUpdate"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onUpdate")
+                  }}</vs-checkbox
+                >
+                <vs-checkbox
+                  @change="onCheckBoxNotificationOnEvent"
+                  v-model="onDelete"
+                  style="justify-content: start;"
+                  >{{
+                    $t("crud.edit.field.activeEventNotification.label.onDelete")
+                  }}</vs-checkbox
+                >
+              </vs-row>
+            </div>
             <badaso-textarea
               size="12"
               :label="$t('crud.add.field.description.title')"
@@ -194,7 +233,11 @@
                         }}</span>
                       </span>
                       <br />
-                      <span class="text-danger" v-for="err in errors[`rows.${index}.field`]">{{err}}</span>
+                      <span
+                        class="text-danger"
+                        v-for="err in errors[`rows.${index}.field`]"
+                        >{{ err }}</span
+                      >
                     </td>
                     <td>
                       <vs-checkbox
@@ -591,6 +634,7 @@ export default {
       orderColumn: "",
       orderDisplayColumn: "",
       orderDirection: "",
+      notificationOnEvent: [],
       rows: [],
     },
     relationTypes: [],
@@ -602,6 +646,10 @@ export default {
       destinationTableColumn: "",
       destinationTableDisplayColumn: "",
     },
+    onCreate: false,
+    onRead: false,
+    onUpdate: false,
+    onDelete: false,
   }),
   computed: {
     componentList: {
@@ -777,6 +825,16 @@ export default {
             color: "danger",
           });
         });
+    },
+    onCheckBoxNotificationOnEvent() {
+      let notificationOnEvent = [];
+
+      if (this.onCreate) notificationOnEvent.push("onCreate");
+      if (this.onRead) notificationOnEvent.push("onRead");
+      if (this.onUpdate) notificationOnEvent.push("onUpdate");
+      if (this.onDelete) notificationOnEvent.push("onDelete");
+
+      this.crudData.notificationOnEvent = notificationOnEvent;
     },
   },
 };

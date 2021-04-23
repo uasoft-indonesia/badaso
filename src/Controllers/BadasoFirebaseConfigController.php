@@ -27,7 +27,9 @@ class BadasoFirebaseConfigController extends Controller
                 'serverKey' => ['required'],
             ]);
 
-            $firebaseService = FirebaseServices::first()->updateOrCreate([]);
+            $firebaseService = FirebaseServices::first();
+            if (!isset($firebaseService)) {
+            }
 
             return ApiResponse::success([
                 'firebase' => null,

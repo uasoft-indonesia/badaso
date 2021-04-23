@@ -403,6 +403,15 @@ export default {
           title: "Description",
           placeholder: "Description",
         },
+        activeEventNotification : {
+          title : 'Active Event Notification',
+          label : {
+            onCreate : 'On Create',
+            onRead : 'On Read',
+            onUpdate : 'On Update',
+            onDelete : 'On Delete'
+          },
+        }
       },
       header: {
         field: "Field",
