@@ -974,4 +974,33 @@ export default {
       },
     },
   },
+  fileManager: {
+    title: "Pengolahan File",
+    warning: {
+      notAllowedToBrowse: "Anda tidak diizinkan untuk mengakses file manager.",
+    },
+  },
+  firebase: {
+    title: "Firebase",
+    feature: "Fitur",
+    features: {
+      firebaseCloudMessage: "Firebase Pesan Awan",
+    },
+    form: {
+      apiKey: "Kunci API",
+      authDomain: "Auth Domain",
+      projectId: "Id Proyek",
+      storageBucket: "Penyimpanan Bucket",
+      messagingSenderId: "Id Pengirim Pesan",
+      appId: "Id App",
+      measureId: "Id Measurement",
+      serverKey: "Kunci Server",
+    },
+  },
+  logViewer: {
+    title: "Log Viewer",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse log viewer",
+    },
+  },
 };

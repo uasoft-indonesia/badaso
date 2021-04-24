@@ -974,4 +974,33 @@ export default {
       },
     },
   },
+  fileManager: {
+    title: "File Manager",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse file manager",
+    },
+  },
+  firebase: {
+    title: "Firebase",
+    feature: "Feature",
+    features: {
+      firebaseCloudMessage: "Firebase Cloud Message",
+    },
+    form: {
+      apiKey: "API Key",
+      authDomain: "Auth Domain",
+      projectId: "Project Id",
+      storageBucket: "Storage Bucket",
+      messagingSenderId: "Message Sender",
+      appId: "App Id",
+      measurementId: "Measurement Id",
+      serverKey: "Server Key",
+    },
+  },
+  logViewer: {
+    title: "Log Viewer",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse log viewer",
+    },
+  },
 };

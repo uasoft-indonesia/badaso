@@ -47,6 +47,7 @@ class BadasoSetup extends Command
         $this->publishBadasoProvider();
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
+        $this->publishLaravelFileManager();
         $this->uploadDefaultUserImage();
     }
 
@@ -107,7 +108,7 @@ class BadasoSetup extends Command
 
         if ($this->checkExist($mix_file, $search)) {
             $data =
-        <<<EOT
+                <<<EOT
 
         // Badaso
         mix
@@ -153,5 +154,12 @@ class BadasoSetup extends Command
     {
         $img = file_get_contents(public_path('/badaso-images/default-user.png'));
         Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
+    }
+
+    protected function publishLaravelFileManager()
+    {
+        Artisan::call('vendor:publish', ['--tag' => 'lfm_public']);
+
+        $this->info('Fime Manager provider published');
     }
 }
