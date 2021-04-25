@@ -634,7 +634,7 @@ export default {
       orderColumn: "",
       orderDisplayColumn: "",
       orderDirection: "",
-      notificationOnEvent: [],
+      notification: [],
       rows: [],
     },
     relationTypes: [],
@@ -827,14 +827,14 @@ export default {
         });
     },
     onCheckBoxNotificationOnEvent() {
-      let notificationOnEvent = [];
+      let notification = [];
 
-      if (this.onCreate) notificationOnEvent.push("onCreate");
-      if (this.onRead) notificationOnEvent.push("onRead");
-      if (this.onUpdate) notificationOnEvent.push("onUpdate");
-      if (this.onDelete) notificationOnEvent.push("onDelete");
+      if (this.onCreate) notification.push("onCreate");
+      if (this.onRead) notification.push("onRead");
+      if (this.onUpdate) notification.push("onUpdate");
+      if (this.onDelete) notification.push("onDelete");
 
-      this.crudData.notificationOnEvent = notificationOnEvent;
+      this.crudData.notification = notification;
     },
   },
 };

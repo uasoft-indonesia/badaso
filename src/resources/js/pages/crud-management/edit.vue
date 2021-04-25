@@ -637,7 +637,7 @@ export default {
       orderColumn: "",
       orderDisplayColumn: "",
       orderDirection: "",
-      notificationOnEvent: [],
+      notification: [],
       rows: [],
     },
     relationTypes: [],
@@ -790,14 +790,14 @@ export default {
             };
           });
 
-          let notificationOnEvent = JSON.parse(crudData.notificationOnEvent);
-          if (Array.isArray(notificationOnEvent)) {
-            this.onCreate = notificationOnEvent.includes("onCreate");
-            this.onRead = notificationOnEvent.includes("onRead");
-            this.onUpdate = notificationOnEvent.includes("onUpdate");
-            this.onDelete = notificationOnEvent.includes("onDelete");
+          let notification = JSON.parse(crudData.notification);
+          if (Array.isArray(notification)) {
+            this.onCreate = notification.includes("onCreate");
+            this.onRead = notification.includes("onRead");
+            this.onUpdate = notification.includes("onUpdate");
+            this.onDelete = notification.includes("onDelete");
           }
-          crudData.notificationOnEvent = notificationOnEvent;
+          crudData.notification = notification;
 
           this.crudData = JSON.parse(JSON.stringify(crudData));
           this.$closeLoader();
@@ -860,14 +860,14 @@ export default {
         });
     },
     onCheckBoxNotificationOnEvent() {
-      let notificationOnEvent = [];
+      let notification = [];
 
-      if (this.onCreate) notificationOnEvent.push("onCreate");
-      if (this.onRead) notificationOnEvent.push("onRead");
-      if (this.onUpdate) notificationOnEvent.push("onUpdate");
-      if (this.onDelete) notificationOnEvent.push("onDelete");
+      if (this.onCreate) notification.push("onCreate");
+      if (this.onRead) notification.push("onRead");
+      if (this.onUpdate) notification.push("onUpdate");
+      if (this.onDelete) notification.push("onDelete");
 
-      this.crudData.notificationOnEvent = notificationOnEvent;
+      this.crudData.notification = notification;
     },
   },
 };

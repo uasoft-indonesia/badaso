@@ -10,6 +10,7 @@
           <vs-row>
             <badaso-text
               v-model="firebase.apiKey"
+              :disabled="firebase.statusApiKey"
               size="6"
               :label="$t('firebase.form.apiKey')"
               :placeholder="$t('firebase.form.apiKey')"
@@ -21,6 +22,7 @@
               :placeholder="$t('firebase.form.authDomain')"
               :alert="errors.authDomain"
               v-model="firebase.authDomain"
+              :disabled="firebase.statusAuthDomain"
             ></badaso-text>
             <badaso-text
               size="6"
@@ -28,6 +30,7 @@
               :placeholder="$t('firebase.form.projectId')"
               :alert="errors.projectId"
               v-model="firebase.projectId"
+              :disabled="firebase.statusArojectId"
             ></badaso-text>
             <badaso-text
               size="6"
@@ -35,6 +38,7 @@
               :placeholder="$t('firebase.form.storageBucket')"
               :alert="errors.storageBucket"
               v-model="firebase.storageBucket"
+              :disabled="firebase.statusAtorageBucket"
             ></badaso-text>
             <badaso-text
               size="6"
@@ -42,6 +46,7 @@
               :placeholder="$t('firebase.form.messagingSenderId')"
               :alert="errors.messagingSenderId"
               v-model="firebase.messagingSenderId"
+              :disabled="firebase.statusAessagingSenderId"
             ></badaso-text>
             <badaso-text
               size="6"
@@ -49,6 +54,7 @@
               :placeholder="$t('firebase.form.appId')"
               :alert="errors.appId"
               v-model="firebase.appId"
+              :disabled="firebase.statusAppId"
             ></badaso-text>
             <badaso-text
               size="6"
@@ -56,6 +62,7 @@
               :placeholder="$t('firebase.form.measurementId')"
               :alert="errors.measurementId"
               v-model="firebase.measurementId"
+              :disabled="firebase.statusAeasurementId"
             ></badaso-text>
             <badaso-text
               size="6"
@@ -63,6 +70,7 @@
               :placeholder="$t('firebase.form.serverKey')"
               :alert="errors.serverKey"
               v-model="firebase.serverKey"
+              :disabled="firebase.statusAerverKey"
             ></badaso-text>
           </vs-row>
         </vs-card>
@@ -120,62 +128,27 @@ export default {
   data: () => ({
     errors: {},
     firebase: {
-      apiKey : null,
-      authDomain : null,
-      projectId : null,
-      storageBucket : null,
-      messagingSenderId : null,
-      appId : null,
-      measureId : null,
-      serverKey : null,
-      activeStatus : null,
+      apiKey: null,
+      statusApiKey: true,
+      authDomain: null,
+      statusAuthDomain: false,
+      projectId: null,
+      statusArojectId: false,
+      storageBucket: null,
+      statusAtorageBucket: false,
+      messagingSenderId: null,
+      statusAessagingSenderId: false,
+      appId: null,
+      statusAppId: false,
+      measureId: null,
+      statusAeasureId: false,
+      serverKey: null,
+      statusAerverKey: false,
+      activeStatus: null,
+      statusActiveStatus: false,
     },
   }),
-  mounted() {
-    
-  },
-  methods: {
-    submitForm() {
-      this.errors = {};
-      this.$openLoader();
-      this.$api.badasoMenu
-        .edit(this.menu)
-        .then((response) => {
-          this.$closeLoader();
-          this.$router.push({ name: "MenuManagementBrowse" });
-          this.$store.commit("badaso/FETCH_MENU");
-          this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-        })
-        .catch((error) => {
-          this.errors = error.errors;
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
-    },
-    getMenuDetail() {
-      this.$openLoader();
-      this.$api.badasoMenu
-        .read({
-          menuId: this.$route.params.id,
-        })
-        .then((response) => {
-          this.$closeLoader();
-          this.menu = response.data.menu;
-          this.menu.menuId = this.menu.id;
-        })
-        .catch((error) => {
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
-    },
-  },
+  mounted() {},
+  methods: {},
 };
 </script>
