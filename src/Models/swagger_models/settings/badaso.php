@@ -26,9 +26,10 @@
 
 /**
  * @OA\SecurityScheme(
- *     type="apiKey",
+ *     type="http",
  *     in="header",
- *     securityScheme="api_key",
+ *     securityScheme="bearerAuth",
+ *     scheme="bearer",
  *     name="Authorization"
  * )
  */

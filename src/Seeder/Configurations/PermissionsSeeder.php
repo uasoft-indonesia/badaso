@@ -31,6 +31,7 @@ class PermissionsSeeder extends Seeder
             'migrate_database',
             'browse_migration',
             'delete_migration',
+            'browse_apidocs'
         ];
 
         foreach ($keys as $key) {

@@ -18,7 +18,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'api' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-admin') . '/api/documentation',
+        'api' => env('MIX_API_DOCUMENTATION_ROUTE', '/api/documentation'),
 
         /*
         |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'docs' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-admin') . '/docs',
+        'docs' => env('MIX_API_DOCUMENTATION_ANNOTATION_ROUTE', '/api/docs'),
 
         /*
         |--------------------------------------------------------------------------
