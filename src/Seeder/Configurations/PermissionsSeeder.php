@@ -26,6 +26,9 @@ class PermissionsSeeder extends Seeder
             'browse_activitylogs',
             'read_activitylogs',
 
+            'browse_file_manager',
+            'read_file_manager',
+
             'browse_logviewer',
             'rollback_database',
             'migrate_database',
@@ -53,7 +56,5 @@ class PermissionsSeeder extends Seeder
         Permission::generateFor('configurations');
 
         Permission::generateFor('database');
-
-        Permission::generateFor('file_manager');
     }
 }
