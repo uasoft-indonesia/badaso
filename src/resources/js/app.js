@@ -18,6 +18,11 @@ import lang from "./lang/";
 
 import App from "./apps/App.vue";
 
+import {
+  notificationMessageReceive,
+  firebaseMessageReady,
+} from "./utils/firebase";
+
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
@@ -26,6 +31,10 @@ Vue.use(VueI18n);
 Vue.use(Datetime);
 Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
+
+// ADD FIREBASE MESSAGE
+Vue.prototype.$firebaseMessageReady = firebaseMessageReady;
+notificationMessageReceive();
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {

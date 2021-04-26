@@ -130,6 +130,16 @@ export default {
                   },
                 });
               }
+
+              this.$firebaseMessageReady().then(async (data) => {
+                try {
+                  let { firebaseMessages, tokenMessage } = data;
+                  let firebaseTokenGetMessage = tokenMessage;
+                  this.$api.badasoFcm.saveTokenMessage(firebaseTokenGetMessage);
+                } catch (error) {
+                  console.error(error);
+                }
+              });
             })
             .catch((error) => {
               this.errors = error.errors;

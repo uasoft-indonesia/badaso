@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 
 class BadasoBaseController extends Controller
@@ -62,6 +63,14 @@ class BadasoBaseController extends Controller
 
             $data = $this->getDataDetail($slug, $request->id);
 
+            $user_name = "";
+            $user = auth()->user();
+            if (isset($user)) $user_name = $user->name;
+            $table_name = $data_type->name;
+            $title = "Table {$table_name} read row";
+            $body = "Read row from table {$table_name} by {$user_name}";
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name, $title, $body);
+
             return ApiResponse::entity($data_type, $data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -96,6 +105,14 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
+            $user_name = "";
+            $user = auth()->user();
+            if (isset($user)) $user_name = $user->name;
+            $table_name = $data_type->name;
+            $title = "Table {$table_name} edit new row";
+            $body = "Edit new row from table {$table_name} by {$user_name}";
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name, $title, $body);
+
             return ApiResponse::entity($data_type, $updated['updated_data']);
         } catch (Exception $e) {
             DB::rollBack();
@@ -128,6 +145,14 @@ class BadasoBaseController extends Controller
                 ->log($data_type->display_name_singular . ' has been created');
 
             DB::commit();
+
+            $user_name = "";
+            $user = auth()->user();
+            if (isset($user)) $user_name = $user->name;
+            $table_name = $data_type->name;
+            $title = "Table {$table_name} add new row";
+            $body = "Add new row from table {$table_name} by {$user_name}";
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name, $title, $body);
 
             return ApiResponse::entity($data_type, $stored_data);
         } catch (Exception $e) {
@@ -162,6 +187,14 @@ class BadasoBaseController extends Controller
                 ->log($data_type->display_name_singular . ' has been deleted');
 
             DB::commit();
+
+            $user_name = "";
+            $user = auth()->user();
+            if (isset($user)) $user_name = $user->name;
+            $table_name = $data_type->name;
+            $title = "Table {$table_name} delete new row";
+            $body = "Delete new row from table {$table_name} by {$user_name}";
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name, $title, $body);
 
             return ApiResponse::entity($data_type);
         } catch (Exception $e) {
