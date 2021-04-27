@@ -24,25 +24,27 @@
               :description-body="$t('role.footer.descriptionBody')"
             >
               <template slot="thead">
-                <vs-th> {{$t("notification.table.thead.title")}} </vs-th>
-                <vs-th> {{$t("notification.table.thead.message")}} </vs-th>
-                <vs-th> {{$t("notification.table.thead.user")}} </vs-th>
+                <vs-th :sort-key="title"> {{ $t("notification.table.thead.title") }} </vs-th>
+                <vs-th :sort-key="body"> {{ $t("notification.table.thead.message") }} </vs-th>
+                <vs-th :sort-key="user_name"> {{ $t("notification.table.thead.user") }} </vs-th>
                 <vs-th style="width:5%"> {{ $t("crud.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">
                 <vs-tr
-                  v-for="(notif, indexMessage) in dataNotification"
+                  v-for="(notif, indexMessage) in data"
                   :key="indexMessage"
                   :data="notif"
                 >
-                  <vs-td>
-                    {{ notif.title }}
+                  <vs-td :data="dataNotification[indexMessage].title">
+                    {{ dataNotification[indexMessage].title }}
                   </vs-td>
-                  <vs-td>
-                    {{ notif.body }}
+                  <vs-td :data="dataNotification[indexMessage].body">
+                    {{ dataNotification[indexMessage].body }}
                   </vs-td>
-                  <vs-td> {{ notif.user_name }} </vs-td>
+                  <vs-td :data="dataNotification[indexMessage].user_name">
+                    {{ dataNotification[indexMessage].user_name }}
+                  </vs-td>
                   <vs-td>
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
@@ -84,7 +86,7 @@ export default {
     };
   },
   created() {
-    this.dataNotification = this.getNotificationMessage()
+    this.dataNotification = this.getNotificationMessage();
   },
   methods: {
     confirmDelete(indexMessage) {
@@ -96,19 +98,26 @@ export default {
         accept: () => this.deleteNotificationMessage(indexMessage),
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
-        cancel: () => {
-
-        },
+        cancel: () => {},
       });
     },
-    deleteNotificationMessage(indexMessage){
-      let dataMessageFromLocalStorage = this.getNotificationMessage().filter((item, index) => index != indexMessage)
-      localStorage.setItem(keyMessageNotification, JSON.stringify(dataMessageFromLocalStorage))
-      this.dataNotification = this.getNotificationMessage()
+    deleteNotificationMessage(indexMessage) {
+      let dataMessageFromLocalStorage = this.getNotificationMessage().filter(
+        (item, index) => index != indexMessage
+      );
+      localStorage.setItem(
+        keyMessageNotification,
+        JSON.stringify(dataMessageFromLocalStorage)
+      );
+      this.dataNotification = this.getNotificationMessage();
     },
-    getNotificationMessage(){
-      let dataMessageFromLocalStorage = localStorage.getItem(keyMessageNotification);
-      return dataMessageFromLocalStorage != null ? JSON.parse(dataMessageFromLocalStorage) : [];
+    getNotificationMessage() {
+      let dataMessageFromLocalStorage = localStorage.getItem(
+        keyMessageNotification
+      );
+      return dataMessageFromLocalStorage != null
+        ? JSON.parse(dataMessageFromLocalStorage)
+        : [];
     },
   },
 };

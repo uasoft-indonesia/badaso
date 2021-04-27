@@ -41,7 +41,6 @@
             {{ getSelectedLocale.label }}
             <vs-icon icon="expand_more" size="small"></vs-icon>
           </a>
-
           <vs-dropdown-menu>
             <vs-dropdown-item
               v-for="(item, index) in getLocale"
@@ -55,7 +54,12 @@
         </vs-dropdown>
       </div>
       <div slot="right_menu">
-        <vs-dropdown vs-trigger-click left class="cursor-pointer ml-1 mr-md-3">
+        <vs-dropdown
+          @click="onClickNotification()"
+          vs-trigger-click
+          left
+          class="cursor-pointer ml-1 mr-md-3"
+        >
           <a
             class="text-white-dark"
             href="#"
@@ -68,7 +72,7 @@
               :style="{ backgroundColor: topbarColor, color: topbarFontColor }"
             >
               <vs-dropdown-item :to="{ name: 'NotificationBrowse' }">
-                <h4 class="mb-0">{{ totalMesage }} New</h4>
+                <h4 class="mb-0">{{ totalMessageNotification }}</h4>
                 <p class="mb-0">Notification</p>
               </vs-dropdown-item>
             </div>
@@ -115,20 +119,9 @@ export default {
   data: () => ({
     indexActive: 0,
     showToggle: false,
+    totalMessageNotification: 0,
   }),
   computed: {
-    totalMesage: {
-      get() {
-        let dataMessageFormLocalStroge = localStorage.getItem(
-          keyMessageNotification
-        );
-        let numberMessage = 0;
-        if (dataMessageFormLocalStroge != null) {
-          numberMessage = JSON.parse(dataMessageFormLocalStroge).length;
-        }
-        return numberMessage;
-      },
-    },
     user: {
       get() {
         let user = this.$store.getters["badaso/getUser"];
@@ -182,6 +175,16 @@ export default {
     setLocale(item) {
       this.$i18n.locale = item.key;
       this.$store.commit("badaso/SET_LOCALE", item);
+    },
+    onClickNotification: function() {
+      let dataMessageFormLocalStroge = localStorage.getItem(
+        keyMessageNotification
+      );
+      let numberMessage = 0;
+      if (dataMessageFormLocalStroge != null) {
+        numberMessage = JSON.parse(dataMessageFormLocalStroge).length;
+      }
+      this.totalMessageNotification = numberMessage;
     },
   },
   mounted() {},
