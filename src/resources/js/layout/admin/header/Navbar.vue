@@ -64,13 +64,13 @@
           ></a>
           <vs-dropdown-menu class="topbar-dd">
             <div
-              class="d-flex align-items-center p-3 mb-2 preview"
+              class="d-flex align-items-center mb-2 preview"
               :style="{ backgroundColor: topbarColor, color: topbarFontColor }"
             >
-              <div class="ml-2">
+              <vs-dropdown-item>
                 <h4 class="mb-0">0 New</h4>
                 <p class="mb-0">Notification</p>
-              </div>
+              </vs-dropdown-item>
             </div>
             <div style="max-height: 200px; overflow-y: auto;">
               <vs-dropdown-item>

@@ -56,7 +56,7 @@ export const firebaseMessageReady = async () => {
   }
 };
 
-export const notificationMessageReceive = async () => {
+export const notificationMessageReceive = async (app) => {
   //   initial firebase
   let firebaseMessages = initializationFCM();
 
@@ -73,12 +73,19 @@ export const notificationMessageReceive = async () => {
 
     messageNotification.push({ title, body, isRead });
 
+    app.$vs.notify({
+      title,
+      text: body,
+      color: "primary",
+      time: 4000,
+    });
+
     localStorage.setItem(
       keyMessageNotification,
       JSON.stringify(messageNotification)
     );
   };
 
-  firebaseMessages.onBackgroundMessage(handleMessage(false))
+  // firebaseMessages.onBackgroundMessage(handleMessage(false))
   firebaseMessages.onMessage(handleMessage(true));
 };

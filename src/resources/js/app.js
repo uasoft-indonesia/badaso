@@ -34,7 +34,6 @@ Vue.use(Vuelidate);
 
 // ADD FIREBASE MESSAGE
 Vue.prototype.$firebaseMessageReady = firebaseMessageReady;
-notificationMessageReceive();
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
@@ -222,3 +221,6 @@ const app = new Vue({
   i18n,
   render: (h) => h(App),
 }).$mount("#app");
+
+// ADD FIREBASE MESSAGE
+notificationMessageReceive(app);
