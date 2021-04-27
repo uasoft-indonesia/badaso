@@ -274,14 +274,6 @@ export default [
     },
   },
   {
-    path: prefix + "/firebase-edit",
-    name: "FirebaseEdit",
-    component: Pages,
-    meta: {
-      title: "Firebase",
-    },
-  },
-  {
     path: prefix + "/notification",
     name: "NotificationBrowse",
     component: Pages,

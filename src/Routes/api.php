@@ -197,10 +197,6 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
         });
 
         Route::group(['prefix' => 'firebase', 'middleware' => 'auth'], function () {
-            Route::group(['prefix' => 'config'], function () {
-                Route::get('/', 'BadasoFirebaseConfigController@GetConfig');
-                Route::put('/', 'BadasoFirebaseConfigController@UpdateConfig');
-            });
             Route::group(['prefix' => 'cloud_messages'], function () {
                 Route::put('/save-token-messages', 'BadasoFCMController@saveTokenMessage');
             });
