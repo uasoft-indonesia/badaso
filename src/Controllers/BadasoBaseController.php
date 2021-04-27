@@ -74,7 +74,10 @@ class BadasoBaseController extends Controller
                 'table_name' => $table_name,
                 'user_name' => $user_name,
             ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name, $title, $body);
+
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name, $title, $body, [
+                'user_name' => $user_name
+            ]);
 
             return ApiResponse::entity($data_type, $data);
         } catch (Exception $e) {
@@ -121,7 +124,9 @@ class BadasoBaseController extends Controller
                 'table_name' => $table_name,
                 'user_name' => $user_name,
             ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name, $title, $body);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name, $title, $body, [
+                'user_name' => $user_name,
+            ]);
 
             return ApiResponse::entity($data_type, $updated['updated_data']);
         } catch (Exception $e) {
@@ -167,7 +172,9 @@ class BadasoBaseController extends Controller
                 'table_name' => $table_name,
                 'user_name' => $user_name,
             ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name, $title, $body);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name, $title, $body, [
+                'user_name' => $user_name,
+            ]);
 
             return ApiResponse::entity($data_type, $stored_data);
         } catch (Exception $e) {
@@ -214,7 +221,9 @@ class BadasoBaseController extends Controller
                 'table_name' => $table_name,
                 'user_name' => $user_name,
             ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name, $title, $body);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name, $title, $body, [
+                'user_name' => $user_name,
+            ]);
 
             return ApiResponse::entity($data_type);
         } catch (Exception $e) {

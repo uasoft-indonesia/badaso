@@ -67,8 +67,8 @@
               class="d-flex align-items-center mb-2 preview"
               :style="{ backgroundColor: topbarColor, color: topbarFontColor }"
             >
-              <vs-dropdown-item>
-                <h4 class="mb-0">0 New</h4>
+              <vs-dropdown-item :to="{ name: 'NotificationBrowse' }">
+                <h4 class="mb-0">{{ totalMesage }} New</h4>
                 <p class="mb-0">Notification</p>
               </vs-dropdown-item>
             </div>
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { keyMessageNotification } from "../../../utils/firebase";
 export default {
   name: "Navbar",
   components: {},
@@ -116,6 +117,18 @@ export default {
     showToggle: false,
   }),
   computed: {
+    totalMesage: {
+      get() {
+        let dataMessageFormLocalStroge = localStorage.getItem(
+          keyMessageNotification
+        );
+        let numberMessage = 0;
+        if (dataMessageFormLocalStroge != null) {
+          numberMessage = JSON.parse(dataMessageFormLocalStroge).length;
+        }
+        return numberMessage;
+      },
+    },
     user: {
       get() {
         let user = this.$store.getters["badaso/getUser"];

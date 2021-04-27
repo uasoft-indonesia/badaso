@@ -41,7 +41,7 @@ class FCMNotification
      * @param array $data
      * 
      */
-    public function send(array $ids = [], string $title = '', string $body = '', array $data = []): void
+    public function send(array $ids = [], string $title = '', string $body = '', $data): void
     {
         $data_json_params = [
             'registration_ids' => $ids,
@@ -50,8 +50,12 @@ class FCMNotification
                 'body' => $body,
             ],
             'priority' => $this->priority,
-            'data' => (object) $data,
+
         ];
+
+        if (isset($data)) {
+            $data_json_params['data'] = $data;
+        }
 
         $this->response = $this->client->post(self::$FIREBASE_URL_API, [
             'json' => $data_json_params,
@@ -70,7 +74,7 @@ class FCMNotification
      * @param string $body
      * @param array $data
      */
-    public function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', array $data = []): void
+    public function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', $data): void
     {
         // get table data_types
         $data_type = DataType::where('name', $table_name)->first();
@@ -98,7 +102,7 @@ class FCMNotification
 
                 $group_token_get_messages = array_chunk($token_get_messages, self::$MAX_MEMBER_GROUP_TOKEN_MESSAGE);
                 foreach ($group_token_get_messages as $key => $group_token_get_message) {
-                    $this->send($group_token_get_message, $title, $body);
+                    $this->send($group_token_get_message, $title, $body, $data);
                 }
             }
         }
@@ -111,7 +115,7 @@ class FCMNotification
      * @param string $body
      * @param array $data 
      */
-    public static function notification(string $active_event, string $table_name, string $title = '', string $body = '', array $data = [])
+    public static function notification(string $active_event, string $table_name, string $title = '', string $body = '', $data = [])
     {
         $fcm = new self();
         $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);

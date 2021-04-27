@@ -260,7 +260,7 @@ export default [
     // beforeEnter() {
     //   location.href = "/" + log_viewer;
     // },
-    component : Pages,
+    component: Pages,
     meta: {
       title: "Browse Log Viewer",
     },
@@ -279,6 +279,14 @@ export default [
     component: Pages,
     meta: {
       title: "Firebase",
+    },
+  },
+  {
+    path: prefix + "/notification",
+    name: "NotificationBrowse",
+    component: Pages,
+    meta: {
+      title: "Notification",
     },
   },
 ];

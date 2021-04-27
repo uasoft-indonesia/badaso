@@ -66,12 +66,13 @@ export const notificationMessageReceive = async (app) => {
 
   const handleMessage = (isReadMessage) => (messageData) => {
     let {
+      data: { user_name },
       notification: { title, body },
     } = messageData;
 
     let isRead = isReadMessage;
 
-    messageNotification.push({ title, body, isRead });
+    messageNotification.push({ title, body, isRead, user_name });
 
     app.$vs.notify({
       title,

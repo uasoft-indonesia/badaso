@@ -1004,4 +1004,13 @@ export default {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
   },
+  notification : {
+    table : {
+      thead : {
+        title : 'Title',
+        message : 'Messages',
+        user : 'Users'
+      }
+    }
+  },
 };
