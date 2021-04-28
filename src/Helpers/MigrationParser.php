@@ -844,7 +844,6 @@ class MigrationParser
                 return sprintf(self::FIELD_NULLABLE, 'true');
             }
         }
-
     }
 
     public static function getMigrationIndexField($field, $current = null, $name)
@@ -861,7 +860,6 @@ class MigrationParser
         if ($field === true) {
             return sprintf(self::FIELD_INCREMENT);
         }
-
     }
 
     public static function getMigrationAttributeField($field, $current = null)
