@@ -14,7 +14,7 @@ class AddCanDeleteToConfigurations extends Migration
     public function up()
     {
         Schema::table('configurations', function (Blueprint $table) {
-            if (!Schema::hasColumn('configurations', 'can_delete')) {
+            if (! Schema::hasColumn('configurations', 'can_delete')) {
                 $table->boolean('can_delete')->default(false)->after('group');
             }
         });

@@ -114,7 +114,7 @@ class ContentGenerator
                     $j++;
                 } // check string open/end
                 elseif ($lines[$i][$j] == '\'') {
-                    $in_string = !$in_string;
+                    $in_string = ! $in_string;
                 }
             }
             // check for opening bracket
@@ -165,7 +165,7 @@ class ContentGenerator
     {
         $permission = self::GENERATE_PERMISSIONS_STATEMENT;
 
-        if (!is_null($type)) {
+        if (! is_null($type)) {
             $permission = self::REMOVE_PERMISSIONS_STATEMENT;
         }
 

@@ -194,7 +194,7 @@ class MigrationParser
                 $rows = self::formatRows($rows);
 
                 foreach ($rows['current_fields'] as $key => $value) {
-                    if (!array_key_exists($key, $rows['modified_fields'])) {
+                    if (! array_key_exists($key, $rows['modified_fields'])) {
                         $dropped_field++;
                         $rows['modified_fields'][$key] = $value;
                         $rows['modified_fields'][$key]['modify_type'] = ['DROP_FIELD'];
@@ -202,7 +202,7 @@ class MigrationParser
                 }
 
                 foreach ($rows['modified_fields'] as $key => $value) {
-                    if (!array_key_exists($key, $rows['current_fields']) && in_array('CREATE', $value['modify_type'])) {
+                    if (! array_key_exists($key, $rows['current_fields']) && in_array('CREATE', $value['modify_type'])) {
                         $added_field++;
                     }
 
@@ -333,7 +333,7 @@ class MigrationParser
                 $rows = self::formatRows($rows);
 
                 foreach ($rows['current_fields'] as $key => $value) {
-                    if (!array_key_exists($key, $rows['modified_fields'])) {
+                    if (! array_key_exists($key, $rows['modified_fields'])) {
                         $dropped_field++;
                         $rows['modified_fields'][$key] = $value;
                         $rows['modified_fields'][$key]['modify_type'] = ['DROP_FIELD'];
@@ -341,7 +341,7 @@ class MigrationParser
                 }
 
                 foreach ($rows['modified_fields'] as $key => $value) {
-                    if (!array_key_exists($key, $rows['current_fields']) && in_array('CREATE', $value['modify_type'])) {
+                    if (! array_key_exists($key, $rows['current_fields']) && in_array('CREATE', $value['modify_type'])) {
                         $added_field++;
                     }
 
@@ -498,7 +498,7 @@ class MigrationParser
                 );
             }
 
-            if (!empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH']))) {
+            if (! empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH']))) {
                 $stub[] = sprintf(
                     self::CHANGE_COLUMN_LENGTH,
                     self::getMigrationTypeField($row['field_type']),
@@ -562,7 +562,7 @@ class MigrationParser
                 }
             }
 
-            if (!empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
+            if (! empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
                 if ($current_fields['field_index'] === null && $row['field_index'] !== null) {
                     $stub[] = sprintf(
                         self::CREATE_INDEX,
@@ -626,7 +626,7 @@ class MigrationParser
                 );
             }
 
-            if (!empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH']))) {
+            if (! empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH']))) {
                 $stub[] = sprintf(
                     self::CHANGE_FIELD_STUB,
                     self::getMigrationTypeField($current_fields['field_type']),
@@ -693,7 +693,7 @@ class MigrationParser
                 }
             }
 
-            if (!empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
+            if (! empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
                 if ($current_fields['field_index'] !== null && $row['field_index'] === null) {
                     if ($current_fields['field_index'] !== 'primary') {
                         $indexes[] = sprintf(

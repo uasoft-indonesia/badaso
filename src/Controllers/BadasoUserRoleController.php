@@ -81,11 +81,11 @@ class BadasoUserRoleController extends Controller
             $roles = $request->get('roles', []);
 
             $user = User::find($request->user_id);
-            if (!is_null($user)) {
+            if (! is_null($user)) {
                 $stored_roles = [];
                 foreach ($roles as $key => $value) {
                     $role = Role::find($value);
-                    if (!is_null($role)) {
+                    if (! is_null($role)) {
                         $user_role = [
                             'user_id' => $user->id,
                             'role_id' => $role->id,

@@ -22,7 +22,7 @@ class Permission extends Model
 
         $administrator = Role::where('name', 'administrator')->firstOrFail();
 
-        if (!is_null($administrator)) {
+        if (! is_null($administrator)) {
             foreach ($permissions as $row) {
                 $role_permission = RolePermission::where('role_id', $administrator->id)
                         ->where('permission_id', $row->id)

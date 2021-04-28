@@ -29,7 +29,7 @@ class MenuItem extends Model
             ->orderBy('order', 'DESC')
             ->first();
 
-        if (!is_null($item)) {
+        if (! is_null($item)) {
             $order = intval($item->order) + 1;
         }
 

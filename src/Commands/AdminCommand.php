@@ -56,7 +56,7 @@ class AdminCommand extends Command
         );
 
         // the user not returned
-        if (!$user) {
+        if (! $user) {
             $this->info('User not found.');
             exit;
         }
@@ -111,20 +111,20 @@ class AdminCommand extends Command
 
         // If we need to create a new user go ahead and create it
         if ($create) {
-            if (!$name) {
+            if (! $name) {
                 $name = $this->ask('Enter the admin name');
             }
 
-            if (!$password) {
+            if (! $password) {
                 $password = $this->secret('Enter admin password');
             }
 
-            if (!$confirmPassword) {
+            if (! $confirmPassword) {
                 $confirmPassword = $this->secret('Confirm Password');
             }
 
             // Ask for email if there wasnt set one
-            if (!$email) {
+            if (! $email) {
                 $email = $this->ask('Enter the admin email');
             }
 

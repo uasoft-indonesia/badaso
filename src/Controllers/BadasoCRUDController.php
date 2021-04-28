@@ -30,7 +30,7 @@ class BadasoCRUDController extends Controller
             $tables = SchemaManager::listTables();
             $tables_with_crud_data = [];
             foreach ($tables as $key => $value) {
-                if (!in_array($key, $protected_tables)) {
+                if (! in_array($key, $protected_tables)) {
                     $table_with_crud_data = [];
                     $table_with_crud_data['table_name'] = $key;
                     $table_with_crud_data['crud_data'] = Badaso::model('DataType')::where('name', $key)->first();
@@ -62,7 +62,7 @@ class BadasoCRUDController extends Controller
             foreach ($table_fields as $key => $column) {
                 $field = $key;
                 $column = collect($column)->toArray();
-                if (!in_array($field, $generated_fields)) {
+                if (! in_array($field, $generated_fields)) {
                     $data_row['data_type_id'] = $data_type->id;
                     $data_row['field'] = $key;
                     $data_row['type'] = DataTypeToComponent::convert($column['type']);
@@ -122,7 +122,7 @@ class BadasoCRUDController extends Controller
                     'required',
                     "unique:data_types,name,{$request->id}",
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
@@ -131,13 +131,13 @@ class BadasoCRUDController extends Controller
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        if (!Schema::hasColumn($request->name, $value)) {
+                        if (! Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
-                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                            if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
@@ -252,7 +252,7 @@ class BadasoCRUDController extends Controller
                     'required',
                     'unique:data_types',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
@@ -262,13 +262,13 @@ class BadasoCRUDController extends Controller
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        if (!Schema::hasColumn($request->name, $value)) {
+                        if (! Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
-                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                            if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
