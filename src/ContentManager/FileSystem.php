@@ -2,11 +2,11 @@
 
 namespace Uasoft\Badaso\ContentManager;
 
+use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Support\Composer;
-use Uasoft\Badaso\Helpers\MigrationParser;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Helpers\MigrationParser;
 
 class FileSystem
 {
@@ -46,7 +46,7 @@ class FileSystem
 
     public function getMigrationFileNoDate(string $name, string $path): string
     {
-        $filePath = glob($path . '*');
+        $filePath = glob($path.'*');
         $fileName = '';
         foreach ($filePath as $value) {
             if (strpos($value, $name) !== false) {
@@ -63,7 +63,8 @@ class FileSystem
     public function getMigrationFileName(string $name, string $prefix, string $className): string
     {
         $random = lcfirst(substr($className, -4));
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix . '_' . $name . '_table_' . $random;
+
+        return Carbon::now()->format('Y_m_d_his').'_'.$prefix.'_'.$name.'_table_'.$random;
     }
 
     /**
@@ -72,7 +73,8 @@ class FileSystem
     public function getAlterMigrationFileName(array $name, string $className): string
     {
         $prefix = $this->parser->convertPascalToSnake($className);
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix;
+
+        return Carbon::now()->format('Y_m_d_his').'_'.$prefix;
     }
 
     /**
@@ -80,7 +82,7 @@ class FileSystem
      */
     public function getMigrationFileNameNoDate(string $name, string $prefix): string
     {
-        return $prefix . '_' . $name . '_table';
+        return $prefix.'_'.$name.'_table';
     }
 
     /**
@@ -189,6 +191,7 @@ class FileSystem
             return ucfirst($prefix).ucfirst($current_model_name).'To'.ucfirst($modified_model_name).'Table';
         } else {
             $randomise = Str::lower($this->parser->getRandomCharacter(4));
+
             return ucfirst($prefix).ucfirst($modified_model_name).'Table'.ucfirst($randomise);
         }
     }

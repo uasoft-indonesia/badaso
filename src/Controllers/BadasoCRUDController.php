@@ -114,19 +114,20 @@ class BadasoCRUDController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'id' => 'required|exists:data_types',
+                'id'   => 'required|exists:data_types',
                 'name' => [
                     'required',
                     "unique:data_types,name,{$request->id}",
-                    function ($attribute, $value, $fail) use ($request) {
+                    function ($attribute, $value, $fail) {
                         if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
-                'rows' => 'required',
+                'rows'         => 'required',
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
@@ -142,8 +143,8 @@ class BadasoCRUDController extends Controller
                         }
                     },
                 ],
-                'rows.*.type' => 'required',
-                'rows.*.display_name' => 'required',
+                'rows.*.type'           => 'required',
+                'rows.*.display_name'   => 'required',
                 'display_name_singular' => 'required',
             ]);
             $table_name = $request->input('name');
@@ -244,6 +245,7 @@ class BadasoCRUDController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'name' => [
@@ -256,7 +258,7 @@ class BadasoCRUDController extends Controller
                     },
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
-                'rows' => 'required',
+                'rows'         => 'required',
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
@@ -272,8 +274,8 @@ class BadasoCRUDController extends Controller
                         }
                     },
                 ],
-                'rows.*.type' => 'required',
-                'rows.*.display_name' => 'required',
+                'rows.*.type'           => 'required',
+                'rows.*.display_name'   => 'required',
                 'display_name_singular' => 'required',
             ]);
             $table_name = $request->input('name');
@@ -360,6 +362,7 @@ class BadasoCRUDController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => 'required|exists:data_types,id',
@@ -405,7 +408,7 @@ class BadasoCRUDController extends Controller
 
         $menu_item = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'url' => $url,
+            'url'     => $url,
         ]);
 
         $menu_item = MenuItem::where('menu_id', $menu->id)->where('url', $url)->first();

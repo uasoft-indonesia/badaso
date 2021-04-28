@@ -62,6 +62,7 @@ class BadasoConfigurationsController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => 'required',
@@ -100,6 +101,7 @@ class BadasoConfigurationsController extends Controller
     public function editMultiple(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'configurations' => 'required',
@@ -142,13 +144,14 @@ class BadasoConfigurationsController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'key' => 'required|unique:configurations',
+                'key'          => 'required|unique:configurations',
                 'display_name' => 'required',
-                'group' => 'required',
-                'type' => 'required',
-                'details' => [
+                'group'        => 'required',
+                'type'         => 'required',
+                'details'      => [
                     function ($attribute, $value, $fail) use ($request) {
                         if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
                             json_decode($value);
@@ -193,6 +196,7 @@ class BadasoConfigurationsController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => 'required',

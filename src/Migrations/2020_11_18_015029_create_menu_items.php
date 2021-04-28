@@ -29,6 +29,7 @@ class CreateMenuItems extends Migration
             });
         } catch (PDOException $ex) {
             $this->down();
+
             throw $ex;
         }
     }

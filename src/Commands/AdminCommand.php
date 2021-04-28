@@ -34,7 +34,7 @@ class AdminCommand extends Command
             ['create', null, InputOption::VALUE_NONE, 'Create an admin user', null],
             ['name', null, InputOption::VALUE_REQUIRED, 'Name of the user', null],
             ['password', null, InputOption::VALUE_REQUIRED, 'Password of the user', null],
-            ['confirm_password', null, InputOption::VALUE_REQUIRED, 'Confirmation password', null]
+            ['confirm_password', null, InputOption::VALUE_REQUIRED, 'Confirmation password', null],
         ];
     }
 

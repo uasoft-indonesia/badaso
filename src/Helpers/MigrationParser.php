@@ -2,11 +2,6 @@
 
 namespace Uasoft\Badaso\Helpers;
 
-use Exception;
-use Illuminate\Support\Facades\DB;
-use ReflectionClass;
-use Carbon\Carbon;
-
 class MigrationParser
 {
     const FIELD_STUB = <<<'TXT'
@@ -36,7 +31,7 @@ class MigrationParser
     const FIELD_DEFAULT = <<<'TXT'
     ->default('%s')
     TXT;
-    
+
     const FIELD_DEFAULT_DECIMAL = <<<'TXT'
     ->default(%s)
     TXT;
@@ -114,7 +109,7 @@ class MigrationParser
     const FIELD_DEFAULT_NULL = <<<'TXT'
     ->default(null)
     TXT;
-    
+
     const DROP_FIELD = <<<'TXT'
     $table->dropColumn('%s');
     TXT;
@@ -151,7 +146,8 @@ class MigrationParser
     DB::statement('ALTER TABLE %s ALTER COLUMN %s DROP DEFAULT');
     TXT;
 
-    public static function getMigrationSchemaUp($name, $rows, $prefix = null) {
+    public static function getMigrationSchemaUp($name, $rows, $prefix = null)
+    {
         if ($prefix == 'drop') {
             return sprintf(
                 self::MIGRATION_DOWN_WRAPPER,
@@ -162,7 +158,8 @@ class MigrationParser
         return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows)));
     }
 
-    public static function getMigrationSchemaDown($name, $rows = [], $prefix = null, bool $timestamp = true) {
+    public static function getMigrationSchemaDown($name, $rows = [], $prefix = null, bool $timestamp = true)
+    {
         if ($prefix == 'drop') {
             return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows, $timestamp)));
         }
@@ -173,18 +170,19 @@ class MigrationParser
         );
     }
 
-    public static function getAlterMigrationSchemaUp($name, $rows, $prefix = null) {
+    public static function getAlterMigrationSchemaUp($name, $rows, $prefix = null)
+    {
         $stub = '';
         if ($prefix == 'rename') {
             $stub .= sprintf(
-                self::RENAME_TABLE_WRAPPER, 
+                self::RENAME_TABLE_WRAPPER,
                 $name['current_name'],
                 $name['modified_name'],
             );
         } else {
             if (isset($rows)) {
                 /**
-                 * Here we separate field based on modify type of fields
+                 * Here we separate field based on modify type of fields.
                  */
                 $dropped_field = 0;
                 $altered_field = 0;
@@ -211,11 +209,11 @@ class MigrationParser
                     if (in_array('RENAME', $value['modify_type'])) {
                         $altered_field++;
                     }
-                    
+
                     if (in_array('UPDATE_TYPE', $value['modify_type'])) {
                         $altered_field++;
-                    } 
-                    
+                    }
+
                     if (in_array('UPDATE_LENGTH', $value['modify_type'])) {
                         $altered_field++;
                     }
@@ -231,7 +229,7 @@ class MigrationParser
                     if (in_array('UPDATE_INCREMENT', $value['modify_type'])) {
                         $altered_field++;
                     }
-                    
+
                     if (in_array('UPDATE_INDEX', $value['modify_type'])) {
                         $altered_field++;
                     }
@@ -247,24 +245,23 @@ class MigrationParser
                      * Positioning schema in migration app
                      * 1. Indexes (Dropping / Adding)
                      * 2. Changes
-                     * 3. Renaming
+                     * 3. Renaming.
                      */
-
-                    if (isset($fields['indexes']) && count($fields['indexes']) > 0 ) {
+                    if (isset($fields['indexes']) && count($fields['indexes']) > 0) {
                         $alter[] = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['indexes']));
                     }
 
-                    if (isset($fields['change']) && count($fields['change']) > 0 ) {
+                    if (isset($fields['change']) && count($fields['change']) > 0) {
                         $alter[] = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['change']));
                     }
-        
-                    if (isset($fields['rename']) && count($fields['rename']) > 0 ) {
+
+                    if (isset($fields['rename']) && count($fields['rename']) > 0) {
                         $alter[] = sprintf(self::RENAME_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['rename']));
                     }
 
                     if (count($alter) > 1) {
                         $stub = implode(PHP_EOL.PHP_EOL, $alter);
-                    } else if (count($alter) > 0) {
+                    } elseif (count($alter) > 0) {
                         $stub = $alter[0];
                     }
                 }
@@ -307,7 +304,7 @@ class MigrationParser
                 }
 
                 if ($dropped_field > 0 || $added_field > 0) {
-                    $stub = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $modified)) . PHP_EOL . PHP_EOL . $stub;
+                    $stub = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $modified)).PHP_EOL.PHP_EOL.$stub;
                 }
             }
         }
@@ -315,11 +312,12 @@ class MigrationParser
         return $stub;
     }
 
-    public static function getAlterMigrationSchemaDown($name, $rows = null, $prefix = null) {
+    public static function getAlterMigrationSchemaDown($name, $rows = null, $prefix = null)
+    {
         $stub = '';
         if ($prefix == 'rename') {
             $stub .= sprintf(
-                self::RENAME_TABLE_WRAPPER, 
+                self::RENAME_TABLE_WRAPPER,
                 $name['modified_name'],
                 $name['current_name'],
             );
@@ -350,11 +348,11 @@ class MigrationParser
                     if (in_array('RENAME', $value['modify_type'])) {
                         $altered_field++;
                     }
-                    
+
                     if (in_array('UPDATE_TYPE', $value['modify_type'])) {
                         $altered_field++;
-                    } 
-                    
+                    }
+
                     if (in_array('UPDATE_LENGTH', $value['modify_type'])) {
                         $altered_field++;
                     }
@@ -387,24 +385,23 @@ class MigrationParser
                      * Positioning schema in migration app
                      * 1. Indexes (Dropping / Adding)
                      * 2. Changes
-                     * 3. Renaming
+                     * 3. Renaming.
                      */
-
-                    if (isset($fields['indexes']) && count($fields['indexes']) > 0 ) {
+                    if (isset($fields['indexes']) && count($fields['indexes']) > 0) {
                         $alter[] = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['indexes']));
                     }
 
-                    if (isset($fields['change']) && count($fields['change']) > 0 ) {
+                    if (isset($fields['change']) && count($fields['change']) > 0) {
                         $alter[] = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['change']));
                     }
-        
-                    if (isset($fields['rename']) && count($fields['rename']) > 0 ) {
+
+                    if (isset($fields['rename']) && count($fields['rename']) > 0) {
                         $alter[] = sprintf(self::RENAME_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['rename']));
                     }
-                    
+
                     if (count($alter) > 1) {
                         $stub = implode(PHP_EOL.PHP_EOL, $alter);
-                    } else if (count($alter) > 0) {
+                    } elseif (count($alter) > 0) {
                         $stub = $alter[0];
                     }
                 }
@@ -439,7 +436,7 @@ class MigrationParser
                 }
 
                 if ($dropped_field > 0 || $added_field > 0) {
-                    $stub = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $modified)) . PHP_EOL . PHP_EOL . $stub;
+                    $stub = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $modified)).PHP_EOL.PHP_EOL.$stub;
                 }
             }
         }
@@ -454,11 +451,11 @@ class MigrationParser
         foreach ($rows as $row) {
             if (in_array($row['field_type'], ['timestamp']) && in_array($row['field_name'], ['created_at', 'updated_at'])) {
                 $fields[] = sprintf(self::TIMESTAMP);
-            } else if (in_array($row['field_type'], ['timestamp']) && in_array($row['field_name'], ['deleted_at'])) {
+            } elseif (in_array($row['field_type'], ['timestamp']) && in_array($row['field_name'], ['deleted_at'])) {
                 $fields[] = sprintf(self::SOFT_DELETE);
             } else {
                 if ($row['field_index'] !== null) {
-                    $index = '->' . self::getMigrationIndexField($row['field_index'], null, $row['field_name']);
+                    $index = '->'.self::getMigrationIndexField($row['field_index'], null, $row['field_name']);
                 } else {
                     $index = null;
                 }
@@ -481,6 +478,7 @@ class MigrationParser
             }
         }
         $fields = array_unique($fields);
+
         return $fields;
     }
 
@@ -498,17 +496,17 @@ class MigrationParser
                     $current_fields['field_name'],
                     $row['field_name'],
                 );
-            } 
-            
-            if (!empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH'])))  {
+            }
+
+            if (!empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH']))) {
                 $stub[] = sprintf(
                     self::CHANGE_COLUMN_LENGTH,
                     self::getMigrationTypeField($row['field_type']),
                     $current_fields['field_name'],
                     self::getMigrationLengthField($row['field_length'], $row['field_type'])
                 );
-            } 
-            
+            }
+
             if (in_array('UPDATE_NULL', $row['modify_type'])) {
                 $stub[] = sprintf(
                     self::CHANGE_COLUMN,
@@ -517,8 +515,8 @@ class MigrationParser
                     self::getMigrationLengthField($row['field_length'] ?? $current_fields['field_length'], $row['field_type']),
                     self::getMigrationNullField($row['field_null'], $current_fields['field_null'])
                 );
-            } 
-            
+            }
+
             if (in_array('UPDATE_ATTRIBUTE', $row['modify_type'])) {
                 $stub[] = sprintf(
                     self::CHANGE_COLUMN,
@@ -563,14 +561,14 @@ class MigrationParser
                     );
                 }
             }
-            
+
             if (!empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
                 if ($current_fields['field_index'] === null && $row['field_index'] !== null) {
                     $stub[] = sprintf(
                         self::CREATE_INDEX,
                         self::getMigrationIndexField($row['field_index'], $current_fields['field_index'], $row['field_name']),
                     );
-                } else if ($current_fields['field_index'] !== null  && $row['field_index'] === null) {
+                } elseif ($current_fields['field_index'] !== null && $row['field_index'] === null) {
                     if ($current_fields['field_index'] !== 'primary') {
                         $stub[] = sprintf(
                             self::DROP_INDEX,
@@ -579,13 +577,13 @@ class MigrationParser
                         );
                     }
                 }
-            } else if (in_array('UPDATE_INDEX', $row['modify_type'])) {
+            } elseif (in_array('UPDATE_INDEX', $row['modify_type'])) {
                 $stub[] = sprintf(
                     self::CREATE_INDEX,
                     self::getMigrationIndexField($row['field_index'], $row['field_index'], $row['field_name']),
                 );
-            } 
-            
+            }
+
             if (in_array('UPDATE_DEFAULT', $row['modify_type'])) {
                 if ($row['field_default'] === null && $current_fields['field_default'] !== null) {
                     $stub[] = sprintf(
@@ -626,8 +624,8 @@ class MigrationParser
                     $row['field_name'],
                     $current_fields['field_name'],
                 );
-            } 
-            
+            }
+
             if (!empty(array_intersect($row['modify_type'], ['UPDATE_TYPE', 'UPDATE_LENGTH']))) {
                 $stub[] = sprintf(
                     self::CHANGE_FIELD_STUB,
@@ -661,7 +659,7 @@ class MigrationParser
                     self::getMigrationAttributeField($current_fields['field_attribute'], $row['field_attribute'])
                 );
             }
-            
+
             if (in_array('UPDATE_INCREMENT', $row['modify_type'])) {
                 if ($row['field_increment'] == true && $current_fields['field_increment'] == false) {
                     $stub[] = sprintf(
@@ -693,7 +691,7 @@ class MigrationParser
                         self::getMigrationAttributeField($current_fields['field_attribute'], $row['field_attribute'])
                     );
                 }
-            } 
+            }
 
             if (!empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
                 if ($current_fields['field_index'] !== null && $row['field_index'] === null) {
@@ -703,14 +701,14 @@ class MigrationParser
                             self::getMigrationIndexField($row['field_index'], $current_fields['field_index'], $row['field_name']),
                         );
                     }
-                } else if ($current_fields['field_index'] === null && $row['field_index'] !== null && $row['field_index'] === 'primary') {
+                } elseif ($current_fields['field_index'] === null && $row['field_index'] !== null && $row['field_index'] === 'primary') {
                     $indexes[] = sprintf(
                         self::DROP_INDEX,
                         ucfirst($row['field_index']),
                         $table['current_name'],
                     );
                 }
-            } else if (in_array('UPDATE_INDEX', $row['modify_type'])) {
+            } elseif (in_array('UPDATE_INDEX', $row['modify_type'])) {
                 $stub[] = sprintf(
                     self::DROP_INDEX_TABLE,
                     ucfirst($row['field_index']),
@@ -736,7 +734,7 @@ class MigrationParser
                         $current_fields['field_name'],
                     );
                 }
-            } 
+            }
         }
 
         $stub = array_unique($stub);
@@ -746,7 +744,8 @@ class MigrationParser
         return ['change' => $stub, 'rename' => $rename, 'indexes' => $indexes];
     }
 
-    public static function getMigrationTypeField($fieldType) {
+    public static function getMigrationTypeField($fieldType)
+    {
         $type = $fieldType;
 
         switch ($fieldType) {
@@ -796,38 +795,42 @@ class MigrationParser
         return $type;
     }
 
-    public static function getMigrationLengthField($field, $fieldType) {
-        if (in_array( $fieldType, ['enum', 'set'])) {
+    public static function getMigrationLengthField($field, $fieldType)
+    {
+        if (in_array($fieldType, ['enum', 'set'])) {
             $explodedItem = explode(',', $field);
             $result = '';
             foreach ($explodedItem as $index => $item) {
                 if ($index == count($explodedItem) - 1) {
-                    $result = $result . sprintf(self::FIELD_ARRAY_LENGTH_CONTENT_LAST, $item);
+                    $result = $result.sprintf(self::FIELD_ARRAY_LENGTH_CONTENT_LAST, $item);
                 } else {
-                    $result = $result . sprintf(self::FIELD_ARRAY_LENGTH_CONTENT, $item);
+                    $result = $result.sprintf(self::FIELD_ARRAY_LENGTH_CONTENT, $item);
                 }
             }
+
             return sprintf(self::FIELD_ARRAY_LENGTH, $result);
-        } else if (in_array($fieldType, ['varchar', 'char'])) {
+        } elseif (in_array($fieldType, ['varchar', 'char'])) {
             return sprintf(self::FIELD_DECIMAL_LENGTH, $field);
-        } else if (in_array($fieldType, [null, 'null', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint'])) {
+        } elseif (in_array($fieldType, [null, 'null', 'integer', 'tinyint', 'smallint', 'mediumint', 'bigint'])) {
             return;
-        } else if (in_array($fieldType, ['double', 'float', 'decimal'])) {
+        } elseif (in_array($fieldType, ['double', 'float', 'decimal'])) {
             return sprintf(self::FIELD_DECIMAL_LENGTH, $field);
         }
     }
 
-    public static function getMigrationDefaultField($fieldType, $field) {
+    public static function getMigrationDefaultField($fieldType, $field)
+    {
         if ($field !== null) {
             if (in_array($fieldType, ['integer', 'float', 'double', 'decimal'])) {
-                return sprintf(self::FIELD_DEFAULT_DECIMAL, $field) ;
-            }   else {
+                return sprintf(self::FIELD_DEFAULT_DECIMAL, $field);
+            } else {
                 return sprintf(self::FIELD_DEFAULT, $field);
             }
         }
     }
 
-    public static function getMigrationNullField($field, $oldField = null) {
+    public static function getMigrationNullField($field, $oldField = null)
+    {
         if (isset($oldField)) {
             if ($field === true && $oldField === false) {
                 return sprintf(self::FIELD_NULLABLE, 'true');
@@ -841,51 +844,59 @@ class MigrationParser
                 return sprintf(self::FIELD_NULLABLE, 'true');
             }
         }
-        return;
+
     }
 
-    public static function getMigrationIndexField($field, $current = null, $name) {
+    public static function getMigrationIndexField($field, $current = null, $name)
+    {
         if ($field === null && $current !== null) {
             return sprintf(self::FIELD_INDEX, $current, $name);
-        } else if ($field !== null && $current === null) {
+        } elseif ($field !== null && $current === null) {
             return sprintf(self::FIELD_INDEX, $field, $name);
         }
     }
 
-    public static function getMigrationIncrementField($field) {
+    public static function getMigrationIncrementField($field)
+    {
         if ($field === true) {
             return sprintf(self::FIELD_INCREMENT);
         }
-        return;
+
     }
 
-    public static function getMigrationAttributeField($field, $current = null) {
+    public static function getMigrationAttributeField($field, $current = null)
+    {
         if ($current === false && $field === true) {
             return sprintf(self::FIELD_ATTRIBUTE, 'unsigned');
-        } else if ($current === true && $field === false) {
+        } elseif ($current === true && $field === false) {
             return sprintf(self::REMOVE_UNSIGNED);
-        } else if ($field === true) {
+        } elseif ($field === true) {
             return sprintf(self::FIELD_ATTRIBUTE, 'unsigned');
         } else {
             return;
         }
     }
 
-    public static function convertPascalToSnake(string $input) {
+    public static function convertPascalToSnake(string $input)
+    {
         preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
         $ret = $matches[0];
         foreach ($ret as &$match) {
             $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
         }
+
         return implode('_', $ret);
     }
 
-    public static function getRandomCharacter($length) {
+    public static function getRandomCharacter($length)
+    {
         $permitted_chars = 'abcdefghijklmnopqrstuvwxyz';
+
         return substr(str_shuffle($permitted_chars), 0, $length);
     }
 
-    public static function formatRows($rows) {
+    public static function formatRows($rows)
+    {
         $current_fields = $rows['current_fields'];
         $modified_fields = $rows['modified_fields'];
 

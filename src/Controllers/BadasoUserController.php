@@ -51,14 +51,15 @@ class BadasoUserController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => [
                     'required',
                     'exists:users,id',
                 ],
-                'email' => "required|email|unique:users,email,{$request->id}",
-                'name' => 'required',
+                'email'  => "required|email|unique:users,email,{$request->id}",
+                'name'   => 'required',
                 'avatar' => [
                     function ($attribute, $value, $fail) {
                         $check = new CheckBase64($value);
@@ -78,7 +79,7 @@ class BadasoUserController extends Controller
                 $files = [];
                 $files[] = [
                     'base64' => $request->avatar,
-                    'name' => Str::slug($request->name).'.'.$extension,
+                    'name'   => Str::slug($request->name).'.'.$extension,
                 ];
                 $uploaded = $this->handleUploadFiles($files, null, 'users');
                 if (count($uploaded) > 0) {
@@ -110,10 +111,11 @@ class BadasoUserController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'email' => 'required|email|unique:users',
-                'name' => 'required',
+                'email'  => 'required|email|unique:users',
+                'name'   => 'required',
                 'avatar' => [
                     function ($attribute, $value, $fail) {
                         $check = new CheckBase64($value);
@@ -133,7 +135,7 @@ class BadasoUserController extends Controller
                 $files = [];
                 $files[] = [
                     'base64' => $request->avatar,
-                    'name' => Str::slug($request->name).'.'.$extension,
+                    'name'   => Str::slug($request->name).'.'.$extension,
                 ];
                 $uploaded = $this->handleUploadFiles($files, null, 'users');
                 if (count($uploaded) > 0) {
@@ -161,6 +163,7 @@ class BadasoUserController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => [
@@ -186,6 +189,7 @@ class BadasoUserController extends Controller
     public function deleteMultiple(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'ids' => [

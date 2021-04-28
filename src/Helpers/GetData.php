@@ -190,6 +190,7 @@ class GetData
         })->all();
         foreach ($relational_fields as $field) {
             $relation_detail = [];
+
             try {
                 $relation_detail = is_string($field->relation) ? json_decode($field->relation) : $field->relation;
                 $relation_detail = CaseConvert::snake($relation_detail);
