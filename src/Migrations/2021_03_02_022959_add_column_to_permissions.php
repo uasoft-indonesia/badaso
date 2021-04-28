@@ -14,7 +14,7 @@ class AddColumnToPermissions extends Migration
     public function up()
     {
         Schema::table('permissions', function (Blueprint $table) {
-            if (!Schema::hasColumn('permissions', 'is_public')) {
+            if (! Schema::hasColumn('permissions', 'is_public')) {
                 $table->boolean('is_public')->default(false)->after('always_allow');
             }
         });

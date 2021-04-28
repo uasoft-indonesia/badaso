@@ -48,7 +48,7 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (!$token = auth()->attempt($credentials)) {
+                        if (! $token = auth()->attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
@@ -111,7 +111,7 @@ class BadasoAuthController extends Controller
             $user_role->save();
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
-            if (!$should_verify_email) {
+            if (! $should_verify_email) {
                 $ttl = $this->getTTL();
                 $token = auth()->setTTL($ttl)->login($user);
 
@@ -163,7 +163,7 @@ class BadasoAuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-            if (!$user = AuthenticatedUser::getUser()) {
+            if (! $user = AuthenticatedUser::getUser()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -229,7 +229,7 @@ class BadasoAuthController extends Controller
     public function changePassword(Request $request)
     {
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -237,7 +237,7 @@ class BadasoAuthController extends Controller
                 'old_password' => [
                     'required',
                     function ($attribute, $value, $fail) use ($user) {
-                        if (!Hash::check($value, $user->password)) {
+                        if (! Hash::check($value, $user->password)) {
                             $fail(__('badaso::validation.auth.wrong_old_password'));
                         }
                     },
@@ -381,7 +381,7 @@ class BadasoAuthController extends Controller
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
 
-            if (!$user_verification) {
+            if (! $user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
 
@@ -426,7 +426,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -436,7 +436,7 @@ class BadasoAuthController extends Controller
                     function ($attribute, $value, $fail) {
                         if ($value) {
                             $check = new CheckBase64($value);
-                            if (!$check->isValid()) {
+                            if (! $check->isValid()) {
                                 $fail($check->getMessage());
                             }
                         }
@@ -487,7 +487,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -543,7 +543,7 @@ class BadasoAuthController extends Controller
     public function verifyEmail(Request $request)
     {
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 

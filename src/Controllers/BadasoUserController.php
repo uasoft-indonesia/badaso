@@ -38,7 +38,7 @@ class BadasoUserController extends Controller
 
             $user = User::find($request->id);
 
-            $user->email_verified = !is_null($user->email_verified_at);
+            $user->email_verified = ! is_null($user->email_verified_at);
 
             $data['user'] = $user;
 
@@ -63,7 +63,7 @@ class BadasoUserController extends Controller
                 'avatar' => [
                     function ($attribute, $value, $fail) {
                         $check = new CheckBase64($value);
-                        if ($value != '' && !$check->isValid()) {
+                        if ($value != '' && ! $check->isValid()) {
                             $fail($check->getMessage());
                         }
                     },
@@ -119,7 +119,7 @@ class BadasoUserController extends Controller
                 'avatar' => [
                     function ($attribute, $value, $fail) {
                         $check = new CheckBase64($value);
-                        if ($value != '' && !$check->isValid()) {
+                        if ($value != '' && ! $check->isValid()) {
                             $fail($check->getMessage());
                         }
                     },

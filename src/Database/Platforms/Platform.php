@@ -14,7 +14,7 @@ abstract class Platform
     {
         $platform = __NAMESPACE__.'\\'.ucfirst($platform_name);
 
-        if (!class_exists($platform)) {
+        if (! class_exists($platform)) {
             throw new \Exception("Platform {$platform_name} doesn't exist");
         }
 

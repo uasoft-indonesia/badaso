@@ -13,7 +13,7 @@ abstract class Index
     public static function make(array $index)
     {
         $columns = $index['columns'];
-        if (!is_array($columns)) {
+        if (! is_array($columns)) {
             $columns = [$columns];
         }
 
