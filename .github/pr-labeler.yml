@@ -1,0 +1,5 @@
+feature: feature/*
+enhancement: enhancement/*
+bugfix: bugfix/*
+chore: chore/*
+hotfix: hotfix/*
