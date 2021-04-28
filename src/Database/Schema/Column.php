@@ -31,6 +31,7 @@ abstract class Column
         $column_array['null'] = $column_array['notnull'] ? 'NO' : 'YES';
         $column_array['extra'] = static::getExtra($column);
         $column_array['composite'] = false;
+
         return $column_array;
     }
 

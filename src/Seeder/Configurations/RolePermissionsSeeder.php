@@ -10,13 +10,14 @@ class RolePermissionsSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function run()
     {
         \DB::beginTransaction();
+
         try {
             $administrator = Role::where('name', 'administrator')->firstOrFail();
 

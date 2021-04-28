@@ -22,6 +22,7 @@ class CreateMenus extends Migration
             });
         } catch (PDOException $ex) {
             $this->down();
+
             throw $ex;
         }
     }
