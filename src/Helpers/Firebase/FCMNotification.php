@@ -81,15 +81,19 @@ class FCMNotification
         $data_type = DataType::where('name', $table_name)->first();
         if (isset($data_type)) {
             // get event list on table data_types
-            $on_event_list = (array) json_decode($data_type->notification, true);
-            if (in_array($active_event, $on_event_list)) {
+            $on_event = collect(json_decode($data_type->notification, true))->where('event', $active_event)->first();
 
+            $notification_message_title = $on_event['notification_message_title'];
+            if ($notification_message_title != null && $notification_message_title != '') $title = $notification_message_title;
+            $notification_message = $on_event['notification_message'];
+            if ($notification_message != null && $notification_message != '') $body = $notification_message;
+
+            if (isset($on_event)) {
                 $user_get_messages = User::select('firebase_cloud_messages.token_get_message', 'user_roles.user_id')
                     ->join('firebase_cloud_messages', 'firebase_cloud_messages.user_id', '=', 'users.id')
                     ->join('user_roles', 'user_roles.user_id', '=', 'users.id')
                     ->join('roles', 'roles.id', '=', 'user_roles.role_id')
                     ->whereIn('roles.name', $this->tell_role_names);
-
 
                 $user = auth()->user();
                 if (isset($user)) {

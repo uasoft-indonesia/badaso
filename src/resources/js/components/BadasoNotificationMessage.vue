@@ -8,6 +8,7 @@
       ><vs-icon icon="notifications"></vs-icon
     ></a>
 
+    <!-- list notification -->
     <vs-sidebar
       position-right
       parent="body"
@@ -50,6 +51,7 @@
       </vs-sidebar-item>
     </vs-sidebar>
 
+    <!-- detail message notification -->
     <vs-sidebar
       position-right
       parent="body"

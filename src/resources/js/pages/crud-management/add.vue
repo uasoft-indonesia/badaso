@@ -122,12 +122,17 @@
               :items="fieldList"
               :alert="errors.defaultServerSideSearchField"
             ></badaso-hidden>
-            <div class="ml-3">
+
+            <div class="row ml-3 mr-3">
               <label for="">{{
                 $t("crud.edit.field.activeEventNotification.title")
               }}</label>
-              <vs-row>
+            </div>
+
+            <vs-row>
+              <vs-col>
                 <vs-checkbox
+                  class="mb-2"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onCreate"
                   style="justify-content: start;"
@@ -135,7 +140,45 @@
                     $t("crud.edit.field.activeEventNotification.label.onCreate")
                   }}</vs-checkbox
                 >
+              </vs-col>
+              <vs-col v-if="onCreate">
+                <badaso-text
+                  v-model="onCreateTitle"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onCreateTitle'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onCreateTitle'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+                <badaso-text
+                  v-model="onCreateMessage"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onCreateMessage'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onCreateMessage'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+              </vs-col>
+            </vs-row>
+
+            <vs-row>
+              <vs-col>
                 <vs-checkbox
+                  class="mb-2"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onRead"
                   style="justify-content: start;"
@@ -143,7 +186,45 @@
                     $t("crud.edit.field.activeEventNotification.label.onRead")
                   }}</vs-checkbox
                 >
+              </vs-col>
+              <vs-col v-if="onRead">
+                <badaso-text
+                  v-model="onReadTitle"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onReadTitle'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onReadTitle'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+                <badaso-text
+                  v-model="onReadMessage"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onReadMessage'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onReadMessage'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+              </vs-col>
+            </vs-row>
+
+            <vs-row>
+              <vs-col>
                 <vs-checkbox
+                  class="mb-2"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onUpdate"
                   style="justify-content: start;"
@@ -151,7 +232,45 @@
                     $t("crud.edit.field.activeEventNotification.label.onUpdate")
                   }}</vs-checkbox
                 >
+              </vs-col>
+              <vs-col v-if="onUpdate">
+                <badaso-text
+                  v-model="onUpdateTitle"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onUpdateTitle'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onUpdateTitle'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+                <badaso-text
+                  v-model="onUpdateMessage"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onUpdateMessage'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onUpdateMessage'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+              </vs-col>
+            </vs-row>
+
+            <vs-row>
+              <vs-col>
                 <vs-checkbox
+                  class="mb-2"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onDelete"
                   style="justify-content: start;"
@@ -159,8 +278,41 @@
                     $t("crud.edit.field.activeEventNotification.label.onDelete")
                   }}</vs-checkbox
                 >
-              </vs-row>
-            </div>
+              </vs-col>
+              <vs-col v-if="onDelete">
+                <badaso-text
+                  v-model="onDeleteTitle"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onDeleteTitle'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onDeleteTitle'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+                <badaso-text
+                  v-model="onDeleteMessage"
+                  :label="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onDeleteMessage'
+                    )
+                  "
+                  :placeholder="
+                    $t(
+                      'crud.edit.field.activeEventNotification.label.onDeleteMessage'
+                    )
+                  "
+                  :additionalInfo="null"
+                  :alert="errors.icon"
+                ></badaso-text>
+              </vs-col>
+            </vs-row>
+
             <badaso-textarea
               size="12"
               :label="$t('crud.add.field.description.title')"
@@ -647,9 +799,17 @@ export default {
       destinationTableDisplayColumn: "",
     },
     onCreate: false,
+    onCreateTitle: "",
+    onCreateMessage: "",
     onRead: false,
+    onReadTitle: "",
+    onReadMessage: "",
     onUpdate: false,
+    onUpdateTitle: "",
+    onUpdateMessage: "",
     onDelete: false,
+    onDeleteTitle: "",
+    onDeleteMessage: "",
   }),
   computed: {
     componentList: {
@@ -715,7 +875,29 @@ export default {
       this.relation = {};
       field.setRelation = false;
     },
+    dataNotificationEventHandle() {
+      this.crudData.notification = this.crudData.notification.map(
+        (item, index) => {
+          let { event } = item;
+          let notificationMessageTitle = this[`${event}Title`];
+          let notificationMessage = this[`${event}Message`];
+
+          if (
+            notificationMessageTitle != null &&
+            notificationMessageTitle != ""
+          ) {
+            item["notificationMessageTitle"] = notificationMessageTitle;
+          }
+          if (notificationMessage != null && notificationMessage != "") {
+            item["notificationMessage"] = notificationMessage;
+          }
+
+          return item;
+        }
+      );
+    },
     submitForm() {
+      this.dataNotificationEventHandle();
       this.errors = {};
       this.$openLoader();
       this.$api.badasoCrud
@@ -829,10 +1011,30 @@ export default {
     onCheckBoxNotificationOnEvent() {
       let notification = [];
 
-      if (this.onCreate) notification.push("onCreate");
-      if (this.onRead) notification.push("onRead");
-      if (this.onUpdate) notification.push("onUpdate");
-      if (this.onDelete) notification.push("onDelete");
+      if (this.onCreate)
+        notification.push({
+          event: "onCreate",
+          notificationMessageTitle: null,
+          notificationMessage: null,
+        });
+      if (this.onRead)
+        notification.push({
+          event: "onRead",
+          notificationMessageTitle: null,
+          notificationMessage: null,
+        });
+      if (this.onUpdate)
+        notification.push({
+          event: "onUpdate",
+          notificationMessageTitle: null,
+          notificationMessage: null,
+        });
+      if (this.onDelete)
+        notification.push({
+          event: "onDelete",
+          notificationMessageTitle: null,
+          notificationMessage: null,
+        });
 
       this.crudData.notification = notification;
     },

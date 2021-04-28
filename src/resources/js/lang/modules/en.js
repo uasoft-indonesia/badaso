@@ -409,7 +409,15 @@ export default {
             onCreate : 'On Create',
             onRead : 'On Read',
             onUpdate : 'On Update',
-            onDelete : 'On Delete'
+            onDelete : 'On Delete',
+            onCreateTitle : 'Title Message Event On Create',
+            onCreateMessage : ' Message Event On Create',
+            onReadTitle : 'Title Message Event On Read',
+            onReadMessage : ' Message Event On Read',
+            onUpdateTitle : 'Title Message Event On Update',
+            onUpdateMessage : ' Message Event On Update',
+            onDeleteTitle : 'Title Message Event On Delete',
+            onDeleteMessage : ' Message Event On Delete',
           },
         }
       },
