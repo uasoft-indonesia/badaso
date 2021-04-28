@@ -16,4 +16,8 @@ export default {
     let url = `${apiPrefix}/v1/firebase/messages`;
     return resource.get(url);
   },
+  readMessage(id){
+    let url = `${apiPrefix}/v1/firebase/messages/${id}`;
+    return resource.put(url);
+  }
 };

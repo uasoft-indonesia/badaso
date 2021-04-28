@@ -1006,12 +1006,7 @@ export default {
     },
   },
   notification: {
-    table: {
-      thead: {
-        title: "Judul",
-        message: "Pesan",
-        user: "Pengguna",
-      },
-    },
+    notification: "Pemberitahuan",
+    detailMessage: "Detail Pesan",
   },
 };

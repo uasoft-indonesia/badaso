@@ -14,7 +14,6 @@ class FCMNotification
 {
     public static $FIREBASE_URL_API = "https://fcm.googleapis.com/fcm/send";
     public static $NAME_TABLE_DATA_TYPES = "data_types";
-    public static $MAX_MEMBER_GROUP_TOKEN_MESSAGE = 999;
     public static $TYPE_MESSAGES = 'notification';
 
     public static $ACTIVE_EVENT_ON_CREATE = 'onCreate';
@@ -99,14 +98,12 @@ class FCMNotification
                 }
 
                 $user_get_messages = $user_get_messages->get();
-                $fmc_messages = [];
-                $user_get_token_messages = [];
 
                 if (isset($user)) {
                     $datetime_now = date('Y-m-d H:i:s');
                     foreach ($user_get_messages as $key => $value) {
-                        $user_get_token_messages[] = $value['token_get_message'];
-                        $fmc_messages[] = [
+                        $user_get_token_messages = $value['token_get_message'];
+                        $fmc_messages = [
                             'receiver_user_id' => $value['user_id'],
                             'type' => self::$TYPE_MESSAGES,
                             'title' => $title,
@@ -116,13 +113,10 @@ class FCMNotification
                             'created_at' => $datetime_now,
                             'updated_at' => $datetime_now,
                         ];
+                        $fmc_messages_model = FCMMessage::create($fmc_messages);
+                        $data['fcm_message_id'] = $fmc_messages_model->id;
+                        $this->send([$user_get_token_messages], $title, $body, $data);
                     }
-                    FCMMessage::insert($fmc_messages);
-                }
-
-                $group_user_get_messages = array_chunk($user_get_token_messages, self::$MAX_MEMBER_GROUP_TOKEN_MESSAGE);
-                foreach ($group_user_get_messages as $key => $group_token_get_message) {
-                    $this->send($group_token_get_message, $title, $body, $data);
                 }
             }
         }

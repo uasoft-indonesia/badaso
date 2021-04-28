@@ -20,6 +20,7 @@ import App from "./apps/App.vue";
 
 import firebase from "firebase/app";
 import "firebase/firebase-messaging";
+import { notificationMessageReceive } from "./utils/firebase";
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -236,26 +237,6 @@ if ("serviceWorker" in navigator) {
       .catch((error) =>
         console.log("Service Worker Register Failed : ", error)
       );
-
-    firebase
-      .messaging()
-      .getToken()
-      .then((token) => console.log(token));
-
-    // navigator.serviceWorker.ready.then((registration) => {
-    //   registration.active.postMessage("Hi service worker");
-    // });
-
-    navigator.serviceWorker.addEventListener("message", (event) => {
-      // event is a MessageEvent object
-      console.log(`The service worker sent me a message: `, event);
-    });
-
-    firebase.messaging().onMessage((payload) => console.log(payload, 'by message'));
-
-    // navigator.serviceWorker.ready.then(function(swRegistration) {
-    //   return swRegistration.sync.register(JSON.stringify(firebaseConfig));
-    // });
   });
 }
 
@@ -272,4 +253,4 @@ const app = new Vue({
 }).$mount("#app");
 
 // ADD FIREBASE MESSAGE
-// notificationMessageReceive(app);
+notificationMessageReceive(app);

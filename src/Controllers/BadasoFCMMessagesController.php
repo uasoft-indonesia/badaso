@@ -25,4 +25,22 @@ class BadasoFCMMessagesController extends Controller
             return ApiResponse::failed($e);
         }
     }
+
+    public function readMessage($id)
+    {
+        try {
+            $fcm_messages = FCMMessage::where('id', $id)->first();
+            if (isset($fcm_messages)) {
+                $fcm_messages->update([
+                    'is_read' => true,
+                ]);
+            }
+
+            return ApiResponse::success([
+                'messages' => $fcm_messages->toArray(),
+            ]);
+        } catch (\Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
 }

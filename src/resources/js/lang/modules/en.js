@@ -1005,12 +1005,7 @@ export default {
     },
   },
   notification : {
-    table : {
-      thead : {
-        title : 'Title',
-        message : 'Messages',
-        user : 'Users'
-      }
-    }
+    notification : "Notification",
+    detailMessage : "Detail Message"
   },
 };

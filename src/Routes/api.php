@@ -202,6 +202,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             });
             Route::group(['prefix' => 'messages', 'middleware' => 'auth'], function () {
                 Route::get('/', 'BadasoFCMMessagesController@getMessages');
+                Route::put('/{id}', 'BadasoFCMMessagesController@readMessage');
             });
         });
     });
