@@ -18,10 +18,8 @@ import lang from "./lang/";
 
 import App from "./apps/App.vue";
 
-import {
-  notificationMessageReceive,
-  firebaseMessageReady,
-} from "./utils/firebase";
+import firebase from "firebase/app";
+import "firebase/firebase-messaging";
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -31,9 +29,6 @@ Vue.use(VueI18n);
 Vue.use(Datetime);
 Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
-
-// ADD FIREBASE MESSAGE
-Vue.prototype.$firebaseMessageReady = firebaseMessageReady;
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
@@ -215,6 +210,60 @@ Vue.prototype.$closeLoader = function() {
   }
 };
 
+// ADD FIREBASE MESSAGE
+
+let firebaseConfig = {
+  apiKey: process.env.MIX_FIREBASE_API_KEY,
+  authDomain: process.env.MIX_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.MIX_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.MIX_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.MIX_FIREBASE_MESSAGE_SEENDER,
+  appId: process.env.MIX_FIREBASE_APP_ID,
+  measurementId: process.env.MIX_FIREBASE_MEASUREMENT_ID,
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app();
+}
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((register) => console.log("Service Worker Register Success"))
+      .catch((error) =>
+        console.log("Service Worker Register Failed : ", error)
+      );
+
+    firebase
+      .messaging()
+      .getToken()
+      .then((token) => console.log(token));
+
+    // navigator.serviceWorker.ready.then((registration) => {
+    //   registration.active.postMessage("Hi service worker");
+    // });
+
+    navigator.serviceWorker.addEventListener("message", (event) => {
+      // event is a MessageEvent object
+      console.log(`The service worker sent me a message: `, event);
+    });
+
+    firebase.messaging().onMessage((payload) => console.log(payload, 'by message'));
+
+    // navigator.serviceWorker.ready.then(function(swRegistration) {
+    //   return swRegistration.sync.register(JSON.stringify(firebaseConfig));
+    // });
+  });
+}
+
+Vue.prototype.$messaging = firebase.messaging();
+Vue.prototype.$messagingToken = firebase
+  .messaging()
+  .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
+
 const app = new Vue({
   store,
   router,
@@ -223,4 +272,4 @@ const app = new Vue({
 }).$mount("#app");
 
 // ADD FIREBASE MESSAGE
-notificationMessageReceive(app);
+// notificationMessageReceive(app);

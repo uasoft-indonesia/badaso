@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Helpers\Firebase;
 
+use App\FCMMessage;
 use GuzzleHttp\Client;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\FirebaseCloudMessages;
@@ -14,6 +15,7 @@ class FCMNotification
     public static $FIREBASE_URL_API = "https://fcm.googleapis.com/fcm/send";
     public static $NAME_TABLE_DATA_TYPES = "data_types";
     public static $MAX_MEMBER_GROUP_TOKEN_MESSAGE = 999;
+    public static $TYPE_MESSAGES = 'notification';
 
     public static $ACTIVE_EVENT_ON_CREATE = 'onCreate';
     public static $ACTIVE_EVENT_ON_UPDATE = 'onUpdate';
@@ -41,7 +43,7 @@ class FCMNotification
      * @param array $data
      * 
      */
-    public function send(array $ids = [], string $title = '', string $body = '', $data): void
+    protected function send(array $ids = [], string $title = '', string $body = '', $data): void
     {
         $data_json_params = [
             'registration_ids' => $ids,
@@ -68,13 +70,13 @@ class FCMNotification
     }
 
     /**
-     * @param string $active_event
+     * @param string $active_event 
      * @param string $table_name
      * @param string $title
      * @param string $body
      * @param array $data
      */
-    public function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', $data): void
+    protected function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', $data): void
     {
         // get table data_types
         $data_type = DataType::where('name', $table_name)->first();
@@ -83,25 +85,43 @@ class FCMNotification
             $on_event_list = (array) json_decode($data_type->notification, true);
             if (in_array($active_event, $on_event_list)) {
 
-                $token_get_messages = User::select('firebase_cloud_messages.token_get_message')
+                $user_get_messages = User::select('firebase_cloud_messages.token_get_message', 'user_roles.user_id')
                     ->join('firebase_cloud_messages', 'firebase_cloud_messages.user_id', '=', 'users.id')
                     ->join('user_roles', 'user_roles.user_id', '=', 'users.id')
                     ->join('roles', 'roles.id', '=', 'user_roles.role_id')
                     ->whereIn('roles.name', $this->tell_role_names);
 
+
                 $user = auth()->user();
                 if (isset($user)) {
                     $user_id = $user->id;
-                    $token_get_messages = $token_get_messages->where('users.id', '!=', $user_id);
+                    $user_get_messages = $user_get_messages->where('users.id', '!=', $user_id);
                 }
 
-                $token_get_messages = $token_get_messages->get()
-                    ->map(function ($token, $index) {
-                        return $token['token_get_message'];
-                    })->toArray();
+                $user_get_messages = $user_get_messages->get();
+                $fmc_messages = [];
+                $user_get_token_messages = [];
 
-                $group_token_get_messages = array_chunk($token_get_messages, self::$MAX_MEMBER_GROUP_TOKEN_MESSAGE);
-                foreach ($group_token_get_messages as $key => $group_token_get_message) {
+                if (isset($user)) {
+                    $datetime_now = date('Y-m-d H:i:s');
+                    foreach ($user_get_messages as $key => $value) {
+                        $user_get_token_messages[] = $value['token_get_message'];
+                        $fmc_messages[] = [
+                            'receiver_user_id' => $value['user_id'],
+                            'type' => self::$TYPE_MESSAGES,
+                            'title' => $title,
+                            'content' => $body,
+                            'is_read' => false,
+                            'sender_user_id' => $user->id,
+                            'created_at' => $datetime_now,
+                            'updated_at' => $datetime_now,
+                        ];
+                    }
+                    FCMMessage::insert($fmc_messages);
+                }
+
+                $group_user_get_messages = array_chunk($user_get_token_messages, self::$MAX_MEMBER_GROUP_TOKEN_MESSAGE);
+                foreach ($group_user_get_messages as $key => $group_token_get_message) {
                     $this->send($group_token_get_message, $title, $body, $data);
                 }
             }
@@ -115,8 +135,30 @@ class FCMNotification
      * @param string $body
      * @param array $data 
      */
-    public static function notification(string $active_event, string $table_name, string $title = '', string $body = '', $data = [])
+    public static function notification(string $active_event, string $table_name, string $title = null, string $body = null, $data = [])
     {
+        $user_name = 'user';
+        $user = auth()->user();
+        if (isset($user)) {
+            $user_name = $user->name;
+            $data['user_name'] = $user_name;
+        }
+
+        $active_event_lowercase_mode = strtolower($active_event);
+
+        if ($title == null) {
+            $title = __("badaso::notification.event_table.{$active_event_lowercase_mode}.title", [
+                'table_name' => $table_name,
+            ]);
+        }
+
+        if ($body == null) {
+            $body = __("badaso::notification.event_table.{$active_event_lowercase_mode}.body", [
+                'table_name' => $table_name,
+                'user_name' => $user_name,
+            ]);
+        }
+
         $fcm = new self();
         $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
     }

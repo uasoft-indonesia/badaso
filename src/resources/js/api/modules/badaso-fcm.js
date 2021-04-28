@@ -12,4 +12,8 @@ export default {
       token_get_message: firebaseTokenMessages,
     });
   },
+  getMessages() {
+    let url = `${apiPrefix}/v1/firebase/messages`;
+    return resource.get(url);
+  },
 };

@@ -2,19 +2,19 @@
 
 return [
     'event_table' => [
-        'on_create' => [
+        'oncreate' => [
             'title' => 'Table :table_name add new row',
             'body' => 'Add new row from table :table_name by :user_name'
         ],
-        'on_update' => [
+        'onupdate' => [
             'title' => 'Table :table_name edit row',
             'body' => 'Edit row from table :table_name by :user_name'
         ],
-        'on_read' => [
+        'onread' => [
             'title' => 'Table :table_name read row',
             'body' => 'Read  row from table :table_name by :user_name'
         ],
-        'on_delete' => [
+        'ondelete' => [
             'title' => 'Table :table_name edit delete row',
             'body' => 'Delete row from table :table_name by :user_name'
         ],

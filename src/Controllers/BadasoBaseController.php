@@ -63,21 +63,9 @@ class BadasoBaseController extends Controller
 
             $data = $this->getDataDetail($slug, $request->id);
 
-            $user_name = "";
-            $user = auth()->user();
-            if (isset($user)) $user_name = $user->name;
+            // add event notification handle 
             $table_name = $data_type->name;
-            $title = __('badaso::notification.event_table.on_read.title', [
-                'table_name' => $table_name,
-            ]);
-            $body = __('badaso::notification.event_table.on_read.body', [
-                'table_name' => $table_name,
-                'user_name' => $user_name,
-            ]);
-
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name, $title, $body, [
-                'user_name' => $user_name
-            ]);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
 
             return ApiResponse::entity($data_type, $data);
         } catch (Exception $e) {
@@ -113,20 +101,9 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            $user_name = "";
-            $user = auth()->user();
-            if (isset($user)) $user_name = $user->name;
+            // add event notification handle 
             $table_name = $data_type->name;
-            $title = __('badaso::notification.event_table.on_update.title', [
-                'table_name' => $table_name,
-            ]);
-            $body = __('badaso::notification.event_table.on_update.body', [
-                'table_name' => $table_name,
-                'user_name' => $user_name,
-            ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name, $title, $body, [
-                'user_name' => $user_name,
-            ]);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
 
             return ApiResponse::entity($data_type, $updated['updated_data']);
         } catch (Exception $e) {
@@ -161,20 +138,9 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            $user_name = "";
-            $user = auth()->user();
-            if (isset($user)) $user_name = $user->name;
+            // add event notification handle 
             $table_name = $data_type->name;
-            $title = __('badaso::notification.event_table.on_create.title', [
-                'table_name' => $table_name,
-            ]);
-            $body = __('badaso::notification.event_table.on_create.body', [
-                'table_name' => $table_name,
-                'user_name' => $user_name,
-            ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name, $title, $body, [
-                'user_name' => $user_name,
-            ]);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
             return ApiResponse::entity($data_type, $stored_data);
         } catch (Exception $e) {
@@ -210,20 +176,9 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            $user_name = "";
-            $user = auth()->user();
-            if (isset($user)) $user_name = $user->name;
+            // add event notification handle 
             $table_name = $data_type->name;
-            $title = __('badaso::notification.event_table.on_delete.title', [
-                'table_name' => $table_name,
-            ]);
-            $body = __('badaso::notification.event_table.on_delete.body', [
-                'table_name' => $table_name,
-                'user_name' => $user_name,
-            ]);
-            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name, $title, $body, [
-                'user_name' => $user_name,
-            ]);
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name);
 
             return ApiResponse::entity($data_type);
         } catch (Exception $e) {

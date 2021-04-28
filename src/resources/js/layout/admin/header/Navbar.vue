@@ -54,36 +54,7 @@
         </vs-dropdown>
       </div>
       <div slot="right_menu">
-        <vs-dropdown
-          @click="onClickNotification()"
-          vs-trigger-click
-          left
-          class="cursor-pointer ml-1 mr-md-3"
-        >
-          <a
-            class="text-white-dark"
-            href="#"
-            :style="{ color: topbarFontColor }"
-            ><vs-icon icon="notifications"></vs-icon
-          ></a>
-          <vs-dropdown-menu class="topbar-dd">
-            <div
-              class="d-flex align-items-center mb-2 preview"
-              :style="{ backgroundColor: topbarColor, color: topbarFontColor }"
-            >
-              <vs-dropdown-item :to="{ name: 'NotificationBrowse' }">
-                <h4 class="mb-0">{{ totalMessageNotification }}</h4>
-                <p class="mb-0">Notification</p>
-              </vs-dropdown-item>
-            </div>
-            <div style="max-height: 200px; overflow-y: auto;">
-              <vs-dropdown-item>
-                <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                Coming soon...
-              </vs-dropdown-item>
-            </div>
-          </vs-dropdown-menu>
-        </vs-dropdown>
+        <badaso-notification-message :topbarFontColor="topbarFontColor" ></badaso-notification-message>
       </div>
     </badaso-navbar>
   </header>
@@ -120,6 +91,7 @@ export default {
     indexActive: 0,
     showToggle: false,
     totalMessageNotification: 0,
+    active : false,
   }),
   computed: {
     user: {
@@ -175,16 +147,6 @@ export default {
     setLocale(item) {
       this.$i18n.locale = item.key;
       this.$store.commit("badaso/SET_LOCALE", item);
-    },
-    onClickNotification: function() {
-      let dataMessageFormLocalStroge = localStorage.getItem(
-        keyMessageNotification
-      );
-      let numberMessage = 0;
-      if (dataMessageFormLocalStroge != null) {
-        numberMessage = JSON.parse(dataMessageFormLocalStroge).length;
-      }
-      this.totalMessageNotification = numberMessage;
     },
   },
   mounted() {},

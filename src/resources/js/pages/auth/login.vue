@@ -131,13 +131,14 @@ export default {
                 });
               }
 
-              this.$firebaseMessageReady().then(async (data) => {
+              this.$messagingToken.then((tokenMessage) => {
                 try {
-                  let { firebaseMessages, tokenMessage } = data;
-                  let firebaseTokenGetMessage = tokenMessage;
-                  this.$api.badasoFcm.saveTokenMessage(firebaseTokenGetMessage);
+                  this.$api.badasoFcm.saveTokenMessage(tokenMessage);
                 } catch (error) {
-                  console.error(error);
+                  console.error(
+                    "Errors set token firebase cloud message :",
+                    error
+                  );
                 }
               });
             })
