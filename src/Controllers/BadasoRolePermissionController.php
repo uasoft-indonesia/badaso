@@ -76,7 +76,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id' => 'required|exists:roles,id',
+                'role_id'     => 'required|exists:roles,id',
                 'permissions' => 'required',
             ]);
             $permissions = $request->permissions;
@@ -88,7 +88,7 @@ class BadasoRolePermissionController extends Controller
                     $permission = Permission::find($value);
                     if (!is_null($permission)) {
                         $role_permission = [
-                            'role_id' => $role->id,
+                            'role_id'       => $role->id,
                             'permission_id' => $permission->id,
                         ];
 

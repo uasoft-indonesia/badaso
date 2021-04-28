@@ -24,6 +24,7 @@ class CreateRolePermissions extends Migration
             });
         } catch (PDOException $ex) {
             $this->down();
+
             throw $ex;
         }
     }

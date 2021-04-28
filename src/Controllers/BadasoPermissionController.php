@@ -43,16 +43,17 @@ class BadasoPermissionController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => [
                     'required',
                     'exists:permissions,id',
                 ],
-                'key' => "required|unique:permissions,key,{$request->id}",
-                'description' => 'required',
+                'key'          => "required|unique:permissions,key,{$request->id}",
+                'description'  => 'required',
                 'always_allow' => 'required',
-                'is_public' => 'required',
+                'is_public'    => 'required',
             ]);
 
             $permission = Permission::find($request->id);
@@ -75,12 +76,13 @@ class BadasoPermissionController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'key' => 'required|unique:permissions',
-                'description' => 'required',
+                'key'          => 'required|unique:permissions',
+                'description'  => 'required',
                 'always_allow' => 'required',
-                'is_public' => 'required',
+                'is_public'    => 'required',
             ]);
 
             $permission = new Permission();
@@ -103,6 +105,7 @@ class BadasoPermissionController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => [
@@ -126,6 +129,7 @@ class BadasoPermissionController extends Controller
     public function deleteMultiple(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'ids' => [

@@ -8,7 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Menu extends Model
 {
     use LogsActivity;
-    
+
     protected $fillable = [
         'key',
         'display_name',

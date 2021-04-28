@@ -24,6 +24,7 @@ class AddBadasoUserField extends Migration
             });
         } catch (PDOException $ex) {
             $this->down();
+
             throw $ex;
         }
     }

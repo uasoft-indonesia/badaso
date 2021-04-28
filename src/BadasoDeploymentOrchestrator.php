@@ -23,7 +23,7 @@ class BadasoDeploymentOrchestrator
 
     /** @var array */
     const HANDLERS = [
-        self::CRUD_DATA_ADDED => CRUDDataAddedHandler::class,
+        self::CRUD_DATA_ADDED   => CRUDDataAddedHandler::class,
         self::CRUD_DATA_UPDATED => CRUDDataUpdatedHandler::class,
         self::CRUD_DATA_DELETED => CRUDDataDeletedHandler::class,
     ];
