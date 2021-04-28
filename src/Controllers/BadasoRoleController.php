@@ -43,15 +43,16 @@ class BadasoRoleController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => [
                     'required',
                     'exists:roles,id',
                 ],
-                'name' => "required|unique:roles,name,{$request->id}",
+                'name'         => "required|unique:roles,name,{$request->id}",
                 'display_name' => 'required',
-                'description' => 'required',
+                'description'  => 'required',
             ]);
 
             $role = Role::find($request->id);
@@ -73,11 +74,12 @@ class BadasoRoleController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'name' => 'required|unique:roles,name',
+                'name'         => 'required|unique:roles,name',
                 'display_name' => 'required',
-                'description' => 'required',
+                'description'  => 'required',
             ]);
 
             $role = new Role();
@@ -99,6 +101,7 @@ class BadasoRoleController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'id' => [
@@ -122,6 +125,7 @@ class BadasoRoleController extends Controller
     public function deleteMultiple(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'ids' => [

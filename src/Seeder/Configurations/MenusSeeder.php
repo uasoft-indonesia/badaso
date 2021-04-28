@@ -7,28 +7,29 @@ class MenusSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function run()
     {
         \DB::beginTransaction();
+
         try {
             $menus = [
                 0 => [
-                    'id' => 1,
-                    'key' => 'admin',
+                    'id'           => 1,
+                    'key'          => 'admin',
                     'display_name' => 'Admin Menu',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
+                    'created_at'   => '2021-01-01 15:26:06',
+                    'updated_at'   => '2021-01-01 15:26:06',
                 ],
                 1 => [
-                    'id' => 2,
-                    'key' => 'configuration',
+                    'id'           => 2,
+                    'key'          => 'configuration',
                     'display_name' => 'Configuration',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
+                    'created_at'   => '2021-01-01 15:26:06',
+                    'updated_at'   => '2021-01-01 15:26:06',
                 ],
             ];
 

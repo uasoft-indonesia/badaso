@@ -21,6 +21,7 @@ class GoogleDriveServiceProvider extends ServiceProvider
             $client->refreshToken($config['refreshToken']);
             $service = new \Google_Service_Drive($client);
             $adapter = new \Hypweb\Flysystem\GoogleDrive\GoogleDriveAdapter($service, $config['folderId']);
+
             return new \League\Flysystem\Filesystem($adapter);
         });
     }

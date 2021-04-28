@@ -32,7 +32,7 @@ class CRUDDataDeletedHandler
 
         $data_type->destroy($data_type->id);
 
-        if (!is_null($data_type)) {
+        if (! is_null($data_type)) {
             Permission::removeFrom($data_type->name);
         }
 

@@ -28,7 +28,7 @@ abstract class SchemaManager
 
     public static function tableExists($table)
     {
-        if (!is_array($table)) {
+        if (! is_array($table)) {
             $table = [$table];
         }
 
@@ -118,7 +118,7 @@ abstract class SchemaManager
 
     public static function createTable($table)
     {
-        if (!($table instanceof DoctrineTable)) {
+        if (! ($table instanceof DoctrineTable)) {
             $table = Table::make($table);
         }
 
@@ -129,7 +129,7 @@ abstract class SchemaManager
     {
         $table = trim($table);
 
-        if (!static::tableExists($table)) {
+        if (! static::tableExists($table)) {
             throw SchemaException::tableDoesNotExist($table);
         }
 

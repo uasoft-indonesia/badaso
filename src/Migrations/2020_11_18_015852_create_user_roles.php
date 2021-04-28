@@ -25,6 +25,7 @@ class CreateUserRoles extends Migration
             });
         } catch (PDOException $ex) {
             $this->down();
+
             try {
                 Schema::create('user_roles', function (Blueprint $table) {
                     $table->increments('id');
@@ -36,6 +37,7 @@ class CreateUserRoles extends Migration
                 });
             } catch (PDOException $ex) {
                 $this->down();
+
                 throw $ex;
             }
         }

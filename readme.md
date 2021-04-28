@@ -3,12 +3,13 @@
     <img src="https://i.ibb.co/6Yx8HbP/Badaso-1.png" width="318px" alt="Badaso logo" />
   </a>
 </p>
-<h3 align="center">The First Open-Source Laravel Vue headless PWA CMS.</h3>
+<h3 align="center">The first & most advandced Open-Source headless PWA CMS based on Laravel + Vue.</h3>
 <p align="center">PWA dashboard + CRUD + API generator & more.</p>
 <p align="center"><a href="#live-demo">Try live demo</a></p>
 <br />
 
 <p align="center">
+<a href="https://github.styleci.io/repos/347838630"><img src="https://github.styleci.io/repos/347838630/shield" alt="Badaso StyleCI"></a>
 <a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/uasoft-indonesia/badaso" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/uasoft-indonesia/badaso" alt="Latest Stable Version"></a>
 </p>
@@ -26,14 +27,33 @@
 
 Badaso is a open-source Laravel Vue headless CMS (with PWA dashboard + CRUD + API generator & more) for more productivity !
 
-- **Modern PWA  Dashboard** - Elegant design, fully customizable, Fast and SPA based on Vue.js with PWA technology (service worker, offline mode, dekstop installation and more)
-- **Advanced CRUD generator** - Build your application faster and be more productive !
-- **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
+### Why badaso ?
+
+- **Modern PWA  Dashboard** - Fast and SPA based on Vue.js with PWA technology
+- **Native installation** - Lazy to open browser ? Install badaso on Windows, Linux, MacOS, Android & iOS !
+- **Working offline** - No more f*cked with bad internet connection, badaso can running offline ! (on progress)
+- **Headless** - Using JWT authentication & authorization out of the box
+- **Modern design** - Keep your system design amazing and up to date
 - **Secure** - Build based on laravel make it secure as laravel
 - **Modular** - Install custom library in seconds like another your laravel projects
 - **Scalable** - Like your another laravel projects !
 - **Easy maintenance** - Like your another laravel projects !
 - **Long time support** - Great choice for  your long-term project.
+
+### Badaso features 
+
+- **Advanced CRUD generator** - Build your application faster and be more productive !
+- **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
+- **User management** - Manage your application user out of the box !
+- **Role management** - Your application user can has different role out of the box !
+- **Permission management** - Each of role has different access permission !
+- **Menu management** - Manage your application menu so easy and faster !
+- **Database migration management** - Handle your database migration direct on application !
+- **Activity logging** - Keep your system safe, know who makes the trouble !
+- **Log UI viewer** - Don't need open your server to check the log, stay on your application !
+- **Daily database backup** - Keep your valuable database safety !
+- **Media manager** - MAnager your media on local, even on cloud direct on your application !
+- Many more !
 
 ## Live demo
 

@@ -44,7 +44,6 @@ class BadasoSetup extends Command
         parent::__construct();
     }
 
-
     /**
      * Execute the console command.
      *
@@ -109,7 +108,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -120,7 +119,7 @@ class BadasoSetup extends Command
 
         if ($this->checkExist($mix_file, $search)) {
             $data =
-                <<<EOT
+                <<<'EOT'
 
         // Badaso
         mix
@@ -138,7 +137,6 @@ class BadasoSetup extends Command
 
     protected function publishBadasoProvider()
     {
-
         $command_params = ['--tag' => 'Badaso'];
         if ($this->force) {
             $command_params['--force'] = true;
@@ -151,7 +149,6 @@ class BadasoSetup extends Command
 
     protected function publishLaravelBackupProvider()
     {
-
         $command_params = [
             '--provider' => "Spatie\Backup\BackupServiceProvider",
         ];
@@ -168,7 +165,7 @@ class BadasoSetup extends Command
     {
         $command_params = [
             '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
-            '--tag' => 'config',
+            '--tag'      => 'config',
         ];
         if ($this->force) {
             $command_params['--force'] = true;

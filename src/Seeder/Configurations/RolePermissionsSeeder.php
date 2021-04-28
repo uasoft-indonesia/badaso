@@ -10,19 +10,20 @@ class RolePermissionsSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @return void
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function run()
     {
         \DB::beginTransaction();
+
         try {
             $administrator = Role::where('name', 'administrator')->firstOrFail();
 
             $permissions = Permission::all();
 
-            if (!is_null($administrator)) {
+            if (! is_null($administrator)) {
                 foreach ($permissions as $row) {
                     $role_permission = RolePermission::where('role_id', $administrator->id)
                             ->where('permission_id', $row->id)

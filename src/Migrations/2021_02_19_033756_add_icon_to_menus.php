@@ -14,7 +14,7 @@ class AddIconToMenus extends Migration
     public function up()
     {
         Schema::table('menus', function (Blueprint $table) {
-            if (!Schema::hasColumn('menus', 'icon')) {
+            if (! Schema::hasColumn('menus', 'icon')) {
                 $table->string('icon')->nullable()->after('display_name');
             }
         });
