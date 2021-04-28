@@ -18,11 +18,20 @@ class BadasoSetup extends Command
     protected $name = 'badaso:setup';
 
     /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'badaso:setup {--force=false}';
+
+    /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Setup Badaso Modules';
+
+    private $force = false;
 
     /**
      * Create a new command instance.
@@ -35,6 +44,7 @@ class BadasoSetup extends Command
         parent::__construct();
     }
 
+
     /**
      * Execute the console command.
      *
@@ -42,6 +52,8 @@ class BadasoSetup extends Command
      */
     public function handle()
     {
+        $this->force = $this->options()['force'] == 'true' || $this->options()['force'] == null;
+
         $this->updatePackageJson();
         $this->updateWebpackMix();
         $this->publishBadasoProvider();
@@ -126,26 +138,42 @@ class BadasoSetup extends Command
 
     protected function publishBadasoProvider()
     {
-        Artisan::call('vendor:publish', ['--tag' => 'Badaso']);
+
+        $command_params = ['--tag' => 'Badaso'];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Badaso provider published');
     }
 
     protected function publishLaravelBackupProvider()
     {
-        Artisan::call('vendor:publish', [
+
+        $command_params = [
             '--provider' => "Spatie\Backup\BackupServiceProvider",
-        ]);
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Laravel backup provider published');
     }
 
     protected function publishLaravelActivityLogProvider()
     {
-        Artisan::call('vendor:publish', [
+        $command_params = [
             '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
             '--tag' => 'config',
-        ]);
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Laravel activity log provider published');
     }
@@ -158,7 +186,11 @@ class BadasoSetup extends Command
 
     protected function publishLaravelFileManager()
     {
-        Artisan::call('vendor:publish', ['--tag' => 'lfm_public']);
+        $command_params = ['--tag' => 'lfm_public'];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Fime Manager provider published');
     }
