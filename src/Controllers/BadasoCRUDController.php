@@ -146,9 +146,8 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
-                'notification.*.notification_message_title' => ['required'],
-                'notification.*.notification_message' => ['required'],
             ]);
+
             $table_name = $request->input('name');
 
             $data_type = DataType::find($request->input('id'));
@@ -280,8 +279,6 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
-                'notification.*.notification_message_title' => ['required'],
-                'notification.*.notification_message' => ['required'],
             ]);
             $table_name = $request->input('name');
             $new_data_type = new DataType();

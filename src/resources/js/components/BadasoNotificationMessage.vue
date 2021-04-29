@@ -20,7 +20,7 @@
     >
       <div class="header-sidebar" index="1" icon="notifications" slot="header">
         <vs-sidebar-item index="0" icon="notifications">
-          <h4>{{$t('notification.notification')}}</h4>
+          <h4>{{ $t("notification.notification") }}</h4>
         </vs-sidebar-item>
       </div>
       <vs-sidebar-item
@@ -28,7 +28,7 @@
         v-for="(message, index) in messages"
         :index="index"
         :key="index"
-        :style="notifStyles(message)"
+        :style="message.style"
       >
         <div
           v-on:click="openSideBarDetailMessage(message, index)"
@@ -67,7 +67,7 @@
           v-on:click="closeSideBarDetailMessage()"
           icon="chevron_left"
         >
-          <h4>{{$t('notification.detailMessage')}}</h4>
+          <h4>{{ $t("notification.detailMessage") }}</h4>
         </vs-sidebar-item>
       </div>
       <vs-row>
@@ -134,14 +134,13 @@ export default {
   },
   methods: {
     openSideBarDetailMessage(message, index) {
-      let messages = this.messages
       this.sideBarDetailMessage = true;
       this.sideBarNotification = false;
       this.detailMessage = message;
       this.detailSenderMessage = message.senderUsers;
       if (!message.isRead) {
-        messages[index].isRead = 1
-        this.messages = messages
+        this.messages[index].isRead = 1;
+        this.messages[index].style = { backgroundColor: "#ffffff" };
         this.readMessage(message.id)
       }
     },
@@ -153,7 +152,12 @@ export default {
       this.$api.badasoFcm
         .getMessages()
         .then(({ data }) => {
-          this.messages = data.messages;
+          this.messages = data.messages.map((item, index) => {
+            item.style = {
+              backgroundColor: !item.isRead ? "#f0f5f9" : "#ffffff",
+            };
+            return item;
+          });
         })
         .catch((error) => {
           this.$vs.notify({
@@ -176,11 +180,8 @@ export default {
       this.sideBarNotification = !this.sideBarNotification;
       this.getMessages();
     },
-    notifStyles(message) {
-      return { backgroundColor: message.isRead == 0 ? "#f0f5f9" : "#fffff" };
-    },
   },
-  mounted() {
+  created() {
     this.getMessages();
   },
 };
