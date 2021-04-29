@@ -1,46 +1,56 @@
 {
-    "version": "1.0.0-alpha.32",
-    "name": "uasoft-indonesia/badaso",
-    "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
-    "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator"],
-    "license": "proprietary",
-    "homepage": "https://badaso.uatech.co.id/",
-    "support": {
-        "issues": "https://github.com/uasoft-indonesia/badaso/issues",
-        "discussion": "https://github.com/uasoft-indonesia/badaso/discussions",
-        "source": "https://github.com/uasoft-indonesia/voyager"
-    },
-    "type": "library",
-    "require": {
-        "webpatser/laravel-uuid": "3.0",
-        "doctrine/dbal": "2.12",
-        "tymon/jwt-auth": "1.0",
-        "lcobucci/jwt": "3.3",
-        "larapack/doctrine-support": "~0.1.4",
-        "arcanedev/log-viewer": "4.2.1",
-        "spatie/laravel-activitylog": "3.2.2",
-        "spatie/laravel-backup":"5.12.1",
-        "spatie/flysystem-dropbox": "1.2.2",
-        "nao-pon/flysystem-google-drive": "1.1.13",
-        "league/flysystem-aws-s3-v3": "1.0.28",
-        "guzzlehttp/guzzle": "6.5.5",
-        "unisharp/laravel-filemanager": "2.2"
-    },
-    "authors": [{
-        "name": "UASOFT",
-        "email": "hello@uatech.co.id"
-    }],
-    "minimum-stability": "alpha",
-    "autoload": {
-        "psr-4": {
-            "Uasoft\\Badaso\\": "src/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Uasoft\\Badaso\\Providers\\BadasoServiceProvider"
-            ]
-        }
+  "version": "1.0.0-alpha.32",
+  "name": "uasoft-indonesia/badaso",
+  "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
+  "keywords": [
+    "laravel",
+    "admin",
+    "panel",
+    "dashboard",
+    "pwa",
+    "vue",
+    "generator"
+  ],
+  "license": "proprietary",
+  "homepage": "https://badaso.uatech.co.id/",
+  "support": {
+    "issues": "https://github.com/uasoft-indonesia/badaso/issues",
+    "discussion": "https://github.com/uasoft-indonesia/badaso/discussions",
+    "source": "https://github.com/uasoft-indonesia/voyager"
+  },
+  "type": "library",
+  "require": {
+    "webpatser/laravel-uuid": "^3.0",
+    "doctrine/dbal": "2.12",
+    "tymon/jwt-auth": "^1.0",
+    "lcobucci/jwt": "3.3",
+    "larapack/doctrine-support": "~0.1.4",
+    "arcanedev/log-viewer": "4.2.1",
+    "spatie/laravel-activitylog": "3.2.2",
+    "spatie/laravel-backup": "5.12.1",
+    "spatie/flysystem-dropbox": "1.2.2",
+    "nao-pon/flysystem-google-drive": "1.1.13",
+    "league/flysystem-aws-s3-v3": "1.0.28",
+    "guzzlehttp/guzzle": "6.5.5",
+    "unisharp/laravel-filemanager": "2.2"
+  },
+  "authors": [
+    {
+      "name": "UASOFT",
+      "email": "hello@uatech.co.id"
     }
+  ],
+  "minimum-stability": "alpha",
+  "autoload": {
+    "psr-4": {
+      "Uasoft\\Badaso\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uasoft\\Badaso\\Providers\\BadasoServiceProvider"
+      ]
+    }
+  }
 }
