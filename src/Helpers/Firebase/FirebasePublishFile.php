@@ -42,8 +42,10 @@ class FirebasePublishFile
     public static function publishNow()
     {
         $firebase_publish_file = new self();
-        $path = public_path() . "/firebase-messaging-sw.js";
-        if (File::exists($path)) File::delete($path);
+        $path = public_path().'/firebase-messaging-sw.js';
+        if (File::exists($path)) {
+            File::delete($path);
+        }
 
         File::put($path, $firebase_publish_file->getContentFirebaseMessagingSwJs());
     }

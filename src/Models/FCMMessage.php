@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Uasoft\Badaso\Models\User;
 
 class FCMMessage extends Model
 {

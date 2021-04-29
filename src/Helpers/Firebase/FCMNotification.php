@@ -9,8 +9,8 @@ use Uasoft\Badaso\Models\User;
 
 class FCMNotification
 {
-    public static $FIREBASE_URL_API = "https://fcm.googleapis.com/fcm/send";
-    public static $NAME_TABLE_DATA_TYPES = "data_types";
+    public static $FIREBASE_URL_API = 'https://fcm.googleapis.com/fcm/send';
+    public static $NAME_TABLE_DATA_TYPES = 'data_types';
     public static $TYPE_MESSAGES = 'notification';
 
     public static $ACTIVE_EVENT_ON_CREATE = 'onCreate';
@@ -37,7 +37,6 @@ class FCMNotification
      * @param string $title
      * @param string $body
      * @param array $data
-     * 
      */
     protected function send(array $ids = [], string $title = '', string $body = '', $data): void
     {
@@ -66,7 +65,7 @@ class FCMNotification
     }
 
     /**
-     * @param string $active_event 
+     * @param string $active_event
      * @param string $table_name
      * @param string $title
      * @param string $body
@@ -81,9 +80,13 @@ class FCMNotification
             $on_event = collect(json_decode($data_type->notification, true))->where('event', $active_event)->first();
 
             $notification_message_title = $on_event['notification_message_title'];
-            if ($notification_message_title != null && $notification_message_title != '') $title = $notification_message_title;
+            if ($notification_message_title != null && $notification_message_title != '') {
+                $title = $notification_message_title;
+            }
             $notification_message = $on_event['notification_message'];
-            if ($notification_message != null && $notification_message != '') $body = $notification_message;
+            if ($notification_message != null && $notification_message != '') {
+                $body = $notification_message;
+            }
 
             if (isset($on_event)) {
                 $user_get_messages = User::select('firebase_cloud_messages.token_get_message', 'user_roles.user_id')
@@ -128,7 +131,7 @@ class FCMNotification
      * @param string $table_name
      * @param string $title
      * @param string $body
-     * @param array $data 
+     * @param array $data
      */
     public static function notification(string $active_event, string $table_name, string $title = null, string $body = null, $data = [])
     {
