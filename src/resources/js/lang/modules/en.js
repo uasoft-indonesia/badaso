@@ -408,6 +408,23 @@ export default {
           title: "Description",
           placeholder: "Description",
         },
+        activeEventNotification : {
+          title : 'Active Event Notification',
+          label : {
+            onCreate : 'On Create',
+            onRead : 'On Read',
+            onUpdate : 'On Update',
+            onDelete : 'On Delete',
+            onCreateTitle : 'Title Message Event On Create',
+            onCreateMessage : ' Message Event On Create',
+            onReadTitle : 'Title Message Event On Read',
+            onReadMessage : ' Message Event On Read',
+            onUpdateTitle : 'Title Message Event On Update',
+            onUpdateMessage : ' Message Event On Update',
+            onDeleteTitle : 'Title Message Event On Delete',
+            onDeleteMessage : ' Message Event On Delete',
+          },
+        }
       },
       header: {
         field: "Field",
@@ -1002,5 +1019,9 @@ export default {
     warning: {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
+  },
+  notification : {
+    notification : "Notification",
+    detailMessage : "Detail Message"
   },
 };

@@ -146,7 +146,9 @@ class BadasoCRUDController extends Controller
                 'rows.*.type'           => 'required',
                 'rows.*.display_name'   => 'required',
                 'display_name_singular' => 'required',
+                'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
             ]);
+
             $table_name = $request->input('name');
 
             $data_type = DataType::find($request->input('id'));
@@ -174,6 +176,7 @@ class BadasoCRUDController extends Controller
             $data_type->server_side = $request->input('server_side');
             $data_type->details = $request->input('details');
             $data_type->controller = $request->input('controller');
+            $data_type->notification = json_encode($request->input('notification'));
             $data_type->save();
 
             DataRow::where('data_type_id', $data_type->id)->delete();
@@ -277,6 +280,7 @@ class BadasoCRUDController extends Controller
                 'rows.*.type'           => 'required',
                 'rows.*.display_name'   => 'required',
                 'display_name_singular' => 'required',
+                'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
             ]);
             $table_name = $request->input('name');
             $new_data_type = new DataType();
@@ -295,6 +299,7 @@ class BadasoCRUDController extends Controller
             $new_data_type->server_side = $request->input('server_side');
             $new_data_type->description = $request->input('description');
             $new_data_type->details = $request->input('details');
+            $new_data_type->notification = json_encode($request->input('notification'));
             $new_data_type->save();
 
             $data_rows = $request->input('rows') ?? [];

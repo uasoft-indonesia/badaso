@@ -52,8 +52,8 @@ import UserManagementEdit from "./user-management/edit";
 import UserManagementAdd from "./user-management/add";
 import UserManagementRoles from "./user-management/roles";
 import FileManagerBrowse from "./file-manager/browse";
-import FirebaseEdit from './firebase/edit'
 import LogViewerBrowse from './log-viewer/browse'
+import NotificationBrowse from './notification/browse'
 
 export default {
   components: {
@@ -100,8 +100,8 @@ export default {
     UserManagementAdd,
     UserManagementRoles,
     FileManagerBrowse,
-    FirebaseEdit,
-    LogViewerBrowse
+    LogViewerBrowse,
+    NotificationBrowse
   },
   name: "ActivityLogIndex",
   data: () => ({

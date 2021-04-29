@@ -16,8 +16,13 @@ class Role extends Model
         $userModel = User::class;
 
         return $this->belongsToMany($userModel, 'user_roles')
-                    ->select(app($userModel)->getTable().'.*')
-                    ->union($this->hasMany($userModel))->getQuery();
+            ->select(app($userModel)->getTable().'.*')
+            ->union($this->hasMany($userModel))->getQuery();
+    }
+
+    public function user_roles()
+    {
+        return $this->belongsTo(UserRole::class, 'role_id');
     }
 
     public function permissions()

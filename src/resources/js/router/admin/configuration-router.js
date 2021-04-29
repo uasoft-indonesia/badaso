@@ -260,7 +260,7 @@ export default [
     // beforeEnter() {
     //   location.href = "/" + log_viewer;
     // },
-    component : Pages,
+    component: Pages,
     meta: {
       title: "Browse Log Viewer",
     },
@@ -274,11 +274,11 @@ export default [
     },
   },
   {
-    path: prefix + "/firebase-edit",
-    name: "FirebaseEdit",
+    path: prefix + "/notification",
+    name: "NotificationBrowse",
     component: Pages,
     meta: {
-      title: "Firebase",
+      title: "Notification",
     },
   },
 ];
