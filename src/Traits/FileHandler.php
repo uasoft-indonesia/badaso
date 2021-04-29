@@ -21,11 +21,11 @@ trait FileHandler
                     $filename = $uuid.'-'.$file['name'];
                 }
                 $filepath = 'uploads/';
-                if (!is_null($data_type)) {
+                if (! is_null($data_type)) {
                     $filepath .= $data_type->slug.'/';
                 }
 
-                if (!is_null($custom_path)) {
+                if (! is_null($custom_path)) {
                     $filepath .= $custom_path.'/';
                 }
 
@@ -54,7 +54,7 @@ trait FileHandler
     {
         $disk = config('badaso.storage.disk');
         $path = '';
-        if (!is_null($file) && $file != '') {
+        if (! is_null($file) && $file != '') {
             $file_exists = Storage::disk($disk)->exists($file);
             if ($file_exists) {
                 if ($disk != 'public' && $disk != 'local') {

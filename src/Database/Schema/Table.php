@@ -9,7 +9,7 @@ class Table extends DoctrineTable
 {
     public static function make($table)
     {
-        if (!is_array($table)) {
+        if (! is_array($table)) {
             $table = json_decode($table, true);
         }
 
@@ -40,7 +40,7 @@ class Table extends DoctrineTable
 
     public function getColumnsIndexes($columns, $sort = false)
     {
-        if (!is_array($columns)) {
+        if (! is_array($columns)) {
             $columns = [$columns];
         }
 
@@ -98,13 +98,13 @@ class Table extends DoctrineTable
     public function toArray()
     {
         return [
-            'name'           => $this->_name,
-            'oldName'        => $this->_name,
-            'columns'        => $this->exportColumnsToArray(),
-            'indexes'        => $this->exportIndexesToArray(),
-            'primaryKeyName' => $this->_primaryKeyName,
+            'name'            => $this->_name,
+            'oldName'         => $this->_name,
+            'columns'         => $this->exportColumnsToArray(),
+            'indexes'         => $this->exportIndexesToArray(),
+            'primaryKeyName'  => $this->_primaryKeyName,
             'foreign_keys'    => $this->exportForeignKeysToArray(),
-            'options'        => $this->_options,
+            'options'         => $this->_options,
         ];
     }
 
@@ -164,7 +164,7 @@ class Table extends DoctrineTable
     {
         $getter = 'get'.ucfirst($property);
 
-        if (!method_exists($this, $getter)) {
+        if (! method_exists($this, $getter)) {
             throw new \Exception("Property {$property} doesn't exist or is unavailable");
         }
 

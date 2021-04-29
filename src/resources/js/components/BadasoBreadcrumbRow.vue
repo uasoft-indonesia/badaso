@@ -1,6 +1,6 @@
 <template>
   <vs-row>
-    <vs-col vs-lg="8" vs-md="12" vs-sm="12">
+    <vs-col vs-lg="6" vs-md="12" vs-sm="12">
       <vs-icon
         icon="arrow_back_ios"
         style="cursor:pointer; float:left; padding-top: 0.6rem;"
@@ -14,7 +14,7 @@
         <li aria-current="page" class="active">{{ activePage.title }}</li>
       </vs-breadcrumb>
     </vs-col>
-    <vs-col vs-lg="4" vs-md="12" vs-sm="12">
+    <vs-col vs-lg="6" vs-md="12" vs-sm="12">
       <div style="float: right">
         <slot name="action" />
       </div>

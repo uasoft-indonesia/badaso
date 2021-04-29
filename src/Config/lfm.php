@@ -169,7 +169,6 @@ return [
         'memory_limit' => '256M',
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | Middleware
@@ -177,9 +176,9 @@ return [
     |
     */
 
-    "middleware"               => [
+    'middleware'               => [
         'web',
         'auth',
-        BadasoCheckPermissions::class . ":browse_file_manager"
+        BadasoCheckPermissions::class.':browse_file_manager',
     ],
 ];

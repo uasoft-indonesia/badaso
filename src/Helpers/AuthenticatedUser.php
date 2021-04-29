@@ -11,7 +11,7 @@ class AuthenticatedUser
     public static function getUser()
     {
         $user = auth()->user();
-        if (!is_null($user)) {
+        if (! is_null($user)) {
             $user->roles = self::getRoles($user->id);
             $user->permissions = self::getPermissions($user->id);
         }

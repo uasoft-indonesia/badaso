@@ -64,7 +64,7 @@ class FileGenerator
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
-        $data_type->details = (!is_null($data_type->details)) ? json_encode($data_type->details) : null;
+        $data_type->details = (! is_null($data_type->details)) ? json_encode($data_type->details) : null;
 
         $stub = $this->content_manager->replaceString('{{class}}', $seeder_class_name, $stub);
 
@@ -226,7 +226,7 @@ class FileGenerator
      */
     public function generateSeedFile(string $table_name, string $suffix): bool
     {
-        if (!Schema::hasTable($table_name)) {
+        if (! Schema::hasTable($table_name)) {
             throw new Exception(sprintf('%s table does\'nt exist.'));
         }
 
@@ -257,12 +257,12 @@ class FileGenerator
      */
     public function repackSeedData($data): array
     {
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             $data = $data->toArray();
         }
 
         $data_array = [];
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $row) {
                 $row_array = [];
                 foreach ($row as $column_name => $column_value) {
@@ -278,7 +278,7 @@ class FileGenerator
     /**
      * Generate Badaso Migration File.
      */
-    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows, bool $timestamp = true): string
+    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows): string
     {
         $migration_class_name = $this->file_system->generateMigrationClassName($table_name, $prefix);
 
@@ -286,14 +286,14 @@ class FileGenerator
             $this->file_system->getStubPath().'../stubs/migration.stub'
         );
 
-        $migration_file_name = $this->file_system->getMigrationFileName($table_name, $prefix);
+        $migration_file_name = $this->file_system->getMigrationFileName($table_name, $prefix, $migration_class_name);
 
         $migration_folder_path = $this->file_system->getMigrationFolderPath();
 
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
 
-        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix, $timestamp);
-        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix, $timestamp);
+        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
+        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
@@ -328,7 +328,6 @@ class FileGenerator
         $migration_folder_path = $this->file_system->getMigrationFolderPath();
 
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
-
         $schema_up = $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix);
         $schema_down = $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix);
 

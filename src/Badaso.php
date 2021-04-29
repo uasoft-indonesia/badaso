@@ -17,16 +17,16 @@ use Uasoft\Badaso\Models\UserRole;
 class Badaso
 {
    protected $models = [
-      'DataRow' => DataRow::class,
-      'DataType' => DataType::class,
-      'Permission' => Permission::class,
-      'Role' => Role::class,
-      'User' => User::class,
-      'UserRole' => UserRole::class,
+      'DataRow'        => DataRow::class,
+      'DataType'       => DataType::class,
+      'Permission'     => Permission::class,
+      'Role'           => Role::class,
+      'User'           => User::class,
+      'UserRole'       => UserRole::class,
       'RolePermission' => RolePermission::class,
-      'Menu' => Menu::class,
-      'MenuItem' => MenuItem::class,
-      'Configuration' => Configuration::class,
+      'Menu'           => Menu::class,
+      'MenuItem'       => MenuItem::class,
+      'Configuration'  => Configuration::class,
    ];
 
    protected $supported_component = [
@@ -165,6 +165,10 @@ class Badaso
               {
                  "label": "Year",
                  "value": "year"
+              },
+              {
+                 "label": "Timestamp",
+                 "value": "timestamp"
               }
            ]
         },

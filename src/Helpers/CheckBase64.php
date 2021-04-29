@@ -107,7 +107,7 @@ class CheckBase64
         }
 
         $mimetype = $headers[1];
-        if (!in_array($mimetype, $this->mimetype_list)) {
+        if (! in_array($mimetype, $this->mimetype_list)) {
             $this->is_valid = false;
             $this->message = __('badaso.validation.base64.mimetype_invalid');
 

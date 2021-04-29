@@ -16,6 +16,7 @@ class DataRow extends Model
     public function getRelationAttribute($value)
     {
         $json = $value;
+
         try {
             $json = json_decode($value, true);
         } catch (\Throwable $th) {

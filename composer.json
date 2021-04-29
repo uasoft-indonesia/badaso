@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0-alpha.29",
+    "version": "1.0.0-alpha.32",
     "name": "uasoft-indonesia/badaso",
     "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
     "keywords": ["laravel", "admin", "panel", "dashboard", "pwa", "vue", "generator"],
@@ -12,12 +12,12 @@
     },
     "type": "library",
     "require": {
-        "webpatser/laravel-uuid": "^3.0",
+        "webpatser/laravel-uuid": "3.0",
         "doctrine/dbal": "2.12",
-        "tymon/jwt-auth": "^1.0",
+        "tymon/jwt-auth": "1.0",
         "lcobucci/jwt": "3.3",
         "larapack/doctrine-support": "~0.1.4",
-        "arcanedev/log-viewer": "4.2.0",
+        "arcanedev/log-viewer": "4.2.1",
         "spatie/laravel-activitylog": "3.2.2",
         "spatie/laravel-backup":"5.12.1",
         "spatie/flysystem-dropbox": "1.2.2",

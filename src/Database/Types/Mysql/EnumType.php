@@ -14,7 +14,7 @@ class EnumType extends Type
     {
         $enumField = collect(DB::select(DB::raw('SHOW COLUMNS FROM '.DB::getQueryGrammar()->wrap($this->tableName))))->where('Field', $field['name'])->first();
 
-        if (!is_null($enumField)) {
+        if (! is_null($enumField)) {
             return $enumField->Type;
         } else {
             throw new \Exception('Enum definition error');

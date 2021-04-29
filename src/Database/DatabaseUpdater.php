@@ -31,11 +31,11 @@ class DatabaseUpdater
      */
     public static function update($table)
     {
-        if (!is_array($table)) {
+        if (! is_array($table)) {
             $table = json_decode($table, true);
         }
 
-        if (!SchemaManager::tableExists($table['old_name'])) {
+        if (! SchemaManager::tableExists($table['old_name'])) {
             throw SchemaException::tableDoesNotExist($table['old_name']);
         }
 
@@ -73,7 +73,7 @@ class DatabaseUpdater
 
         // Add new table name to table_diff
         if ($new_name) {
-            if (!$table_diff) {
+            if (! $table_diff) {
                 $table_diff = new TableDiff($this->table_array['old_name']);
                 $table_diff->fromTable = $this->original_table;
             }

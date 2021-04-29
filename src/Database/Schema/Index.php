@@ -13,7 +13,7 @@ abstract class Index
     public static function make(array $index)
     {
         $columns = $index['columns'];
-        if (!is_array($columns)) {
+        if (! is_array($columns)) {
             $columns = [$columns];
         }
 
@@ -60,15 +60,15 @@ abstract class Index
         $columns = $index->getColumns();
 
         return [
-            'name'        => $name,
-            'oldName'     => $name,
-            'columns'     => $columns,
-            'type'        => static::getType($index),
+            'name'         => $name,
+            'oldName'      => $name,
+            'columns'      => $columns,
+            'type'         => static::getType($index),
             'is_primary'   => $index->isPrimary(),
             'is_unique'    => $index->isUnique(),
-            'isComposite' => count($columns) > 1,
-            'flags'       => $index->getFlags(),
-            'options'     => $index->getOptions(),
+            'isComposite'  => count($columns) > 1,
+            'flags'        => $index->getFlags(),
+            'options'      => $index->getOptions(),
         ];
     }
 
