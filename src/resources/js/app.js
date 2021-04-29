@@ -212,7 +212,6 @@ Vue.prototype.$closeLoader = function() {
 };
 
 // ADD FIREBASE MESSAGE
-
 let firebaseConfig = {
   apiKey: process.env.MIX_FIREBASE_API_KEY,
   authDomain: process.env.MIX_FIREBASE_AUTH_DOMAIN,
@@ -223,27 +222,38 @@ let firebaseConfig = {
   measurementId: process.env.MIX_FIREBASE_MEASUREMENT_ID,
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app();
-}
+let statusActiveFeatureFirebase = true;
+for (let key in firebaseConfig)
+  statusActiveFeatureFirebase =
+    statusActiveFeatureFirebase && firebaseConfig[key] != undefined;
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/firebase-messaging-sw.js")
-      .then((register) => console.log("Service Worker Register Success"))
-      .catch((error) =>
-        console.log("Service Worker Register Failed : ", error)
-      );
-  });
-}
+Vue.prototype.$messaging = {};
+Vue.prototype.$messagingToken = {};
+Vue.prototype.$statusActiveFeatureFirebase = statusActiveFeatureFirebase;
 
-Vue.prototype.$messaging = firebase.messaging();
-Vue.prototype.$messagingToken = firebase
-  .messaging()
-  .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
+if (statusActiveFeatureFirebase) {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app();
+  }
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((register) => console.log("Service Worker Register Success"))
+        .catch((error) =>
+          console.log("Service Worker Register Failed : ", error)
+        );
+    });
+  }
+
+  Vue.prototype.$messaging = firebase.messaging();
+  Vue.prototype.$messagingToken = firebase
+    .messaging()
+    .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
+}
 
 const app = new Vue({
   store,
@@ -253,4 +263,4 @@ const app = new Vue({
 }).$mount("#app");
 
 // ADD FIREBASE MESSAGE
-notificationMessageReceive(app);
+if (statusActiveFeatureFirebase) notificationMessageReceive(app);

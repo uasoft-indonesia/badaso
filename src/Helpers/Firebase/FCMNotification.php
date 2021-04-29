@@ -2,13 +2,10 @@
 
 namespace Uasoft\Badaso\Helpers\Firebase;
 
-use App\FCMMessage;
 use GuzzleHttp\Client;
 use Uasoft\Badaso\Models\DataType;
-use Uasoft\Badaso\Models\FirebaseCloudMessages;
-use Uasoft\Badaso\Models\Role;
+use Uasoft\Badaso\Models\FCMMessage;
 use Uasoft\Badaso\Models\User;
-use Uasoft\Badaso\Models\UserRole;
 
 class FCMNotification
 {
@@ -29,7 +26,7 @@ class FCMNotification
 
     public function __construct()
     {
-        $this->firebase_server_key = \env('MIX_FIREBASE_SERVER_KEY');
+        $this->firebase_server_key = \env('MIX_FIREBASE_SERVER_KEY', '');
         $this->client = new Client();
         $this->priority = \config('firebase.priority');
         $this->tell_role_names = \config('firebase.tell_role_names');
@@ -135,29 +132,33 @@ class FCMNotification
      */
     public static function notification(string $active_event, string $table_name, string $title = null, string $body = null, $data = [])
     {
-        $user_name = 'user';
-        $user = auth()->user();
-        if (isset($user)) {
-            $user_name = $user->name;
-            $data['user_name'] = $user_name;
+        try {
+            $user_name = 'user';
+            $user = auth()->user();
+            if (isset($user)) {
+                $user_name = $user->name;
+                $data['user_name'] = $user_name;
+            }
+
+            $active_event_lowercase_mode = strtolower($active_event);
+
+            if ($title == null) {
+                $title = __("badaso::notification.event_table.{$active_event_lowercase_mode}.title", [
+                    'table_name' => $table_name,
+                ]);
+            }
+
+            if ($body == null) {
+                $body = __("badaso::notification.event_table.{$active_event_lowercase_mode}.body", [
+                    'table_name' => $table_name,
+                    'user_name' => $user_name,
+                ]);
+            }
+
+            $fcm = new self();
+            $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
+        } catch (\Exception $e) {
+            //throw $th;
         }
-
-        $active_event_lowercase_mode = strtolower($active_event);
-
-        if ($title == null) {
-            $title = __("badaso::notification.event_table.{$active_event_lowercase_mode}.title", [
-                'table_name' => $table_name,
-            ]);
-        }
-
-        if ($body == null) {
-            $body = __("badaso::notification.event_table.{$active_event_lowercase_mode}.body", [
-                'table_name' => $table_name,
-                'user_name' => $user_name,
-            ]);
-        }
-
-        $fcm = new self();
-        $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
     }
 }

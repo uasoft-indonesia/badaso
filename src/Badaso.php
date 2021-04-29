@@ -16,79 +16,82 @@ use Uasoft\Badaso\Models\UserRole;
 
 class Badaso
 {
-    protected $models = [
-        'DataRow' => DataRow::class,
-        'DataType' => DataType::class,
-        'Permission' => Permission::class,
-        'Role' => Role::class,
-        'User' => User::class,
-        'UserRole' => UserRole::class,
-        'RolePermission' => RolePermission::class,
-        'Menu' => Menu::class,
-        'MenuItem' => MenuItem::class,
-        'Configuration' => Configuration::class,
-    ];
+   protected $models = [
+      'DataRow' => DataRow::class,
+      'DataType' => DataType::class,
+      'Permission' => Permission::class,
+      'Role' => Role::class,
+      'User' => User::class,
+      'UserRole' => UserRole::class,
+      'RolePermission' => RolePermission::class,
+      'Menu' => Menu::class,
+      'MenuItem' => MenuItem::class,
+      'Configuration' => Configuration::class,
+   ];
 
-    protected $supported_component = [
-        'text',
-        'email',
-        'password',
-        'textarea',
-        'checkbox',
-        'search',
-        'number',
-        'url',
-        'time',
-        'date',
-        'datetime',
-        'select',
-        'select_multiple',
-        'radio',
-        'switch',
-        'slider',
-        'editor',
-        'tags',
-        'color_picker',
-        'upload_image',
-        'upload_image_multiple',
-        'upload_file',
-        'upload_file_multiple',
-        'hidden',
-        'code',
-        'relation',
-    ];
+   protected $supported_component = [
+      'text',
+      'email',
+      'password',
+      'textarea',
+      'checkbox',
+      'search',
+      'number',
+      'url',
+      'time',
+      'date',
+      'datetime',
+      'select',
+      'select_multiple',
+      'radio',
+      'switch',
+      'slider',
+      'editor',
+      'tags',
+      'color_picker',
+      'upload_image',
+      'upload_image_multiple',
+      'upload_file',
+      'upload_file_multiple',
+      'hidden',
+      'code',
+      'relation',
+   ];
 
-    protected $supported_filter_operator = [
-        'containts',
-        '=',
-    ];
+   protected $supported_filter_operator = [
+      'containts',
+      '=',
+   ];
 
-    protected $supported_table_relations = [
-        'belongs_to',
-        'has_one',
-        'has_many',
-    ];
+   protected $supported_table_relations = [
+      'belongs_to',
+      'has_one',
+      'has_many',
+   ];
 
-    protected $protected_tables = [
-        'activity_log',
-        'data_rows',
-        'data_types',
-        'migrations',
-        'password_resets',
-        'menus',
-        'menu_items',
-        'users',
-        'roles',
-        'permissions',
-        'configurations',
-        'role_permissions',
-        'user_roles',
-        'user_verifications',
-    ];
+   protected $protected_tables = [
+      'activity_log',
+      'data_rows',
+      'data_types',
+      'migrations',
+      'password_resets',
+      'menus',
+      'menu_items',
+      'users',
+      'roles',
+      'permissions',
+      'configurations',
+      'role_permissions',
+      'user_roles',
+      'user_verifications',
+      'f_c_m_messages',
+      'firebase_cloud_messages',
+      'firebase_services',
+   ];
 
-    protected $badaso_cloud_api = 'https://badaso.uatech.co.id';
+   protected $badaso_cloud_api = 'https://badaso.uatech.co.id';
 
-    protected $badaso_dbms_field_type = '
+   protected $badaso_dbms_field_type = '
     [
         {
            "title": "Frequently used",
@@ -242,63 +245,63 @@ class Badaso
         }
     ]';
 
-    public function model($name)
-    {
-        return app($this->models[Str::studly($name)]);
-    }
+   public function model($name)
+   {
+      return app($this->models[Str::studly($name)]);
+   }
 
-    public function modelClass($name)
-    {
-        return $this->models[$name];
-    }
+   public function modelClass($name)
+   {
+      return $this->models[$name];
+   }
 
-    public function getComponents()
-    {
-        return $this->supported_component;
-    }
+   public function getComponents()
+   {
+      return $this->supported_component;
+   }
 
-    public function getFilterOperator()
-    {
-        return $this->supported_filter_operator;
-    }
+   public function getFilterOperator()
+   {
+      return $this->supported_filter_operator;
+   }
 
-    public function getSupportedTableRelations()
-    {
-        return $this->supported_table_relations;
-    }
+   public function getSupportedTableRelations()
+   {
+      return $this->supported_table_relations;
+   }
 
-    public function getProtectedTables()
-    {
-        return config('badaso.hidden_tables', []);
-    }
+   public function getProtectedTables()
+   {
+      return config('badaso.hidden_tables', []);
+   }
 
-    public function getBadasoCloudApi()
-    {
-        return $this->badaso_cloud_api;
-    }
+   public function getBadasoCloudApi()
+   {
+      return $this->badaso_cloud_api;
+   }
 
-    public function getBadasoVerifyApi()
-    {
-        return $this->badaso_cloud_api.'/api/verify-license';
-    }
+   public function getBadasoVerifyApi()
+   {
+      return $this->badaso_cloud_api . '/api/verify-license';
+   }
 
-    public function getDefaultJwtTokenLifetime()
-    {
-        return 60 * 24; // a day
-    }
+   public function getDefaultJwtTokenLifetime()
+   {
+      return 60 * 24; // a day
+   }
 
-    public function getBadasoDbmsFieldType()
-    {
-        return $this->badaso_dbms_field_type;
-    }
+   public function getBadasoDbmsFieldType()
+   {
+      return $this->badaso_dbms_field_type;
+   }
 
-    public function getConfig($key, $default_value = null)
-    {
-        $value = config($key);
-        if (is_null($value) || $value == '') {
-            return $default_value;
-        }
+   public function getConfig($key, $default_value = null)
+   {
+      $value = config($key);
+      if (is_null($value) || $value == '') {
+         return $default_value;
+      }
 
-        return $value;
-    }
+      return $value;
+   }
 }

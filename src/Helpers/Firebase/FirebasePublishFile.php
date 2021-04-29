@@ -2,6 +2,8 @@
 
 namespace Uasoft\Badaso\Helpers\Firebase;
 
+use Illuminate\Support\Facades\File;
+
 class FirebasePublishFile
 {
     public function getContentFirebaseMessagingSwJs()
@@ -15,21 +17,23 @@ class FirebasePublishFile
         $MIX_FIREBASE_MEASUREMENT_ID = \env('MIX_FIREBASE_MEASUREMENT_ID');
 
         $script_content = <<<JAVASCRIPT
-            importScripts("https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js");
-            importScripts("https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js");
+        importScripts("https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js");
+        importScripts("https://www.gstatic.com/firebasejs/8.2.7/firebase-messaging.js");
 
-            var firebaseConfig = {
-                apiKey: "$MIX_FIREBASE_API_KEY" ,
-                authDomain: "$MIX_FIREBASE_AUTH_DOMAIN" ,
-                projectId: "$MIX_FIREBASE_PROJECT_ID" ,
-                storageBucket: "$MIX_FIREBASE_STORAGE_BUCKET" ,
-                messagingSenderId: "$MIX_FIREBASE_MESSAGE_SEENDER" ,
-                appId: "$MIX_FIREBASE_APP_ID" ,
-                measurementId: "$MIX_FIREBASE_MEASUREMENT_ID" 
-            };
+        var firebaseConfig = {
+            apiKey: "$MIX_FIREBASE_API_KEY" ,
+            authDomain: "$MIX_FIREBASE_AUTH_DOMAIN" ,
+            projectId: "$MIX_FIREBASE_PROJECT_ID" ,
+            storageBucket: "$MIX_FIREBASE_STORAGE_BUCKET" ,
+            messagingSenderId: "$MIX_FIREBASE_MESSAGE_SEENDER" ,
+            appId: "$MIX_FIREBASE_APP_ID" ,
+            measurementId: "$MIX_FIREBASE_MEASUREMENT_ID" 
+        };
 
-            const app = firebase.initializeApp(firebaseConfig);
-            const messaging = firebase.messaging();
+        const app = firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        messaging.onBackgroundMessage(payload => {});
         JAVASCRIPT;
 
         return $script_content;
@@ -37,6 +41,10 @@ class FirebasePublishFile
 
     public static function publishNow()
     {
-        // File::put(public_path()."/data.text", "hello world")
+        $firebase_publish_file = new self();
+        $path = public_path() . "/firebase-messaging-sw.js";
+        if (File::exists($path)) File::delete($path);
+
+        File::put($path, $firebase_publish_file->getContentFirebaseMessagingSwJs());
     }
 }

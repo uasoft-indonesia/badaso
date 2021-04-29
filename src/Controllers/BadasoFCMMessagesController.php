@@ -2,10 +2,9 @@
 
 namespace Uasoft\Badaso\Controllers;
 
-use App\FCMMessage;
-use Illuminate\Http\Request;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\FCMMessage;
 
 class BadasoFCMMessagesController extends Controller
 {
@@ -13,7 +12,7 @@ class BadasoFCMMessagesController extends Controller
     {
         try {
             $user = auth()->user();
-            $fcm_messages = FCMMessage::where('receiver_user_id', $user->id)->get();
+            $fcm_messages = FCMMessage::where('receiver_user_id', $user->id)->orderBy('created_at', 'desc')->get();
             foreach ($fcm_messages as $key => $value) {
                 $value->sender_users;
             }
