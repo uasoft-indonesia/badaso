@@ -10,14 +10,14 @@ class FirebaseServices extends Model
     use LogsActivity;
 
     protected $fillable = [
-        'apiKey',
-        'authDomain',
-        'projectId',
-        'storageBucket',
-        'messagingSenderId',
-        'appId',
-        'measureId',
-        'serverKey',
+        'api_key',
+        'auth_domain',
+        'project_id',
+        'storage_bucket',
+        'messaging_sender_id',
+        'app_id',
+        'measurement_id',
+        'server_key',
     ];
 
     protected static $logAttributes = true;

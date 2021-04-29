@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 
 class BadasoBaseController extends Controller
@@ -62,6 +63,10 @@ class BadasoBaseController extends Controller
 
             $data = $this->getDataDetail($slug, $request->id);
 
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
+
             return ApiResponse::entity($data_type, $data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -97,6 +102,10 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
+
             return ApiResponse::entity($data_type, $updated['updated_data']);
         } catch (Exception $e) {
             DB::rollBack();
@@ -130,6 +139,10 @@ class BadasoBaseController extends Controller
                 ->log($data_type->display_name_singular.' has been created');
 
             DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
             return ApiResponse::entity($data_type, $stored_data);
         } catch (Exception $e) {
@@ -165,6 +178,10 @@ class BadasoBaseController extends Controller
                 ->log($data_type->display_name_singular.' has been deleted');
 
             DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name);
 
             return ApiResponse::entity($data_type);
         } catch (Exception $e) {

@@ -25,6 +25,7 @@ export default {
   }),
   mounted() {
     this.getDashboardData();
+    this.saveTokenFcmMessage();
   },
   methods: {
     getDashboardData() {
@@ -50,6 +51,17 @@ export default {
             color: "danger",
           });
         });
+    },
+    saveTokenFcmMessage() {
+      if (this.$statusActiveFeatureFirebase) {
+        this.$messagingToken.then((tokenMessage) => {
+          try {
+            this.$api.badasoFcm.saveTokenMessage(tokenMessage);
+          } catch (error) {
+            console.error("Errors set token firebase cloud message :", error);
+          }
+        });
+      }
     },
   },
 };
