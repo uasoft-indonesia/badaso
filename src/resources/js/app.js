@@ -242,7 +242,7 @@ if (statusActiveFeatureFirebase) {
     window.addEventListener("load", () => {
       navigator.serviceWorker
         .register("/firebase-messaging-sw.js")
-        .then((register) => console.log("Service Worker Register Success"))
+        .then((register) => {})
         .catch((error) =>
           console.log("Service Worker Register Failed : ", error)
         );
