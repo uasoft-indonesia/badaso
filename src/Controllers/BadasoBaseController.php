@@ -63,7 +63,7 @@ class BadasoBaseController extends Controller
 
             $data = $this->getDataDetail($slug, $request->id);
 
-            // add event notification handle 
+            // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
 
@@ -102,7 +102,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            // add event notification handle 
+            // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
 
@@ -140,7 +140,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            // add event notification handle 
+            // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
@@ -179,7 +179,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            // add event notification handle 
+            // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name);
 

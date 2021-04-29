@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Controllers;
 
-use Uasoft\Badaso\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\FirebaseCloudMessages;

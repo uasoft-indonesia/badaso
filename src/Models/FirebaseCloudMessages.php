@@ -2,13 +2,12 @@
 
 namespace Uasoft\Badaso\Models;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class FirebaseCloudMessages extends Model
 {
-
     use LogsActivity;
 
     protected $fillable = [
@@ -24,7 +23,6 @@ class FirebaseCloudMessages extends Model
     {
         return "This model has been {$eventName}";
     }
-
 
     protected static function boot()
     {
