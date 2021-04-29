@@ -404,6 +404,23 @@ export default {
           title: "Bidang Pencarian Sisi Server Default",
           placeholder: "Bidang Pencarian Sisi Server Default",
         },
+        activeEventNotification: {
+          title: "Pemberitahuan Peristiwa Aktif",
+          label: {
+            onCreate: "Saat Buat",
+            onRead: "Saat Baca",
+            onUpdate: "Saat Update",
+            onDelete: "Saat Delete",
+            onCreateTitle: "Judul Pesan Saat Menambahkan Data",
+            onCreateMessage: "Pesan Saan Menambahkan Data",
+            onReadTitle: "Judul Pesan Saat Membaca Data",
+            onReadMessage: "Pesan Saan Membaca Data",
+            onUpdateTitle: "Judul Pesan Saat Mengupdate Data",
+            onUpdateMessage: "Pesan Saan Mengupdate Data",
+            onDeleteTitle: "Judul Pesan Saat Hapus Data",
+            onDeleteMessage: "Pesan Saan Hapus Data",
+          },
+        },
         description: {
           title: "Deskripsi",
           placeholder: "Deskripsi",
@@ -1002,5 +1019,9 @@ export default {
     warning: {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
+  },
+  notification: {
+    notification: "Pemberitahuan",
+    detailMessage: "Detail Pesan",
   },
 };

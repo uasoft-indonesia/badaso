@@ -196,10 +196,13 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/type', 'BadasoDatabaseController@getDbmsFieldType')->middleware([BadasoCheckPermissions::class.':add_database', BadasoCheckPermissions::class.':edit_database']);
         });
 
-        Route::group(['prefix' => 'firebase'], function () {
-            Route::group(['prefix' => 'config'], function () {
-                Route::get('/', 'BadasoFirebaseConfigController@GetConfig');
-                Route::put('/', 'BadasoFirebaseConfigController@UpdateConfig');
+        Route::group(['prefix' => 'firebase', 'middleware' => 'auth'], function () {
+            Route::group(['prefix' => 'cloud_messages'], function () {
+                Route::put('/save-token-messages', 'BadasoFCMController@saveTokenMessage');
+            });
+            Route::group(['prefix' => 'messages', 'middleware' => 'auth'], function () {
+                Route::get('/', 'BadasoFCMMessagesController@getMessages');
+                Route::put('/{id}', 'BadasoFCMMessagesController@readMessage');
             });
         });
     });

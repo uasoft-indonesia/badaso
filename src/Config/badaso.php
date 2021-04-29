@@ -24,6 +24,9 @@ return [
         'user_roles',
         'user_verifications',
         'email_resets',
+        'f_c_m_messages',
+        'firebase_cloud_messages',
+        'firebase_services',
     ],
     'watch_tables' => [
         // table names for generating CRUD_DATA seeders.

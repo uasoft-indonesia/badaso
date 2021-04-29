@@ -84,6 +84,9 @@ class Badaso
         'role_permissions',
         'user_roles',
         'user_verifications',
+        'f_c_m_messages',
+        'firebase_cloud_messages',
+        'firebase_services',
     ];
 
     protected $badaso_cloud_api = 'https://badaso.uatech.co.id';
