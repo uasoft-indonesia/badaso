@@ -244,7 +244,7 @@ if (statusActiveFeatureFirebase) {
         .register("/firebase-messaging-sw.js")
         .then((register) => {})
         .catch((error) =>
-          console.log("Service Worker Register Failed : ", error)
+          console.log("Service Worker Firebase Register Failed : ", error)
         );
     });
   }
@@ -254,6 +254,22 @@ if (statusActiveFeatureFirebase) {
     .messaging()
     .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
 }
+// END ADD FIREBASE
+
+// ADD SERVICE WORKER
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/ws.js")
+      .then((register) => {
+        console.log('WS REGISTER SUCCESS')
+      })
+      .catch((error) => {
+        console.log("Service Worker Default Register Failed : ", error);
+      });
+  });
+}
+// END SERVICE WORKER
 
 const app = new Vue({
   store,
