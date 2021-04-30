@@ -11,7 +11,7 @@ categories:
       - 'hotfix'
   - title: 'Frontend'
     label: 'frontend'
-  -title: 'Backend'
+  - title: 'Backend'
     label: 'backend'
   - title: 'Dependency Updates'
     label: 'dependencies'
