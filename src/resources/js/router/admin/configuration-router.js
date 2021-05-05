@@ -301,6 +301,7 @@ export default [
       title: "Data Pending Edit",
     },
   },
+  {
     path: prefix + "/" + api_docs,
     name: "ApiDocumentation",
     beforeEnter() {
