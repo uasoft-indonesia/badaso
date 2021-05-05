@@ -2,8 +2,6 @@
 
 namespace Uasoft\Badaso\Helpers;
 
-use Uasoft\Badaso\Helpers\CaseConvert;
-
 class ApiDocs
 {
     const PARAMETER = <<<'TXT'
@@ -290,7 +288,8 @@ class ApiDocs
     public static function getFilePath($table_name)
     {
         $api_docs_path = app_path('Http\\Swagger\\swagger_models\\');
-        return $api_docs_file = $api_docs_path . $table_name . '.php';
+
+        return $api_docs_file = $api_docs_path.$table_name.'.php';
     }
 
     public static function getStub($table_name, $data_rows, $data_type)
@@ -310,7 +309,7 @@ class ApiDocs
                 $id_column = $row;
             }
         }
-        
+
         $stub['browse'] = sprintf(
             self::BROWSE,
             $data_type->slug,
@@ -375,7 +374,7 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->slug,
             $id_column['field'],
-            self::getColumnExample($id_column['type']) . ',' . self::getColumnExample($id_column['type'])
+            self::getColumnExample($id_column['type']).','.self::getColumnExample($id_column['type'])
         );
 
         $stub['sort'] = sprintf(
@@ -386,11 +385,12 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->display_name_singular,
             $data_type->slug,
-            self::getColumnsSort($data_rows) . ', ' . self::getColumnsSort($data_rows),
+            self::getColumnsSort($data_rows).', '.self::getColumnsSort($data_rows),
             self::getProperty($data_rows)
         );
 
         $stub = implode(PHP_EOL.PHP_EOL, $stub);
+
         return sprintf(self::PHP_WRAPPER, $stub);
     }
 
@@ -406,7 +406,7 @@ class ApiDocs
         }
     }
 
-    private static function getColumnExample($type) 
+    private static function getColumnExample($type)
     {
         switch ($type) {
             case 'number':
@@ -434,6 +434,7 @@ class ApiDocs
                 self::getColumnExample($row['type']),
             );
         }
+
         return $items = implode(', ', $items);
     }
 
@@ -447,6 +448,7 @@ class ApiDocs
                 self::getColumnExample($row['type']),
             );
         }
+
         return $item = sprintf(self::ITEM_WRAPPER, implode(', ', $item));
     }
 
@@ -460,6 +462,7 @@ class ApiDocs
                 CaseConvert::camel($row['field']),
             );
         }
+
         return $property = implode(', '.PHP_EOL, $property);
     }
 }

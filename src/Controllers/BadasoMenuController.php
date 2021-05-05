@@ -92,7 +92,6 @@ class BadasoMenuController extends Controller
 
             $menu_keys = explode(',', $request->menu_key);
 
-            
             if (count($menu_keys) > 1) {
                 foreach ($menu_keys as $key => $menu_key) {
                     $menu = Menu::where('key', $menu_key)->first();
@@ -112,7 +111,6 @@ class BadasoMenuController extends Controller
                     $allowed_menu_items = $this->getChildMenuItems($menu_items);
                     $data[] = ['menu' => $menu, 'menu_items' => $allowed_menu_items];
                 }
-
             } else {
                 $menu = Menu::where('key', $menu_keys[0])->first();
                 $all_menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')

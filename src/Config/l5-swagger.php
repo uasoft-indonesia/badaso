@@ -34,7 +34,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'oauth2_callback' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-admin') . '/api/oauth2-callback',
+        'oauth2_callback' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-admin').'/api/oauth2-callback',
 
         /*
         |--------------------------------------------------------------------------
@@ -232,6 +232,6 @@ return [
     |--------------------------------------------------------------------------
      */
     'constants' => [
-        'BADASO_SWAGGER_HOST' => '/' . env('MIX_API_ROUTE_PREFIX', 'badaso-api') . '/',
+        'BADASO_SWAGGER_HOST' => '/'.env('MIX_API_ROUTE_PREFIX', 'badaso-api').'/',
     ],
 ];

@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Providers;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use L5Swagger\L5SwaggerServiceProvider;
 use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
@@ -13,7 +14,6 @@ use Uasoft\Badaso\Commands\BadasoFirebaseCommand;
 use Uasoft\Badaso\Commands\BadasoSetup;
 use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
-use L5Swagger\L5SwaggerServiceProvider;
 
 class BadasoServiceProvider extends ServiceProvider
 {
