@@ -267,6 +267,10 @@
                 <vs-icon icon="save"></vs-icon>
                 {{ $t("crudGenerated.edit.button") }}
               </vs-button>
+              <badaso-button-data-pending-update
+                v-if="!isOnline"
+                ref="refBadasoButtonDataPendingUpdate"
+              />
             </vs-col>
           </vs-row>
         </vs-card>
@@ -294,10 +298,13 @@
 
 <script>
 import * as _ from "lodash";
+import BadasoButtonDataPendingUpdateVue from "../../components/BadasoButtonDataPendingUpdate.vue";
 
 export default {
   name: "CrudGeneratedEdit",
-  components: {},
+  components: {
+    "badaso-button-data-pending-update": BadasoButtonDataPendingUpdateVue,
+  },
   data: () => ({
     isValid: true,
     errors: {},
@@ -340,6 +347,7 @@ export default {
           });
         })
         .catch((error) => {
+          this.$refs.refBadasoButtonDataPendingUpdate.requestObjectStoreData();
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -451,6 +459,14 @@ export default {
             color: "danger",
           });
         });
+    },
+  },
+  computed: {
+    isOnline: {
+      get() {
+        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
     },
   },
 };

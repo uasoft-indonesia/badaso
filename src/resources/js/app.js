@@ -20,7 +20,13 @@ import App from "./apps/App.vue";
 
 import firebase from "firebase/app";
 import "firebase/firebase-messaging";
-import { notificationMessageReceive } from "./utils/firebase";
+import { notificationMessageReceiveHandle } from "./utils/firebase";
+import { broadcastMessageHandle } from "./utils/broadcast-messages";
+import { checkConnection } from "./utils/check-connection";
+
+// IDENTIFIED VARIABLE BROADCAST CHANNEL
+let broadcastChannelName = "sw-badaso-messages";
+let broadcastChannel = new BroadcastChannel(broadcastChannelName);
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -211,6 +217,15 @@ Vue.prototype.$closeLoader = function() {
   }
 };
 
+Vue.prototype.$syncLoader = function(statusSyncLoader) {
+  try {
+    this.$root.$children[0].syncLoader(statusSyncLoader);
+  } catch (error) {
+    console.log("Sync Loader", error);
+  }
+};
+
+
 // ADD FIREBASE MESSAGE
 let firebaseConfig = {
   apiKey: process.env.MIX_FIREBASE_API_KEY,
@@ -231,22 +246,23 @@ Vue.prototype.$messaging = {};
 Vue.prototype.$messagingToken = {};
 Vue.prototype.$statusActiveFeatureFirebase = statusActiveFeatureFirebase;
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    // register worker
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((register) => {})
+      .catch((error) =>
+        console.log("Service Worker Firebase Register Failed : ", error)
+      );
+  });
+}
+
 if (statusActiveFeatureFirebase) {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   } else {
     firebase.app();
-  }
-
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((register) => {})
-        .catch((error) =>
-          console.log("Service Worker Firebase Register Failed : ", error)
-        );
-    });
   }
 
   Vue.prototype.$messaging = firebase.messaging();
@@ -256,20 +272,9 @@ if (statusActiveFeatureFirebase) {
 }
 // END ADD FIREBASE
 
-// ADD SERVICE WORKER
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/ws.js")
-      .then((register) => {
-        console.log('WS REGISTER SUCCESS')
-      })
-      .catch((error) => {
-        console.log("Service Worker Default Register Failed : ", error);
-      });
-  });
-}
-// END SERVICE WORKER
+// IDENTIFIED BROADCAST CHANNEL
+Vue.prototype.$broadcastChannelName = broadcastChannelName;
+Vue.prototype.$broadcastChannel = broadcastChannel;
 
 const app = new Vue({
   store,
@@ -278,5 +283,11 @@ const app = new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-// ADD FIREBASE MESSAGE
-if (statusActiveFeatureFirebase) notificationMessageReceive(app);
+// HANDLE FIREBASE MESSAGE
+if (statusActiveFeatureFirebase) notificationMessageReceiveHandle(app);
+
+// HANDLE BROADCAST MESSAGE FROM SERVICE WORKER
+broadcastMessageHandle(app);
+
+// HANDLE OFFLINE MODE
+checkConnection(app);

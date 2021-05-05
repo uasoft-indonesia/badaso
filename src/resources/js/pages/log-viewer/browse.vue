@@ -11,8 +11,9 @@
           </div>
           <div>
             <iframe
+              v-if="isShow"
               ref="logViewerIFrame"
-              :src="urlLogViewer"
+              :src="urlIframe"
               style="width: 100%; height: 750px; overflow: hidden; border: none;"
             ></iframe>
           </div>
@@ -39,7 +40,10 @@ export default {
   components: {},
   data() {
     return {
-      iframe: null,
+      urlIframe: null,
+      statusCode: null,
+      message: null,
+      isShow: true,
     };
   },
   computed: {
@@ -53,6 +57,32 @@ export default {
       return `${host}/${log_viewer_route}?token=${token}`;
     },
   },
-  methods: {},
+  methods: {
+    async checkLogViewer() {
+      this.$openLoader();
+
+      try {
+        let response;
+        const request = await fetch(this.urlLogViewer);
+        this.statusCode = request.status;
+        response = await request.text();
+
+        if (this.statusCode >= 400) {
+          let { message, errors, data } = JSON.parse(response);
+          this.message = message;
+          this.isShow = false;
+        } else {
+          this.urlIframe = this.urlLogViewer;
+        }
+      } catch (error) {
+        this.isShow = false;
+      }
+
+      this.$closeLoader();
+    },
+  },
+  created(){
+    this.checkLogViewer()
+  }
 };
 </script>

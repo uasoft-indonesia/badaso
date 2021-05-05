@@ -1,0 +1,82 @@
+export const objectName = "offline-store-request";
+
+export const indexedDatabase = () => {
+  if (!indexedDB)
+    return console.error(
+      "Your browser doesn't support a stable version of IndexedDB."
+    );
+
+  async function getDB() {
+    var requestdb = indexedDB.open("badaso-indexed-db", 1);
+
+    return await new Promise((resolve, reject) => {
+      requestdb.onerror = () => {
+        reject(requestdb.error);
+      };
+      requestdb.onsuccess = (event) => {
+        resolve(event.target.result);
+      };
+      requestdb.onupgradeneeded = (event) => {
+        var db = event.target.result;
+        var objectStore = db.createObjectStore(objectName);
+      };
+    });
+  }
+
+  return getDB();
+};
+
+export const readObjectStore = async (keyStore) => {
+  let db = await indexedDatabase();
+  let dbTransaction = db.transaction([objectName], "readonly");
+  let dbObjectStore = dbTransaction.objectStore(objectName);
+  dbObjectStore = dbObjectStore.get(keyStore);
+
+  return new Promise((resolve, reject) => {
+    dbObjectStore.onsuccess = (event) => resolve(event.target);
+    dbObjectStore.onerror = (event) => {
+      if (dbObjectStore.error) {
+        reject(dbObjectStore.error);
+      }
+    };
+  });
+};
+
+export const getAllKeysObjectStore = async () => {
+  let db = await indexedDatabase();
+  let dbTransaction = db.transaction([objectName], "readonly");
+  let dbObjectStore = dbTransaction.objectStore(objectName);
+
+  let getAllKeysRequest = dbObjectStore.getAllKeys();
+
+  return new Promise((resolve, reject) => {
+    getAllKeysRequest.onsuccess = () => {
+      resolve(getAllKeysRequest.result);
+    };
+  });
+};
+
+export const setObjectStore = async (key, value) => {
+  let db = await indexedDatabase();
+  let dbTransaction = db.transaction([objectName], "readwrite");
+  let dbObjectStore = dbTransaction.objectStore(objectName);
+  dbObjectStore.put(value, key);
+};
+
+export const removeObjectStore = async (keyStore) => {
+  let db = await indexedDatabase();
+  let dbTransaction = db.transaction([objectName], "readwrite");
+  let dbObjectStore = dbTransaction.objectStore(objectName);
+
+  let deleteObjectStore = dbObjectStore.delete(keyStore);
+
+  return new Promise((resolve, reject) => {
+    deleteObjectStore.onsuccess = () => {
+      resolve();
+    };
+
+    deleteObjectStore.onerror = () => {
+      reject();
+    };
+  });
+};

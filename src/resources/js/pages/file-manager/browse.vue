@@ -11,6 +11,7 @@
           </div>
           <div v-if="isShowIFrame">
             <iframe
+              v-if="isShow"
               :src="urlIframe"
               style="width: 100%; height: 700px; overflow: hidden; border: none;"
             />
@@ -42,23 +43,31 @@ export default {
     return {
       statusCode: null,
       message: null,
+      isShow: true,
     };
   },
   async created() {
-    await this.requestCheckPageIFrame()
+    await this.requestCheckPageIFrame();
   },
   methods: {
     async requestCheckPageIFrame() {
       this.$openLoader();
-      let response;
-      const request = await fetch(this.urlIframe);
-      this.statusCode = request.status;
-      response = await request.text();
 
-      if (this.statusCode >= 400) {
-        let { message, errors, data } = JSON.parse(response);
-        this.message = message;
+      try {
+        let response;
+        const request = await fetch(this.urlIframe);
+        this.statusCode = request.status;
+        response = await request.text();
+
+        if (this.statusCode >= 400) {
+          let { message, errors, data } = JSON.parse(response);
+          this.message = message;
+          this.isShow = false;
+        }
+      } catch (error) {
+        this.isShow = false;
       }
+
       this.$closeLoader();
     },
   },

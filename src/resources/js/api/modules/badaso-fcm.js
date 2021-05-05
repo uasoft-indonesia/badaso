@@ -19,5 +19,9 @@ export default {
   readMessage(id){
     let url = `${apiPrefix}/v1/firebase/messages/${id}`;
     return resource.put(url);
+  },
+  getCountUnreadMessage(){
+    let url = `${apiPrefix}/v1/firebase/messages/count-unread`;
+    return resource.get(url);
   }
 };

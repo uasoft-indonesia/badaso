@@ -23,6 +23,11 @@
 </head>
 <body>
     <div id="app"></div>
+    <script>
+        window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+        window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+        window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+    </script>
     <script src="{{ mix('js/badaso.js') }}"></script>
 </body>
 </html>

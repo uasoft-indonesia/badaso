@@ -269,6 +269,10 @@
                 <vs-icon icon="save"></vs-icon>
                 {{ $t("crudGenerated.add.button") }}
               </vs-button>
+              <badaso-buttom-data-pending-show
+                v-if="!isOnline"
+                ref="refBadasoButtonDataPendingShow"
+              />
             </vs-col>
           </vs-row>
         </vs-card>
@@ -295,9 +299,12 @@
 </template>
 
 <script>
+import BadasoButtonDataPendingShowVue from "../../components/BadasoButtonDataPendingShow.vue";
 export default {
   name: "CrudGeneratedAdd",
-  components: {},
+  components: {
+    "badaso-buttom-data-pending-show": BadasoButtonDataPendingShowVue,
+  },
   data: () => ({
     isValid: true,
     errors: {},
@@ -341,6 +348,7 @@ export default {
           });
         })
         .catch((error) => {
+          this.$refs.refBadasoButtonDataPendingShow.requestObjectStoreData();
           this.errors = error.errors;
           this.$closeLoader();
           this.$vs.notify({
@@ -419,6 +427,14 @@ export default {
             color: "danger",
           });
         });
+    },
+  },
+  computed: {
+    isOnline: {
+      get() {
+        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
     },
   },
 };
