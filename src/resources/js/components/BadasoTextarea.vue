@@ -38,7 +38,6 @@ export default {
       default: "Textarea",
     },
     value: {
-      type: String,
       required: true,
       default: "null",
     },

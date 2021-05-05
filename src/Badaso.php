@@ -269,7 +269,7 @@ class Badaso
 
     public function getProtectedTables()
     {
-        return config('badaso.hidden_tables', []);
+        return config('hidden-tables', []);
     }
 
     public function getBadasoCloudApi()

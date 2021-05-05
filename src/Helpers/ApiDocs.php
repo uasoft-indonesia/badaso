@@ -306,9 +306,6 @@ class ApiDocs
             if ($row['delete']) {
                 $delete[] = $row;
             }
-            if ($row['delete']) {
-                $delete[] = $row;
-            }
             if ($row['field'] === 'id') {
                 $id_column = $row;
             }

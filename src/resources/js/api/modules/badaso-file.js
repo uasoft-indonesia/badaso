@@ -1,3 +1,4 @@
+import resource from "../resource";
 import QueryString from "../query-string";
 
 let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
@@ -13,6 +14,12 @@ export default {
     let qs = QueryString(data);
     let url = ep + qs;
     return url;
+  },
+
+  upload(files) {
+    return resource.post(apiPrefix + "/v1/file/upload", {
+      files: files
+    });
   },
 
   download(file) {

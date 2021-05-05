@@ -4,13 +4,9 @@ let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-admin";
 
-const menuKey = process.env.MIX_DEFAULT_MENU
-  ? process.env.MIX_DEFAULT_MENU
-  : "admin";
-
 export default [
   {
-    path: prefix + "/" + menuKey + "/:slug",
+    path: prefix + "/admin/:slug",
     name: "CrudGeneratedBrowse",
     component: Pages,
     meta: {
@@ -18,7 +14,7 @@ export default [
     },
   },
   {
-    path: prefix + "/" + menuKey + "/:slug/add",
+    path: prefix + "/admin/:slug/add",
     name: "CrudGeneratedAdd",
     component: Pages,
     meta: {
@@ -26,7 +22,7 @@ export default [
     },
   },
   {
-    path: prefix + "/" + menuKey + "/:slug/sort",
+    path: prefix + "/admin/:slug/sort",
     name: "CrudGeneratedSort",
     component: Pages,
     meta: {
@@ -34,7 +30,7 @@ export default [
     },
   },
   {
-    path: prefix + "/" + menuKey + "/:slug/:id",
+    path: prefix + "/admin/:slug/:id",
     name: "CrudGeneratedRead",
     component: Pages,
     meta: {
@@ -42,7 +38,7 @@ export default [
     },
   },
   {
-    path: prefix + "/" + menuKey + "/:slug/:id/edit",
+    path: prefix + "/admin/:slug/:id/edit",
     name: "CrudGeneratedEdit",
     component: Pages,
     meta: {

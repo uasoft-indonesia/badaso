@@ -4,17 +4,13 @@ let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-admin";
 
-const menuKey = process.env.MIX_DEFAULT_MENU
-  ? process.env.MIX_DEFAULT_MENU
-  : "admin";
-
 export default [
   {
     path: prefix,
     redirect: prefix + "/home",
   },
   {
-    path: prefix + "/" + menuKey,
+    path: prefix + "/admin",
     redirect: prefix + "/home",
   },
   {

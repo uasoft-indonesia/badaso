@@ -57,71 +57,74 @@
       <badaso-sidebar-item icon="dashboard" :to="`/${prefix}/home`">
         <span class="hide-in-minisidebar">{{ $t("sidebar.dashboard") }}</span>
       </badaso-sidebar-item>
-      <badaso-sidebar-group
-        :title="mainMenu.menu.displayName"
-        open
-        :icon="mainMenu.menu.icon"
-        v-if="mainMenu.menuItems && mainMenu.menuItems.length > 0"
-      >
-        <template v-for="(menu, index) in mainMenu.menuItems">
-          <badaso-sidebar-group
-            v-if="menu.children && menu.children.length > 0"
-            :title="menu.title"
-            open
-            :icon="menu.iconClass"
-            :key="index"
-          >
-            <template v-for="(childMenu, indexChildMenu) in menu.children">
+      <template v-for="(displayMenu, indexMenu) in mainMenu">
+        <badaso-sidebar-group
+          :title="displayMenu.menu.displayName"
+          open
+          :icon="displayMenu.menu.icon"
+          :key="indexMenu"
+          v-if="displayMenu.mainMenu && displayMenu.mainMenu.length > 0"
+        >
+          <template v-for="(menu, index) in displayMenu.mainMenu">
+            <badaso-sidebar-group
+              v-if="menu.children && menu.children.length > 0"
+              :title="menu.title"
+              open
+              :icon="menu.iconClass"
+              :key="index"
+            >
+              <template v-for="(childMenu, indexChildMenu) in menu.children">
+                <badaso-sidebar-item
+                  v-if="$helper.isValidHttpUrl(childMenu.url)"
+                  :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
+                  :href="menu.url"
+                  :key="`menu-${index}-${indexChildMenu}`"
+                  :index="`${index}.${indexChildMenu}`"
+                  :style="`color: ${childMenu.color}`"
+                  :target="menu.target"
+                >
+                  <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+                </badaso-sidebar-item>
+                <badaso-sidebar-item
+                  v-else
+                  :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
+                  :to="childMenu.url"
+                  :key="`menu-${index}-${indexChildMenu}`"
+                  :index="`${index}.${indexChildMenu}`"
+                  :style="`color: ${childMenu.color}`"
+                  :target="menu.target"
+                >
+                  <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+                </badaso-sidebar-item>
+              </template>
+            </badaso-sidebar-group>
+            <div v-else :key="index">
               <badaso-sidebar-item
-                v-if="$helper.isValidHttpUrl(childMenu.url)"
-                :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
+                v-if="$helper.isValidHttpUrl(menu.url)"
+                :icon="menu.iconClass ? menu.iconClass : 'remove'"
                 :href="menu.url"
-                :key="`menu-${index}-${indexChildMenu}`"
-                :index="`${index}.${indexChildMenu}`"
-                :style="`color: ${childMenu.color}`"
+                :key="`menu-${index}`"
+                :index="index"
+                :style="`color: ${menu.color}`"
                 :target="menu.target"
               >
-                <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+                <span class="hide-in-minisidebar">{{ menu.title }}</span>
               </badaso-sidebar-item>
               <badaso-sidebar-item
                 v-else
-                :icon="childMenu.iconClass ? childMenu.iconClass : 'remove'"
-                :to="childMenu.url"
-                :key="`menu-${index}-${indexChildMenu}`"
-                :index="`${index}.${indexChildMenu}`"
-                :style="`color: ${childMenu.color}`"
+                :icon="menu.iconClass ? menu.iconClass : 'remove'"
+                :to="menu.url"
+                :key="`menu-${index}`"
+                :index="index"
+                :style="`color: ${menu.color}`"
                 :target="menu.target"
               >
-                <span class="hide-in-minisidebar">{{ childMenu.title }}</span>
+                <span class="hide-in-minisidebar">{{ menu.title }}</span>
               </badaso-sidebar-item>
-            </template>
-          </badaso-sidebar-group>
-          <div v-else :key="index">
-            <badaso-sidebar-item
-              v-if="$helper.isValidHttpUrl(menu.url)"
-              :icon="menu.iconClass ? menu.iconClass : 'remove'"
-              :href="menu.url"
-              :key="`menu-${index}`"
-              :index="index"
-              :style="`color: ${menu.color}`"
-              :target="menu.target"
-            >
-              <span class="hide-in-minisidebar">{{ menu.title }}</span>
-            </badaso-sidebar-item>
-            <badaso-sidebar-item
-              v-else
-              :icon="menu.iconClass ? menu.iconClass : 'remove'"
-              :to="menu.url"
-              :key="`menu-${index}`"
-              :index="index"
-              :style="`color: ${menu.color}`"
-              :target="menu.target"
-            >
-              <span class="hide-in-minisidebar">{{ menu.title }}</span>
-            </badaso-sidebar-item>
-          </div>
-        </template>
-      </badaso-sidebar-group>
+            </div>
+          </template>
+        </badaso-sidebar-group>
+      </template>
 
       <badaso-sidebar-group
         :title="configurationMenu.menu.displayName"
