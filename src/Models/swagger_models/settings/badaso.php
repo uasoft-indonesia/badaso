@@ -21,7 +21,6 @@
  *      url=BADASO_SWAGGER_HOST,
  *      description="Development Server"
  *  )
- *
  */
 
 /**

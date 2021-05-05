@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Exception;
+use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,7 @@ use Uasoft\Badaso\Events\CRUDDataAdded;
 use Uasoft\Badaso\Events\CRUDDataDeleted;
 use Uasoft\Badaso\Events\CRUDDataUpdated;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Helpers\ApiDocs;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Models\DataRow;
@@ -20,8 +22,6 @@ use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 use Uasoft\Badaso\Models\Permission;
-use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
-use Uasoft\Badaso\Helpers\ApiDocs;
 
 class BadasoCRUDController extends Controller
 {
@@ -460,9 +460,10 @@ class BadasoCRUDController extends Controller
         $filesystem = new LaravelFileSystem;
         $file_path = ApiDocs::getFilePath($table_name);
         $stub = ApiDocs::getStub($table_name, $data_rows, $data_type);
-        if (!$filesystem->put($file_path, $stub))  {
+        if (! $filesystem->put($file_path, $stub)) {
             return false;
         }
+
         return true;
     }
 
@@ -470,7 +471,7 @@ class BadasoCRUDController extends Controller
     {
         $filesystem = new LaravelFileSystem;
         $file_path = ApiDocs::getFilePath($table_name);
-        if($filesystem->exists($file_path)) {
+        if ($filesystem->exists($file_path)) {
             return $filesystem->delete($file_path);
         }
 
