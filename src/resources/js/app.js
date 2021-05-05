@@ -178,6 +178,21 @@ try {
   console.info("Failed to load custom pages", error);
 }
 
+// DYNAMIC IMPORT PLUGINS FOR COMPONENTS
+try {
+  const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+  if (plugins && plugins.length > 0) {
+    plugins.forEach(plugin => {
+      let fileName = require('../../../../' + plugin + '/src/resources/js/components/index.js').default;
+      Object.values(fileName).forEach((value, index) => {
+        Vue.component(value.name, value);
+      })
+    });
+  }
+} catch (error) {
+  console.info("Failed to load pages", error);
+}
+
 const i18n = new VueI18n({
   locale: "id",
   fallbackLocale: "en",

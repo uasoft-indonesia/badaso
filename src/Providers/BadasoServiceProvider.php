@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Providers;
 use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use L5Swagger\L5SwaggerServiceProvider;
 use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
@@ -48,6 +49,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/lfm.php' => config_path('lfm.php'),
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
             __DIR__.'/../resources/views/vendor' => resource_path('views/vendor'),
+            __DIR__.'/../Models/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
         ], 'Badaso');
 
         $this->publishes([
@@ -56,6 +58,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/backup.php' => config_path('backup.php'),
             __DIR__.'/../Config/lfm.php' => config_path('lfm.php'),
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
+            __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
         ], 'BadasoConfig');
 
         $this->publishes([
@@ -83,6 +86,7 @@ class BadasoServiceProvider extends ServiceProvider
         $this->app->register(DropboxServiceProvider::class);
         $this->app->register(GoogleDriveServiceProvider::class);
         $this->app->register(LogViewerServiceProvider::class);
+        $this->app->register(L5SwaggerServiceProvider::class);
         $this->registerConsoleCommands();
     }
 

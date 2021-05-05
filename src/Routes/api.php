@@ -51,7 +51,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
         Route::group(['prefix' => 'file'], function () {
             Route::get('/view', 'BadasoFileController@viewFile');
             Route::get('/download', 'BadasoFileController@downloadFile');
-            Route::post('/upload', 'BadasoFileController@uploadFile');
+            Route::post('/upload', 'BadasoFileController@uploadFile')->middleware(BadasoCheckPermissions::class.':upload_file');
             Route::delete('/delete', 'BadasoFileController@deleteFile');
         });
 

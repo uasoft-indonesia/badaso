@@ -8,6 +8,10 @@ let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
   ? process.env.MIX_LOG_VIEWER_ROUTE
   : "log-viewer";
 
+let api_docs = process.env.MIX_API_DOCUMENTATION_ROUTE
+  ? process.env.MIX_API_DOCUMENTATION_ROUTE
+  : "api/documentation";
+
 export default [
   {
     path: prefix + "/permission",
@@ -297,4 +301,13 @@ export default [
       title: "Data Pending Edit",
     },
   },
+    path: prefix + "/" + api_docs,
+    name: "ApiDocumentation",
+    beforeEnter() {
+      location.href = "/" + api_docs;
+    },
+    meta: {
+      title: "Browse API Documentation",
+    }
+  }
 ];

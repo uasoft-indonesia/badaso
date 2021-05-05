@@ -16,6 +16,8 @@ let _publicRouters = [];
 let _adminRouters = [];
 let _otherRouters = [];
 
+let _pluginRouters = [];
+
 // DYNAMIC IMPORT BADASO ROUTERS
 try {
   const authRouters = require.context("./auth", false, /\.js$/); //
@@ -37,6 +39,35 @@ try {
   otherRouters.keys().forEach((fileName) => {
     _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
   });
+
+  // DYNAMIC IMPORT BADASO PLUGINS ROUTERS
+  const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+  if (plugins && plugins.length > 0) {
+    plugins.forEach(plugin => {
+      let routes = require('../../../../../' + plugin + '/src/resources/js/router/routes.js').default;
+      let adminRouters = [];
+      let authRouters = [];
+      let landingPageRouters = [];
+      routes.forEach(route => {
+        switch (route.meta.useComponent) {
+          case "AdminContainer":
+            adminRouters = [...routes];
+            break;
+          case "AuthContainer":
+            authRouters = [...routes];
+            break;
+          case "LandingPageContainer":
+            landingPageRouters = [...routes];
+            break;
+          default:
+            break;
+        }
+      })
+      _pluginRouters["AdminContainer"] = adminRouters;
+      _pluginRouters["AuthContainer"] = authRouters;
+      _pluginRouters["LandingPageContainer"] = landingPageRouters;
+    });
+  }
 } catch (error) {
   console.info("Failed to load badaso routers", error);
 }
@@ -94,7 +125,10 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: _authRouters,
+      children: [
+        ..._authRouters,
+        ..._pluginRouters['AuthContainer']
+      ],
     },
     {
       path: "",
@@ -103,7 +137,10 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: _publicRouters,
+      children: [
+        ..._publicRouters,
+        ..._pluginRouters['LandingPageContainer']
+      ],
     },
     {
       path: "",
@@ -112,7 +149,10 @@ const router = new VueRouter({
       meta: {
         authenticatedUser: true,
       },
-      children: _adminRouters,
+      children: [
+        ..._adminRouters,
+        ..._pluginRouters['AdminContainer']
+      ],
     },
     ..._otherRouters,
     {

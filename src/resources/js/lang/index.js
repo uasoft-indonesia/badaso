@@ -75,6 +75,29 @@ try {
   console.info("Failed to load custom languages", error);
 }
 
+// DYNAMIC IMPORT BADASO PLUGINS LANG
+try {
+  const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+  if (plugins && plugins.length > 0) {
+    plugins.forEach(plugin => {
+      const modules = require("../../../../../" + plugin + "/src/resources/js/lang/").default
+      Object.keys(modules.i18n).forEach((module, index) => {
+        if (exported[module]) {
+          exported[module] = _.merge(
+            exported[module],
+            modules.i18n[module]
+          );
+        } else {
+          exported[module] = modules.i18n[module];
+          languages.push(modules.languages[index]);
+        }
+      })
+    });
+  }
+} catch (error) {
+  console.info("Failed to load badaso plugin languages", error);
+}
+
 export default {
   languages,
   i18n: exported,

@@ -9,7 +9,7 @@ export default {
     isSidebarActive: false,
     reduceSidebar: false,
     themeColor: "#2962ff",
-    menu: {},
+    menu: [],
     configurationMenu: {},
     componentList: [],
     groupList: [],
@@ -50,30 +50,59 @@ export default {
           menu_key: menuKey,
         })
         .then((res) => {
-          let menuItems = res.data.menuItems;
-          menuItems.map((item) => {
-            if (helpers.isValidHttpUrl(item.url)) {
-              item.url = item.url;
-            } else {
-              item.url = "/" + prefix + "" + item.url;
-            }
-
-            if (item.children && item.children.length > 0) {
-              item.children.map((subItem) => {
-                if (helpers.isValidHttpUrl(subItem.url)) {
-                  subItem.url = subItem.url;
+          var menus = []
+          for (let index = 0; index < res.data.length; index++) {
+            let menu = res.data[index].menu;
+            let items = res.data[index].menuItems;
+            if (menu.key === 'admin') {
+              items.map((item) => {
+                if (helpers.isValidHttpUrl(item.url)) {
+                  item.url = item.url;
                 } else {
-                  subItem.url = "/" + prefix + "" + subItem.url;
+                  item.url = "/" + prefix + "/admin" + item.url;
                 }
-                return subItem;
+    
+                if (item.children && item.children.length > 0) {
+                  item.children.map((subItem) => {
+                    if (helpers.isValidHttpUrl(subItem.url)) {
+                      subItem.url = subItem.url;
+                    } else {
+                      subItem.url = "/" + prefix + "/admin" + subItem.url;
+                    }
+                    return subItem;
+                  });
+                }
+  
+                return item;
+              });
+            } else {
+              items.map((item) => {
+                if (helpers.isValidHttpUrl(item.url)) {
+                  item.url = item.url;
+                } else {
+                  item.url = "/" + prefix + "" + item.url;
+                }
+    
+                if (item.children && item.children.length > 0) {
+                  item.children.map((subItem) => {
+                    if (helpers.isValidHttpUrl(subItem.url)) {
+                      subItem.url = subItem.url;
+                    } else {
+                      subItem.url = "/" + prefix + "" + subItem.url;
+                    }
+                    return subItem;
+                  });
+                }
+  
+                return item;
               });
             }
-            return item;
-          });
-          state.menu = {
-            menu: res.data.menu,
-            menuItems: menuItems,
-          };
+            menus.push({
+              menu: res.data[index].menu,
+              mainMenu: items,
+            })
+          }
+          state.menu = menus
         })
         .catch((err) => {});
     },
