@@ -10,6 +10,9 @@ export default {
     alphaNum: "* {0} bukan alfanumerik.",
     alphaNumAndUnderscoreValidator:
       "* {0} hanya alfanumerik dan underscore (_) diperbolehkan.",
+    unique: "* {0} harus unik.",
+    distinct: "* Hanya satu {0} dibolehkan.",
+    requiredPrimary: "* Hanya {0} dibolehkan."
   },
   login: {
     title: "Masuk",
@@ -150,6 +153,8 @@ export default {
       accept: "Ya",
       cancel: "Tidak",
     },
+    exportToExcel: "Export .xls",
+    exportToPdf: "Export .pdf",
   },
 
   alert: {
@@ -398,6 +403,23 @@ export default {
         defaultServerSideSearchField: {
           title: "Bidang Pencarian Sisi Server Default",
           placeholder: "Bidang Pencarian Sisi Server Default",
+        },
+        activeEventNotification: {
+          title: "Pemberitahuan Peristiwa Aktif",
+          label: {
+            onCreate: "Saat Buat",
+            onRead: "Saat Baca",
+            onUpdate: "Saat Update",
+            onDelete: "Saat Delete",
+            onCreateTitle: "Judul Pesan Saat Menambahkan Data",
+            onCreateMessage: "Pesan Saan Menambahkan Data",
+            onReadTitle: "Judul Pesan Saat Membaca Data",
+            onReadMessage: "Pesan Saan Membaca Data",
+            onUpdateTitle: "Judul Pesan Saat Mengupdate Data",
+            onUpdateMessage: "Pesan Saan Mengupdate Data",
+            onDeleteTitle: "Judul Pesan Saat Hapus Data",
+            onDeleteMessage: "Pesan Saan Hapus Data",
+          },
         },
         description: {
           title: "Deskripsi",
@@ -893,7 +915,7 @@ export default {
           asDefined: "Nilau Default",
           fieldNull: "Boleh Kosong",
           fieldIndex: "Index",
-          fieldAttribute: "Atribut",
+          fieldAttribute: "Unsigned",
           fieldIncrement: "Auto Increment",
           add: "Add",
         },
@@ -929,7 +951,7 @@ export default {
           asDefined: "Nilau Default",
           fieldNull: "Boleh Kosong",
           fieldIndex: "Index",
-          fieldAttribute: "Atribut",
+          fieldAttribute: "Unsigned",
           fieldIncrement: "Auto Increment",
           action: "Aksi",
           add: "Add",
@@ -957,6 +979,8 @@ export default {
     },
     warning: {
       docs: "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
+      exists: "Field {0} sudah ada.",
+      invalid: "Request tidak valid. Mohon periksa kembali field atau nama tabel jika valid atau tidak."
     },
     migration: {
       header: {
@@ -966,5 +990,38 @@ export default {
         rollback: "Rollback Migration",
       },
     },
+  },
+  fileManager: {
+    title: "Pengolahan File",
+    warning: {
+      notAllowedToBrowse: "Anda tidak diizinkan untuk mengakses file manager.",
+    },
+  },
+  firebase: {
+    title: "Firebase",
+    feature: "Fitur",
+    features: {
+      firebaseCloudMessage: "Firebase Pesan Awan",
+    },
+    form: {
+      apiKey: "Kunci API",
+      authDomain: "Auth Domain",
+      projectId: "Id Proyek",
+      storageBucket: "Penyimpanan Bucket",
+      messagingSenderId: "Id Pengirim Pesan",
+      appId: "Id App",
+      measureId: "Id Measurement",
+      serverKey: "Kunci Server",
+    },
+  },
+  logViewer: {
+    title: "Log Viewer",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse log viewer",
+    },
+  },
+  notification: {
+    notification: "Pemberitahuan",
+    detailMessage: "Detail Pesan",
   },
 };

@@ -2,11 +2,11 @@
 
 namespace Uasoft\Badaso\ContentManager;
 
+use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Support\Composer;
-use Uasoft\Badaso\Helpers\MigrationParser;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Helpers\MigrationParser;
 
 class FileSystem
 {
@@ -46,7 +46,7 @@ class FileSystem
 
     public function getMigrationFileNoDate(string $name, string $path): string
     {
-        $filePath = glob($path . '*');
+        $filePath = glob($path.'*');
         $fileName = '';
         foreach ($filePath as $value) {
             if (strpos($value, $name) !== false) {
@@ -60,9 +60,11 @@ class FileSystem
     /**
      * Get migration filename.
      */
-    public function getMigrationFileName(string $name, string $prefix): string
+    public function getMigrationFileName(string $name, string $prefix, string $className): string
     {
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix . '_' . $name . '_table';
+        $random = lcfirst(substr($className, -4));
+
+        return Carbon::now()->format('Y_m_d_his').'_'.$prefix.'_'.$name.'_table_'.$random;
     }
 
     /**
@@ -71,7 +73,8 @@ class FileSystem
     public function getAlterMigrationFileName(array $name, string $className): string
     {
         $prefix = $this->parser->convertPascalToSnake($className);
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix;
+
+        return Carbon::now()->format('Y_m_d_his').'_'.$prefix;
     }
 
     /**
@@ -79,7 +82,7 @@ class FileSystem
      */
     public function getMigrationFileNameNoDate(string $name, string $prefix): string
     {
-        return $prefix . '_' . $name . '_table';
+        return $prefix.'_'.$name.'_table';
     }
 
     /**
@@ -88,7 +91,7 @@ class FileSystem
     public function getSeedFolderPath(): string
     {
         $path = base_path().'/database/seeds/CRUDData';
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -101,7 +104,7 @@ class FileSystem
     public function getMigrationFolderPath(): string
     {
         $path = base_path().'/database/migrations/badaso/';
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -169,7 +172,9 @@ class FileSystem
             $model_string .= ucfirst($model_name_exploded);
         }
 
-        return ucfirst($prefix).ucfirst($model_string).'Table';
+        $randomise = Str::lower($this->parser->getRandomCharacter(4));
+
+        return ucfirst($prefix).ucfirst($model_string).'Table'.ucfirst($randomise);
     }
 
     /**
@@ -186,6 +191,7 @@ class FileSystem
             return ucfirst($prefix).ucfirst($current_model_name).'To'.ucfirst($modified_model_name).'Table';
         } else {
             $randomise = Str::lower($this->parser->getRandomCharacter(4));
+
             return ucfirst($prefix).ucfirst($modified_model_name).'Table'.ucfirst($randomise);
         }
     }
@@ -195,7 +201,7 @@ class FileSystem
      */
     public function addContentToSeederFile(string $seeder_file, string $seeder_contents): bool
     {
-        if (!$this->filesystem->put($seeder_file, $seeder_contents)) {
+        if (! $this->filesystem->put($seeder_file, $seeder_contents)) {
             return false;
         }
 
@@ -206,7 +212,7 @@ class FileSystem
 
     public function addContentToMigrationFile(string $migration_file, string $migration_contents): bool
     {
-        if (!$this->filesystem->put($migration_file, $migration_contents)) {
+        if (! $this->filesystem->put($migration_file, $migration_contents)) {
             return false;
         }
 

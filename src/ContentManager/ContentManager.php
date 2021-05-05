@@ -25,7 +25,7 @@ class ContentManager
     public function repackContentData($data): array
     {
         $data_array = [];
-        if (!empty($data)) {
+        if (! empty($data)) {
             foreach ($data as $row) {
                 $row_array = [];
                 foreach ($row as $column_name => $column_value) {

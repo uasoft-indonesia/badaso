@@ -18,6 +18,10 @@ import lang from "./lang/";
 
 import App from "./apps/App.vue";
 
+import firebase from "firebase/app";
+import "firebase/firebase-messaging";
+import { notificationMessageReceive } from "./utils/firebase";
+
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
@@ -222,9 +226,56 @@ Vue.prototype.$closeLoader = function() {
   }
 };
 
+// ADD FIREBASE MESSAGE
+let firebaseConfig = {
+  apiKey: process.env.MIX_FIREBASE_API_KEY,
+  authDomain: process.env.MIX_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.MIX_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.MIX_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.MIX_FIREBASE_MESSAGE_SEENDER,
+  appId: process.env.MIX_FIREBASE_APP_ID,
+  measurementId: process.env.MIX_FIREBASE_MEASUREMENT_ID,
+};
+
+let statusActiveFeatureFirebase = true;
+for (let key in firebaseConfig)
+  statusActiveFeatureFirebase =
+    statusActiveFeatureFirebase && firebaseConfig[key] != undefined;
+
+Vue.prototype.$messaging = {};
+Vue.prototype.$messagingToken = {};
+Vue.prototype.$statusActiveFeatureFirebase = statusActiveFeatureFirebase;
+
+if (statusActiveFeatureFirebase) {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  } else {
+    firebase.app();
+  }
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((register) => {})
+        .catch((error) =>
+          console.log("Service Worker Register Failed : ", error)
+        );
+    });
+  }
+
+  Vue.prototype.$messaging = firebase.messaging();
+  Vue.prototype.$messagingToken = firebase
+    .messaging()
+    .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
+}
+
 const app = new Vue({
   store,
   router,
   i18n,
   render: (h) => h(App),
 }).$mount("#app");
+
+// ADD FIREBASE MESSAGE
+if (statusActiveFeatureFirebase) notificationMessageReceive(app);

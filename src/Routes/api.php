@@ -148,32 +148,32 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             try {
                 foreach (Badaso::model('DataType')::all() as $data_type) {
                     $crud_data_controller = $data_type->controller
-                                     ? Str::start($data_type->controller, '\\')
-                                     : 'BadasoBaseController';
+                        ? Str::start($data_type->controller, '\\')
+                        : 'BadasoBaseController';
                     Route::get($data_type->slug, $crud_data_controller.'@browse')
-                            ->name($data_type->slug.'.browse')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',browse');
+                        ->name($data_type->slug.'.browse')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',browse');
                     Route::get($data_type->slug.'/read', $crud_data_controller.'@read')
-                            ->name($data_type->slug.'.read')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',read');
+                        ->name($data_type->slug.'.read')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',read');
                     Route::put($data_type->slug.'/edit', $crud_data_controller.'@edit')
-                            ->name($data_type->slug.'.edit')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+                        ->name($data_type->slug.'.edit')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
                     Route::post($data_type->slug.'/add', $crud_data_controller.'@add')
-                            ->name($data_type->slug.'.add')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',add');
+                        ->name($data_type->slug.'.add')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',add');
                     Route::delete($data_type->slug.'/delete', $crud_data_controller.'@delete')
-                            ->name($data_type->slug.'.delete')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
+                        ->name($data_type->slug.'.delete')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
                     Route::delete($data_type->slug.'/delete-multiple', $crud_data_controller.'@deleteMultiple')
-                            ->name($data_type->slug.'.delete-multiple')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
+                        ->name($data_type->slug.'.delete-multiple')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
                     Route::put($data_type->slug.'/sort', $crud_data_controller.'@sort')
-                            ->name($data_type->slug.'.sort')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+                        ->name($data_type->slug.'.sort')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
                     Route::get($data_type->slug.'/all', $crud_data_controller.'@all')
-                            ->name($data_type->slug.'.all')
-                            ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+                        ->name($data_type->slug.'.all')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
                 }
             } catch (\InvalidArgumentException $e) {
                 throw new \InvalidArgumentException("Custom routes hasn't been configured because: ".$e->getMessage(), 1);
@@ -194,6 +194,16 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/migration/migrate', 'BadasoDatabaseController@migrate')->middleware(BadasoCheckPermissions::class.':migrate_database');
             Route::post('/migration/delete', 'BadasoDatabaseController@deleteMigration')->middleware(BadasoCheckPermissions::class.':delete_migration');
             Route::get('/type', 'BadasoDatabaseController@getDbmsFieldType')->middleware([BadasoCheckPermissions::class.':add_database', BadasoCheckPermissions::class.':edit_database']);
+        });
+
+        Route::group(['prefix' => 'firebase', 'middleware' => 'auth'], function () {
+            Route::group(['prefix' => 'cloud_messages'], function () {
+                Route::put('/save-token-messages', 'BadasoFCMController@saveTokenMessage');
+            });
+            Route::group(['prefix' => 'messages', 'middleware' => 'auth'], function () {
+                Route::get('/', 'BadasoFCMMessagesController@getMessages');
+                Route::put('/{id}', 'BadasoFCMMessagesController@readMessage');
+            });
         });
     });
 });

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 
 class BadasoBaseController extends Controller
@@ -31,7 +32,7 @@ class BadasoBaseController extends Controller
             $data_type = $this->getDataType($slug);
 
             $builder_params = [
-                'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
+                'order_field'     => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
                 'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
             ];
 
@@ -62,6 +63,10 @@ class BadasoBaseController extends Controller
 
             $data = $this->getDataDetail($slug, $request->id);
 
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
+
             return ApiResponse::entity($data_type, $data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -71,6 +76,7 @@ class BadasoBaseController extends Controller
     public function edit(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -89,12 +95,16 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
-                    'old' => $updated['old_data'],
+                    'old'        => $updated['old_data'],
                     'attributes' => $updated['updated_data'],
                 ])
                 ->log($data_type->display_name_singular.' has been updated');
 
             DB::commit();
+
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
 
             return ApiResponse::entity($data_type, $updated['updated_data']);
         } catch (Exception $e) {
@@ -107,6 +117,7 @@ class BadasoBaseController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -129,6 +140,10 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
+
             return ApiResponse::entity($data_type, $stored_data);
         } catch (Exception $e) {
             DB::rollBack();
@@ -140,6 +155,7 @@ class BadasoBaseController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -163,6 +179,10 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
+            // add event notification handle
+            $table_name = $data_type->name;
+            FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name);
+
             return ApiResponse::entity($data_type);
         } catch (Exception $e) {
             DB::rollBack();
@@ -174,6 +194,7 @@ class BadasoBaseController extends Controller
     public function deleteMultiple(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'slug' => 'required',
@@ -213,6 +234,7 @@ class BadasoBaseController extends Controller
     public function sort(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'slug' => 'required',

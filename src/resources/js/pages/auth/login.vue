@@ -130,6 +130,19 @@ export default {
                   },
                 });
               }
+
+              if (this.$statusActiveFeatureFirebase) {
+                this.$messagingToken.then((tokenMessage) => {
+                  try {
+                    this.$api.badasoFcm.saveTokenMessage(tokenMessage);
+                  } catch (error) {
+                    console.error(
+                      "Errors set token firebase cloud message :",
+                      error
+                    );
+                  }
+                });
+              }
             })
             .catch((error) => {
               this.errors = error.errors;

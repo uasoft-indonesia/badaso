@@ -41,14 +41,14 @@ class BadasoAuthController extends Controller
         try {
             $remember = $request->get('remember', false);
             $credentials = [
-                'email' => $request->email,
+                'email'    => $request->email,
                 'password' => $request->password,
             ];
             $request->validate([
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (!$token = auth()->attempt($credentials)) {
+                        if (! $token = auth()->attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
@@ -92,14 +92,14 @@ class BadasoAuthController extends Controller
         try {
             DB::beginTransaction();
             $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
+                'name'     => 'required|string|max:255',
+                'email'    => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
             $user = User::create([
-                'name' => $request->get('name'),
-                'email' => $request->get('email'),
+                'name'     => $request->get('name'),
+                'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);
 
@@ -111,7 +111,7 @@ class BadasoAuthController extends Controller
             $user_role->save();
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
-            if (!$should_verify_email) {
+            if (! $should_verify_email) {
                 $ttl = $this->getTTL();
                 $token = auth()->setTTL($ttl)->login($user);
 
@@ -123,10 +123,10 @@ class BadasoAuthController extends Controller
                 $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
                 $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
                 $data = [
-                    'user_id' => $user->id,
+                    'user_id'            => $user->id,
                     'verification_token' => $token,
-                    'expired_at' => $expired_token,
-                    'count_incorrect' => 0,
+                    'expired_at'         => $expired_token,
+                    'count_incorrect'    => 0,
                 ];
 
                 UserVerification::firstOrCreate($data);
@@ -163,7 +163,7 @@ class BadasoAuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-            if (!$user = AuthenticatedUser::getUser()) {
+            if (! $user = AuthenticatedUser::getUser()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -229,7 +229,7 @@ class BadasoAuthController extends Controller
     public function changePassword(Request $request)
     {
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -237,7 +237,7 @@ class BadasoAuthController extends Controller
                 'old_password' => [
                     'required',
                     function ($attribute, $value, $fail) use ($user) {
-                        if (!Hash::check($value, $user->password)) {
+                        if (! Hash::check($value, $user->password)) {
                             $fail(__('badaso::validation.auth.wrong_old_password'));
                         }
                     },
@@ -276,8 +276,8 @@ class BadasoAuthController extends Controller
             $token = rand(111111, 999999);
 
             DB::table('password_resets')->insert([
-                'email' => $request->email,
-                'token' => $token,
+                'email'      => $request->email,
+                'token'      => $token,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
 
@@ -381,7 +381,7 @@ class BadasoAuthController extends Controller
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
 
-            if (!$user_verification) {
+            if (! $user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
 
@@ -424,18 +424,19 @@ class BadasoAuthController extends Controller
     public function updateProfile(Request $request)
     {
         DB::beginTransaction();
+
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
             $request->validate([
-                'name' => 'required',
+                'name'   => 'required',
                 'avatar' => [
                     function ($attribute, $value, $fail) {
                         if ($value) {
                             $check = new CheckBase64($value);
-                            if (!$check->isValid()) {
+                            if (! $check->isValid()) {
                                 $fail($check->getMessage());
                             }
                         }
@@ -453,7 +454,7 @@ class BadasoAuthController extends Controller
                     $files = [];
                     $files[] = [
                         'base64' => $request->avatar,
-                        'name' => Str::slug($request->name).'.'.$extension,
+                        'name'   => Str::slug($request->name).'.'.$extension,
                     ];
                     $uploaded = $this->handleUploadFiles($files, null, 'users');
                     if (count($uploaded) > 0) {
@@ -484,8 +485,9 @@ class BadasoAuthController extends Controller
     public function updateEmail(Request $request)
     {
         DB::beginTransaction();
+
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -501,11 +503,11 @@ class BadasoAuthController extends Controller
                 $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
                 $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
                 $data = [
-                    'user_id' => $user->id,
-                    'email' => $request->email,
+                    'user_id'            => $user->id,
+                    'email'              => $request->email,
                     'verification_token' => $token,
-                    'expired_at' => $expired_token,
-                    'count_incorrect' => 0,
+                    'expired_at'         => $expired_token,
+                    'count_incorrect'    => 0,
                 ];
 
                 EmailReset::firstOrCreate($data);
@@ -518,7 +520,7 @@ class BadasoAuthController extends Controller
 
                 return ApiResponse::success([
                     'should_verify_email' => true,
-                    'message' => __('badaso::validation.verification.email_sended'),
+                    'message'             => __('badaso::validation.verification.email_sended'),
                 ]);
             } else {
                 $user->email = $request->email;
@@ -529,7 +531,7 @@ class BadasoAuthController extends Controller
 
             return ApiResponse::success([
                 'should_verify_email' => false,
-                'user' => $user,
+                'user'                => $user,
             ]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -541,7 +543,7 @@ class BadasoAuthController extends Controller
     public function verifyEmail(Request $request)
     {
         try {
-            if (!$user = auth()->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 

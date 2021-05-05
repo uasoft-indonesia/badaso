@@ -18,11 +18,20 @@ class BadasoSetup extends Command
     protected $name = 'badaso:setup';
 
     /**
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'badaso:setup {--force=false}';
+
+    /**
      * The console command description.
      *
      * @var string
      */
     protected $description = 'Setup Badaso Modules';
+
+    private $force = false;
 
     /**
      * Create a new command instance.
@@ -42,11 +51,14 @@ class BadasoSetup extends Command
      */
     public function handle()
     {
+        $this->force = $this->options()['force'] == 'true' || $this->options()['force'] == null;
+
         $this->updatePackageJson();
         $this->updateWebpackMix();
         $this->publishBadasoProvider();
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
+        $this->publishLaravelFileManager();
         $this->uploadDefaultUserImage();
     }
 
@@ -67,6 +79,8 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
         $decoded_json['dependencies']['chart.js'] = '^2.8.0';
+        $decoded_json['dependencies']['jspdf'] = '^2.3.1';
+        $decoded_json['dependencies']['jspdf-autotable'] = '^3.5.14';
         $decoded_json['dependencies']['luxon'] = '^1.25.0';
         $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['material-icons'] = '^0.3.1';
@@ -77,6 +91,8 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
         $decoded_json['dependencies']['vue-draggable-nested-tree'] = '^3.0.0-beta2';
         $decoded_json['dependencies']['vue-i18n'] = '^8.22.4';
+        $decoded_json['dependencies']['vue-json-excel'] = '^0.3.0';
+        $decoded_json['dependencies']['uuid'] = '^8.3.2';
         $decoded_json['dependencies']['vue-prism-editor'] = '^1.2.2';
         $decoded_json['dependencies']['vue-router'] = '^3.1.3';
         $decoded_json['dependencies']['vue2-editor'] = '^2.10.2';
@@ -101,7 +117,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -112,7 +128,7 @@ class BadasoSetup extends Command
 
         if ($this->checkExist($mix_file, $search)) {
             $data =
-        <<<EOT
+                <<<'EOT'
 
         // Badaso
         mix
@@ -130,26 +146,40 @@ class BadasoSetup extends Command
 
     protected function publishBadasoProvider()
     {
-        Artisan::call('vendor:publish', ['--tag' => 'Badaso']);
+        $command_params = ['--tag' => 'Badaso'];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Badaso provider published');
     }
 
     protected function publishLaravelBackupProvider()
     {
-        Artisan::call('vendor:publish', [
+        $command_params = [
             '--provider' => "Spatie\Backup\BackupServiceProvider",
-        ]);
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Laravel backup provider published');
     }
 
     protected function publishLaravelActivityLogProvider()
     {
-        Artisan::call('vendor:publish', [
+        $command_params = [
             '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
-            '--tag' => 'config',
-        ]);
+            '--tag'      => 'config',
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
 
         $this->info('Laravel activity log provider published');
     }
@@ -158,5 +188,16 @@ class BadasoSetup extends Command
     {
         $img = file_get_contents(public_path('/badaso-images/default-user.png'));
         Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
+    }
+
+    protected function publishLaravelFileManager()
+    {
+        $command_params = ['--tag' => 'lfm_public'];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
+
+        $this->info('Fime Manager provider published');
     }
 }

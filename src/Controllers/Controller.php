@@ -50,7 +50,7 @@ abstract class Controller extends BaseController
                 WHERE u.id = :user_id
                 AND p.key = :permission
             ', [
-                'user_id' => $user->id,
+                'user_id'    => $user->id,
                 'permission' => $method.'_'.$data_type->name,
             ]);
 
@@ -81,6 +81,7 @@ abstract class Controller extends BaseController
                 $rules[$row->field][] = 'required';
                 if ($row->type == 'relation') {
                     $relation_detail = [];
+
                     try {
                         $relation_detail = is_string($row->relation) ? json_decode($row->relation) : $row->relation;
                         $relation_detail = CaseConvert::snake($relation_detail);
@@ -202,13 +203,13 @@ abstract class Controller extends BaseController
         $data = [];
         $records = [];
         $builder_params = [
-            'limit' => isset($request['limit']) ? $request['limit'] : 10,
-            'page' => isset($request['page']) ? $request['page'] : null,
-            'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
+            'limit'           => isset($request['limit']) ? $request['limit'] : 10,
+            'page'            => isset($request['page']) ? $request['page'] : null,
+            'order_field'     => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
             'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
-            'filter_key' => isset($request['filter_key']) ? $request['filter_key'] : null,
+            'filter_key'      => isset($request['filter_key']) ? $request['filter_key'] : null,
             'filter_operator' => isset($request['filter_operator']) ? $request['filter_operator'] : 'containts',
-            'filter_value' => isset($request['filter_value']) ? $request['filter_value'] : '',
+            'filter_value'    => isset($request['filter_value']) ? $request['filter_value'] : '',
         ];
 
         if ($data_type->model_name) {
@@ -270,7 +271,7 @@ abstract class Controller extends BaseController
             $model = app($data_type->model_name);
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
-                if (!is_null($data_row)) {
+                if (! is_null($data_row)) {
                     $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                 }
             }
@@ -282,7 +283,7 @@ abstract class Controller extends BaseController
             $data['updated_at'] = $timestamp;
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
-                if (!is_null($data_row)) {
+                if (! is_null($data_row)) {
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                 } else {
                     if (in_array($key, ['created_at', 'updated_at'])) {
@@ -313,16 +314,16 @@ abstract class Controller extends BaseController
                     // $model->{$key} = $value;
                 } else {
                     if (in_array($data_row->type, [
-                                'upload_image',
-                                'upload_image_multiple',
-                                'upload_file',
-                                'upload_file_multiple',
-                            ])
+                        'upload_image',
+                        'upload_image_multiple',
+                        'upload_file',
+                        'upload_file_multiple',
+                    ])
                         ) {
                         $files = explode(',', $model->{$data_row->field});
                         foreach ($files as $file) {
                             if (is_array($value)) {
-                                if (!in_array($file, $value)) {
+                                if (! in_array($file, $value)) {
                                     $this->handleDeleteFile($file);
                                 }
                             } else {
@@ -347,16 +348,16 @@ abstract class Controller extends BaseController
                     // $new_data[$key] = $value;
                 } else {
                     if (in_array($data_row->type, [
-                            'upload_image',
-                            'upload_image_multiple',
-                            'upload_file',
-                            'upload_file_multiple',
-                        ])
+                        'upload_image',
+                        'upload_image_multiple',
+                        'upload_file',
+                        'upload_file_multiple',
+                    ])
                     ) {
                         $files = explode(',', $model->{$data_row->field});
                         foreach ($files as $file) {
                             if (is_array($value)) {
-                                if (!in_array($file, $value)) {
+                                if (! in_array($file, $value)) {
                                     $this->handleDeleteFile($file);
                                 }
                             } else {
@@ -374,7 +375,7 @@ abstract class Controller extends BaseController
         }
 
         return [
-            'old_data' => $old_data,
+            'old_data'     => $old_data,
             'updated_data' => $model,
         ];
     }
@@ -387,7 +388,7 @@ abstract class Controller extends BaseController
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $model = $model::find($id);
-            if (!is_null($model)) {
+            if (! is_null($model)) {
                 foreach ($data_rows as $data_row) {
                     if (in_array($data_row->type, ['upload_image',
                         'upload_image_multiple',
@@ -404,7 +405,7 @@ abstract class Controller extends BaseController
             }
         } else {
             $model = DB::table($data_type->name)->where('id', $id)->first();
-            if (!is_null($model)) {
+            if (! is_null($model)) {
                 foreach ($data_rows as $data_row) {
                     if (in_array($data_row->type, ['upload_image',
                         'upload_image_multiple',

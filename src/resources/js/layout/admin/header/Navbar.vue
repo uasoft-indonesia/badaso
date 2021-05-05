@@ -41,7 +41,6 @@
             {{ getSelectedLocale.label }}
             <vs-icon icon="expand_more" size="small"></vs-icon>
           </a>
-
           <vs-dropdown-menu>
             <vs-dropdown-item
               v-for="(item, index) in getLocale"
@@ -55,37 +54,14 @@
         </vs-dropdown>
       </div>
       <div slot="right_menu">
-        <vs-dropdown vs-trigger-click left class="cursor-pointer ml-1 mr-md-3">
-          <a
-            class="text-white-dark"
-            href="#"
-            :style="{ color: topbarFontColor }"
-            ><vs-icon icon="notifications"></vs-icon
-          ></a>
-          <vs-dropdown-menu class="topbar-dd">
-            <div
-              class="d-flex align-items-center p-3 mb-2 preview"
-              :style="{ backgroundColor: topbarColor, color: topbarFontColor }"
-            >
-              <div class="ml-2">
-                <h4 class="mb-0">0 New</h4>
-                <p class="mb-0">Notification</p>
-              </div>
-            </div>
-            <div style="max-height: 200px; overflow-y: auto;">
-              <vs-dropdown-item>
-                <vs-icon icon="person_outline" class="mr-1"></vs-icon>
-                Coming soon...
-              </vs-dropdown-item>
-            </div>
-          </vs-dropdown-menu>
-        </vs-dropdown>
+        <badaso-notification-message :topbarFontColor="topbarFontColor" ></badaso-notification-message>
       </div>
     </badaso-navbar>
   </header>
 </template>
 
 <script>
+import { keyMessageNotification } from "../../../utils/firebase";
 export default {
   name: "Navbar",
   components: {},
@@ -114,6 +90,8 @@ export default {
   data: () => ({
     indexActive: 0,
     showToggle: false,
+    totalMessageNotification: 0,
+    active : false,
   }),
   computed: {
     user: {

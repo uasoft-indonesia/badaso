@@ -69,7 +69,7 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'      => ['required', 'exists:menus,id'],
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
             ]);
 
@@ -166,9 +166,10 @@ class BadasoMenuController extends Controller
     public function addMenu(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'key' => ['required', 'unique:menus'],
+                'key'          => ['required', 'unique:menus'],
                 'display_name' => ['required'],
             ]);
 
@@ -191,12 +192,13 @@ class BadasoMenuController extends Controller
     public function addMenuItem(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'menu_id' => ['required', 'exists:menus,id'],
-                'title' => ['required'],
-                'url' => ['required'],
-                'target' => ['required'],
+                'title'   => ['required'],
+                'url'     => ['required'],
+                'target'  => ['required'],
             ]);
 
             $url = $request->get('url');
@@ -228,10 +230,11 @@ class BadasoMenuController extends Controller
     public function editMenu(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
-                'key' => ['required', "unique:menus,id,{$request->menu_id}"],
+                'menu_id'      => ['required', 'exists:menus,id'],
+                'key'          => ['required', "unique:menus,id,{$request->menu_id}"],
                 'display_name' => ['required'],
             ]);
 
@@ -254,13 +257,14 @@ class BadasoMenuController extends Controller
     public function editMenuItem(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'      => ['required', 'exists:menus,id'],
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
-                'title' => ['required'],
-                'url' => ['required'],
-                'target' => ['required'],
+                'title'        => ['required'],
+                'url'          => ['required'],
+                'target'       => ['required'],
             ]);
 
             $url = $request->get('url');
@@ -290,9 +294,10 @@ class BadasoMenuController extends Controller
     public function editMenuItemOrder(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'      => ['required', 'exists:menus,id'],
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
             ]);
             $menu_item = MenuItem::find($request->menu_item_id);
@@ -343,9 +348,10 @@ class BadasoMenuController extends Controller
     public function editMenuItemsOrder(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'    => ['required', 'exists:menus,id'],
                 'menu_items' => ['required'],
             ]);
 
@@ -377,6 +383,7 @@ class BadasoMenuController extends Controller
     public function deleteMenu(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'menu_id' => ['required', 'exists:menus,id'],
@@ -397,9 +404,10 @@ class BadasoMenuController extends Controller
     public function deleteMenuItem(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'      => ['required', 'exists:menus,id'],
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
             ]);
 
@@ -419,7 +427,7 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'      => ['required', 'exists:menus,id'],
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
             ]);
 
@@ -452,9 +460,10 @@ class BadasoMenuController extends Controller
     public function setMenuItemPermissions(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:menus,id'],
+                'menu_id'      => ['required', 'exists:menus,id'],
                 'menu_item_id' => ['required', 'exists:menu_items,id'],
             ]);
 

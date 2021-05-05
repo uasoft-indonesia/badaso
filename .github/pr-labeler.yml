@@ -1,0 +1,4 @@
+feature: feature/*
+enhancement: enhancement/*
+bugfix: bugfix/*
+hotfix: hotfix/*

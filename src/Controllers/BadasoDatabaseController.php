@@ -26,29 +26,6 @@ class BadasoDatabaseController extends Controller
         $this->file_generator = $file_generator;
     }
 
-    // public function browse(Request $request)
-    // {
-    //     try {
-    //         $protected_tables = Badaso::getProtectedTables();
-    //         $tables = SchemaManager::listTables();
-    //         $tables_with_crud_data = [];
-    //         foreach ($tables as $key => $value) {
-    //             if (!in_array($key, $protected_tables)) {
-    //                 $table_with_crud_data = [];
-    //                 $table_with_crud_data['table_name'] = $key;
-    //                 $table_with_crud_data['crud_data'] = Badaso::model('DataType')::where('name', $key)->first();
-    //                 $tables_with_crud_data[] = $table_with_crud_data;
-    //             }
-    //         }
-
-    //         $data['tables_with_crud_data'] = $tables_with_crud_data;
-
-    //         return ApiResponse::success(collect($data)->toArray());
-    //     } catch (Exception $e) {
-    //         return APIResponse::failed($e);
-    //     }
-    // }
-
     public function add(Request $request)
     {
         try {
@@ -63,11 +40,12 @@ class BadasoDatabaseController extends Controller
                     },
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
-                'rows' => 'required',
-                'timestamp' => 'required|boolean',
+                'rows'              => 'required',
+                'rows.*.field_name' => 'required|string|distinct',
+                'rows.*.field_type' => 'required|string',
             ]);
 
-            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->timestamp);
+            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows);
 
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/',
@@ -102,7 +80,7 @@ class BadasoDatabaseController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -111,18 +89,8 @@ class BadasoDatabaseController extends Controller
             ]);
 
             $columns = SchemaManager::describeTable($request->table)->toArray();
-            $filteredColumn = [];
-            $timestamp = false;
 
-            foreach ($columns as $key => $value) {
-                if (in_array($key, ['updated_at', 'created_at']) && in_array($value['type'], ['timestamp'])) {
-                    $timestamp = true;
-                } else {
-                    $filteredColumn[$key] = $value;
-                }
-            }
-
-            return ApiResponse::success(['columns' => $filteredColumn, 'timestamp' => $timestamp]);
+            return ApiResponse::success(['columns' => $columns]);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -135,7 +103,7 @@ class BadasoDatabaseController extends Controller
                 'table.current_name' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -145,7 +113,7 @@ class BadasoDatabaseController extends Controller
                     'required',
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
-                'fields.current_fields' => 'required|array',
+                'fields.current_fields'  => 'required|array',
                 'fields.modified_fields' => 'nullable|array',
             ]);
 
@@ -153,8 +121,8 @@ class BadasoDatabaseController extends Controller
             $fields = $data['fields'];
             $table = $data['table'];
 
-            if (count($fields['modified_fields']) > 0) {
-                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, collect($fields['modified_fields'])->sortBy('modify_type')->reverse()->toArray(), 'alter');
+            if (count($fields['current_fields']) > 0) {
+                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter');
             }
 
             if ($table['current_name'] !== $table['modified_name']) {
@@ -194,7 +162,7 @@ class BadasoDatabaseController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -206,15 +174,15 @@ class BadasoDatabaseController extends Controller
 
             $rows = array_map(function ($column) {
                 return [
-                    'field_name' => $column['name'],
-                    'field_type' => $column['type'],
-                    'field_null' => !$column['null'],
+                    'field_name'      => $column['name'],
+                    'field_type'      => $column['type'],
+                    'field_null'      => ! $column['null'],
                     'field_increment' => $column['autoincrement'],
-                    'field_length' => $column['length'],
-                    'field_default' => $column['default'] ? 'as_defined' : $column['default'],
-                    'field_index' => $column['indexes'] == [] ? null : Str::lower(current($column['indexes'])['type']),
+                    'field_length'    => $column['length'],
+                    'field_default'   => $column['default'] ? 'as_defined' : $column['default'],
+                    'field_index'     => $column['indexes'] == [] ? null : Str::lower(current($column['indexes'])['type']),
                     'field_attribute' => $column['unsigned'] ? 'unsigned' : null,
-                    'as_defined' => $column['default'] ?? null,
+                    'as_defined'      => $column['default'] ?? null,
                 ];
             }, $columns);
 
@@ -303,7 +271,7 @@ class BadasoDatabaseController extends Controller
 
             $not_migrated_migration = array_diff($file_name, $check);
 
-            return ApiResponse::success(['data' => $not_migrated_migration, 'notMigrated' => !empty($not_migrated_migration)]);
+            return ApiResponse::success(['data' => $not_migrated_migration, 'notMigrated' => ! empty($not_migrated_migration)]);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -348,7 +316,8 @@ class BadasoDatabaseController extends Controller
         }
     }
 
-    public function getDbmsFieldType() {
+    public function getDbmsFieldType()
+    {
         try {
             return ApiResponse::success(Badaso::getBadasoDbmsFieldType());
         } catch (Exception $e) {

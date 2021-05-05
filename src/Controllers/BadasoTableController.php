@@ -71,6 +71,7 @@ class BadasoTableController extends Controller
     public function generateCRUD(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'table' => 'required',
@@ -101,7 +102,7 @@ class BadasoTableController extends Controller
                 $new_data_row->details = '';
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
-                ++$index;
+                $index++;
             }
 
             DB::commit();
@@ -121,7 +122,7 @@ class BadasoTableController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
@@ -154,6 +155,7 @@ class BadasoTableController extends Controller
 
             foreach ($relational_rows as $key => $field) {
                 $relation_detail = [];
+
                 try {
                     $relation_detail = is_string($field->relation) ? json_decode($field->relation) : $field->relation;
                     $relation_detail = CaseConvert::snake($relation_detail);
