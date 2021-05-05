@@ -1,7 +1,7 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
     <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
-    <vue-editor :value="value" @input="handleInput($event)"></vue-editor>
+    <editor id="tinymce" :value="value" @input="handleInput($event)" :init="init"></editor>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
@@ -20,14 +20,119 @@
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
+import tinymce from "tinymce";
+import TinyMCE from "@tinymce/tinymce-vue";
+import "tinymce/plugins/advlist";
+import "tinymce/plugins/anchor";
+import "tinymce/plugins/contextmenu";
+import "tinymce/plugins/directionality";
+import "tinymce/plugins/emoticons";
+import "tinymce/plugins/fullpage";
+import "tinymce/plugins/fullscreen";
+import "tinymce/plugins/help";
+import "tinymce/plugins/hr";
+import "tinymce/plugins/image";
+import "tinymce/plugins/imagetools";
+import "tinymce/plugins/importcss";
+import "tinymce/plugins/autolink";
+import "tinymce/plugins/insertdatetime";
+import "tinymce/plugins/legacyoutput";
+import "tinymce/plugins/link";
+import "tinymce/plugins/lists";
+import "tinymce/plugins/media";
+import "tinymce/plugins/nonbreaking";
+import "tinymce/plugins/noneditable";
+import "tinymce/plugins/pagebreak";
+import "tinymce/plugins/paste";
+import "tinymce/plugins/preview";
+import "tinymce/plugins/autoresize";
+import "tinymce/plugins/print";
+import "tinymce/plugins/quickbars";
+import "tinymce/plugins/save";
+import "tinymce/plugins/searchreplace";
+import "tinymce/plugins/spellchecker";
+import "tinymce/plugins/tabfocus";
+import "tinymce/plugins/table";
+import "tinymce/plugins/template";
+import "tinymce/plugins/textcolor";
+import "tinymce/plugins/textpattern";
+import "tinymce/plugins/autosave";
+import "tinymce/plugins/toc";
+import "tinymce/plugins/visualblocks";
+import "tinymce/plugins/visualchars";
+import "tinymce/plugins/wordcount";
+import "tinymce/plugins/bbcode";
+import "tinymce/plugins/charmap";
+import "tinymce/plugins/code";
+import "tinymce/plugins/codesample";
+import "tinymce/plugins/colorpicker";
 
 export default {
   name: "BadasoEditor",
   components: {
-    VueEditor,
+    "editor": TinyMCE,
   },
-  data: () => ({}),
+  data() {
+    return {
+      init: {
+        height: 500,
+        plugins: [
+          'lists advlist',
+          'image imagetools',
+          'link autolink',
+          'table',
+          'charmap',
+          'searchreplace visualblocks code fullscreen',
+          'print preview anchor insertdatetime media',
+          'help codesample hr pagebreak nonbreaking toc textpattern noneditable ',
+          'importcss',
+          'directionality',
+          'visualchars',
+          'emoticons',
+          'autosave'
+        ],
+        toolbar: [
+          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect',
+          'alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | preview save print | insertfile image media template link anchor codesample | ltr rtl',
+        ],
+        menubar: true,
+        convert_urls: false,
+        images_upload_handler: (blobInfo, success, failure) => {
+          const blob = blobInfo.blob();
+          const filename = blobInfo.filename();
+          const base64 = 'data:' + blob.type + ';base64,' + blobInfo.base64();
+          let files = [
+            {
+              name: filename,
+              base64: base64,
+              file: File
+            }
+          ];
+
+          this.$openLoader();
+          this.$api.badasoFile
+          .upload(files)
+          .then((response) => {
+            this.$closeLoader();
+            if (this.$helper.isValidHttpUrl(response[0])) {
+              success(response[0]);
+            } else {
+              success('/storage/' + response[0]);
+            }
+          })
+          .catch((error) => {
+            failure(error);
+            this.$closeLoader();
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+          });
+        }
+      }
+    }
+  },
   props: {
     size: {
       type: String,
@@ -62,3 +167,8 @@ export default {
   },
 };
 </script>
+<style>
+.tox-tinymce-aux {
+  z-index: 50000 !important;
+}
+</style>

@@ -4,7 +4,7 @@
       type="text"
       :label="displayLabel"
       :placeholder="placeholder"
-      :disable="disabled"
+      :disabled="disabled"
       :readonly="readonly"
       :autofocus="autofocus"
       :value="value"
@@ -54,7 +54,6 @@ export default {
       default: "Text",
     },
     value: {
-      type: String,
       required: true,
       default: "",
     },

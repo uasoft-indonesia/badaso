@@ -32,7 +32,9 @@
     "nao-pon/flysystem-google-drive": "1.1.13",
     "league/flysystem-aws-s3-v3": "1.0.28",
     "guzzlehttp/guzzle": "6.5.5",
-    "unisharp/laravel-filemanager": "2.2"
+    "unisharp/laravel-filemanager": "2.2",
+    "darkaonline/l5-swagger": "5.8.*",
+    "zircote/swagger-php": "3.*"
   },
   "authors": [
     {

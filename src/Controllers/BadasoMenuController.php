@@ -87,27 +87,50 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_key' => ['required', 'exists:menus,key'],
+                'menu_key' => ['required'],
             ]);
-            $menu = Menu::where('key', $request->menu_key)->first();
 
-            $all_menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
-                    ->where('menus.key', $request->menu_key)
-                    ->whereNull('menu_items.parent_id')
-                    ->select('menu_items.*')
-                    ->orderBy('menu_items.order', 'asc')
-                    ->get();
-            $menu_items = [];
-            foreach ($all_menu_items as $menu_item) {
-                $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
-                if ($allowed) {
-                    $menu_items[] = $menu_item;
+            $menu_keys = explode(',', $request->menu_key);
+
+            if (count($menu_keys) > 1) {
+                foreach ($menu_keys as $key => $menu_key) {
+                    $menu = Menu::where('key', $menu_key)->first();
+                    $all_menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
+                            ->where('menus.key', $menu_key)
+                            ->whereNull('menu_items.parent_id')
+                            ->select('menu_items.*')
+                            ->orderBy('menu_items.order', 'asc')
+                            ->get();
+                    $menu_items = [];
+                    foreach ($all_menu_items as $menu_item) {
+                        $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
+                        if ($allowed) {
+                            $menu_items[] = $menu_item;
+                        }
+                    }
+                    $allowed_menu_items = $this->getChildMenuItems($menu_items);
+                    $data[] = ['menu' => $menu, 'menu_items' => $allowed_menu_items];
                 }
-            }
-            $menu_items = $this->getChildMenuItems($menu_items);
+            } else {
+                $menu = Menu::where('key', $menu_keys[0])->first();
+                $all_menu_items = MenuItem::join('menus', 'menus.id', 'menu_items.menu_id')
+                        ->where('menus.key', $menu_keys[0])
+                        ->whereNull('menu_items.parent_id')
+                        ->select('menu_items.*')
+                        ->orderBy('menu_items.order', 'asc')
+                        ->get();
+                $menu_items = [];
+                foreach ($all_menu_items as $menu_item) {
+                    $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
+                    if ($allowed) {
+                        $menu_items[] = $menu_item;
+                    }
+                }
+                $allowed_menu_items = $this->getChildMenuItems($menu_items);
 
-            $data['menu'] = $menu;
-            $data['menu_items'] = $menu_items;
+                $data['menu'] = $menu;
+                $data['menu_items'] = $allowed_menu_items;
+            }
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
