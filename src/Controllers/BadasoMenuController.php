@@ -123,7 +123,7 @@ class BadasoMenuController extends Controller
             ]);
 
             $menu_keys = explode(',', $request->menu_key);
-            
+
             foreach ($menu_keys as $key => $menu_key) {
                 $menu = Menu::where('key', $menu_key)->first();
 
