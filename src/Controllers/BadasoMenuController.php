@@ -128,8 +128,7 @@ class BadasoMenuController extends Controller
                 }
                 $allowed_menu_items = $this->getChildMenuItems($menu_items);
 
-                $data['menu'] = $menu;
-                $data['menu_items'] = $allowed_menu_items;
+                $data[] = ['menu' => $menu, 'menu_items' => $allowed_menu_items];
             }
 
             return ApiResponse::success(collect($data)->toArray());

@@ -57,6 +57,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/backup.php'     => config_path('backup.php'),
             __DIR__.'/../Config/lfm.php'        => config_path('lfm.php'),
             __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
+            __DIR__.'/../Config/hidden-tables.php' => config_path('hidden-tables.php'),
         ], 'BadasoConfig');
 
         $this->publishes([

@@ -31,6 +31,10 @@ Vue.use(Datetime);
 Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
 
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
+
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
   const requireComponent = require.context(
@@ -174,14 +178,16 @@ try {
 
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
-  const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
-  if (plugins && plugins.length > 0) {
-    plugins.forEach(plugin => {
-      let fileName = require('../../../../' + plugin + '/src/resources/js/components/index.js').default;
-      Object.values(fileName).forEach((value, index) => {
-        Vue.component(value.name, value);
-      })
-    });
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        let fileName = require('../../../../' + plugin + '/src/resources/js/components/index.js').default;
+        Object.values(fileName).forEach((value, index) => {
+          Vue.component(value.name, value);
+        })
+      });
+    }
   }
 } catch (error) {
   console.info("Failed to load pages", error);

@@ -113,7 +113,7 @@ export default {
           menu_key: "configuration",
         })
         .then((res) => {
-          let menuItems = res.data.menuItems;
+          let menuItems = res.data[0].menuItems;
           menuItems.map((item) => {
             if (helpers.isValidHttpUrl(item.url)) {
               item.url = item.url;
@@ -134,7 +134,7 @@ export default {
             return item;
           });
           state.configurationMenu = {
-            menu: res.data.menu,
+            menu: res.data[0].menu,
             menuItems: menuItems,
           };
         })
