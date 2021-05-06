@@ -58,31 +58,31 @@ export default {
     },
   },
   methods: {
-    async checkLogViewer() {
+    checkLogViewer() {
       this.$openLoader();
 
-      try {
-        let response;
-        const request = await fetch(this.urlLogViewer);
-        this.statusCode = request.status;
-        response = await request.text();
-
-        if (this.statusCode >= 400) {
-          let { message, errors, data } = JSON.parse(response);
-          this.message = message;
-          this.isShow = false;
-        } else {
+      this.$resource
+        .get(this.urlLogViewer)
+        .then((result) => {
           this.urlIframe = this.urlLogViewer;
-        }
-      } catch (error) {
-        this.isShow = false;
-      }
-
-      this.$closeLoader();
+          this.isShow = true;
+        })
+        .catch((error) => {
+          let { message } = error;
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: message,
+            color: "danger",
+          });
+          this.isShow = false;
+        })
+        .finally(() => {
+          this.$closeLoader();
+        });
     },
   },
-  created(){
-    this.checkLogViewer()
-  }
+  created() {
+    this.checkLogViewer();
+  },
 };
 </script>

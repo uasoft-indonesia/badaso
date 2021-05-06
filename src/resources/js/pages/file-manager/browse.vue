@@ -9,13 +9,11 @@
           <div slot="header">
             <h3>{{ $t("fileManager.title") }}</h3>
           </div>
-          <div v-if="isShowIFrame">
-            <iframe
-              v-if="isShow"
-              :src="urlIframe"
-              style="width: 100%; height: 700px; overflow: hidden; border: none;"
-            />
-          </div>
+          <iframe
+            v-if="isShow"
+            :src="urlIframe"
+            style="width: 100%; height: 700px; overflow: hidden; border: none;"
+          />
           <div v-else>
             {{ message }}
           </div>
@@ -44,6 +42,7 @@ export default {
       statusCode: null,
       message: null,
       isShow: true,
+      urlIframe: null,
     };
   },
   async created() {
@@ -53,33 +52,32 @@ export default {
     async requestCheckPageIFrame() {
       this.$openLoader();
 
-      try {
-        let response;
-        const request = await fetch(this.urlIframe);
-        this.statusCode = request.status;
-        response = await request.text();
-
-        if (this.statusCode >= 400) {
-          let { message, errors, data } = JSON.parse(response);
-          this.message = message;
+      this.$resource
+        .get(this.urlFileManager)
+        .then((result) => {
+          this.urlIframe = this.urlFileManager;
+          this.isShow = true;
+        })
+        .catch((error) => {
+          let { message } = error;
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: message,
+            color: "danger",
+          });
           this.isShow = false;
-        }
-      } catch (error) {
-        this.isShow = false;
-      }
-
-      this.$closeLoader();
+        })
+        .finally(() => {
+          this.$closeLoader();
+        });
     },
   },
   computed: {
-    urlIframe() {
+    urlFileManager() {
       let host = window.location.origin;
       let token = localStorage.getItem("token");
       let url = `${host}/filemanager?token=${token}`;
       return url;
-    },
-    isShowIFrame() {
-      return this.statusCode == 200;
     },
   },
 };
