@@ -50,6 +50,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
             __DIR__.'/../resources/views/vendor' => resource_path('views/vendor'),
             __DIR__.'/../Models/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
+            __DIR__.'/../Config/hidden-tables.php' => config_path('hidden-tables.php'),
         ], 'Badaso');
 
         $this->publishes([
@@ -59,6 +60,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/lfm.php' => config_path('lfm.php'),
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
             __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
+            __DIR__.'/../Config/hidden-tables.php' => config_path('hidden-tables.php'),
         ], 'BadasoConfig');
 
         $this->publishes([

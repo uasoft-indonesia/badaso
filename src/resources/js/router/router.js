@@ -17,6 +17,9 @@ let _adminRouters = [];
 let _otherRouters = [];
 
 let _pluginRouters = [];
+_pluginRouters["AdminContainer"] = [];
+_pluginRouters["AuthContainer"] = [];
+_pluginRouters["LandingPageContainer"] = [];
 
 // DYNAMIC IMPORT BADASO ROUTERS
 try {
