@@ -286,6 +286,22 @@ export default [
     },
   },
   {
+    path: prefix + "/data-pending-add/:urlBase64",
+    name: "DataPendingAddBrowse",
+    component: Pages,
+    meta: {
+      title: "Data Pending Add",
+    },
+  },
+  {
+    path: prefix + "/data-pending-edit/:urlBase64",
+    name: "DataPendingEditRead",
+    component: Pages,
+    meta: {
+      title: "Data Pending Edit",
+    },
+  },
+  {
     path: prefix + "/" + api_docs,
     name: "ApiDocumentation",
     beforeEnter() {

@@ -12,7 +12,7 @@ class BadasoFirebaseCommand extends Command
      *
      * @var string
      */
-    protected $name = 'badaso:firebase publish';
+    protected $name = 'badaso:firebase-sw';
 
     /**
      * The console command description.

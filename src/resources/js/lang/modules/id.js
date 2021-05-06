@@ -12,7 +12,7 @@ export default {
       "* {0} hanya alfanumerik dan underscore (_) diperbolehkan.",
     unique: "* {0} harus unik.",
     distinct: "* Hanya satu {0} dibolehkan.",
-    requiredPrimary: "* Hanya {0} dibolehkan."
+    requiredPrimary: "* Hanya {0} dibolehkan.",
   },
   login: {
     title: "Masuk",
@@ -850,7 +850,7 @@ export default {
     },
     edit: {
       title: "Ubah {tableName}",
-      button: "Simpan",
+      button: "Perbarui",
     },
     detail: {
       title: "Detail {tableName}",
@@ -980,7 +980,8 @@ export default {
     warning: {
       docs: "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
       exists: "Field {0} sudah ada.",
-      invalid: "Request tidak valid. Mohon periksa kembali field atau nama tabel jika valid atau tidak."
+      invalid:
+        "Request tidak valid. Mohon periksa kembali field atau nama tabel jika valid atau tidak.",
     },
     migration: {
       header: {
@@ -1023,5 +1024,20 @@ export default {
   notification: {
     notification: "Pemberitahuan",
     detailMessage: "Detail Pesan",
+  },
+  noInternetAccess:
+    "Data tidak dapat dimuat karena internet Anda tidak terhubung. Tolong sambungkan internet lagi!",
+  offlineFeature: {
+    dataPending: "Data Tertunda...",
+    dataUpdatePending: "Data Update Tertunda...",
+    dataPendingAdd: {
+      title: "Data Tertunda",
+    },
+    dataPendingEdit: {
+      title: "Menampilkan Data Tertunda",
+    },
+    crudGenerator: {
+      deleteDataPending: "Delete Data Tertunda",
+    },
   },
 };

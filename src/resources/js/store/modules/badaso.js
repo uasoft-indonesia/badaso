@@ -27,6 +27,8 @@ export default {
       unauthorized: false,
     },
     verified: false,
+    isOnline: false,
+    countUnreadMessage : 0,
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -113,7 +115,7 @@ export default {
           menu_key: "configuration",
         })
         .then((res) => {
-          let menuItems = res.data.menuItems;
+          let menuItems = res.data[0].menuItems;
           menuItems.map((item) => {
             if (helpers.isValidHttpUrl(item.url)) {
               item.url = item.url;
@@ -134,7 +136,7 @@ export default {
             return item;
           });
           state.configurationMenu = {
-            menu: res.data.menu,
+            menu: res.data[0].menu,
             menuItems: menuItems,
           };
         })
@@ -192,11 +194,19 @@ export default {
           state.verified = true;
         })
         .catch((err) => {
-          state.keyIssue = {
-            ...err, invalid: true,
-          };
+          if (err.status) {
+            if (err.status == 402) {
+              state.keyIssue = {
+                ...err,
+                invalid: true,
+              };
+            }
+          }
           state.verified = true;
         });
+    },
+    SET_GLOBAL_STATE(state, { key, value }) {
+      state[key] = value
     },
   },
   actions: {},
@@ -227,6 +237,9 @@ export default {
     },
     isVerified: (state) => {
       return state.verified;
+    },
+    getGlobalState: (state) => {
+      return state;
     },
   },
   plugins: [createPersistedState()],

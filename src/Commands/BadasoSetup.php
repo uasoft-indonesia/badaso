@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
 
 class BadasoSetup extends Command
 {
@@ -59,6 +60,7 @@ class BadasoSetup extends Command
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
         $this->publishLaravelFileManager();
+        $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
     }
 
@@ -102,6 +104,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
+        $decoded_json['dependencies']['firebase'] = '^8.4.2';
 
         $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
         $decoded_json['copyFiles'][0] = (object) [
@@ -174,7 +177,7 @@ class BadasoSetup extends Command
     {
         $command_params = [
             '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
-            '--tag'      => 'config',
+            '--tag' => 'config',
         ];
         if ($this->force) {
             $command_params['--force'] = true;
@@ -199,5 +202,10 @@ class BadasoSetup extends Command
         Artisan::call('vendor:publish', $command_params);
 
         $this->info('Fime Manager provider published');
+    }
+
+    protected function publicFileFirebaseServiceWorker()
+    {
+        FirebasePublishFile::publishNow();
     }
 }

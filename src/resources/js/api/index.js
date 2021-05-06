@@ -1,5 +1,9 @@
 let exported = {};
 
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
+
 // DYNAMIC IMPORT BADASO API HELPER
 try {
   const modules = require.context("./modules", false, /\.js$/); //
@@ -58,14 +62,16 @@ try {
 
 // DYNAMIC IMPORT CUSTOM PLUGINS API HELPER
 try {
-  const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
-  if (plugins && plugins.length > 0) {
-    plugins.forEach(plugin => {
-      const modules = require("../../../../../" + plugin + "/src/resources/js/api/").default
-      Object.keys(modules).forEach((module, index) => {
-        exported[module] = modules[module];
-      })
-    });
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        const modules = require("../../../../../" + plugin + "/src/resources/js/api/").default
+        Object.keys(modules).forEach((module, index) => {
+          exported[module] = modules[module];
+        })
+      });
+    }
   }
 } catch (error) {
   console.info("There is no badaso plugins api helper", error);

@@ -269,6 +269,22 @@
                 <vs-icon icon="save"></vs-icon>
                 {{ $t("crudGenerated.add.button") }}
               </vs-button>
+              <vs-button
+                :to="{
+                  name: 'DataPendingAddBrowse',
+                  params: {
+                    urlBase64: base64PathName,
+                  },
+                }"
+                v-if="dataLength > 0 && !isOnline"
+                color="success"
+                type="relief"
+              >
+                <vs-icon icon="history"></vs-icon>
+                <strong
+                  >{{ dataLength }} {{ $t("offlineFeature.dataPending") }}
+                </strong>
+              </vs-button>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -295,6 +311,7 @@
 </template>
 
 <script>
+import { readObjectStore } from '../../utils/indexed-db';
 export default {
   name: "CrudGeneratedAdd",
   components: {},
@@ -303,10 +320,13 @@ export default {
     errors: {},
     dataType: {},
     relationData: {},
+    dataLength: 0,
+    pathname: location.pathname,
   }),
   mounted() {
     this.getDataType();
     this.getRelationDataBySlug();
+    this.requestObjectStoreData();
   },
   methods: {
     submitForm() {
@@ -341,6 +361,7 @@ export default {
           });
         })
         .catch((error) => {
+          this.requestObjectStoreData();
           this.errors = error.errors;
           this.$closeLoader();
           this.$vs.notify({
@@ -419,6 +440,24 @@ export default {
             color: "danger",
           });
         });
+    },
+    requestObjectStoreData() {
+      readObjectStore(this.pathname).then((store) => {
+        if (store.result) {
+          this.dataLength = store.result.data.length;
+        }
+      });
+    },
+  },
+  computed: {
+    isOnline: {
+      get() {
+        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
+    },
+    base64PathName() {
+      return window.btoa(location.pathname);
     },
   },
 };
