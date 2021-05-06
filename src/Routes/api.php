@@ -57,6 +57,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
 
         Route::group(['prefix' => 'configurations'], function () {
             Route::get('/applyable', 'BadasoConfigurationsController@applyable');
+            Route::get('/maintenance', 'BadasoConfigurationsController@isMaintenance');
 
             Route::get('/', 'BadasoConfigurationsController@browse')->middleware(BadasoCheckPermissions::class.':browse_configurations');
             Route::get('/read', 'BadasoConfigurationsController@read')->middleware(BadasoCheckPermissions::class.':read_configurations');

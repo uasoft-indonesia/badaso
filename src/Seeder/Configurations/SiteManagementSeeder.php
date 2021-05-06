@@ -125,6 +125,18 @@ class SiteManagementSeeder extends Seeder
                     'created_at'   => '2021-01-01 15:26:06',
                     'updated_at'   => '2021-01-01 15:26:06',
                 ],
+                9 => [
+                    'key'          => 'maintenance',
+                    'display_name' => 'Maintenance for all pages.',
+                    'value'        => '0',
+                    'details'      => 'Admin still can access the dashboard.',
+                    'type'         => 'switch',
+                    'order'        => 8,
+                    'group'        => 'adminPanel',
+                    'can_delete'   => 0,
+                    'created_at'   => '2021-01-01 15:26:06',
+                    'updated_at'   => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_settings = [];

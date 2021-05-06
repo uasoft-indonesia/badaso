@@ -6,6 +6,9 @@ import AuthContainer from "./../layout/auth/Container";
 import LandingPageContainer from "./../layout/public/Container";
 
 import PageNotFound from "./../pages/error/PageNotFound.vue";
+import Maintenance from "./../pages/maintenance.vue";
+
+import api from '../api/index'
 
 const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -116,6 +119,15 @@ const router = new VueRouter({
     },
     ..._otherRouters,
     {
+      path: prefix + "/maintenance",
+      name: "Maintenance",
+      component: Maintenance,
+      meta: {
+        title: "Oopps... We are currently under maintenance.",
+        guest: true,
+      },
+    },
+    {
       path: "*",
       component: AuthContainer,
       redirect: prefix + "/page-not-found",
@@ -135,20 +147,36 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? to.meta.title : to.name;
-  if (to.matched.some((record) => record.meta.authenticatedUser)) {
-    if (localStorage.getItem("token") == null) {
-      next({ name: "AuthLogin" });
-    } else {
-      next();
-    }
-  } else if (to.matched.some((record) => record.meta.guest)) {
-    if (localStorage.getItem("token") == null) {
-      next();
-    } else {
-      next({ name: "Home" });
-    }
-  } else {
+  if (to.matched.some((record) => record.name === 'Maintenance' || record.name === 'AuthLogin')) {
     next();
+  } else {
+    api.badasoConfiguration
+      .maintenance()
+      .then((res) => {
+        let maintenance = res.data.configuration.value === "1" ? true : false;
+  
+        if (maintenance) {
+          next({ name: "Maintenance" });
+
+        } else {
+          if (to.matched.some((record) => record.meta.authenticatedUser)) {
+            if (localStorage.getItem("token") == null) {
+              next({ name: "AuthLogin" });
+            } else {
+              next();
+            }
+          } else if (to.matched.some((record) => record.meta.guest)) {
+            if (localStorage.getItem("token") == null) {
+              next();
+            } else {
+              next({ name: "Home" });
+            }
+          } else {
+            next();
+          }
+        }
+      })
+      .catch((err) => {});
   }
 });
 

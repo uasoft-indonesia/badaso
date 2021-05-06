@@ -42,6 +42,19 @@ class BadasoConfigurationsController extends Controller
         }
     }
 
+    public function isMaintenance()
+    {
+        try {
+            $configuration = Configuration::where('key', 'maintenance')->firstOrFail();
+
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function applyable(Request $request)
     {
         try {
