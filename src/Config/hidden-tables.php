@@ -16,4 +16,6 @@
      'user_roles',
      'user_verifications',
      'email_resets',
+     'f_c_m_messages',
+     'firebase_cloud_messages',
  ];

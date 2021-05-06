@@ -267,10 +267,20 @@
                 <vs-icon icon="save"></vs-icon>
                 {{ $t("crudGenerated.edit.button") }}
               </vs-button>
-              <badaso-button-data-pending-update
-                v-if="!isOnline"
-                ref="refBadasoButtonDataPendingUpdate"
-              />
+              <vs-button
+                :to="{
+                  name: 'DataPendingEditRead',
+                  params: {
+                    urlBase64: base64PathName,
+                  },
+                }"
+                v-if="dataLength > 0 && !isOnline"
+                color="success"
+                type="relief"
+              >
+                <vs-icon icon="history"></vs-icon>
+                <strong>{{ $t("offlineFeature.dataUpdatePending") }}</strong>
+              </vs-button>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -298,22 +308,23 @@
 
 <script>
 import * as _ from "lodash";
-import BadasoButtonDataPendingUpdateVue from "../../components/BadasoButtonDataPendingUpdate.vue";
+import { readObjectStore } from "../../utils/indexed-db";
 
 export default {
   name: "CrudGeneratedEdit",
-  components: {
-    "badaso-button-data-pending-update": BadasoButtonDataPendingUpdateVue,
-  },
+  components: {},
   data: () => ({
     isValid: true,
     errors: {},
     dataType: {},
     relationData: {},
+    dataLength: 0,
+    pathname: location.pathname,
   }),
   mounted() {
     this.getDetailEntity();
     this.getRelationDataBySlug();
+    this.requestObjectStoreData();
   },
   methods: {
     submitForm() {
@@ -347,7 +358,7 @@ export default {
           });
         })
         .catch((error) => {
-          this.$refs.refBadasoButtonDataPendingUpdate.requestObjectStoreData();
+          this.requestObjectStoreData();
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -460,6 +471,13 @@ export default {
           });
         });
     },
+    requestObjectStoreData() {
+      readObjectStore(this.pathname).then((store) => {
+        if (store.result) {
+          this.dataLength = store.result.data.length;
+        }
+      });
+    },
   },
   computed: {
     isOnline: {
@@ -467,6 +485,9 @@ export default {
         let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
+    },
+    base64PathName() {
+      return window.btoa(location.pathname);
     },
   },
 };
