@@ -123,7 +123,7 @@ const router = new VueRouter({
       name: "Maintenance",
       component: Maintenance,
       meta: {
-        title: "Oopps... We are currently under maintenance.",
+        title: "Under Maintenance",
         guest: true,
       },
     },
@@ -147,36 +147,20 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? to.meta.title : to.name;
-  if (to.matched.some((record) => record.name === 'Maintenance' || record.name === 'AuthLogin')) {
-    next();
+  if (to.matched.some((record) => record.meta.authenticatedUser)) {
+    if (localStorage.getItem("token") == null) {
+      next({ name: "AuthLogin" });
+    } else {
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    if (localStorage.getItem("token") == null) {
+      next();
+    } else {
+      next({ name: "Home" });
+    }
   } else {
-    api.badasoConfiguration
-      .maintenance()
-      .then((res) => {
-        let maintenance = res.data.configuration.value === "1" ? true : false;
-  
-        if (maintenance) {
-          next({ name: "Maintenance" });
-
-        } else {
-          if (to.matched.some((record) => record.meta.authenticatedUser)) {
-            if (localStorage.getItem("token") == null) {
-              next({ name: "AuthLogin" });
-            } else {
-              next();
-            }
-          } else if (to.matched.some((record) => record.meta.guest)) {
-            if (localStorage.getItem("token") == null) {
-              next();
-            } else {
-              next({ name: "Home" });
-            }
-          } else {
-            next();
-          }
-        }
-      })
-      .catch((err) => {});
+    next();
   }
 });
 
