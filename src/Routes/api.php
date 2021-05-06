@@ -84,6 +84,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/item/permissions', 'BadasoMenuController@setMenuItemPermissions')->middleware(BadasoCheckPermissions::class.':edit_menu_items');
 
             Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');
+            Route::get('/item-by-keys', 'BadasoMenuController@browseMenuItemByKeys');
         });
 
         Route::group(['prefix' => 'users'], function () {

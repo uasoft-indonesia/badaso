@@ -39,14 +39,14 @@ export default {
       state.reduceSidebar = value;
     },
     FETCH_MENU(state) {
-      const menuKey = process.env.MIX_DEFAULT_MENU
-        ? process.env.MIX_DEFAULT_MENU
+      const menuKey = process.env.MIX_BADASO_MENU
+        ? process.env.MIX_BADASO_MENU
         : "admin";
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
       api.badasoMenu
-        .browseItemByKey({
+        .browseItemByKeys({
           menu_key: menuKey,
         })
         .then((res) => {
@@ -59,7 +59,7 @@ export default {
                 if (helpers.isValidHttpUrl(item.url)) {
                   item.url = item.url;
                 } else {
-                  item.url = "/" + prefix + "/admin" + item.url;
+                  item.url = "/" + prefix + "" + item.url;
                 }
     
                 if (item.children && item.children.length > 0) {
@@ -67,7 +67,7 @@ export default {
                     if (helpers.isValidHttpUrl(subItem.url)) {
                       subItem.url = subItem.url;
                     } else {
-                      subItem.url = "/" + prefix + "/admin" + subItem.url;
+                      subItem.url = "/" + prefix + "" + subItem.url;
                     }
                     return subItem;
                   });
@@ -115,7 +115,7 @@ export default {
           menu_key: "configuration",
         })
         .then((res) => {
-          let menuItems = res.data[0].menuItems;
+          let menuItems = res.data.menuItems;
           menuItems.map((item) => {
             if (helpers.isValidHttpUrl(item.url)) {
               item.url = item.url;
@@ -136,7 +136,7 @@ export default {
             return item;
           });
           state.configurationMenu = {
-            menu: res.data[0].menu,
+            menu: res.data.menu,
             menuItems: menuItems,
           };
         })
