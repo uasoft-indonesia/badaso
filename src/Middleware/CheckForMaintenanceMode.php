@@ -66,6 +66,10 @@ class CheckForMaintenanceMode
     public function handle($request, Closure $next)
     {
         if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance()) {
+            if ($this->isAdministrator()) {
+                dd('masuk');
+            }
+
             if ($this->inExceptArray($request)) {
                 return $next($request);
             }
@@ -81,6 +85,12 @@ class CheckForMaintenanceMode
         $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
         $this->when_down = (string) $maintenance->updated_at;
         return $maintenance->value === "1" ? true : false;
+    }
+
+    protected function isAdministrator()
+    {
+        $user_id = auth()->user();
+        dd($user_id);
     }
 
     protected function inExceptArray($request)
