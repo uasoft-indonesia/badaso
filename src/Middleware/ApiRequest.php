@@ -5,9 +5,10 @@ namespace Uasoft\Badaso\Middleware;
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Uasoft\Badaso\Helpers\CaseConvert;
-use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\Configuration;
+use Uasoft\Badaso\Models\DataType;
 
 class ApiRequest
 {
@@ -53,7 +54,7 @@ class ApiRequest
 
         $request->merge(CaseConvert::snake($request->all()));
 
-        if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance()) {
+        if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance() || $this->isCrudGeneratedMaintenance($request)) {
             if ($this->isAdministrator()) {
                 return $next($request);
             }
@@ -61,7 +62,7 @@ class ApiRequest
             if ($this->inExceptArray($request)) {
                 return $next($request);
             }
-
+            
             return ApiResponse::serviceUnavailable();
         }
 
@@ -90,6 +91,21 @@ class ApiRequest
             }
         }
         
+        return false;
+    }
+
+    protected function isCrudGeneratedMaintenance($request)
+    {
+        $slug = $request->query();
+
+        if (isset($slug['slug'])) {
+            $data_type = DataType::where('slug', $slug['slug'])->first();
+            if ($data_type) {
+                return $data_type->is_maintenance === 1 ? true : false;
+            }
+        }
+        
+
         return false;
     }
 

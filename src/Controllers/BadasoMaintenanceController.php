@@ -40,7 +40,7 @@ class BadasoMaintenanceController extends Controller
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->excepts = config('badaso.whitelist.web');
+        $this->excepts = config('badaso.whitelist.badaso');
         $this->prefix = config('badaso.admin_panel_route_prefix');
     }
 

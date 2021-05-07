@@ -18,6 +18,12 @@ export default (error) => {
       message: data.message ? data.message : "",
     });
     return Promise.reject(data);
+  } else if (status === 503) {
+    let data = error.response.data;
+    let message = error.response.data.message;
+    data.status = status;
+    data.message = message;
+    return Promise.reject(data);
   }
 
   return Promise.reject({});
