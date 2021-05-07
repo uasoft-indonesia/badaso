@@ -91,12 +91,12 @@ export default {
   name: "CrudGeneratedSort",
   components: {
     draggable,
-    isMaintenance: false
   },
   data: () => ({
     dataType: {},
     record: {},
     data: [],
+    isMaintenance: false
   }),
   mounted() {
     this.getAllEntityData();
@@ -147,3 +147,20 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+</style>

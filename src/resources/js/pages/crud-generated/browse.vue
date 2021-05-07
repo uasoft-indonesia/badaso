@@ -1,7 +1,7 @@
 <template>
   <div>
-    <template v-if="!isMaintenance">
-      <badaso-breadcrumb-row full>
+    <template v-if="!showMaintenancePage">
+      <badaso-breadcrumb-hover full>
         <template slot="action">
           <download-excel
               :data="records"
@@ -10,61 +10,52 @@
               :name="dataType.displayNameSingular + '.xls'"
               style="display: contents"
             >
-            <vs-button
-              color="primary"
-              type="relief"
+            <badaso-dropdown-item
+              icon="file_upload"
               v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
-              style="margin-bottom: 4px"
-              >
-              <vs-icon icon="file_upload"></vs-icon> {{ $t("action.exportToExcel") }}
-            </vs-button>
+            >
+              {{ $t("action.exportToExcel") }}
+            </badaso-dropdown-item>
           </download-excel>
-          <vs-button
-            color="primary"
-            type="relief"
+          <badaso-dropdown-item
+            icon="file_upload"
             v-if=" $helper.isAllowedToModifyGeneratedCRUD('browse', dataType) "
             @click="generatePdf"
-            >
-            <vs-icon icon="file_upload"></vs-icon> {{ $t("action.exportToPdf") }}
-          </vs-button>
-          <vs-button
-            color="primary"
-            type="relief"
-            :to="{ name: 'CrudGeneratedAdd' }"
-            v-if="
-              isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
-            "
-            ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
           >
-          <vs-button
-            color="success"
-            type="relief"
+            {{ $t("action.exportToPdf") }}
+          </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="add"
+            :to="{ name: 'CrudGeneratedAdd' }"
+            v-if="isCanAdd && $helper.isAllowedToModifyGeneratedCRUD('add', dataType)"
+          >
+            {{ $t("action.add") }}
+          </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="list"
             :to="{ name: 'CrudGeneratedSort' }"
             v-if="isCanSort && $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
-            ><vs-icon icon="list"></vs-icon> {{ $t("action.sort") }}</vs-button
           >
-          <vs-button
-            color="danger"
-            type="relief"
-            v-if="
-              selected.length > 0 &&
-                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
-            "
+            {{ $t("action.sort") }}
+          </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="delete_sweep"
+            v-if="selected.length > 0 && $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)"
             @click.stop
             @click="confirmDeleteMultiple"
-            ><vs-icon icon="delete_sweep"></vs-icon>
-            {{ $t("action.bulkDelete") }}</vs-button
           >
-          <vs-button
-            color="primary"
-            type="relief"
+            {{ $t("action.bulkDelete") }}
+          </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="settings"
             v-if="$helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)"
             @click.stop
             @click="openMaintenanceDialog"
-            ><vs-icon icon="settings"></vs-icon></vs-button
           >
+            {{ $t('crudGenerated.maintenanceDialog.title') }}
+          </badaso-dropdown-item>
         </template>
-      </badaso-breadcrumb-row>
+      </badaso-breadcrumb-hover>
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
@@ -559,25 +550,22 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-popup class="holamundo"  :title="$t('crudGenerated.maintenanceDialog.title')" :active.sync="maintenanceDialog">
-          <vs-row>
-            <badaso-switch
-              :label="$t('crudGenerated.maintenanceDialog.switch')"
-              :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
-              v-model="isMaintenance"
-              size="12"
-              :alert="errors['is_maintenance']"
-            ></badaso-switch>
-            <vs-button
-              color="primary"
-              type="relief"
-              v-if=" $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType) "
-              @click="saveMaintenanceState"
-              >
-              <vs-icon icon="save"></vs-icon> {{ $t("crudGenerated.maintenanceDialog.button") }}
-            </vs-button>
-          </vs-row>
-        </vs-popup>
+        <vs-prompt
+          class="mb-0"
+          @accept="saveMaintenanceState"
+          :active.sync="maintenanceDialog">
+          <div class="con-exemple-prompt mb-0">
+            <vs-row class="mb-0">
+              <badaso-switch
+                :label="$t('crudGenerated.maintenanceDialog.switch')"
+                :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
+                v-model="isMaintenance"
+                size="12"
+                :alert="errors['is_maintenance']"
+              ></badaso-switch>
+            </vs-row>
+          </div>
+        </vs-prompt>
       </vs-row>
       <vs-row v-else>
         <vs-col vs-lg="12">
@@ -597,7 +585,7 @@
         </vs-col>
       </vs-row>
     </template>
-    <template v-if="isMaintenance">
+    <template v-if="showMaintenancePage">
       <badaso-breadcrumb-row full>
       </badaso-breadcrumb-row>
 
@@ -645,6 +633,7 @@ export default {
     fieldsForPdf: [],
     maintenanceDialog: false,
     isMaintenance: false,
+    showMaintenancePage: false
   }),
   watch: {
     $route: function(to, from) {
@@ -736,7 +725,7 @@ export default {
         })
         .catch((error) => {
           if (error.status === 503) {
-            this.isMaintenance = true;
+            this.showMaintenancePage = true;
           }
           this.$closeLoader();
           this.$vs.notify({
@@ -879,7 +868,6 @@ export default {
         })
         .then((response) => {
           this.maintenanceDialog = false;
-          this.getEntity();
         })
         .catch((error) => {
           this.errors = error.errors;

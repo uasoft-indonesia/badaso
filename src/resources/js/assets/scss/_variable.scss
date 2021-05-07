@@ -116,3 +116,7 @@ $border-color: rgba(0, 0, 0, 0.1);
 
 $scoll-color: rgba(var(--vs-primary), 0.2);
 $scoll-hover-color: #2962ff;
+
+:root {
+  --vs-primary: 6,187,211 !important;
+}

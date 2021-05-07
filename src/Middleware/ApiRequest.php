@@ -96,16 +96,21 @@ class ApiRequest
 
     protected function isCrudGeneratedMaintenance($request)
     {
-        $slug = $request->query();
+        $slug = "";
 
-        if (isset($slug['slug'])) {
-            $data_type = DataType::where('slug', $slug['slug'])->first();
-            if ($data_type) {
-                return $data_type->is_maintenance === 1 ? true : false;
-            }
+        if (isset($request->query()['slug'])) {
+            $slug = $request->query()['slug'];
+        } 
+        
+        if (preg_match('/\bentities\b/', $request->path())) {
+            $slug = explode('/', explode('/entities/', $request->path())[1])[0];
+        }
+
+        $data_type = DataType::where('slug', $slug)->first();
+        if ($data_type) {
+            return $data_type->is_maintenance === 1 ? true : false;
         }
         
-
         return false;
     }
 
