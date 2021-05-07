@@ -600,6 +600,17 @@
             </div>
           </vs-card>
         </vs-col>
+        <vs-prompt @accept="saveMaintenanceState" :active.sync="maintenanceDialog" class="mb-0">
+          <vs-row class="mb-0">
+            <badaso-switch
+              :label="$t('crudGenerated.maintenanceDialog.switch')"
+              :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
+              v-model="isMaintenance"
+              size="12"
+              :alert="errors['is_maintenance']"
+            ></badaso-switch>
+          </vs-row>
+        </vs-prompt>
       </vs-row>
       <vs-row v-else>
         <vs-col vs-lg="12">
@@ -959,6 +970,9 @@ export default {
           string.charAt(0).toUpperCase() + string.slice(1)
         );
       }
+    },
+    openMaintenanceDialog() {
+      this.maintenanceDialog = true
     },
     saveMaintenanceState() {
       this.$api.badasoEntity
