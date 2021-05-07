@@ -52,6 +52,6 @@ return [
             '/v1/maintenance',
             '/v1/auth/login',
             '/v1/file/*',
-        ]
-    ]
+        ],
+    ],
 ];
