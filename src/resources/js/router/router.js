@@ -147,18 +147,31 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? to.meta.title : to.name;
-  if (to.matched.some((record) => record.meta.authenticatedUser)) {
-    if (localStorage.getItem("token") == null) {
-      next({ name: "AuthLogin" });
-    } else {
-      next();
-    }
-  } else if (to.matched.some((record) => record.meta.guest)) {
-    if (localStorage.getItem("token") == null) {
-      next();
-    } else {
-      next({ name: "Home" });
-    }
+  if (to.matched.some((record) => record.name !== "Maintenance")) {
+    api.badasoMaintenance.maintenance({
+      path: to.path
+    })
+    .then((res) => {
+      if (res.data.maintenance) {
+        next({ name: "Maintenance" });
+      } else {
+        if (to.matched.some((record) => record.meta.authenticatedUser)) {
+          if (localStorage.getItem("token") == null) {
+            next({ name: "AuthLogin" });
+          } else {
+            next();
+          }
+        } else if (to.matched.some((record) => record.meta.guest)) {
+          if (localStorage.getItem("token") == null) {
+            next();
+          } else {
+            next({ name: "Home" });
+          }
+        } else {
+          next();
+        }
+      }
+    }).catch((err) => {});
   } else {
     next();
   }

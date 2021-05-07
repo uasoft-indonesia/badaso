@@ -145,6 +145,10 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug');
         });
 
+        Route::group(['prefix' => 'maintenance'], function () {
+            Route::post('/', 'BadasoMaintenanceController@isMaintenance');
+        });
+
         Route::group(['prefix' => 'entities'], function () {
             try {
                 foreach (Badaso::model('DataType')::all() as $data_type) {

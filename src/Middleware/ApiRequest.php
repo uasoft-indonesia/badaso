@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Foundation\Application;
 use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
@@ -10,6 +11,40 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 
 class ApiRequest
 {
+    /**
+     * The application implementation.
+     *
+     * @var \Illuminate\Contracts\Foundation\Application
+     */
+    protected $app;
+
+    /**
+     * The URIs that should be accessible while maintenance mode is enabled.
+     *
+     * @var array
+     */
+    protected $except = [];
+
+    /**
+     * URIs prefix.
+     *
+     * @var string
+     */
+    protected $prefix = null;
+
+    /**
+     * Create a new middleware instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+        $this->except = config('badaso.whitelist');
+        $this->prefix = config('badaso.api_route_prefix');
+    }
+
     public function handle($request, Closure $next)
     {
         $lang = ($request->hasHeader('Accept-Language')) ? $request->header('Accept-Language') : 'en';
@@ -18,6 +53,64 @@ class ApiRequest
 
         $request->merge(CaseConvert::snake($request->all()));
 
+        if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance()) {
+            if ($this->isAdministrator()) {
+                return $next($request);
+            }
+
+            if ($this->inExceptArray($request)) {
+                return $next($request);
+            }
+
+            return ApiResponse::serviceUnavailable();
+        }
+
         return $next($request);
+    }
+
+    protected function isUnderMaintenance()
+    {
+        $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+        return $maintenance->value === '1' ? true : false;
+    }
+
+    protected function isAdministrator()
+    {
+        $user = auth()->user();
+        if (isset($user)) {
+            $roles = $user->roles ?? null;
+            if (isset($roles)) {
+                $role = $roles->first() ?? null;
+                if (isset($role)) {
+                    $role_name = $role->name ?? null;
+                    if ($role_name === 'administrator') {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    protected function inExceptArray($request)
+    {
+        $excepts = [];
+
+        foreach ($this->except['api'] as $key => $path) {
+            $excepts[] = $this->prefix . $path;
+        }
+        
+        foreach ($excepts as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->fullUrlIs($except) || $request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

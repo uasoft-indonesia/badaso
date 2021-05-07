@@ -13,7 +13,6 @@ use Uasoft\Badaso\Commands\BadasoFirebaseCommand;
 use Uasoft\Badaso\Commands\BadasoSetup;
 use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
-use Illuminate\Contracts\Http\Kernel;
 use Uasoft\Badaso\Middleware\CheckForMaintenanceMode;
 
 class BadasoServiceProvider extends ServiceProvider
@@ -28,8 +27,8 @@ class BadasoServiceProvider extends ServiceProvider
         $loader = AliasLoader::getInstance();
         $loader->alias('Badaso', FacadesBadaso::class);
 
-        $kernel = $this->app->make(Kernel::class);
-        $kernel->pushMiddleware(CheckForMaintenanceMode::class);
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', CheckForMaintenanceMode::class);
 
         $this->app->singleton('badaso', function () {
             return new Badaso();

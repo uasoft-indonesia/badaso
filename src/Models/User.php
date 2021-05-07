@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Uasoft\Badaso\Models\Role;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -84,5 +85,10 @@ class User extends Authenticatable implements JWTSubject
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 }

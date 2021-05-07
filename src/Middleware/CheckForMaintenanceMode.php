@@ -23,22 +23,14 @@ class CheckForMaintenanceMode
      *
      * @var array
      */
-    protected $except = [];
-
-    /**
-     * When the maintenance down.
-     *
-     * @var array
-     */
-    protected $when_down = null;
+    protected $excepts = [];
 
     /**
      * URIs prefix.
      *
      * @var string
      */
-    protected $api_prefix = null;
-    protected $web_prefix = null;
+    protected $prefix = null;
 
     /**
      * Create a new middleware instance.
@@ -49,9 +41,8 @@ class CheckForMaintenanceMode
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->except = config('badaso.whitelist');
-        $this->api_prefix = config('badaso.api_route_prefix');
-        $this->web_prefix = config('badaso.admin_panel_route_prefix');
+        $this->excepts = config('badaso.whitelist.web');
+        $this->prefix = config('badaso.admin_panel_route_prefix');
     }
 
     /**
@@ -67,14 +58,14 @@ class CheckForMaintenanceMode
     {
         if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance()) {
             if ($this->isAdministrator()) {
-                dd('masuk');
+                return $next($request);
             }
 
             if ($this->inExceptArray($request)) {
                 return $next($request);
             }
 
-            return redirect($this->web_prefix . '/maintenance');
+            return redirect($this->prefix . '/maintenance');
         }
 
         return $next($request);
@@ -83,32 +74,12 @@ class CheckForMaintenanceMode
     protected function isUnderMaintenance()
     {
         $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
-        $this->when_down = (string) $maintenance->updated_at;
         return $maintenance->value === "1" ? true : false;
-    }
-
-    protected function isAdministrator()
-    {
-        $user_id = auth()->user();
-        dd($user_id);
     }
 
     protected function inExceptArray($request)
     {
-        $api = [];
-        $web = [];
-
-        foreach ($this->except['api'] as $key => $path) {
-            $api[] = $this->api_prefix . $path;
-        }
-
-        foreach ($this->except['web'] as $key => $path) {
-            $web[] = $this->web_prefix . $path;
-        }
-
-        $excepts = array_merge($web, $api);
-        
-        foreach ($excepts as $except) {
+        foreach ($this->excepts as $except) {
             if ($except !== '/') {
                 $except = trim($except, '/');
             }
@@ -118,6 +89,25 @@ class CheckForMaintenanceMode
             }
         }
 
+        return false;
+    }
+
+    protected function isAdministrator()
+    {
+        $user = auth()->user();
+        if (isset($user)) {
+            $roles = $user->roles ?? null;
+            if (isset($roles)) {
+                $role = $roles->first() ?? null;
+                if (isset($role)) {
+                    $role_name = $role->name ?? null;
+                    if ($role_name === 'administrator') {
+                        return true;
+                    }
+                }
+            }
+        }
+        
         return false;
     }
 }
