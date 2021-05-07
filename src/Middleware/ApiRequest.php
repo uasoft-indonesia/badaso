@@ -4,9 +4,8 @@ namespace Uasoft\Badaso\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
-use Uasoft\Badaso\Helpers\CaseConvert;
-use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Models\DataType;
 
@@ -62,7 +61,7 @@ class ApiRequest
             if ($this->inExceptArray($request)) {
                 return $next($request);
             }
-            
+
             return ApiResponse::serviceUnavailable();
         }
 
@@ -72,6 +71,7 @@ class ApiRequest
     protected function isUnderMaintenance()
     {
         $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+
         return $maintenance->value === '1' ? true : false;
     }
 
@@ -90,18 +90,18 @@ class ApiRequest
                 }
             }
         }
-        
+
         return false;
     }
 
     protected function isCrudGeneratedMaintenance($request)
     {
-        $slug = "";
+        $slug = '';
 
         if (isset($request->query()['slug'])) {
             $slug = $request->query()['slug'];
-        } 
-        
+        }
+
         if (preg_match('/\bentities\b/', $request->path())) {
             $slug = explode('/', explode('/entities/', $request->path())[1])[0];
         }
@@ -110,7 +110,7 @@ class ApiRequest
         if ($data_type) {
             return $data_type->is_maintenance === 1 ? true : false;
         }
-        
+
         return false;
     }
 
@@ -119,9 +119,9 @@ class ApiRequest
         $excepts = [];
 
         foreach ($this->except['api'] as $key => $path) {
-            $excepts[] = $this->prefix . $path;
+            $excepts[] = $this->prefix.$path;
         }
-        
+
         foreach ($excepts as $except) {
             if ($except !== '/') {
                 $except = trim($except, '/');

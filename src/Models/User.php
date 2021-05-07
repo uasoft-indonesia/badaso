@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Uasoft\Badaso\Models\Role;
 
 class User extends Authenticatable implements JWTSubject
 {

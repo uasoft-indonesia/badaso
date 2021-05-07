@@ -19,7 +19,7 @@ class Permission extends Model
         $permissions[] = self::firstOrCreate(['key' => 'edit_'.$table_name, 'description' => 'Edit '.$table_name, 'table_name' => $table_name]);
         $permissions[] = self::firstOrCreate(['key' => 'add_'.$table_name, 'description' => 'Add '.$table_name, 'table_name' => $table_name]);
         $permissions[] = self::firstOrCreate(['key' => 'delete_'.$table_name, 'description' => 'Delete '.$table_name, 'table_name' => $table_name]);
-        
+
         if ($is_maintenance) {
             $permissions[] = self::firstOrCreate(['key' => 'maintenance_'.$table_name, 'description' => 'Maintenance '.$table_name, 'table_name' => $table_name]);
         }

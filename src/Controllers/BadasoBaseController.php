@@ -288,7 +288,7 @@ class BadasoBaseController extends Controller
         try {
             $request->validate([
                 'slug' => 'required|exists:data_types,slug',
-                'is_maintenance' => 'required'
+                'is_maintenance' => 'required',
             ]);
 
             $data_type = DataType::where('slug', $request->slug)->firstOrFail();
@@ -296,6 +296,7 @@ class BadasoBaseController extends Controller
             $data_type->save();
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

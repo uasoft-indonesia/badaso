@@ -3,11 +3,8 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
-use Uasoft\Badaso\Helpers\CaseConvert;
-use Uasoft\Badaso\Models\Configuration;
-use Uasoft\Badaso\Helpers\AuthenticatedUser;
-use Uasoft\Badaso\Helpers\ApiResponse;
 use Illuminate\Contracts\Foundation\Application;
+use Uasoft\Badaso\Models\Configuration;
 
 class CheckForMaintenanceMode
 {
@@ -65,7 +62,7 @@ class CheckForMaintenanceMode
                 return $next($request);
             }
 
-            return redirect($this->prefix . '/maintenance');
+            return redirect($this->prefix.'/maintenance');
         }
 
         return $next($request);
@@ -74,7 +71,8 @@ class CheckForMaintenanceMode
     protected function isUnderMaintenance()
     {
         $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
-        return $maintenance->value === "1" ? true : false;
+
+        return $maintenance->value === '1' ? true : false;
     }
 
     protected function inExceptArray($request)
@@ -107,7 +105,7 @@ class CheckForMaintenanceMode
                 }
             }
         }
-        
+
         return false;
     }
 }

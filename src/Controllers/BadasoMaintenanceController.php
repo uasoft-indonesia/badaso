@@ -64,7 +64,7 @@ class BadasoMaintenanceController extends Controller
     private function inExceptArray($request)
     {
         foreach ($this->excepts as $except) {
-            $except = '/' . $this->prefix . $except;
+            $except = '/'.$this->prefix.$except;
             $path = trim($request->path, '/');
 
             if ($except !== '/') {
@@ -82,7 +82,8 @@ class BadasoMaintenanceController extends Controller
     private function isUnderMaintenance()
     {
         $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
-        return $maintenance->value === "1" ? true : false;
+
+        return $maintenance->value === '1' ? true : false;
     }
 
     private function getRolesByToken(Request $request)
@@ -121,7 +122,7 @@ class BadasoMaintenanceController extends Controller
                 }
             }
         }
-        
+
         return false;
     }
 }
