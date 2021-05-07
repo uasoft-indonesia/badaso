@@ -859,6 +859,11 @@ export default {
     sort: {
       title: "Sort {tableName}",
     },
+    maintenanceDialog: {
+      title: "Setting",
+      switch: "Maintenance Mode",
+      button: "Save"
+    }
   },
   keyIssue: {
     title: "License Issues",

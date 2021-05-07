@@ -859,6 +859,11 @@ export default {
     sort: {
       title: "Menyortir {tableName}",
     },
+    maintenanceDialog: {
+      title: "Pengaturan",
+      switch: "Mode Maintenance",
+      button: "Simpan"
+    }
   },
   keyIssue: {
     title: "License Issues",

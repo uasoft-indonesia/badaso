@@ -224,7 +224,7 @@ class BadasoCRUDController extends Controller
             }
 
             if ($data_type->generate_permissions) {
-                Permission::generateFor($data_type->name);
+                Permission::generateFor($data_type->name, true);
             } else {
                 Permission::removeFrom($data_type->name);
             }
@@ -342,7 +342,7 @@ class BadasoCRUDController extends Controller
             $new_data_type->data_rows = $new_data_rows;
 
             if ($new_data_type->generate_permissions) {
-                Permission::generateFor($new_data_type->name);
+                Permission::generateFor($new_data_type->name, true);
             }
 
             $this->addEditMenuItem($new_data_type);

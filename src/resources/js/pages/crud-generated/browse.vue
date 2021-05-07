@@ -57,6 +57,14 @@
           ><vs-icon icon="delete_sweep"></vs-icon>
           {{ $t("action.bulkDelete") }}</vs-button
         >
+        <vs-button
+          color="primary"
+          type="relief"
+          v-if="$helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)"
+          @click.stop
+          @click="openMaintenanceDialog"
+          ><vs-icon icon="settings"></vs-icon></vs-button
+        >
       </template>
     </badaso-breadcrumb-row>
 
@@ -553,6 +561,25 @@
           </div>
         </vs-card>
       </vs-col>
+      <vs-popup class="holamundo"  :title="$t('crudGenerated.maintenanceDialog.title')" :active.sync="maintenanceDialog">
+        <vs-row>
+          <badaso-switch
+            :label="$t('crudGenerated.maintenanceDialog.switch')"
+            :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
+            v-model="isMaintenance"
+            size="12"
+            :alert="errors['is_maintenance']"
+          ></badaso-switch>
+          <vs-button
+            color="primary"
+            type="relief"
+            v-if=" $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType) "
+            @click="saveMaintenanceState"
+            >
+            <vs-icon icon="save"></vs-icon> {{ $t("crudGenerated.maintenanceDialog.button") }}
+          </vs-button>
+        </vs-row>
+      </vs-popup>
     </vs-row>
     <vs-row v-else>
       <vs-col vs-lg="12">
@@ -602,7 +629,9 @@ export default {
     orderDirection: "",
     rowPerPage: null,
     fieldsForExcel: {},
-    fieldsForPdf: []
+    fieldsForPdf: [],
+    maintenanceDialog: false,
+    isMaintenance: false
   }),
   watch: {
     $route: function(to, from) {
@@ -646,6 +675,9 @@ export default {
         cancel: () => {},
       });
     },
+    openMaintenanceDialog(id) {
+      this.maintenanceDialog = true
+    },
     getEntity() {
       this.$openLoader();
       this.$api.badasoEntity
@@ -666,6 +698,8 @@ export default {
               ? Math.ceil(response.data.entities.total / this.limit)
               : 1;
           this.dataType = response.data.dataType;
+          console.log(this.dataType);
+          this.isMaintenance = this.dataType.isMaintenance === 1 ? true : false;
           let dataRows = this.dataType.dataRows.map((data) => {
             try {
               data.details = JSON.parse(data.details);
@@ -821,6 +855,9 @@ export default {
         let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
         this.fieldsForPdf.push(string.charAt(0).toUpperCase() + string.slice(1))
       }
+    },
+    saveMaintenanceState() {
+      this.maintenanceDialog = false;
     },
     generatePdf() {
       var data = this.records;
