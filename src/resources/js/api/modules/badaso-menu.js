@@ -13,6 +13,13 @@ export default {
     return resource.get(url);
   },
 
+  browseItemByKeys(data) {
+    let ep = apiPrefix + "/v1/menus/item-by-keys";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
   browse(data = {}) {
     let ep = apiPrefix + "/v1/menus";
     let qs = QueryString(data);

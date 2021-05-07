@@ -53,15 +53,21 @@
           </vs-dropdown-menu>
         </vs-dropdown>
       </div>
+      <div slot="right_menu" class="mr-2">
+        <kbd v-if="!isOnline">
+          Offline.
+        </kbd>
+      </div>
       <div slot="right_menu">
-        <badaso-notification-message :topbarFontColor="topbarFontColor" ></badaso-notification-message>
+        <badaso-notification-message
+          :topbarFontColor="topbarFontColor"
+        ></badaso-notification-message>
       </div>
     </badaso-navbar>
   </header>
 </template>
 
 <script>
-import { keyMessageNotification } from "../../../utils/firebase";
 export default {
   name: "Navbar",
   components: {},
@@ -91,7 +97,7 @@ export default {
     indexActive: 0,
     showToggle: false,
     totalMessageNotification: 0,
-    active : false,
+    active: false,
   }),
   computed: {
     user: {
@@ -118,6 +124,12 @@ export default {
     getSelectedLocale: {
       get() {
         return this.$store.getters["badaso/getSelectedLocale"];
+      },
+    },
+    isOnline: {
+      get() {
+        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
       },
     },
   },
@@ -149,6 +161,5 @@ export default {
       this.$store.commit("badaso/SET_LOCALE", item);
     },
   },
-  mounted() {},
 };
 </script>

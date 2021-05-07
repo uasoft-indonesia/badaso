@@ -1,7 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import _ from "lodash";
 
 let exported = {};
+
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
 
 // DYNAMIC IMPORT BADASO STORES
 try {
@@ -55,6 +60,21 @@ try {
       .join("");
     exported[property] = customModules(fileName).default;
   });
+} catch (error) {
+  console.info("Failed to load custom stores", error);
+}
+
+// DYNAMIC IMPORT BADASO PLUGINS STORES
+try {
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        const modules = require("../../../../../" + plugin + "/src/resources/js/store/badaso.js").default
+        exported.badaso = _.merge(exported.badaso, modules);
+      });
+    }
+  }
 } catch (error) {
   console.info("Failed to load custom stores", error);
 }

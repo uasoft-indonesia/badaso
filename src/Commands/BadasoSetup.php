@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
 
 class BadasoSetup extends Command
 {
@@ -59,6 +60,7 @@ class BadasoSetup extends Command
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
         $this->publishLaravelFileManager();
+        $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
     }
 
@@ -68,6 +70,7 @@ class BadasoSetup extends Command
         $decoded_json = json_decode($package_json, true);
         $decoded_json['devDependencies']['axios'] = '^0.18';
         $decoded_json['devDependencies']['bootstrap'] = '^4.0.0';
+        $decoded_json['devDependencies']['copy-files-from-to'] = '^3.2.0';
         $decoded_json['devDependencies']['popper.js'] = '^1.12';
         $decoded_json['devDependencies']['cross-env'] = '^5.1';
         $decoded_json['devDependencies']['jquery'] = '^3.2';
@@ -76,6 +79,7 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['vue'] = '^2.5.7';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
+        $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
         $decoded_json['dependencies']['chart.js'] = '^2.8.0';
         $decoded_json['dependencies']['jspdf'] = '^2.3.1';
         $decoded_json['dependencies']['jspdf-autotable'] = '^3.5.14';
@@ -83,6 +87,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['material-icons'] = '^0.3.1';
         $decoded_json['dependencies']['prismjs'] = '^1.17.1';
+        $decoded_json['dependencies']['tinymce'] = '^5.7.1';
         $decoded_json['dependencies']['vue-chartjs'] = '^3.4.2';
         $decoded_json['dependencies']['vue-color'] = '^2.7.1';
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
@@ -99,6 +104,13 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
+        $decoded_json['dependencies']['firebase'] = '^8.4.2';
+
+        $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
+        $decoded_json['copyFiles'][0] = (object) [
+            'from' => 'node_modules/tinymce/**/*',
+            'to' => 'public/js/',
+        ];
 
         $encoded_json = json_encode($decoded_json, JSON_PRETTY_PRINT);
         file_put_contents(base_path('package.json'), $encoded_json);
@@ -165,7 +177,7 @@ class BadasoSetup extends Command
     {
         $command_params = [
             '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
-            '--tag'      => 'config',
+            '--tag' => 'config',
         ];
         if ($this->force) {
             $command_params['--force'] = true;
@@ -190,5 +202,10 @@ class BadasoSetup extends Command
         Artisan::call('vendor:publish', $command_params);
 
         $this->info('Fime Manager provider published');
+    }
+
+    protected function publicFileFirebaseServiceWorker()
+    {
+        FirebasePublishFile::publishNow();
     }
 }

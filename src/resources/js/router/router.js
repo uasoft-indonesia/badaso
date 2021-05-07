@@ -14,10 +14,19 @@ const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-admin";
 
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
+
 let _authRouters = [];
 let _publicRouters = [];
 let _adminRouters = [];
 let _otherRouters = [];
+
+let _pluginRouters = [];
+_pluginRouters["AdminContainer"] = [];
+_pluginRouters["AuthContainer"] = [];
+_pluginRouters["LandingPageContainer"] = [];
 
 // DYNAMIC IMPORT BADASO ROUTERS
 try {
@@ -40,8 +49,39 @@ try {
   otherRouters.keys().forEach((fileName) => {
     _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
   });
+
+  // DYNAMIC IMPORT BADASO PLUGINS ROUTERS
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        let routes = require('../../../../../' + plugin + '/src/resources/js/router/routes.js').default;
+        let adminRouters = [];
+        let authRouters = [];
+        let landingPageRouters = [];
+        routes.forEach(route => {
+          switch (route.meta.useComponent) {
+            case "AdminContainer":
+              adminRouters = [...routes];
+              break;
+            case "AuthContainer":
+              authRouters = [...routes];
+              break;
+            case "LandingPageContainer":
+              landingPageRouters = [...routes];
+              break;
+            default:
+              break;
+          }
+        })
+        _pluginRouters["AdminContainer"] = adminRouters;
+        _pluginRouters["AuthContainer"] = authRouters;
+        _pluginRouters["LandingPageContainer"] = landingPageRouters;
+      });
+    }
+  }
 } catch (error) {
-  console.info("Failed to load badaso routers", error);
+  console.info("Failed to load badaso plugin routers", error);
 }
 
 // DYNAMIC IMPORT CUSTOM ROUTERS
@@ -97,7 +137,10 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: _authRouters,
+      children: [
+        ..._authRouters,
+        ..._pluginRouters['AuthContainer']
+      ],
     },
     {
       path: "",
@@ -106,7 +149,10 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: _publicRouters,
+      children: [
+        ..._publicRouters,
+        ..._pluginRouters['LandingPageContainer']
+      ],
     },
     {
       path: "",
@@ -115,7 +161,10 @@ const router = new VueRouter({
       meta: {
         authenticatedUser: true,
       },
-      children: _adminRouters,
+      children: [
+        ..._adminRouters,
+        ..._pluginRouters['AdminContainer']
+      ],
     },
     ..._otherRouters,
     {

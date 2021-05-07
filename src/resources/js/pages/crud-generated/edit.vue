@@ -268,6 +268,20 @@
                   <vs-icon icon="save"></vs-icon>
                   {{ $t("crudGenerated.edit.button") }}
                 </vs-button>
+                <vs-button
+                  :to="{
+                    name: 'DataPendingEditRead',
+                    params: {
+                      urlBase64: base64PathName,
+                    },
+                  }"
+                  v-if="dataLength > 0 && !isOnline"
+                  color="success"
+                  type="relief"
+                >
+                  <vs-icon icon="history"></vs-icon>
+                  <strong>{{ $t("offlineFeature.dataUpdatePending") }}</strong>
+                </vs-button>
               </vs-col>
             </vs-row>
           </vs-card>
@@ -295,7 +309,7 @@
       <badaso-breadcrumb-row full>
       </badaso-breadcrumb-row>
 
-      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
+      <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
         <vs-col vs-lg="12">
           <div class="flex flex-direction-column justify-content-center align-items-center" >
             <img src="/badaso-images/maintenance.png" alt="Maintenance Icon">
@@ -310,6 +324,7 @@
 
 <script>
 import * as _ from "lodash";
+import { readObjectStore } from "../../utils/indexed-db";
 
 export default {
   name: "CrudGeneratedEdit",
@@ -319,11 +334,14 @@ export default {
     errors: {},
     dataType: {},
     relationData: {},
+    dataLength: 0,
+    pathname: location.pathname,
     isMaintenance: false,
   }),
   mounted() {
     this.getDetailEntity();
     this.getRelationDataBySlug();
+    this.requestObjectStoreData();
   },
   methods: {
     submitForm() {
@@ -357,6 +375,7 @@ export default {
           });
         })
         .catch((error) => {
+          this.requestObjectStoreData();
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -474,6 +493,24 @@ export default {
             color: "danger",
           });
         });
+    },
+    requestObjectStoreData() {
+      readObjectStore(this.pathname).then((store) => {
+        if (store.result) {
+          this.dataLength = store.result.data.length;
+        }
+      });
+    },
+  },
+  computed: {
+    isOnline: {
+      get() {
+        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
+    },
+    base64PathName() {
+      return window.btoa(location.pathname);
     },
   },
 };

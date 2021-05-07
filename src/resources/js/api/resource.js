@@ -1,4 +1,5 @@
 import axios from "axios";
+import beforeRequest from "./before-request";
 import handleError from "./handle-error";
 
 function createResource() {
@@ -13,6 +14,8 @@ function createResource() {
     (config) => {
       const token = localStorage.getItem("token");
       if (token) config.headers.Authorization = "Bearer " + token;
+      beforeRequest(config)
+      
       return config;
     },
     (error) => {

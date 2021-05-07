@@ -11,8 +11,9 @@
           </div>
           <div>
             <iframe
+              v-if="isShow"
               ref="logViewerIFrame"
-              :src="urlLogViewer"
+              :src="urlIframe"
               style="width: 100%; height: 750px; overflow: hidden; border: none;"
             ></iframe>
           </div>
@@ -39,7 +40,10 @@ export default {
   components: {},
   data() {
     return {
-      iframe: null,
+      urlIframe: null,
+      statusCode: null,
+      message: null,
+      isShow: true,
     };
   },
   computed: {
@@ -53,6 +57,32 @@ export default {
       return `${host}/${log_viewer_route}?token=${token}`;
     },
   },
-  methods: {},
+  methods: {
+    checkLogViewer() {
+      this.$openLoader();
+
+      this.$resource
+        .get(this.urlLogViewer)
+        .then((result) => {
+          this.urlIframe = this.urlLogViewer;
+          this.isShow = true;
+        })
+        .catch((error) => {
+          let { message } = error;
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: message,
+            color: "danger",
+          });
+          this.isShow = false;
+        })
+        .finally(() => {
+          this.$closeLoader();
+        });
+    },
+  },
+  created() {
+    this.checkLogViewer();
+  },
 };
 </script>

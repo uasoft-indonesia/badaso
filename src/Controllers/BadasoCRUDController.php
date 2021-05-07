@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Exception;
+use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,7 @@ use Uasoft\Badaso\Events\CRUDDataAdded;
 use Uasoft\Badaso\Events\CRUDDataDeleted;
 use Uasoft\Badaso\Events\CRUDDataUpdated;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Helpers\ApiDocs;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Models\DataRow;
@@ -223,6 +225,8 @@ class BadasoCRUDController extends Controller
                 $new_data_rows[] = $new_data_row;
             }
 
+            $this->generateAPIDocs($table_name, $data_rows, $data_type);
+
             if ($data_type->generate_permissions) {
                 Permission::generateFor($data_type->name, true);
             } else {
@@ -341,6 +345,8 @@ class BadasoCRUDController extends Controller
 
             $new_data_type->data_rows = $new_data_rows;
 
+            $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
+
             if ($new_data_type->generate_permissions) {
                 Permission::generateFor($new_data_type->name, true);
             }
@@ -374,6 +380,8 @@ class BadasoCRUDController extends Controller
             ]);
 
             $data_type = DataType::find($request->id);
+
+            $this->deleteAPIDocs($data_type->name);
 
             Permission::removeFrom($data_type->name);
 
@@ -445,5 +453,28 @@ class BadasoCRUDController extends Controller
         $menu_key = config('badaso.default_menu');
         $url = '/'.$menu_key.'/'.$data_type->slug;
         MenuItem::where('url', $url)->delete();
+    }
+
+    private function generateAPIDocs($table_name, $data_rows, $data_type)
+    {
+        $filesystem = new LaravelFileSystem;
+        $file_path = ApiDocs::getFilePath($table_name);
+        $stub = ApiDocs::getStub($table_name, $data_rows, $data_type);
+        if (! $filesystem->put($file_path, $stub)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function deleteAPIDocs($table_name)
+    {
+        $filesystem = new LaravelFileSystem;
+        $file_path = ApiDocs::getFilePath($table_name);
+        if ($filesystem->exists($file_path)) {
+            return $filesystem->delete($file_path);
+        }
+
+        return false;
     }
 }

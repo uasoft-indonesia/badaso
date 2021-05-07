@@ -51,7 +51,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
         Route::group(['prefix' => 'file'], function () {
             Route::get('/view', 'BadasoFileController@viewFile');
             Route::get('/download', 'BadasoFileController@downloadFile');
-            Route::post('/upload', 'BadasoFileController@uploadFile');
+            Route::post('/upload', 'BadasoFileController@uploadFile')->middleware(BadasoCheckPermissions::class.':upload_file');
             Route::delete('/delete', 'BadasoFileController@deleteFile');
         });
 
@@ -85,6 +85,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::put('/item/permissions', 'BadasoMenuController@setMenuItemPermissions')->middleware(BadasoCheckPermissions::class.':edit_menu_items');
 
             Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');
+            Route::get('/item-by-keys', 'BadasoMenuController@browseMenuItemByKeys');
         });
 
         Route::group(['prefix' => 'users'], function () {
@@ -212,6 +213,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::group(['prefix' => 'messages', 'middleware' => 'auth'], function () {
                 Route::get('/', 'BadasoFCMMessagesController@getMessages');
                 Route::put('/{id}', 'BadasoFCMMessagesController@readMessage');
+                Route::get('/count-unread', 'BadasoFCMMessagesController@getCountUnreadMessage');
             });
         });
     });

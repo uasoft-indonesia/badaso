@@ -8,26 +8,6 @@ return [
     'storage'                  => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],
-    'hidden_tables' => [ // this table will not shown on CRUD generator
-        'activity_log',
-        'data_rows',
-        'data_types',
-        'migrations',
-        'password_resets',
-        'menus',
-        'menu_items',
-        'users',
-        'roles',
-        'permissions',
-        'configurations',
-        'role_permissions',
-        'user_roles',
-        'user_verifications',
-        'email_resets',
-        'f_c_m_messages',
-        'firebase_cloud_messages',
-        'firebase_services',
-    ],
     'watch_tables' => [
         // table names for generating CRUD_DATA seeders.
     ],

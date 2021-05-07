@@ -109,9 +109,18 @@
 
                 <template slot-scope="{ data }">
                   <vs-tr
+                    v-if="
+                      !idsOfflineDeleteRecord.includes(record.id.toString()) ||
+                        !isOnline
+                    "
                     :data="record"
                     :key="index"
                     v-for="(record, index) in data"
+                    :state="
+                      idsOfflineDeleteRecord.includes(record.id.toString())
+                        ? 'danger'
+                        : 'default'
+                    "
                   >
                     <vs-td
                       v-for="(dataRow, indexColumn) in dataType.dataRows"
@@ -292,13 +301,29 @@
                             icon="delete"
                             @click="confirmDelete(data[index].id)"
                             v-if="
-                              $helper.isAllowedToModifyGeneratedCRUD(
-                                'delete',
-                                dataType
-                              )
+                              !idsOfflineDeleteRecord.includes(
+                                record.id.toString()
+                              ) &&
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'delete',
+                                  dataType
+                                )
                             "
                           >
                             Delete
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            @click="confirmDeleteDataPending(data[index].id)"
+                            icon="delete_outline"
+                            v-if="
+                              idsOfflineDeleteRecord.includes(
+                                record.id.toString()
+                              )
+                            "
+                          >
+                            {{
+                              $t("offlineFeature.crudGenerator.deleteDataPending")
+                            }}
                           </badaso-dropdown-item>
                         </vs-dropdown-menu>
                       </badaso-dropdown>
@@ -337,18 +362,25 @@
 
                   <template slot="tbody">
                     <vs-tr
+                      v-if="
+                        !idsOfflineDeleteRecord.includes(record.id.toString()) ||
+                          !isOnline
+                      "
                       :data="record"
                       :key="index"
                       v-for="(record, index) in records"
+                      :state="
+                        idsOfflineDeleteRecord.includes(record.id.toString())
+                          ? 'danger'
+                          : 'default'
+                      "
                     >
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"
                         v-if="dataRow.browse === 1"
                         :key="`${index}-${indexColumn}`"
                         :data="
-                          record[
-                            $caseConvert.stringSnakeToCamel(dataRow.field)
-                          ]
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
                       >
                         <img
@@ -532,13 +564,31 @@
                               icon="delete"
                               @click="confirmDelete(record.id)"
                               v-if="
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'delete',
-                                  dataType
-                                )
+                                !idsOfflineDeleteRecord.includes(
+                                  record.id.toString()
+                                ) &&
+                                  $helper.isAllowedToModifyGeneratedCRUD(
+                                    'delete',
+                                    dataType
+                                  )
                               "
                             >
                               Delete
+                            </badaso-dropdown-item>
+                            <badaso-dropdown-item
+                              @click="confirmDeleteDataPending(record.id)"
+                              icon="delete_outline"
+                              v-if="
+                                idsOfflineDeleteRecord.includes(
+                                  record.id.toString()
+                                )
+                              "
+                            >
+                              {{
+                                $t(
+                                  "offlineFeature.crudGenerator.deleteDataPending"
+                                )
+                              }}
                             </badaso-dropdown-item>
                           </vs-dropdown-menu>
                         </badaso-dropdown>
@@ -550,22 +600,6 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-prompt
-          class="mb-0"
-          @accept="saveMaintenanceState"
-          :active.sync="maintenanceDialog">
-          <div class="con-exemple-prompt mb-0">
-            <vs-row class="mb-0">
-              <badaso-switch
-                :label="$t('crudGenerated.maintenanceDialog.switch')"
-                :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
-                v-model="isMaintenance"
-                size="12"
-                :alert="errors['is_maintenance']"
-              ></badaso-switch>
-            </vs-row>
-          </div>
-        </vs-prompt>
       </vs-row>
       <vs-row v-else>
         <vs-col vs-lg="12">
@@ -605,8 +639,9 @@
 <script>
 import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { readObjectStore, setObjectStore } from "../../utils/indexed-db";
 export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowse",
@@ -631,6 +666,7 @@ export default {
     rowPerPage: null,
     fieldsForExcel: {},
     fieldsForPdf: [],
+    idsOfflineDeleteRecord: [],
     maintenanceDialog: false,
     isMaintenance: false,
     showMaintenancePage: false
@@ -648,8 +684,24 @@ export default {
   },
   mounted() {
     this.getEntity();
+    this.loadIdsOfflineDelete();
   },
   methods: {
+    confirmDeleteDataPending(id) {
+      this.willDeleteId = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "danger",
+        title: this.$t("action.delete.title"),
+        text: this.$t("action.delete.text"),
+        accept: () => this.deleteRecordDataPending(id),
+        acceptText: this.$t("action.delete.accept"),
+        cancelText: this.$t("action.delete.cancel"),
+        cancel: () => {
+          this.willDeleteId = null;
+        },
+      });
+    },
     confirmDelete(id) {
       this.willDeleteId = id;
       this.$vs.dialog({
@@ -676,9 +728,6 @@ export default {
         cancelText: this.$t("action.delete.cancel"),
         cancel: () => {},
       });
-    },
-    openMaintenanceDialog(id) {
-      this.maintenanceDialog = true
     },
     getEntity() {
       this.$openLoader();
@@ -735,6 +784,48 @@ export default {
           });
         });
     },
+    deleteRecordDataPending(id) {
+      try {
+        let keyStore = window.location.pathname;
+        readObjectStore(keyStore).then((store) => {
+          if (store.result) {
+            let data = store.result.data;
+            let newData = [];
+
+            for (let indexData in data) {
+              let itemData = data[indexData].requestData.data;
+              for (let indexItem in itemData) {
+                let fieldData = itemData[indexItem];
+                if (fieldData.field == "ids") {
+                  let valueIds = fieldData.value.split(",");
+                  valueIds = valueIds.filter((valueId, index) => valueId != id);
+                  if (valueIds.length != 0) {
+                    data[indexData].requestData.data[
+                      indexItem
+                    ].value = valueIds.join(",");
+
+                    newData[newData.length] = data[indexData];
+                  }
+                } else {
+                  let valueId = fieldData.value;
+                  if (valueId.toString() != id.toString()) {
+                    newData[newData.length] = data[indexData];
+                  }
+                }
+              }
+            }
+
+            setObjectStore(keyStore, { data: newData });
+
+            this.idsOfflineDeleteRecord = this.idsOfflineDeleteRecord.filter(
+              (itemId, index) => itemId != id
+            );
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
     deleteRecord() {
       this.$openLoader();
       this.$api.badasoEntity
@@ -752,6 +843,8 @@ export default {
           this.getEntity();
         })
         .catch((error) => {
+          this.loadIdsOfflineDelete();
+
           this.errors = error.errors;
           this.$closeLoader();
           this.$vs.notify({
@@ -779,6 +872,9 @@ export default {
           this.getEntity();
         })
         .catch((error) => {
+          this.selected = [];
+          this.loadIdsOfflineDelete();
+
           this.errors = error.errors;
           this.$closeLoader();
           this.$vs.notify({
@@ -852,12 +948,16 @@ export default {
     },
     prepareExcelExporter() {
       for (const iterator of this.dataType.dataRows) {
-        this.fieldsForExcel[iterator.displayName] = this.$caseConvert.stringSnakeToCamel(iterator.field)
+        this.fieldsForExcel[
+          iterator.displayName
+        ] = this.$caseConvert.stringSnakeToCamel(iterator.field);
       }
 
       for (const iterator of this.dataType.dataRows) {
         let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
-        this.fieldsForPdf.push(string.charAt(0).toUpperCase() + string.slice(1))
+        this.fieldsForPdf.push(
+          string.charAt(0).toUpperCase() + string.slice(1)
+        );
       }
     },
     saveMaintenanceState() {
@@ -884,35 +984,84 @@ export default {
 
       const result = data.map(Object.values);
 
-      const doc = new jsPDF('l');
+      const doc = new jsPDF("l");
 
       doc.autoTable({
         head: [this.fieldsForPdf],
         body: result,
         startY: 15,
         // Default for all columns
-        styles: { valign: 'middle' },
+        styles: { valign: "middle" },
         headStyles: { fillColor: [6, 187, 211] },
         // Override the default above for the text column
-        columnStyles: { text: { cellWidth: 'wrap' } },
-      })
+        columnStyles: { text: { cellWidth: "wrap" } },
+      });
 
-      let output = doc.output('blob');
+      let output = doc.output("blob");
 
       if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(output)
-        return
+        window.navigator.msSaveOrOpenBlob(output);
+        return;
       }
 
-      var data = window.URL.createObjectURL(output)
-      var link = document.createElement('a')
-      link.href = data
-      link.download = this.dataType.displayNameSingular + '.pdf'
-      link.click()
-      setTimeout(function () {
+      var data = window.URL.createObjectURL(output);
+      var link = document.createElement("a");
+      link.href = data;
+      link.download = this.dataType.displayNameSingular + ".pdf";
+      link.click();
+      setTimeout(function() {
         // For Firefox it is necessary to delay revoking the ObjectURL
-        window.URL.revokeObjectURL(data)
-      }, 100)
+        window.URL.revokeObjectURL(data);
+      }, 100);
+    },
+    loadIdsOfflineDelete() {
+      try {
+        let keyStore = window.location.pathname;
+        let dataObject = readObjectStore(keyStore).then((store) => {
+          let dataResult = store.result;
+          if (dataResult) {
+            dataResult = dataResult.data;
+            let newDataResult = [];
+            for (let index in dataResult) {
+              let { requestMethod, requestData } = dataResult[index];
+              if (requestMethod == "delete" && requestData.slug != undefined) {
+                newDataResult[newDataResult.length] = dataResult[index];
+              }
+            }
+
+            let ids = [];
+            for (let index in newDataResult) {
+              let dataRequest = newDataResult[index].requestData.data;
+              for (let indexDataRequest in dataRequest) {
+                if (
+                  dataRequest[indexDataRequest].field == "id" ||
+                  dataRequest[indexDataRequest].field == "ids"
+                ) {
+                  let valueIds = dataRequest[indexDataRequest].value
+                    .toString()
+                    .split(",");
+                  ids.push(...valueIds);
+                }
+              }
+            }
+            ids = ids.filter((itemIds, indexIds, self) => {
+              return self.indexOf(itemIds) == indexIds;
+            });
+
+            this.idsOfflineDeleteRecord = ids;
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+  computed: {
+    isOnline: {
+      get() {
+        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
     },
   },
 };

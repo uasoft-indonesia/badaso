@@ -873,6 +873,8 @@ export default {
       field.setRelation = false;
     },
     dataNotificationEventHandle() {
+      if (!Array.isArray(this.crudData.notification)) return;
+
       this.crudData.notification = this.crudData.notification.map(
         (item, index) => {
           let { event } = item;
