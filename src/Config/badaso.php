@@ -41,8 +41,7 @@ return [
         'Uasoft\\Badaso\\Widgets\\PermissionWidget',
     ],
     'whitelist' => [
-        'web' => [],
-        'badaso' => [
+        'web' => [
             '/maintenance',
             '/login',
         ],
