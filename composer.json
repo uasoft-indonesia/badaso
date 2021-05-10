@@ -34,7 +34,8 @@
     "guzzlehttp/guzzle": "6.5.5",
     "unisharp/laravel-filemanager": "2.2",
     "darkaonline/l5-swagger": "5.8.*",
-    "zircote/swagger-php": "3.*"
+    "zircote/swagger-php": "3.*",
+    "symfony/var-exporter": "5.2"
   },
   "authors": [
     {
