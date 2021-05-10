@@ -2,10 +2,12 @@
 
 namespace Uasoft\Badaso\Commands;
 
+use BadasoSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\VarExporter\VarExporter;
 use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
 
 class BadasoSetup extends Command
@@ -54,6 +56,7 @@ class BadasoSetup extends Command
     {
         $this->force = $this->options()['force'] == 'true' || $this->options()['force'] == null;
 
+        $this->addingBadasoEnv();
         $this->updatePackageJson();
         $this->updateWebpackMix();
         $this->publishBadasoProvider();
@@ -62,6 +65,10 @@ class BadasoSetup extends Command
         $this->publishLaravelFileManager();
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
+        $this->optimizeComposerDumpAutoload();
+        $this->callCommandMigrate();
+        $this->callCommandDBSeed();
+        $this->addingBadasoAuthConfig();
     }
 
     protected function updatePackageJson()
@@ -120,7 +127,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -201,11 +208,128 @@ class BadasoSetup extends Command
         }
         Artisan::call('vendor:publish', $command_params);
 
-        $this->info('Fime Manager provider published');
+        $this->info('File Manager provider published');
     }
 
     protected function publicFileFirebaseServiceWorker()
     {
         FirebasePublishFile::publishNow();
+    }
+
+    protected function addingBadasoAuthConfig()
+    {
+        try {
+            if ($this->force) {
+                $path_config_auth = config_path('auth.php');
+                $config_auth = require $path_config_auth;
+
+                $config_auth['defaults'] = [
+                    'guard' => 'badaso_guard',
+                    'passwords' => 'users',
+                ];
+                $config_auth['guards']['badaso_guard'] = [
+                    'driver' => 'jwt',
+                    'provider' => 'badaso_users',
+                ];
+                $config_auth['providers']['badaso_users'] = [
+                    'driver' => 'eloquent',
+                    'model' => \Uasoft\Badaso\Models\User::class,
+                ];
+
+                $exported_config_auth = VarExporter::export($config_auth);
+                $exported_config_auth = <<<PHP
+                <?php 
+                return {$exported_config_auth} ;
+                PHP;
+                file_put_contents($path_config_auth, $exported_config_auth);
+                $this->info('Adding badaso auth config');
+            }
+        } catch (\Exception $e) {
+            $this->error('Failed adding badaso auth config ', $e->getMessage());
+        }
+    }
+
+    protected function optimizeComposerDumpAutoload()
+    {
+        $path = base_path();
+        $exec_composer_dump_autoload = exec("composer dump-autoload -d {$path}");
+        $this->info($exec_composer_dump_autoload);
+    }
+
+    protected function callCommandMigrate()
+    {
+        $migrate = Artisan::call('migrate');
+        $this->info(Artisan::output());
+    }
+
+    protected function callCommandDBSeed()
+    {
+        $seeder = Artisan::call('db:seed', [
+            '--class' => BadasoSeeder::class,
+        ]);
+        $this->info(Artisan::output());
+    }
+
+    protected function envListUpload()
+    {
+        return [
+            'JWT_SECRET' => '',
+            'BADASO_AUTH_TOKEN_LIFETIME' => '',
+            'BADASO_LICENSE_KEY' => '',
+            'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
+            'MIX_DEFAULT_MENU' => 'admin',
+            'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'dashboard',
+            'MIX_API_ROUTE_PREFIX' => '',
+            'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
+            'MIX_API_ROUTE_PREFIX' => 'admin',
+            'MIX_FIREBASE_API_KEY' => '',
+            'MIX_FIREBASE_AUTH_DOMAIN' => '',
+            'MIX_FIREBASE_PROJECT_ID' => '',
+            'MIX_FIREBASE_STORAGE_BUCKET' => '',
+            'MIX_FIREBASE_MESSAGE_SEENDER' => '',
+            'MIX_FIREBASE_APP_ID' => '',
+            'MIX_FIREBASE_MEASUREMENT_ID' => '',
+            'MIX_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
+            'MIX_FIREBASE_SERVER_KEY' => '',
+        ];
+    }
+
+    protected function addingBadasoEnv()
+    {
+        try {
+            $env_path = base_path('.env');
+
+            $env_file = file_get_contents($env_path);
+            $arr_env_file = explode("\n", $env_file);
+
+            $env_will_adding = $this->envListUpload();
+
+            $new_env_adding = [];
+            foreach ($env_will_adding as $key_add_env => $val_add_env) {
+                $status_adding = true;
+                foreach ($arr_env_file as $key_env_file => $val_env_file) {
+                    $val_env_file = trim($val_env_file);
+                    if (substr($val_env_file, 0, 1) != '#' && $val_env_file != '' && strstr($val_env_file, $key_add_env)) {
+                        $status_adding = false;
+                        break;
+                    }
+                }
+                if ($status_adding) {
+                    $new_env_adding[] = "{$key_add_env}={$val_add_env}";
+                }
+            }
+
+            foreach ($new_env_adding as $index_env_add => $val_env_add) {
+                $arr_env_file[] = $val_env_add;
+            }
+
+            $env_file = join("\n", $arr_env_file);
+            file_put_contents($env_path, $env_file);
+
+            $this->info('Adding badaso env');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            $this->error('Failed adding badaso env '.$e->getMessage());
+        }
     }
 }
