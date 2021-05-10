@@ -85,4 +85,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return "This model has been {$eventName}";
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
 }
