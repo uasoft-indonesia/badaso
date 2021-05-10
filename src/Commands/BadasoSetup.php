@@ -127,7 +127,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -327,7 +327,7 @@ class BadasoSetup extends Command
     protected function callCommandCreateAdmin()
     {
         try {
-            if (!$this->force) {
+            if (! $this->force) {
                 return $this->call('badaso:admin', [
                     '--create' => true,
                 ]);
