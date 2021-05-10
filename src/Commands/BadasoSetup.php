@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\VarExporter\VarExporter;
 use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
-use Uasoft\Badaso\Seeder\Setup\BadasoSeeder;
 
 class BadasoSetup extends Command
 {
@@ -65,10 +64,7 @@ class BadasoSetup extends Command
         $this->publishLaravelFileManager();
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
-        $this->callCommandMigrate();
-        $this->callCommandDBSeed();
         $this->addingBadasoAuthConfig();
-        $this->callCommandCreateAdmin();
     }
 
     protected function updatePackageJson()
@@ -127,7 +123,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -196,8 +192,12 @@ class BadasoSetup extends Command
 
     protected function uploadDefaultUserImage()
     {
-        $img = file_get_contents(public_path('/badaso-images/default-user.png'));
-        Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
+        try {
+            $img = file_get_contents(public_path('/badaso-images/default-user.png'));
+            Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
+        } catch (\Exception $e) {
+            $this->error('uploadDefaultImage '.$e->getMessage());
+        }
     }
 
     protected function publishLaravelFileManager()
@@ -247,20 +247,6 @@ class BadasoSetup extends Command
         }
     }
 
-    protected function callCommandMigrate()
-    {
-        $migrate = Artisan::call('migrate');
-        $this->info(Artisan::output());
-    }
-
-    protected function callCommandDBSeed()
-    {
-        $seeder = Artisan::call('db:seed', [
-            '--class' => BadasoSeeder::class,
-        ]);
-        $this->info(Artisan::output());
-    }
-
     protected function envListUpload()
     {
         return [
@@ -282,6 +268,22 @@ class BadasoSetup extends Command
             'MIX_FIREBASE_MEASUREMENT_ID' => '',
             'MIX_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
             'MIX_FIREBASE_SERVER_KEY' => '',
+            'FILESYSTEM_DRIVER' => '',
+            'AWS_ACCESS_KEY_ID' => '',
+            'AWS_SECRET_ACCESS_KEY' => '',
+            'AWS_DEFAULT_REGION' => '',
+            'AWS_BUCKET' => '',
+            'AWS_URL' => '',
+            'GOOGLE_DRIVE_CLIENT_ID' => '',
+            'GOOGLE_DRIVE_CLIENT_SECRET' => '',
+            'GOOGLE_DRIVE_REFRESH_TOKEN' => '',
+            'GOOGLE_DRIVE_FOLDER_ID' => '',
+            'DROPBOX_AUTH_TOKEN' => '',
+            'BACKUP_TARGET' => '',
+            'BACKUP_DISK' => '',
+            'MIX_DATE_FORMAT' => '',
+            'MIX_DATETIME_FORMAT' => '',
+            'MIX_TIME_FORMAT' => '',
         ];
     }
 
@@ -321,19 +323,6 @@ class BadasoSetup extends Command
         } catch (\Exception $e) {
             dd($e->getMessage());
             $this->error('Failed adding badaso env '.$e->getMessage());
-        }
-    }
-
-    protected function callCommandCreateAdmin()
-    {
-        try {
-            if (! $this->force) {
-                return $this->call('badaso:admin', [
-                    '--create' => true,
-                ]);
-            }
-        } catch (\Exception $e) {
-            $this->error($e->getMessage());
         }
     }
 }
