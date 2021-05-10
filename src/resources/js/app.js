@@ -26,7 +26,13 @@ import { checkConnection } from "./utils/check-connection";
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
 let broadcastChannelName = "sw-badaso-messages";
-let broadcastChannel = new BroadcastChannel(broadcastChannelName);
+let broadcastChannel = null;
+
+try {
+  broadcastChannel = new BroadcastChannel(broadcastChannelName);
+} catch (error) {
+  console.error('Broadcast Channel Error ', error)
+}
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;

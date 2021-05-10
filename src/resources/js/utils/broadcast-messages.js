@@ -3,35 +3,42 @@ export const BROADCAST_TYPE_FIREBASE_MESSAGE =
   "BROADCAST_TYPE_FIREBASE_MESSAGE";
 
 export const broadcastMessageHandle = (app) => {
-  let broadcastChannel = app.$broadcastChannel;
-  let store = app.$store;
+ try {
+   let broadcastChannel = app.$broadcastChannel;
 
-  let isOnline;
+   if (!broadcastChannel) return;
 
-  broadcastChannel.addEventListener("message", (event) => {
-    let dataMessage = event.data;
+   let store = app.$store;
 
-    if (dataMessage.type) {
-      switch (dataMessage.type) {
-        case BROADCAST_TYPE_ONLINE_STATUS:
-          isOnline = dataMessage.data.status && navigator.onLine;
-          store.commit("badaso/SET_GLOBAL_STATE", {
-            key: "isOnline",
-            value: isOnline,
-          });
-          break;
+   let isOnline;
 
-        case BROADCAST_TYPE_FIREBASE_MESSAGE:
-          store.commit("badaso/SET_GLOBAL_STATE", {
-            key: "countUnreadMessage",
-            value:
-              store.getters["badaso/getGlobalState"].countUnreadMessage + 1,
-          });
-          break;
+   broadcastChannel.addEventListener("message", (event) => {
+     let dataMessage = event.data;
 
-        default:
-          break;
-      }
-    }
-  });
+     if (dataMessage.type) {
+       switch (dataMessage.type) {
+         case BROADCAST_TYPE_ONLINE_STATUS:
+           isOnline = dataMessage.data.status && navigator.onLine;
+           store.commit("badaso/SET_GLOBAL_STATE", {
+             key: "isOnline",
+             value: isOnline,
+           });
+           break;
+
+         case BROADCAST_TYPE_FIREBASE_MESSAGE:
+           store.commit("badaso/SET_GLOBAL_STATE", {
+             key: "countUnreadMessage",
+             value:
+               store.getters["badaso/getGlobalState"].countUnreadMessage + 1,
+           });
+           break;
+
+         default:
+           break;
+       }
+     }
+   });
+ } catch (error) {
+   console.error('Broadcast message handle error ', error);
+ }
 };

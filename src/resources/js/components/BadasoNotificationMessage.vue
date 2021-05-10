@@ -22,7 +22,7 @@
     >
       <div class="header-sidebar" index="1" icon="notifications" slot="header">
         <vs-sidebar-item index="0" icon="notifications">
-          <h4>{{ $t("notification.notification") }}</h4>
+          <strong>{{ $t("notification.notification") }}</strong>
         </vs-sidebar-item>
       </div>
       <vs-sidebar-item

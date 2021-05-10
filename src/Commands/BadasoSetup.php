@@ -2,13 +2,13 @@
 
 namespace Uasoft\Badaso\Commands;
 
-use BadasoSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\VarExporter\VarExporter;
 use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
+use Uasoft\Badaso\Seeder\Setup\BadasoSeeder;
 
 class BadasoSetup extends Command
 {
@@ -65,10 +65,10 @@ class BadasoSetup extends Command
         $this->publishLaravelFileManager();
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
-        $this->optimizeComposerDumpAutoload();
         $this->callCommandMigrate();
         $this->callCommandDBSeed();
         $this->addingBadasoAuthConfig();
+        $this->callCommandCreateAdmin();
     }
 
     protected function updatePackageJson()
@@ -219,41 +219,32 @@ class BadasoSetup extends Command
     protected function addingBadasoAuthConfig()
     {
         try {
-            if ($this->force) {
-                $path_config_auth = config_path('auth.php');
-                $config_auth = require $path_config_auth;
+            $path_config_auth = config_path('auth.php');
+            $config_auth = require $path_config_auth;
 
-                $config_auth['defaults'] = [
-                    'guard' => 'badaso_guard',
-                    'passwords' => 'users',
-                ];
-                $config_auth['guards']['badaso_guard'] = [
-                    'driver' => 'jwt',
-                    'provider' => 'badaso_users',
-                ];
-                $config_auth['providers']['badaso_users'] = [
-                    'driver' => 'eloquent',
-                    'model' => \Uasoft\Badaso\Models\User::class,
-                ];
+            $config_auth['defaults'] = [
+                'guard' => 'badaso_guard',
+                'passwords' => 'users',
+            ];
+            $config_auth['guards']['badaso_guard'] = [
+                'driver' => 'jwt',
+                'provider' => 'badaso_users',
+            ];
+            $config_auth['providers']['badaso_users'] = [
+                'driver' => 'eloquent',
+                'model' => \Uasoft\Badaso\Models\User::class,
+            ];
 
-                $exported_config_auth = VarExporter::export($config_auth);
-                $exported_config_auth = <<<PHP
+            $exported_config_auth = VarExporter::export($config_auth);
+            $exported_config_auth = <<<PHP
                 <?php 
                 return {$exported_config_auth} ;
                 PHP;
-                file_put_contents($path_config_auth, $exported_config_auth);
-                $this->info('Adding badaso auth config');
-            }
+            file_put_contents($path_config_auth, $exported_config_auth);
+            $this->info('Adding badaso auth config');
         } catch (\Exception $e) {
             $this->error('Failed adding badaso auth config ', $e->getMessage());
         }
-    }
-
-    protected function optimizeComposerDumpAutoload()
-    {
-        $path = base_path();
-        $exec_composer_dump_autoload = exec("composer dump-autoload -d {$path}");
-        $this->info($exec_composer_dump_autoload);
     }
 
     protected function callCommandMigrate()
@@ -330,6 +321,19 @@ class BadasoSetup extends Command
         } catch (\Exception $e) {
             dd($e->getMessage());
             $this->error('Failed adding badaso env '.$e->getMessage());
+        }
+    }
+
+    protected function callCommandCreateAdmin()
+    {
+        try {
+            if (!$this->force) {
+                return $this->call('badaso:admin', [
+                    '--create' => true,
+                ]);
+            }
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
     }
 }
