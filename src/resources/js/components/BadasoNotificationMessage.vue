@@ -21,7 +21,7 @@
       v-model="sideBarNotification"
     >
       <div class="header-sidebar" index="1" icon="notifications" slot="header">
-        <vs-sidebar-item index="0" icon="notifications">
+        <vs-sidebar-item style="margin-bottom : -4% ;" index="0" icon="notifications">
           <strong>{{ $t("notification.notification") }}</strong>
         </vs-sidebar-item>
       </div>
