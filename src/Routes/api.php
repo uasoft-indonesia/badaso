@@ -57,6 +57,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
 
         Route::group(['prefix' => 'configurations'], function () {
             Route::get('/applyable', 'BadasoConfigurationsController@applyable');
+            Route::get('/maintenance', 'BadasoConfigurationsController@isMaintenance');
 
             Route::get('/', 'BadasoConfigurationsController@browse')->middleware(BadasoCheckPermissions::class.':browse_configurations');
             Route::get('/read', 'BadasoConfigurationsController@read')->middleware(BadasoCheckPermissions::class.':read_configurations');
@@ -135,6 +136,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/add', 'BadasoCRUDController@add')->middleware(BadasoCheckPermissions::class.':add_crud_data');
             Route::delete('/delete', 'BadasoCRUDController@delete')->middleware(BadasoCheckPermissions::class.':delete_crud_data');
             Route::get('/read-by-slug', 'BadasoCRUDController@readBySlug')->middleware(BadasoCheckPermissions::class.':read_crud_data');
+            Route::get('/maintenance', 'BadasoCRUDController@setMaintenanceState')->middleware(BadasoCheckPermissions::class.':maintenance_crud_data');
         });
 
         Route::group(['prefix' => 'table'], function () {
@@ -143,6 +145,10 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/data', 'BadasoTableController@getDataByTable');
             Route::get('/generate-crud', 'BadasoTableController@generateCRUD');
             Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug');
+        });
+
+        Route::group(['prefix' => 'maintenance'], function () {
+            Route::post('/', 'BadasoMaintenanceController@isMaintenance');
         });
 
         Route::group(['prefix' => 'entities'], function () {
@@ -175,6 +181,9 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                     Route::get($data_type->slug.'/all', $crud_data_controller.'@all')
                         ->name($data_type->slug.'.all')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+                    Route::post($data_type->slug.'/maintenance', $crud_data_controller.'@setMaintenanceState')
+                        ->name($data_type->slug.'.maintenance')
+                        ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',maintenance');
                 }
             } catch (\InvalidArgumentException $e) {
                 throw new \InvalidArgumentException("Custom routes hasn't been configured because: ".$e->getMessage(), 1);

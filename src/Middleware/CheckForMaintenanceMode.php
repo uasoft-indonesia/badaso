@@ -4,12 +4,9 @@ namespace Uasoft\Badaso\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
-use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Models\Configuration;
-use Uasoft\Badaso\Models\DataType;
 
-class ApiRequest
+class CheckForMaintenanceMode
 {
     /**
      * The application implementation.
@@ -23,7 +20,7 @@ class ApiRequest
      *
      * @var array
      */
-    protected $except = [];
+    protected $excepts = [];
 
     /**
      * URIs prefix.
@@ -41,19 +38,22 @@ class ApiRequest
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->except = config('badaso.whitelist');
-        $this->prefix = config('badaso.api_route_prefix');
+        $this->excepts = config('badaso.whitelist.web');
+        $this->prefix = config('badaso.admin_panel_route_prefix');
     }
 
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
     public function handle($request, Closure $next)
     {
-        $lang = ($request->hasHeader('Accept-Language')) ? $request->header('Accept-Language') : 'en';
-
-        app()->setLocale($lang);
-
-        $request->merge(CaseConvert::snake($request->all()));
-
-        if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance() || $this->isCrudGeneratedMaintenance($request)) {
+        if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance()) {
             if ($this->isAdministrator()) {
                 return $next($request);
             }
@@ -62,7 +62,7 @@ class ApiRequest
                 return $next($request);
             }
 
-            return ApiResponse::serviceUnavailable();
+            return redirect($this->prefix.'/maintenance');
         }
 
         return $next($request);
@@ -73,6 +73,21 @@ class ApiRequest
         $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
 
         return $maintenance->value === '1' ? true : false;
+    }
+
+    protected function inExceptArray($request)
+    {
+        foreach ($this->excepts as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->fullUrlIs($except) || $request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function isAdministrator()
@@ -88,47 +103,6 @@ class ApiRequest
                         return true;
                     }
                 }
-            }
-        }
-
-        return false;
-    }
-
-    protected function isCrudGeneratedMaintenance($request)
-    {
-        $slug = '';
-
-        if (isset($request->query()['slug'])) {
-            $slug = $request->query()['slug'];
-        }
-
-        if (preg_match('/\bentities\b/', $request->path())) {
-            $slug = explode('/', explode('/entities/', $request->path())[1])[0];
-        }
-
-        $data_type = DataType::where('slug', $slug)->first();
-        if ($data_type) {
-            return $data_type->is_maintenance === 1 ? true : false;
-        }
-
-        return false;
-    }
-
-    protected function inExceptArray($request)
-    {
-        $excepts = [];
-
-        foreach ($this->except['api'] as $key => $path) {
-            $excepts[] = $this->prefix.$path;
-        }
-
-        foreach ($excepts as $except) {
-            if ($except !== '/') {
-                $except = trim($except, '/');
-            }
-
-            if ($request->fullUrlIs($except) || $request->is($except)) {
-                return true;
             }
         }
 
