@@ -96,6 +96,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vue-color'] = '^2.7.1';
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
         $decoded_json['dependencies']['vue-draggable-nested-tree'] = '^3.0.0-beta2';
+        $decoded_json['dependencies']['vue-gtag'] = '^1.16.1';
         $decoded_json['dependencies']['vue-i18n'] = '^8.22.4';
         $decoded_json['dependencies']['vue-json-excel'] = '^0.3.0';
         $decoded_json['dependencies']['uuid'] = '^8.3.2';
@@ -269,7 +270,7 @@ class BadasoSetup extends Command
             'MIX_FIREBASE_MEASUREMENT_ID' => '',
             'MIX_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
             'MIX_FIREBASE_SERVER_KEY' => '',
-            'FILESYSTEM_DRIVER' => '',
+            'FILESYSTEM_DRIVER' => 'public',
             'AWS_ACCESS_KEY_ID' => '',
             'AWS_SECRET_ACCESS_KEY' => '',
             'AWS_DEFAULT_REGION' => '',
@@ -285,6 +286,8 @@ class BadasoSetup extends Command
             'MIX_DATE_FORMAT' => '',
             'MIX_DATETIME_FORMAT' => '',
             'MIX_TIME_FORMAT' => '',
+            'ANALYTICS_VIEW_ID' => '',
+            'MIX_ANALYTICS_TRACKING_ID' => '',
         ];
     }
 
@@ -322,7 +325,6 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            dd($e->getMessage());
             $this->error('Failed adding badaso env '.$e->getMessage());
         }
     }
