@@ -47,7 +47,8 @@
   "autoload": {
     "psr-4": {
       "Uasoft\\Badaso\\": "src/"
-    },
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
