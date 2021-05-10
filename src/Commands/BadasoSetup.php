@@ -326,6 +326,7 @@ class BadasoSetup extends Command
             $this->error('Failed adding badaso env '.$e->getMessage());
         }
     }
+
     protected function publishLaravelAnalytics()
     {
         $command_params = [
