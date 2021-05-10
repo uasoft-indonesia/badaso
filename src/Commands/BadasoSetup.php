@@ -62,6 +62,7 @@ class BadasoSetup extends Command
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
         $this->publishLaravelFileManager();
+        $this->publishLaravelAnalytics();
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
         $this->addingBadasoAuthConfig();
@@ -324,5 +325,18 @@ class BadasoSetup extends Command
             dd($e->getMessage());
             $this->error('Failed adding badaso env '.$e->getMessage());
         }
+    }
+
+    protected function publishLaravelAnalytics()
+    {
+        $command_params = [
+            '--provider' => "Spatie\Analytics\AnalyticsServiceProvider",
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
+
+        $this->info('Laravel analytics provider published');
     }
 }
