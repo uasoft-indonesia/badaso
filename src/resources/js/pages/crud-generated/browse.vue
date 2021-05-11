@@ -972,7 +972,6 @@ export default {
           );
         }
       }
-      console.log(this.fieldsForPdf);
     },
     openMaintenanceDialog() {
       this.maintenanceDialog = true
