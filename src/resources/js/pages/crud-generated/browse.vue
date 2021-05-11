@@ -966,9 +966,11 @@ export default {
 
       for (const iterator of this.dataType.dataRows) {
         let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
-        this.fieldsForPdf.push(
-          string.charAt(0).toUpperCase() + string.slice(1)
-        );
+        if (iterator.browse === 1) {
+          this.fieldsForPdf.push(
+            string.charAt(0).toUpperCase() + string.slice(1)
+          );
+        }
       }
     },
     openMaintenanceDialog() {
