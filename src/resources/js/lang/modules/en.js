@@ -899,7 +899,7 @@ export default {
         title: "Migration Not Sync",
         notAllowed:
           "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:",
-        empty: "You must delete this table first on CRUD Management."
+        empty: "You must delete this generated CRUD first on CRUD Management."
       },
     },
     add: {

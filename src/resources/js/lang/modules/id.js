@@ -900,7 +900,7 @@ export default {
         title: "Migration Tidak Sinkron",
         notAllowed:
           "Sebelum Anda dapat menggunakan Database Management, Anda harus memigrasi file yang belum dimigrasi atau Anda dapat menghapus file migrasi. Berikut ini daftar dari file migrasi yang belum dimigrasi:",
-        empty: "Kamu harus menghapus tabel ini terlebih dahulu di CRUD Management."
+        empty: "Kamu harus menghapus generated CRUD ini terlebih dahulu di CRUD Management."
       },
     },
     add: {
