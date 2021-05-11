@@ -8,6 +8,10 @@ let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
   ? process.env.MIX_LOG_VIEWER_ROUTE
   : "log-viewer";
 
+let api_docs = process.env.MIX_API_DOCS_ROUTE
+  ? process.env.MIX_API_DOCS_ROUTE
+  : "api-docs";
+
 export default [
   {
     path: prefix + "/permission",
@@ -279,6 +283,30 @@ export default [
     component: Pages,
     meta: {
       title: "Notification",
+    },
+  },
+  {
+    path: prefix + "/data-pending-add/:urlBase64",
+    name: "DataPendingAddBrowse",
+    component: Pages,
+    meta: {
+      title: "Data Pending Add",
+    },
+  },
+  {
+    path: prefix + "/data-pending-edit/:urlBase64",
+    name: "DataPendingEditRead",
+    component: Pages,
+    meta: {
+      title: "Data Pending Edit",
+    },
+  },
+  {
+    path: prefix + "/" + api_docs,
+    name: "ApiDocsBrowse",
+    component: Pages,
+    meta: {
+      title: "Browse API Documentation",
     },
   },
 ];

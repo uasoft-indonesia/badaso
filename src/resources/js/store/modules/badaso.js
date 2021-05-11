@@ -9,7 +9,7 @@ export default {
     isSidebarActive: false,
     reduceSidebar: false,
     themeColor: "#2962ff",
-    menu: {},
+    menu: [],
     configurationMenu: {},
     componentList: [],
     groupList: [],
@@ -27,6 +27,8 @@ export default {
       unauthorized: false,
     },
     verified: false,
+    isOnline: false,
+    countUnreadMessage : 0,
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -37,41 +39,70 @@ export default {
       state.reduceSidebar = value;
     },
     FETCH_MENU(state) {
-      const menuKey = process.env.MIX_DEFAULT_MENU
-        ? process.env.MIX_DEFAULT_MENU
+      const menuKey = process.env.MIX_BADASO_MENU
+        ? process.env.MIX_BADASO_MENU
         : "admin";
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-admin";
       api.badasoMenu
-        .browseItemByKey({
+        .browseItemByKeys({
           menu_key: menuKey,
         })
         .then((res) => {
-          let menuItems = res.data.menuItems;
-          menuItems.map((item) => {
-            if (helpers.isValidHttpUrl(item.url)) {
-              item.url = item.url;
-            } else {
-              item.url = "/" + prefix + "" + item.url;
-            }
-
-            if (item.children && item.children.length > 0) {
-              item.children.map((subItem) => {
-                if (helpers.isValidHttpUrl(subItem.url)) {
-                  subItem.url = subItem.url;
+          var menus = []
+          for (let index = 0; index < res.data.length; index++) {
+            let menu = res.data[index].menu;
+            let items = res.data[index].menuItems;
+            if (menu.key === 'admin') {
+              items.map((item) => {
+                if (helpers.isValidHttpUrl(item.url)) {
+                  item.url = item.url;
                 } else {
-                  subItem.url = "/" + prefix + "" + subItem.url;
+                  item.url = "/" + prefix + "" + item.url;
                 }
-                return subItem;
+    
+                if (item.children && item.children.length > 0) {
+                  item.children.map((subItem) => {
+                    if (helpers.isValidHttpUrl(subItem.url)) {
+                      subItem.url = subItem.url;
+                    } else {
+                      subItem.url = "/" + prefix + "" + subItem.url;
+                    }
+                    return subItem;
+                  });
+                }
+  
+                return item;
+              });
+            } else {
+              items.map((item) => {
+                if (helpers.isValidHttpUrl(item.url)) {
+                  item.url = item.url;
+                } else {
+                  item.url = "/" + prefix + "" + item.url;
+                }
+    
+                if (item.children && item.children.length > 0) {
+                  item.children.map((subItem) => {
+                    if (helpers.isValidHttpUrl(subItem.url)) {
+                      subItem.url = subItem.url;
+                    } else {
+                      subItem.url = "/" + prefix + "" + subItem.url;
+                    }
+                    return subItem;
+                  });
+                }
+  
+                return item;
               });
             }
-            return item;
-          });
-          state.menu = {
-            menu: res.data.menu,
-            menuItems: menuItems,
-          };
+            menus.push({
+              menu: res.data[index].menu,
+              mainMenu: items,
+            })
+          }
+          state.menu = menus
         })
         .catch((err) => {});
     },
@@ -163,11 +194,19 @@ export default {
           state.verified = true;
         })
         .catch((err) => {
-          state.keyIssue = {
-            ...err, invalid: true,
-          };
+          if (err.status) {
+            if (err.status == 402) {
+              state.keyIssue = {
+                ...err,
+                invalid: true,
+              };
+            }
+          }
           state.verified = true;
         });
+    },
+    SET_GLOBAL_STATE(state, { key, value }) {
+      state[key] = value
     },
   },
   actions: {},
@@ -198,6 +237,9 @@ export default {
     },
     isVerified: (state) => {
       return state.verified;
+    },
+    getGlobalState: (state) => {
+      return state;
     },
   },
   plugins: [createPersistedState()],

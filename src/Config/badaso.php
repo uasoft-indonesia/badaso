@@ -8,26 +8,6 @@ return [
     'storage'                  => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],
-    'hidden_tables' => [ // this table will not shown on CRUD generator
-        'activity_log',
-        'data_rows',
-        'data_types',
-        'migrations',
-        'password_resets',
-        'menus',
-        'menu_items',
-        'users',
-        'roles',
-        'permissions',
-        'configurations',
-        'role_permissions',
-        'user_roles',
-        'user_verifications',
-        'email_resets',
-        'f_c_m_messages',
-        'firebase_cloud_messages',
-        'firebase_services',
-    ],
     'watch_tables' => [
         // table names for generating CRUD_DATA seeders.
     ],
@@ -39,5 +19,19 @@ return [
         'Uasoft\\Badaso\\Widgets\\UserWidget',
         'Uasoft\\Badaso\\Widgets\\RoleWidget',
         'Uasoft\\Badaso\\Widgets\\PermissionWidget',
+    ],
+    'whitelist' => [
+        'web' => [],
+        'badaso' => [
+            '/maintenance',
+            '/login',
+        ],
+        'api' => [
+            '/v1/verify-badaso',
+            '/v1/configurations/applyable',
+            '/v1/maintenance',
+            '/v1/auth/login',
+            '/v1/file/*',
+        ],
     ],
 ];

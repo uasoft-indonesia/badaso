@@ -12,7 +12,7 @@ export default {
       "* {0} only alphanumeric and underscore (_) allowed.",
     unique: "* {0} must be unique.",
     distinct: "* Only one {0} is allowed.",
-    requiredPrimary: "* Only {0} is allowed."
+    requiredPrimary: "* Only {0} is allowed.",
   },
   login: {
     title: "Dashboard",
@@ -408,23 +408,23 @@ export default {
           title: "Description",
           placeholder: "Description",
         },
-        activeEventNotification : {
-          title : 'Active Event Notification',
-          label : {
-            onCreate : 'On Create',
-            onRead : 'On Read',
-            onUpdate : 'On Update',
-            onDelete : 'On Delete',
-            onCreateTitle : 'Title Message Event On Create',
-            onCreateMessage : ' Message Event On Create',
-            onReadTitle : 'Title Message Event On Read',
-            onReadMessage : ' Message Event On Read',
-            onUpdateTitle : 'Title Message Event On Update',
-            onUpdateMessage : ' Message Event On Update',
-            onDeleteTitle : 'Title Message Event On Delete',
-            onDeleteMessage : ' Message Event On Delete',
+        activeEventNotification: {
+          title: "Active Event Notification",
+          label: {
+            onCreate: "On Create",
+            onRead: "On Read",
+            onUpdate: "On Update",
+            onDelete: "On Delete",
+            onCreateTitle: "Title Message Event On Create",
+            onCreateMessage: " Message Event On Create",
+            onReadTitle: "Title Message Event On Read",
+            onReadMessage: " Message Event On Read",
+            onUpdateTitle: "Title Message Event On Update",
+            onUpdateMessage: " Message Event On Update",
+            onDeleteTitle: "Title Message Event On Delete",
+            onDeleteMessage: " Message Event On Delete",
           },
-        }
+        },
       },
       header: {
         field: "Field",
@@ -850,7 +850,7 @@ export default {
     },
     edit: {
       title: "Edit {tableName}",
-      button: "Save",
+      button: "Update",
     },
     detail: {
       title: "Detail {tableName}",
@@ -859,6 +859,11 @@ export default {
     sort: {
       title: "Sort {tableName}",
     },
+    maintenanceDialog: {
+      title: "Setting",
+      switch: "Maintenance Mode",
+      button: "Save"
+    }
   },
   keyIssue: {
     title: "License Issues",
@@ -892,7 +897,9 @@ export default {
       migrateButton: "Migrate",
       warning: {
         title: "Migration Not Sync",
-        notAllowed: "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:",
+        notAllowed:
+          "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:",
+        empty: "You must delete this generated CRUD first on CRUD Management."
       },
     },
     add: {
@@ -956,6 +963,12 @@ export default {
         },
         drop: "Are you sure want to delete this field?",
       },
+      warning: {
+        title: "IMPORTANT",
+        content: "Only the following column types can be \"changed\": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.",
+        crud: "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
+        notAllowed: "You're not allowed to edit."
+      },
       error: {
         fieldName: "Field name is required.",
         fieldType: "Field type is required.",
@@ -978,9 +991,10 @@ export default {
     warning: {
       docs: "* Please read the {0} before using this feature.",
       exists: "The {0} field already exists",
-      invalid: "Request is invalid. Please check the fields or table name if it's valid or not.",
+      invalid:
+        "Request is invalid. Please check the fields or table name if it's valid or not.",
       empty: "Request is invalid. No changes were made.",
-      errorOnRequest: "Request is invalid."
+      errorOnRequest: "Request is invalid.",
     },
     migration: {
       header: {
@@ -1020,8 +1034,29 @@ export default {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
   },
-  notification : {
-    notification : "Notification",
-    detailMessage : "Detail Message"
+  apidocs: {
+    title: "API Documentation",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse api documentation.",
+    },
+  },
+  notification: {
+    notification: "Notification",
+    detailMessage: "Detail Message",
+  },
+  noInternetAccess:
+    "Data cannot load because internet of you not connected. Please to you connect internet again!",
+  offlineFeature: {
+    dataPending: "Data Pending...",
+    dataUpdatePending: "Data Update Pending...",
+    dataPendingAdd: {
+      title: "Data Pending",
+    },
+    dataPendingEdit: {
+      title: "Show Data Edit Pending",
+    },
+    crudGenerator: {
+      deleteDataPending : "Delete Data Pending",
+    },
   },
 };

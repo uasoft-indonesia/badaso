@@ -15,6 +15,18 @@
       <br />
       <vs-progress indeterminate :color="color">primary</vs-progress>
     </badaso-prompt>
+    <badaso-prompt
+      :active.sync="loaderSync"
+      buttons-hidden
+      title="Synchron Data Loading"
+      type="confirm"
+      class="badaso-loader"
+      color="primary"
+      headerColor="primary"
+    >
+      <br />
+      <vs-progress indeterminate :color="color">primary</vs-progress>
+    </badaso-prompt>
   </div>
 </template>
 
@@ -27,6 +39,7 @@ export default {
     title: "Loading",
     color: "primary",
     headerColor: null,
+    loaderSync: false,
   }),
   methods: {
     openLoader(payload = null) {
@@ -37,6 +50,9 @@ export default {
     },
     closeLoader() {
       this.loader = false;
+    },
+    syncLoader(loaderSyncStatus) {
+      this.loaderSync = loaderSyncStatus;
     },
   },
   computed: {

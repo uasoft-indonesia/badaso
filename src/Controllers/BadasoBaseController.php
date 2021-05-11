@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
+use Uasoft\Badaso\Models\DataType;
 
 class BadasoBaseController extends Controller
 {
@@ -274,6 +275,29 @@ class BadasoBaseController extends Controller
             DB::commit();
 
             return ApiResponse::entity($data_type);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function setMaintenanceState(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'slug' => 'required|exists:data_types,slug',
+                'is_maintenance' => 'required',
+            ]);
+
+            $data_type = DataType::where('slug', $request->slug)->firstOrFail();
+            $data_type->is_maintenance = $request->is_maintenance ? 1 : 0;
+            $data_type->save();
+
+            DB::commit();
+
+            return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
 

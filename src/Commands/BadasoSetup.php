@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Symfony\Component\VarExporter\VarExporter;
+use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
 
 class BadasoSetup extends Command
 {
@@ -53,13 +55,17 @@ class BadasoSetup extends Command
     {
         $this->force = $this->options()['force'] == 'true' || $this->options()['force'] == null;
 
+        $this->addingBadasoEnv();
         $this->updatePackageJson();
         $this->updateWebpackMix();
         $this->publishBadasoProvider();
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
         $this->publishLaravelFileManager();
+        $this->publishLaravelAnalytics();
+        $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
+        $this->addingBadasoAuthConfig();
     }
 
     protected function updatePackageJson()
@@ -68,6 +74,7 @@ class BadasoSetup extends Command
         $decoded_json = json_decode($package_json, true);
         $decoded_json['devDependencies']['axios'] = '^0.18';
         $decoded_json['devDependencies']['bootstrap'] = '^4.0.0';
+        $decoded_json['devDependencies']['copy-files-from-to'] = '^3.2.0';
         $decoded_json['devDependencies']['popper.js'] = '^1.12';
         $decoded_json['devDependencies']['cross-env'] = '^5.1';
         $decoded_json['devDependencies']['jquery'] = '^3.2';
@@ -76,6 +83,7 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['vue'] = '^2.5.7';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
+        $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
         $decoded_json['dependencies']['chart.js'] = '^2.8.0';
         $decoded_json['dependencies']['jspdf'] = '^2.3.1';
         $decoded_json['dependencies']['jspdf-autotable'] = '^3.5.14';
@@ -83,10 +91,12 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['material-icons'] = '^0.3.1';
         $decoded_json['dependencies']['prismjs'] = '^1.17.1';
+        $decoded_json['dependencies']['tinymce'] = '^5.7.1';
         $decoded_json['dependencies']['vue-chartjs'] = '^3.4.2';
         $decoded_json['dependencies']['vue-color'] = '^2.7.1';
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
         $decoded_json['dependencies']['vue-draggable-nested-tree'] = '^3.0.0-beta2';
+        $decoded_json['dependencies']['vue-gtag'] = '^1.16.1';
         $decoded_json['dependencies']['vue-i18n'] = '^8.22.4';
         $decoded_json['dependencies']['vue-json-excel'] = '^0.3.0';
         $decoded_json['dependencies']['uuid'] = '^8.3.2';
@@ -99,6 +109,13 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
+        $decoded_json['dependencies']['firebase'] = '^8.4.2';
+
+        $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
+        $decoded_json['copyFiles'][0] = (object) [
+            'from' => 'node_modules/tinymce/**/*',
+            'to' => 'public/js/',
+        ];
 
         $encoded_json = json_encode($decoded_json, JSON_PRETTY_PRINT);
         file_put_contents(base_path('package.json'), $encoded_json);
@@ -165,7 +182,7 @@ class BadasoSetup extends Command
     {
         $command_params = [
             '--provider' => "Spatie\Activitylog\ActivitylogServiceProvider",
-            '--tag'      => 'config',
+            '--tag' => 'config',
         ];
         if ($this->force) {
             $command_params['--force'] = true;
@@ -177,8 +194,12 @@ class BadasoSetup extends Command
 
     protected function uploadDefaultUserImage()
     {
-        $img = file_get_contents(public_path('/badaso-images/default-user.png'));
-        Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
+        try {
+            $img = file_get_contents(public_path('/badaso-images/default-user.png'));
+            Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
+        } catch (\Exception $e) {
+            $this->error('uploadDefaultImage '.$e->getMessage());
+        }
     }
 
     protected function publishLaravelFileManager()
@@ -189,6 +210,137 @@ class BadasoSetup extends Command
         }
         Artisan::call('vendor:publish', $command_params);
 
-        $this->info('Fime Manager provider published');
+        $this->info('File Manager provider published');
+    }
+
+    protected function publicFileFirebaseServiceWorker()
+    {
+        FirebasePublishFile::publishNow();
+    }
+
+    protected function addingBadasoAuthConfig()
+    {
+        try {
+            $path_config_auth = config_path('auth.php');
+            $config_auth = require $path_config_auth;
+
+            $config_auth['defaults'] = [
+                'guard' => 'badaso_guard',
+                'passwords' => 'users',
+            ];
+            $config_auth['guards']['badaso_guard'] = [
+                'driver' => 'jwt',
+                'provider' => 'badaso_users',
+            ];
+            $config_auth['providers']['badaso_users'] = [
+                'driver' => 'eloquent',
+                'model' => \Uasoft\Badaso\Models\User::class,
+            ];
+
+            $exported_config_auth = VarExporter::export($config_auth);
+            $exported_config_auth = <<<PHP
+                <?php 
+                return {$exported_config_auth} ;
+                PHP;
+            file_put_contents($path_config_auth, $exported_config_auth);
+            $this->info('Adding badaso auth config');
+        } catch (\Exception $e) {
+            $this->error('Failed adding badaso auth config ', $e->getMessage());
+        }
+    }
+
+    protected function envListUpload()
+    {
+        return [
+            'JWT_SECRET' => '',
+            'BADASO_AUTH_TOKEN_LIFETIME' => '',
+            'BADASO_LICENSE_KEY' => '',
+            'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
+            'MIX_DEFAULT_MENU' => 'admin',
+            'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'dashboard',
+            'MIX_API_ROUTE_PREFIX' => '',
+            'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
+            'MIX_API_ROUTE_PREFIX' => 'admin',
+            'MIX_FIREBASE_API_KEY' => '',
+            'MIX_FIREBASE_AUTH_DOMAIN' => '',
+            'MIX_FIREBASE_PROJECT_ID' => '',
+            'MIX_FIREBASE_STORAGE_BUCKET' => '',
+            'MIX_FIREBASE_MESSAGE_SEENDER' => '',
+            'MIX_FIREBASE_APP_ID' => '',
+            'MIX_FIREBASE_MEASUREMENT_ID' => '',
+            'MIX_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
+            'MIX_FIREBASE_SERVER_KEY' => '',
+            'FILESYSTEM_DRIVER' => 'public',
+            'AWS_ACCESS_KEY_ID' => '',
+            'AWS_SECRET_ACCESS_KEY' => '',
+            'AWS_DEFAULT_REGION' => '',
+            'AWS_BUCKET' => '',
+            'AWS_URL' => '',
+            'GOOGLE_DRIVE_CLIENT_ID' => '',
+            'GOOGLE_DRIVE_CLIENT_SECRET' => '',
+            'GOOGLE_DRIVE_REFRESH_TOKEN' => '',
+            'GOOGLE_DRIVE_FOLDER_ID' => '',
+            'DROPBOX_AUTH_TOKEN' => '',
+            'BACKUP_TARGET' => '',
+            'BACKUP_DISK' => '',
+            'MIX_DATE_FORMAT' => '',
+            'MIX_DATETIME_FORMAT' => '',
+            'MIX_TIME_FORMAT' => '',
+            'ANALYTICS_VIEW_ID' => '',
+            'MIX_ANALYTICS_TRACKING_ID' => '',
+            'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
+            'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
+        ];
+    }
+
+    protected function addingBadasoEnv()
+    {
+        try {
+            $env_path = base_path('.env');
+
+            $env_file = file_get_contents($env_path);
+            $arr_env_file = explode("\n", $env_file);
+
+            $env_will_adding = $this->envListUpload();
+
+            $new_env_adding = [];
+            foreach ($env_will_adding as $key_add_env => $val_add_env) {
+                $status_adding = true;
+                foreach ($arr_env_file as $key_env_file => $val_env_file) {
+                    $val_env_file = trim($val_env_file);
+                    if (substr($val_env_file, 0, 1) != '#' && $val_env_file != '' && strstr($val_env_file, $key_add_env)) {
+                        $status_adding = false;
+                        break;
+                    }
+                }
+                if ($status_adding) {
+                    $new_env_adding[] = "{$key_add_env}={$val_add_env}";
+                }
+            }
+
+            foreach ($new_env_adding as $index_env_add => $val_env_add) {
+                $arr_env_file[] = $val_env_add;
+            }
+
+            $env_file = join("\n", $arr_env_file);
+            file_put_contents($env_path, $env_file);
+
+            $this->info('Adding badaso env');
+        } catch (\Exception $e) {
+            $this->error('Failed adding badaso env '.$e->getMessage());
+        }
+    }
+
+    protected function publishLaravelAnalytics()
+    {
+        $command_params = [
+            '--provider' => "Spatie\Analytics\AnalyticsServiceProvider",
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
+
+        $this->info('Laravel analytics provider published');
     }
 }

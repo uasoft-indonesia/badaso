@@ -3,6 +3,7 @@ import Vuesax from "vuesax";
 import VueI18n from "vue-i18n";
 import { Datetime } from "vue-datetime";
 import Vuelidate from "vuelidate";
+import VueGtag from "vue-gtag";
 
 import "vuesax/dist/vuesax.css"; //Vuesax styles
 import "material-icons/iconfont/material-icons.css";
@@ -15,12 +16,25 @@ import resource from "./api/resource";
 import router from "./router/router";
 import store from "./store/store";
 import lang from "./lang/";
+import excludedRouter from './router/excludeRouter';
 
 import App from "./apps/App.vue";
 
 import firebase from "firebase/app";
 import "firebase/firebase-messaging";
-import { notificationMessageReceive } from "./utils/firebase";
+import { notificationMessageReceiveHandle } from "./utils/firebase";
+import { broadcastMessageHandle } from "./utils/broadcast-messages";
+import { checkConnection } from "./utils/check-connection";
+
+// IDENTIFIED VARIABLE BROADCAST CHANNEL
+let broadcastChannelName = "sw-badaso-messages";
+let broadcastChannel = null;
+
+try {
+  broadcastChannel = new BroadcastChannel(broadcastChannelName);
+} catch (error) {
+  console.error('Broadcast Channel Error ', error)
+}
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -30,6 +44,29 @@ Vue.use(VueI18n);
 Vue.use(Datetime);
 Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
+
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
+
+// EXCLUDED ROUTES
+let excluded = [];
+excluded = excludedRouter;
+
+// DYNAMIC IMPORT PLUGINS FOR COMPONENTS
+try {
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        let router = require('../../../../' + plugin + '/src/resources/js/router/excludeRouter.js').default;
+        excluded.push(...router);
+      });
+    }
+  }
+} catch (error) {
+  console.info("Failed to load pages", error);
+}
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
@@ -172,6 +209,23 @@ try {
   console.info("Failed to load custom pages", error);
 }
 
+// DYNAMIC IMPORT PLUGINS FOR COMPONENTS
+try {
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        let fileName = require('../../../../' + plugin + '/src/resources/js/components/index.js').default;
+        Object.values(fileName).forEach((value, index) => {
+          Vue.component(value.name, value);
+        })
+      });
+    }
+  }
+} catch (error) {
+  console.info("Failed to load pages", error);
+}
+
 const i18n = new VueI18n({
   locale: "id",
   fallbackLocale: "en",
@@ -211,6 +265,15 @@ Vue.prototype.$closeLoader = function() {
   }
 };
 
+Vue.prototype.$syncLoader = function(statusSyncLoader) {
+  try {
+    this.$root.$children[0].syncLoader(statusSyncLoader);
+  } catch (error) {
+    console.log("Sync Loader", error);
+  }
+};
+
+
 // ADD FIREBASE MESSAGE
 let firebaseConfig = {
   apiKey: process.env.MIX_FIREBASE_API_KEY,
@@ -231,6 +294,18 @@ Vue.prototype.$messaging = {};
 Vue.prototype.$messagingToken = {};
 Vue.prototype.$statusActiveFeatureFirebase = statusActiveFeatureFirebase;
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    // register worker
+    navigator.serviceWorker
+      .register("/firebase-messaging-sw.js")
+      .then((register) => {})
+      .catch((error) =>
+        console.log("Service Worker Firebase Register Failed : ", error)
+      );
+  });
+}
+
 if (statusActiveFeatureFirebase) {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -238,22 +313,27 @@ if (statusActiveFeatureFirebase) {
     firebase.app();
   }
 
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((register) => {})
-        .catch((error) =>
-          console.log("Service Worker Register Failed : ", error)
-        );
-    });
-  }
-
   Vue.prototype.$messaging = firebase.messaging();
   Vue.prototype.$messagingToken = firebase
     .messaging()
     .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
 }
+// END ADD FIREBASE
+
+// IDENTIFIED BROADCAST CHANNEL
+Vue.prototype.$broadcastChannelName = broadcastChannelName;
+Vue.prototype.$broadcastChannel = broadcastChannel;
+
+// START G-TAG
+
+Vue.use(VueGtag, {
+  pageTrackerExcludedRoutes: excluded,
+  config: {
+    id: process.env.MIX_ANALYTICS_TRACKING_ID ? process.env.MIX_ANALYTICS_TRACKING_ID : null
+  }
+}, router);
+
+// END G-TAG
 
 const app = new Vue({
   store,
@@ -262,5 +342,11 @@ const app = new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-// ADD FIREBASE MESSAGE
-if (statusActiveFeatureFirebase) notificationMessageReceive(app);
+// HANDLE FIREBASE MESSAGE
+if (statusActiveFeatureFirebase) notificationMessageReceiveHandle(app);
+
+// HANDLE BROADCAST MESSAGE FROM SERVICE WORKER
+broadcastMessageHandle(app);
+
+// HANDLE OFFLINE MODE
+checkConnection(app);

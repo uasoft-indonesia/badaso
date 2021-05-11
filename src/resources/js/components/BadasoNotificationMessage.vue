@@ -5,8 +5,10 @@
       v-on:click="openOrCloseSideBarNotification()"
       href="#"
       :style="{ color: topbarFontColor }"
-      ><vs-icon icon="notifications"></vs-icon
-    ></a>
+    >
+      <vs-icon icon="notifications"></vs-icon>
+      <sup>{{ countUnreadMessage }}</sup>
+    </a>
 
     <!-- list notification -->
     <vs-sidebar
@@ -19,8 +21,8 @@
       v-model="sideBarNotification"
     >
       <div class="header-sidebar" index="1" icon="notifications" slot="header">
-        <vs-sidebar-item index="0" icon="notifications">
-          <h4>{{ $t("notification.notification") }}</h4>
+        <vs-sidebar-item style="margin-bottom : -4% ;" index="0" icon="notifications">
+          <strong>{{ $t("notification.notification") }}</strong>
         </vs-sidebar-item>
       </div>
       <vs-sidebar-item
@@ -141,12 +143,19 @@ export default {
       if (!message.isRead) {
         this.messages[index].isRead = 1;
         this.messages[index].style = { backgroundColor: "#ffffff" };
-        this.readMessage(message.id)
+        this.readMessage(message.id);
+        this.loadUnreadMessage()
       }
     },
     closeSideBarDetailMessage() {
       this.sideBarDetailMessage = false;
       this.sideBarNotification = true;
+    },
+    loadUnreadMessage() {
+      this.$store.commit("badaso/SET_GLOBAL_STATE", {
+        key: "countUnreadMessage",
+        value: this.messages.filter(message => message.isRead != 1).length,
+      });
     },
     getMessages() {
       this.$api.badasoFcm
@@ -158,6 +167,9 @@ export default {
             };
             return item;
           });
+
+          let countUnreadMessage = this.messages.length;
+          this.loadUnreadMessage()
         })
         .catch((error) => {
           this.$vs.notify({
@@ -179,6 +191,13 @@ export default {
     openOrCloseSideBarNotification() {
       this.sideBarNotification = !this.sideBarNotification;
       this.getMessages();
+    },
+  },
+  computed: {
+    countUnreadMessage() {
+      let countUnreadMessage = this.$store.getters["badaso/getGlobalState"]
+        .countUnreadMessage;
+      return countUnreadMessage;
     },
   },
   created() {

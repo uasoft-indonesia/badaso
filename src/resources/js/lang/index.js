@@ -3,6 +3,10 @@ import _ from "lodash";
 let exported = {};
 let languages = [];
 
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
+
 // DYNAMIC IMPORT BADASO LANG
 try {
   const modules = require.context("./modules", false, /\.js$/); //
@@ -73,6 +77,31 @@ try {
   });
 } catch (error) {
   console.info("Failed to load custom languages", error);
+}
+
+// DYNAMIC IMPORT BADASO PLUGINS LANG
+try {
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    if (plugins && plugins.length > 0) {
+      plugins.forEach(plugin => {
+        const modules = require("../../../../../" + plugin + "/src/resources/js/lang/").default
+        Object.keys(modules.i18n).forEach((module, index) => {
+          if (exported[module]) {
+            exported[module] = _.merge(
+              exported[module],
+              modules.i18n[module]
+            );
+          } else {
+            exported[module] = modules.i18n[module];
+            languages.push(modules.languages[index]);
+          }
+        })
+      });
+    }
+  }
+} catch (error) {
+  console.info("Failed to load badaso plugin languages", error);
 }
 
 export default {

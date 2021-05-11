@@ -12,7 +12,7 @@ export default {
       "* {0} hanya alfanumerik dan underscore (_) diperbolehkan.",
     unique: "* {0} harus unik.",
     distinct: "* Hanya satu {0} dibolehkan.",
-    requiredPrimary: "* Hanya {0} dibolehkan."
+    requiredPrimary: "* Hanya {0} dibolehkan.",
   },
   login: {
     title: "Masuk",
@@ -850,7 +850,7 @@ export default {
     },
     edit: {
       title: "Ubah {tableName}",
-      button: "Simpan",
+      button: "Perbarui",
     },
     detail: {
       title: "Detail {tableName}",
@@ -859,6 +859,11 @@ export default {
     sort: {
       title: "Menyortir {tableName}",
     },
+    maintenanceDialog: {
+      title: "Pengaturan",
+      switch: "Mode Maintenance",
+      button: "Simpan"
+    }
   },
   keyIssue: {
     title: "License Issues",
@@ -895,6 +900,7 @@ export default {
         title: "Migration Tidak Sinkron",
         notAllowed:
           "Sebelum Anda dapat menggunakan Database Management, Anda harus memigrasi file yang belum dimigrasi atau Anda dapat menghapus file migrasi. Berikut ini daftar dari file migrasi yang belum dimigrasi:",
+        empty: "Kamu harus menghapus generated CRUD ini terlebih dahulu di CRUD Management."
       },
     },
     add: {
@@ -956,7 +962,12 @@ export default {
           action: "Aksi",
           add: "Add",
         },
-        drop: "Are you sure want to delete this field?",
+        drop: "Apakah Anda yakin ingin menghapus field ini?",
+      },
+      warning: {
+        title: "PENTING",
+        content: "Hanya jenis kolom berikut yang dapat \"diubah\": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text dan Time.",
+        crud: "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel."
       },
       error: {
         fieldName: "Field name dibutuhkan.",
@@ -980,7 +991,8 @@ export default {
     warning: {
       docs: "Mohon baca artikel {0} sebelum kamu membuat migrasi.",
       exists: "Field {0} sudah ada.",
-      invalid: "Request tidak valid. Mohon periksa kembali field atau nama tabel jika valid atau tidak."
+      invalid:
+        "Request tidak valid. Mohon periksa kembali field atau nama tabel jika valid atau tidak.",
     },
     migration: {
       header: {
@@ -1020,8 +1032,29 @@ export default {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
   },
+  apidocs: {
+    title: "API Dokumentasi",
+    warning: {
+      notAllowedToBrowse: "Anda tidak diizinkan untuk menjelajahi api dokumentasi.",
+    },
+  },
   notification: {
     notification: "Pemberitahuan",
     detailMessage: "Detail Pesan",
+  },
+  noInternetAccess:
+    "Data tidak dapat dimuat karena internet Anda tidak terhubung. Tolong sambungkan internet lagi!",
+  offlineFeature: {
+    dataPending: "Data Tertunda...",
+    dataUpdatePending: "Data Update Tertunda...",
+    dataPendingAdd: {
+      title: "Data Tertunda",
+    },
+    dataPendingEdit: {
+      title: "Menampilkan Data Tertunda",
+    },
+    crudGenerator: {
+      deleteDataPending: "Delete Data Tertunda",
+    },
   },
 };

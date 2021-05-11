@@ -41,4 +41,19 @@ class BadasoFCMMessagesController extends Controller
             return ApiResponse::failed($e);
         }
     }
+
+    public function getCountUnreadMessage()
+    {
+        try {
+            $user = auth()->user();
+            $user_id = $user->id;
+            $fcm_messages = FCMMessage::where('receiver_user_id', $user_id)->where('is_read', true)->count();
+
+            return ApiResponse::success([
+                'count_unread_message' => $fcm_messages,
+            ]);
+        } catch (\Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
 }

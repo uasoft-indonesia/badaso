@@ -27,12 +27,16 @@
     "larapack/doctrine-support": "~0.1.4",
     "arcanedev/log-viewer": "4.2.1",
     "spatie/laravel-activitylog": "3.2.2",
+    "spatie/laravel-analytics": "^3.11",
     "spatie/laravel-backup": "5.12.1",
     "spatie/flysystem-dropbox": "1.2.2",
     "nao-pon/flysystem-google-drive": "1.1.13",
     "league/flysystem-aws-s3-v3": "1.0.28",
     "guzzlehttp/guzzle": "6.5.5",
-    "unisharp/laravel-filemanager": "2.2"
+    "unisharp/laravel-filemanager": "2.2",
+    "darkaonline/l5-swagger": "5.8.*",
+    "zircote/swagger-php": "3.*",
+    "symfony/var-exporter": "5.2"
   },
   "authors": [
     {

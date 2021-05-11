@@ -6,10 +6,11 @@ import "firebase/firebase-messaging";
 export const keyMessageNotification = "MessageNotification";
 export const keyFCMTokenMessage = "FCMTokenMessage";
 
-export const notificationMessageReceive = async (app) => {
+export const notificationMessageReceiveHandle = async (app) => {
   try {
     //   initial firebase
     let firebaseMessages = app.$messaging;
+    let store = app.$store;
 
     const handleMessage = (isReadMessage) => (messageData) => {
       let {
@@ -24,7 +25,11 @@ export const notificationMessageReceive = async (app) => {
         time: 4000,
       });
 
-      app.$api.badasoFcm.readMessage(fcm_message_id);
+      // app.$api.badasoFcm.readMessage(fcm_message_id);
+      store.commit("badaso/SET_GLOBAL_STATE", {
+        key: "countUnreadMessage",
+        value: store.getters["badaso/getGlobalState"].countUnreadMessage + 1,
+      });
     };
 
     firebaseMessages.onMessage(handleMessage(true));
