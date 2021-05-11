@@ -147,10 +147,10 @@ class FixedMenuItemSeeder extends Seeder
                     'created_at'  => '2021-01-01 15:26:06',
                     'updated_at'  => '2021-01-01 15:26:06',
                 ],
-                9 => [
+                10 => [
                     'menu_id' => '2',
                     'title' => 'API Documentation',
-                    'url' => '/api/documentation',
+                    'url' => '/api-docs',
                     'target' => '_self',
                     'icon_class' => 'menu_book',
                     'color' => '',
