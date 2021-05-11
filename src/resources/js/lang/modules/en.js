@@ -899,6 +899,7 @@ export default {
         title: "Migration Not Sync",
         notAllowed:
           "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:",
+        empty: "You must delete this generated CRUD first on CRUD Management."
       },
     },
     add: {
@@ -961,6 +962,12 @@ export default {
           add: "Add",
         },
         drop: "Are you sure want to delete this field?",
+      },
+      warning: {
+        title: "IMPORTANT",
+        content: "Only the following column types can be \"changed\": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.",
+        crud: "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
+        notAllowed: "You're not allowed to edit."
       },
       error: {
         fieldName: "Field name is required.",
