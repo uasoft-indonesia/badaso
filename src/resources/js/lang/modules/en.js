@@ -1027,6 +1027,12 @@ export default {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
   },
+  apidocs: {
+    title: "API Documentation",
+    warning: {
+      notAllowedToBrowse: "You're not allowed to browse api documentation.",
+    },
+  },
   notification: {
     notification: "Notification",
     detailMessage: "Detail Message",

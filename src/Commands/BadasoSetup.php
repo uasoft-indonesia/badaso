@@ -288,6 +288,7 @@ class BadasoSetup extends Command
             'MIX_TIME_FORMAT' => '',
             'ANALYTICS_VIEW_ID' => '',
             'MIX_ANALYTICS_TRACKING_ID' => '',
+            'MIX_API_DOCS_ROUTE' => '',
         ];
     }
 

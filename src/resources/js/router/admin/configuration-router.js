@@ -8,9 +8,9 @@ let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
   ? process.env.MIX_LOG_VIEWER_ROUTE
   : "log-viewer";
 
-let api_docs = process.env.MIX_API_DOCUMENTATION_ROUTE
-  ? process.env.MIX_API_DOCUMENTATION_ROUTE
-  : "api/documentation";
+let api_docs = process.env.MIX_API_DOCS_ROUTE
+  ? process.env.MIX_API_DOCS_ROUTE
+  : "api-docs";
 
 export default [
   {
@@ -303,12 +303,10 @@ export default [
   },
   {
     path: prefix + "/" + api_docs,
-    name: "ApiDocumentation",
-    beforeEnter() {
-      location.href = "/" + api_docs;
-    },
+    name: "ApiDocsBrowse",
+    component: Pages,
     meta: {
       title: "Browse API Documentation",
-    }
-  }
+    },
+  },
 ];

@@ -1026,6 +1026,12 @@ export default {
       notAllowedToBrowse: "You're not allowed to browse log viewer",
     },
   },
+  apidocs: {
+    title: "API Dokumentasi",
+    warning: {
+      notAllowedToBrowse: "Anda tidak diizinkan untuk menjelajahi api dokumentasi.",
+    },
+  },
   notification: {
     notification: "Pemberitahuan",
     detailMessage: "Detail Pesan",
