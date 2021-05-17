@@ -57,4 +57,7 @@ export default {
   sort(data) {
     return resource.put(entity_prefix + "/" + data.slug + "/sort", data);
   },
+  maintenance(data = {}) {
+    return resource.post(entity_prefix + "/" + data.slug + "/maintenance", data);
+  },
 };

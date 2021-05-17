@@ -20,4 +20,18 @@ return [
         'Uasoft\\Badaso\\Widgets\\RoleWidget',
         'Uasoft\\Badaso\\Widgets\\PermissionWidget',
     ],
+    'whitelist' => [
+        'web' => [],
+        'badaso' => [
+            '/maintenance',
+            '/login',
+        ],
+        'api' => [
+            '/v1/verify-badaso',
+            '/v1/configurations/applyable',
+            '/v1/maintenance',
+            '/v1/auth/login',
+            '/v1/file/*',
+        ],
+    ],
 ];

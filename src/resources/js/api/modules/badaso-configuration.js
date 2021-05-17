@@ -13,6 +13,13 @@ export default {
     return resource.get(url);
   },
 
+  maintenance(data = {}) {
+    let ep = apiPrefix + "/v1/configurations/maintenance";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
   browse(data = {}) {
     let ep = apiPrefix + "/v1/configurations";
     let qs = QueryString(data);

@@ -19,6 +19,12 @@ export default (error) => {
         message: data.message ? data.message : "",
       });
       return Promise.reject(data);
+    } else if (status === 503) {
+      let data = error.response.data;
+      let message = error.response.data.message;
+      data.status = status;
+      data.message = message;
+      return Promise.reject(data);
     }
   }
 
@@ -28,7 +34,8 @@ export default (error) => {
         "Data cannot load because internet of you not connected. Please to you connect internet again!",
       errors: [],
     });
-  }
+    return Promise.reject(data);
+  } 
 
   return Promise.reject({});
 };

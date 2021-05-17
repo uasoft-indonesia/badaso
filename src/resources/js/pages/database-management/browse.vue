@@ -134,6 +134,10 @@
           <div slot="header">
             <h3>{{ $t("database.browse.title") }}</h3>
           </div>
+          <badaso-alert-block>
+            <template slot="title">{{ $t('database.edit.warning.title') }}</template>
+            <template slot="desc">{{ $t('database.edit.warning.crud') }}</template>
+          </badaso-alert-block>
           <div>
             <badaso-table
               v-model="selected"
@@ -176,7 +180,7 @@
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="edit"
-                          v-if="$helper.isAllowed('edit_database')"
+                          v-if="$helper.isAllowed('edit_database') && data[index].isCanEdit"
                           :to="{
                             name: 'DatabaseManagementAlter',
                             params: { tableName: data[index].tableName },
@@ -187,9 +191,12 @@
                         <badaso-dropdown-item
                           icon="delete"
                           @click="openConfirm(data[index].tableName)"
-                          v-if="$helper.isAllowed('delete_database')"
+                          v-if="$helper.isAllowed('delete_database') && data[index].isCanDrop"
                         >
                           {{ $t("database.browse.dropButton") }}
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item v-else >
+                          {{ $t("database.browse.warning.empty") }}
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
                     </badaso-dropdown>
@@ -293,6 +300,10 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
+          this.tables.map((value, index) => {
+            this.$set(value, 'isCanEdit', value.crudData === null ? true : false);
+            this.$set(value, 'isCanDrop', value.crudData === null ? true : false);
+          })
         })
         .catch((error) => {
           this.$closeLoader();

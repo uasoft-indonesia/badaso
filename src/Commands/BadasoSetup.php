@@ -62,6 +62,7 @@ class BadasoSetup extends Command
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
         $this->publishLaravelFileManager();
+        $this->publishLaravelAnalytics();
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
         $this->addingBadasoAuthConfig();
@@ -95,6 +96,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vue-color'] = '^2.7.1';
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
         $decoded_json['dependencies']['vue-draggable-nested-tree'] = '^3.0.0-beta2';
+        $decoded_json['dependencies']['vue-gtag'] = '^1.16.1';
         $decoded_json['dependencies']['vue-i18n'] = '^8.22.4';
         $decoded_json['dependencies']['vue-json-excel'] = '^0.3.0';
         $decoded_json['dependencies']['uuid'] = '^8.3.2';
@@ -284,6 +286,10 @@ class BadasoSetup extends Command
             'MIX_DATE_FORMAT' => '',
             'MIX_DATETIME_FORMAT' => '',
             'MIX_TIME_FORMAT' => '',
+            'ANALYTICS_VIEW_ID' => '',
+            'MIX_ANALYTICS_TRACKING_ID' => '',
+            'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
+            'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
         ];
     }
 
@@ -321,8 +327,20 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            dd($e->getMessage());
             $this->error('Failed adding badaso env '.$e->getMessage());
         }
+    }
+
+    protected function publishLaravelAnalytics()
+    {
+        $command_params = [
+            '--provider' => "Spatie\Analytics\AnalyticsServiceProvider",
+        ];
+        if ($this->force) {
+            $command_params['--force'] = true;
+        }
+        Artisan::call('vendor:publish', $command_params);
+
+        $this->info('Laravel analytics provider published');
     }
 }

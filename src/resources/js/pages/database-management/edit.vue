@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row></badaso-breadcrumb-row>
-    <vs-row v-if="$helper.isAllowed('edit_database')">
+    <vs-row v-if="$helper.isAllowed('edit_database') && isCanEdit">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
@@ -49,8 +49,8 @@
             <h3>{{ $t("database.edit.row.title") }}</h3>
           </div>
           <badaso-alert-block>
-            <template slot="title">IMPORTANT</template>
-            <template slot="desc">Only the following column types can be "changed": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.</template>
+            <template slot="title">{{ $t('database.edit.warning.title') }}</template>
+            <template slot="desc">{{ $t('database.edit.warning.content') }}</template>
           </badaso-alert-block>
           <vs-row vs-justify="center" vs-align="center">
             <vs-col col-lg="12" style="overflow-x: auto">
@@ -317,7 +317,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t("database.warning.notAllowed") }}</h3>
+              <h3>{{ $t("database.edit.warning.notAllowed") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -373,6 +373,7 @@ export default {
         modifiedFields: [],
       },
     },
+    isCanEdit: false,
     fieldTypeList: [],
   }),
   validations() {
@@ -431,6 +432,7 @@ export default {
   mounted() {
     this.getInfoTable();
     this.getDbmsFieldType();
+    this.getIsCanEdit();
   },
   methods: {
     getDbmsFieldType() {
@@ -445,6 +447,21 @@ export default {
             text: error.message,
             color: "danger",
           });
+        });
+    },
+
+    getIsCanEdit() {
+      this.$api.badasoEntity
+        .browse({
+          slug: this.$route.params.tableName,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.isCanEdit = false;
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.isCanEdit = true;
         });
     },
 

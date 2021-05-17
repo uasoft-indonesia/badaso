@@ -14,6 +14,7 @@ use Uasoft\Badaso\Commands\BadasoFirebaseCommand;
 use Uasoft\Badaso\Commands\BadasoSetup;
 use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
+use Uasoft\Badaso\Middleware\CheckForMaintenanceMode;
 
 class BadasoServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,9 @@ class BadasoServiceProvider extends ServiceProvider
     {
         $loader = AliasLoader::getInstance();
         $loader->alias('Badaso', FacadesBadaso::class);
+
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', CheckForMaintenanceMode::class);
 
         $this->app->singleton('badaso', function () {
             return new Badaso();
@@ -51,6 +55,8 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views/vendor' => resource_path('views/vendor'),
             __DIR__.'/../Models/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
             __DIR__.'/../Config/hidden-tables.php' => config_path('hidden-tables.php'),
+            __DIR__.'/../Config/analytics.php' => config_path('analytics.php'),
+            __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
         ], 'Badaso');
 
         $this->publishes([
@@ -61,6 +67,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
             __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
             __DIR__.'/../Config/hidden-tables.php' => config_path('hidden-tables.php'),
+            __DIR__.'/../Config/analytics.php' => config_path('analytics.php'),
         ], 'BadasoConfig');
 
         $this->publishes([
