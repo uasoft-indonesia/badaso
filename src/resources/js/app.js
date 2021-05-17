@@ -26,16 +26,6 @@ import { notificationMessageReceiveHandle } from "./utils/firebase";
 import { broadcastMessageHandle } from "./utils/broadcast-messages";
 import { checkConnection } from "./utils/check-connection";
 
-// IDENTIFIED VARIABLE BROADCAST CHANNEL
-let broadcastChannelName = "sw-badaso-messages";
-let broadcastChannel = null;
-
-try {
-  broadcastChannel = new BroadcastChannel(broadcastChannelName);
-} catch (error) {
-  console.error('Broadcast Channel Error ', error)
-}
-
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
@@ -44,6 +34,16 @@ Vue.use(VueI18n);
 Vue.use(Datetime);
 Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
+
+// IDENTIFIED VARIABLE BROADCAST CHANNEL
+let broadcastChannelName = "sw-badaso-messages";
+let broadcastChannel = null;
+try {
+  broadcastChannel = new BroadcastChannel(broadcastChannelName);
+} catch (error) {
+  console.error('Broadcast Channel Error ', error)
+}
+// END IDENTIFIED VARIABLE BROADCAST CHANNEL
 
 const pluginsEnv = process.env.MIX_BADASO_PLUGINS
   ? process.env.MIX_BADASO_PLUGINS
@@ -288,7 +288,9 @@ let firebaseConfig = {
 let statusActiveFeatureFirebase = true;
 for (let key in firebaseConfig)
   statusActiveFeatureFirebase =
-    statusActiveFeatureFirebase && firebaseConfig[key] != undefined;
+    statusActiveFeatureFirebase &&
+    firebaseConfig[key] != undefined &&
+    firebaseConfig[key] != "";
 
 Vue.prototype.$messaging = {};
 Vue.prototype.$messagingToken = {};
