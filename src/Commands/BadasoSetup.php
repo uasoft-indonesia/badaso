@@ -123,7 +123,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -268,7 +268,7 @@ class BadasoSetup extends Command
             'MIX_FIREBASE_MEASUREMENT_ID' => '',
             'MIX_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
             'MIX_FIREBASE_SERVER_KEY' => '',
-            'FILESYSTEM_DRIVER' => '',
+            'FILESYSTEM_DRIVER' => 'public',
             'AWS_ACCESS_KEY_ID' => '',
             'AWS_SECRET_ACCESS_KEY' => '',
             'AWS_DEFAULT_REGION' => '',
