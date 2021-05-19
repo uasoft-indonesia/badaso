@@ -20,8 +20,19 @@
 </template>
 
 <script>
+
+
 import tinymce from "tinymce";
 import TinyMCE from "@tinymce/tinymce-vue";
+import 'tinymce/themes/silver/theme'
+
+
+import 'tinymce/icons/default/icons'
+import 'tinymce/skins/ui/oxide/skin.min.css'
+import 'tinymce/skins/ui/oxide/content.min.css'
+import 'tinymce/skins/content/default/content.css'
+
+
 import "tinymce/plugins/advlist";
 import "tinymce/plugins/anchor";
 import "tinymce/plugins/contextmenu";
