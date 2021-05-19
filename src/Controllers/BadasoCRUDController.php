@@ -17,6 +17,7 @@ use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiDocs;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
+use Uasoft\Badaso\Helpers\HiddenWatchTableConfig;
 use Uasoft\Badaso\Models\DataRow;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
@@ -28,11 +29,19 @@ class BadasoCRUDController extends Controller
     public function browse(Request $request)
     {
         try {
+            // init table watch table
+            $config_watch_tables = HiddenWatchTableConfig::get();
+            // end init table watch table
+
             $protected_tables = Badaso::getProtectedTables();
             $tables = SchemaManager::listTables();
             $tables_with_crud_data = [];
             foreach ($tables as $key => $value) {
-                if (! in_array($key, $protected_tables)) {
+                if (!in_array($key, $protected_tables)) {
+                    // add table watch config
+                    $config_watch_tables->addWatchTable($key);
+                    // end add table watch config
+
                     $table_with_crud_data = [];
                     $table_with_crud_data['table_name'] = $key;
                     $table_with_crud_data['crud_data'] = Badaso::model('DataType')::where('name', $key)->first();
@@ -64,7 +73,7 @@ class BadasoCRUDController extends Controller
             foreach ($table_fields as $key => $column) {
                 $field = $key;
                 $column = collect($column)->toArray();
-                if (! in_array($field, $generated_fields)) {
+                if (!in_array($field, $generated_fields)) {
                     $data_row['data_type_id'] = $data_type->id;
                     $data_row['field'] = $key;
                     $data_row['type'] = DataTypeToComponent::convert($column['type']);
@@ -119,34 +128,34 @@ class BadasoCRUDController extends Controller
 
         try {
             $request->validate([
-                'id'   => 'required|exists:data_types',
+                'id' => 'required|exists:data_types',
                 'name' => [
                     'required',
                     "unique:data_types,name,{$request->id}",
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                 ],
-                'rows'         => 'required',
+                'rows' => 'required',
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        if (! Schema::hasColumn($request->name, $value)) {
+                        if (!Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
-                            if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
                     },
                 ],
-                'rows.*.type'           => 'required',
-                'rows.*.display_name'   => 'required',
+                'rows.*.type' => 'required',
+                'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
             ]);
@@ -259,30 +268,30 @@ class BadasoCRUDController extends Controller
                     'required',
                     'unique:data_types',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
-                'rows'         => 'required',
+                'rows' => 'required',
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        if (! Schema::hasColumn($request->name, $value)) {
+                        if (!Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
-                            if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
                     },
                 ],
-                'rows.*.type'           => 'required',
-                'rows.*.display_name'   => 'required',
+                'rows.*.type' => 'required',
+                'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
             ]);
@@ -421,7 +430,7 @@ class BadasoCRUDController extends Controller
 
         $menu_item = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'url'     => $url,
+            'url' => $url,
         ]);
 
         $menu_item = MenuItem::where('menu_id', $menu->id)->where('url', $url)->first();
@@ -457,10 +466,10 @@ class BadasoCRUDController extends Controller
 
     private function generateAPIDocs($table_name, $data_rows, $data_type)
     {
-        $filesystem = new LaravelFileSystem;
+        $filesystem = new LaravelFileSystem();
         $file_path = ApiDocs::getFilePath($table_name);
         $stub = ApiDocs::getStub($table_name, $data_rows, $data_type);
-        if (! $filesystem->put($file_path, $stub)) {
+        if (!$filesystem->put($file_path, $stub)) {
             return false;
         }
 
@@ -469,7 +478,7 @@ class BadasoCRUDController extends Controller
 
     private function deleteAPIDocs($table_name)
     {
-        $filesystem = new LaravelFileSystem;
+        $filesystem = new LaravelFileSystem();
         $file_path = ApiDocs::getFilePath($table_name);
         if ($filesystem->exists($file_path)) {
             return $filesystem->delete($file_path);

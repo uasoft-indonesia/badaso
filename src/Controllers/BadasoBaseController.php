@@ -33,7 +33,7 @@ class BadasoBaseController extends Controller
             $data_type = $this->getDataType($slug);
 
             $builder_params = [
-                'order_field'     => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
+                'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
                 'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
             ];
 
@@ -96,7 +96,7 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
-                    'old'        => $updated['old_data'],
+                    'old' => $updated['old_data'],
                     'attributes' => $updated['updated_data'],
                 ])
                 ->log($data_type->display_name_singular.' has been updated');

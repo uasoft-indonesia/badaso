@@ -23,7 +23,7 @@ class BadasoDeploymentOrchestrator
 
     /** @var array */
     const HANDLERS = [
-        self::CRUD_DATA_ADDED   => CRUDDataAddedHandler::class,
+        self::CRUD_DATA_ADDED => CRUDDataAddedHandler::class,
         self::CRUD_DATA_UPDATED => CRUDDataUpdatedHandler::class,
         self::CRUD_DATA_DELETED => CRUDDataDeletedHandler::class,
     ];
@@ -46,9 +46,9 @@ class BadasoDeploymentOrchestrator
      */
     public function handle(CRUDDataChanged $crud_data_changed)
     {
-        if (! in_array(
+        if (!in_array(
             $crud_data_changed->data_type->name,
-            config('badaso.watch_tables')
+            config('badaso-watch-tables')
         )
         ) {
             return;
