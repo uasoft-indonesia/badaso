@@ -1,7 +1,12 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
     <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
-    <editor id="tinymce" :value="value" @input="handleInput($event)" :init="init"></editor>
+    <editor
+      id="tinymce"
+      :value="value"
+      @input="handleInput($event)"
+      :init="init"
+    ></editor>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
@@ -20,18 +25,16 @@
 </template>
 
 <script>
-
-
 import tinymce from "tinymce";
 import TinyMCE from "@tinymce/tinymce-vue";
-import 'tinymce/themes/silver/theme'
 
+import "tinymce/themes/silver/theme";
+import "tinymce/themes/mobile/theme";
 
-import 'tinymce/icons/default/icons'
-import 'tinymce/skins/ui/oxide/skin.min.css'
-import 'tinymce/skins/ui/oxide/content.min.css'
-import 'tinymce/skins/content/default/content.css'
-
+import "tinymce/icons/default/icons";
+import "tinymce/skins/ui/oxide/skin.min.css";
+import "tinymce/skins/ui/oxide/content.min.css";
+// import 'tinymce/skins/content/default/content.css'
 
 import "tinymce/plugins/advlist";
 import "tinymce/plugins/anchor";
@@ -77,72 +80,73 @@ import "tinymce/plugins/charmap";
 import "tinymce/plugins/code";
 import "tinymce/plugins/codesample";
 import "tinymce/plugins/colorpicker";
+import "tinymce/plugins/emoticons/js/emojis";
 
 export default {
   name: "BadasoEditor",
   components: {
-    "editor": TinyMCE,
+    editor: TinyMCE,
   },
   data() {
     return {
       init: {
         height: 500,
         plugins: [
-          'lists advlist',
-          'image imagetools',
-          'link autolink',
-          'table',
-          'charmap',
-          'searchreplace visualblocks code fullscreen',
-          'print preview anchor insertdatetime media',
-          'help codesample hr pagebreak nonbreaking toc textpattern noneditable ',
-          'importcss',
-          'directionality',
-          'visualchars',
-          'emoticons',
-          'autosave'
+          "lists advlist",
+          "image imagetools",
+          "link autolink",
+          "table",
+          "charmap",
+          "searchreplace visualblocks code fullscreen",
+          "print preview anchor insertdatetime media",
+          "help codesample hr pagebreak nonbreaking toc textpattern noneditable ",
+          "importcss",
+          "directionality",
+          "visualchars",
+          "emoticons",
+          "autosave",
         ],
         toolbar: [
-          'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect',
-          'alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | preview save print | insertfile image media template link anchor codesample | ltr rtl',
+          "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect",
+          "alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | preview save print | insertfile image media template link anchor codesample | ltr rtl",
         ],
         menubar: true,
         convert_urls: false,
         images_upload_handler: (blobInfo, success, failure) => {
           const blob = blobInfo.blob();
           const filename = blobInfo.filename();
-          const base64 = 'data:' + blob.type + ';base64,' + blobInfo.base64();
+          const base64 = "data:" + blob.type + ";base64," + blobInfo.base64();
           let files = [
             {
               name: filename,
               base64: base64,
-              file: File
-            }
+              file: File,
+            },
           ];
 
           this.$openLoader();
           this.$api.badasoFile
-          .upload(files)
-          .then((response) => {
-            this.$closeLoader();
-            if (this.$helper.isValidHttpUrl(response[0])) {
-              success(response[0]);
-            } else {
-              success('/storage/' + response[0]);
-            }
-          })
-          .catch((error) => {
-            failure(error);
-            this.$closeLoader();
-            this.$vs.notify({
-              title: this.$t("alert.danger"),
-              text: error.message,
-              color: "danger",
+            .upload(files)
+            .then((response) => {
+              this.$closeLoader();
+              if (this.$helper.isValidHttpUrl(response[0])) {
+                success(response[0]);
+              } else {
+                success("/storage/" + response[0]);
+              }
+            })
+            .catch((error) => {
+              failure(error);
+              this.$closeLoader();
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: error.message,
+                color: "danger",
+              });
             });
-          });
-        }
-      }
-    }
+        },
+      },
+    };
   },
   props: {
     size: {
