@@ -17,7 +17,7 @@ class HiddenWatchTableConfig
         $this->hidden_tables = require $this->path_hidden_tables;
 
         $this->path_watch_tables = config_path('badaso-watch-tables.php');
-        $this->watch_tables = require $this->path_watch_tables;
+        $this->watch_tables = [];
     }
 
     public function addWatchTable($table_name): self
