@@ -17,7 +17,7 @@ use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiDocs;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
-use Uasoft\Badaso\Helpers\HiddenWatchTableConfig;
+use Uasoft\Badaso\Helpers\WatchTableConfig;
 use Uasoft\Badaso\Models\DataRow;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
@@ -30,7 +30,7 @@ class BadasoCRUDController extends Controller
     {
         try {
             // init table watch table
-            $config_watch_tables = HiddenWatchTableConfig::get();
+            $config_watch_tables = WatchTableConfig::get();
             // end init table watch table
 
             $protected_tables = Badaso::getProtectedTables();
