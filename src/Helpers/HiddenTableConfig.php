@@ -17,7 +17,7 @@ class HiddenTableConfig
 
     public function addHiddenTable($table_name): self
     {
-        if (!in_array($table_name, $this->hidden_tables)) {
+        if (! in_array($table_name, $this->hidden_tables)) {
             $this->hidden_tables[count($this->hidden_tables)] = $table_name;
 
             $this->saveHiddenTable();
