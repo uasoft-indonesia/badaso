@@ -3,8 +3,8 @@ import _ from "lodash";
 let exported = {};
 let languages = [];
 
-const pluginsEnv = process.env.MIX_BADASO_PLUGINS
-  ? process.env.MIX_BADASO_PLUGINS
+const pluginsEnv = process.env.MIX_BADASO_MODULES
+  ? process.env.MIX_BADASO_MODULES
   : null;
 
 // DYNAMIC IMPORT BADASO LANG
@@ -82,7 +82,7 @@ try {
 // DYNAMIC IMPORT BADASO PLUGINS LANG
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(',');
     if (plugins && plugins.length > 0) {
       plugins.forEach(plugin => {
         const modules = require("../../../../../" + plugin + "/src/resources/js/lang/").default

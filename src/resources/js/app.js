@@ -45,8 +45,8 @@ try {
 }
 // END IDENTIFIED VARIABLE BROADCAST CHANNEL
 
-const pluginsEnv = process.env.MIX_BADASO_PLUGINS
-  ? process.env.MIX_BADASO_PLUGINS
+const pluginsEnv = process.env.MIX_BADASO_MODULES
+  ? process.env.MIX_BADASO_MODULES
   : null;
 
 // EXCLUDED ROUTES
@@ -56,7 +56,7 @@ excluded = excludedRouter;
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(',');
     if (plugins && plugins.length > 0) {
       plugins.forEach(plugin => {
         let router = require('../../../../' + plugin + '/src/resources/js/router/excludeRouter.js').default;
@@ -212,7 +212,7 @@ try {
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(',');
     if (plugins && plugins.length > 0) {
       plugins.forEach(plugin => {
         let fileName = require('../../../../' + plugin + '/src/resources/js/components/index.js').default;
