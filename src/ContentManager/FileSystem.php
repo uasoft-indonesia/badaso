@@ -90,8 +90,8 @@ class FileSystem
      */
     public function getSeedFolderPath(): string
     {
-        $path = base_path().'/database/seeds/CRUDData';
-        if (! file_exists($path)) {
+        $path = base_path().'/database/seeds/Badaso/CRUDData';
+        if (!file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -104,7 +104,7 @@ class FileSystem
     public function getMigrationFolderPath(): string
     {
         $path = base_path().'/database/migrations/badaso/';
-        if (! file_exists($path)) {
+        if (!file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -201,7 +201,7 @@ class FileSystem
      */
     public function addContentToSeederFile(string $seeder_file, string $seeder_contents): bool
     {
-        if (! $this->filesystem->put($seeder_file, $seeder_contents)) {
+        if (!$this->filesystem->put($seeder_file, $seeder_contents)) {
             return false;
         }
 
@@ -212,7 +212,7 @@ class FileSystem
 
     public function addContentToMigrationFile(string $migration_file, string $migration_contents): bool
     {
-        if (! $this->filesystem->put($migration_file, $migration_contents)) {
+        if (!$this->filesystem->put($migration_file, $migration_contents)) {
             return false;
         }
 
