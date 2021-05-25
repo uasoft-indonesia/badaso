@@ -1,7 +1,7 @@
 let exported = {};
 
-const pluginsEnv = process.env.MIX_BADASO_PLUGINS
-  ? process.env.MIX_BADASO_PLUGINS
+const pluginsEnv = process.env.MIX_BADASO_MODULES
+  ? process.env.MIX_BADASO_MODULES
   : null;
 
 // DYNAMIC IMPORT BADASO API HELPER
@@ -63,7 +63,7 @@ try {
 // DYNAMIC IMPORT CUSTOM PLUGINS API HELPER
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(',');
     if (plugins && plugins.length > 0) {
       plugins.forEach(plugin => {
         const modules = require("../../../../../" + plugin + "/src/resources/js/api/").default
