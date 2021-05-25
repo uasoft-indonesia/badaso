@@ -14,8 +14,8 @@ const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-admin";
 
-const pluginsEnv = process.env.MIX_BADASO_PLUGINS
-  ? process.env.MIX_BADASO_PLUGINS
+const pluginsEnv = process.env.MIX_BADASO_MODULES
+  ? process.env.MIX_BADASO_MODULES
   : null;
 
 let _authRouters = [];
@@ -52,14 +52,18 @@ try {
 
   // DYNAMIC IMPORT BADASO PLUGINS ROUTERS
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_PLUGINS.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(',');
     if (plugins && plugins.length > 0) {
-      plugins.forEach(plugin => {
-        let routes = require('../../../../../' + plugin + '/src/resources/js/router/routes.js').default;
+
+      for(let index in plugins){
+        let plugin = plugins[index];
+        let routes = require("../../../../../" +
+          plugin +
+          "/src/resources/js/router/routes.js").default;
         let adminRouters = [];
         let authRouters = [];
         let landingPageRouters = [];
-        routes.forEach(route => {
+        routes.forEach((route) => {
           switch (route.meta.useComponent) {
             case "AdminContainer":
               adminRouters = [...routes];
@@ -73,11 +77,13 @@ try {
             default:
               break;
           }
-        })
-        _pluginRouters["AdminContainer"] = adminRouters;
-        _pluginRouters["AuthContainer"] = authRouters;
-        _pluginRouters["LandingPageContainer"] = landingPageRouters;
-      });
+        });
+        
+        _pluginRouters["AdminContainer"] = [..._pluginRouters["AdminContainer"], ...adminRouters];
+        _pluginRouters["AuthContainer"] = [..._pluginRouters["AuthContainer"], ...authRouters];
+        _pluginRouters["LandingPageContainer"] = [..._pluginRouters["LandingPageContainer"], ...landingPageRouters];
+
+      }
     }
   }
 } catch (error) {
