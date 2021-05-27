@@ -16,7 +16,7 @@
   "support": {
     "issues": "https://github.com/uasoft-indonesia/badaso/issues",
     "discussion": "https://github.com/uasoft-indonesia/badaso/discussions",
-    "source": "https://github.com/uasoft-indonesia/voyager"
+    "source": "https://github.com/uasoft-indonesia/badaso"
   },
   "type": "library",
   "require": {
