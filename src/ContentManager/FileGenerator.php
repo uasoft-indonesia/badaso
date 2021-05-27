@@ -60,7 +60,7 @@ class FileGenerator
             $this->file_system->getStubPath().'../stubs/data_seed.stub'
         );
 
-        $seed_folder_path = $this->file_system->getSeedFolderPath();
+        $seed_folder_path = $this->file_system->getSeedCRUDFolderPath();
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
@@ -99,7 +99,7 @@ class FileGenerator
             $this->file_system->getStubPath().'../stubs/row_seed.stub'
         );
 
-        $seed_folder_path = $this->file_system->getSeedFolderPath();
+        $seed_folder_path = $this->file_system->getSeedCRUDFolderPath();
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
@@ -141,7 +141,7 @@ class FileGenerator
      */
     public function updateOrchestraSeeder(string $className): bool
     {
-        $database_seeder_path = $this->file_system->getSeedFolderPath();
+        $database_seeder_path = $this->file_system->getSeedCRUDFolderPath();
 
         $seeder_class_name = 'BadasoDeploymentOrchestratorSeeder';
 
@@ -190,7 +190,7 @@ class FileGenerator
             $this->file_system->getStubPath().'../stubs/delete_seed.stub'
         );
 
-        $seed_folder_path = $this->file_system->getSeedFolderPath();
+        $seed_folder_path = $this->file_system->getSeedCRUDFolderPath();
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
@@ -238,7 +238,7 @@ class FileGenerator
             $this->file_system->getStubPath().'../stubs/seed.stub'
         );
 
-        $seed_folder_path = $this->file_system->getSeedFolderPath();
+        $seed_folder_path = $this->file_system->getSeedManualGenerateFolderPath();
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
