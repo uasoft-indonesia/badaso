@@ -64,7 +64,7 @@ class FileGenerator
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
-        $data_type->details = (! is_null($data_type->details)) ? json_encode($data_type->details) : null;
+        $data_type->details = (!is_null($data_type->details)) ? json_encode($data_type->details) : null;
 
         $stub = $this->content_manager->replaceString('{{class}}', $seeder_class_name, $stub);
 
@@ -226,7 +226,7 @@ class FileGenerator
      */
     public function generateSeedFile(string $table_name, string $suffix): bool
     {
-        if (! Schema::hasTable($table_name)) {
+        if (!Schema::hasTable($table_name)) {
             throw new Exception(sprintf('%s table does\'nt exist.'));
         }
 
@@ -257,12 +257,12 @@ class FileGenerator
      */
     public function repackSeedData($data): array
     {
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             $data = $data->toArray();
         }
 
         $data_array = [];
-        if (! empty($data)) {
+        if (!empty($data)) {
             foreach ($data as $row) {
                 $row_array = [];
                 foreach ($row as $column_name => $column_value) {
