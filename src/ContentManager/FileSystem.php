@@ -90,7 +90,7 @@ class FileSystem
      */
     public function getSeedFolderPath(): string
     {
-        $path = base_path().'/database/seeds/CRUDData';
+        $path = base_path().'/database/seeds/Badaso/CRUDData';
         if (! file_exists($path)) {
             mkdir($path, 0777);
         }

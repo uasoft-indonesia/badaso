@@ -70,4 +70,13 @@ class BadasoDashboardController extends Controller
             return ApiResponse::failed($e);
         }
     }
+
+    public function manifest()
+    {
+        $pwa_manifest = config('badaso.manifest');
+
+        return response($pwa_manifest, 200, [
+            'Content-Type' => 'application/json',
+        ]);
+    }
 }
