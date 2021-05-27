@@ -31,4 +31,30 @@ return [
             '/v1/file/*',
         ],
     ],
+    'manifest' => [
+        'name' => 'Badaso Progressive Web App',
+        'short_name' => 'Badaso',
+        'description' => 'Progressive Web App that lists games submitted to the A-Frame category in the Badaso 2020 competition.',
+        'icons' => [
+            [
+                'src' => 'badaso-images/logo-144px.png',
+                'sizes' => '144x144',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => 'badaso-images/logo-192px.png',
+                'sizes' => '192x192',
+                'type' => 'image/png',
+            ],
+            [
+                'src' => 'badaso-images/logo-512px.png',
+                'sizes' => '512x512',
+                'type' => 'image/png',
+            ],
+        ],
+        'start_url' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-admin'),
+        'display' => 'standalone',
+        'theme_color' => '#06bbd3',
+        'background_color' => '#06bbd3',
+    ],
 ];
