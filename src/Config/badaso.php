@@ -32,7 +32,7 @@ return [
         ],
     ],
     'manifest' => [
-        'name' => 'Badaso Progressive Web App',
+        'name' => 'Badaso',
         'short_name' => 'Badaso',
         'description' => 'Badaso Progressive Web App ',
         'icons' => [
