@@ -34,7 +34,7 @@ return [
     'manifest' => [
         'name' => 'Badaso Progressive Web App',
         'short_name' => 'Badaso',
-        'description' => 'Progressive Web App that lists games submitted to the A-Frame category in the Badaso 2020 competition.',
+        'description' => 'Badaso Progressive Web App ',
         'icons' => [
             [
                 'src' => 'badaso-images/logo-144px.png',
