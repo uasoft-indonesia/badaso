@@ -88,9 +88,22 @@ class FileSystem
     /**
      * Get Seed Folder Path.
      */
-    public function getSeedFolderPath(): string
+    public function getSeedCRUDFolderPath(): string
     {
-        $path = base_path().'/database/seeds/CRUDData';
+        $path = base_path().'/database/seeds/Badaso/CRUD';
+        if (! file_exists($path)) {
+            mkdir($path, 0777);
+        }
+
+        return $path;
+    }
+
+    /**
+     * Get Seed Folder Path.
+     */
+    public function getSeedManualGenerateFolderPath(): string
+    {
+        $path = base_path().'/database/seeds/Badaso/ManualGenerate';
         if (! file_exists($path)) {
             mkdir($path, 0777);
         }
@@ -124,7 +137,7 @@ class FileSystem
      */
     public function deleteSeedFiles(string $file_name): bool
     {
-        $seeder_file = $this->getSeederFile($file_name, $this->getSeedFolderPath());
+        $seeder_file = $this->getSeederFile($file_name, $this->getSeedCRUDFolderPath());
 
         if ($this->filesystem->exists($seeder_file)) {
             return $this->filesystem->delete($seeder_file);

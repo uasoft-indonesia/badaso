@@ -34,7 +34,7 @@ return [
         |--------------------------------------------------------------------------
         */
 
-        'oauth2_callback' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-admin').'/api/oauth2-callback',
+        'oauth2_callback' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-dashboard').'/api/oauth2-callback',
 
         /*
         |--------------------------------------------------------------------------

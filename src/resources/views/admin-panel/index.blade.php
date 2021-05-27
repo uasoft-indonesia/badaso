@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="manifest" href="/manifest.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Badaso</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,7 +17,7 @@
     ?>
 
     @if(!$favicon || $favicon == '')
-        <link rel="shortcut icon" href="{{ asset('badaso-images/badaso-logo.png') }}" type="image/png">
+        <link rel="shortcut icon" href="{{ asset('badaso-images/logo-144px.png') }}" type="image/png">
     @else
         <link rel="shortcut icon" href="{{'/'.$api_prefix.'/v1/file/view?file='.$favicon}}" type="image/png">
     @endif

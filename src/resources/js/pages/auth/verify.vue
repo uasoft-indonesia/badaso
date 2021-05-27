@@ -75,7 +75,7 @@ export default {
     token: "",
     baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      : "badaso-admin",
+      : "badaso-dashboard",
     errors: {},
     processing: true,
     expired: false,
