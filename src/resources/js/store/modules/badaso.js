@@ -44,7 +44,7 @@ export default {
         : "admin";
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-        : "badaso-admin";
+        : "badaso-dashboard";
       api.badasoMenu
         .browseItemByKeys({
           menu_key: menuKey,
@@ -109,7 +109,7 @@ export default {
     FETCH_CONFIGURATION_MENU(state) {
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-        : "badaso-admin";
+        : "badaso-dashboard";
       api.badasoMenu
         .browseItemByKey({
           menu_key: "configuration",
