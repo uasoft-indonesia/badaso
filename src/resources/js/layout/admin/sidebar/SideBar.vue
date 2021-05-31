@@ -5,7 +5,7 @@
       :parent="parent"
       :hiddenBackground="doNotClose"
       color="primary"
-      class="sidebarx"
+      class="sidebarx badaso-sidebar"
       spacer
       v-model="isSidebarActive"
       :click-not-close="doNotClose"
@@ -276,6 +276,12 @@ export default {
         this.setLocale(_.find(this.getLocale, ["key", val]));
       },
     },
+    adminPanelHeaderColor() {
+      let config = this.$store.getters["badaso/getConfig"];
+      return config.adminPanelHeaderColor
+        ? config.adminPanelHeaderColor
+        : "#ffffff";
+    },
   },
   methods: {
     open(url) {
@@ -302,6 +308,27 @@ export default {
     setLocale(item) {
       this.$i18n.locale = item.key;
       this.$store.commit("badaso/SET_LOCALE", item);
+    },
+  },
+  watch: {
+    adminPanelHeaderColor: {
+      handler(val, oldVal) {
+        document
+          .querySelectorAll(".badaso-sidebar .vs-sidebar--items")
+          .forEach((element) => {
+            try {
+              let vsScrollPrimary = "255,255,255";
+              if (val.substring(0, 1) == "#") {
+                vsScrollPrimary = this.$helper.hexToVsPrimary(val);
+              } else {
+                vsScrollPrimary = this.$helper.rgbToVsPrimary(val);
+              }
+              element.style.setProperty("--vs-scrollbar-primary", vsScrollPrimary);
+            } catch (error) {
+              console.log(val, error);
+            }
+          });
+      },
     },
   },
   mounted() {
