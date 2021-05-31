@@ -1,3 +1,7 @@
+:root {
+  --vs-scrollbar-primary: 6, 187, 211;
+}
+
 .vdatetime-input {
   width: 100%;
   padding: 0.4rem;
@@ -12,9 +16,9 @@
 }
 .datetime-icon-box {
   border: 1px solid rgba(0, 0, 0, 0.2);
-    border-left: unset;
-    display: grid;
-    padding: 0.4rem;
+  border-left: unset;
+  display: grid;
+  padding: 0.4rem;
 }
 
 .datetime-icon {
@@ -82,4 +86,12 @@ a {
 }
 .w-unset {
   width: unset !important;
+}
+
+.badaso-sidebar .vs-sidebar--items::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--vs-scrollbar-primary), 0.2) !important;
+}
+
+.badaso-sidebar .vs-sidebar--items::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--vs-scrollbar-primary), 1) !important;
 }

@@ -16,7 +16,7 @@ import resource from "./api/resource";
 import router from "./router/router";
 import store from "./store/store";
 import lang from "./lang/";
-import excludedRouter from './router/excludeRouter';
+import excludedRouter from "./router/excludeRouter";
 
 import App from "./apps/App.vue";
 
@@ -41,7 +41,7 @@ let broadcastChannel = null;
 try {
   broadcastChannel = new BroadcastChannel(broadcastChannelName);
 } catch (error) {
-  console.error('Broadcast Channel Error ', error)
+  console.error("Broadcast Channel Error ", error);
 }
 // END IDENTIFIED VARIABLE BROADCAST CHANNEL
 
@@ -56,10 +56,12 @@ excluded = excludedRouter;
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(",");
     if (plugins && plugins.length > 0) {
-      plugins.forEach(plugin => {
-        let router = require('../../../../' + plugin + '/src/resources/js/router/excludeRouter.js').default;
+      plugins.forEach((plugin) => {
+        let router = require("../../../../" +
+          plugin +
+          "/src/resources/js/router/excludeRouter.js").default;
         excluded.push(...router);
       });
     }
@@ -212,13 +214,15 @@ try {
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(",");
     if (plugins && plugins.length > 0) {
-      plugins.forEach(plugin => {
-        let fileName = require('../../../../' + plugin + '/src/resources/js/components/index.js').default;
+      plugins.forEach((plugin) => {
+        let fileName = require("../../../../" +
+          plugin +
+          "/src/resources/js/components/index.js").default;
         Object.values(fileName).forEach((value, index) => {
           Vue.component(value.name, value);
-        })
+        });
       });
     }
   }
@@ -272,7 +276,6 @@ Vue.prototype.$syncLoader = function(statusSyncLoader) {
     console.log("Sync Loader", error);
   }
 };
-
 
 // ADD FIREBASE MESSAGE
 let firebaseConfig = {
@@ -328,12 +331,18 @@ Vue.prototype.$broadcastChannel = broadcastChannel;
 
 // START G-TAG
 
-Vue.use(VueGtag, {
-  pageTrackerExcludedRoutes: excluded,
-  config: {
-    id: process.env.MIX_ANALYTICS_TRACKING_ID ? process.env.MIX_ANALYTICS_TRACKING_ID : null
-  }
-}, router);
+Vue.use(
+  VueGtag,
+  {
+    pageTrackerExcludedRoutes: excluded,
+    config: {
+      id: process.env.MIX_ANALYTICS_TRACKING_ID
+        ? process.env.MIX_ANALYTICS_TRACKING_ID
+        : null,
+    },
+  },
+  router
+);
 
 // END G-TAG
 
