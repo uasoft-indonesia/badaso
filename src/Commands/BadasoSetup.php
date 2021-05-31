@@ -253,6 +253,7 @@ class BadasoSetup extends Command
             'BADASO_LICENSE_KEY' => '',
             'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
             'MIX_DEFAULT_MENU' => 'admin',
+            'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'dashboard',
             'MIX_API_ROUTE_PREFIX' => '',
             'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',

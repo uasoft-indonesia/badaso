@@ -1,7 +1,7 @@
 import store from "./../store/store";
 import * as _ from "lodash";
 import moment from "moment";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   generateDisplayName(fieldName) {
@@ -106,12 +106,31 @@ export default {
   },
   objectFlip(obj) {
     const ret = {};
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
       ret[obj[key]] = key;
     });
     return ret;
   },
   uuid() {
     return uuidv4();
-  }
+  },
+  hexToVsPrimary(colorHex) {
+    var str = colorHex.substring(1);
+    var aRgbHex = str.match(/.{1,2}/g);
+    var aRgb = [
+      parseInt(aRgbHex[0], 16),
+      parseInt(aRgbHex[1], 16),
+      parseInt(aRgbHex[2], 16),
+    ];
+    return aRgb.join(",");
+  },
+  rgbToVsPrimary(colorRgb) {
+    let aRgb = colorRgb
+      .substring(5, colorRgb.length - 1)
+      .split(",")
+      .filter((rgb, index) => index != 3)
+      .map((rgb) => rgb.trim())
+      .join(",");
+    return aRgb;
+  },
 };

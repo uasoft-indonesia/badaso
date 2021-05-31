@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.ibb.co/6Yx8HbP/Badaso-1.png" width="318px" alt="Badaso logo" />
+    <img src="https://i.ibb.co/tx2NJvD/LOGO-BADASO-5.png" width="318px" alt="Badaso logo" />
   </a>
 </p>
 <h3 align="center">The first & most advandced Open-Source headless PWA CMS based on Laravel + Vue.</h3>
@@ -59,7 +59,7 @@ Badaso is a open-source Laravel Vue headless CMS (with PWA dashboard + CRUD + AP
 
 <a href="https://badaso-demo.uatech.co.id" target="_blank">Click here for live demo</a> (some error may happen because random test by a lot of random people)
 
-Live demo will reset every one day 
+Live demo will reset every 1 hour
 
 ## Getting started (installation, how to use & more)
 
@@ -130,6 +130,7 @@ Thanks to these awesome projects that make badaso awesome :
 - [arcanedev/log-viewer](https://github.com/arcanedev/log-viewer]) (application logging GUI)
 - [the-control-group/voyager](https://github.com/the-control-group/voyager) (reference)
 - [UniSharp/laravel-filemanager](https://github.com/UniSharp/laravel-filemanager) (file manager)
+- Contact us for credit [here](https://t.me/rizkiheryandi).
 
 All financial support that badaso get, will also share to project above for support the ecosystem and make badaso keep up to date and keep your awesome long-term projects running.
 
