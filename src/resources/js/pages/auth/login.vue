@@ -160,6 +160,7 @@ export default {
             this.$store.commit("badaso/SET_GLOBAL_STATE", {
               key : 'keyIssue',
               value : {
+                ...error,
                 invalid : true,
               },
             });

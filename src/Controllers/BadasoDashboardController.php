@@ -17,6 +17,8 @@ class BadasoDashboardController extends Controller
         $license = env('BADASO_LICENSE_KEY');
         if (is_null($license)) {
             return ApiResponse::paymentRequired('BADASO_LICENSE_KEY not found');
+        } elseif ($license == '') {
+            return ApiResponse::paymentRequired('BADASO_LICENSE_KEY License Empty');
         } else {
             // Call Badaso Dashboard API here
             try {
