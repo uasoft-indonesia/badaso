@@ -225,7 +225,7 @@ export default {
     windowWidth: window.innerWidth,
     prefix: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
       ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      : "badaso-admin",
+      : "badaso-dashboard",
     // mainMenu: [],
   }),
   computed: {

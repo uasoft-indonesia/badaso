@@ -250,7 +250,7 @@ Vue.prototype.$loadingConfig = {
 
 let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "badaso-admin";
+  : "badaso-dashboard";
 Vue.prototype.$baseUrl = "/" + baseUrl;
 
 Vue.prototype.$openLoader = function(payload) {

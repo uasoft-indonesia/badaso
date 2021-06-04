@@ -2,7 +2,7 @@ import Pages from "./../../pages/index";
 
 let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  : "/badaso-admin";
+  : "/badaso-dashboard";
 
 export default [
   {
