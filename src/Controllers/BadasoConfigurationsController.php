@@ -147,11 +147,11 @@ class BadasoConfigurationsController extends Controller
 
         try {
             $request->validate([
-                'key'          => 'required|unique:configurations',
+                'key' => 'required|unique:configurations',
                 'display_name' => 'required',
-                'group'        => 'required',
-                'type'         => 'required',
-                'details'      => [
+                'group' => 'required',
+                'type' => 'required',
+                'details' => [
                     function ($attribute, $value, $fail) use ($request) {
                         if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
                             json_decode($value);
