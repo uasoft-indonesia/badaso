@@ -134,6 +134,11 @@ export default {
       }
     },
   },
+  mounted() {
+    if (this.sharesOnly) {
+      this.selected = "shares"
+    }
+  },
   data() {
     return {
       fileData: {
@@ -162,17 +167,7 @@ export default {
   computed: {
     getSelected() {
       this.activeFile = []
-      if (this.sharesOnly) {
-        return 'shares'
-      }
-
-      if (this.privateOnly) {
-        return 'private'
-      }
-
-      if (!this.sharesOnly && !this.privateOnly) {
-        return this.selected
-      }
+      return this.selected
     },
     getSelectedFolder() {
       if (this.getSelected === 'shares') return '/shares'

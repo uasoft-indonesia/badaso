@@ -111,6 +111,8 @@
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
                   v-model="dataRow.value"
+                  :private-only="dataRow.details.type === 'private-only'"
+                  :shares-only="dataRow.details.type === 'shares-only'"
                   size="12"
                   :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 ></badaso-upload-image>
@@ -119,6 +121,8 @@
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
                   v-model="dataRow.value"
+                  :private-only="dataRow.details.type === 'private-only'"
+                  :shares-only="dataRow.details.type === 'shares-only'"
                   size="12"
                   :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 ></badaso-upload-image-multiple>
@@ -127,6 +131,8 @@
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
                   v-model="dataRow.value"
+                  :private-only="dataRow.details.type === 'private-only'"
+                  :shares-only="dataRow.details.type === 'shares-only'"
                   size="12"
                   :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 ></badaso-upload-file>
@@ -135,6 +141,8 @@
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
                   v-model="dataRow.value"
+                  :private-only="dataRow.details.type === 'private-only'"
+                  :shares-only="dataRow.details.type === 'shares-only'"
                   size="12"
                   :alert="errors[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                 ></badaso-upload-file-multiple>

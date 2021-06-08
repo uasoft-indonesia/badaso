@@ -159,7 +159,7 @@ export default {
       if (this.$helper.isValidHttpUrl(this.inputByUrl)) {
         let url = this.inputByUrl.split('.')
         let extension = url[url.length - 1]
-        if (extension === 'png' || extension === '.jpg' || extension === '.jpeg') {
+        if (extension === 'png' || extension === 'jpg' || extension === 'jpeg') {
           return true
         }
       }
@@ -167,17 +167,7 @@ export default {
     },
     getSelected() {
       this.activeImage = null
-      if (this.sharesOnly) {
-        return 'shares'
-      }
-
-      if (this.privateOnly) {
-        return 'private'
-      }
-
-      if (!this.sharesOnly && !this.privateOnly) {
-        return this.selected
-      }
+      return this.selected
     },
     getSelectedFolder() {
       if (this.getSelected === 'shares') return '/shares'
@@ -197,6 +187,11 @@ export default {
       }
 
       return false
+    }
+  },
+  mounted() {
+    if (this.sharesOnly) {
+      this.selected = "shares"
     }
   },
   watch: {
