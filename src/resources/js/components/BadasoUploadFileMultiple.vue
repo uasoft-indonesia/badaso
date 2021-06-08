@@ -17,7 +17,7 @@
         </div>
         <div class="file-container" v-else>
           <div class="file">
-            <a target="_blank" :href="`${$api.badasoFile.download(getFileUrl(fileData))}`" >{{ fileData.split("/").reverse()[0] }}</a >
+            <a target="_blank" :href="`${$api.badasoFile.download(getDownloadUrl(fileData))}`" >{{ fileData.split("/").reverse()[0] }}</a >
           </div>
         </div>
       </vs-col>
@@ -40,7 +40,7 @@
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
           <div :class="[activeFile.includes(index) ? 'active' : '', 'files']" v-for="(item, index) in files.items" :key="index" @click="selectFile(index)">
-            <vs-icon icon="insert_drive_file" size="45px" color="#fff"></vs-icon>
+            <vs-icon icon="insert_drive_file" size="45px" color="#06bbd3"></vs-icon>
             <p>{{ item.name }}</p>
           </div>
         </div>
@@ -245,20 +245,19 @@ export default {
       }
     },
     getFileUrl(item) {
-      if (item === null) {
-        return
+      if (item === null || item === undefined) return
+
+      let url = new URL(item)
+      if (url.host === 'localhost') {
+        return url.pathname
       }
 
-      if (this.$helper.isValidHttpUrl(item)) {
-        if (item.includes('localhost/')) {
-          return '/' + item.split('localhost/')[1];
-        }
-        return item
-      } else if (item.includes('/storage')) {
-        return item.split('/storage')[1];
-      } else {
-        return item.split('localhost/')[1];
-      }
+      return item
+    },
+    getDownloadUrl(item) {
+      if (item === null || item === undefined) return
+
+      return item.split('storage').pop()
     },
     emitInput() {
       this.selectedFileData = this.files.items[this.activeFile]

@@ -16,7 +16,7 @@
           <img :src="getImageUrl(selectedImageData.url)" class="image" />
         </div>
         <div class="image-container" v-else>
-          <img :src="$helper.getImage(imageData)" class="image" />
+          <img :src="imageData" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -274,14 +274,14 @@ export default {
       }
     },
     getImageUrl(item) {
-      if (this.$helper.isValidHttpUrl(item)) {
-        if (item.includes('localhost/')) {
-          return '/' + item.split('localhost/')[1];
-        }
-        return item
-      } else {
-        return item.split('localhost/')[1];
+      if (item === null || item === undefined) return
+      
+      let url = new URL(item)
+      if (url.host === 'localhost') {
+        return url.pathname
       }
+
+      return item
     },
     emitInput() {
       if (this.selected !== 'url') {

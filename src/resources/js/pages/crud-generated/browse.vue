@@ -385,11 +385,7 @@
                       >
                         <img
                           v-if="dataRow.type === 'upload_image'"
-                          :src="
-                            `${$api.badasoFile.view(
-                              getUrl(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])
-                            )}`
-                          "
+                          :src="record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
                           width="100%"
                           alt=""
                         />
@@ -399,7 +395,7 @@
                         >
                           <img
                             v-for="(image, indexImage) in stringToArray(
-                              getUrl(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])
+                              record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]
                             )"
                             :key="indexImage"
                             :src="`${$api.badasoFile.view(image)}`"
@@ -428,12 +424,12 @@
                           v-else-if="dataRow.type === 'upload_file'"
                           :href="
                             `${$api.badasoFile.download(
-                              getUrl(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])
+                              getDownloadUrl(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])
                             )}`
                           "
                           target="_blank"
                           >{{
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            getDownloadUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                           }}</a
                         >
                         <div
@@ -442,14 +438,14 @@
                         >
                           <p
                             v-for="(file, indexFile) in stringToArray(
-                              getUrl(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])
+                              record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]
                             )"
                             :key="indexFile"
                           >
                             <a
-                              :href="`${$api.badasoFile.download(file)}`"
+                              :href="`${$api.badasoFile.download(getDownloadUrl(file))}`"
                               target="_blank"
-                              >{{ file }}</a
+                              >{{ getDownloadUrl(file) }}</a
                             >
                           </p>
                         </div>
@@ -690,21 +686,10 @@ export default {
     this.loadIdsOfflineDelete();
   },
   methods: {
-    getUrl(item) {
-      if (item === null) {
-        return
-      }
+    getDownloadUrl(item) {
+      if (item === null || item === undefined) return
 
-      if (this.$helper.isValidHttpUrl(item)) {
-        if (item.includes('localhost/')) {
-          return '/' + item.split('localhost/')[1];
-        }
-        return item
-      } else if (item.includes('/storage')) {
-        return item.split('/storage')[1];
-      } else {
-        return item.split('localhost/')[1];
-      }
+      return item.split('storage').pop()
     },
     confirmDeleteDataPending(id) {
       this.willDeleteId = id;

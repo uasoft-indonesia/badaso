@@ -105,17 +105,6 @@ export default {
 
     return url.protocol === "http:" || url.protocol === "https:";
   },
-  getImage(string) {
-    if (string === undefined) {
-      return api.badasoFile.view('/badaso-images/badaso.png')
-    }
-
-    if (!this.isValidHttpUrl(string)) {
-      return window.location.origin + string
-    }
-
-    return string
-  },
   objectFlip(obj) {
     const ret = {};
     Object.keys(obj).forEach((key) => {

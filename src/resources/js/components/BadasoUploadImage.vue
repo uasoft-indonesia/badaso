@@ -16,7 +16,7 @@
           <img :src="getImageUrl(selectedImageData.url)" class="image" />
         </div>
         <div class="image-container" v-else-if="isString(value) && value !== ''" >
-          <img :src="$helper.getImage(value)" class="image" />
+          <img :src="value" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -135,7 +135,7 @@ export default {
   data() {
     return {
       dialog: false,
-      activeImage: 0,
+      activeImage: null,
       selectedImageData: {
         url: ""
       },
@@ -272,14 +272,14 @@ export default {
       }
     },
     getImageUrl(item) {
-      if (this.$helper.isValidHttpUrl(item)) {
-        if (item.includes('localhost/')) {
-          return '/' + item.split('localhost/')[1];
-        }
-        return item
-      } else {
-        return item.split('localhost/')[1];
+      if (item === null || item === undefined) return
+      
+      let url = new URL(item)
+      if (url.host === 'localhost') {
+        return url.pathname
       }
+
+      return item
     },
     emitInput() {
       if (this.selected !== 'url') {

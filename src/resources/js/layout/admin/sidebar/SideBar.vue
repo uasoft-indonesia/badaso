@@ -12,7 +12,7 @@
       :reduce="reduceSidebar"
     >
       <div class="header-sidebar text-center" slot="header">
-        <vs-avatar size="70px" :src="$helper.getImage(user.avatar)" />
+        <vs-avatar size="70px" :src="user.avatar" />
         <!--
         <h4>
           {{user.name}}
