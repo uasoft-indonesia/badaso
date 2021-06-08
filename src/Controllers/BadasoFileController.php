@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Illuminate\Http\Request;
-use Uasoft\Badaso\Helpers\FileManager;
 use UniSharp\LaravelFilemanager\Controllers\DeleteController;
 use UniSharp\LaravelFilemanager\Controllers\ItemsController;
 use UniSharp\LaravelFilemanager\Controllers\UploadController;
@@ -42,13 +41,14 @@ class BadasoFileController extends Controller
      * @param int $page             => current page number
      * @param string $working_dir   => working directory
      * @param string $sort_type     => sorting type: name | date
-     * 
+     *
      * @return mixed
      */
     public function browseFileUsingLfm(Request $request)
     {
         $item = new ItemsController();
         $file = $item->getItems();
+
         return $file;
     }
 
@@ -56,6 +56,7 @@ class BadasoFileController extends Controller
     {
         $upload = new UploadController();
         $file = $upload->upload();
+
         return $file;
     }
 
@@ -63,6 +64,7 @@ class BadasoFileController extends Controller
     {
         $delete = new DeleteController();
         $file = $delete->getDelete();
+
         return $file;
     }
 }
