@@ -43,7 +43,7 @@
                         v-if="dataRow.type === 'upload_image'"
                         :src="
                           `${$api.badasoFile.view(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            getUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                           )}`
                         "
                         width="100%"
@@ -55,7 +55,7 @@
                       >
                         <img
                           v-for="(image, indexImage) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            getUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                           )"
                           :key="indexImage"
                           :src="`${$api.badasoFile.view(image)}`"
@@ -84,12 +84,12 @@
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
                           `${$api.badasoFile.download(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            getUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                           )}`
                         "
                         target="_blank"
                         >{{
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                          getUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                         }}</a
                       >
                       <div
@@ -103,9 +103,9 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${$api.badasoFile.download(file)}`"
+                            :href="`${$api.badasoFile.download(getUrl(file))}`"
                             target="_blank"
-                            >{{ file }}</a
+                            >{{ getUrl(file) }}</a
                           >
                         </p>
                       </div>
@@ -215,6 +215,22 @@ export default {
     this.getDetailEntity();
   },
   methods: {
+    getUrl(item) {
+      if (item === null) {
+        return
+      }
+
+      if (this.$helper.isValidHttpUrl(item)) {
+        if (item.includes('localhost/')) {
+          return '/' + item.split('localhost/')[1];
+        }
+        return item
+      } else if (item.includes('/storage')) {
+        return item.split('/storage')[1];
+      } else {
+        return item.split('localhost/')[1];
+      }
+    },
     getDetailEntity() {
       this.$openLoader();
       this.$api.badasoEntity

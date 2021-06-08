@@ -186,6 +186,10 @@ export default {
         return true
       }
 
+      if (this.activeImage === null && this.selected !== 'url') {
+        return true
+      }
+
       return false
     }
   },
@@ -299,6 +303,7 @@ export default {
         console.log(error);
       })
 
+      this.activeImage = null
       this.dialog = false
     },
     openDialog() {

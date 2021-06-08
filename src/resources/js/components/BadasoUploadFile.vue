@@ -169,6 +169,10 @@ export default {
         return true
       }
 
+      if (this.activeFile === null) {
+        return true
+      }
+
       return false
     }
   },
@@ -274,6 +278,7 @@ export default {
         console.log(error);
       })
 
+      this.activeFile = null
       this.dialog = false
     },
     openDialog() {

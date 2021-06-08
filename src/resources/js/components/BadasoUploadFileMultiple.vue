@@ -282,6 +282,7 @@ export default {
         console.log(error);
       })
 
+      this.activeFile = []
       this.dialog = false
     },
     openDialog() {

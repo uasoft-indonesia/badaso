@@ -210,7 +210,7 @@ export default {
         return true
       }
 
-      if (this.activeImage.length === 0) {
+      if (this.activeImage.length === 0 && this.selected !== 'url') {
         return true
       }
 
@@ -309,6 +309,7 @@ export default {
         console.log(error);
       })
 
+      this.activeImage = []
       this.dialog = false
     },
     openDialog() {
