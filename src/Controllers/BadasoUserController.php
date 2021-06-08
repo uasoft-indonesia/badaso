@@ -6,9 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Helpers\CheckBase64;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Traits\FileHandler;
 
