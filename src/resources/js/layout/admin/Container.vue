@@ -55,7 +55,7 @@ export default {
     adminPanelLogo: {
       get() {
         let config = this.$store.getters["badaso/getConfig"];
-        return this.$api.badasoFile.view(config.adminPanelLogo);
+        return this.$helper.getImage(config.adminPanelLogo);
       },
     },
     adminPanelHeaderColor: {

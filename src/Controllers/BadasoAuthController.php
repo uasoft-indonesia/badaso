@@ -432,43 +432,13 @@ class BadasoAuthController extends Controller
 
             $request->validate([
                 'name'   => 'required',
-                'avatar' => [
-                    function ($attribute, $value, $fail) {
-                        if ($value) {
-                            $check = new CheckBase64($value);
-                            if (! $check->isValid()) {
-                                $fail($check->getMessage());
-                            }
-                        }
-                    },
-                ],
+                'avatar' => 'nullable',
             ]);
 
             $user = User::find($user->id);
 
             $user->name = $request->name;
-            $uploaded = null;
-            if (array_key_exists('avatar', $request->all())) {
-                if ($request->avatar && $request->avatar != '') {
-                    $extension = explode('/', explode(';', $request->avatar)[0])[1];
-                    $files = [];
-                    $files[] = [
-                        'base64' => $request->avatar,
-                        'name'   => Str::slug($request->name).'.'.$extension,
-                    ];
-                    $uploaded = $this->handleUploadFiles($files, null, 'users');
-                    if (count($uploaded) > 0) {
-                        $uploaded = $uploaded[0];
-                        $this->handleDeleteFile($user->avatar);
-                    }
-                    $user->avatar = $uploaded;
-                } else {
-                    if ($user->avatar != 'users/default.png') {
-                        $this->handleDeleteFile($user->avatar);
-                    }
-                    $user->avatar = null;
-                }
-            }
+            $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             $user->save();
 

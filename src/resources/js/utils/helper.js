@@ -2,6 +2,7 @@ import store from "./../store/store";
 import * as _ from "lodash";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
+import api from "./../api";
 
 export default {
   generateDisplayName(fieldName) {
@@ -103,6 +104,17 @@ export default {
     }
 
     return url.protocol === "http:" || url.protocol === "https:";
+  },
+  getImage(string) {
+    if (string === undefined) {
+      return api.badasoFile.view('/badaso-images/badaso.png')
+    }
+
+    if (!this.isValidHttpUrl(string)) {
+      return window.location.origin + string
+    }
+
+    return string
   },
   objectFlip(obj) {
     const ret = {};
