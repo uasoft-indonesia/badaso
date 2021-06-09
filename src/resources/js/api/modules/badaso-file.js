@@ -31,4 +31,22 @@ export default {
     let url = ep + qs;
     return url;
   },
+
+  browseUsingLfm(data = {}) {
+    let ep = apiPrefix + "/v1/file/browse/lfm";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
+  uploadUsingLfm(files) {
+    return resource.post(apiPrefix + "/v1/file/upload/lfm", files);
+  },
+
+  deleteUsingLfm(data) {
+    let ep = apiPrefix + "/v1/file/delete/lfm";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  }
 };

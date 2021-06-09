@@ -125,7 +125,7 @@ export default {
     user: {
       email: "",
       name: "",
-      avatar: {},
+      avatar: "",
       additionalInfo: "",
       oldPassword: "",
       newPassword: "",
@@ -173,7 +173,7 @@ export default {
       this.$api.badasoAuthUser
         .updateProfile({
           name: this.user.name,
-          avatar: this.user.avatar ? this.user.avatar.base64 : null,
+          avatar: this.user.avatar,
           additionalInfo:
             this.user.additionalInfo !== ""
               ? JSON.stringify(this.user.additionalInfo)
