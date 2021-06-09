@@ -13,9 +13,21 @@
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12" v-for="(fileData, index) in value" :key="index" style="float: left" >
         <div class="file-container" v-if="fileData.name">
+          <vs-button
+            class="delete-file"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(fileData)"
+          ></vs-button>
           <div class="file"> {{ fileData.name }} </div>
         </div>
         <div class="file-container" v-else>
+          <vs-button
+            class="delete-file"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(fileData)"
+          ></vs-button>
           <div class="file">
             <a target="_blank" :href="`${$api.badasoFile.download(getDownloadUrl(fileData))}`" >{{ fileData.split("/").reverse()[0] }}</a >
           </div>
@@ -133,6 +145,11 @@ export default {
         this.isFileSelected = false
       }
     },
+    value: {
+      handler(val) {
+        this.fileDatas = val
+      }
+    }
   },
   mounted() {
     if (this.sharesOnly) {
@@ -296,6 +313,18 @@ export default {
       }
 
       this.isFileSelected = true
+    },
+    deleteFilePicked(item) {
+      if (item === null || item === undefined) return
+
+      if (typeof item === 'string' && item !== '') {
+        let idx = this.fileDatas.indexOf(item)
+        let activeIdx = this.activeFile.indexOf(idx)
+        this.activeFile.splice(activeIdx, 1)
+        this.fileDatas.splice(idx, 1)
+        this.filesName = this.fileDatas.join(', ')
+        this.$emit('input', this.fileDatas)
+      }
     }
   },
 };
@@ -324,6 +353,8 @@ export default {
 .delete-file {
   opacity: 0;
   position: absolute;
+  top: 4px;
+  right: 4px;
   transition: all 0.2s ease;
 }
 

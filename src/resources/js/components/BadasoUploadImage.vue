@@ -13,9 +13,21 @@
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12">
         <div class="image-container" v-if="selectedImageData.url">
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(selectedImageData)"
+          ></vs-button>
           <img :src="getImageUrl(selectedImageData.url)" class="image" />
         </div>
         <div class="image-container" v-else-if="isString(value) && value !== ''" >
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(value)"
+          ></vs-button>
           <img :src="value" class="image" />
         </div>
       </vs-col>
@@ -197,6 +209,8 @@ export default {
     if (this.sharesOnly) {
       this.selected = "shares"
     }
+
+    this.imageUrl = this.value
   },
   watch: {
     selected: {
@@ -222,6 +236,7 @@ export default {
     },
     closeOverlay() {
       this.show = false
+      this.activeImage = null
       document.body.style.setProperty('position', 'relative')
     },
     onFilePicked(e) {
@@ -308,6 +323,15 @@ export default {
     },
     openDialog() {
       this.dialog = true
+    },
+    deleteFilePicked(item) {
+      if (item === null || item === undefined) return
+
+      if (typeof item === 'string' && item !== '') this.$emit('input', null)
+      if (typeof item === 'object') {
+        this.selectedImageData = {}
+        this.$emit('input', null)
+      }
     }
   },
 };
@@ -321,6 +345,7 @@ export default {
   margin: unset;
   margin-top: 10px;
   max-width: unset;
+  position: relative;
 }
 .image {
   width: 100%;
@@ -329,6 +354,8 @@ export default {
 .delete-image {
   opacity: 0;
   position: absolute;
+  top: 4px;
+  right: 4px;
   transition: all 0.2s ease;
 }
 

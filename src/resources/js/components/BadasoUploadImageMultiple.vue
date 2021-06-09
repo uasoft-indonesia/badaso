@@ -13,9 +13,21 @@
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
         <div class="image-container" v-if="imageData.url">
-          <img :src="getImageUrl(selectedImageData.url)" class="image" />
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(imageData)"
+          ></vs-button>
+          <img :src="getImageUrl(imageData.url)" class="image" />
         </div>
         <div class="image-container" v-else>
+          <vs-button
+            class="delete-image"
+            color="danger"
+            icon="close"
+            @click="deleteFilePicked(imageData)"
+          ></vs-button>
           <img :src="imageData" class="image" />
         </div>
       </vs-col>
@@ -166,7 +178,7 @@ export default {
         paginator: {},
       },
       files: [],
-      imageUrl: "",
+      imageUrl: [],
       inputByUrl: "",
       isValidImage: false,
       isImageSelected: false,
@@ -324,6 +336,18 @@ export default {
       }
 
       this.isImageSelected = true
+    },
+    deleteFilePicked(item) {
+      if (item === null || item === undefined) return
+
+      if (typeof item === 'string' && item !== '') {
+        let idx = this.imageUrl.indexOf(item)
+        let activeIdx = this.activeImage.indexOf(idx)
+        this.activeImage.splice(activeIdx, 1)
+        this.imageUrl.splice(idx, 1)
+        this.imagesName = this.imageUrl.join(', ')
+        this.$emit('input', this.imageUrl)
+      }
     }
   },
 };
@@ -337,6 +361,7 @@ export default {
   margin: unset;
   margin-top: 10px;
   max-width: unset;
+  position: relative;
 }
 .image {
   width: 100%;
@@ -345,6 +370,8 @@ export default {
 .delete-image {
   opacity: 0;
   position: absolute;
+  top: 4px;
+  right: 4px;
   transition: all 0.2s ease;
 }
 
