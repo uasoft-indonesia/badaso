@@ -45,7 +45,7 @@ class SiteManagementSeeder extends Seeder
                     'key' => 'adminPanelLogo',
                     'display_name' => 'Admin Panel Logo',
                     'value' => '',
-                    'details' => '',
+                    'details' => '{"type":"shares-only"}',
                     'type' => 'upload_image',
                     'order' => 3,
                     'group' => 'adminPanel',

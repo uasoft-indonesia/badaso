@@ -1,6 +1,10 @@
 export const label = "English";
 
 export default {
+  button: {
+    close: "Close",
+    submit: "Submit"
+  },
   vuelidate: {
     required: "* {0} is required.",
     requiredIf: "* {0} is required.",
@@ -1010,6 +1014,12 @@ export default {
     warning: {
       notAllowedToBrowse: "You're not allowed to browse file manager",
     },
+    URL: {
+      label: "Paste an image URL here",
+      placeholder: "URL",
+      descriptionText: "If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG.",
+      invalid: "Image is not valid"
+    }
   },
   firebase: {
     title: "Firebase",

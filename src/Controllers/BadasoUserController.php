@@ -6,9 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Helpers\CheckBase64;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Traits\FileHandler;
 
@@ -60,34 +58,13 @@ class BadasoUserController extends Controller
                 ],
                 'email'  => "required|email|unique:users,email,{$request->id}",
                 'name'   => 'required',
-                'avatar' => [
-                    function ($attribute, $value, $fail) {
-                        $check = new CheckBase64($value);
-                        if ($value != '' && ! $check->isValid()) {
-                            $fail($check->getMessage());
-                        }
-                    },
-                ],
+                'avatar' => 'nullable',
             ]);
 
             $user = User::find($request->id);
             $user->name = $request->name;
             $user->email = $request->email;
-            $uploaded = null;
-            if ($request->avatar && $request->avatar != '') {
-                $extension = explode('/', explode(';', $request->avatar)[0])[1];
-                $files = [];
-                $files[] = [
-                    'base64' => $request->avatar,
-                    'name'   => Str::slug($request->name).'.'.$extension,
-                ];
-                $uploaded = $this->handleUploadFiles($files, null, 'users');
-                if (count($uploaded) > 0) {
-                    $uploaded = $uploaded[0];
-                    $this->handleDeleteFile($user->avatar);
-                }
-                $user->avatar = $uploaded;
-            }
+            $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             if ($request->password && $request->password != '') {
                 $user->password = Hash::make($request->password);
@@ -116,33 +93,13 @@ class BadasoUserController extends Controller
             $request->validate([
                 'email'  => 'required|email|unique:users',
                 'name'   => 'required',
-                'avatar' => [
-                    function ($attribute, $value, $fail) {
-                        $check = new CheckBase64($value);
-                        if ($value != '' && ! $check->isValid()) {
-                            $fail($check->getMessage());
-                        }
-                    },
-                ],
+                'avatar' => 'nullable',
             ]);
 
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
-            $uploaded = null;
-            if ($request->avatar && $request->avatar != '') {
-                $extension = explode('/', explode(';', $request->avatar)[0])[1];
-                $files = [];
-                $files[] = [
-                    'base64' => $request->avatar,
-                    'name'   => Str::slug($request->name).'.'.$extension,
-                ];
-                $uploaded = $this->handleUploadFiles($files, null, 'users');
-                if (count($uploaded) > 0) {
-                    $uploaded = $uploaded[0];
-                }
-            }
-            $user->avatar = $uploaded;
+            $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             $user->password = Hash::make($request->password);
             if ($request->email_verified) {

@@ -41,11 +41,7 @@
                     <td class="display-value">
                       <img
                         v-if="dataRow.type === 'upload_image'"
-                        :src="
-                          `${$api.badasoFile.view(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )}`
-                        "
+                        :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                         width="100%"
                         alt=""
                       />
@@ -58,7 +54,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="`${$api.badasoFile.view(image)}`"
+                          :src="image"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -84,12 +80,12 @@
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
                           `${$api.badasoFile.download(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            getDownloadUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                           )}`
                         "
                         target="_blank"
                         >{{
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                          getDownloadUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                         }}</a
                       >
                       <div
@@ -103,9 +99,9 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${$api.badasoFile.download(file)}`"
+                            :href="`${$api.badasoFile.download(getDownloadUrl(file))}`"
                             target="_blank"
-                            >{{ file }}</a
+                            >{{ getDownloadUrl(file) }}</a
                           >
                         </p>
                       </div>
@@ -215,6 +211,11 @@ export default {
     this.getDetailEntity();
   },
   methods: {
+    getDownloadUrl(item) {
+      if (item === null || item === undefined) return
+
+      return item.split('storage').pop()
+    },
     getDetailEntity() {
       this.$openLoader();
       this.$api.badasoEntity
