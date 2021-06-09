@@ -122,8 +122,14 @@ export default {
             .uploadUsingLfm(files)
             .then((response) => {
               this.$closeLoader();
-              let url = new URL(response.url)
-              success(url.pathname)
+              if (response.url) {
+                let url = new URL(response.url)
+                success(url.pathname)
+              }
+
+              if (response.error) {
+                failure(response.error.message)
+              }
             })
             .catch((error) => {
               failure(error);

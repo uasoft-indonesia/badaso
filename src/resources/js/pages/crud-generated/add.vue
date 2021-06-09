@@ -410,7 +410,7 @@ export default {
               data.value === undefined &&
               (data.type === "upload_image" || data.type === "upload_file")
             ) {
-              data.value = {};
+              data.value = "";
             } else if (
               data.value === undefined &&
               (data.type === "upload_image_multiple" ||

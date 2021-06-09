@@ -117,10 +117,8 @@ export default {
       default: "Upload File",
     },
     value: {
-      type: Object | String,
-      default: () => {
-        return {};
-      },
+      type: String,
+      default: "",
     },
     additionalInfo: {
       type: String,

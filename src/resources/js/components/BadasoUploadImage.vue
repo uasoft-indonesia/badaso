@@ -124,10 +124,8 @@ export default {
       default: "Upload Image",
     },
     value: {
-      type: Object | String,
-      default: () => {
-        return null;
-      },
+      type: String,
+      default: ""
     },
     additionalInfo: {
       type: String,
