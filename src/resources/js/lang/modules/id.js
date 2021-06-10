@@ -1,6 +1,10 @@
 export const label = "Indonesia";
 
 export default {
+  button: {
+    close: "Tutup",
+    submit: "Pilih"
+  },
   vuelidate: {
     required: "* {0} harus diisi.",
     requiredIf: "* {0} harus diisi.",
@@ -1008,6 +1012,12 @@ export default {
     warning: {
       notAllowedToBrowse: "Anda tidak diizinkan untuk mengakses file manager.",
     },
+    URL: {
+      label: "Tempel alamat gambar disini",
+      placeholder: "URL",
+      descriptionText: "Jika URL benar, akan melihat pratinjau gambar di sini. Gambar besar mungkin membutuhkan waktu beberapa menit untuk muncul. Hanya menerima PNG dan JPEG.",
+      invalid: "Gambar tidak valid"
+    }
   },
   firebase: {
     title: "Firebase",

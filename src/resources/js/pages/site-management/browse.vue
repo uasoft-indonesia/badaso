@@ -168,6 +168,8 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   size="10"
+                  :private-only="config.details !== null && config.details.type === 'private-only'"
+                  :shares-only="config.details !== null && config.details.type === 'shares-only'"
                   v-model="config.value"
                 ></badaso-upload-image>
                 <badaso-upload-file
@@ -175,6 +177,8 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   size="10"
+                  :private-only="config.details !== null && config.details.type === 'private-only'"
+                  :shares-only="config.details !== null && config.details.type === 'shares-only'"
                   v-model="config.value"
                 ></badaso-upload-file>
                 <badaso-color-picker
@@ -190,12 +194,16 @@
                   :label="config.displayName"
                   :placeholder="config.value"
                   size="10"
+                  :private-only="config.details !== null && config.details.type === 'private-only'"
+                  :shares-only="config.details !== null && config.details.type === 'shares-only'"
                   v-model="config.value"
                 ></badaso-upload-image-multiple>
                 <badaso-upload-file-multiple
                   v-if="config.type === 'upload_file_multiple'"
                   :label="config.displayName"
                   :placeholder="config.value"
+                  :private-only="config.details !== null && config.details.type === 'private-only'"
+                  :shares-only="config.details !== null && config.details.type === 'shares-only'"
                   size="10"
                   v-model="config.value"
                 ></badaso-upload-file-multiple>
