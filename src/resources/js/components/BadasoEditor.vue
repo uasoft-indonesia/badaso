@@ -113,26 +113,22 @@ export default {
         menubar: true,
         convert_urls: false,
         images_upload_handler: (blobInfo, success, failure) => {
-          const blob = blobInfo.blob();
-          const filename = blobInfo.filename();
-          const base64 = "data:" + blob.type + ";base64," + blobInfo.base64();
-          let files = [
-            {
-              name: filename,
-              base64: base64,
-              file: File,
-            },
-          ];
+          const files = new FormData()
+          files.append('upload', blobInfo.blob())
+          files.append('working_dir', '/shares')
 
           this.$openLoader();
           this.$api.badasoFile
-            .upload(files)
+            .uploadUsingLfm(files)
             .then((response) => {
               this.$closeLoader();
-              if (this.$helper.isValidHttpUrl(response[0])) {
-                success(response[0]);
-              } else {
-                success("/storage/" + response[0]);
+              if (response.url) {
+                let url = new URL(response.url)
+                success(url.pathname)
+              }
+
+              if (response.error) {
+                failure(response.error.message)
               }
             })
             .catch((error) => {

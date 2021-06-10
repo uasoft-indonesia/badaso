@@ -18,6 +18,7 @@ trait FileHandler
                 $decoded_file = base64_decode(explode(',', $encoded_file)[1]);
                 $filename = '';
                 if (array_key_exists('name', $file)) {
+                    $file['name'] = str_replace(' ', '_', $file['name']);
                     $filename = $uuid.'-'.$file['name'];
                 }
                 $filepath = 'uploads/';

@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-items-center mb-2 preview mr-4">
+  <div class="d-flex align-items-center preview top-navbar__notification">
     <a
       class="text-white-dark"
       v-on:click="openOrCloseSideBarNotification()"

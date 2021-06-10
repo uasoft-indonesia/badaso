@@ -8,14 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
-use Uasoft\Badaso\Helpers\CheckBase64;
 use Uasoft\Badaso\Helpers\Config;
 use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
@@ -432,43 +430,13 @@ class BadasoAuthController extends Controller
 
             $request->validate([
                 'name'   => 'required',
-                'avatar' => [
-                    function ($attribute, $value, $fail) {
-                        if ($value) {
-                            $check = new CheckBase64($value);
-                            if (! $check->isValid()) {
-                                $fail($check->getMessage());
-                            }
-                        }
-                    },
-                ],
+                'avatar' => 'nullable',
             ]);
 
             $user = User::find($user->id);
 
             $user->name = $request->name;
-            $uploaded = null;
-            if (array_key_exists('avatar', $request->all())) {
-                if ($request->avatar && $request->avatar != '') {
-                    $extension = explode('/', explode(';', $request->avatar)[0])[1];
-                    $files = [];
-                    $files[] = [
-                        'base64' => $request->avatar,
-                        'name'   => Str::slug($request->name).'.'.$extension,
-                    ];
-                    $uploaded = $this->handleUploadFiles($files, null, 'users');
-                    if (count($uploaded) > 0) {
-                        $uploaded = $uploaded[0];
-                        $this->handleDeleteFile($user->avatar);
-                    }
-                    $user->avatar = $uploaded;
-                } else {
-                    if ($user->avatar != 'users/default.png') {
-                        $this->handleDeleteFile($user->avatar);
-                    }
-                    $user->avatar = null;
-                }
-            }
+            $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             $user->save();
 

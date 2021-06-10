@@ -53,6 +53,9 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/download', 'BadasoFileController@downloadFile');
             Route::post('/upload', 'BadasoFileController@uploadFile')->middleware(BadasoCheckPermissions::class.':upload_file');
             Route::delete('/delete', 'BadasoFileController@deleteFile');
+            Route::get('/browse/lfm', 'BadasoFileController@browseFileUsingLfm');
+            Route::post('/upload/lfm', 'BadasoFileController@uploadFileUsingLfm');
+            Route::get('/delete/lfm', 'BadasoFileController@deleteFileUsingLfm');
         });
 
         Route::group(['prefix' => 'configurations'], function () {

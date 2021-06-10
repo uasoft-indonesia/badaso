@@ -1,8 +1,23 @@
-.topnavbar {
+.top-navbar {
   color: $white;
   position: fixed;
   z-index: 25000;
   min-height: $topbar-height;
+
+  &__menu {
+
+    &--left {
+      margin-right: auto;
+    }
+
+    &--right {
+      padding: 0 10px 0 0;
+    }
+  }
+
+  &__notification {
+    // notification
+  }
 
   .vs-navbar--item {
     color: $white !important;
@@ -54,8 +69,14 @@
 .themelogo {
   display: flex;
   align-items: center;
-
   padding: $logo-padding;
+
+  &__wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .logo-text {
     font-size: 16px;

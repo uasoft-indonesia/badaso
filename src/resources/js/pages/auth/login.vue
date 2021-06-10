@@ -156,11 +156,21 @@ export default {
         })
         .catch((error) => {
           this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
+          if (error.status == 402 || error.status == 400) {
+            this.$store.commit("badaso/SET_GLOBAL_STATE", {
+              key : 'keyIssue',
+              value : {
+                ...error,
+                invalid : true,
+              },
+            });
+          } else {
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+          }
         });
     },
   },

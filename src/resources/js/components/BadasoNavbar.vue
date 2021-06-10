@@ -11,14 +11,14 @@
     <div v-if="viewType == $constants.DESKTOP" style="display: contents;">
       <div class="themelogo">
         <slot name="logo"> </slot>
-        &nbsp;
-        <slot name="title"> </slot>
       </div>
       <slot name="navigation"> </slot>
-      <div class="left-menu">
+      <div class="top-navbar__menu--left">
         <slot name="left_menu"> </slot>
       </div>
-      <slot name="right_menu"> </slot>
+      <div class="top-navbar__menu--right">
+        <slot name="right_menu"> </slot>
+      </div>
     </div>
     <div v-if="viewType == $constants.MOBILE" class="vs-navbar--header">
       <slot name="navigation"> </slot>
@@ -102,8 +102,3 @@ export default {
 };
 </script>
 
-<style>
-.left-menu {
-  margin-right: auto;
-}
-</style>

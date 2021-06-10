@@ -47,7 +47,7 @@ class SiteManagementSeeder extends Seeder
                     'key' => 'adminPanelLogo',
                     'display_name' => 'Admin Panel Logo',
                     'value' => '',
-                    'details' => '',
+                    'details' => '{"type":"shares-only"}',
                     'type' => 'upload_image',
                     'order' => 3,
                     'group' => 'adminPanel',
@@ -58,7 +58,7 @@ class SiteManagementSeeder extends Seeder
                 3 => [
                     'key' => 'adminPanelHeaderColor',
                     'display_name' => 'Admin Panel Header Color',
-                    'value' => '#fff',
+                    'value' => '#ffffff',
                     'details' => '',
                     'type' => 'color_picker',
                     'order' => 4,

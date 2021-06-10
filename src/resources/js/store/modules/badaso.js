@@ -28,7 +28,7 @@ export default {
     },
     verified: false,
     isOnline: false,
-    countUnreadMessage : 0,
+    countUnreadMessage: 0,
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -50,18 +50,18 @@ export default {
           menu_key: menuKey,
         })
         .then((res) => {
-          var menus = []
+          var menus = [];
           for (let index = 0; index < res.data.length; index++) {
             let menu = res.data[index].menu;
             let items = res.data[index].menuItems;
-            if (menu.key === 'admin') {
+            if (menu.key === "admin") {
               items.map((item) => {
                 if (helpers.isValidHttpUrl(item.url)) {
                   item.url = item.url;
                 } else {
                   item.url = "/" + prefix + "" + item.url;
                 }
-    
+
                 if (item.children && item.children.length > 0) {
                   item.children.map((subItem) => {
                     if (helpers.isValidHttpUrl(subItem.url)) {
@@ -72,7 +72,7 @@ export default {
                     return subItem;
                   });
                 }
-  
+
                 return item;
               });
             } else {
@@ -82,7 +82,7 @@ export default {
                 } else {
                   item.url = "/" + prefix + "" + item.url;
                 }
-    
+
                 if (item.children && item.children.length > 0) {
                   item.children.map((subItem) => {
                     if (helpers.isValidHttpUrl(subItem.url)) {
@@ -93,16 +93,16 @@ export default {
                     return subItem;
                   });
                 }
-  
+
                 return item;
               });
             }
             menus.push({
               menu: res.data[index].menu,
               mainMenu: items,
-            })
+            });
           }
-          state.menu = menus
+          state.menu = menus;
         })
         .catch((err) => {});
     },
@@ -195,7 +195,7 @@ export default {
         })
         .catch((err) => {
           if (err.status) {
-            if (err.status == 402) {
+            if (err.status == 402 || err.status == 400) {
               state.keyIssue = {
                 ...err,
                 invalid: true,
@@ -206,7 +206,7 @@ export default {
         });
     },
     SET_GLOBAL_STATE(state, { key, value }) {
-      state[key] = value
+      state[key] = value;
     },
   },
   actions: {},
