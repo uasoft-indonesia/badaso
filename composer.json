@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-alpha.39",
+  "version": "1.0.0-alpha.40",
   "name": "uasoft-indonesia/badaso",
   "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
   "keywords": [
@@ -24,18 +24,20 @@
     "doctrine/dbal": "^2.12",
     "tymon/jwt-auth": "^1.0",
     "lcobucci/jwt": "^3.3",
-    "larapack/doctrine-support": "^0.1.4",
-    "arcanedev/log-viewer": "^4.0.0",
-    "spatie/laravel-activitylog": "^3.2.2",
-    "spatie/laravel-backup": "^6.1.0",
+    "larapack/doctrine-support": "^0.1.9",
+    "arcanedev/log-viewer": "^8.1",
+    "spatie/laravel-activitylog": "^3.17",
+    "spatie/laravel-backup": "^6.16",
     "spatie/flysystem-dropbox": "^1.2.2",
     "nao-pon/flysystem-google-drive": "^1.1.13",
     "league/flysystem-aws-s3-v3": "^1.0.28",
-    "guzzlehttp/guzzle": "^6.5.5",
+    "guzzlehttp/guzzle": "^7.3",
     "unisharp/laravel-filemanager": "^2.2",
-    "darkaonline/l5-swagger": "^5.8.0",
-    "zircote/swagger-php": "^3.0.0",
-    "symfony/var-exporter": "^5.2.0"
+    "darkaonline/l5-swagger": "^8.0",
+    "zircote/swagger-php": "^3.2",
+    "symfony/var-exporter": "^5.2.0",
+    "google/apiclient": "^2.9",
+    "laravel/ui": "^3.3"
   },
   "authors": [
     {

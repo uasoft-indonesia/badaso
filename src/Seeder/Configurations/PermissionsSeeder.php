@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Permission;
 
@@ -40,7 +42,7 @@ class PermissionsSeeder extends Seeder
 
         foreach ($keys as $key) {
             Permission::firstOrCreate([
-                'key'        => $key,
+                'key' => $key,
                 'table_name' => null,
             ]);
         }

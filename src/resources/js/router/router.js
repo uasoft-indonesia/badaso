@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import AdminContainer from "./../layout/admin/Container";
-import AuthContainer from "./../layout/auth/Container";
-import LandingPageContainer from "./../layout/public/Container";
+import AdminContainer from "./../layout/admin/Container.vue";
+import AuthContainer from "./../layout/auth/Container.vue";
+import LandingPageContainer from "./../layout/public/Container.vue";
 
 import PageNotFound from "./../pages/error/PageNotFound.vue";
 import Maintenance from "./../pages/maintenance.vue";

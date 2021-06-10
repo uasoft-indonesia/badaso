@@ -18,7 +18,7 @@
 
 /**
  *  @OA\Server(
- *      url=BADASO_SWAGGER_HOST,
+ *      url=L5_SWAGGER_CONST_HOST,
  *      description="Development Server"
  *  )
  */
