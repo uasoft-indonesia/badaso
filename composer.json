@@ -33,10 +33,11 @@
     "league/flysystem-aws-s3-v3": "^1.0.28",
     "guzzlehttp/guzzle": "^7.3",
     "unisharp/laravel-filemanager": "^2.2",
-    "darkaonline/l5-swagger": "5.8.*",
-    "zircote/swagger-php": "^3.0.0",
+    "darkaonline/l5-swagger": "^8.0",
+    "zircote/swagger-php": "^3.2",
     "symfony/var-exporter": "^5.2.0",
-    "google/apiclient": "^2.9"
+    "google/apiclient": "^2.9",
+    "laravel/ui": "^3.3"
   },
   "authors": [
     {

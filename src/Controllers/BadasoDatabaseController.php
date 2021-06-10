@@ -40,7 +40,7 @@ class BadasoDatabaseController extends Controller
                     },
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
-                'rows'              => 'required',
+                'rows' => 'required',
                 'rows.*.field_name' => 'required|string|distinct',
                 'rows.*.field_type' => 'required|string',
             ]);
@@ -80,7 +80,7 @@ class BadasoDatabaseController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -103,7 +103,7 @@ class BadasoDatabaseController extends Controller
                 'table.current_name' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -113,7 +113,7 @@ class BadasoDatabaseController extends Controller
                     'required',
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
-                'fields.current_fields'  => 'required|array',
+                'fields.current_fields' => 'required|array',
                 'fields.modified_fields' => 'nullable|array',
             ]);
 
@@ -162,7 +162,7 @@ class BadasoDatabaseController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -174,15 +174,15 @@ class BadasoDatabaseController extends Controller
 
             $rows = array_map(function ($column) {
                 return [
-                    'field_name'      => $column['name'],
-                    'field_type'      => $column['type'],
-                    'field_null'      => ! $column['null'],
+                    'field_name' => $column['name'],
+                    'field_type' => $column['type'],
+                    'field_null' => !$column['null'],
                     'field_increment' => $column['autoincrement'],
-                    'field_length'    => $column['length'],
-                    'field_default'   => $column['default'] ? 'as_defined' : $column['default'],
-                    'field_index'     => $column['indexes'] == [] ? null : Str::lower(current($column['indexes'])['type']),
+                    'field_length' => $column['length'],
+                    'field_default' => $column['default'] ? 'as_defined' : $column['default'],
+                    'field_index' => $column['indexes'] == [] ? null : Str::lower(current($column['indexes'])['type']),
                     'field_attribute' => $column['unsigned'] ? 'unsigned' : null,
-                    'as_defined'      => $column['default'] ?? null,
+                    'as_defined' => $column['default'] ?? null,
                 ];
             }, $columns);
 
@@ -271,7 +271,7 @@ class BadasoDatabaseController extends Controller
 
             $not_migrated_migration = array_diff($file_name, $check);
 
-            return ApiResponse::success(['data' => $not_migrated_migration, 'notMigrated' => ! empty($not_migrated_migration)]);
+            return ApiResponse::success(['data' => $not_migrated_migration, 'notMigrated' => !empty($not_migrated_migration)]);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
