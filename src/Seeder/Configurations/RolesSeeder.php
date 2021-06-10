@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
 class RolesSeeder extends Seeder
@@ -18,18 +20,18 @@ class RolesSeeder extends Seeder
         try {
             $roles = [
                 0 => [
-                    'id'           => 1,
-                    'name'         => 'administrator',
+                    'id' => 1,
+                    'name' => 'administrator',
                     'display_name' => 'Administrator',
-                    'created_at'   => '2021-01-01 15:26:06',
-                    'updated_at'   => '2021-01-01 15:26:06',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
-                    'id'           => 2,
-                    'name'         => 'customer',
+                    'id' => 2,
+                    'name' => 'customer',
                     'display_name' => 'Customer',
-                    'created_at'   => '2021-01-01 15:26:06',
-                    'updated_at'   => '2021-01-01 15:26:06',
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
