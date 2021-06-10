@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Traits\Seedable;
 
@@ -7,10 +9,10 @@ class BadasoDeploymentOrchestratorSeeder extends Seeder
 {
     use Seedable;
 
-    protected $seedersPath = 'database/seeds/Badaso/CRUD/';
+    protected $seedersPath = 'database/seeders/Badaso/CRUD/';
 
     /**
-     * Run the database seeds.
+     * Run the database seeders.
      *
      * @return void
      */

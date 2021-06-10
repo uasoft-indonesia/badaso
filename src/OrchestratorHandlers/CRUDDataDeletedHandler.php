@@ -39,7 +39,7 @@ class CRUDDataDeletedHandler
         // Finally, We can delete seed files.
         $this->file_generator->deleteSeedFiles($data_type);
 
-        // After deleting seeds file, we create new seed file in order to rollback
+        // After deleting seeders file, we create new seed file in order to rollback
         // the seeded data.
         return $this->file_generator->generateSeedFileForDeletedData($data_type);
     }

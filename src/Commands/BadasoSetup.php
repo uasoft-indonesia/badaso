@@ -78,20 +78,25 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['popper.js'] = '^1.12';
         $decoded_json['devDependencies']['cross-env'] = '^5.1';
         $decoded_json['devDependencies']['jquery'] = '^3.2';
-        $decoded_json['devDependencies']['laravel-mix'] = '^2.0';
+        $decoded_json['devDependencies']['laravel-mix'] = '^6.0.19';
         $decoded_json['devDependencies']['lodash'] = '^4.17.4';
         $decoded_json['devDependencies']['vue'] = '^2.5.7';
+        $decoded_json['devDependencies']['vue-loader'] = '^15.9.5';
+        $decoded_json['devDependencies']['vue-template-compiler'] = '^2.6.14';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
         $decoded_json['dependencies']['chart.js'] = '^2.8.0';
+        $decoded_json['dependencies']['firebase'] = '^8.4.2';
         $decoded_json['dependencies']['jspdf'] = '^2.3.1';
         $decoded_json['dependencies']['jspdf-autotable'] = '^3.5.14';
         $decoded_json['dependencies']['luxon'] = '^1.25.0';
-        $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['material-icons'] = '^0.3.1';
+        $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['prismjs'] = '^1.17.1';
+        $decoded_json['dependencies']['sass'] = '^1.34.1';
         $decoded_json['dependencies']['tinymce'] = '^5.7.1';
+        $decoded_json['dependencies']['uuid'] = '^8.3.2';
         $decoded_json['dependencies']['vue-chartjs'] = '^3.4.2';
         $decoded_json['dependencies']['vue-color'] = '^2.7.1';
         $decoded_json['dependencies']['vue-datetime'] = '^1.0.0-beta.14';
@@ -99,7 +104,6 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vue-gtag'] = '^1.16.1';
         $decoded_json['dependencies']['vue-i18n'] = '^8.22.4';
         $decoded_json['dependencies']['vue-json-excel'] = '^0.3.0';
-        $decoded_json['dependencies']['uuid'] = '^8.3.2';
         $decoded_json['dependencies']['vue-prism-editor'] = '^1.2.2';
         $decoded_json['dependencies']['vue-router'] = '^3.1.3';
         $decoded_json['dependencies']['vue2-editor'] = '^2.10.2';
@@ -109,7 +113,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
-        $decoded_json['dependencies']['firebase'] = '^8.4.2';
+        $decoded_json['dependencies']['sass-loader'] = '^12.0.0';
 
         $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
 
@@ -121,7 +125,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -139,7 +143,7 @@ class BadasoSetup extends Command
             .js(
                 "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
                 "public/js/badaso.js"
-            )
+            ).vue()
         EOT;
 
             $this->file->append($mix_file, $data);
@@ -255,7 +259,7 @@ class BadasoSetup extends Command
             'MIX_DEFAULT_MENU' => 'admin',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'dashboard',
-            'MIX_API_ROUTE_PREFIX' => '',
+            'MIX_API_ROUTE_PREFIX' => 'badaso-api',
             'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
             'MIX_API_ROUTE_PREFIX' => 'admin',
             'MIX_FIREBASE_API_KEY' => '',
@@ -287,6 +291,7 @@ class BadasoSetup extends Command
             'MIX_ANALYTICS_TRACKING_ID' => '',
             'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
             'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
+            'BADASO_SWAGGER_HOST' => '"${APP_URL}/${MIX_API_ROUTE_PREFIX}"',
         ];
     }
 

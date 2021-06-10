@@ -18,7 +18,7 @@
 
 /**
  *  @OA\Server(
- *      url=BADASO_SWAGGER_HOST,
+ *      url="http://localhost:8000/badaso-api",
  *      description="Development Server"
  *  )
  */
