@@ -83,6 +83,9 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['vue'] = '^2.5.7';
         $decoded_json['devDependencies']['vue-loader'] = '^15.9.5';
         $decoded_json['devDependencies']['vue-template-compiler'] = '^2.6.14';
+        $decoded_json['devDependencies']['postcss'] = '^8.1.14';
+        $decoded_json['devDependencies']['sass'] = '^1.32.11';
+        $decoded_json['devDependencies']['sass-loader'] = '^11.0.1';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
@@ -94,7 +97,6 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['material-icons'] = '^0.3.1';
         $decoded_json['dependencies']['moment'] = '^2.29.1';
         $decoded_json['dependencies']['prismjs'] = '^1.17.1';
-        $decoded_json['dependencies']['sass'] = '^1.34.1';
         $decoded_json['dependencies']['tinymce'] = '^5.7.1';
         $decoded_json['dependencies']['uuid'] = '^8.3.2';
         $decoded_json['dependencies']['vue-chartjs'] = '^3.4.2';
@@ -113,7 +115,6 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
-        $decoded_json['dependencies']['sass-loader'] = '^12.0.0';
 
         // $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
 
