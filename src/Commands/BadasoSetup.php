@@ -56,7 +56,6 @@ class BadasoSetup extends Command
         $this->force = $this->options()['force'] == 'true' || $this->options()['force'] == null;
 
         $this->addingBadasoEnv();
-        $this->addUiVue();
         $this->updatePackageJson();
         $this->updateWebpackMix();
         $this->publishBadasoProvider();
@@ -67,11 +66,6 @@ class BadasoSetup extends Command
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
         $this->addingBadasoAuthConfig();
-    }
-
-    protected function addUiVue()
-    {
-        Artisan::call('ui vue');
     }
 
     protected function updatePackageJson()
