@@ -80,7 +80,7 @@ class BadasoDatabaseController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -103,7 +103,7 @@ class BadasoDatabaseController extends Controller
                 'table.current_name' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -162,7 +162,7 @@ class BadasoDatabaseController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_not_found', ['table' => $value]));
                         }
                     },
@@ -176,7 +176,7 @@ class BadasoDatabaseController extends Controller
                 return [
                     'field_name' => $column['name'],
                     'field_type' => $column['type'],
-                    'field_null' => !$column['null'],
+                    'field_null' => ! $column['null'],
                     'field_increment' => $column['autoincrement'],
                     'field_length' => $column['length'],
                     'field_default' => $column['default'] ? 'as_defined' : $column['default'],
@@ -271,7 +271,7 @@ class BadasoDatabaseController extends Controller
 
             $not_migrated_migration = array_diff($file_name, $check);
 
-            return ApiResponse::success(['data' => $not_migrated_migration, 'notMigrated' => !empty($not_migrated_migration)]);
+            return ApiResponse::success(['data' => $not_migrated_migration, 'notMigrated' => ! empty($not_migrated_migration)]);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
