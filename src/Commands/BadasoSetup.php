@@ -115,7 +115,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
         $decoded_json['dependencies']['sass-loader'] = '^12.0.0';
 
-        $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
+        // $decoded_json['scripts']['postinstall'] = 'copy-files-from-to';
 
         $encoded_json = json_encode($decoded_json, JSON_PRETTY_PRINT);
         file_put_contents(base_path('package.json'), $encoded_json);
