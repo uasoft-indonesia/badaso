@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\ManualGenerate;
 
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Facades\Badaso;

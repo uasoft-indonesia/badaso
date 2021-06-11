@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Badaso;
 
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Permission;

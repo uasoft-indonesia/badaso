@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\CRUD;
 
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Facades\Badaso;
