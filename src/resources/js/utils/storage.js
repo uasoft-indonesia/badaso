@@ -3,8 +3,9 @@ export default {
     return process.env.MIX_FILESYSTEM_DRIVER
   },
   view(path)  {
-    const driver = process.env.MIX_FILESYSTEM_DRIVER
-    if (!path || !driver) return null
+    var driver = process.env.MIX_FILESYSTEM_DRIVER
+    if (!path || path === null || path === '') return null
+    if (!driver) driver = "public"
   
     if (driver === "s3") {
       var S3 = ""
