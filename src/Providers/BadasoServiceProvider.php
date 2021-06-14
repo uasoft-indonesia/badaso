@@ -45,9 +45,9 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/badaso.php' => config_path('badaso.php'),
             __DIR__.'/../Config/log-viewer.php' => config_path('log-viewer.php'),
             __DIR__.'/../Config/backup.php' => config_path('backup.php'),
-            __DIR__.'/../Seeder/Configurations' => database_path('seeds/Badaso'),
-            __DIR__.'/../Seeder/CRUD' => database_path('seeds/Badaso/CRUD'),
-            __DIR__.'/../Seeder/ManualGenerate' => database_path('seeds/Badaso/ManualGenerate'),
+            __DIR__.'/../Seeder/Configurations' => database_path('seeders/Badaso'),
+            __DIR__.'/../Seeder/CRUD' => database_path('seeders/Badaso/CRUD'),
+            __DIR__.'/../Seeder/ManualGenerate' => database_path('seeders/Badaso/ManualGenerate'),
             __DIR__.'/../Images/' => public_path(),
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
@@ -74,9 +74,9 @@ class BadasoServiceProvider extends ServiceProvider
         ], 'BadasoConfig');
 
         $this->publishes([
-            __DIR__.'/../Seeder/Configurations' => database_path('seeds/Badaso'),
-            __DIR__.'/../Seeder/CRUD' => database_path('seeds/Badaso/CRUD'),
-            __DIR__.'/../Seeder/ManualGenerate' => database_path('seeds/Badaso/ManualGenerate'),
+            __DIR__.'/../Seeder/Configurations' => database_path('seeders/Badaso'),
+            __DIR__.'/../Seeder/CRUD' => database_path('seeders/Badaso/CRUD'),
+            __DIR__.'/../Seeder/ManualGenerate' => database_path('seeders/Badaso/ManualGenerate'),
         ], 'BadasoSeeder');
 
         $this->publishes([
