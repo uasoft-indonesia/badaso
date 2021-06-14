@@ -23,7 +23,7 @@ export default {
       get() {
         let config = this.$store.getters["badaso/getConfig"];
         if (config.adminPanelLogo && config.adminPanelLogo != "") {
-          return this.$api.badasoFile.view(config.adminPanelLogo);
+          return this.$storage.view(config.adminPanelLogo);
         } else {
           return null;
         }
