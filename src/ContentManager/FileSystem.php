@@ -212,13 +212,15 @@ class FileSystem
     /**
      * Add Content to Seeder file.
      */
-    public function addContentToSeederFile(string $seeder_file, string $seeder_contents): bool
+    public function addContentToSeederFile(string $seeder_file, string $seeder_contents, bool $run_composer_dump_autoload = true): bool
     {
         if (! $this->filesystem->put($seeder_file, $seeder_contents)) {
             return false;
         }
 
-        $this->composer->dumpAutoloads();
+        if ($run_composer_dump_autoload) {
+            $this->composer->dumpAutoloads();
+        }
 
         return true;
     }
