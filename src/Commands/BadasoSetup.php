@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\VarExporter\VarExporter;
 use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
