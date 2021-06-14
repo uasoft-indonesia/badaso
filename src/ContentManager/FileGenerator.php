@@ -247,6 +247,15 @@ class FileGenerator
 
         $seed_content = $this->content_manager->populateTableContentToSeeder($stub, $table_name, $data);
 
+        // generate file BadasoManualGenerateSeeder.php
+        $content_generator = new ContentGenerator();
+        $class_badaso_manual_generate_seeder = 'BadasoManualGenerateSeeder';
+        $path_folder_manual_generate_seeder = $this->file_system->getSeederFile($class_badaso_manual_generate_seeder, $seed_folder_path);
+        $file_content_manual_generate_seeder = $this->file_system->getFileContent($path_folder_manual_generate_seeder);
+        $file_content_manual_generate_seeder = $content_generator->generateManualSeederContent($seeder_class_name, $file_content_manual_generate_seeder);
+        $this->file_system->addContentToSeederFile($path_folder_manual_generate_seeder, $file_content_manual_generate_seeder, false);
+        // end
+
         return $this->file_system->addContentToSeederFile($seeder_file, $seed_content);
     }
 

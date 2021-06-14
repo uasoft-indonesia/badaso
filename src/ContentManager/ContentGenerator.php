@@ -241,4 +241,51 @@ class ContentGenerator
 
         return $content;
     }
+
+    /**
+     * Generate Orchestra Seeder Content.
+     *
+     * @param string $class_name
+     * @param string $content
+     *
+     * @return mixed|string|string[]|null
+     */
+    public function generateManualSeederContent($class_name, $content)
+    {
+        if (strpos($class_name, FileGenerator::DELETED_SEEDER_SUFFIX) !== false) {
+            $to_be_deleted_class_name = strstr(
+                $class_name,
+                FileGenerator::DELETED_SEEDER_SUFFIX,
+                true
+            );
+            $crud_type_added_class = $to_be_deleted_class_name.FileGenerator::TYPE_SEEDER_SUFFIX;
+
+            $crud_row_added_class = $to_be_deleted_class_name.FileGenerator::ROW_SEEDER_SUFFIX;
+
+            $content = str_replace("\$this->seed({$crud_type_added_class}::class);", '', $content);
+            $content = str_replace("\$this->seed({$crud_row_added_class}::class);", '', $content);
+        }
+
+        if (strpos($content, "\$this->seed({$class_name}::class)") === false) {
+            if (
+                strpos($content, '#manualgenerateseeder_start') &&
+                strpos($content, '#manualgenerateseeder_end') &&
+                strpos($content, '#manualgenerateseeder_start') < strpos($content, '#manualgenerateseeder_end')
+            ) {
+                $content = preg_replace(
+                    "/(\#manualgenerateseeder_start.+?)(\#manualgenerateseeder_end)/us",
+                    "$1\$this->seed({$class_name}::class);{$this->new_line_character}{$this->indent_character}{$this->indent_character}$2",
+                    $content
+                );
+            } else {
+                $content = preg_replace(
+                    "/(run\(\).+?)}/us",
+                    "$1{$this->indent_character}\$this->seed({$class_name}::class);{$this->new_line_character}{$this->indent_character}}",
+                    $content
+                );
+            }
+        }
+
+        return $content;
+    }
 }
