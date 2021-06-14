@@ -64,7 +64,7 @@ class FileGenerator
 
         $seeder_file = $this->file_system->getSeederFile($seeder_class_name, $seed_folder_path);
 
-        $data_type->details = (! is_null($data_type->details)) ? json_encode($data_type->details) : null;
+        $data_type->details = (!is_null($data_type->details)) ? json_encode($data_type->details) : null;
 
         $stub = $this->content_manager->replaceString('{{class}}', $seeder_class_name, $stub);
 
@@ -226,7 +226,7 @@ class FileGenerator
      */
     public function generateSeedFile(string $table_name, string $suffix): bool
     {
-        if (! Schema::hasTable($table_name)) {
+        if (!Schema::hasTable($table_name)) {
             throw new Exception(sprintf('%s table does\'nt exist.'));
         }
 
@@ -247,6 +247,15 @@ class FileGenerator
 
         $seed_content = $this->content_manager->populateTableContentToSeeder($stub, $table_name, $data);
 
+        // generate file BadasoManualGenerateSeeder.php
+        $content_generator = new ContentGenerator();
+        $class_badaso_manual_generate_seeder = 'BadasoManualGenerateSeeder';
+        $path_folder_manual_generate_seeder = $this->file_system->getSeederFile($class_badaso_manual_generate_seeder, $seed_folder_path);
+        $file_content_manual_generate_seeder = $this->file_system->getFileContent($path_folder_manual_generate_seeder);
+        $file_content_manual_generate_seeder = $content_generator->generateManualSeederContent($seeder_class_name, $file_content_manual_generate_seeder);
+        $this->file_system->addContentToSeederFile($path_folder_manual_generate_seeder, $file_content_manual_generate_seeder, false);
+        // end
+
         return $this->file_system->addContentToSeederFile($seeder_file, $seed_content);
     }
 
@@ -257,12 +266,12 @@ class FileGenerator
      */
     public function repackSeedData($data): array
     {
-        if (! is_array($data)) {
+        if (!is_array($data)) {
             $data = $data->toArray();
         }
 
         $data_array = [];
-        if (! empty($data)) {
+        if (!empty($data)) {
             foreach ($data as $row) {
                 $row_array = [];
                 foreach ($row as $column_name => $column_value) {

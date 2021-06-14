@@ -95,31 +95,31 @@ class ContentGenerator
         // replace array() with []
         $lines = explode("\n", $content);
 
-        for ($i = 1; $i < count($lines); $i++) {
+        for ($i = 1; $i < count($lines); ++$i) {
             $lines[$i] = ltrim($lines[$i]);
             // Check for closing bracket
             if (strpos($lines[$i], ')') !== false) {
-                $tab_count--;
+                --$tab_count;
             }
 
             // Insert tab count
             if ($in_string === false) {
-                for ($j = 0; $j < $tab_count; $j++) {
+                for ($j = 0; $j < $tab_count; ++$j) {
                     $lines[$i] = substr_replace($lines[$i], $this->indent_character, 0, 0);
                 }
             }
-            for ($j = 0; $j < strlen($lines[$i]); $j++) {
+            for ($j = 0; $j < strlen($lines[$i]); ++$j) {
                 // skip character right after an escape \
                 if ($lines[$i][$j] == '\\') {
-                    $j++;
+                    ++$j;
                 } // check string open/end
                 elseif ($lines[$i][$j] == '\'') {
-                    $in_string = ! $in_string;
+                    $in_string = !$in_string;
                 }
             }
             // check for opening bracket
             if (strpos($lines[$i], '(') !== false) {
-                $tab_count++;
+                ++$tab_count;
             }
         }
         $content = implode("\n", $lines);
@@ -165,7 +165,7 @@ class ContentGenerator
     {
         $permission = self::GENERATE_PERMISSIONS_STATEMENT;
 
-        if (! is_null($type)) {
+        if (!is_null($type)) {
             $permission = self::REMOVE_PERMISSIONS_STATEMENT;
         }
 
@@ -227,6 +227,53 @@ class ContentGenerator
             ) {
                 $content = preg_replace(
                     "/(\#orchestraseeder_start.+?)(\#orchestraseeder_end)/us",
+                    "$1\$this->seed({$class_name}::class);{$this->new_line_character}{$this->indent_character}{$this->indent_character}$2",
+                    $content
+                );
+            } else {
+                $content = preg_replace(
+                    "/(run\(\).+?)}/us",
+                    "$1{$this->indent_character}\$this->seed({$class_name}::class);{$this->new_line_character}{$this->indent_character}}",
+                    $content
+                );
+            }
+        }
+
+        return $content;
+    }
+
+    /**
+     * Generate Orchestra Seeder Content.
+     *
+     * @param string $class_name
+     * @param string $content
+     *
+     * @return mixed|string|string[]|null
+     */
+    public function generateManualSeederContent($class_name, $content)
+    {
+        if (strpos($class_name, FileGenerator::DELETED_SEEDER_SUFFIX) !== false) {
+            $to_be_deleted_class_name = strstr(
+                $class_name,
+                FileGenerator::DELETED_SEEDER_SUFFIX,
+                true
+            );
+            $crud_type_added_class = $to_be_deleted_class_name.FileGenerator::TYPE_SEEDER_SUFFIX;
+
+            $crud_row_added_class = $to_be_deleted_class_name.FileGenerator::ROW_SEEDER_SUFFIX;
+
+            $content = str_replace("\$this->seed({$crud_type_added_class}::class);", '', $content);
+            $content = str_replace("\$this->seed({$crud_row_added_class}::class);", '', $content);
+        }
+
+        if (strpos($content, "\$this->seed({$class_name}::class)") === false) {
+            if (
+                strpos($content, '#manualgenerateseeder_start') &&
+                strpos($content, '#manualgenerateseeder_end') &&
+                strpos($content, '#manualgenerateseeder_start') < strpos($content, '#manualgenerateseeder_end')
+            ) {
+                $content = preg_replace(
+                    "/(\#manualgenerateseeder_start.+?)(\#manualgenerateseeder_end)/us",
                     "$1\$this->seed({$class_name}::class);{$this->new_line_character}{$this->indent_character}{$this->indent_character}$2",
                     $content
                 );
