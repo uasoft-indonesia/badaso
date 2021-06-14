@@ -12,23 +12,14 @@
     ></vs-input>
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12">
-        <div class="image-container" v-if="selectedImageData.url">
-          <vs-button
-            class="delete-image"
-            color="danger"
-            icon="close"
-            @click="deleteFilePicked(selectedImageData)"
-          ></vs-button>
-          <img :src="getImageUrl(selectedImageData.url)" class="image" />
-        </div>
-        <div class="image-container" v-else-if="isString(value) && value !== ''" >
+        <div class="image-container" v-if="imageUrl !== null && imageUrl !== ''">
           <vs-button
             class="delete-image"
             color="danger"
             icon="close"
             @click="deleteFilePicked(value)"
           ></vs-button>
-          <img :src="value" class="image" />
+          <img :src="$storage.view(value)" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -50,7 +41,7 @@
           <div class="add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <img :class="[activeImage === index ? 'active' : '']" :src="getImageUrl(item.thumb_url)" v-for="(item, index) in images.items" :key="index" @click="activeImage = index; isImageSelected = true">
+          <img :class="[activeImage === index ? 'active' : '']" :src="$storage.view(getImageUrl(item.thumb_url))" v-for="(item, index) in images.items" :key="index" @click="activeImage = index; isImageSelected = true">
         </div>
         <div v-if="getSelected === 'url'" class="right url">
           <vs-input
@@ -146,9 +137,6 @@ export default {
     return {
       dialog: false,
       activeImage: null,
-      selectedImageData: {
-        url: ""
-      },
       show: false,
       selected: 'private',
       images: {
@@ -286,18 +274,14 @@ export default {
     },
     getImageUrl(item) {
       if (item === null || item === undefined) return
-      
-      let url = new URL(item)
-      if (url.host === 'localhost') {
-        return url.pathname
-      }
-
-      return item
+      if (this.$storage.getStorageDriver() === "s3") return item
+      else return item.replace('/storage', '')
     },
     emitInput() {
       if (this.selected !== 'url') {
-        this.selectedImageData = this.images.items[this.activeImage]
-        const url = this.getImageUrl(this.images.items[this.activeImage].url)
+        var url = null
+        if (this.$storage.getStorageDriver() === "s3") url = new URL(this.images.items[this.activeImage].url).pathname
+        else url = this.getImageUrl(this.images.items[this.activeImage].url)
         this.$emit('input', url)
       } else {
         this.$emit('input', this.inputByUrl)
@@ -327,7 +311,6 @@ export default {
 
       if (typeof item === 'string' && item !== '') this.$emit('input', null)
       if (typeof item === 'object') {
-        this.selectedImageData = {}
         this.$emit('input', null)
       }
     }
