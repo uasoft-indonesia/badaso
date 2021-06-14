@@ -90,7 +90,7 @@ class FileSystem
      */
     public function getSeedCRUDFolderPath(): string
     {
-        $path = base_path().'/database/seeds/Badaso/CRUD';
+        $path = base_path().'/database/seeders/Badaso/CRUD';
         if (!file_exists($path)) {
             mkdir($path, 0777);
         }
@@ -103,7 +103,7 @@ class FileSystem
      */
     public function getSeedManualGenerateFolderPath(): string
     {
-        $path = base_path().'/database/seeds/Badaso/ManualGenerate';
+        $path = base_path().'/database/seeders/Badaso/ManualGenerate';
         if (!file_exists($path)) {
             mkdir($path, 0777);
         }

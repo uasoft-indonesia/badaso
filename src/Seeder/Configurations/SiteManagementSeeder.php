@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders\Badaso;
+
 use Illuminate\Database\Seeder;
 
 class SiteManagementSeeder extends Seeder

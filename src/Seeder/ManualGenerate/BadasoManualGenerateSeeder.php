@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders\Badaso\ManualGenerate;
+
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Traits\Seedable;
 
