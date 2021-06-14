@@ -12,23 +12,14 @@
     ></vs-input>
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
-        <div class="image-container" v-if="imageData.url">
+        <div class="image-container">
           <vs-button
             class="delete-image"
             color="danger"
             icon="close"
             @click="deleteFilePicked(imageData)"
           ></vs-button>
-          <img :src="getImageUrl(imageData.url)" class="image" />
-        </div>
-        <div class="image-container" v-else>
-          <vs-button
-            class="delete-image"
-            color="danger"
-            icon="close"
-            @click="deleteFilePicked(imageData)"
-          ></vs-button>
-          <img :src="imageData" class="image" />
+          <img :src="$storage.view(imageData)" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -51,7 +42,7 @@
           <div class="add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <img :class="[activeImage.includes(index) ? 'active' : '']" :src="getImageUrl(item.thumb_url)" v-for="(item, index) in images.items" :key="index" @click="selectImage(index)">
+          <img :class="[activeImage.includes(index) ? 'active' : '']" :src="$storage.view(getImageUrl(item.thumb_url))" v-for="(item, index) in images.items" :key="index" @click="selectImage(index)">
         </div>
         <div v-if="getSelected === 'url'" class="right url">
           <vs-input
@@ -157,19 +148,10 @@ export default {
   },
   data() {
     return {
-      imageData: {
-        name: "",
-        base64: "",
-        file: {},
-      },
-      imageDatas: [],
       imagesName: "",
 
       dialog: false,
       activeImage: [],
-      selectedImageData: {
-        url: ""
-      },
       show: false,
       selected: 'private',
       images: {
@@ -189,6 +171,9 @@ export default {
     if (this.sharesOnly) {
       this.selected = "shares"
     }
+
+    this.imageUrl = this.value
+    this.imagesName = this.imageUrl.join(', ')
   },
   computed: {
     imageValidation() {
@@ -287,21 +272,20 @@ export default {
     },
     getImageUrl(item) {
       if (item === null || item === undefined) return
-      
-      let url = new URL(item)
-      if (url.host === 'localhost') {
-        return url.pathname
-      }
-
-      return item
+      if (this.$storage.getStorageDriver() === "s3") return item
+      else return new URL(item).pathname.replace('/storage', '')
     },
     emitInput() {
       if (this.selected !== 'url') {
-        this.selectedImageData = this.images.items[this.activeImage]
         let url = []
-        this.activeImage.forEach(element => {
-          url.push(this.getImageUrl(this.images.items[element].url))
-        });
+        if (this.$storage.getStorageDriver() === "s3") 
+          this.activeImage.forEach(element => {
+            url.push(new URL(this.images.items[element].url).pathname)
+          });
+        else 
+          this.activeImage.forEach(element => {
+            url.push(this.getImageUrl(this.images.items[element].url))
+          });
         this.imagesName = url.join(', ')
         this.$emit('input', url)
       } else {

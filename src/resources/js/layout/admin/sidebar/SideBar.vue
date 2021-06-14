@@ -12,7 +12,7 @@
       :reduce="reduceSidebar"
     >
       <div class="header-sidebar text-center" slot="header">
-        <vs-avatar size="70px" :src="user.avatar" />
+        <vs-avatar size="70px" :src="$storage.view(user.avatar)" />
         <!--
         <h4>
           {{user.name}}

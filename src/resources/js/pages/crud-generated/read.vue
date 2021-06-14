@@ -41,7 +41,7 @@
                     <td class="display-value">
                       <img
                         v-if="dataRow.type === 'upload_image'"
-                        :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+                        :src="$storage.view(record[$caseConvert.stringSnakeToCamel(dataRow.field)])"
                         width="100%"
                         alt=""
                       />
@@ -54,7 +54,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="image"
+                          :src="$storage.view(image)"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
