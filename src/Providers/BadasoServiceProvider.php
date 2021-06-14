@@ -81,7 +81,7 @@ class BadasoServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
-            __DIR__.'/../Images/' => public_path(),
+            __DIR__.'/../Images/badaso-images/' => public_path('app/public/files/shares'),
             __DIR__.'/../resources/views/vendor' => resource_path('views/vendor'),
             // __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
         ], 'BadasoResource');

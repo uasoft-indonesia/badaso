@@ -41,7 +41,7 @@
                     <td class="display-value">
                       <img
                         v-if="dataRow.type === 'upload_image'"
-                        :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+                        :src="$storage.view(record[$caseConvert.stringSnakeToCamel(dataRow.field)])"
                         width="100%"
                         alt=""
                       />
@@ -54,7 +54,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="image"
+                          :src="$storage.view(image)"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -79,7 +79,7 @@
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
-                          `${$api.badasoFile.download(
+                          `${$storage.view(
                             getDownloadUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
                           )}`
                         "
@@ -99,7 +99,7 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${$api.badasoFile.download(getDownloadUrl(file))}`"
+                            :href="`${$storage.view(getDownloadUrl(file))}`"
                             target="_blank"
                             >{{ getDownloadUrl(file) }}</a
                           >

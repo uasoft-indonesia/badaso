@@ -25,6 +25,7 @@ import "firebase/firebase-messaging";
 import { notificationMessageReceiveHandle } from "./utils/firebase";
 import { broadcastMessageHandle } from "./utils/broadcast-messages";
 import { checkConnection } from "./utils/check-connection";
+import storage from './utils/storage'
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -238,6 +239,7 @@ const i18n = new VueI18n({
 
 Vue.prototype.$api = api;
 Vue.prototype.$handleError = handleError;
+Vue.prototype.$storage = storage;
 Vue.prototype.$resource = resource;
 Vue.prototype.$constants = {
   MOBILE: "mobile",

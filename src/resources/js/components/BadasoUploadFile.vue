@@ -6,22 +6,13 @@
       @click="showOverlay"
       v-on:keyup.space="showOverlay"
       readonly
-      v-model="fileData.name"
+      v-model="fileData"
       icon="attach_file"
       icon-after="true"
     ></vs-input>
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12">
-        <div class="file-container" v-if="fileData.name">
-          <vs-button
-            class="delete-file"
-            color="danger"
-            icon="close"
-            @click="deleteFilePicked(fileData)"
-          ></vs-button>
-          <div class="file"> {{ fileData.name }} </div>
-        </div>
-        <div class="file-container" v-else-if="isString(value)">
+        <div class="file-container" v-if="isString(value) && value !== ''">
           <vs-button
             class="delete-file"
             color="danger"
@@ -29,7 +20,7 @@
             @click="deleteFilePicked(value)"
           ></vs-button>
           <div class="file"> 
-            <a target="_blank" :href="`${$api.badasoFile.download(getDownloadUrl(value))}`">{{ value.split("/").reverse()[0] }}</a> </div>
+            <a target="_blank" :href="$storage.view(value)">{{ value.split("/").reverse()[0] }}</a> </div>
         </div>
       </vs-col>
     </vs-row>
@@ -51,8 +42,7 @@
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
           <div v-for="(item, index) in files.items" :key="index" @click="activeFile = index; isFileSelected = true">
-            <img :class="[activeFile === index ? 'active' : '']" :src="getFileUrl(item.thumb_url)"  v-if="item.thumb_url !== null">
-            <div v-else :class="[activeFile === index ? 'active' : '', 'files']" >
+            <div :class="[activeFile === index ? 'active' : '', 'files']" >
               <vs-icon icon="insert_drive_file" size="45px" color="#06bbd3"></vs-icon>
               <p>{{ item.name }}</p>
             </div>
@@ -137,15 +127,9 @@ export default {
   },
   data() {
     return {
-      fileData: {
-        name: "",
-        url: ""
-      },
+      fileData: "",
       dialog: false,
       activeFile: 0,
-      selectedFileData: {
-        url: ""
-      },
       show: false,
       selected: 'private',
       files: {
@@ -161,6 +145,8 @@ export default {
     if (this.sharesOnly) {
       this.selected = "shares"
     }
+
+    this.fileData = this.value
   },
   computed: {
     getSelected() {
@@ -193,6 +179,11 @@ export default {
         this.isFileSelected = false
       }
     },
+    value: {
+      handler(val) {
+        this.fileData = val
+      }
+    }
   },
   methods: {
     pickFile() {
@@ -256,13 +247,8 @@ export default {
     },
     getFileUrl(item) {
       if (item === null || item === undefined) return
-
-      let url = new URL(item)
-      if (url.host === 'localhost') {
-        return url.pathname
-      }
-
-      return item
+      if (this.$storage.getStorageDriver() === "s3") return new URL(item).pathname
+      else return item.replace('/storage', '')
     },
     getDownloadUrl(item) {
       if (item === null || item === undefined) return
@@ -270,8 +256,11 @@ export default {
       return item.split('storage').pop()
     },
     emitInput() {
-      this.selectedFileData = this.files.items[this.activeFile]
-      const url = this.getFileUrl(this.files.items[this.activeFile].url)
+      var url = null
+      if (this.$storage.getStorageDriver() === "s3") 
+        url = new URL(this.files.items[this.activeFile].url).pathname
+      else 
+        url = this.getFileUrl(this.files.items[this.activeFile].url)
       this.$emit('input', url)
       this.closeOverlay()
     },
