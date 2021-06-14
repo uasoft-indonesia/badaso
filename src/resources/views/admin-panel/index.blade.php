@@ -14,12 +14,14 @@
 
         $favicon = Config::get('favicon');
         $api_prefix = env('MIX_API_ROUTE_PREFIX');
+        $disk = config('badaso.storage.disk');
+        $is_exists = Storage::disk($disk)->exists($favicon);
     ?>
 
-    @if(!$favicon || $favicon == '')
-        <link rel="shortcut icon" href="{{ asset('badaso-images/logo-144px.png') }}" type="image/png">
+    @if ($is_exists && $disk != 'public' && $disk != 'local')
+        <link rel="shortcut icon" href="{{ Storage::disk($disk)->url($favicon) }}" type="image/png">
     @else
-        <link rel="shortcut icon" href="{{'/'.$api_prefix.'/v1/file/view?file='.$favicon}}" type="image/png">
+        <link rel="shortcut icon" href="{{ asset('storage' . $favicon) }}" type="image/png">
     @endif
 </head>
 <body>

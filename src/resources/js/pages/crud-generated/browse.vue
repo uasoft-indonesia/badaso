@@ -135,7 +135,7 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${$api.badasoFile.view(
+                          `${$storage.view(
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )}`
                         "
@@ -151,7 +151,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="`${$api.badasoFile.view(image)}`"
+                          :src="`${$storage.view(image)}`"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -385,7 +385,7 @@
                       >
                         <img
                           v-if="dataRow.type === 'upload_image'"
-                          :src="record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
+                          :src="$storage.view(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])"
                           width="100%"
                           alt=""
                         />
@@ -398,7 +398,7 @@
                               record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]
                             )"
                             :key="indexImage"
-                            :src="`${$api.badasoFile.view(image)}`"
+                            :src="`${$storage.view(image)}`"
                             width="100%"
                             alt=""
                             style="margin-bottom: 10px;"

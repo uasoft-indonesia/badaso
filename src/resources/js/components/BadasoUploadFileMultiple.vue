@@ -12,16 +12,7 @@
     ></vs-input>
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12" v-for="(fileData, index) in value" :key="index" style="float: left" >
-        <div class="file-container" v-if="fileData.name">
-          <vs-button
-            class="delete-file"
-            color="danger"
-            icon="close"
-            @click="deleteFilePicked(fileData)"
-          ></vs-button>
-          <div class="file"> {{ fileData.name }} </div>
-        </div>
-        <div class="file-container" v-else>
+        <div class="file-container">
           <vs-button
             class="delete-file"
             color="danger"
@@ -155,20 +146,16 @@ export default {
     if (this.sharesOnly) {
       this.selected = "shares"
     }
+
+    this.fileDatas = this.value
+    this.filesName = this.fileDatas.join(', ')
   },
   data() {
     return {
-      fileData: {
-        name: "",
-        url: "",
-      },
       fileDatas: [],
       filesName: "",
       dialog: false,
       activeFile: [],
-      selectedFileData: {
-        url: ""
-      },
       show: false,
       selected: 'private',
       files: {
@@ -263,26 +250,24 @@ export default {
     },
     getFileUrl(item) {
       if (item === null || item === undefined) return
-
-      let url = new URL(item)
-      if (url.host === 'localhost') {
-        return url.pathname
-      }
-
-      return item
+      if (this.$storage.getStorageDriver() === "s3") return new URL(item).pathname
+      else return new URL(item).pathname.replace('/storage', '')
     },
     getDownloadUrl(item) {
       if (item === null || item === undefined) return
-
       return item.split('storage').pop()
     },
     emitInput() {
-      this.selectedFileData = this.files.items[this.activeFile]
       let url = []
-      this.activeFile.forEach(element => {
+      if (this.$storage.getStorageDriver() === "s3") 
+        this.activeFile.forEach(element => {
+          url.push(new URL(this.files.items[element].url).pathname)
+        });
+      else 
+        this.activeFile.forEach(element => {
           url.push(this.getFileUrl(this.files.items[element].url))
         });
-        this.filesName = url.join(', ')
+      this.filesName = url.join(', ')
       this.$emit('input', url)
       this.closeOverlay()
     },
