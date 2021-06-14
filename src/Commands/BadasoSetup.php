@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\VarExporter\VarExporter;
 use Uasoft\Badaso\Helpers\Firebase\FirebasePublishFile;
@@ -64,7 +63,6 @@ class BadasoSetup extends Command
         $this->publishLaravelFileManager();
         $this->publishLaravelAnalytics();
         $this->publicFileFirebaseServiceWorker();
-        $this->uploadDefaultUserImage();
         $this->addingBadasoAuthConfig();
     }
 
@@ -186,16 +184,6 @@ class BadasoSetup extends Command
         Artisan::call('vendor:publish', $command_params);
 
         $this->info('Laravel activity log provider published');
-    }
-
-    protected function uploadDefaultUserImage()
-    {
-        try {
-            $img = file_get_contents(public_path('/badaso-images/default-user.png'));
-            Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
-        } catch (\Exception $e) {
-            $this->error('uploadDefaultImage '.$e->getMessage());
-        }
     }
 
     protected function publishLaravelFileManager()
