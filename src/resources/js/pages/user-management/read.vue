@@ -33,7 +33,7 @@
               <th>{{ $t("user.detail.avatar") }}</th>
               <td>
                 <img
-                  :src="`${$api.badasoFile.view(user.avatar)}`"
+                  :src="`${$storage.view(user.avatar)}`"
                   width="100%"
                   alt=""
                 />
