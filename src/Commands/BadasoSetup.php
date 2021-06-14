@@ -64,7 +64,6 @@ class BadasoSetup extends Command
         $this->publishLaravelFileManager();
         $this->publishLaravelAnalytics();
         $this->publicFileFirebaseServiceWorker();
-        $this->uploadDefaultUserImage();
         $this->addingBadasoAuthConfig();
     }
 
@@ -189,16 +188,6 @@ class BadasoSetup extends Command
         Artisan::call('vendor:publish', $command_params);
 
         $this->info('Laravel activity log provider published');
-    }
-
-    protected function uploadDefaultUserImage()
-    {
-        try {
-            $img = file_get_contents(public_path('/badaso-images/default-user.png'));
-            Storage::disk(config('badaso.storage.disk', 'public'))->put('users/default.png', $img);
-        } catch (\Exception $e) {
-            $this->error('uploadDefaultImage '.$e->getMessage());
-        }
     }
 
     protected function publishLaravelFileManager()

@@ -47,7 +47,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/backup.php' => config_path('backup.php'),
             __DIR__.'/../Seeder/Configurations' => database_path('seeders/Badaso'),
             __DIR__.'/../Seeder/CRUD' => database_path('seeders/Badaso/CRUD'),
-            __DIR__.'/../Images/' => public_path(),
+            __DIR__.'/../Images/badaso-images/' => storage_path('app/public/files/shares'),
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
             __DIR__.'/../Config/lfm.php' => config_path('lfm.php'),
@@ -79,7 +79,7 @@ class BadasoServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
-            __DIR__.'/../Images/badaso-images/' => public_path('app/public/files/shares'),
+            __DIR__.'/../Images/badaso-images/' => storage_path('app/public/files/shares'),
             __DIR__.'/../resources/views/vendor' => resource_path('views/vendor'),
             // __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
         ], 'BadasoResource');
