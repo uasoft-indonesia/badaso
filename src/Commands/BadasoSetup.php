@@ -64,6 +64,12 @@ class BadasoSetup extends Command
         $this->publishLaravelAnalytics();
         $this->publicFileFirebaseServiceWorker();
         $this->addingBadasoAuthConfig();
+        $this->generateSwagger();
+    }
+
+    protected function generateSwagger()
+    {
+        $this->call('l5-swagger:generate');
     }
 
     protected function updatePackageJson()
