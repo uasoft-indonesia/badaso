@@ -66,6 +66,12 @@ class BadasoSetup extends Command
         $this->publicFileFirebaseServiceWorker();
         $this->uploadDefaultUserImage();
         $this->addingBadasoAuthConfig();
+        $this->generateSwagger();
+    }
+
+    protected function generateSwagger()
+    {
+        $this->call('l5-swagger:generate');
     }
 
     protected function updatePackageJson()
@@ -124,7 +130,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -290,7 +296,6 @@ class BadasoSetup extends Command
             'MIX_ANALYTICS_TRACKING_ID' => '',
             'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
             'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
-            'BADASO_SWAGGER_HOST' => '"${APP_URL}/${MIX_API_ROUTE_PREFIX}"',
         ];
     }
 
