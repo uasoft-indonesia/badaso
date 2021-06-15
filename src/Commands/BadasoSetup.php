@@ -64,6 +64,12 @@ class BadasoSetup extends Command
         $this->publishLaravelAnalytics();
         $this->publicFileFirebaseServiceWorker();
         $this->addingBadasoAuthConfig();
+        $this->generateSwagger();
+    }
+
+    protected function generateSwagger()
+    {
+        $this->call('l5-swagger:generate');
     }
 
     protected function updatePackageJson()
@@ -119,7 +125,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
