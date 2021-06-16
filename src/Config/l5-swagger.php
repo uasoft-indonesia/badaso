@@ -240,7 +240,7 @@ return [
          * Uncomment to add constants which can be used in annotations
          */
         'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('BADASO_SWAGGER_HOST', 'http://localhost:8000/badaso-api'),
+            'L5_SWAGGER_CONST_HOST' => env('APP_URL').'/'.env('MIX_API_ROUTE_PREFIX'),
         ],
     ],
 ];
