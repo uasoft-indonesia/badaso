@@ -19,7 +19,7 @@
             icon="close"
             @click="deleteFilePicked(value)"
           ></vs-button>
-          <img :src="$storage.view(value)" class="image" />
+          <img :src="$store.state.badaso.meta.mediaBaseUrl + value" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -41,7 +41,7 @@
           <div class="add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <img :class="[activeImage === index ? 'active' : '']" :src="$storage.view(getImageUrl(item.thumb_url))" v-for="(item, index) in images.items" :key="index" @click="activeImage = index; isImageSelected = true">
+          <img :class="[activeImage === index ? 'active' : '']" :src="item.thumbUrl" v-for="(item, index) in images.items" :key="index" @click="activeImage = index; isImageSelected = true">
         </div>
         <div v-if="getSelected === 'url'" class="right url">
           <vs-input
@@ -149,7 +149,7 @@ export default {
       inputByUrl: "",
       isValidImage: false,
       isImageSelected: false,
-      dirty: false
+      dirty: false,
     };
   },
   computed: {
@@ -260,28 +260,19 @@ export default {
           workingDir: this.getSelectedFolder
         })
         .then(res => {
-          const items = res.items.filter(val => {
-            return val.thumb_url !== null
+          this.images = res.data
+          this.images.items = res.data.items.filter(val => {
+            return val.thumbUrl !== null
           })
-
-          this.images = res
-          this.images.items = items
         })
         .catch(error => {
           console.log(error);
         })
       }
     },
-    getImageUrl(item) {
-      if (item === null || item === undefined) return
-      if (this.$storage.getStorageDriver() === "s3") return item
-      else return new URL(item).pathname.replace('/storage', '')
-    },
     emitInput() {
       if (this.selected !== 'url') {
-        var url = null
-        if (this.$storage.getStorageDriver() === "s3") url = new URL(this.images.items[this.activeImage].url).pathname
-        else url = this.getImageUrl(this.images.items[this.activeImage].url)
+        var url = this.images.items[this.activeImage].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, '')
         this.$emit('input', url)
       } else {
         this.$emit('input', this.inputByUrl)

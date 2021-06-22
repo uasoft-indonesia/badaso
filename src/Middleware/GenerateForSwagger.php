@@ -11,7 +11,6 @@ class GenerateForSwagger
 {
     public function handle($request, Closure $next)
     {
-
         switch ($request->getPathInfo()) {
             case $this->getPath(env('MIX_API_DOCUMENTATION_ROUTE', '/api-docs')):
                 $data_types = DataType::all();

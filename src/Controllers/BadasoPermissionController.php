@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Helpers\Swagger\BadasoCRUDGeneratorGenerateSwagger;
 use Uasoft\Badaso\Models\Permission;
 
 class BadasoPermissionController extends Controller

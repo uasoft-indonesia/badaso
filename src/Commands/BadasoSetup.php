@@ -129,7 +129,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -322,7 +322,7 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env ' . $e->getMessage());
+            $this->error('Failed adding badaso env '.$e->getMessage());
         }
     }
 
