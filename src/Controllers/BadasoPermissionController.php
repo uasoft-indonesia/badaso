@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Swagger\BadasoCRUDGeneratorGenerateSwagger;
 use Uasoft\Badaso\Models\Permission;
 
 class BadasoPermissionController extends Controller
@@ -54,6 +55,7 @@ class BadasoPermissionController extends Controller
                 'description'  => 'required',
                 'always_allow' => 'required',
                 'is_public'    => 'required',
+                'table_name'   => 'required',
             ]);
 
             $permission = Permission::find($request->id);
