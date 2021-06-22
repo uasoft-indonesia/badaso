@@ -1,6 +1,6 @@
 <template>
   <div class="blank_layout">
-    <vs-row class="full-height login-register-bg" :style="`background-image: url('${$storage.view(authBackgroundImage)}')`">
+    <vs-row class="full-height login-register-bg" :style="`background-image: url('${authBackgroundImage}')`">
       <router-view :key="$route.path"></router-view>
     </vs-row>
   </div>
@@ -13,7 +13,8 @@ export default {
   computed: {
     authBackgroundImage() {
       let config = this.$store.getters["badaso/getConfig"];
-      return config.authBackgroundImage ? config.authBackgroundImage : "/files/shares/auth-bg.jpg";
+      let url = this.$store.getters["badaso/getMeta"];
+      return config.authBackgroundImage ? url.mediaBaseUrl + config.authBackgroundImage : url.mediaBaseUrl + "files/shares/auth-bg.jpg";
     }
   }
 };
