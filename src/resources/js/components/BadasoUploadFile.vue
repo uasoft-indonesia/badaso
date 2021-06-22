@@ -20,7 +20,7 @@
             @click="deleteFilePicked(value)"
           ></vs-button>
           <div class="file"> 
-            <a target="_blank" :href="$storage.view(value)">{{ value.split("/").reverse()[0] }}</a> </div>
+            <a target="_blank" :href="`${$api.badasoFile.download(value)}`">{{ value.split("/").reverse()[0] }}</a> </div>
         </div>
       </vs-col>
     </vs-row>
@@ -233,34 +233,18 @@ export default {
           workingDir: this.getSelectedFolder
         })
         .then(res => {
-          const items = res.items.filter(val => {
-            return val.thumb_url === null
+          this.files = res.data
+          this.files.items = res.data.items.filter(val => {
+            return val.thumbUrl === null
           })
-
-          this.files = res
-          this.files.items = items
         })
         .catch(error => {
           console.log(error);
         })
       }
     },
-    getFileUrl(item) {
-      if (item === null || item === undefined) return
-      if (this.$storage.getStorageDriver() === "s3") return new URL(item).pathname
-      else return item.replace('/storage', '')
-    },
-    getDownloadUrl(item) {
-      if (item === null || item === undefined) return
-
-      return item.split('storage').pop()
-    },
     emitInput() {
-      var url = null
-      if (this.$storage.getStorageDriver() === "s3") 
-        url = new URL(this.files.items[this.activeFile].url).pathname
-      else 
-        url = this.getFileUrl(this.files.items[this.activeFile].url)
+      var url = this.files.items[this.activeFile].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, '')
       this.$emit('input', url)
       this.closeOverlay()
     },
