@@ -41,7 +41,7 @@
                     <td class="display-value">
                       <img
                         v-if="dataRow.type === 'upload_image'"
-                        :src="$storage.view(record[$caseConvert.stringSnakeToCamel(dataRow.field)])"
+                        :src="meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                         width="100%"
                         alt=""
                       />
@@ -54,7 +54,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="$storage.view(image)"
+                          :src="meta.mediaBaseUrl + image"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -203,6 +203,7 @@ export default {
   name: "CrudGeneratedRead",
   components: {},
   data: () => ({
+    meta: {},
     dataType: {},
     record: {},
     isMaintenance: false
@@ -224,6 +225,7 @@ export default {
           id: this.$route.params.id,
         })
         .then((response) => {
+          this.meta = response.meta
           this.$closeLoader();
           this.dataType = response.data.dataType;
           this.record = response.data.entities;

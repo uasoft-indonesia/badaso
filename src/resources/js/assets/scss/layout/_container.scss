@@ -17,9 +17,9 @@
 }
 
 .login-register-bg {
-  margin: 0 auto;
-  background: url("/storage/files/shares/auth-bg.jpg");
+  margin: 0 auto !important;
   background-size: cover;
+  background-position: center;
   align-items: center;
   justify-content: center;
   display: flex;
