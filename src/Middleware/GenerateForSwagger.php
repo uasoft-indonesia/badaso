@@ -21,7 +21,7 @@ class GenerateForSwagger
                     ApiDocs::generateAPIDocs($table_name, $data_rows, $data_type);
                 }
 
-                Artisan::call("l5-swagger:generate");
+                Artisan::call('l5-swagger:generate');
                 break;
         }
 
@@ -33,6 +33,7 @@ class GenerateForSwagger
         if (substr($api_docs, 0, 1) != '/') {
             $api_docs = "/{$api_docs}";
         }
+
         return $api_docs;
     }
 }
