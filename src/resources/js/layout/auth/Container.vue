@@ -13,8 +13,8 @@ export default {
   computed: {
     authBackgroundImage() {
       let config = this.$store.getters["badaso/getConfig"];
-      let url = this.$store.state.badaso.meta.mediaBaseUrl
-      return config.authBackgroundImage ? url + config.authBackgroundImage : url + "files/shares/auth-bg.jpg";
+      let url = this.$store.getters["badaso/getMeta"];
+      return config.authBackgroundImage ? url.mediaBaseUrl + config.authBackgroundImage : url.mediaBaseUrl + "files/shares/auth-bg.jpg";
     }
   }
 };
