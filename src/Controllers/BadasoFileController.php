@@ -3,6 +3,8 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Uasoft\Badaso\Helpers\ApiResponse;
 use UniSharp\LaravelFilemanager\Controllers\DeleteController;
 use UniSharp\LaravelFilemanager\Controllers\ItemsController;
 use UniSharp\LaravelFilemanager\Controllers\UploadController;
@@ -49,7 +51,7 @@ class BadasoFileController extends Controller
         $item = new ItemsController();
         $file = $item->getItems();
 
-        return $file;
+        return ApiResponse::success(json_decode(json_encode($file)));
     }
 
     public function uploadFileUsingLfm(Request $request)
@@ -57,7 +59,7 @@ class BadasoFileController extends Controller
         $upload = new UploadController();
         $file = $upload->upload();
 
-        return $file;
+        return ApiResponse::success(json_decode(json_encode($file)));
     }
 
     public function deleteFileUsingLfm(Request $request)
@@ -65,6 +67,6 @@ class BadasoFileController extends Controller
         $delete = new DeleteController();
         $file = $delete->getDelete();
 
-        return $file;
+        return ApiResponse::success(json_decode(json_encode($file)));
     }
 }

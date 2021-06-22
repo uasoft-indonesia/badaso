@@ -13,7 +13,7 @@
         v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
       >
         <img 
-          :src="$storage.view(logo)" 
+          :src="logo"
           v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'" 
           alt="Dashboard" 
         />
