@@ -78,7 +78,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {%s}
+      *          %s
       *      }
       * )
       *
@@ -296,7 +296,7 @@ class ApiDocs
     {
         $api_docs_path = app_path('Http\\Swagger\\swagger_models\\');
 
-        return $api_docs_file = $api_docs_path.$table_name.'.php';
+        return $api_docs_file = $api_docs_path . $table_name . '.php';
     }
 
     public static function getAuthorize($action, $table_name, $permission)
@@ -403,7 +403,7 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->slug,
             $id_column['field'],
-            self::getColumnExample($id_column['type']).','.self::getColumnExample($id_column['type']),
+            self::getColumnExample($id_column['type']) . ',' . self::getColumnExample($id_column['type']),
             self::getAuthorize('delete_multiple', $table_name_data_type, $permission),
         );
 
@@ -415,12 +415,12 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->display_name_singular,
             $data_type->slug,
-            self::getColumnsSort($data_rows).', '.self::getColumnsSort($data_rows),
+            self::getColumnsSort($data_rows) . ', ' . self::getColumnsSort($data_rows),
             self::getProperty($data_rows),
             self::getAuthorize('sort', $table_name_data_type, $permission),
         );
 
-        $stub = implode(PHP_EOL.PHP_EOL, $stub);
+        $stub = implode(PHP_EOL . PHP_EOL, $stub);
 
         return sprintf(self::PHP_WRAPPER, $stub);
     }
@@ -494,7 +494,7 @@ class ApiDocs
             );
         }
 
-        return $property = implode(', '.PHP_EOL, $property);
+        return $property = implode(', ' . PHP_EOL, $property);
     }
 
     public static function generateAPIDocs($table_name, $data_rows, $data_type)
@@ -502,10 +502,9 @@ class ApiDocs
         $filesystem = new Filesystem();
         $file_path = self::getFilePath($table_name);
         $stub = self::getStub($table_name, $data_rows, $data_type);
-        if (! $filesystem->put($file_path, $stub)) {
-            return false;
-        }
 
-        return true;
+        $status_put_file = $filesystem->put($file_path, $stub);
+
+        return $status_put_file;
     }
 }

@@ -15,11 +15,7 @@ export default {
       }
       return new URL(path, S3).toString()
     }
-<<<<<<< HEAD
-
-=======
   
->>>>>>> bugfix/v1/swagger_authorize
     if (driver === "public") {
       return new URL(`storage${path}`, window.location.origin).toString()
     }
