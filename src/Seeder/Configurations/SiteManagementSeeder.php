@@ -137,6 +137,18 @@ class SiteManagementSeeder extends Seeder
                     'created_at' => '2021-01-01 15:26:06',
                     'updated_at' => '2021-01-01 15:26:06',
                 ],
+                10 => [
+                    'key' => 'authBackgroundImage',
+                    'display_name' => 'Background image for login page.',
+                    'value' => '/files/shares/auth-bg.jpg',
+                    'details' => 'Admin still can access the dashboard.',
+                    'type' => 'upload_image',
+                    'order' => 9,
+                    'group' => 'adminPanel',
+                    'can_delete' => 0,
+                    'created_at' => '2021-01-01 15:26:06',
+                    'updated_at' => '2021-01-01 15:26:06',
+                ],
             ];
 
             $new_settings = [];
