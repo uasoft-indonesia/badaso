@@ -33,7 +33,7 @@ class FileSystem
      */
     public function getSeederFile(string $name, string $path): string
     {
-        return $path . '/' . $name . '.php';
+        return $path.'/'.$name.'.php';
     }
 
     /**
@@ -41,12 +41,12 @@ class FileSystem
      */
     public function getMigrationFile(string $name, string $path): string
     {
-        return $path . '/' . $name . '.php';
+        return $path.'/'.$name.'.php';
     }
 
     public function getMigrationFileNoDate(string $name, string $path): string
     {
-        $filePath = glob($path . '*');
+        $filePath = glob($path.'*');
         $fileName = '';
         foreach ($filePath as $value) {
             if (strpos($value, $name) !== false) {
@@ -64,7 +64,7 @@ class FileSystem
     {
         $random = lcfirst(substr($className, -4));
 
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix . '_' . $name . '_table_' . $random;
+        return Carbon::now()->format('Y_m_d_his').'_'.$prefix.'_'.$name.'_table_'.$random;
     }
 
     /**
@@ -74,7 +74,7 @@ class FileSystem
     {
         $prefix = $this->parser->convertPascalToSnake($className);
 
-        return Carbon::now()->format('Y_m_d_his') . '_' . $prefix;
+        return Carbon::now()->format('Y_m_d_his').'_'.$prefix;
     }
 
     /**
@@ -82,7 +82,7 @@ class FileSystem
      */
     public function getMigrationFileNameNoDate(string $name, string $prefix): string
     {
-        return $prefix . '_' . $name . '_table';
+        return $prefix.'_'.$name.'_table';
     }
 
     /**
@@ -90,8 +90,8 @@ class FileSystem
      */
     public function getSeedCRUDFolderPath(): string
     {
-        $path = base_path() . '/database/seeders/Badaso/CRUD';
-        if (!file_exists($path)) {
+        $path = base_path().'/database/seeders/Badaso/CRUD';
+        if (! file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -103,8 +103,8 @@ class FileSystem
      */
     public function getSeedManualGenerateFolderPath(): string
     {
-        $path = base_path() . '/database/seeders/Badaso/ManualGenerate';
-        if (!file_exists($path)) {
+        $path = base_path().'/database/seeders/Badaso/ManualGenerate';
+        if (! file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -116,8 +116,8 @@ class FileSystem
      */
     public function getMigrationFolderPath(): string
     {
-        $path = base_path() . '/database/migrations/badaso/';
-        if (!file_exists($path)) {
+        $path = base_path().'/database/migrations/badaso/';
+        if (! file_exists($path)) {
             mkdir($path, 0777);
         }
 
@@ -129,7 +129,7 @@ class FileSystem
      */
     public function getStubPath(): string
     {
-        return __DIR__ . DIRECTORY_SEPARATOR;
+        return __DIR__.DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -170,7 +170,7 @@ class FileSystem
             $model_string .= ucfirst($model_name_exploded);
         }
 
-        return ucfirst($model_string) . $suffix;
+        return ucfirst($model_string).$suffix;
     }
 
     /**
@@ -187,7 +187,7 @@ class FileSystem
 
         $randomise = Str::lower($this->parser->getRandomCharacter(4));
 
-        return ucfirst($prefix) . ucfirst($model_string) . 'Table' . ucfirst($randomise);
+        return ucfirst($prefix).ucfirst($model_string).'Table'.ucfirst($randomise);
     }
 
     /**
@@ -201,11 +201,11 @@ class FileSystem
         $modified_model_name = str_replace('_', '', $modified_model_name);
 
         if ($prefix == 'rename') {
-            return ucfirst($prefix) . ucfirst($current_model_name) . 'To' . ucfirst($modified_model_name) . 'Table';
+            return ucfirst($prefix).ucfirst($current_model_name).'To'.ucfirst($modified_model_name).'Table';
         } else {
             $randomise = Str::lower($this->parser->getRandomCharacter(4));
 
-            return ucfirst($prefix) . ucfirst($modified_model_name) . 'Table' . ucfirst($randomise);
+            return ucfirst($prefix).ucfirst($modified_model_name).'Table'.ucfirst($randomise);
         }
     }
 
@@ -214,7 +214,7 @@ class FileSystem
      */
     public function addContentToSeederFile(string $seeder_file, string $seeder_contents, bool $run_composer_dump_autoload = true): bool
     {
-        if (!$this->filesystem->put($seeder_file, $seeder_contents)) {
+        if (! $this->filesystem->put($seeder_file, $seeder_contents)) {
             return false;
         }
 
@@ -227,7 +227,7 @@ class FileSystem
 
     public function addContentToMigrationFile(string $migration_file, string $migration_contents): bool
     {
-        if (!$this->filesystem->put($migration_file, $migration_contents)) {
+        if (! $this->filesystem->put($migration_file, $migration_contents)) {
             return false;
         }
 
