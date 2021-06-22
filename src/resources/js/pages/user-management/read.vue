@@ -33,7 +33,7 @@
               <th>{{ $t("user.detail.avatar") }}</th>
               <td>
                 <img
-                  :src="`${$storage.view(user.avatar)}`"
+                  :src="`${meta.mediaBaseUrl + user.avatar}`"
                   width="100%"
                   alt=""
                 />
@@ -73,6 +73,7 @@ export default {
   components: {},
   data: () => ({
     user: {},
+    meta: {},
   }),
   mounted() {
     this.getUserDetail();
@@ -85,6 +86,7 @@ export default {
           id: this.$route.params.id,
         })
         .then((response) => {
+          this.meta = response.meta
           this.$closeLoader();
           this.user = response.data.user;
           this.user.additionalInfo = JSON.parse(this.user.additionalInfo);

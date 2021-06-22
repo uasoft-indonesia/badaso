@@ -44,7 +44,7 @@ class SiteManagementSeeder extends Seeder
                 2 => [
                     'key' => 'adminPanelLogo',
                     'display_name' => 'Admin Panel Logo',
-                    'value' => '/files/shares/logo.webp',
+                    'value' => 'files/shares/logo.webp',
                     'details' => '{"type":"shares-only"}',
                     'type' => 'upload_image',
                     'order' => 3,
@@ -116,7 +116,7 @@ class SiteManagementSeeder extends Seeder
                 8 => [
                     'key' => 'favicon',
                     'display_name' => 'Favicon',
-                    'value' => '/files/shares/favicon.png',
+                    'value' => 'files/shares/favicon.png',
                     'details' => '{"type":"shares-only"}',
                     'type' => 'upload_image',
                     'order' => 7,

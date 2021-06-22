@@ -12,7 +12,7 @@
       :reduce="reduceSidebar"
     >
       <div class="header-sidebar text-center" slot="header">
-        <vs-avatar size="70px" :src="$storage.view(user.avatar)" />
+        <vs-avatar size="70px" :src="getAvatar" />
         <!--
         <h4>
           {{user.name}}
@@ -282,6 +282,12 @@ export default {
         ? config.adminPanelHeaderColor
         : "#ffffff";
     },
+    getAvatar() {
+      let user = this.$store.getters["badaso/getUser"];
+      return user.avatar 
+        ? this.$store.state.badaso.meta.mediaBaseUrl + user.avatar
+        : '/storage/files/shares/default-user.png';
+    }
   },
   methods: {
     open(url) {
