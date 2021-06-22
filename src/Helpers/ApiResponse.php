@@ -14,9 +14,9 @@ class ApiResponse
     private static function send($data, $http_status = 200)
     {
         if (is_object($data)) {
-            $data->meta = [ 'media_base_url' => Storage::url("/") ];
+            $data->meta = ['media_base_url' => Storage::url('/')];
         } else {
-            $data['meta']['media_base_url'] = Storage::url("/");
+            $data['meta']['media_base_url'] = Storage::url('/');
         }
         $response = CaseConvert::camel($data);
 
