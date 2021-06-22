@@ -4,14 +4,12 @@ namespace Uasoft\Badaso\Middleware;
 
 use Closure;
 use Uasoft\Badaso\Helpers\ApiDocs;
-use Uasoft\Badaso\Helpers\Swagger\BadasoCRUDGeneratorGenerateSwagger;
 use Uasoft\Badaso\Models\DataType;
 
 class GenerateForSwagger
 {
     public function handle($request, Closure $next)
     {
-
         switch ($request->getPathInfo()) {
             case '/api-docs':
                 $data_types = DataType::all();
