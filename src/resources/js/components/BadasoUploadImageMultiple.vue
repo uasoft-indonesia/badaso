@@ -11,12 +11,7 @@
       icon-after="true"
     ></vs-input>
     <vs-row>
-      <vs-col
-        vs-lg="4"
-        vs-sm="12"
-        v-for="(imageData, index) in value"
-        :key="index"
-      >
+      <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
         <div class="image-container">
           <vs-button
             class="delete-image"
@@ -24,7 +19,7 @@
             icon="close"
             @click="deleteFilePicked(imageData)"
           ></vs-button>
-          <img :src="$storage.view(imageData)" class="image" />
+          <img :src="$store.state.badaso.meta.mediaBaseUrl + imageData" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -32,51 +27,22 @@
     <div class="badaso-popup-dialog" tabindex="0" v-if="show">
       <div class="badaso-popup-container">
         <div class="top">
-          <h3>{{ $t("fileManager.title") }}</h3>
+          <h3>{{ $t('fileManager.title') }}</h3>
           <vs-spacer />
-          <vs-button
-            color="danger"
-            type="relief"
-            class="mr-2"
-            v-if="getSelected !== 'url' && isImageSelected"
-            @click="openDialog"
-          >
+          <vs-button color="danger" type="relief" class="mr-2" v-if="getSelected !== 'url' &&   isImageSelected" @click="openDialog">
             <vs-icon icon="delete"></vs-icon>
           </vs-button>
         </div>
         <ul class="left">
-          <li
-            :class="[getSelected === 'private' ? 'active' : '']"
-            @click="selected = 'private'"
-            v-if="privateOnly || (!privateOnly && !sharesOnly)"
-          >
-            Private
-          </li>
-          <li
-            :class="[getSelected === 'shares' ? 'active' : '']"
-            @click="selected = 'shares'"
-            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
-          >
-            Shares
-          </li>
-          <li
-            :class="[getSelected === 'url' ? 'active' : '']"
-            @click="selected = 'url'"
-          >
-            Insert by URL
-          </li>
+          <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">Private</li>
+          <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">Shares</li>
+          <li :class="[getSelected === 'url' ? 'active' : '' ]" @click="selected = 'url'">Insert by URL</li>
         </ul>
         <div class="right" v-if="getSelected !== 'url'">
           <div class="add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <img
-            :class="[activeImage.includes(index) ? 'active' : '']"
-            :src="$storage.view(getImageUrl(item.thumb_url))"
-            v-for="(item, index) in images.items"
-            :key="index"
-            @click="selectImage(index)"
-          />
+          <img :class="[activeImage.includes(index) ? 'active' : '']" :src="item.thumbUrl" v-for="(item, index) in images.items" :key="index" @click="selectImage(index)">
         </div>
         <div v-if="getSelected === 'url'" class="right url">
           <vs-input
@@ -85,36 +51,18 @@
             placeholder="URL"
             v-model="inputByUrl"
             description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG."
-            @input="inputByUrl === '' ? (dirty = false) : (dirty = true)"
+            @input="inputByUrl === '' ? dirty = false : dirty = true"
           ></vs-input>
-          <p
-            v-if="!imageValidation && getSelected === 'url' && dirty"
-            style="color: var(--danger)"
-          >
-            Only valid image (PNG and JPEG) is accepted
-          </p>
-          <img
-            accept="image/png"
-            v-if="getSelected === 'url'"
-            :src="inputByUrl"
-            alt=""
-            @load="isValidImage = true"
-            @error="isValidImage = false"
-            class="small"
-          />
+          <p v-if="!imageValidation && getSelected === 'url' && dirty" style="color: var(--danger)">Only valid image (PNG and JPEG) is accepted</p>
+          <img accept="image/png" v-if="getSelected === 'url'" :src="inputByUrl" alt="" @load="isValidImage = true" @error="isValidImage = false" class="small">
         </div>
         <div class="bottom">
           <div class="close-button">
-            <vs-button
-              color="primary"
-              type="relief"
-              @click="emitInput"
-              :disabled="isSubmitDisable"
-            >
-              {{ $t("button.submit") }}
+            <vs-button color="primary" type="relief" @click="emitInput" :disabled="isSubmitDisable">
+              {{ $t('button.submit') }}
             </vs-button>
             <vs-button color="danger" type="relief" @click="closeOverlay">
-              {{ $t("button.close") }}
+              {{ $t('button.close') }}
             </vs-button>
           </div>
         </div>
@@ -186,15 +134,15 @@ export default {
   watch: {
     selected: {
       handler(val) {
-        this.getImages();
-        this.isImageSelected = false;
-      },
+        this.getImages()
+        this.isImageSelected = false
+      }
     },
     value: {
       handler(val) {
-        this.imageUrl = val;
-      },
-    },
+        this.imageUrl = val
+      }
+    }
   },
   data() {
     return {
@@ -202,7 +150,7 @@ export default {
       dialog: false,
       activeImage: [],
       show: false,
-      selected: "private",
+      selected: 'private',
       images: {
         display: "",
         items: [],
@@ -213,71 +161,65 @@ export default {
       inputByUrl: "",
       isValidImage: false,
       isImageSelected: false,
-      dirty: false,
+      dirty: false
     };
   },
   mounted() {
     if (this.sharesOnly) {
-      this.selected = "shares";
+      this.selected = "shares"
     }
-    this.imageUrl = this.value;
-    this.imagesName = this.imageUrl.join(", ");
+    
+    this.imageUrl = this.value
+    this.imagesName = this.imageUrl.join(', ')
   },
   computed: {
     imageValidation() {
       if (this.$helper.isValidHttpUrl(this.inputByUrl)) {
-        let url = this.inputByUrl.split(".");
-        let extension = url[url.length - 1];
-        if (
-          extension === "png" ||
-          extension === "jpg" ||
-          extension === "jpeg"
-        ) {
-          return true;
+        let url = this.inputByUrl.split('.')
+        let extension = url[url.length - 1]
+        if (extension === 'png' || extension === 'jpg' || extension === 'jpeg') {
+          return true
         }
       }
-      return false;
+      return false
     },
     getSelected() {
-      this.activeImage = [];
-      return this.selected;
+      this.activeImage = []
+      return this.selected
     },
     getSelectedFolder() {
-      if (this.getSelected === "shares") return "/shares";
-      else if (this.getSelected === "url") return;
-      else return this.getUserFolder;
+      if (this.getSelected === 'shares') return '/shares'
+      else if (this.getSelected === 'url') return
+      else return this.getUserFolder
     },
     getUserFolder() {
-      return "/" + this.$store.state.badaso.user.id;
+      return '/' + this.$store.state.badaso.user.id
     },
     isSubmitDisable() {
-      if (!this.isImageSelected && this.selected !== "url") {
-        return true;
+      if (!this.isImageSelected && this.selected !== 'url') {
+        return true
       }
-
-      if (!this.imageValidation && this.selected === "url") {
-        return true;
+      if (!this.imageValidation && this.selected === 'url') {
+        return true
       }
-
-      if (this.activeImage.length === 0 && this.selected !== "url") {
-        return true;
+      if (this.activeImage.length === 0 && this.selected !== 'url') {
+        return true
       }
-
-      return false;
-    },
+      return false
+    }
   },
   methods: {
     pickFile() {
       this.$refs.image.click();
     },
     showOverlay() {
-      this.show = true;
-      document.body.style.setProperty("position", "fixed");
-      this.getImages();
+      this.show = true
+      document.body.style.setProperty('position', 'fixed')
+      this.getImages()
     },
     closeOverlay() {
-      this.show = false;
-      document.body.style.setProperty("position", "relative");
+      this.show = false
+      document.body.style.setProperty('position', 'relative')
     },
     onFilePicked(e) {
       let files = e.target.files;
@@ -286,109 +228,89 @@ export default {
           this.errorMessages = ["Out of limit size"];
           return;
         }
-
-        this.files = file;
-
-        this.uploadImage();
+        this.files = file
+        this.uploadImage()
       });
     },
     uploadImage() {
-      const files = new FormData();
-      files.append("upload", this.files);
-      files.append("working_dir", this.getSelectedFolder);
-      this.$api.badasoFile
-        .uploadUsingLfm(files)
-        .then((res) => {
-          this.getImages();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      const files = new FormData()
+      files.append('upload', this.files)
+      files.append('working_dir', this.getSelectedFolder)
+      this.$api.badasoFile.uploadUsingLfm(files)
+      .then(res => {
+        this.getImages()
+      }).catch(error => {
+        console.error(error);
+      })
     },
     getImages() {
-      this.images.items = [];
+      this.images.items = []
       if (this.getSelectedFolder) {
-        this.$api.badasoFile
-          .browseUsingLfm({
-            workingDir: this.getSelectedFolder,
+        this.$api.badasoFile.browseUsingLfm({
+          workingDir: this.getSelectedFolder
+        })
+        .then(res => {
+          const items = res.data.items.filter(val => {
+            return val.thumbUrl !== null
           })
-          .then((res) => {
-            const items = res.items.filter((val) => {
-              return val.thumb_url !== null;
-            });
-
-            this.images = res;
-            this.images.items = items;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+          this.images = res.data
+          this.images.items = items
+        })
+        .catch(error => {
+          console.log(error);
+        })
       }
-    },
-    getImageUrl(item) {
-      if (item === null || item === undefined) return;
-      if (this.$storage.getStorageDriver() === "s3") return item;
-      else return new URL(item).pathname.replace("/storage", "");
     },
     emitInput() {
-      if (this.selected !== "url") {
-        let url = [];
-        if (this.$storage.getStorageDriver() === "s3")
-          this.activeImage.forEach((element) => {
-            url.push(new URL(this.images.items[element].url).pathname);
-          });
-        else
-          this.activeImage.forEach((element) => {
-            url.push(this.getImageUrl(this.images.items[element].url));
-          });
-        this.imagesName = url.join(", ");
-        this.$emit("input", url);
+      if (this.selected !== 'url') {
+        let url = []
+        this.activeImage.forEach(element => {
+          url.push(this.images.items[element].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, ''))
+        });
+        this.imagesName = url.join(', ')
+        this.$emit('input', url)
       } else {
-        this.$emit("input", this.inputByUrl);
+        this.$emit('input', this.inputByUrl)
       }
-      this.closeOverlay();
+      this.closeOverlay()
     },
     deleteImage() {
-      this.$api.badasoFile
-        .deleteUsingLfm({
-          workingDir: this.getSelectedFolder,
-          "items[]": this.images.items[this.activeImage].name,
-        })
-        .then((res) => {
-          this.getImages();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      this.activeImage = [];
-      this.dialog = false;
+      this.$api.badasoFile.deleteUsingLfm({
+        workingDir: this.getSelectedFolder,
+        'items[]': this.images.items[this.activeImage].name
+      })
+      .then(res => {
+        this.getImages()
+      })
+      .catch(error => {
+        console.log(error);
+      })
+      this.activeImage = []
+      this.dialog = false
     },
     openDialog() {
-      this.dialog = true;
+      this.dialog = true
     },
     selectImage(index) {
       if (!this.activeImage.includes(index)) {
-        this.activeImage.push(index);
+        this.activeImage.push(index)
       } else {
-        let idx = this.activeImage.indexOf(index);
-        this.activeImage.splice(idx, 1);
+        let idx = this.activeImage.indexOf(index)
+        this.activeImage.splice(idx, 1)
       }
-
-      this.isImageSelected = true;
+      this.isImageSelected = true
     },
     deleteFilePicked(item) {
-      if (item === null || item === undefined) return;
-
-      if (typeof item === "string" && item !== "") {
-        let idx = this.imageUrl.indexOf(item);
-        let activeIdx = this.activeImage.indexOf(idx);
-        this.activeImage.splice(activeIdx, 1);
-        this.imageUrl.splice(idx, 1);
-        this.imagesName = this.imageUrl.join(", ");
-        this.$emit("input", this.imageUrl);
+      if (item === null || item === undefined) return
+      if (typeof item === 'string' && item !== '') {
+        let idx = this.imageUrl.indexOf(item)
+        let activeIdx = this.activeImage.indexOf(idx)
+        this.activeImage.splice(activeIdx, 1)
+        this.imageUrl.splice(idx, 1)
+        this.imagesName = this.imageUrl.join(', ')
+        this.$emit('input', this.imageUrl)
       }
-    },
+    }
   },
 };
 </script>
@@ -406,7 +328,6 @@ export default {
 .image {
   width: 100%;
 }
-
 .delete-image {
   opacity: 0;
   position: absolute;
@@ -414,7 +335,6 @@ export default {
   right: 4px;
   transition: all 0.2s ease;
 }
-
 .image-container:hover .delete-image {
   opacity: 1;
 }

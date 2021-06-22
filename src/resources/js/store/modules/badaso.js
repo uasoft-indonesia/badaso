@@ -14,7 +14,9 @@ export default {
     componentList: [],
     groupList: [],
     config: {},
-    user: {},
+    user: {
+      avatar: 'files/shares/default-user.png'
+    },
     locale: lang.languages,
     selectedLocale: {
       key: "en",
@@ -29,6 +31,7 @@ export default {
     verified: false,
     isOnline: false,
     countUnreadMessage: 0,
+    meta: {}
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -103,6 +106,7 @@ export default {
             });
           }
           state.menu = menus;
+          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -225,6 +229,9 @@ export default {
     },
     getConfig: (state) => {
       return state.config;
+    },
+    getMeta: (state) => {
+      return state.meta;
     },
     getUser: (state) => {
       return state.user;

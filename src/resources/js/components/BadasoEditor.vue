@@ -113,26 +113,21 @@ export default {
         menubar: true,
         convert_urls: false,
         images_upload_handler: (blobInfo, success, failure) => {
-          const files = new FormData()
-          files.append('upload', blobInfo.blob())
-          files.append('working_dir', '/shares')
+          const files = new FormData();
+          files.append("upload", blobInfo.blob());
+          files.append("working_dir", "/shares");
 
           this.$openLoader();
           this.$api.badasoFile
             .uploadUsingLfm(files)
             .then((response) => {
               this.$closeLoader();
-              if (response.url) {
-                let url = new URL(response.url)
-                url = this.$storage.view(url.pathname.replace('/storage', ''))
-                if (this.$storage.getStorageDriver() === 's3') {
-                  url = this.$storage.view(url.pathname)
-                }
-                success(url)
+              if (response.data.original.url) {
+                success(response.data.original.url);
               }
 
-              if (response.error) {
-                failure(response.error.message)
+              if (response.data.original.error) {
+                failure(response.data.original.error.message);
               }
             })
             .catch((error) => {

@@ -19,42 +19,79 @@
             icon="close"
             @click="deleteFilePicked(value)"
           ></vs-button>
-          <div class="file"> 
-            <a target="_blank" :href="$storage.view(value)">{{ value.split("/").reverse()[0] }}</a> </div>
+          <div class="file">
+            <a target="_blank" :href="`${$api.badasoFile.download(value)}`">{{
+              value.split("/").reverse()[0]
+            }}</a>
+          </div>
         </div>
       </vs-col>
     </vs-row>
     <div class="badaso-popup-dialog" tabindex="0" v-if="show">
       <div class="badaso-popup-container">
         <div class="top">
-          <h3>{{ $t('fileManager.title') }}</h3>
+          <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
-          <vs-button color="danger" type="relief" class="mr-2" v-if="getSelected !== 'url' && isFileSelected" @click="openDialog">
+          <vs-button
+            color="danger"
+            type="relief"
+            class="mr-2"
+            v-if="getSelected !== 'url' && isFileSelected"
+            @click="openDialog"
+          >
             <vs-icon icon="delete"></vs-icon>
           </vs-button>
         </div>
         <ul class="left">
-          <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">Private</li>
-          <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">Shares</li>
+          <li
+            :class="[getSelected === 'private' ? 'active' : '']"
+            @click="selected = 'private'"
+            v-if="privateOnly || (!privateOnly && !sharesOnly)"
+          >
+            Private
+          </li>
+          <li
+            :class="[getSelected === 'shares' ? 'active' : '']"
+            @click="selected = 'shares'"
+            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
+          >
+            Shares
+          </li>
         </ul>
         <div class="right">
           <div class="add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <div v-for="(item, index) in files.items" :key="index" @click="activeFile = index; isFileSelected = true">
-            <div :class="[activeFile === index ? 'active' : '', 'files']" >
-              <vs-icon icon="insert_drive_file" size="45px" color="#06bbd3"></vs-icon>
+          <div
+            v-for="(item, index) in files.items"
+            :key="index"
+            @click="
+              activeFile = index;
+              isFileSelected = true;
+            "
+          >
+            <div :class="[activeFile === index ? 'active' : '', 'files']">
+              <vs-icon
+                icon="insert_drive_file"
+                size="45px"
+                color="#06bbd3"
+              ></vs-icon>
               <p>{{ item.name }}</p>
             </div>
           </div>
         </div>
         <div class="bottom">
           <div class="close-button">
-            <vs-button color="primary" type="relief" @click="emitInput" :disabled="isSubmitDisable">
-              {{ $t('button.submit') }}
+            <vs-button
+              color="primary"
+              type="relief"
+              @click="emitInput"
+              :disabled="isSubmitDisable"
+            >
+              {{ $t("button.submit") }}
             </vs-button>
             <vs-button color="danger" type="relief" @click="closeOverlay">
-              {{ $t('button.close') }}
+              {{ $t("button.close") }}
             </vs-button>
           </div>
         </div>
@@ -80,11 +117,19 @@
         <span class="text-danger" v-html="alert"></span>
       </div>
     </div>
-    <vs-popup :title="$t('action.delete.title')" :active.sync="dialog" style="z-index: 26000;">
-      <p>{{ $t('action.delete.text') }}</p>
+    <vs-popup
+      :title="$t('action.delete.title')"
+      :active.sync="dialog"
+      style="z-index: 26000;"
+    >
+      <p>{{ $t("action.delete.text") }}</p>
       <div style="float: right">
-        <vs-button color="primary" type="relief" @click="dialog = false">{{ $t('action.delete.cancel') }}</vs-button>
-        <vs-button color="danger" type="relief" @click="deleteFile">{{ $t('action.delete.accept') }}</vs-button>
+        <vs-button color="primary" type="relief" @click="dialog = false">{{
+          $t("action.delete.cancel")
+        }}</vs-button>
+        <vs-button color="danger" type="relief" @click="deleteFile">{{
+          $t("action.delete.accept")
+        }}</vs-button>
       </div>
     </vs-popup>
   </vs-col>
@@ -131,7 +176,7 @@ export default {
       dialog: false,
       activeFile: 0,
       show: false,
-      selected: 'private',
+      selected: "private",
       files: {
         display: "",
         items: [],
@@ -143,60 +188,60 @@ export default {
   },
   mounted() {
     if (this.sharesOnly) {
-      this.selected = "shares"
+      this.selected = "shares";
     }
 
-    this.fileData = this.value
+    this.fileData = this.value;
   },
   computed: {
     getSelected() {
-      this.activeFile = null
-      return this.selected
+      this.activeFile = null;
+      return this.selected;
     },
     getSelectedFolder() {
-      if (this.getSelected === 'shares') return '/shares'
-      else return this.getUserFolder
+      if (this.getSelected === "shares") return "/shares";
+      else return this.getUserFolder;
     },
     getUserFolder() {
-      return '/' + this.$store.state.badaso.user.id
+      return "/" + this.$store.state.badaso.user.id;
     },
     isSubmitDisable() {
       if (!this.isFileSelected) {
-        return true
+        return true;
       }
 
       if (this.activeFile === null) {
-        return true
+        return true;
       }
 
-      return false
-    }
+      return false;
+    },
   },
   watch: {
     selected: {
       handler(val) {
-        this.getFiles()
-        this.isFileSelected = false
-      }
+        this.getFiles();
+        this.isFileSelected = false;
+      },
     },
     value: {
       handler(val) {
-        this.fileData = val
-      }
-    }
+        this.fileData = val;
+      },
+    },
   },
   methods: {
     pickFile() {
       this.$refs.file.click();
     },
     showOverlay() {
-      this.show = true
-      document.body.style.setProperty('position', 'fixed')
-      this.getFiles()
+      this.show = true;
+      document.body.style.setProperty("position", "fixed");
+      this.getFiles();
     },
     closeOverlay() {
-      this.show = false
-      document.body.style.setProperty('position', 'relative')
+      this.show = false;
+      document.body.style.setProperty("position", "relative");
     },
     onFilePicked(e) {
       const files = e.target.files;
@@ -206,90 +251,82 @@ export default {
           return;
         }
 
-        this.files = files
-        
-        this.uploadFile()
+        this.files = files;
+
+        this.uploadFile();
       }
     },
     uploadFile() {
-      const files = new FormData()
-      files.append('upload', this.files[0])
-      files.append('working_dir', this.getSelectedFolder)
-      this.$api.badasoFile.uploadUsingLfm(files)
-      .then(res => {
-        this.getFiles()
-      }).catch(error => {
-        console.error(error);
-      })
+      const files = new FormData();
+      files.append("upload", this.files[0]);
+      files.append("working_dir", this.getSelectedFolder);
+      this.$api.badasoFile
+        .uploadUsingLfm(files)
+        .then((res) => {
+          this.getFiles();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
     isString(str) {
       if (typeof str === "string" || str instanceof String) return true;
       else return false;
     },
     getFiles() {
-      this.files.items = []
+      this.files.items = [];
       if (this.getSelectedFolder) {
-        this.$api.badasoFile.browseUsingLfm({
-          workingDir: this.getSelectedFolder
-        })
-        .then(res => {
-          const items = res.items.filter(val => {
-            return val.thumb_url === null
+        this.$api.badasoFile
+          .browseUsingLfm({
+            workingDir: this.getSelectedFolder,
           })
-
-          this.files = res
-          this.files.items = items
-        })
-        .catch(error => {
-          console.log(error);
-        })
+          .then((res) => {
+            this.files = res.data;
+            this.files.items = res.data.items.filter((val) => {
+              return val.thumbUrl === null;
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
-    },
-    getFileUrl(item) {
-      if (item === null || item === undefined) return
-      if (this.$storage.getStorageDriver() === "s3") return new URL(item).pathname
-      else return new URL(item).pathname.replace('/storage', '')
-    },
-    getDownloadUrl(item) {
-      if (item === null || item === undefined) return
-      return item.split('storage').pop()
     },
     emitInput() {
-      var url = null
-      if (this.$storage.getStorageDriver() === "s3") 
-        url = new URL(this.files.items[this.activeFile].url).pathname
-      else 
-        url = this.getFileUrl(this.files.items[this.activeFile].url)
-      this.$emit('input', url)
-      this.closeOverlay()
+      var url = this.files.items[this.activeFile].url.replace(
+        this.$store.state.badaso.meta.mediaBaseUrl,
+        ""
+      );
+      this.$emit("input", url);
+      this.closeOverlay();
     },
     deleteFile() {
-      this.$api.badasoFile.deleteUsingLfm({
-        workingDir: this.getSelectedFolder,
-        'items[]': this.files.items[this.activeFile].name
-      })
-      .then(res => {
-        this.getFiles()
-      })
-      .catch(error => {
-        console.log(error);
-      })
+      this.$api.badasoFile
+        .deleteUsingLfm({
+          workingDir: this.getSelectedFolder,
+          "items[]": this.files.items[this.activeFile].name,
+        })
+        .then((res) => {
+          this.getFiles();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-      this.activeFile = null
-      this.dialog = false
+      this.activeFile = null;
+      this.dialog = false;
     },
     openDialog() {
-      this.dialog = true
+      this.dialog = true;
     },
     deleteFilePicked(item) {
-      if (item === null || item === undefined) return
+      if (item === null || item === undefined) return;
 
-      if (typeof item === 'string' && item !== '') this.$emit('input', null)
-      if (typeof item === 'object') {
-        this.selectedImageData = {}
-        this.$emit('input', null)
+      if (typeof item === "string" && item !== "") this.$emit("input", null);
+      if (typeof item === "object") {
+        this.selectedImageData = {};
+        this.$emit("input", null);
       }
-    }
+    },
   },
 };
 </script>

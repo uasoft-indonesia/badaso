@@ -135,9 +135,7 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${$storage.view(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )}`
+                          `${ meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)] }`
                         "
                         width="100%"
                         alt=""
@@ -151,7 +149,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="`${$storage.view(image)}`"
+                          :src="`${ meta.mediaBaseUrl + image }`"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -385,7 +383,7 @@
                       >
                         <img
                           v-if="dataRow.type === 'upload_image'"
-                          :src="$storage.view(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])"
+                          :src="meta.mediaBaseUrl + record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
                           width="100%"
                           alt=""
                         />
@@ -398,7 +396,7 @@
                               record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]
                             )"
                             :key="indexImage"
-                            :src="`${$storage.view(image)}`"
+                            :src="`${meta.mediaBaseUrl + image}`"
                             width="100%"
                             alt=""
                             style="margin-bottom: 10px;"
@@ -645,6 +643,7 @@ export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowse",
   data: () => ({
+    meta: {},
     errors: {},
     data: {},
     descriptionItems: [10, 50, 100],
@@ -745,6 +744,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
         })
         .then((response) => {
+          this.meta = response.meta
           this.$closeLoader();
           this.data = response.data.entities;
           this.records = response.data.entities.data;
