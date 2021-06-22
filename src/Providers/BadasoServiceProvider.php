@@ -15,6 +15,7 @@ use Uasoft\Badaso\Commands\BadasoSetup;
 use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
 use Uasoft\Badaso\Middleware\CheckForMaintenanceMode;
+use Uasoft\Badaso\Middleware\GenerateForSwagger;
 
 class BadasoServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,7 @@ class BadasoServiceProvider extends ServiceProvider
 
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('web', CheckForMaintenanceMode::class);
+        $router->pushMiddlewareToGroup('web', GenerateForSwagger::class);
 
         $this->app->singleton('badaso', function () {
             return new Badaso();
@@ -51,14 +53,14 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Seeder/ManualGenerate' => database_path('seeders/Badaso/ManualGenerate'),
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
+            __DIR__.'/../Swagger/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
             __DIR__.'/../Config/lfm.php' => config_path('lfm.php'),
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
+            __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
             __DIR__.'/../resources/views/vendor' => resource_path('views/vendor'),
-            __DIR__.'/../Models/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
             __DIR__.'/../Config/badaso-hidden-tables.php' => config_path('badaso-hidden-tables.php'),
             __DIR__.'/../Config/badaso-watch-tables.php' => config_path('badaso-watch-tables.php'),
             __DIR__.'/../Config/analytics.php' => config_path('analytics.php'),
-            __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
         ], 'Badaso');
 
         $this->publishes([

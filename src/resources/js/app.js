@@ -237,6 +237,7 @@ const i18n = new VueI18n({
 });
 
 Vue.prototype.$api = api;
+Vue.prototype.$storage = storage
 Vue.prototype.$handleError = handleError;
 Vue.prototype.$resource = resource;
 Vue.prototype.$constants = {
