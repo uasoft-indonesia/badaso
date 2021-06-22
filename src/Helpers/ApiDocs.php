@@ -2,6 +2,9 @@
 
 namespace Uasoft\Badaso\Helpers;
 
+use Illuminate\Filesystem\Filesystem;
+use Uasoft\Badaso\Models\Permission;
+
 class ApiDocs
 {
     const PARAMETER = <<<'TXT'
@@ -37,6 +40,10 @@ class ApiDocs
     %s
     TXT;
 
+    const BEARER_AUTH = <<<'TXT'
+    {"bearerAuth": {}}
+    TXT;
+
     const BROWSE = <<<'TXT'
     /**
       * @OA\Get(
@@ -50,7 +57,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          %s
       *      }
       * )
       *
@@ -71,7 +78,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          {%s}
       *      }
       * )
       *
@@ -113,7 +120,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          %s
       *      }
       * )
       *
@@ -155,7 +162,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          %s
       *      }
       * )
       *
@@ -196,7 +203,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          %s
       *      }
       * )
       *
@@ -237,7 +244,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          %s
       *      }
       * )
       *
@@ -278,7 +285,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {"bearerAuth": {}}
+      *          %s
       *      }
       * )
       *
@@ -290,6 +297,20 @@ class ApiDocs
         $api_docs_path = app_path('Http\\Swagger\\swagger_models\\');
 
         return $api_docs_file = $api_docs_path.$table_name.'.php';
+    }
+
+    public static function getAuthorize($action, $table_name, $permission)
+    {
+        $authorize = self::BEARER_AUTH;
+        $permission_key = "{$action}_{$table_name}";
+        $permission_table = $permission->where('key', $permission_key)->first();
+        if (isset($permission_table)) {
+            if ($permission_table->is_public) {
+                $authorize = '';
+            }
+        }
+
+        return $authorize;
     }
 
     public static function getStub($table_name, $data_rows, $data_type)
@@ -310,13 +331,17 @@ class ApiDocs
             }
         }
 
+        $table_name_data_type = $data_type->name;
+        $permission = Permission::where('table_name', $table_name_data_type)->get();
+
         $stub['browse'] = sprintf(
             self::BROWSE,
             $data_type->slug,
             str_replace(' ', '', $data_type->display_name_singular),
             $data_type->slug,
             $data_type->display_name_singular,
-            $data_type->display_name_singular
+            $data_type->display_name_singular,
+            self::getAuthorize('browse', $table_name_data_type, $permission),
         );
 
         $stub['read'] = sprintf(
@@ -327,7 +352,8 @@ class ApiDocs
             $data_type->slug,
             $data_type->display_name_singular,
             $data_type->display_name_singular,
-            sprintf(self::PARAMETER, $id_column['field'], self::getColumnType($id_column['type']))
+            sprintf(self::PARAMETER, $id_column['field'], self::getColumnType($id_column['type'])),
+            self::getAuthorize('read', $table_name_data_type, $permission),
         );
 
         $stub['add'] = sprintf(
@@ -338,7 +364,8 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->display_name_singular,
             $data_type->slug,
-            self::getColumns($add)
+            self::getColumns($add),
+            self::getAuthorize('add', $table_name_data_type, $permission),
         );
 
         $stub['edit'] = sprintf(
@@ -349,7 +376,8 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->display_name_singular,
             $data_type->slug,
-            self::getColumns($edit)
+            self::getColumns($edit),
+            self::getAuthorize('edit', $table_name_data_type, $permission),
         );
 
         $stub['delete'] = sprintf(
@@ -362,7 +390,8 @@ class ApiDocs
             $data_type->slug,
             $id_column['field'],
             self::getColumnType($id_column['type']),
-            self::getColumnExample($id_column['type'])
+            self::getColumnExample($id_column['type']),
+            self::getAuthorize('delete', $table_name_data_type, $permission),
         );
 
         $stub['delete_multiple'] = sprintf(
@@ -374,7 +403,8 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->slug,
             $id_column['field'],
-            self::getColumnExample($id_column['type']).','.self::getColumnExample($id_column['type'])
+            self::getColumnExample($id_column['type']).','.self::getColumnExample($id_column['type']),
+            self::getAuthorize('delete_multiple', $table_name_data_type, $permission),
         );
 
         $stub['sort'] = sprintf(
@@ -386,7 +416,8 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->slug,
             self::getColumnsSort($data_rows).', '.self::getColumnsSort($data_rows),
-            self::getProperty($data_rows)
+            self::getProperty($data_rows),
+            self::getAuthorize('sort', $table_name_data_type, $permission),
         );
 
         $stub = implode(PHP_EOL.PHP_EOL, $stub);
@@ -464,5 +495,17 @@ class ApiDocs
         }
 
         return $property = implode(', '.PHP_EOL, $property);
+    }
+
+    public static function generateAPIDocs($table_name, $data_rows, $data_type)
+    {
+        $filesystem = new Filesystem();
+        $file_path = self::getFilePath($table_name);
+        $stub = self::getStub($table_name, $data_rows, $data_type);
+        if (! $filesystem->put($file_path, $stub)) {
+            return false;
+        }
+
+        return true;
     }
 }

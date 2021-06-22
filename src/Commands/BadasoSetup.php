@@ -69,7 +69,11 @@ class BadasoSetup extends Command
 
     protected function generateSwagger()
     {
-        $this->call('l5-swagger:generate');
+        try {
+            $this->call('l5-swagger:generate');
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 
     protected function updatePackageJson()
@@ -128,7 +132,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -321,7 +325,7 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env '.$e->getMessage());
+            $this->error('Failed adding badaso env ' . $e->getMessage());
         }
     }
 

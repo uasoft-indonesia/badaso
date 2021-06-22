@@ -123,7 +123,7 @@ export default {
             .then((response) => {
               this.$closeLoader();
               if (response.url) {
-                let url = new URL(response.url, window.location.origin)
+                let url = new URL(response.url)
                 url = this.$storage.view(url.pathname.replace('/storage', ''))
                 if (this.$storage.getStorageDriver() === 's3') {
                   url = this.$storage.view(url.pathname)

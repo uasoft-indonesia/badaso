@@ -275,7 +275,7 @@ export default {
     getImageUrl(item) {
       if (item === null || item === undefined) return
       if (this.$storage.getStorageDriver() === "s3") return item
-      else return item.replace('/storage', '')
+      else return new URL(item).pathname.replace('/storage', '')
     },
     emitInput() {
       if (this.selected !== 'url') {

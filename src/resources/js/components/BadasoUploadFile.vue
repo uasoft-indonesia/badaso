@@ -248,11 +248,10 @@ export default {
     getFileUrl(item) {
       if (item === null || item === undefined) return
       if (this.$storage.getStorageDriver() === "s3") return new URL(item).pathname
-      else return item.replace('/storage', '')
+      else return new URL(item).pathname.replace('/storage', '')
     },
     getDownloadUrl(item) {
       if (item === null || item === undefined) return
-
       return item.split('storage').pop()
     },
     emitInput() {
