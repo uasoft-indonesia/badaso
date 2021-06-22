@@ -78,7 +78,7 @@ class ApiDocs
       *      @OA\Response(response=401, description="Unauthorized"),
       *      @OA\Response(response=402, description="Payment Required"),
       *      security={
-      *          {%s}
+      *          %s
       *      }
       * )
       *
