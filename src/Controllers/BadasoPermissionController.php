@@ -54,6 +54,7 @@ class BadasoPermissionController extends Controller
                 'description'  => 'required',
                 'always_allow' => 'required',
                 'is_public'    => 'required',
+                'table_name'   => 'required',
             ]);
 
             $permission = Permission::find($request->id);
