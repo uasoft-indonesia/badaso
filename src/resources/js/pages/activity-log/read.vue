@@ -57,7 +57,7 @@
               </th>
               <td v-if="index === 'avatar'">
                 <img
-                  :src="`${$storage.view(item)}`"
+                  :src="$store.state.badaso.meta.mediaBaseUrl + item"
                   width="100%"
                   alt=""
                 />
@@ -81,7 +81,7 @@
               </th>
               <td v-if="index === 'avatar'">
                 <img
-                  :src="`${$storage.view(item)}`"
+                  :src="$store.state.badaso.meta.mediaBaseUrl + item"
                   width="100%"
                   alt=""
                 />

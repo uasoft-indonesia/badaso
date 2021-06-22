@@ -19,7 +19,7 @@
             icon="close"
             @click="deleteFilePicked(imageData)"
           ></vs-button>
-          <img :src="$storage.view(imageData)" class="image" />
+          <img :src="$store.state.badaso.meta.mediaBaseUrl + imageData" class="image" />
         </div>
       </vs-col>
     </vs-row>
@@ -42,7 +42,7 @@
           <div class="add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <img :class="[activeImage.includes(index) ? 'active' : '']" :src="$storage.view(getImageUrl(item.thumb_url))" v-for="(item, index) in images.items" :key="index" @click="selectImage(index)">
+          <img :class="[activeImage.includes(index) ? 'active' : '']" :src="item.thumbUrl" v-for="(item, index) in images.items" :key="index" @click="selectImage(index)">
         </div>
         <div v-if="getSelected === 'url'" class="right url">
           <vs-input
@@ -255,11 +255,11 @@ export default {
           workingDir: this.getSelectedFolder
         })
         .then(res => {
-          const items = res.items.filter(val => {
-            return val.thumb_url !== null
+          const items = res.data.items.filter(val => {
+            return val.thumbUrl !== null
           })
 
-          this.images = res
+          this.images = res.data
           this.images.items = items
         })
         .catch(error => {
@@ -267,22 +267,12 @@ export default {
         })
       }
     },
-    getImageUrl(item) {
-      if (item === null || item === undefined) return
-      if (this.$storage.getStorageDriver() === "s3") return item
-      else return item.replace('/storage', '')
-    },
     emitInput() {
       if (this.selected !== 'url') {
         let url = []
-        if (this.$storage.getStorageDriver() === "s3") 
-          this.activeImage.forEach(element => {
-            url.push(new URL(this.images.items[element].url).pathname)
-          });
-        else 
-          this.activeImage.forEach(element => {
-            url.push(this.getImageUrl(this.images.items[element].url))
-          });
+        this.activeImage.forEach(element => {
+          url.push(this.images.items[element].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, ''))
+        });
         this.imagesName = url.join(', ')
         this.$emit('input', url)
       } else {

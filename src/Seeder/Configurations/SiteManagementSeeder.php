@@ -118,7 +118,7 @@ class SiteManagementSeeder extends Seeder
                 8 => [
                     'key' => 'favicon',
                     'display_name' => 'Favicon',
-                    'value' => '/files/shares/favicon.png',
+                    'value' => 'files/shares/favicon.png',
                     'details' => '{"type":"shares-only"}',
                     'type' => 'upload_image',
                     'order' => 7,
@@ -142,7 +142,7 @@ class SiteManagementSeeder extends Seeder
                 10 => [
                     'key' => 'authBackgroundImage',
                     'display_name' => 'Background image for login page.',
-                    'value' => '/files/shares/auth-bg.jpg',
+                    'value' => 'files/shares/auth-bg.jpg',
                     'details' => 'Admin still can access the dashboard.',
                     'type' => 'upload_image',
                     'order' => 9,

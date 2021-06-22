@@ -55,7 +55,8 @@ export default {
     adminPanelLogo: {
       get() {
         let config = this.$store.getters["badaso/getConfig"];
-        return config.adminPanelLogo;
+        let url = this.$store.state.badaso.meta.mediaBaseUrl + config.adminPanelLogo
+        return url ? url : '/storage/' + config.adminPanelLogo;
       },
     },
     adminPanelHeaderColor: {

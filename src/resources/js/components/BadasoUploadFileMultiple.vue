@@ -20,7 +20,7 @@
             @click="deleteFilePicked(fileData)"
           ></vs-button>
           <div class="file">
-            <a target="_blank" :href="$storage.view(fileData)" >{{ fileData.split("/").reverse()[0] }}</a >
+            <a target="_blank" :href="`${$api.badasoFile.download(fileData)}`" >{{ fileData.split("/").reverse()[0] }}</a >
           </div>
         </div>
       </vs-col>
@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import _ from "lodash";
+
 export default {
   name: "BadasoUploadFileMultiple",
   props: {
@@ -210,9 +212,7 @@ export default {
           this.errorMessages = ["Out of limit size"];
           return;
         }
-
         this.files = file
-
         this.uploadFile()
       });
     },
@@ -234,38 +234,21 @@ export default {
           workingDir: this.getSelectedFolder
         })
         .then(res => {
-          const items = res.items.filter(val => {
-            return val.thumb_url === null
+          this.files = res.data
+          this.files.items = res.data.items.filter(val => {
+            return val.thumbUrl === null
           })
-
-          this.files = res
-          this.files.items = items
         })
         .catch(error => {
           console.log(error);
         })
       }
     },
-    getFileUrl(item) {
-      if (item === null || item === undefined) return
-      if (this.$storage.getStorageDriver() === "s3") return new URL(item).pathname
-      else return item.replace('/storage', '')
-    },
-    getDownloadUrl(item) {
-      if (item === null || item === undefined) return
-
-      return item.split('storage').pop()
-    },
     emitInput() {
       let url = []
-      if (this.$storage.getStorageDriver() === "s3") 
-        this.activeFile.forEach(element => {
-          url.push(new URL(this.files.items[element].url).pathname)
-        });
-      else 
-        this.activeFile.forEach(element => {
-          url.push(this.getFileUrl(this.files.items[element].url))
-        });
+      this.activeFile.forEach(element => {
+        url.push(this.files.items[element].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, ''))
+      });
       this.filesName = url.join(', ')
       this.$emit('input', url)
       this.closeOverlay()
