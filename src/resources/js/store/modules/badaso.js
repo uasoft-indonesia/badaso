@@ -166,6 +166,7 @@ export default {
       api.badasoConfiguration
         .applyable()
         .then((res) => {
+          state.meta = res.meta
           state.config = res.data.configuration;
         })
         .catch((err) => {});
