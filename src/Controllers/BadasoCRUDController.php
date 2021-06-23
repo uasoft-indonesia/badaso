@@ -234,8 +234,6 @@ class BadasoCRUDController extends Controller
                 $new_data_rows[] = $new_data_row;
             }
 
-            $this->generateAPIDocs($table_name, $data_rows, $data_type);
-
             if ($data_type->generate_permissions) {
                 Permission::generateFor($data_type->name, true);
             } else {
@@ -248,6 +246,7 @@ class BadasoCRUDController extends Controller
 
             event(new CRUDDataUpdated($data_type, null));
 
+            $this->generateAPIDocs($table_name, $data_rows, $data_type);
             DB::commit();
 
             return ApiResponse::success($data_type);
@@ -354,8 +353,6 @@ class BadasoCRUDController extends Controller
 
             $new_data_type->data_rows = $new_data_rows;
 
-            $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
-
             if ($new_data_type->generate_permissions) {
                 Permission::generateFor($new_data_type->name, true);
             }
@@ -363,6 +360,8 @@ class BadasoCRUDController extends Controller
             $this->addEditMenuItem($new_data_type);
 
             event(new CRUDDataAdded($new_data_type, null));
+
+            $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
 
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)

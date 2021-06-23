@@ -113,9 +113,9 @@ export default {
         menubar: true,
         convert_urls: false,
         images_upload_handler: (blobInfo, success, failure) => {
-          const files = new FormData()
-          files.append('upload', blobInfo.blob())
-          files.append('working_dir', '/shares')
+          const files = new FormData();
+          files.append("upload", blobInfo.blob());
+          files.append("working_dir", "/shares");
 
           this.$openLoader();
           this.$api.badasoFile
@@ -123,11 +123,11 @@ export default {
             .then((response) => {
               this.$closeLoader();
               if (response.data.original.url) {
-                success(response.data.original.url)
+                success(response.data.original.url);
               }
 
               if (response.data.original.error) {
-                failure(response.data.original.error.message)
+                failure(response.data.original.error.message);
               }
             })
             .catch((error) => {

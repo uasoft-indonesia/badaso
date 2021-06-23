@@ -55,7 +55,7 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
             */
             'middleware' => [
-                'api' => [],
+                'api' => ['web', 'auth'],
                 'asset' => [],
                 'docs' => [],
                 'oauth2_callback' => [],
@@ -161,7 +161,7 @@ return [
                 ],
                 */
 
-                /* Open API 3.0 support
+            /* Open API 3.0 support
                 'passport' => [ // Unique name of security
                     'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
                     'description' => 'Laravel passport oauth2 security.',
@@ -176,22 +176,20 @@ return [
                         ],
                     ],
                 ],
-                */
-            ],
+                */],
             'security' => [
                 /*
                  * Examples of Securities
                 */
                 [
-                    /*
+                /*
                     'oauth2_security_example' => [
                         'read',
                         'write'
                     ],
 
                     'passport' => []
-                    */
-                ],
+                    */],
             ],
         ],
 

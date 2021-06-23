@@ -174,9 +174,7 @@
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
-                          `${$storage.view(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )}`
+                          `${meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
                         "
                         target="_blank"
                         >{{
@@ -194,7 +192,7 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${$storage.view(file)}`"
+                            :href="`${meta.mediaBaseUrl + file}`"
                             target="_blank"
                             >{{ file }}</a
                           >
@@ -421,9 +419,7 @@
                         <a
                           v-else-if="dataRow.type === 'upload_file'"
                           :href="
-                            `${$storage.view(
-                              getDownloadUrl(record[ $caseConvert.stringSnakeToCamel(dataRow.field) ])
-                            )}`
+                            `${meta.mediaBaseUrl + record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]}`
                           "
                           target="_blank"
                           >{{
@@ -441,7 +437,7 @@
                             :key="indexFile"
                           >
                             <a
-                              :href="`${$storage.view(getDownloadUrl(file))}`"
+                              :href="`${meta.mediaBaseUrl + file}`"
                               target="_blank"
                               >{{ getDownloadUrl(file) }}</a
                             >
