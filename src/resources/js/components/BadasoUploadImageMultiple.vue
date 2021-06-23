@@ -199,15 +199,12 @@ export default {
       if (!this.isImageSelected && this.selected !== 'url') {
         return true
       }
-
       if (!this.imageValidation && this.selected === 'url') {
         return true
       }
-
       if (this.activeImage.length === 0 && this.selected !== 'url') {
         return true
       }
-
       return false
     }
   },
@@ -231,9 +228,7 @@ export default {
           this.errorMessages = ["Out of limit size"];
           return;
         }
-
         this.files = file
-
         this.uploadImage()
       });
     },
@@ -258,7 +253,6 @@ export default {
           const items = res.data.items.filter(val => {
             return val.thumbUrl !== null
           })
-
           this.images = res.data
           this.images.items = items
         })
@@ -291,7 +285,6 @@ export default {
       .catch(error => {
         console.log(error);
       })
-
       this.activeImage = []
       this.dialog = false
     },
@@ -305,12 +298,10 @@ export default {
         let idx = this.activeImage.indexOf(index)
         this.activeImage.splice(idx, 1)
       }
-
       this.isImageSelected = true
     },
     deleteFilePicked(item) {
       if (item === null || item === undefined) return
-
       if (typeof item === 'string' && item !== '') {
         let idx = this.imageUrl.indexOf(item)
         let activeIdx = this.activeImage.indexOf(idx)
@@ -337,7 +328,6 @@ export default {
 .image {
   width: 100%;
 }
-
 .delete-image {
   opacity: 0;
   position: absolute;
@@ -345,7 +335,6 @@ export default {
   right: 4px;
   transition: all 0.2s ease;
 }
-
 .image-container:hover .delete-image {
   opacity: 1;
 }
