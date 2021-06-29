@@ -5,6 +5,7 @@ return [
     'admin_panel_route_prefix' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-dashboard'),
     'default_menu' => env('MIX_DEFAULT_MENU', 'admin'),
     'api_route_prefix' => env('MIX_API_ROUTE_PREFIX', 'badaso-api'),
+    'license_key' => env('BADASO_LICENSE_KEY'),
     'storage' => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],
