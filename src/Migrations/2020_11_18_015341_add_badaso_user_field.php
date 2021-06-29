@@ -16,7 +16,7 @@ class AddBadasoUserField extends Migration
         try {
             Schema::table('users', function (Blueprint $table) {
                 if (! Schema::hasColumn('users', 'avatar')) {
-                    $table->string('avatar')->nullable()->after('email')->default('users/default.png');
+                    $table->string('avatar')->nullable()->after('email')->default('files/shares/default-user.png');
                 }
                 if (! Schema::hasColumn('users', 'additional_info')) {
                     $table->text('additional_info')->nullable()->after('email');

@@ -18,6 +18,7 @@ class CreateMenus extends Migration
                 $table->increments('id');
                 $table->string('key')->unique();
                 $table->string('display_name');
+                $table->string('icon')->nullable();
                 $table->timestamps();
             });
         } catch (PDOException $ex) {

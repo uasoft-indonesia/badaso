@@ -23,6 +23,7 @@ class CreateConfigurations extends Migration
                 $table->string('type');
                 $table->integer('order')->default('1');
                 $table->string('group')->nullable();
+                $table->boolean('can_delete')->default(false);
                 $table->timestamps();
             });
         } catch (PDOException $ex) {
