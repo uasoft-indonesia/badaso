@@ -140,7 +140,7 @@ class SiteManagementSeeder extends Seeder
                 10 => [
                     'key' => 'authBackgroundImage',
                     'display_name' => 'Background image for login page.',
-                    'value' => '/files/shares/auth-bg.jpg',
+                    'value' => 'files/shares/auth-bg.jpg',
                     'details' => 'Admin still can access the dashboard.',
                     'type' => 'upload_image',
                     'order' => 9,
@@ -151,16 +151,11 @@ class SiteManagementSeeder extends Seeder
                 ],
             ];
 
-            $new_settings = [];
             foreach ($settings as $key => $value) {
-                $setting = \DB::table('configurations')->where('key', $value['key'])->first();
-                if (isset($setting)) {
-                    continue;
-                }
-                $new_settings[] = $value;
+                \DB::table('configurations')->where('key', $value['key'])->delete();
             }
 
-            \DB::table('configurations')->insert($new_settings);
+            \DB::table('configurations')->insert($settings);
 
             \DB::commit();
         } catch (Exception $e) {
