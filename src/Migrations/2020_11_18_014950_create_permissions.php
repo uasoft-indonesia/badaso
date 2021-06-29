@@ -20,6 +20,7 @@ class CreatePermissions extends Migration
                 $table->string('description')->nullable();
                 $table->string('table_name')->nullable();
                 $table->boolean('always_allow')->default(false);
+                $table->boolean('is_public')->default(false);
                 $table->timestamps();
             });
         } catch (PDOException $ex) {

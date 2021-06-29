@@ -29,8 +29,10 @@ class CreateDataType extends Migration
                 $table->enum('order_direction', ['ASC', 'DESC'])->nullable();
                 $table->boolean('generate_permissions')->default(false);
                 $table->tinyInteger('server_side')->default(0);
+                $table->boolean('is_maintenance')->default(false);
                 $table->text('description')->nullable();
                 $table->text('details')->nullable();
+                $table->text('notification')->nullable();
                 $table->timestamps();
             });
 
