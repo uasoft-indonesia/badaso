@@ -7,9 +7,11 @@
       vs-xs="12"
     >
       <vs-card class="widget--content">
-        <vs-icon v-if="data.icon" class="widget__icon" :icon="data.icon"></vs-icon>
-        <h4 class="mb-1">{{ data.value }}</h4>
-        <span>{{ data.label }}</span>
+        <div class="widget__icon-container">
+          <vs-icon v-if="data.icon" class="widget__icon" :icon="data.icon"></vs-icon>
+          <h4 class="mb-1">{{ data.value }}</h4>
+          <span>{{ data.label }}</span>
+        </div>
         <vs-progress class="widget__progress-bar" :percent="getPercent(data.value, data.max)" :color="getProgressBarColor(data.value, data.max)">primary</vs-progress>
       </vs-card>
     </vs-col>
@@ -83,7 +85,7 @@ export default {
   &__icon {
     position: absolute;
     top: 50%;
-    right: 5%;
+    right: 0;
     transform: translate(0, -50%);
     font-size: 40px;
     z-index: 0;
@@ -93,6 +95,9 @@ export default {
   }
   &__progress-bar {
     z-index: 10;
+    position: relative;
+  }
+  &__icon-container {
     position: relative;
   }
 }
