@@ -38,6 +38,26 @@
           </vs-row>
           <vs-row>
             <badaso-text
+              v-model="crudData.name"
+              size="6"
+              :label="$t('crud.add.field.tableName.title')"
+              :placeholder="$t('crud.add.field.tableName.title')"
+              required
+              readonly
+              :alert="errors.name"
+            >
+            </badaso-text>
+            <div class="ml-3">
+              <badaso-switch
+                :onChange="onChangeSwitchCreateSoftDelete"
+                v-model="crudData.createSoftDelete"
+                :label="$t('crud.add.field.createSoftDelete')"
+                :alert="errors.createSoftDelete"
+              ></badaso-switch>
+            </div>
+          </vs-row>
+          <vs-row>
+            <badaso-text
               v-model="crudData.displayNameSingular"
               size="6"
               :label="$t('crud.add.field.displayNameSingular.title')"
@@ -780,6 +800,7 @@ export default {
       policyName: "",
       description: "",
       generatePermissions: true,
+      createSoftDelete: false,
       serverSide: false,
       details: "",
       controller: "",
@@ -1037,7 +1058,7 @@ export default {
         });
 
       this.crudData.notification = notification;
-    },
+    }
   },
 };
 </script>

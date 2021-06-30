@@ -8,7 +8,7 @@ use ReflectionClass;
 
 class GetData
 {
-    public static function serverSideWithModel($data_type, $builder_params)
+    public static function serverSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
@@ -24,6 +24,18 @@ class GetData
 
         $records = [];
         $query = $model::query()->select($fields);
+
+        // soft delete implement
+        $is_soft_delete = $data_type->is_soft_delete;
+        if ($is_soft_delete) {
+            if ($only_data_soft_delete) {
+                $query->whereNotNull('deleted_at');
+            } else {
+                $query->whereNull('deleted_at');
+            }
+        }
+        // end
+
         if ($filter_value) {
             foreach ($fields as $index => $field) {
                 if ($index == 0) {
@@ -58,7 +70,7 @@ class GetData
         return $data;
     }
 
-    public static function clientSideWithModel($data_type, $builder_params)
+    public static function clientSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
@@ -71,10 +83,22 @@ class GetData
         $records = [];
 
         if ($order_field) {
-            $data = $model::query()->select($fields)->orderBy($order_field, $order_direction)->get();
+            $data = $model::query()->select($fields)->orderBy($order_field, $order_direction);
         } else {
-            $data = $model::query()->select($fields)->get();
+            $data = $model::query()->select($fields);
         }
+        // soft delete implement
+        $is_soft_delete = $data_type->is_soft_delete;
+        if ($is_soft_delete) {
+            if ($only_data_soft_delete) {
+                $data = $data->whereNotNull('deleted_at');
+            } else {
+                $data = $data->whereNull('deleted_at');
+            }
+        }
+        // end
+        $data = $data->get();
+
         foreach ($data as $row) {
             $class = new ReflectionClass(get_class($row));
             $class_methods = $class->getMethods();
@@ -98,7 +122,7 @@ class GetData
         return $entities;
     }
 
-    public static function serverSideWithQueryBuilder($data_type, $builder_params)
+    public static function serverSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
@@ -113,6 +137,17 @@ class GetData
         $filter_value = $builder_params['filter_value'];
 
         $query = DB::table($data_type->name)->select($fields);
+
+        // soft delete implement
+        $is_soft_delete = $data_type->is_soft_delete;
+        if ($is_soft_delete) {
+            if ($only_data_soft_delete) {
+                $query = $query->whereNotNull('deleted_at');
+            } else {
+                $query = $query->whereNull('deleted_at');
+            }
+        }
+        // end
 
         if ($filter_value) {
             foreach ($fields as $index => $field) {
@@ -157,7 +192,7 @@ class GetData
         return $entities;
     }
 
-    public static function clientSideWithQueryBuilder($data_type, $builder_params)
+    public static function clientSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
@@ -166,10 +201,23 @@ class GetData
         $order_direction = $builder_params['order_direction'];
 
         if ($order_field) {
-            $records = DB::table($data_type->name)->select($fields)->orderBy($order_field, $order_direction)->get();
+            $records = DB::table($data_type->name)->select($fields)->orderBy($order_field, $order_direction);
         } else {
-            $records = DB::table($data_type->name)->select($fields)->get();
+            $records = DB::table($data_type->name)->select($fields);
         }
+
+        // soft delete implement
+        $is_soft_delete = $data_type->is_soft_delete;
+        if ($is_soft_delete) {
+            if ($only_data_soft_delete) {
+                $records = $records->whereNotNull('deleted_at');
+            } else {
+                $records = $records->whereNull('deleted_at');
+            }
+        }
+        // end
+
+        $records = $records->get();
 
         $data = [];
 
@@ -212,8 +260,8 @@ class GetData
                     $destination_table_column,
                     $destination_table_display_column,
                 ])
-                ->where($destination_table_column, $row->{$field->field})
-                ->get();
+                    ->where($destination_table_column, $row->{$field->field})
+                    ->get();
 
                 switch ($relation_type) {
                     case 'belongs_to':

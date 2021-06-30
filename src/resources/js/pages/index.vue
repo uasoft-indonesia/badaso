@@ -19,6 +19,7 @@ import UserProfile from "./user/profile";
 import ActivityLogBrowse from "./activity-log/browse";
 import ActivityLogRead from "./activity-log/read";
 import CrudGeneratedBrowse from "./crud-generated/browse";
+import CrudGeneratedBrowseBin from "./crud-generated/browse-bin";
 import CrudGeneratedRead from "./crud-generated/read";
 import CrudGeneratedEdit from "./crud-generated/edit";
 import CrudGeneratedAdd from "./crud-generated/add";
@@ -70,6 +71,7 @@ export default {
     Home,
     UserProfile,
     CrudGeneratedBrowse,
+    CrudGeneratedBrowseBin,
     CrudGeneratedRead,
     CrudGeneratedEdit,
     CrudGeneratedAdd,
