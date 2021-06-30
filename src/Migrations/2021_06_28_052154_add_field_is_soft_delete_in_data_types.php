@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddFieldIsSoftDeleteInDataTypes extends Migration
 {
@@ -14,7 +14,7 @@ class AddFieldIsSoftDeleteInDataTypes extends Migration
     public function up()
     {
         Schema::table('data_types', function (Blueprint $table) {
-            if (!Schema::hasColumn('data_types', 'is_soft_delete')) {
+            if (! Schema::hasColumn('data_types', 'is_soft_delete')) {
                 $table->boolean('is_soft_delete')->after('notification')->default(0)->nullable();
             }
         });
