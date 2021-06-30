@@ -52,7 +52,7 @@ class CreateDataType extends Migration
                 $table->integer('order')->default(1);
 
                 $table->foreign('data_type_id')->references('id')->on('data_types')
-                ->onUpdate('cascade')->onDelete('cascade');
+                    ->onUpdate('cascade')->onDelete('cascade');
             });
         } catch (PDOException $ex) {
             $this->down();

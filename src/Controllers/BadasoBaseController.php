@@ -18,7 +18,9 @@ class BadasoBaseController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $data = $this->getDataList($slug, $request->all());
+            $only_data_soft_delete = $request->showSoftDelete == "true";
+
+            $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
             return ApiResponse::entity($data_type, $data);
         } catch (Exception $e) {
@@ -59,7 +61,7 @@ class BadasoBaseController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
             $request->validate([
-                'id' => 'exists:'.$data_type->name,
+                'id' => 'exists:' . $data_type->name,
             ]);
 
             $data = $this->getDataDetail($slug, $request->id);
@@ -99,7 +101,7 @@ class BadasoBaseController extends Controller
                     'old' => $updated['old_data'],
                     'attributes' => $updated['updated_data'],
                 ])
-                ->log($data_type->display_name_singular.' has been updated');
+                ->log($data_type->display_name_singular . ' has been updated');
 
             DB::commit();
 
@@ -137,7 +139,7 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
-                ->log($data_type->display_name_singular.' has been created');
+                ->log($data_type->display_name_singular . ' has been created');
 
             DB::commit();
 
@@ -167,22 +169,59 @@ class BadasoBaseController extends Controller
                 'data.*.value' => ['required'],
             ]);
 
+            $is_hard_delete = $request->isHardDelete == "true";
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
-            $this->deleteData($data, $data_type);
+            $this->deleteData($data, $data_type, $is_hard_delete);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been deleted');
+                ->log($data_type->display_name_singular . ' has been deleted');
 
             DB::commit();
 
             // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name);
+
+            return ApiResponse::entity($data_type);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function restore(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $request->validate([
+                'slug' => 'required',
+                'data' => [
+                    'required',
+                ],
+                'data.*.field' => ['required'],
+                'data.*.value' => ['required'],
+            ]);
+
+            $slug = $this->getSlug($request);
+            $data_type = $this->getDataType($slug);
+
+            $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+            $this->restoreData($data, $data_type);
+
+            activity($data_type->display_name_singular)
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data)
+                ->log($data_type->display_name_singular . ' has been restore');
+
+            DB::commit();
 
             return ApiResponse::entity($data_type);
         } catch (Exception $e) {
@@ -206,6 +245,8 @@ class BadasoBaseController extends Controller
                 'data.*.value' => ['required'],
             ]);
 
+            $is_hard_delete = $request->isHardDelete == "true";
+
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
@@ -214,13 +255,53 @@ class BadasoBaseController extends Controller
             $id_list = explode(',', $ids);
             foreach ($id_list as $id) {
                 $should_delete['id'] = $id;
-                $this->deleteData($should_delete, $data_type);
+                $this->deleteData($should_delete, $data_type, $is_hard_delete);
             }
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been bulk deleted');
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
+
+            DB::commit();
+
+            return ApiResponse::entity($data_type);
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function restoreMultiple(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $request->validate([
+                'slug' => 'required',
+                'data' => [
+                    'required',
+                ],
+                'data.*.field' => ['required'],
+                'data.*.value' => ['required'],
+            ]);
+
+            $slug = $this->getSlug($request);
+            $data_type = $this->getDataType($slug);
+
+            $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+            $ids = $data['ids'];
+            $id_list = explode(',', $ids);
+            foreach ($id_list as $id) {
+                $should_delete['id'] = $id;
+                $this->restoreData($should_delete, $data_type);
+            }
+
+            activity($data_type->display_name_singular)
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties($data)
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
 
             DB::commit();
 
@@ -258,7 +339,7 @@ class BadasoBaseController extends Controller
                     activity($data_type->display_name_singular)
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $single_data])
-                        ->log($data_type->display_name_singular.' has been sorted');
+                        ->log($data_type->display_name_singular . ' has been sorted');
                 }
             } else {
                 foreach ($request->data as $index => $row) {
@@ -268,7 +349,7 @@ class BadasoBaseController extends Controller
                     activity($data_type->display_name_singular)
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $updated_data])
-                        ->log($data_type->display_name_singular.' has been sorted');
+                        ->log($data_type->display_name_singular . ' has been sorted');
                 }
             }
 

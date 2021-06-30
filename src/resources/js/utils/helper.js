@@ -15,6 +15,10 @@ export default {
     return displayName;
   },
 
+  generateClassName(fieldName) {
+    return this.generateDisplayName(fieldName).replace(" ", "");
+  },
+
   generateDisplayNamePlural(fieldName) {
     let displayName = this.generateDisplayName(fieldName);
     var lastChar = displayName.substr(displayName.length - 1);

@@ -16,6 +16,7 @@ use Uasoft\Badaso\Events\CRUDDataUpdated;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiDocs;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\BadasoSoftDeleteOperation;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Helpers\WatchTableConfig;
 use Uasoft\Badaso\Models\DataRow;
@@ -37,7 +38,7 @@ class BadasoCRUDController extends Controller
             $tables = SchemaManager::listTables();
             $tables_with_crud_data = [];
             foreach ($tables as $key => $value) {
-                if (! in_array($key, $protected_tables)) {
+                if (!in_array($key, $protected_tables)) {
                     // add table watch config
                     $config_watch_tables->addWatchTable($key);
                     // end add table watch config
@@ -73,7 +74,7 @@ class BadasoCRUDController extends Controller
             foreach ($table_fields as $key => $column) {
                 $field = $key;
                 $column = collect($column)->toArray();
-                if (! in_array($field, $generated_fields)) {
+                if (!in_array($field, $generated_fields)) {
                     $data_row['data_type_id'] = $data_type->id;
                     $data_row['field'] = $key;
                     $data_row['type'] = DataTypeToComponent::convert($column['type']);
@@ -133,7 +134,7 @@ class BadasoCRUDController extends Controller
                     'required',
                     "unique:data_types,name,{$request->id}",
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
@@ -142,13 +143,13 @@ class BadasoCRUDController extends Controller
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        if (! Schema::hasColumn($request->name, $value)) {
+                        if (!Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
-                            if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
@@ -158,6 +159,15 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
+                'is_soft_delete' => ['required', 'boolean', function ($att, $val, $failed) use ($request) {
+                    if (isset($request->name) && $val) {
+                        if (!Schema::hasColumn($request->name, 'deleted_at')) {
+                            $failed(__('badaso::validation.crud.table_deleted_at_not_exists', [
+                                'table_name' => $request->name,
+                            ]));
+                        }
+                    }
+                }],
             ]);
 
             $table_name = $request->input('name');
@@ -170,7 +180,7 @@ class BadasoCRUDController extends Controller
                     'old' => $data_type,
                     'new' => $request->input(),
                 ])
-                ->log('Table '.$data_type->slug.' has been edited');
+                ->log('Table ' . $data_type->slug . ' has been edited');
 
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
@@ -188,6 +198,7 @@ class BadasoCRUDController extends Controller
             $data_type->details = $request->input('details');
             $data_type->controller = $request->input('controller');
             $data_type->notification = json_encode($request->input('notification'));
+            $data_type->is_soft_delete = $request->input('create_soft_delete');
             $data_type->save();
 
             DataRow::where('data_type_id', $data_type->id)->delete();
@@ -267,7 +278,7 @@ class BadasoCRUDController extends Controller
                     'required',
                     'unique:data_types',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
@@ -277,13 +288,13 @@ class BadasoCRUDController extends Controller
                 'rows.*.field' => [
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
-                        if (! Schema::hasColumn($request->name, $value)) {
+                        if (!Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
-                            if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
+                            if (!$row['add'] && !$field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
@@ -293,7 +304,17 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
+                'create_soft_delete' => ['required', 'boolean', function ($att, $val, $failed) use ($request) {
+                    if (isset($request->name) && $val) {
+                        if (!Schema::hasColumn($request->name, 'deleted_at')) {
+                            $failed(__('badaso::validation.crud.table_deleted_at_not_exists', [
+                                'table_name' => $request->name,
+                            ]));
+                        }
+                    }
+                }],
             ]);
+
             $table_name = $request->input('name');
             $new_data_type = new DataType();
             $new_data_type->name = $table_name;
@@ -312,7 +333,9 @@ class BadasoCRUDController extends Controller
             $new_data_type->description = $request->input('description');
             $new_data_type->details = $request->input('details');
             $new_data_type->notification = json_encode($request->input('notification'));
+            $new_data_type->is_soft_delete = $request->input('create_soft_delete');
             $new_data_type->save();
+
 
             $data_rows = $request->input('rows') ?? [];
             $new_data_rows = [];
@@ -366,7 +389,7 @@ class BadasoCRUDController extends Controller
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $new_data_type])
-                ->log('Table '.$new_data_type->slug.' has been created');
+                ->log('Table ' . $new_data_type->slug . ' has been created');
 
             DB::commit();
 
@@ -402,7 +425,7 @@ class BadasoCRUDController extends Controller
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data_type)
-                ->log('Table '.$data_type->slug.' has been deleted');
+                ->log('Table ' . $data_type->slug . ' has been deleted');
 
             DB::commit();
 
@@ -418,7 +441,7 @@ class BadasoCRUDController extends Controller
     {
         $menu_key = config('badaso.default_menu');
         $menu = Menu::where('key', $menu_key)->first();
-        $url = '/'.$menu_key.'/'.$data_type->slug;
+        $url = '/' . $menu_key . '/' . $data_type->slug;
 
         if (is_null($menu)) {
             $menu = new Menu();
@@ -439,7 +462,7 @@ class BadasoCRUDController extends Controller
             $menu_item->icon_class = $data_type->icon;
             $menu_item->color = null;
             $menu_item->parent_id = null;
-            $menu_item->permissions = $data_type->generate_permissions ? 'browse_'.$data_type->name : null;
+            $menu_item->permissions = $data_type->generate_permissions ? 'browse_' . $data_type->name : null;
             $menu_item->save();
         } else {
             $menu_item = new MenuItem();
@@ -450,7 +473,7 @@ class BadasoCRUDController extends Controller
             $menu_item->icon_class = $data_type->icon;
             $menu_item->color = null;
             $menu_item->parent_id = null;
-            $menu_item->permissions = $data_type->generate_permissions ? 'browse_'.$data_type->name : null;
+            $menu_item->permissions = $data_type->generate_permissions ? 'browse_' . $data_type->name : null;
             $menu_item->order = $menu_item->highestOrderMenuItem();
             $menu_item->save();
         }
@@ -459,7 +482,7 @@ class BadasoCRUDController extends Controller
     private function deleteMenuItem($data_type)
     {
         $menu_key = config('badaso.default_menu');
-        $url = '/'.$menu_key.'/'.$data_type->slug;
+        $url = '/' . $menu_key . '/' . $data_type->slug;
         MenuItem::where('url', $url)->delete();
     }
 
@@ -468,7 +491,7 @@ class BadasoCRUDController extends Controller
         $filesystem = new LaravelFileSystem();
         $file_path = ApiDocs::getFilePath($table_name);
         $stub = ApiDocs::getStub($table_name, $data_rows, $data_type);
-        if (! $filesystem->put($file_path, $stub)) {
+        if (!$filesystem->put($file_path, $stub)) {
             return false;
         }
 
