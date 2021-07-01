@@ -33,6 +33,7 @@ class CreateDataType extends Migration
                 $table->boolean('is_soft_delete')->default(0)->nullable();
 
                 $table->text('details')->nullable();
+                $table->boolean('is_soft_delete')->default(0)->nullable();
                 $table->timestamps();
             });
 
