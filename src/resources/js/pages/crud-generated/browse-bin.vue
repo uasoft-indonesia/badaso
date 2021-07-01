@@ -22,7 +22,7 @@
             @click.stop
             @click="confirmDeleteMultiple"
           >
-            {{ $t("action.bulkDelete") }}
+            {{ $t("action.bulkDelete") }} Permanent
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="restore"
@@ -69,7 +69,7 @@
                 stripe
                 description
                 :description-items="descriptionItems"
-                :description-title="`${$t('crudGenerated.footer.descriptionTitle')} Permanent`"
+                :description-title="$t('crudGenerated.footer.descriptionTitle')"
                 :description-connector="
                   $t('crudGenerated.footer.descriptionConnector')
                 "
