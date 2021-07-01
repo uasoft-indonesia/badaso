@@ -30,6 +30,8 @@ class CreateDataType extends Migration
                 $table->boolean('generate_permissions')->default(false);
                 $table->tinyInteger('server_side')->default(0);
                 $table->text('description')->nullable();
+                $table->boolean('is_soft_delete')->default(0)->nullable();
+
                 $table->text('details')->nullable();
                 $table->timestamps();
             });

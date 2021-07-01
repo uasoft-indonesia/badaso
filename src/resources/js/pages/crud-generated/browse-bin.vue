@@ -69,7 +69,7 @@
                 stripe
                 description
                 :description-items="descriptionItems"
-                :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                :description-title="`${$t('crudGenerated.footer.descriptionTitle')} Permanent`"
                 :description-connector="
                   $t('crudGenerated.footer.descriptionConnector')
                 "
@@ -304,7 +304,7 @@
                                 )
                             "
                           >
-                            Delete
+                            Delete Permanent
                           </badaso-dropdown-item>
                           <badaso-dropdown-item
                             @click="confirmDeleteDataPending(data[index].id)"
