@@ -17,7 +17,7 @@ class WatchTableConfig
 
     public function addWatchTable($table_name): self
     {
-        if (!in_array($table_name, $this->watch_tables)) {
+        if (! in_array($table_name, $this->watch_tables)) {
             $this->watch_tables[count($this->watch_tables)] = $table_name;
             $this->saveWatchTable();
         }
