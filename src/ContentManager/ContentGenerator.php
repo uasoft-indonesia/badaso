@@ -13,7 +13,7 @@ class ContentGenerator
     /** @var string Data type Delete Statement */
     const DELETE_STATEMENT = <<<'TXT'
     $data_type = Badaso::model('DataType')->where('name', '%s')->first();
-
+                
                 if ($data_type) {
                     Badaso::model('DataType')->where('name', '%s')->delete();
                 }
@@ -22,14 +22,14 @@ class ContentGenerator
     /** @var string Menu Insert Statement */
     const MENU_INSERT_STATEMENT = <<<'TXT'
     $menu = Badaso::model('Menu')->where('key', config('badaso.default_menu'))->firstOrFail();
-
+                
                 $menu_item = Badaso::model('MenuItem')
                     ->where('menu_id', $menu->id)
                     ->where('url', '%s')
                     ->first();
-
+                
                 $order = Badaso::model('MenuItem')->highestOrderMenuItem();
-
+                
                 if (!is_null($menu_item)) {
                     $menu_item->fill([
                         'title' => '%s',
@@ -58,7 +58,7 @@ class ContentGenerator
     /** @var string Menu Delete Statement */
     const MENU_DELETE_STATEMENT = <<<'TXT'
     $menuItem = Badaso::model('MenuItem')::where('url', '%s');
-
+                
                 if ($menuItem->exists()) {
                     $menuItem->delete();
                 }
@@ -95,31 +95,31 @@ class ContentGenerator
         // replace array() with []
         $lines = explode("\n", $content);
 
-        for ($i = 1; $i < count($lines); $i++) {
+        for ($i = 1; $i < count($lines); ++$i) {
             $lines[$i] = ltrim($lines[$i]);
             // Check for closing bracket
             if (strpos($lines[$i], ')') !== false) {
-                $tab_count--;
+                --$tab_count;
             }
 
             // Insert tab count
             if ($in_string === false) {
-                for ($j = 0; $j < $tab_count; $j++) {
+                for ($j = 0; $j < $tab_count; ++$j) {
                     $lines[$i] = substr_replace($lines[$i], $this->indent_character, 0, 0);
                 }
             }
-            for ($j = 0; $j < strlen($lines[$i]); $j++) {
+            for ($j = 0; $j < strlen($lines[$i]); ++$j) {
                 // skip character right after an escape \
                 if ($lines[$i][$j] == '\\') {
-                    $j++;
+                    ++$j;
                 } // check string open/end
                 elseif ($lines[$i][$j] == '\'') {
-                    $in_string = ! $in_string;
+                    $in_string = !$in_string;
                 }
             }
             // check for opening bracket
             if (strpos($lines[$i], '(') !== false) {
-                $tab_count++;
+                ++$tab_count;
             }
         }
         $content = implode("\n", $lines);
@@ -165,7 +165,7 @@ class ContentGenerator
     {
         $permission = self::GENERATE_PERMISSIONS_STATEMENT;
 
-        if (! is_null($type)) {
+        if (!is_null($type)) {
             $permission = self::REMOVE_PERMISSIONS_STATEMENT;
         }
 

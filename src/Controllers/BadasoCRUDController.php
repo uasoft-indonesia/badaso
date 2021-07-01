@@ -16,7 +16,6 @@ use Uasoft\Badaso\Events\CRUDDataUpdated;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiDocs;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Helpers\BadasoSoftDeleteOperation;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Helpers\WatchTableConfig;
 use Uasoft\Badaso\Models\DataRow;
@@ -180,7 +179,7 @@ class BadasoCRUDController extends Controller
                     'old' => $data_type,
                     'new' => $request->input(),
                 ])
-                ->log('Table ' . $data_type->slug . ' has been edited');
+                ->log('Table '.$data_type->slug.' has been edited');
 
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
@@ -336,7 +335,6 @@ class BadasoCRUDController extends Controller
             $new_data_type->is_soft_delete = $request->input('create_soft_delete');
             $new_data_type->save();
 
-
             $data_rows = $request->input('rows') ?? [];
             $new_data_rows = [];
             foreach ($data_rows as $index => $data_row) {
@@ -389,7 +387,7 @@ class BadasoCRUDController extends Controller
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $new_data_type])
-                ->log('Table ' . $new_data_type->slug . ' has been created');
+                ->log('Table '.$new_data_type->slug.' has been created');
 
             DB::commit();
 
@@ -425,7 +423,7 @@ class BadasoCRUDController extends Controller
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data_type)
-                ->log('Table ' . $data_type->slug . ' has been deleted');
+                ->log('Table '.$data_type->slug.' has been deleted');
 
             DB::commit();
 
@@ -441,7 +439,7 @@ class BadasoCRUDController extends Controller
     {
         $menu_key = config('badaso.default_menu');
         $menu = Menu::where('key', $menu_key)->first();
-        $url = '/' . $menu_key . '/' . $data_type->slug;
+        $url = '/'.$menu_key.'/'.$data_type->slug;
 
         if (is_null($menu)) {
             $menu = new Menu();
@@ -462,7 +460,7 @@ class BadasoCRUDController extends Controller
             $menu_item->icon_class = $data_type->icon;
             $menu_item->color = null;
             $menu_item->parent_id = null;
-            $menu_item->permissions = $data_type->generate_permissions ? 'browse_' . $data_type->name : null;
+            $menu_item->permissions = $data_type->generate_permissions ? 'browse_'.$data_type->name : null;
             $menu_item->save();
         } else {
             $menu_item = new MenuItem();
@@ -473,7 +471,7 @@ class BadasoCRUDController extends Controller
             $menu_item->icon_class = $data_type->icon;
             $menu_item->color = null;
             $menu_item->parent_id = null;
-            $menu_item->permissions = $data_type->generate_permissions ? 'browse_' . $data_type->name : null;
+            $menu_item->permissions = $data_type->generate_permissions ? 'browse_'.$data_type->name : null;
             $menu_item->order = $menu_item->highestOrderMenuItem();
             $menu_item->save();
         }
@@ -482,7 +480,7 @@ class BadasoCRUDController extends Controller
     private function deleteMenuItem($data_type)
     {
         $menu_key = config('badaso.default_menu');
-        $url = '/' . $menu_key . '/' . $data_type->slug;
+        $url = '/'.$menu_key.'/'.$data_type->slug;
         MenuItem::where('url', $url)->delete();
     }
 
