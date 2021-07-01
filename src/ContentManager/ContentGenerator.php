@@ -95,31 +95,31 @@ class ContentGenerator
         // replace array() with []
         $lines = explode("\n", $content);
 
-        for ($i = 1; $i < count($lines); ++$i) {
+        for ($i = 1; $i < count($lines); $i++) {
             $lines[$i] = ltrim($lines[$i]);
             // Check for closing bracket
             if (strpos($lines[$i], ')') !== false) {
-                --$tab_count;
+                $tab_count--;
             }
 
             // Insert tab count
             if ($in_string === false) {
-                for ($j = 0; $j < $tab_count; ++$j) {
+                for ($j = 0; $j < $tab_count; $j++) {
                     $lines[$i] = substr_replace($lines[$i], $this->indent_character, 0, 0);
                 }
             }
-            for ($j = 0; $j < strlen($lines[$i]); ++$j) {
+            for ($j = 0; $j < strlen($lines[$i]); $j++) {
                 // skip character right after an escape \
                 if ($lines[$i][$j] == '\\') {
-                    ++$j;
+                    $j++;
                 } // check string open/end
                 elseif ($lines[$i][$j] == '\'') {
-                    $in_string = !$in_string;
+                    $in_string = ! $in_string;
                 }
             }
             // check for opening bracket
             if (strpos($lines[$i], '(') !== false) {
-                ++$tab_count;
+                $tab_count++;
             }
         }
         $content = implode("\n", $lines);
@@ -165,7 +165,7 @@ class ContentGenerator
     {
         $permission = self::GENERATE_PERMISSIONS_STATEMENT;
 
-        if (!is_null($type)) {
+        if (! is_null($type)) {
             $permission = self::REMOVE_PERMISSIONS_STATEMENT;
         }
 
