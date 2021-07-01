@@ -31,6 +31,7 @@ class CreateDataType extends Migration
                 $table->tinyInteger('server_side')->default(0);
                 $table->text('description')->nullable();
                 $table->text('details')->nullable();
+                $table->boolean('is_soft_delete')->default(0)->nullable();
                 $table->timestamps();
             });
 
