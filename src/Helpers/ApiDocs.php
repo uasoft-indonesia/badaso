@@ -503,7 +503,7 @@ class ApiDocs
         $filesystem = new Filesystem();
         $file_path = self::getFilePath($table_name);
         $stub = self::getStub($table_name, $data_rows, $data_type);
-        if (!$filesystem->put($file_path, $stub)) {
+        if (! $filesystem->put($file_path, $stub)) {
             return false;
         } else {
             chmod($file_path, 0775);
