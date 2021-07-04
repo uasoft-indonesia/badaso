@@ -294,7 +294,7 @@ class ApiDocs
 
     public static function getFilePath($table_name)
     {
-        $api_docs_path = app_path('Http\\Swagger\\swagger_models\\');
+        $api_docs_path = app_path('Http/Swagger/swagger_models/');
 
         return $api_docs_file = $api_docs_path.$table_name.'.php';
     }
@@ -504,6 +504,9 @@ class ApiDocs
         $stub = self::getStub($table_name, $data_rows, $data_type);
 
         $status_put_file = $filesystem->put($file_path, $stub);
+        if ($status_put_file) {
+            chmod($file_path, 0775);
+        }
 
         return $status_put_file;
     }
