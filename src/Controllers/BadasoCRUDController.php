@@ -158,6 +158,15 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
+                'is_soft_delete' => ['required', 'boolean', function ($att, $val, $failed) use ($request) {
+                    if (isset($request->name) && $val) {
+                        if (! Schema::hasColumn($request->name, 'deleted_at')) {
+                            $failed(__('badaso::validation.crud.table_deleted_at_not_exists', [
+                                'table_name' => $request->name,
+                            ]));
+                        }
+                    }
+                }],
             ]);
 
             $table_name = $request->input('name');
@@ -188,6 +197,7 @@ class BadasoCRUDController extends Controller
             $data_type->details = $request->input('details');
             $data_type->controller = $request->input('controller');
             $data_type->notification = json_encode($request->input('notification'));
+            $data_type->is_soft_delete = $request->input('create_soft_delete');
             $data_type->save();
 
             DataRow::where('data_type_id', $data_type->id)->delete();
@@ -293,7 +303,17 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
+                'create_soft_delete' => ['required', 'boolean', function ($att, $val, $failed) use ($request) {
+                    if (isset($request->name) && $val) {
+                        if (! Schema::hasColumn($request->name, 'deleted_at')) {
+                            $failed(__('badaso::validation.crud.table_deleted_at_not_exists', [
+                                'table_name' => $request->name,
+                            ]));
+                        }
+                    }
+                }],
             ]);
+
             $table_name = $request->input('name');
             $new_data_type = new DataType();
             $new_data_type->name = $table_name;
@@ -312,6 +332,7 @@ class BadasoCRUDController extends Controller
             $new_data_type->description = $request->input('description');
             $new_data_type->details = $request->input('details');
             $new_data_type->notification = json_encode($request->input('notification'));
+            $new_data_type->is_soft_delete = $request->input('create_soft_delete');
             $new_data_type->save();
 
             $data_rows = $request->input('rows') ?? [];

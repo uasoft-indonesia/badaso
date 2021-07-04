@@ -36,6 +36,16 @@ export default {
     return resource.post(entity_prefix + "/" + data.slug + "/add", data);
   },
 
+  restore(data) {
+    let paramData = {
+      data: data,
+    };
+    return resource.delete(
+      entity_prefix + "/" + data.slug + "/restore",
+      paramData
+    );
+  },
+
   delete(data) {
     let paramData = {
       data: data,
@@ -45,6 +55,7 @@ export default {
       paramData
     );
   },
+
   deleteMultiple(data) {
     let paramData = {
       data: data,
@@ -54,10 +65,24 @@ export default {
       paramData
     );
   },
+
+  restoreMultiple(data) {
+    let paramData = {
+      data: data,
+    };
+    return resource.delete(
+      entity_prefix + "/" + data.slug + "/restore-multiple",
+      paramData
+    );
+  },
+
   sort(data) {
     return resource.put(entity_prefix + "/" + data.slug + "/sort", data);
   },
   maintenance(data = {}) {
-    return resource.post(entity_prefix + "/" + data.slug + "/maintenance", data);
+    return resource.post(
+      entity_prefix + "/" + data.slug + "/maintenance",
+      data
+    );
   },
 };

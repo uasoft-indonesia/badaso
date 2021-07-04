@@ -1,39 +1,8 @@
 <template>
   <div>
     <template v-if="!showMaintenancePage">
-      <badaso-breadcrumb-hover full>
+      <badaso-breadcrumb-hover full :visibleButtonAction="selected.length  != 0">
         <template slot="action">
-          <download-excel
-            :data="records"
-            :fields="fieldsForExcel"
-            :worksheet="dataType.displayNameSingular"
-            :name="dataType.displayNameSingular + '.xls'"
-            style="display: contents"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-              v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'CrudGeneratedAdd' }"
-            v-if="
-              isCanAdd &&
-                $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
-            "
-          >
-            {{ $t("action.add") }}
-          </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="list"
             :to="{ name: 'CrudGeneratedSort' }"
@@ -53,33 +22,18 @@
             @click.stop
             @click="confirmDeleteMultiple"
           >
-            {{ $t("action.bulkDelete") }}
+            {{ $t("action.bulkDelete") }} Permanent
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="restore"
-            v-if="selected.length > 0 && isShowDataRecycle"
+            v-if="
+              selected.length > 0 &&
+                isShowDataRecycle
+            "
             @click.stop
             @click="confirmRestoreMultiple"
           >
             {{ $t("action.bulkRestore") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="settings"
-            v-if="
-              $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)
-            "
-            @click.stop
-            @click="openMaintenanceDialog"
-          >
-            {{ $t("crudGenerated.maintenanceDialog.title") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            v-if="dataType.isSoftDelete"
-            icon="restore_from_trash"
-            @click.stop
-            :to="{ name: 'CrudGeneratedBrowseBin' }"
-          >
-            {{$t("action.showTrash")}}
           </badaso-dropdown-item>
         </template>
       </badaso-breadcrumb-hover>
@@ -350,7 +304,7 @@
                                 )
                             "
                           >
-                            Delete
+                            Delete Permanent
                           </badaso-dropdown-item>
                           <badaso-dropdown-item
                             @click="confirmDeleteDataPending(data[index].id)"
@@ -366,6 +320,15 @@
                                 "offlineFeature.crudGenerator.deleteDataPending"
                               )
                             }}
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            @click="
+                              confirmRestoreDataSoftDelete(data[index].id)
+                            "
+                            icon="restore"
+                            v-if="isShowDataRecycle"
+                          >
+                            {{ $t("softDelete.crudGenerator.restore") }}
                           </badaso-dropdown-item>
                         </vs-dropdown-menu>
                       </badaso-dropdown>
@@ -723,7 +686,7 @@ import "jspdf-autotable";
 import { readObjectStore, setObjectStore } from "../../utils/indexed-db";
 export default {
   components: { downloadExcel },
-  name: "CrudGeneratedBrowse",
+  name: "CrudGeneratedBrowseBin",
   data: () => ({
     meta: {},
     errors: {},
@@ -750,6 +713,7 @@ export default {
     maintenanceDialog: false,
     isMaintenance: false,
     showMaintenancePage: false,
+    isShowDataRecycle: true,
   }),
   watch: {
     $route: function(to, from) {
@@ -787,6 +751,21 @@ export default {
         },
       });
     },
+    confirmRestoreDataSoftDelete(id) {
+      this.willDeleteId = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "success",
+        title: this.$t("action.restore.title"),
+        text: this.$t("action.restore.text"),
+        accept: () => this.deleteRestoreDataSoftDelete(id),
+        acceptText: this.$t("action.restore.accept"),
+        cancelText: this.$t("action.restore.cancel"),
+        cancel: () => {
+          this.willDeleteId = null;
+        },
+      });
+    },
     confirmDelete(id) {
       this.willDeleteId = id;
       this.$vs.dialog({
@@ -814,6 +793,18 @@ export default {
         cancel: () => {},
       });
     },
+    confirmRestoreMultiple(id) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "success",
+        title: this.$t("action.restore.title"),
+        text: this.$t("action.restore.text"),
+        accept: this.restoreRecords,
+        acceptText: this.$t("action.restore.accept"),
+        cancelText: this.$t("action.restore.cancel"),
+        cancel: () => {},
+      });
+    },
     getEntity() {
       this.$openLoader();
       this.$api.badasoEntity
@@ -824,6 +815,7 @@ export default {
           filterValue: this.filter,
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
         })
         .then((response) => {
           this.meta = response.meta;
@@ -912,10 +904,10 @@ export default {
         console.error(error);
       }
     },
-    deleteRecord() {
+    deleteRestoreDataSoftDelete(id) {
       this.$openLoader();
       this.$api.badasoEntity
-        .delete({
+        .restore({
           slug: this.$route.params.slug,
           data: [
             {
@@ -940,11 +932,71 @@ export default {
           });
         });
     },
+    deleteRecord() {
+      this.$openLoader();
+      this.$api.badasoEntity
+        .delete({
+          slug: this.$route.params.slug,
+          data: [
+            {
+              field: "id",
+              value: this.willDeleteId,
+            },
+          ],
+          isHardDelete : true,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getEntity();
+        })
+        .catch((error) => {
+          this.loadIdsOfflineDelete();
+
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
     deleteRecords() {
       const ids = this.selected.map((item) => item.id);
       this.$openLoader();
       this.$api.badasoEntity
         .deleteMultiple({
+          slug: this.$route.params.slug,
+          data: [
+            {
+              field: "ids",
+              value: ids.join(","),
+            },
+          ],
+          isHardDelete : true,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getEntity();
+        })
+        .catch((error) => {
+          this.selected = [];
+          this.loadIdsOfflineDelete();
+
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    restoreRecords() {
+      const ids = this.selected.map((item) => item.id);
+      this.$openLoader();
+      this.$api.badasoEntity
+        .restoreMultiple({
           slug: this.$route.params.slug,
           data: [
             {
@@ -1145,9 +1197,6 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    },
-    async onSwitchChangeDataShow() {
-      await this.getEntity();
     },
   },
   computed: {

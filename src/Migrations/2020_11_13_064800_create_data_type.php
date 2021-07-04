@@ -31,6 +31,8 @@ class CreateDataType extends Migration
                 $table->tinyInteger('server_side')->default(0);
                 $table->boolean('is_maintenance')->default(false);
                 $table->text('description')->nullable();
+                $table->boolean('is_soft_delete')->default(0)->nullable();
+
                 $table->text('details')->nullable();
                 $table->text('notification')->nullable();
                 $table->timestamps();
@@ -54,7 +56,7 @@ class CreateDataType extends Migration
                 $table->integer('order')->default(1);
 
                 $table->foreign('data_type_id')->references('id')->on('data_types')
-                ->onUpdate('cascade')->onDelete('cascade');
+                    ->onUpdate('cascade')->onDelete('cascade');
             });
         } catch (PDOException $ex) {
             $this->down();

@@ -37,6 +37,23 @@
           </vs-row>
           <vs-row>
             <badaso-text
+              v-model="crudData.name"
+              size="6"
+              :label="$t('crud.add.field.tableName.title')"
+              :placeholder="$t('crud.add.field.tableName.title')"
+              required
+              readonly
+              :alert="errors.name"
+            ></badaso-text>
+            <badaso-switch
+              size="3"
+              v-model="crudData.createSoftDelete"
+              :label="$t('crud.add.field.createSoftDelete')"
+              :alert="errors.createSoftDelete"
+            ></badaso-switch>
+          </vs-row>
+          <vs-row>
+            <badaso-text
               v-model="crudData.displayNameSingular"
               size="6"
               :label="$t('crud.edit.field.displayNameSingular.title')"
@@ -783,6 +800,7 @@ export default {
       policyName: "",
       description: "",
       generatePermissions: true,
+      createSoftDelete: false,
       serverSide: false,
       details: "",
       controller: "",
@@ -944,6 +962,9 @@ export default {
           crudData.orderDirection = crudData.orderDirection
             ? crudData.orderDirection
             : "";
+          crudData.createSoftDelete = crudData.isSoftDelete
+            ? crudData.isSoftDelete
+            : false;
           let dataRows = [...crudData.dataRows];
           crudData.rows = dataRows.map((field) => {
             return {

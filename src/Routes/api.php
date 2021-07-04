@@ -163,27 +163,41 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                     Route::get($data_type->slug, $crud_data_controller.'@browse')
                         ->name($data_type->slug.'.browse')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',browse');
+
                     Route::get($data_type->slug.'/read', $crud_data_controller.'@read')
                         ->name($data_type->slug.'.read')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',read');
+
                     Route::put($data_type->slug.'/edit', $crud_data_controller.'@edit')
                         ->name($data_type->slug.'.edit')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+
                     Route::post($data_type->slug.'/add', $crud_data_controller.'@add')
                         ->name($data_type->slug.'.add')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',add');
+
                     Route::delete($data_type->slug.'/delete', $crud_data_controller.'@delete')
                         ->name($data_type->slug.'.delete')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
+
+                    Route::delete($data_type->slug.'/restore', $crud_data_controller.'@restore')
+                        ->name($data_type->slug.'.restore')->middleware(BadasoAuthenticate::class);
+
                     Route::delete($data_type->slug.'/delete-multiple', $crud_data_controller.'@deleteMultiple')
                         ->name($data_type->slug.'.delete-multiple')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',delete');
+
+                    Route::delete($data_type->slug.'/restore-multiple', $crud_data_controller.'@restoreMultiple')
+                        ->name($data_type->slug.'.restore-multiple')->middleware(BadasoAuthenticate::class);
+
                     Route::put($data_type->slug.'/sort', $crud_data_controller.'@sort')
                         ->name($data_type->slug.'.sort')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+
                     Route::get($data_type->slug.'/all', $crud_data_controller.'@all')
                         ->name($data_type->slug.'.all')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',edit');
+
                     Route::post($data_type->slug.'/maintenance', $crud_data_controller.'@setMaintenanceState')
                         ->name($data_type->slug.'.maintenance')
                         ->middleware(BadasoCheckPermissionsForCRUD::class.':'.$data_type->slug.',maintenance');

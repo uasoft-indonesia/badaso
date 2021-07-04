@@ -14,6 +14,14 @@ export default [
     },
   },
   {
+    path: prefix + "/admin/:slug/bin",
+    name: "CrudGeneratedBrowseBin",
+    component: Pages,
+    meta: {
+      title: "Browse Recycle",
+    },
+  },
+  {
     path: prefix + "/admin/:slug/add",
     name: "CrudGeneratedAdd",
     component: Pages,
