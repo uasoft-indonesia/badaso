@@ -48,7 +48,7 @@ class WatchTableConfig
     {
         return <<<PHP
         <?php 
-
+        
         return {$exported_config};
         PHP;
     }

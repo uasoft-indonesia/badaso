@@ -3,7 +3,7 @@ export const label = "English";
 export default {
   button: {
     close: "Close",
-    submit: "Submit"
+    submit: "Submit",
   },
   vuelidate: {
     required: "* {0} is required.",
@@ -140,11 +140,19 @@ export default {
 
   action: {
     bulkDelete: "Bulk Delete",
+    bulkRestore: "Bulk Restore",
+    showTrash : 'Show Trash',
     add: "Add",
     edit: "Edit",
     delete: {
       title: "Confirm",
       text: "Are you sure?",
+      accept: "Accept",
+      cancel: "Cancel",
+    },
+    restore: {
+      title: "Confirm",
+      text: "Are you sure restore?",
       accept: "Accept",
       cancel: "Cancel",
     },
@@ -242,6 +250,10 @@ export default {
 
   crud: {
     title: "CRUD",
+    data: {
+      switchDataRecycle: "Show Recycle Data",
+      switchDataNormal: "Show Normal Data",
+    },
     warning: {
       notAllowed: "You're not allowed to browse CRUD.",
     },
@@ -268,6 +280,9 @@ export default {
           placeholder: "Table Name",
         },
         generatePermissions: "Generate Permissions",
+        createSoftDelete: "Create Soft Delete",
+        createSoftDeleteNote:
+          "Note: if you create soft delete, automatically we created model and migration for soft delete",
         serverSide: "Server Side",
         displayNameSingular: {
           title: "Display Name(Singular)",
@@ -866,8 +881,8 @@ export default {
     maintenanceDialog: {
       title: "Setting",
       switch: "Maintenance Mode",
-      button: "Save"
-    }
+      button: "Save",
+    },
   },
   keyIssue: {
     title: "License Issues",
@@ -903,7 +918,7 @@ export default {
         title: "Migration Not Sync",
         notAllowed:
           "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:",
-        empty: "You must delete this generated CRUD first on CRUD Management."
+        empty: "You must delete this generated CRUD first on CRUD Management.",
       },
     },
     add: {
@@ -969,9 +984,11 @@ export default {
       },
       warning: {
         title: "IMPORTANT",
-        content: "Only the following column types can be \"changed\": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.",
-        crud: "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
-        notAllowed: "You're not allowed to edit."
+        content:
+          'Only the following column types can be "changed": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.',
+        crud:
+          "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
+        notAllowed: "You're not allowed to edit.",
       },
       error: {
         fieldName: "Field name is required.",
@@ -1017,9 +1034,10 @@ export default {
     URL: {
       label: "Paste an image URL here",
       placeholder: "URL",
-      descriptionText: "If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG.",
-      invalid: "Image is not valid"
-    }
+      descriptionText:
+        "If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG.",
+      invalid: "Image is not valid",
+    },
   },
   firebase: {
     title: "Firebase",
@@ -1066,7 +1084,12 @@ export default {
       title: "Show Data Edit Pending",
     },
     crudGenerator: {
-      deleteDataPending : "Delete Data Pending",
+      deleteDataPending: "Delete Data Pending",
+    },
+  },
+  softDelete: {
+    crudGenerator: {
+      restore : "Restore",
     },
   },
 };
