@@ -153,16 +153,11 @@ class SiteManagementSeeder extends Seeder
                 ],
             ];
 
-            $new_settings = [];
             foreach ($settings as $key => $value) {
-                $setting = \DB::table('configurations')->where('key', $value['key'])->first();
-                if (isset($setting)) {
-                    continue;
-                }
-                $new_settings[] = $value;
+                \DB::table('configurations')->where('key', $value['key'])->delete();
             }
 
-            \DB::table('configurations')->insert($new_settings);
+            \DB::table('configurations')->insert($settings);
 
             \DB::commit();
         } catch (Exception $e) {
