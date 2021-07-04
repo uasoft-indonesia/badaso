@@ -22,6 +22,7 @@ class GenerateForSwagger
                 }
 
                 Artisan::call('l5-swagger:generate');
+                chmod(storage_path('api-docs/api-docs.json'), 0775);
                 break;
         }
 
