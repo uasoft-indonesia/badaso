@@ -84,7 +84,7 @@
                     <span v-if="data[indextr].isPublic === 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
-                  <vs-td style="width: 1%;">
+                  <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <vs-col v-if="size !== ''" :vs-lg="size" vs-xs="12" class="mb-3">
-      <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
+    <vs-col v-if="size !== ''" :vs-lg="size" vs-xs="12" class="badaso-code-editor__container">
+      <label v-if="label != ''" for="" class="badaso-code-editor__label">{{ label }}</label>
       <prism-editor
-        class="my-editor"
+        class="badaso-code-editor__editor"
         :value="value"
         @input="handleInput($event)"
         line-numbers
@@ -12,21 +12,17 @@
       <div v-if="additionalInfo" v-html="additionalInfo"></div>
       <div v-if="alert">
         <div v-if="$helper.isArray(alert)">
-          <p
-            class="text-danger"
-            v-for="(info, index) in alert"
-            :key="index"
-            v-html="info + '<br />'"
-          ></p>
+          <span class="badaso-code-editor__editor--error" v-for="(info, index) in alert" :key="index">{{ info }}</span>
         </div>
         <div v-else>
-          <span class="text-danger" v-html="alert"></span>
+          <span class="badaso-code-editor__editor--error" v-html="alert"></span>
         </div>
       </div>
     </vs-col>
     <div v-else>
+      <label v-if="label != ''" for="" class="badaso-code-editor__label">{{ label }}</label>
       <prism-editor
-        class="my-editor"
+        class="badaso-code-editor__editor"
         :value="value"
         @input="handleInput($event)"
         line-numbers
@@ -35,15 +31,12 @@
       <div v-if="additionalInfo" v-html="additionalInfo"></div>
       <div v-if="alert">
         <div v-if="$helper.isArray(alert)">
-          <span
-            class="text-danger"
-            v-for="(info, index) in alert"
-            :key="index"
-            v-html="info + '<br />'"
-          ></span>
+          <span class="badaso-code-editor__editor--error" v-for="(info, index) in alert" :key="index">
+            {{ info }}
+          </span>
         </div>
         <div v-else>
-          <span class="text-danger" v-html="alert"></span>
+          <span class="badaso-code-editor__editor--error" v-html="alert"></span>
         </div>
       </div>
     </div>
@@ -100,28 +93,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* required class */
-.my-editor {
-  /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
-  background: #fff;
-  color: #000;
-
-  /* you must provide font-family font-size line-height. Example: */
-  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 5px;
-  border: solid 1px #dedede;
-  height: 100px;
-}
-
-/* optional class for removing the outline */
-.prism-editor__textarea:focus {
-  outline: none;
-}
-.prism-editor__line-numbers {
-  background-color: #e8e8e8 !important;
-}
-</style>

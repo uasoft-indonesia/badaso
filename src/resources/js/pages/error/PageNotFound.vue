@@ -1,16 +1,15 @@
 <template>
   <vs-col
     vs-lg="12"
-    class="login-register-box"
-    style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
+    class="main-container__box--auth"
   >
-    <vs-card class="mb-0">
+    <vs-card class="main-container__card--auth">
       <div slot="header">
-        <h3 class="mb-1">{{ $t("404.title") }}</h3>
-        <p class="mb-0">{{ $t("404.subtitle") }}</p>
+        <h3 class="page-not-found__title">{{ $t("404.title") }}</h3>
+        <p class="page-not-found__subtitle">{{ $t("404.subtitle") }}</p>
       </div>
       <div>
-        <vs-button type="relief" class="btn-block" @click="goHome()">{{
+        <vs-button type="relief" class="page-not-found__button" @click="goHome()">{{
           $t("404.button")
         }}</vs-button>
       </div>
@@ -29,9 +28,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.login-register-box {
-  max-width: 400px;
-}
-</style>

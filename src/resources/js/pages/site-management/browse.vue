@@ -23,7 +23,7 @@
               :label="group.label"
             >
               <vs-row
-                style="padding-top: 20px;"
+                class="site-management__container"
                 v-for="(config, index) in filterConfigurations(group.value)"
                 :key="index"
               >
@@ -412,22 +412,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.vs-tabs--btn {
-  font-size: 1.25rem;
-  margin-bottom: 0px;
-  font-family: inherit;
-  font-weight: 700;
-  line-height: 1.2;
-}
-.config-key {
-  font-size: 1rem;
-  margin-bottom: 15px;
-  font-weight: bold;
-  line-height: 1.2;
-}
-.inputx {
-  margin-top: 5px;
-}
-</style>

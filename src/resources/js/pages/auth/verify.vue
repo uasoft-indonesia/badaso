@@ -1,19 +1,10 @@
 <template>
-  <vs-col
-    vs-lg="12"
-    class="login-register-box"
-    style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
-  >
-    <vs-alert
-      :active="res.active"
-      :color="res.status"
-      :icon="res.icon"
-      class="mb-2"
-    >
+  <vs-col vs-lg="12" class="main-container__box--auth">
+    <vs-alert :active="res.active" :color="res.status" :icon="res.icon" class="main-container__alert--auth">
       <span>{{ res.message }}</span>
     </vs-alert>
 
-    <vs-card class="mb-0">
+    <vs-card class="main-container__card--auth">
       <badaso-auth-card-header slot="header">{{
         $t("verifyEmail.title")
       }}</badaso-auth-card-header>
@@ -24,40 +15,35 @@
           size="default"
           :placeholder="$t('verifyEmail.field.token')"
           v-model="token"
-          class="w-100 mb-4 mt-2 "
+          class="verify__input"
         />
-        <div v-if="errors.token" class="mb-4">
+        <div v-if="errors.token" class="verify__error-container">
           <div v-if="$helper.isArray(errors.token)">
-            <span
-              class="text-danger"
-              v-for="(info, index) in errors.token"
-              :key="index"
-              v-html="info + '<br />'"
-            ></span>
+            <span class="verify__input--error" v-for="(info, index) in errors.token" :key="index">
+              {{ info }}
+            </span>
           </div>
           <div v-else>
-            <span class="text-danger" v-html="errors.token"></span>
+            <span class="verify__input--error" v-html="errors.token"></span>
           </div>
         </div>
-        <vs-button type="relief" class="btn-block" @click="verify()">{{
+        <vs-button type="relief" class="verify__button" @click="verify()">{{
           $t("verifyEmail.button")
         }}</vs-button>
-        <div class="d-flex pt-3 pb-3">
-          <span class="con-slot-label"
-            >Not receive email or token expired?</span
-          >
+        <div class="verify__resend">
+          <span>Not receive email or token expired?</span>
           <vs-button
             v-if="retry || expired"
             type="relief"
             color="warning"
+            class="verify__resend-button"
             @click="requestVerificationToken()"
-            class="ml-auto"
             >{{ $t("verifyEmail.request") }}</vs-button
           >
-          <span v-else class="ml-auto">{{ timeWait }}</span>
+          <span v-else class="verify__resend-button">{{ timeWait }}</span>
         </div>
       </form>
-      <div class="d-flex justify-content-center mt-3">
+      <div class="verify__register-link">
         {{ $t("register.existingAccount.text") }} &nbsp;
         <router-link :to="'/' + baseUrl + '/login'">{{
           $t("register.existingAccount.link")
@@ -177,9 +163,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.login-register-box {
-  max-width: 400px;
-}
-</style>

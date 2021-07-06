@@ -1,7 +1,5 @@
 <template>
-  <div
-    :class="[type]"
-    class="vs-collapse">
+  <div :class="[`badaso-collapse__container--${type}`]" class="badaso-collapse__container">
     <slot></slot>
   </div>
 </template>

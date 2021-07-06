@@ -21,6 +21,7 @@ class PermissionWidget implements WidgetInterface
     {
         return [
             'label' => 'Permission',
+            'icon' => 'lock',
             'value' => Permission::count(),
         ];
     }

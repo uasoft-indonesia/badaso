@@ -38,7 +38,7 @@
                     {{ data[index].tableName }}
                   </vs-td>
                   <vs-td
-                    style="width: 1%; white-space: nowrap"
+                    class="badaso-table__td"
                     v-if="data[index].crudData"
                   >
                     <badaso-dropdown vs-trigger-click>
@@ -77,7 +77,7 @@
                       </vs-dropdown-menu>
                     </badaso-dropdown>
                   </vs-td>
-                  <vs-td v-else style="width: 1%; white-space: nowrap">
+                  <vs-td v-else class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"
