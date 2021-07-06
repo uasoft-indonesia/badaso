@@ -1,7 +1,7 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-switch__container">
     <label v-if="label != ''" for="" class="badaso-switch__label">{{ label }}</label>
-    <vs-switch :value="value" @input="handleInput($event)">
+    <vs-switch :value="value" @change="onChange" @input="handleInput($event)">
       <span slot="on">{{ onLabel }}</span>
       <span slot="off">{{ offLabel }}</span>
     </vs-switch>
@@ -57,6 +57,12 @@ export default {
     alert: {
       type: String | Array,
       default: "",
+    },
+    onChange: {
+      type: Function,
+      default: (event) => {
+        
+      },
     },
   },
   methods: {

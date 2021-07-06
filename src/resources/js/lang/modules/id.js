@@ -3,7 +3,7 @@ export const label = "Indonesia";
 export default {
   button: {
     close: "Tutup",
-    submit: "Pilih"
+    submit: "Pilih",
   },
   vuelidate: {
     required: "* {0} harus diisi.",
@@ -140,11 +140,19 @@ export default {
 
   action: {
     bulkDelete: "Hapus Massal",
+    bulkRestore: "Pengembalian Massal",
+    showTrash: "Tampilkan Tempat Sampah",
     add: "Tambah",
     edit: "Ubah",
     delete: {
       title: "Konfirmasi",
       text: "Apakah Anda yakin ingin menghapus?",
+      accept: "Ya",
+      cancel: "Tidak",
+    },
+    restore: {
+      title: "Konfirmasi",
+      text: "Apakah Anda yakin ingin mengembalikan ini?",
       accept: "Ya",
       cancel: "Tidak",
     },
@@ -242,6 +250,10 @@ export default {
 
   crud: {
     title: "CRUD",
+    data: {
+      switchDataRecycle: "Tampilkan Data Recycle",
+      switchDataNormal: "Tampilkan Data Normal",
+    },
     warning: {
       notAllowed: "Anda tidak diizinkan untuk mengakses CRUD.",
     },
@@ -268,6 +280,9 @@ export default {
           placeholder: "Nama Tabel",
         },
         generatePermissions: "Hasilkan Izin",
+        createSoftDelete: "Buat Penghapusan Ringan",
+        createSoftDeleteNote:
+          "Catatan: jika anda membuat penghapusan lunak, secara otomatis kami membuat model dan migrasi untuk penghapusan lunak ",
         serverSide: "Sisi Server",
         displayNameSingular: {
           title: "Nama Tampilan(Tunggal)",
@@ -866,8 +881,8 @@ export default {
     maintenanceDialog: {
       title: "Pengaturan",
       switch: "Mode Maintenance",
-      button: "Simpan"
-    }
+      button: "Simpan",
+    },
   },
   keyIssue: {
     title: "License Issues",
@@ -904,7 +919,8 @@ export default {
         title: "Migration Tidak Sinkron",
         notAllowed:
           "Sebelum Anda dapat menggunakan Database Management, Anda harus memigrasi file yang belum dimigrasi atau Anda dapat menghapus file migrasi. Berikut ini daftar dari file migrasi yang belum dimigrasi:",
-        empty: "Kamu harus menghapus generated CRUD ini terlebih dahulu di CRUD Management."
+        empty:
+          "Kamu harus menghapus generated CRUD ini terlebih dahulu di CRUD Management.",
       },
     },
     add: {
@@ -970,8 +986,10 @@ export default {
       },
       warning: {
         title: "PENTING",
-        content: "Hanya jenis kolom berikut yang dapat \"diubah\": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text dan Time.",
-        crud: "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel."
+        content:
+          'Hanya jenis kolom berikut yang dapat "diubah": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text dan Time.',
+        crud:
+          "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
       },
       error: {
         fieldName: "Field name dibutuhkan.",
@@ -1015,9 +1033,10 @@ export default {
     URL: {
       label: "Tempel alamat gambar disini",
       placeholder: "URL",
-      descriptionText: "Jika URL benar, akan melihat pratinjau gambar di sini. Gambar besar mungkin membutuhkan waktu beberapa menit untuk muncul. Hanya menerima PNG dan JPEG.",
-      invalid: "Gambar tidak valid"
-    }
+      descriptionText:
+        "Jika URL benar, akan melihat pratinjau gambar di sini. Gambar besar mungkin membutuhkan waktu beberapa menit untuk muncul. Hanya menerima PNG dan JPEG.",
+      invalid: "Gambar tidak valid",
+    },
   },
   firebase: {
     title: "Firebase",
@@ -1045,7 +1064,8 @@ export default {
   apidocs: {
     title: "API Dokumentasi",
     warning: {
-      notAllowedToBrowse: "Anda tidak diizinkan untuk menjelajahi api dokumentasi.",
+      notAllowedToBrowse:
+        "Anda tidak diizinkan untuk menjelajahi api dokumentasi.",
     },
   },
   notification: {
@@ -1065,6 +1085,11 @@ export default {
     },
     crudGenerator: {
       deleteDataPending: "Delete Data Tertunda",
+    },
+  },
+  softDelete: {
+    crudGenerator: {
+      restore: "Mengembalikan",
     },
   },
 };

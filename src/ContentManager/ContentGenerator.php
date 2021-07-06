@@ -13,7 +13,7 @@ class ContentGenerator
     /** @var string Data type Delete Statement */
     const DELETE_STATEMENT = <<<'TXT'
     $data_type = Badaso::model('DataType')->where('name', '%s')->first();
-
+                
                 if ($data_type) {
                     Badaso::model('DataType')->where('name', '%s')->delete();
                 }
@@ -22,14 +22,14 @@ class ContentGenerator
     /** @var string Menu Insert Statement */
     const MENU_INSERT_STATEMENT = <<<'TXT'
     $menu = Badaso::model('Menu')->where('key', config('badaso.default_menu'))->firstOrFail();
-
+                
                 $menu_item = Badaso::model('MenuItem')
                     ->where('menu_id', $menu->id)
                     ->where('url', '%s')
                     ->first();
-
+                
                 $order = Badaso::model('MenuItem')->highestOrderMenuItem();
-
+                
                 if (!is_null($menu_item)) {
                     $menu_item->fill([
                         'title' => '%s',
@@ -58,7 +58,7 @@ class ContentGenerator
     /** @var string Menu Delete Statement */
     const MENU_DELETE_STATEMENT = <<<'TXT'
     $menuItem = Badaso::model('MenuItem')::where('url', '%s');
-
+                
                 if ($menuItem->exists()) {
                     $menuItem->delete();
                 }

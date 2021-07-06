@@ -1,39 +1,8 @@
 <template>
   <div>
     <template v-if="!showMaintenancePage">
-      <badaso-breadcrumb-hover full>
+      <badaso-breadcrumb-hover full :visibleButtonAction="selected.length  != 0">
         <template slot="action">
-          <download-excel
-              :data="records"
-              :fields="fieldsForExcel"
-              :worksheet="dataType.displayNameSingular"
-              :name="dataType.displayNameSingular + '.xls'"
-              class="crud-generated__excel-button"
-            >
-            <badaso-dropdown-item
-              icon="file_upload"
-              v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'CrudGeneratedAdd' }"
-            v-if="
-              isCanAdd &&
-                $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
-            "
-          >
-            {{ $t("action.add") }}
-          </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="list"
             :to="{ name: 'CrudGeneratedSort' }"
@@ -53,33 +22,18 @@
             @click.stop
             @click="confirmDeleteMultiple"
           >
-            {{ $t("action.bulkDelete") }}
+            {{ $t("action.bulkDelete") }} Permanent
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="restore"
-            v-if="selected.length > 0 && isShowDataRecycle"
+            v-if="
+              selected.length > 0 &&
+                isShowDataRecycle
+            "
             @click.stop
             @click="confirmRestoreMultiple"
           >
             {{ $t("action.bulkRestore") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="settings"
-            v-if="
-              $helper.isAllowedToModifyGeneratedCRUD('maintenance', dataType)
-            "
-            @click.stop
-            @click="openMaintenanceDialog"
-          >
-            {{ $t("crudGenerated.maintenanceDialog.title") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            v-if="dataType.isSoftDelete"
-            icon="restore_from_trash"
-            @click.stop
-            :to="{ name: 'CrudGeneratedBrowseBin' }"
-          >
-            {{$t("action.showTrash")}}
           </badaso-dropdown-item>
         </template>
       </badaso-breadcrumb-hover>
@@ -90,7 +44,7 @@
             :active="Object.keys(errors).length > 0"
             color="danger"
             icon="new_releases"
-            class="crud-generated__errors"
+            style="margin-bottom: 20px;"
           >
             <span v-for="key in Object.keys(errors)">
               <span v-for="err in errors[key]">
@@ -115,7 +69,7 @@
                 stripe
                 description
                 :description-items="descriptionItems"
-                :description-title="$t('crudGenerated.footer.descriptionTitle')"
+                :description-title="`${$t('crudGenerated.footer.descriptionTitle')} Permanent`"
                 :description-connector="
                   $t('crudGenerated.footer.descriptionConnector')
                 "
@@ -162,14 +116,17 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${ meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)] }`
+                          `${meta.mediaBaseUrl +
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]}`
                         "
                         width="100%"
                         alt=""
                       />
                       <div
                         v-else-if="dataRow.type === 'upload_image_multiple'"
-                        class="crud-generated__item--upload-image-multiple"
+                        style="width: 100%;"
                       >
                         <img
                           v-for="(image, indexImage) in stringToArray(
@@ -178,10 +135,10 @@
                             ]
                           )"
                           :key="indexImage"
-                          :src="`${ meta.mediaBaseUrl + image }`"
+                          :src="`${meta.mediaBaseUrl + image}`"
                           width="100%"
                           alt=""
-                          class="crud-generated__item--image"
+                          style="margin-bottom: 10px;"
                         />
                       </div>
                       <span
@@ -203,7 +160,11 @@
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
-                          `${meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
+                          `${$api.badasoFile.download(
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          )}`
                         "
                         target="_blank"
                         >{{
@@ -212,7 +173,7 @@
                       >
                       <div
                         v-else-if="dataRow.type === 'upload_file_multiple'"
-                        class="crud-generated__item--upload-file-multiple"
+                        style="width: 100%;"
                       >
                         <p
                           v-for="(file, indexFile) in stringToArray(
@@ -223,7 +184,7 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${meta.mediaBaseUrl + file}`"
+                            :href="`${$api.badasoFile.download(file)}`"
                             target="_blank"
                             >{{ file }}</a
                           >
@@ -248,7 +209,7 @@
                           dataRow.type === 'select_multiple' ||
                             dataRow.type === 'checkbox'
                         "
-                        class="crud-generated__item--select-multiple"
+                        style="width: 100%"
                       >
                         <p
                           v-for="(selected, indexSelected) in stringToArray(
@@ -263,9 +224,8 @@
                       </div>
                       <div v-else-if="dataRow.type === 'color_picker'">
                         <div
-                        class="crud-generated__item--color-picker"
                           :style="
-                            `background-color: ${
+                            `width: 100%; height: 14px; background-color: ${
                               record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
@@ -283,7 +243,7 @@
                         record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                       }}</span>
                     </vs-td>
-                    <vs-td class="crud-generated__button">
+                    <vs-td style="width: 1%; white-space: nowrap">
                       <badaso-dropdown vs-trigger-click>
                         <vs-button
                           size="large"
@@ -344,7 +304,7 @@
                                 )
                             "
                           >
-                            Delete
+                            Delete Permanent
                           </badaso-dropdown-item>
                           <badaso-dropdown-item
                             @click="confirmDeleteDataPending(data[index].id)"
@@ -360,6 +320,15 @@
                                 "offlineFeature.crudGenerator.deleteDataPending"
                               )
                             }}
+                          </badaso-dropdown-item>
+                          <badaso-dropdown-item
+                            @click="
+                              confirmRestoreDataSoftDelete(data[index].id)
+                            "
+                            icon="restore"
+                            v-if="isShowDataRecycle"
+                          >
+                            {{ $t("softDelete.crudGenerator.restore") }}
                           </badaso-dropdown-item>
                         </vs-dropdown-menu>
                       </badaso-dropdown>
@@ -424,13 +393,18 @@
                       >
                         <img
                           v-if="dataRow.type === 'upload_image'"
-                          :src="meta.mediaBaseUrl + record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
+                          :src="
+                            meta.mediaBaseUrl +
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                          "
                           width="100%"
                           alt=""
                         />
                         <div
                           v-else-if="dataRow.type === 'upload_image_multiple'"
-                          class="crud-generated__item--upload-image-multiple"
+                          style="width: 100%;"
                         >
                           <img
                             v-for="(image, indexImage) in stringToArray(
@@ -442,7 +416,7 @@
                             :src="`${meta.mediaBaseUrl + image}`"
                             width="100%"
                             alt=""
-                            class="crud-generated__item--image"
+                            style="margin-bottom: 10px;"
                           />
                         </div>
                         <span
@@ -470,7 +444,13 @@
                         <a
                           v-else-if="dataRow.type === 'upload_file'"
                           :href="
-                            `${meta.mediaBaseUrl + record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]}`
+                            `${$api.badasoFile.download(
+                              getDownloadUrl(
+                                record[
+                                  $caseConvert.stringSnakeToCamel(dataRow.field)
+                                ]
+                              )
+                            )}`
                           "
                           target="_blank"
                           >{{
@@ -483,7 +463,7 @@
                         >
                         <div
                           v-else-if="dataRow.type === 'upload_file_multiple'"
-                          class="crud-generated__item--upload-file-multiple"
+                          style="width: 100%;"
                         >
                           <p
                             v-for="(file, indexFile) in stringToArray(
@@ -494,7 +474,11 @@
                             :key="indexFile"
                           >
                             <a
-                              :href="`${meta.mediaBaseUrl + file}`"
+                              :href="
+                                `${$api.badasoFile.download(
+                                  getDownloadUrl(file)
+                                )}`
+                              "
                               target="_blank"
                               >{{ getDownloadUrl(file) }}</a
                             >
@@ -520,7 +504,7 @@
                             dataRow.type === 'select_multiple' ||
                               dataRow.type === 'checkbox'
                           "
-                          class="crud-generated__item--select-multiple"
+                          style="width: 100%"
                         >
                           <p
                             v-for="(selected, indexSelected) in stringToArray(
@@ -535,9 +519,8 @@
                         </div>
                         <div v-else-if="dataRow.type === 'color_picker'">
                           <div
-                            class="crud-generated__item--color-picker"
                             :style="
-                              `background-color: ${
+                              `width: 100%; height: 14px; background-color: ${
                                 record[
                                   $caseConvert.stringSnakeToCamel(dataRow.field)
                                 ]
@@ -557,7 +540,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }}</span>
                       </vs-td>
-                      <vs-td class="crud-generated__button">
+                      <vs-td style="width: 1%; white-space: nowrap">
                         <badaso-dropdown vs-trigger-click>
                           <vs-button
                             size="large"
@@ -643,8 +626,12 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-prompt @accept="saveMaintenanceState" :active.sync="maintenanceDialog">
-          <vs-row>
+        <vs-prompt
+          @accept="saveMaintenanceState"
+          :active.sync="maintenanceDialog"
+          class="mb-0"
+        >
+          <vs-row class="mb-0">
             <badaso-switch
               :label="$t('crudGenerated.maintenanceDialog.switch')"
               :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
@@ -678,9 +665,12 @@
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
-          <div class="badaso-maintenance__container">
-            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
-            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
+          <div
+            class="flex flex-direction-column justify-content-center align-items-center"
+          >
+            <img src="/badaso-images/maintenance.png" alt="Maintenance Icon" />
+
+            <h1 class="mt-4 text-center">We are under <br />maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -696,7 +686,7 @@ import "jspdf-autotable";
 import { readObjectStore, setObjectStore } from "../../utils/indexed-db";
 export default {
   components: { downloadExcel },
-  name: "CrudGeneratedBrowse",
+  name: "CrudGeneratedBrowseBin",
   data: () => ({
     meta: {},
     errors: {},
@@ -723,6 +713,7 @@ export default {
     maintenanceDialog: false,
     isMaintenance: false,
     showMaintenancePage: false,
+    isShowDataRecycle: true,
   }),
   watch: {
     $route: function(to, from) {
@@ -760,6 +751,21 @@ export default {
         },
       });
     },
+    confirmRestoreDataSoftDelete(id) {
+      this.willDeleteId = id;
+      this.$vs.dialog({
+        type: "confirm",
+        color: "success",
+        title: this.$t("action.restore.title"),
+        text: this.$t("action.restore.text"),
+        accept: () => this.deleteRestoreDataSoftDelete(id),
+        acceptText: this.$t("action.restore.accept"),
+        cancelText: this.$t("action.restore.cancel"),
+        cancel: () => {
+          this.willDeleteId = null;
+        },
+      });
+    },
     confirmDelete(id) {
       this.willDeleteId = id;
       this.$vs.dialog({
@@ -787,6 +793,18 @@ export default {
         cancel: () => {},
       });
     },
+    confirmRestoreMultiple(id) {
+      this.$vs.dialog({
+        type: "confirm",
+        color: "success",
+        title: this.$t("action.restore.title"),
+        text: this.$t("action.restore.text"),
+        accept: this.restoreRecords,
+        acceptText: this.$t("action.restore.accept"),
+        cancelText: this.$t("action.restore.cancel"),
+        cancel: () => {},
+      });
+    },
     getEntity() {
       this.$openLoader();
       this.$api.badasoEntity
@@ -797,9 +815,10 @@ export default {
           filterValue: this.filter,
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
+          showSoftDelete: this.isShowDataRecycle,
         })
         .then((response) => {
-          this.meta = response.meta
+          this.meta = response.meta;
           this.$closeLoader();
           this.data = response.data.entities;
           this.records = response.data.entities.data;
@@ -885,10 +904,10 @@ export default {
         console.error(error);
       }
     },
-    deleteRecord() {
+    deleteRestoreDataSoftDelete(id) {
       this.$openLoader();
       this.$api.badasoEntity
-        .delete({
+        .restore({
           slug: this.$route.params.slug,
           data: [
             {
@@ -913,11 +932,71 @@ export default {
           });
         });
     },
+    deleteRecord() {
+      this.$openLoader();
+      this.$api.badasoEntity
+        .delete({
+          slug: this.$route.params.slug,
+          data: [
+            {
+              field: "id",
+              value: this.willDeleteId,
+            },
+          ],
+          isHardDelete : true,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getEntity();
+        })
+        .catch((error) => {
+          this.loadIdsOfflineDelete();
+
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
     deleteRecords() {
       const ids = this.selected.map((item) => item.id);
       this.$openLoader();
       this.$api.badasoEntity
         .deleteMultiple({
+          slug: this.$route.params.slug,
+          data: [
+            {
+              field: "ids",
+              value: ids.join(","),
+            },
+          ],
+          isHardDelete : true,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getEntity();
+        })
+        .catch((error) => {
+          this.selected = [];
+          this.loadIdsOfflineDelete();
+
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    restoreRecords() {
+      const ids = this.selected.map((item) => item.id);
+      this.$openLoader();
+      this.$api.badasoEntity
+        .restoreMultiple({
           slug: this.$route.params.slug,
           data: [
             {
@@ -1119,9 +1198,6 @@ export default {
         console.error(error);
       }
     },
-    async onSwitchChangeDataShow() {
-      await this.getEntity();
-    },
   },
   computed: {
     isOnline: {
@@ -1133,3 +1209,20 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.flex-direction-column {
+  flex-direction: column;
+}
+
+.align-items-center {
+  align-items: center;
+}
+</style>

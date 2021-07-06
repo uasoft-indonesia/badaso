@@ -13,7 +13,7 @@
     <vs-col vs-lg="6" vs-md="12" vs-sm="12">
       <div class="badaso-breadcrumb-hover__container--right">
         <badaso-dropdown>
-          <vs-button type="relief">Action</vs-button>
+          <vs-button type="relief" v-if="visibleButtonAction">Action</vs-button>
           <vs-dropdown-menu>
             <slot name="action" />
           </vs-dropdown-menu>
@@ -38,6 +38,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    visibleButtonAction : {
+      type : Boolean,
+      default : true,
+    }
   },
   computed: {},
   mounted() {
