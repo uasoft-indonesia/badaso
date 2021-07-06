@@ -6,7 +6,7 @@
       :vs-lg="col"
       vs-xs="12"
     >
-      <vs-card class="widget--content">
+      <vs-card class="widget__content">
         <div class="widget__icon-container">
           <vs-icon v-if="data.icon" class="widget__icon" :icon="data.icon"></vs-icon>
           <h4 class="mb-1">{{ data.value }}</h4>
@@ -79,7 +79,7 @@ export default {
 
 <style lang="scss">
 .widget {
-  &--content {
+  &__content {
     position: relative;
   }
   &__icon {
