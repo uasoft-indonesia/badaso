@@ -12,7 +12,7 @@
           <iframe
             v-if="isShow"
             :src="urlIframe"
-            style="width: 100%; height: 700px; overflow: hidden; border: none;"
+            class="file-manager__iframe"
           />
           <div v-else>
             {{ message }}

@@ -1,0 +1,54 @@
+.badaso-time {
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__time-container {
+    display: flex;
+  }
+
+  &__time-icon {
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    padding-left: 3px;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 1rem;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  &__time-icon-box {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: unset;
+    display: grid;
+    padding: 0.4rem;
+  }
+
+  &__input {
+    width: -webkit-fill-available;
+
+    .vdatetime-input {
+      width: 100%;
+      padding: 0.4rem;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    & .vdatetime-overlay {
+      z-index: 25000;
+    }
+
+    & .vdatetime-popup {
+      z-index: 26000;
+    }
+
+    &--error {
+      display: block;
+      color: $danger !important;
+    }
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: .85rem;
+    color: rgba(0,0,0,.7);
+  }
+}

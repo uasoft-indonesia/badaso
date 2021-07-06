@@ -20,16 +20,16 @@
               </badaso-text>
             </vs-col>
             <vs-col vs-lg="12">
-              <div v-if="$v.databaseData.table.$dirty" class="d-inline-grid">
-                <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.table.required" >
+              <div v-if="$v.databaseData.table.$dirty">
+                <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.table.required" >
                   {{ $t("database.add.row.field.tableName") }}
                 </i18n>
 
-                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator" >
+                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator" >
                   {{ $t("database.add.row.field.tableName") }}
                 </i18n>
 
-                <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.table.maxLength" >
+                <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.table.maxLength" >
                   <template v-slot:field>
                     {{ $t("database.add.row.field.tableName") }}
                   </template>
@@ -46,7 +46,7 @@
         <vs-card>
           <div slot="header">
             <h3>{{ $t("database.add.row.title") }}</h3>
-            <span style="color: rgba(var(--vs-danger), 1)">
+            <span class="is-error">
               <i18n path="database.warning.docs">
                 <a
                   target="_blank"
@@ -57,34 +57,34 @@
             </span>
           </div>
           <vs-row vs-justify="center" vs-align="center">
-            <vs-col col-lg="12" style="overflow-x: auto">
+            <vs-col col-lg="12">
               <vs-table :data="databaseData.rows">
                 <template slot="thead">
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldName") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldType") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldLength") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldNull") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldAttribute") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldIncrement") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldIndex") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldDefault") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap"></vs-th>
+                  <vs-th class="badaso-table__no-wrap"></vs-th>
                 </template>
                 <template slot-scope="{ data }">
                   <template v-for="(tr, indextr) in data">
@@ -94,16 +94,14 @@
                           type="text"
                           required
                           v-model="tr.fieldName"
-                          class="inputx"
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldType">
                         <vs-select
-                          class="selectExample"
+                          class="database-management__field-type"
                           v-model="tr.fieldType"
-                          style="width: 100%"
                           :disabled="tr.undeletable"
                         >
                           <div
@@ -130,7 +128,6 @@
                           type="text"
                           required
                           v-model="tr.fieldLength"
-                          class="inputx"
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
@@ -149,9 +146,8 @@
 
                       <vs-td :data="tr.fieldIndex">
                         <vs-select
-                          class="selectExample"
+                          class="database-management__field-index"
                           v-model="tr.fieldIndex"
-                          style="width: 100%"
                           :disabled="tr.undeletable"
                         >
                           <vs-select-item
@@ -167,7 +163,6 @@
                         <vs-input
                           type="text"
                           v-model="tr.fieldDefault"
-                          class="inputx"
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
@@ -190,12 +185,12 @@
                       <!-- FIELD NAME -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.rows.$each[indextr].fieldName.required" >
+                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.required" >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- maxLength -->
-                        <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.rows.$each[indextr].fieldName.maxLength" >
+                        <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.maxLength" >
                           <template v-slot:field>
                             {{ $t("database.add.row.field.fieldName") }}
                           </template>
@@ -205,12 +200,12 @@
                         </i18n>
 
                         <!-- alphaNumAndUnderscoreValidator -->
-                        <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.rows.$each[indextr].fieldName.alphaNumAndUnderscoreValidator" >
+                        <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.alphaNumAndUnderscoreValidator" >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- unique -->
-                        <i18n path="vuelidate.unique" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.rows.$each[indextr].fieldName.unique" >
+                        <i18n path="vuelidate.unique" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.unique" >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
                       </vs-td>
@@ -218,7 +213,7 @@
                       <!-- FIELD TYPE -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.rows.$each[indextr].fieldType.required" >
+                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldType.required" >
                           {{ $t("database.add.row.field.fieldType") }}
                         </i18n>
                       </vs-td>
@@ -226,7 +221,7 @@
                       <!-- FIELD LENGTH -->
                       <vs-td>
                         <!-- requiredIf -->
-                        <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.rows.$each[indextr].fieldLength.required" >
+                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldLength.required" >
                           {{ $t("database.add.row.field.fieldLength") }}
                         </i18n>
                       </vs-td>
@@ -267,11 +262,10 @@
               vs-lg="10"
               vs-align="center"
               v-if="$v.databaseData.rows.$dirty"
-              class="d-inline-grid"
             >
               <i18n
                 path="vuelidate.rowsRequired"
-                style="color: rgba(var(--vs-danger), 1)"
+                class="is-error"
                 v-if="!$v.databaseData.rows.required"
               >
               </i18n>
@@ -570,9 +564,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.drag_icon:hover {
-  cursor: all-scroll;
-}
-</style>

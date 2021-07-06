@@ -2,7 +2,7 @@
   <button
     ref="dropdown"
     v-bind="$attrs"
-    class="vs-con-dropdown parent-dropdown"
+    class="badaso-dropdown__container"
     type="button"
     @click.stop
     v-on="listeners"

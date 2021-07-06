@@ -1,0 +1,12 @@
+.badaso-dropdown {
+  &__container {
+    position: relative;
+    display: inline-block;
+    border: 0;
+    background: transparent;
+
+    & * {
+      pointer-events: none;
+    }
+  }
+}

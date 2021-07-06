@@ -1,54 +1,44 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <vs-input
-      :label="label"
-      :placeholder="placeholder"
-      @click="showOverlay"
-      v-on:keyup.space="showOverlay"
-      readonly
-      v-model="filesName"
-      icon="attach_file"
-      icon-after="true"
-    ></vs-input>
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-upload-file-multiple__container">
+    <vs-input :label="label" :placeholder="placeholder" @click="showOverlay" v-on:keyup.space="showOverlay" readonly v-model="filesName" icon="attach_file" icon-after="true" />
     <vs-row>
-      <vs-col vs-lg="4" vs-sm="12" v-for="(fileData, index) in value" :key="index" style="float: left" >
-        <div class="file-container">
-          <vs-button
-            class="delete-file"
-            color="danger"
-            icon="close"
-            @click="deleteFilePicked(fileData)"
-          ></vs-button>
-          <div class="file">
-            <a target="_blank" :href="`${$api.badasoFile.download(fileData)}`" >{{ fileData.split("/").reverse()[0] }}</a >
+      <vs-col vs-lg="4" vs-sm="12" v-for="(fileData, index) in value" :key="index">
+        <div class="badaso-upload-file-multiple__preview">
+          <vs-button class="badaso-upload-file-multiple__remove-button" color="danger" icon="close" @click="deleteFilePicked(fileData)" />
+          <div class="badaso-upload-file-multiple__preview-text">
+            <a target="_blank" :href="`${$api.badasoFile.download(fileData)}`" >{{ fileData.split("/").reverse()[0] }}</a>
           </div>
         </div>
       </vs-col>
     </vs-row>
-    <div class="badaso-popup-dialog" tabindex="0" v-if="show">
-      <div class="badaso-popup-container">
-        <div class="top">
+    <div class="badaso-upload-file-multiple__popup-dialog" tabindex="0" v-if="show">
+      <div class="badaso-upload-file-multiple__popup-container">
+        <div class="badaso-upload-file-multiple__popup--top-bar">
           <h3>{{ $t('fileManager.title') }}</h3>
           <vs-spacer />
-          <vs-button color="danger" type="relief" class="mr-2" v-if="getSelected !== 'url' && isFileSelected" @click="openDialog">
+          <vs-button color="danger" type="relief" class="badaso-upload-file-multiple__popup-button--delete" v-if="getSelected !== 'url' && isFileSelected" @click="openDialog">
             <vs-icon icon="delete"></vs-icon>
           </vs-button>
         </div>
-        <ul class="left">
-          <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">Private</li>
-          <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">Shares</li>
+        <ul class="badaso-upload-file-multiple__popup--left-bar">
+          <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">
+            Private
+          </li>
+          <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">
+            Shares
+          </li>
         </ul>
-        <div class="right">
-          <div class="add-image" @click="pickFile">
+        <div class="badaso-upload-file-multiple__popup--right-bar">
+          <div class="badaso-upload-file-multiple__popup-add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <div :class="[activeFile.includes(index) ? 'active' : '', 'files']" v-for="(item, index) in files.items" :key="index" @click="selectFile(index)">
+          <div :class="[activeFile.includes(index) ? 'active' : '', 'badaso-upload-file-multiple__popup-file']" v-for="(item, index) in files.items" :key="index" @click="selectFile(index)">
             <vs-icon icon="insert_drive_file" size="45px" color="#06bbd3"></vs-icon>
-            <p>{{ item.name }}</p>
+            <p class="badaso-upload-file-multiple__popup-file-text">{{ item.name }}</p>
           </div>
         </div>
-        <div class="bottom">
-          <div class="close-button">
+        <div class="badaso-upload-file-multiple__popup--bottom-bar">
+          <div class="badaso-upload-file-multiple__popup-button--footer">
             <vs-button color="primary" type="relief" @click="emitInput" :disabled="isSubmitDisable">
               {{ $t('button.submit') }}
             </vs-button>
@@ -59,32 +49,27 @@
         </div>
       </div>
     </div>
-    <input
-      type="file"
-      style="display: none"
-      ref="file"
-      @change="onFilePicked"
-      multiple
-    />
+    <input type="file" class="badaso-upload-file-multiple__input--hidden" ref="file" @change="onFilePicked" multiple />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p
-          class="text-danger"
-          v-for="(info, index) in alert"
-          :key="index"
-          v-html="info + '<br />'"
-        ></p>
+        <span class="badaso-upload-file-multiple__input--error" v-for="(info, index) in alert" :key="index" >
+          {{ info }}
+        </span>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-upload-file-multiple__input--error" v-html="alert"></span>
       </div>
     </div>
-    <vs-popup :title="$t('action.delete.title')" :active.sync="dialog" style="z-index: 26000;">
+    <vs-popup :title="$t('action.delete.title')" :active.sync="dialog" class="badaso-upload-file-multiple__popup-dialog--delete">
       <p>{{ $t('action.delete.text') }}</p>
-      <div style="float: right">
-        <vs-button color="primary" type="relief" @click="dialog = false">{{ $t('action.delete.cancel') }}</vs-button>
-        <vs-button color="danger" type="relief" @click="deleteFile">{{ $t('action.delete.accept') }}</vs-button>
+      <div class="badaso-upload-file-multiple__popup-dialog-content--delete">
+        <vs-button color="primary" type="relief" @click="dialog = false">
+          {{ $t('action.delete.cancel') }}
+        </vs-button>
+        <vs-button color="danger" type="relief" @click="deleteFile">
+          {{ $t('action.delete.accept') }}
+        </vs-button>
       </div>
     </vs-popup>
   </vs-col>
@@ -203,7 +188,7 @@ export default {
     },
     closeOverlay() {
       this.show = false
-      document.body.style.setProperty('position', 'relative')
+      document.body.style.removeProperty('position')
     },
     onFilePicked(e) {
       let files = e.target.files;
@@ -220,28 +205,31 @@ export default {
       const files = new FormData()
       files.append('upload', this.files)
       files.append('working_dir', this.getSelectedFolder)
-      this.$api.badasoFile.uploadUsingLfm(files)
-      .then(res => {
-        this.getFiles()
-      }).catch(error => {
-        console.error(error);
-      })
+      this.$api.badasoFile
+        .uploadUsingLfm(files)
+        .then(res => {
+          this.getFiles()
+        })
+        .catch(error => {
+          console.error(error);
+        })
     },
     getFiles() {
       this.files.items = []
       if (this.getSelectedFolder) {
-        this.$api.badasoFile.browseUsingLfm({
-          workingDir: this.getSelectedFolder
-        })
-        .then(res => {
-          this.files = res.data
-          this.files.items = res.data.items.filter(val => {
-            return val.thumbUrl === null
+        this.$api.badasoFile
+          .browseUsingLfm({
+            workingDir: this.getSelectedFolder
           })
-        })
-        .catch(error => {
-          console.log(error);
-        })
+          .then(res => {
+            this.files = res.data
+            this.files.items = res.data.items.filter(val => {
+              return val.thumbUrl === null
+            })
+          })
+          .catch(error => {
+            console.log(error);
+          })
       }
     },
     emitInput() {
@@ -254,16 +242,17 @@ export default {
       this.closeOverlay()
     },
     deleteFile() {
-      this.$api.badasoFile.deleteUsingLfm({
-        workingDir: this.getSelectedFolder,
-        'items[]': this.files.items[this.activeFile].name
-      })
-      .then(res => {
-        this.getFiles()
-      })
-      .catch(error => {
-        console.log(error);
-      })
+      this.$api.badasoFile
+        .deleteUsingLfm({
+          workingDir: this.getSelectedFolder,
+          'items[]': this.files.items[this.activeFile].name
+        })
+        .then(res => {
+          this.getFiles()
+        })
+        .catch(error => {
+          console.log(error);
+        })
 
       this.activeFile = []
       this.dialog = false
@@ -296,36 +285,3 @@ export default {
   },
 };
 </script>
-<style>
-.file-container {
-  width: 100%;
-  height: 150px;
-  border: solid 1px #dedede;
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
-  margin-top: 10px;
-  overflow: hidden;
-  position: relative;
-}
-
-.file {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  text-align: center;
-  width: 100%;
-}
-
-.delete-file {
-  opacity: 0;
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  transition: all 0.2s ease;
-}
-
-.file-container:hover .delete-file {
-  opacity: 1;
-}
-</style>

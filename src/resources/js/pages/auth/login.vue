@@ -1,6 +1,6 @@
 <template>
-  <vs-col vs-lg="12" class="login-register-box">
-    <vs-card class="mb-0">
+  <vs-col vs-lg="12" class="main-container__box--auth">
+    <vs-card class="main-container__card--auth">
       <badaso-auth-card-header slot="header">{{
         $t("login.title")
       }}</badaso-auth-card-header>
@@ -12,19 +12,16 @@
             size="default"
             :placeholder="$t('login.field.email')"
             v-model="email"
-            class="w-100 mt-2 "
+            class="login__input"
           />
-          <div v-if="errors.email" class="mb-4">
+          <div v-if="errors.email" class="login__error-container">
             <div v-if="$helper.isArray(errors.email)">
-              <span
-                class="text-danger"
-                v-for="(info, index) in errors.email"
-                :key="index"
-                v-html="info + '<br />'"
-              ></span>
+              <span class="login__input--error" v-for="(info, index) in errors.email" :key="index" >
+                {{ info }}
+              </span>
             </div>
             <div v-else>
-              <span class="text-danger" v-html="errors.email"></span>
+              <span class="login__input--error" v-html="errors.email"></span>
             </div>
           </div>
           <vs-input
@@ -34,27 +31,22 @@
             size="default"
             :placeholder="$t('login.field.password')"
             v-model="password"
-            class="w-100 mt-2 "
+            class="login__input"
             @keyup.enter="login()"
           />
-          <div v-if="errors.password" class="mb-4">
+          <div v-if="errors.password" class="login__error-container">
             <div v-if="$helper.isArray(errors.password)">
-              <span
-                class="text-danger"
-                v-for="(info, index) in errors.password"
-                :key="index"
-                v-html="info"
-              ></span>
+              <span class="login__input--error" v-for="(info, index) in errors.password" :key="index">
+                {{ info }}
+              </span>
             </div>
             <div v-else>
-              <span class="text-danger" v-html="errors.password"></span>
+              <span class="login__input--error" v-html="errors.password"></span>
             </div>
           </div>
 
-          <div class="d-flex pt-3 pb-3">
-            <div
-              class="vs-component con-vs-checkbox vs-checkbox-primary vs-checkbox-default"
-            >
+          <div class="login__footer">
+            <div class="vs-component con-vs-checkbox vs-checkbox-primary vs-checkbox-default">
               <input
                 type="checkbox"
                 class="vs-checkbox--input"
@@ -72,15 +64,15 @@
             </div>
             <router-link
               :to="'/' + baseUrl + '/forgot-password'"
-              class="ml-auto"
+              class="login__forgot-password"
               >{{ $t("login.forgotPassword") }}</router-link
             >
           </div>
-          <vs-button type="relief" class="btn-block" @click="login()">{{
+          <vs-button type="relief" class="login__button" @click="login()">{{
             $t("login.button")
           }}</vs-button>
         </form>
-        <div class="d-flex justify-content-center mt-3">
+        <div class="login__register-link">
           {{ $t("login.createAccount.text") }} &nbsp;
           <router-link :to="'/' + baseUrl + '/register'">{{
             $t("login.createAccount.link")

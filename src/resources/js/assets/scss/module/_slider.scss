@@ -1,0 +1,24 @@
+.badaso-slider {
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  &__input {
+    .con-vs-slider {
+      z-index: 1;
+    }
+    .vs-slider--circle {
+      z-index: 2;
+    }
+    &--error {
+      color: $danger;
+      display: block;
+    }
+  }
+}

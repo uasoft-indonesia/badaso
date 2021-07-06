@@ -1,5 +1,5 @@
 <template>
-  <vs-row style="display: block;">
+  <vs-row>
     <vs-col
       v-for="(data, index) in dashboardData"
       :key="index"

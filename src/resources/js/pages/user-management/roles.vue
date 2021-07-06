@@ -18,14 +18,14 @@
             <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                 <vs-td
-                  style="width: 1%"
+                  class="badaso-table__td"
                   v-if="$helper.isAllowed('add_or_edit_user_role')"
                 >
                   <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
                 <vs-td
                   :data="data[indextr].displayName"
-                  style="width: 1%; white-space: nowrap"
+                  class="badaso-table__td"
                 >
                   {{ data[indextr].displayName }}
                 </vs-td>

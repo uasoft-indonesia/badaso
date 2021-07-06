@@ -1,0 +1,14 @@
+.page-not-found {
+  &__title {
+    margin-bottom: 0.25rem !important;
+  }
+
+  &__subtitle {
+    margin-bottom: 0 !important;
+  }
+
+  &__button {
+    display: block;
+    width: 100%;
+  }
+}

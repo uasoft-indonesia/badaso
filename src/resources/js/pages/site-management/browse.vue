@@ -23,7 +23,7 @@
               :label="group.label"
             >
               <vs-row
-                style="padding-top: 20px;"
+                class="site-management__container"
                 v-for="(config, index) in filterConfigurations(group.value)"
                 :key="index"
               >

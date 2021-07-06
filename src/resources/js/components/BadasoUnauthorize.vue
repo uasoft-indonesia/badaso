@@ -2,22 +2,22 @@
   <vs-popup
     :title="$t('authorizationIssue.title')"
     :active.sync="unauthorize"
-    style="z-index: 26000"
+    class="badaso-unauthorize__container"
   >
     <vs-row>
       <vs-col>
         <p>
           {{ $t("authorizationIssue.subtitle") }}
         </p>
-				<p>
-        <h3 style="text-align: center;">
-          {{ $t("authorizationIssue.message") }}
-        </h3>
-				</p>
+				<div>
+          <h3 class="badaso-unauthorize__message">
+            {{ $t("authorizationIssue.message") }}
+          </h3>
+				</div>
       </vs-col>
     </vs-row>
 		<vs-row>
-			<vs-col style="text-align: center">
+			<vs-col class="badaso-unauthorize__button">
 				<vs-button type="relief" @click="login()">{{
             $t("login.button")
           }}</vs-button>
