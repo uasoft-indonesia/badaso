@@ -21,6 +21,7 @@ class RoleWidget implements WidgetInterface
     {
         return [
             'label' => 'Role',
+            'icon' => 'accessibility',
             'value' => Role::count(),
         ];
     }
