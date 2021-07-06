@@ -1,0 +1,35 @@
+.register {
+  &__input {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+
+    &--error {
+      color: $danger;
+      display: block;
+    }
+  }
+
+  &__error-container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__footer {
+    display: flex;
+    margin: 1rem 0;
+  }
+
+  &__forgot-password {
+    margin-left: auto;
+  }
+
+  &__button {
+    width: 100%;
+    display: block;
+  }
+
+  &__login-link {
+    margin-top: 1rem !important;
+    display: flex;
+    justify-content: center;
+  }
+}

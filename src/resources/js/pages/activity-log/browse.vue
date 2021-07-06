@@ -87,7 +87,7 @@
                   <vs-td :data="record.createdAt">
                     {{ $helper.formatDate(record.createdAt) }}
                   </vs-td>
-                  <vs-td style="width: 1%; white-space: nowrap">
+                  <vs-td style="" class="activity-log__dropdown-button">
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"

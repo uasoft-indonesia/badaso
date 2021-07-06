@@ -1,0 +1,16 @@
+.badaso-footer {
+  &__container {
+    width: calc(100% + 35px);
+    background-color: $footer-bg;
+    padding: 15px;
+    text-align: right;
+    z-index: 100000;
+    margin-left: -20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__version {
+    text-align: left;
+  }
+}

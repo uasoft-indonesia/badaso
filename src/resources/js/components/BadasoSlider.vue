@@ -1,24 +1,19 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
-    <vs-slider
-      :min="min"
-      :max="max"
-      :value="value"
-      @input="handleInput($event)"
-    />
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-slider__container">
+    <label v-if="label != ''" for="" class="badaso-slider__label">{{ label }}</label>
+    <vs-slider class="badaso-slider__input" :min="min" :max="max" :value="value" @input="handleInput($event)" />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p
-          class="text-danger"
+        <span
+          class="badaso-slider__input--error"
           v-for="(info, index) in alert"
           :key="index"
           v-html="info + '<br />'"
-        ></p>
+        ></span>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-slider__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -70,12 +65,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.con-vs-slider {
-  z-index: 1;
-}
-.vs-slider--circle {
-  z-index: 2;
-}
-</style>

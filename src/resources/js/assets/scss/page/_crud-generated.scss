@@ -1,0 +1,41 @@
+.crud-generated {
+  &__excel-button {
+    display: contents;
+  }
+
+  &__errors {
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    width: 1%;
+    white-space: nowrap
+  }
+
+  &__draggable {
+    width: 1%;
+  }
+
+  &__item {
+    &--upload-image-multiple {
+      width: 100%;
+    }
+
+    &--upload-file-multiple {
+      width: 100%;
+    }
+
+    &--select-multiple {
+      width: 100%;
+    }
+
+    &--color-picker {
+      width: 100%;
+      height: 14px;
+    }
+
+    &--image {
+      margin-bottom: 10px;
+    }
+  }
+}

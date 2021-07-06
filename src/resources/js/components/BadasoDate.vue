@@ -1,30 +1,27 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
-    <div class="datetime-box">
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-date__container">
+    <label v-if="label != ''" for="" class="badaso-date__label">{{ label }}</label>
+    <div class="badaso-date__date-container">
       <datetime
         :label="label"
         type="date"
         :value="value"
-        class="datetime-input"
+        class="badaso-date__input"
         @input="handleInput($event)"
       ></datetime>
-      <div class="datetime-icon-box">
-      <vs-icon icon="calendar_today" class="datetime-icon"></vs-icon>
+      <div class="badaso-date__date-icon-box">
+      <vs-icon icon="calendar_today" class="badaso-date__date-icon"></vs-icon>
       </div>
     </div>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p
-          class="text-danger"
-          v-for="(info, index) in alert"
-          :key="index"
-          v-html="info + '<br />'"
-        ></p>
+        <span class="badaso-date__input--error" v-for="(info, index) in alert" :key="index" >
+          {{ info }}
+        </span>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-date__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>

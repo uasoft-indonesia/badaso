@@ -1,27 +1,22 @@
 <template>
-  <div
-    :class="{'vs-sidebar-group-open' : openItems}"
-    class="vs-sidebar-group"
-    @mouseover="mouseover"
-    @mouseout="mouseout">
-    <div style="display: flex">
-    <vs-icon style="padding-top: 10px; font-size: 1rem; margin-left: 18px;"
-        v-if="icon"
-        :icon-pack="iconPack"
-        :icon="icon">
-    </vs-icon>
-    <h4 @click="clickGroup" v-if="icon"  style="text-align: left;" class="hide-in-minisidebar">
-    <vs-icon style="font-size: 1rem;">keyboard_arrow_down</vs-icon>
-        {{ title }} </br>
-        {{ subTitle }} 
-    </h4>
-    <h4 @click="clickGroup" v-else style="text-align: left;">
-    <vs-icon  style="font-size: 1rem;">keyboard_arrow_down</vs-icon>
-        {{ title }} 
-        </br>
-        {{ subTitle }} 
-    </h4>
-    <span class="vs-sidebar--tooltip">{{ title }}</span>
+  <div :class="{'vs-sidebar-group-open' : openItems}" class="vs-sidebar-group" @mouseover="mouseover" @mouseout="mouseout">
+    <div class="badaso-sidebar-group__container">
+      <vs-icon class="badaso-sidebar-group__icon--user" v-if="icon" :icon-pack="iconPack" :icon="icon" />
+      <h4 @click="clickGroup" v-if="icon" class="hide-in-minisidebar badaso-sidebar-group__item-group">
+        <vs-icon class="badaso-sidebar-group__icon--arrow" icon="keyboard_arrow_down" />
+        <div>
+          <span class="badaso-sidebar-group__text">{{ title }}</span>
+          <span class="badaso-sidebar-group__text">{{ subTitle }}</span>
+        </div>
+      </h4>
+      <h4 @click="clickGroup" v-else class="badaso-sidebar-group__item-group">
+        <vs-icon  class="badaso-sidebar-group__icon--arrow" icon="keyboard_arrow_down" />
+        <div>
+          <span class="badaso-sidebar-group__text">{{ title }}</span>
+          <span class="badaso-sidebar-group__text">{{ subTitle }}</span>
+        </div>
+      </h4>
+      <span class="vs-sidebar--tooltip">{{ title }}</span>
     </div>
     <ul
       ref="items"

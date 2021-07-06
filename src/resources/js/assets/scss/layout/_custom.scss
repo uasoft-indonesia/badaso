@@ -30,12 +30,6 @@
   margin-bottom: auto;
 }
 
-.themelogo {
-  img {
-    height: 30px;
-  }
-}
-
 .hide-for-mobile {
   display: flex !important;
   @media only screen and (max-width: 768px) {
@@ -48,17 +42,6 @@
   @media only screen and (max-width: 768px) {
     display: flex !important;
   }
-}
-
-.footer {
-  width: calc(100% + 35px);
-  background-color: $footer-bg;
-  padding: 15px;
-  text-align: right;
-  z-index: 100000;
-  margin-left: -20px;
-  display: flex;
-  justify-content: space-between;
 }
 
 .w-100 {
@@ -76,12 +59,6 @@ a {
 .badaso-loader {
   .vs-dialog {
     max-width: 300px;
-  }
-}
-
-.action-card {
-  .vs-row {
-    margin-bottom: 0;
   }
 }
 .w-unset {

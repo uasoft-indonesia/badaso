@@ -1,0 +1,38 @@
+.badaso-checkbox {
+  &__checkbox {
+    justify-content: flex-start !important;
+    &--error {
+      display: block;
+      color: $danger !important;
+    }
+  }
+
+  &__label {
+    font-size: .85rem;
+    color: rgba(0,0,0,.7);
+    padding-left: 5px;
+  }
+
+  &__list {
+    margin-bottom: 0 !important;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  &__list-item {
+    margin-bottom: 1rem !important;
+    display: inline-block;
+
+    &:not(:last-child) {
+      margin-right: 0.5rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+}

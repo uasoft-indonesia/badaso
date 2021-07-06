@@ -1,0 +1,26 @@
+.badaso-breadcrumb-hover {
+  &__container {
+    margin-bottom: 1rem;
+
+    &--right {
+      float: right
+    }
+  }
+
+  &__icon {
+    cursor: pointer;
+    float: left;
+    padding-top: 0.6rem;
+  }
+
+  &__separator {
+    color: rgba(0,0,0,.4);
+    padding: 0 .5rem 0 .5rem;
+  }
+
+  &__list {
+    & > ol {
+      margin-bottom: 0;
+    }
+  }
+}
