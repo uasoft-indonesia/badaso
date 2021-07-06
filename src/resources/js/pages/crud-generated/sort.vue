@@ -16,13 +16,13 @@
             </div>
             <vs-row>
               <vs-col vs-lg="12">
-                <table class="table table-striped">
+                <table class="badaso-table badaso-table__striped">
                   <draggable v-model="data" tag="tbody" @change="sortData">
                     <tr :key="index" v-for="(field, index) in data">
-                      <td style="width: 1%">
+                      <td class="crud-generated__draggable">
                         <vs-icon
                           icon="drag_indicator"
-                          class="drag_icon"
+                          class="is-draggable"
                         ></vs-icon>
                       </td>
                       <td
@@ -72,10 +72,9 @@
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
-          <div class="flex flex-direction-column justify-content-center align-items-center" >
-            <img src="/badaso-images/maintenance.png" alt="Maintenance Icon">
-
-            <h1 class="mt-4 text-center">We are under <br>maintenance</h1>
+          <div class="badaso-maintenance__container">
+            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -147,20 +146,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.flex {
-  display: flex;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.flex-direction-column {
-  flex-direction: column;
-}
-
-.align-items-center {
-  align-items: center;
-}
-</style>

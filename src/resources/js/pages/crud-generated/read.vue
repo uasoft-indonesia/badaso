@@ -35,10 +35,10 @@
                 :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
                 v-if="dataRow.read"
               >
-                <table class="table">
+                <table class="badaso-table">
                   <tr>
-                    <td class="display-label">{{ dataRow.displayName }}</td>
-                    <td class="display-value">
+                    <td class="badaso-table__label">{{ dataRow.displayName }}</td>
+                    <td class="badaso-table__value">
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
@@ -47,7 +47,7 @@
                       />
                       <div
                         v-else-if="dataRow.type === 'upload_image_multiple'"
-                        style="width: 100%;"
+                        class="crud-generated__item--upload-image-multiple"
                       >
                         <img
                           v-for="(image, indexImage) in stringToArray(
@@ -57,7 +57,7 @@
                           :src="meta.mediaBaseUrl + image"
                           width="100%"
                           alt=""
-                          style="margin-bottom: 10px;"
+                          class="crud-generated__item--image"
                         />
                       </div>
                       <span
@@ -90,7 +90,7 @@
                       >
                       <div
                         v-else-if="dataRow.type === 'upload_file_multiple'"
-                        style="width: 100%;"
+                        class="crud-generated__item--upload-file-multiple"
                       >
                         <p
                           v-for="(file, indexFile) in stringToArray(
@@ -122,7 +122,7 @@
                           dataRow.type === 'select_multiple' ||
                             dataRow.type === 'checkbox'
                         "
-                        style="width: 100%"
+                        class="crud-generated__item--select-multiple"
                       >
                         <p
                           v-for="(selected, indexSelected) in stringToArray(
@@ -135,8 +135,9 @@
                       </div>
                       <div v-else-if="dataRow.type === 'color_picker'">
                         <div
+                          class="crud-generated__item--color-picker"
                           :style="
-                            `width: 100%; height: 14px; background-color: ${
+                            `background-color: ${
                               record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
@@ -185,10 +186,9 @@
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
-          <div class="flex flex-direction-column justify-content-center align-items-center" >
-            <img src="/badaso-images/maintenance.png" alt="Maintenance Icon">
-
-            <h1 class="mt-4 text-center">We are under <br>maintenance</h1>
+          <div class="badaso-maintenance__container">
+            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -291,30 +291,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.display-label {
-  width: 30%;
-  font-weight: bold;
-}
-.display-value {
-  widows: 70%;
-}
-</style>
-<style lang="scss" scoped>
-.flex {
-  display: flex;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.flex-direction-column {
-  flex-direction: column;
-}
-
-.align-items-center {
-  align-items: center;
-}
-</style>

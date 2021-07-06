@@ -1,0 +1,12 @@
+.activity-log {
+  &__dropdown-button {
+    width: 1%;
+    white-space: nowrap
+  }
+
+  &__text {
+    &--capitalize {
+      text-transform: capitalize;
+    }
+  }
+}

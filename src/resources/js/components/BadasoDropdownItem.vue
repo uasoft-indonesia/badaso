@@ -1,62 +1,33 @@
 <template>
-  <li
-    :class="{ divider: divider }"
-    :style="{
-      color: hoverx ? giveColor() + ' !important' : null,
-      background: hoverx ? giveColor(0.01) + ' !important' : null,
-    }"
-    class="vs-component vs-dropdown--item"
-    @click="closeParent"
-    @mouseover="hoverx = true"
-    @mouseout="hoverx = false"
-  >
-    <router-link
-      v-if="to"
-      :to="to"
-      v-bind="$attrs"
-      :class="{ disabled: disabled }"
-      class="vs-dropdown--item-link"
-      v-on="$listeners"
-    >
+  <li :class="{ divider: divider }" :style="{ color: hoverx ? giveColor() + ' !important' : null, background: hoverx ? giveColor(0.01) + ' !important' : null, }" class="badaso-dropdown-item__container" @click="closeParent" @mouseover="hoverx = true" @mouseout="hoverx = false" >
+    <router-link v-if="to" :to="to" v-bind="$attrs" :class="{ disabled: disabled }" class="badaso-dropdown-item__item--link" v-on="$listeners" >
       {{ $attrs.disabled }}
-      <div style="display: flex;">
+      <div class="badaso-dropdown-item__item">
         <div>
           <vs-icon
             v-if="icon"
             :icon-pack="iconPack"
             :icon="icon"
-            class="vs-button--icon"
-            style="font-size: 1rem"
+            class="badaso-dropdown-item__item--icon"
           ></vs-icon>
         </div>
-        <div
-          style="margin-top: auto; margin-bottom: auto; margin-left: 10px; white-space: nowrap;"
-        >
+        <div class="badaso-dropdown-item__item--text">
           <slot />
         </div>
       </div>
     </router-link>
 
-    <a
-      v-else
-      v-bind="$attrs"
-      :class="{ disabled: disabled }"
-      class="vs-dropdown--item-link"
-      v-on="$listeners"
-    >
-      <div style="display: flex;">
+    <a v-else v-bind="$attrs" :class="{ disabled: disabled }" class="badaso-dropdown-item__item--link" v-on="$listeners">
+      <div class="badaso-dropdown-item__item">
         <div>
           <vs-icon
             v-if="icon"
             :icon-pack="iconPack"
             :icon="icon"
-            class="vs-button--icon"
-            style="font-size: 1rem"
+            class="badaso-dropdown-item__item--icon"
           ></vs-icon>
         </div>
-        <div
-          style="margin-top: auto; margin-bottom: auto; margin-left: 10px; white-space: nowrap;"
-        >
+        <div class="badaso-dropdown-item__item--text">
           <slot />
         </div>
       </div>

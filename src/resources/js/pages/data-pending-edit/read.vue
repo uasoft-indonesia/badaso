@@ -11,16 +11,16 @@
           </div>
           <vs-row>
             <vs-col>
-              <table class="table">
+              <table class="badaso-table">
                 <tr
                   v-for="(item, index) in itemDataStore"
                   :data="item"
                   :key="index"
                 >
-                  <td class="display-label">
+                  <td class="badaso-table__label">
                     {{ $helper.generateDisplayName(item.field) }}
                   </td>
-                  <td class="display-value">{{ item.value }}</td>
+                  <td class="badaso-table__value">{{ item.value }}</td>
                 </tr>
               </table>
             </vs-col>
@@ -80,13 +80,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.display-label {
-  width: 30%;
-  font-weight: bold;
-}
-.display-value {
-  widows: 70%;
-}
-</style>

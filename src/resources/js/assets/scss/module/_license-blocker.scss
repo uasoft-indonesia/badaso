@@ -1,0 +1,20 @@
+.badaso-license-blocker {
+  &__container {
+    z-index: 26000;
+
+    & .vs-dialog {
+      width: 100%;
+      height: 95%;
+      margin: 20px;
+      max-width: unset;
+    }
+
+    & .vs-dialog-cancel  {
+      display: none;
+    }
+  }
+
+  &__title {
+    text-align: center;
+  }
+}

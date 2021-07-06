@@ -55,7 +55,7 @@
                   <vs-td :data="data[indextr].email">
                     {{ data[indextr].email }}
                   </vs-td>
-                  <vs-td style="width: 1%; white-space: nowrap">
+                  <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"

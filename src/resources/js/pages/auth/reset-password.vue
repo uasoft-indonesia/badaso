@@ -1,19 +1,10 @@
 <template>
-  <vs-col
-    vs-lg="12"
-    class="login-register-box"
-    style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
-  >
-    <vs-alert
-      :active="res.active"
-      :color="res.status"
-      :icon="res.icon"
-      class="mb-2"
-    >
+  <vs-col vs-lg="12" class="main-container__box--auth">
+    <vs-alert :active="res.active" :color="res.status" :icon="res.icon" class="main-container__alert--auth">
       <span>{{ res.message }}</span>
     </vs-alert>
 
-    <vs-card class="mb-0">
+    <vs-card class="main-container__card--auth">
       <badaso-auth-card-header slot="header">{{
         $t("resetPassword.title")
       }}</badaso-auth-card-header>
@@ -25,7 +16,7 @@
           size="default"
           :placeholder="$t('resetPassword.field.password')"
           v-model="password"
-          class="w-100 mb-4 mt-2 "
+          class="reset-password__input"
         />
         <vs-input
           icon="lock"
@@ -34,10 +25,10 @@
           size="default"
           :placeholder="$t('resetPassword.field.passwordConfirmation')"
           v-model="passwordConfirmation"
-          class="w-100 mb-4 mt-2 "
+          class="reset-password__input"
           @keyup.enter="resetPassword()"
         />
-        <vs-button type="relief" class="btn-block" @click="resetPassword()">{{
+        <vs-button type="relief" class="reset-password__button" @click="resetPassword()">{{
           $t("resetPassword.button")
         }}</vs-button>
       </div>
@@ -94,9 +85,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.login-register-box {
-  max-width: 400px;
-}
-</style>

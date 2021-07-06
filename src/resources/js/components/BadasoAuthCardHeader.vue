@@ -1,11 +1,13 @@
 <template>
-  <vs-row style="padding-bottom: 0;">
-    <vs-col vs-lg="6" style="padding: 0;"
-      ><h3 class="mb-1"><slot /></h3
-    ></vs-col>
-    <vs-col vs-lg="6" style="padding: 0;"
-      ><badaso-logo-display></badaso-logo-display
-    ></vs-col>
+  <vs-row class="badaso-auth-card-header__container">
+    <vs-col vs-lg="6" class="badaso-auth-card-header__title">
+      <h3 class="badaso-auth-card-header__title--text">
+        <slot />
+      </h3>
+    </vs-col>
+    <vs-col vs-lg="6" class="badaso-auth-card-header__logo">
+      <badaso-logo-display />
+    </vs-col>
   </vs-row>
 </template>
 

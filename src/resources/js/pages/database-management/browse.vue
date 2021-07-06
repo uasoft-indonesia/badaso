@@ -25,15 +25,15 @@
       :title="$t('database.browse.warning.title')"
       :active.sync="isNotMigrated"
       @close="isNotMigrated = true"
-      style="z-index: 26000"
+      class="database-management__popup"
       button-close-hidden
     >
       <p>{{ $t("database.browse.warning.notAllowed") }}</p>
       <p v-for="(data, index) in notMigratedFile" :key="index">{{ data }}</p>
 
-      <vs-divider class="mt-4"></vs-divider>
+      <vs-divider class="database-management__divider"></vs-divider>
 
-      <div style="float: right">
+      <div class="database-management__popup-sync">
         <vs-button color="warning" type="relief" @click="goBack()"
           ><vs-icon icon="chevron_left"></vs-icon>
           {{ $t("database.browse.goBackButton") }}</vs-button
@@ -69,10 +69,10 @@
       :cancel-text="$t('action.delete.cancel')"
       :title="$t('database.rollback.title')"
       color="success"
-      style="z-index: 26000"
+      class="database-management__popup"
     >
       <vs-row>
-        <vs-table :data="migration" class="w-100">
+        <vs-table :data="migration" class="database-management__table">
           <template slot="thead">
             <vs-th sort-key="migration">
               {{ $t("database.migration.header.migration") }}
@@ -101,18 +101,18 @@
           </template>
         </vs-table>
       </vs-row>
-      <vs-row vs-align="center" class="mb-0">
+      <vs-row vs-align="center" class="database-management__popup-footer">
         <vs-col vs-lg="12" vs-sm="12" vs-align="center">
           <div v-if="$v.$dirty">
-            <p v-if="$v.$invalid" style="color: rgba(var(--vs-danger),1)">
+            <p v-if="$v.$invalid" class="is-error">
               {{ $t("database.rollback.invalid") }}
             </p>
           </div>
         </vs-col>
         <vs-col vs-lg="12" vs-sm="12" vs-align="center">
-          <vs-row class="mb-0" vs-align="center">
+          <vs-row vs-align="center">
             <vs-spacer></vs-spacer>
-            <vs-checkbox v-model="isDeleteFile" class="mr-2">{{
+            <vs-checkbox v-model="isDeleteFile">{{
               $t("database.rollback.checkbox")
             }}</vs-checkbox>
             <vs-button
@@ -170,7 +170,7 @@
                   <vs-td :data="data[index].tableName">
                     {{ data[index].tableName }}
                   </vs-td>
-                  <vs-td style="width: 1%; white-space: nowrap">
+                  <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"

@@ -1,6 +1,6 @@
 <template>
-  <div class="blank_layout">
-    <vs-row class="full-height login-register-bg" :style="`background-image: url('${authBackgroundImage}')`">
+  <div>
+    <vs-row class="main-container__background--auth" :style="`background-image: url('${authBackgroundImage}')`">
       <router-view :key="$route.path"></router-view>
     </vs-row>
   </div>

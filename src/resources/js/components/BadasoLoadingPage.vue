@@ -1,10 +1,10 @@
 <template>
-  <div class="blank_layout">
-    <vs-row class="full-height login-register-bg">
-      <vs-col vs-lg="12" class="login-register-box">
-        <vs-card class="mb-0">
+  <div class="badaso-loading-page__wrapper">
+    <vs-row class="badaso-loading-page__container">
+      <vs-col vs-lg="12" class="badaso-loading-page__box">
+        <vs-card class="badaso-loading-page__card">
           <div slot="header">
-            <h3 class="mb-1">{{ title }}</h3>
+            <h3 class="badaso-loading-page__title">{{ title }}</h3>
           </div>
           <div>
             <vs-progress indeterminate color="primary">primary</vs-progress>

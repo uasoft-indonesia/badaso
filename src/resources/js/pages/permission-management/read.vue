@@ -21,7 +21,7 @@
           <div slot="header">
             <h3>{{ $t("permission.detail.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr>
               <th>{{ $t("permission.detail.key") }}</th>
               <td>{{ permission.key }}</td>

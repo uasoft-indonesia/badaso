@@ -1,27 +1,13 @@
 <template>
-  <div
-    :class="{'open-item': maxHeight != '0px', 'disabledx': disabled}"
-    class="vs-collapse-item"
-    @mouseover="mouseover"
-    @mouseout="mouseout">
-    <header
-      class="vs-collapse-item--header"
-      @click="toggleContent">
+  <div :class="{'badaso-collapse-item--open': maxHeight != '0px', 'badaso-collapse-item--disabled': disabled}" class="badaso-collapse-item__container" @mouseover="mouseover" @mouseout="mouseout">
+    <header class="badaso-collapse-item__header" @click="toggleContent">
       <slot name="header"></slot>
-      <span
-        v-if="!notArrow"
-        class="icon-header vs-collapse-item--icon-header">
-        <vs-icon
-          :icon-pack="iconPack"
-          :icon="iconArrow"
-        />
+      <span v-if="!notArrow" class="badaso-collapse-item__header-icon">
+        <vs-icon :icon-pack="iconPack" :icon="iconArrow" />
       </span>
     </header>
-    <div
-      ref="content"
-      :style="styleContent"
-      class="vs-collapse-item--content">
-      <div class="con-content--item">
+    <div ref="content" :style="styleContent" class="badaso-collapse-item__content-container">
+      <div class="badaso-collapse-item__content">
         <slot/>
       </div>
     </div>

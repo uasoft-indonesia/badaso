@@ -1,0 +1,22 @@
+.tox-tinymce-aux {
+  z-index: 50000 !important;
+}
+
+.badaso-editor {
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__input {
+    &--error {
+      display: block;
+      color: $danger !important;
+    }
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: .85rem;
+    color: rgba(0,0,0,.7);
+  }
+}

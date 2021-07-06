@@ -1,0 +1,52 @@
+.badaso-color-picker {
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    height: calc(1.45em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &--error {
+      display: block;
+      color: $danger !important;
+    }
+  }
+
+  &__input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    & > .badaso-color-picker__input:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    & > .badaso-color-picker__input {
+      position: relative;
+      flex: 1 1 auto;
+      width: 1%;
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: .85rem;
+    color: rgba(0,0,0,.7);
+  }
+}

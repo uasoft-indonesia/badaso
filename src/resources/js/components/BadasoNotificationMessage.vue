@@ -1,27 +1,14 @@
 <template>
-  <div class="d-flex align-items-center preview top-navbar__notification">
-    <a
-      class="text-white-dark"
-      v-on:click="openOrCloseSideBarNotification()"
-      href="#"
-      :style="{ color: topbarFontColor }"
-    >
+  <div class="top-navbar__notification">
+    <a v-on:click="openOrCloseSideBarNotification()" href="#" :style="{ color: topbarFontColor }" >
       <vs-icon icon="notifications"></vs-icon>
       <sup>{{ countUnreadMessage }}</sup>
     </a>
 
     <!-- list notification -->
-    <vs-sidebar
-      position-right
-      parent="body"
-      default-index="1"
-      color="primary"
-      class="sidebarx"
-      spacer
-      v-model="sideBarNotification"
-    >
+    <vs-sidebar position-right parent="body" default-index="1" color="primary" class="sidebarx" spacer v-model="sideBarNotification">
       <div class="header-sidebar" index="1" icon="notifications" slot="header">
-        <vs-sidebar-item style="margin-bottom : -4% ;" index="0" icon="notifications">
+        <vs-sidebar-item index="0" class="top-navbar__notification-item" icon="notifications">
           <strong>{{ $t("notification.notification") }}</strong>
         </vs-sidebar-item>
       </div>
