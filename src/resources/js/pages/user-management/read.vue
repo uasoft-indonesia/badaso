@@ -28,7 +28,7 @@
           <div slot="header">
             <h3>{{ $t("user.detail.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr>
               <th>{{ $t("user.detail.avatar") }}</th>
               <td>

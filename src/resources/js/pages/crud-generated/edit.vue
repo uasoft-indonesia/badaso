@@ -16,7 +16,7 @@
             </div>
             <vs-row>
               <vs-col vs-lg="12" v-if="!isValid">
-                <p class="text-danger">No fields have been filled</p>
+                <p class="is-error">No fields have been filled</p>
               </vs-col>
               <vs-col
                 v-for="(dataRow, rowIndex) in dataType.dataRows"
@@ -319,10 +319,9 @@
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
         <vs-col vs-lg="12">
-          <div class="flex flex-direction-column justify-content-center align-items-center" >
-            <img src="/badaso-images/maintenance.png" alt="Maintenance Icon">
-
-            <h1 class="mt-4 text-center">We are under <br>maintenance</h1>
+          <div class="badaso-maintenance__container">
+            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -523,20 +522,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.flex {
-  display: flex;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.flex-direction-column {
-  flex-direction: column;
-}
-
-.align-items-center {
-  align-items: center;
-}
-</style>

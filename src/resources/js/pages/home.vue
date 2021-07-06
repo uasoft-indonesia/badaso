@@ -1,5 +1,5 @@
 <template>
-  <vs-row style="display: block;">
+  <vs-row>
     <vs-col
       v-for="(data, index) in dashboardData"
       :key="index"
@@ -7,7 +7,7 @@
       vs-xs="12"
     >
       <vs-card>
-        <h4 class="mb-1">{{ data.value }}</h4>
+        <h4>{{ data.value }}</h4>
         <span>{{ data.label }}</span>
         <vs-progress :percent="70" color="primary">primary</vs-progress>
       </vs-card>

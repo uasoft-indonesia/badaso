@@ -1,5 +1,5 @@
 <template>
-  <header class="gridx">
+  <header>
     <badaso-navbar
       v-model="indexActive"
       :color="topbarColor"
@@ -9,7 +9,7 @@
     >
       <div 
         slot="logo"
-        class="themelogo__wrapper"
+        class="top-navbar__logo-wrapper"
         v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
       >
         <img 
@@ -18,7 +18,7 @@
           alt="Dashboard" 
         />
         <span 
-          class="logo-text" 
+          class="top-navbar__logo-text" 
           v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'">
             {{ title }}
         </span>
@@ -30,14 +30,14 @@
       </div>
       <div slot="navigation">
         <div
-          class="cursor-pointer"
+          class="top-navbar__icon"
           @click.stop="reduceSidebar"
           v-if="view == $constants.DESKTOP"
         >
           <vs-icon icon="menu"></vs-icon>
         </div>
         <div
-          class="cursor-pointer"
+          class="top-navbar__icon"
           @click.stop="activeSidebar"
           v-if="view == $constants.MOBILE"
         >
@@ -45,8 +45,8 @@
         </div>
       </div>
       <div slot="left_menu">
-        <vs-dropdown vs-trigger-click class="ml-4">
-          <a class="a-icon" href="#" :style="{ color: topbarFontColor }">
+        <vs-dropdown vs-trigger-click class="top-navbar__i18n-container">
+          <a href="#" :style="{ color: topbarFontColor }">
             {{ getSelectedLocale.label }}
             <vs-icon icon="expand_more" size="small"></vs-icon>
           </a>

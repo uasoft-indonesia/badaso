@@ -8,7 +8,7 @@
               :fields="fieldsForExcel"
               :worksheet="dataType.displayNameSingular"
               :name="dataType.displayNameSingular + '.xls'"
-              style="display: contents"
+              class="crud-generated__excel-button"
             >
             <badaso-dropdown-item
               icon="file_upload"
@@ -63,7 +63,7 @@
             :active="Object.keys(errors).length > 0"
             color="danger"
             icon="new_releases"
-            style="margin-bottom: 20px;"
+            class="crud-generated__errors"
           >
             <span v-for="key in Object.keys(errors)">
               <span v-for="err in errors[key]">
@@ -142,7 +142,7 @@
                       />
                       <div
                         v-else-if="dataRow.type === 'upload_image_multiple'"
-                        style="width: 100%;"
+                        class="crud-generated__item--upload-image-multiple"
                       >
                         <img
                           v-for="(image, indexImage) in stringToArray(
@@ -152,7 +152,7 @@
                           :src="`${ meta.mediaBaseUrl + image }`"
                           width="100%"
                           alt=""
-                          style="margin-bottom: 10px;"
+                          class="crud-generated__item--image"
                         />
                       </div>
                       <span
@@ -183,7 +183,7 @@
                       >
                       <div
                         v-else-if="dataRow.type === 'upload_file_multiple'"
-                        style="width: 100%;"
+                        class="crud-generated__item--upload-file-multiple"
                       >
                         <p
                           v-for="(file, indexFile) in stringToArray(
@@ -215,7 +215,7 @@
                           dataRow.type === 'select_multiple' ||
                             dataRow.type === 'checkbox'
                         "
-                        style="width: 100%"
+                        class="crud-generated__item--select-multiple"
                       >
                         <p
                           v-for="(selected, indexSelected) in stringToArray(
@@ -228,8 +228,9 @@
                       </div>
                       <div v-else-if="dataRow.type === 'color_picker'">
                         <div
+                        class="crud-generated__item--color-picker"
                           :style="
-                            `width: 100%; height: 14px; background-color: ${
+                            `background-color: ${
                               record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
@@ -247,7 +248,7 @@
                         record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                       }}</span>
                     </vs-td>
-                    <vs-td style="width: 1%; white-space: nowrap">
+                    <vs-td class="crud-generated__button">
                       <badaso-dropdown vs-trigger-click>
                         <vs-button
                           size="large"
@@ -387,7 +388,7 @@
                         />
                         <div
                           v-else-if="dataRow.type === 'upload_image_multiple'"
-                          style="width: 100%;"
+                          class="crud-generated__item--upload-image-multiple"
                         >
                           <img
                             v-for="(image, indexImage) in stringToArray(
@@ -397,7 +398,7 @@
                             :src="`${meta.mediaBaseUrl + image}`"
                             width="100%"
                             alt=""
-                            style="margin-bottom: 10px;"
+                            class="crud-generated__item--image"
                           />
                         </div>
                         <span
@@ -428,7 +429,7 @@
                         >
                         <div
                           v-else-if="dataRow.type === 'upload_file_multiple'"
-                          style="width: 100%;"
+                          class="crud-generated__item--upload-file-multiple"
                         >
                           <p
                             v-for="(file, indexFile) in stringToArray(
@@ -462,7 +463,7 @@
                             dataRow.type === 'select_multiple' ||
                               dataRow.type === 'checkbox'
                           "
-                          style="width: 100%"
+                          class="crud-generated__item--select-multiple"
                         >
                           <p
                             v-for="(selected, indexSelected) in stringToArray(
@@ -477,8 +478,9 @@
                         </div>
                         <div v-else-if="dataRow.type === 'color_picker'">
                           <div
+                            class="crud-generated__item--color-picker"
                             :style="
-                              `width: 100%; height: 14px; background-color: ${
+                              `background-color: ${
                                 record[
                                   $caseConvert.stringSnakeToCamel(dataRow.field)
                                 ]
@@ -496,7 +498,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }}</span>
                       </vs-td>
-                      <vs-td style="width: 1%; white-space: nowrap">
+                      <vs-td class="crud-generated__button">
                         <badaso-dropdown vs-trigger-click>
                           <vs-button
                             size="large"
@@ -582,8 +584,8 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-prompt @accept="saveMaintenanceState" :active.sync="maintenanceDialog" class="mb-0">
-          <vs-row class="mb-0">
+        <vs-prompt @accept="saveMaintenanceState" :active.sync="maintenanceDialog">
+          <vs-row>
             <badaso-switch
               :label="$t('crudGenerated.maintenanceDialog.switch')"
               :placeholder="$t('crudGenerated.maintenanceDialog.switch')"
@@ -618,10 +620,9 @@
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
-          <div class="flex flex-direction-column justify-content-center align-items-center" >
-            <img src="/badaso-images/maintenance.png" alt="Maintenance Icon">
-
-            <h1 class="mt-4 text-center">We are under <br>maintenance</h1>
+          <div class="badaso-maintenance__container">
+            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
       </vs-row>
@@ -1071,20 +1072,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.flex {
-  display: flex;
-}
-
-.justify-content-center {
-  justify-content: center;
-}
-
-.flex-direction-column {
-  flex-direction: column;
-}
-
-.align-items-center {
-  align-items: center;
-}
-</style>

@@ -1,119 +1,44 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <vs-input
-      :label="label"
-      :placeholder="placeholder"
-      @click="showOverlay"
-      v-on:keyup.space="showOverlay"
-      readonly
-      v-model="imageUrl"
-      icon="attach_file"
-      icon-after="true"
-    ></vs-input>
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-upload-image__container">
+    <vs-input :label="label" :placeholder="placeholder" @click="showOverlay" v-on:keyup.space="showOverlay" readonly v-model="imageUrl" icon="attach_file" icon-after="true" ></vs-input>
     <vs-row>
       <vs-col vs-lg="4" vs-sm="12">
-        <div
-          class="image-container"
-          v-if="imageUrl !== null && imageUrl !== ''"
-        >
-          <vs-button
-            class="delete-image"
-            color="danger"
-            icon="close"
-            @click="deleteFilePicked(value)"
-          ></vs-button>
-          <img
-            :src="$store.state.badaso.meta.mediaBaseUrl + value"
-            class="image"
-          />
+        <div class="badaso-upload-image__preview" v-if="imageUrl !== null && imageUrl !== ''">
+          <vs-button class="badaso-upload-image__remove-button" color="danger" icon="close" @click="deleteFilePicked(value)" />
+          <img :src="getImageSrc(value)" class="badaso-upload-image__preview-image" />
         </div>
       </vs-col>
     </vs-row>
-    <div class="badaso-popup-dialog" tabindex="0" v-if="show">
-      <div class="badaso-popup-container">
-        <div class="top">
+    <div class="badaso-upload-image__popup-dialog" tabindex="0" v-if="show">
+      <div class="badaso-upload-image__popup-container">
+        <div class="badaso-upload-image__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
-          <vs-button
-            color="danger"
-            type="relief"
-            class="mr-2"
-            v-if="getSelected !== 'url' && isImageSelected"
-            @click="openDialog"
-          >
+          <vs-button color="danger" type="relief" class="badaso-upload-image__popup-button--delete" v-if="getSelected !== 'url' && isImageSelected" @click="openDialog">
             <vs-icon icon="delete"></vs-icon>
           </vs-button>
         </div>
-        <ul class="left">
-          <li
-            :class="[getSelected === 'private' ? 'active' : '']"
-            @click="selected = 'private'"
-            v-if="privateOnly || (!privateOnly && !sharesOnly)"
-          >
-            Private
-          </li>
-          <li
-            :class="[getSelected === 'shares' ? 'active' : '']"
-            @click="selected = 'shares'"
-            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
-          >
-            Shares
-          </li>
-          <li
-            :class="[getSelected === 'url' ? 'active' : '']"
-            @click="selected = 'url'"
-          >
-            Insert by URL
-          </li>
+        <ul class="badaso-upload-image__popup--left-bar">
+          <li :class="[getSelected === 'private' ? 'active' : '']" @click="selected = 'private'" v-if="privateOnly || (!privateOnly && !sharesOnly)" >Private</li>
+          <li :class="[getSelected === 'shares' ? 'active' : '']" @click="selected = 'shares'" v-if="sharesOnly || (!sharesOnly && !privateOnly)">Shares</li>
+          <li :class="[getSelected === 'url' ? 'active' : '']" @click="selected = 'url'">Insert by URL</li>
         </ul>
-        <div class="right" v-if="getSelected !== 'url'">
-          <div class="add-image" @click="pickFile">
+        <div class="badaso-upload-image__popup--right-bar" v-if="getSelected !== 'url'">
+          <div class="badaso-upload-image__popup-add-image" @click="pickFile">
             <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
           </div>
-          <img
-            :class="[activeImage === index ? 'active' : '']"
-            :src="item.thumbUrl"
-            v-for="(item, index) in images.items"
-            :key="index"
-            @click="
-              activeImage = index;
-              isImageSelected = true;
-            "
-          />
+          <img :class="[activeImage === index ? 'active' : '', 'badaso-upload-image__popup-image']" :src="item.thumbUrl" v-for="(item, index) in images.items" :key="index" @click="activeImage = index; isImageSelected = true; " />
         </div>
-        <div v-if="getSelected === 'url'" class="right url">
-          <vs-input
-            v-if="getSelected === 'url'"
-            label="Paste an image URL here"
-            placeholder="URL"
-            v-model="inputByUrl"
-            description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG."
-            @input="inputByUrl === '' ? (dirty = false) : (dirty = true)"
-          ></vs-input>
-          <p
-            v-if="!imageValidation && getSelected === 'url' && dirty"
-            style="color: var(--danger)"
-          >
+        <div v-if="getSelected === 'url'" class="badaso-upload-image__popup--right-bar badaso-upload-image__popup--url-bar">
+          <vs-input v-if="getSelected === 'url'" label="Paste an image URL here" placeholder="URL" v-model="inputByUrl" description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG." @input="inputByUrl === '' ? (dirty = false) : (dirty = true)"></vs-input>
+          <p v-if="!isValidImage && getSelected === 'url' && dirty" class="badaso-upload-image__input--error">
             Only valid image (PNG and JPEG) is accepted
           </p>
-          <img
-            accept="image/png"
-            v-if="getSelected === 'url'"
-            :src="inputByUrl"
-            alt=""
-            @load="isValidImage = true"
-            @error="isValidImage = false"
-            class="small"
-          />
+          <img accept="image/png" v-if="getSelected === 'url'" :src="inputByUrl" alt="" @load="isValidImage = true" @error="isValidImage = false" class="badaso-upload-image__preview--small" />
         </div>
-        <div class="bottom">
-          <div class="close-button">
-            <vs-button
-              color="primary"
-              type="relief"
-              @click="emitInput"
-              :disabled="isSubmitDisable"
-            >
+        <div class="badaso-upload-image__popup--bottom-bar">
+          <div class="badaso-upload-image__popup-button--footer">
+            <vs-button color="primary" type="relief" @click="emitInput" :disabled="isSubmitDisable">
               {{ $t("button.submit") }}
             </vs-button>
             <vs-button color="danger" type="relief" @click="closeOverlay">
@@ -123,34 +48,24 @@
         </div>
       </div>
     </div>
-    <input
-      type="file"
-      style="display: none"
-      ref="image"
-      accept="image/*"
-      @change="onFilePicked"
-    />
+    <input type="file" class="badaso-upload-image__input--hidden" ref="image" accept="image/*" @change="onFilePicked"/>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <p
-          class="text-danger"
+          class="badaso-upload-image__input--error"
           v-for="(info, index) in alert"
           :key="index"
           v-html="info + '<br />'"
         ></p>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-upload-image__input--error" v-html="alert"></span>
       </div>
     </div>
-    <vs-popup
-      :title="$t('action.delete.title')"
-      :active.sync="dialog"
-      style="z-index: 26000;"
-    >
+    <vs-popup :title="$t('action.delete.title')" :active.sync="dialog" class="badaso-upload-image__popup-dialog--delete">
       <p>{{ $t("action.delete.text") }}</p>
-      <div style="float: right">
+      <div class="badaso-upload-image__popup-dialog-content--delete">
         <vs-button color="primary" type="relief" @click="dialog = false">{{
           $t("action.delete.cancel")
         }}</vs-button>
@@ -217,20 +132,6 @@ export default {
     };
   },
   computed: {
-    imageValidation() {
-      if (this.$helper.isValidHttpUrl(this.inputByUrl)) {
-        let url = this.inputByUrl.split(".");
-        let extension = url[url.length - 1];
-        if (
-          extension === "png" ||
-          extension === "jpg" ||
-          extension === "jpeg"
-        ) {
-          return true;
-        }
-      }
-      return false;
-    },
     getSelected() {
       this.activeImage = null;
       return this.selected;
@@ -248,7 +149,7 @@ export default {
         return true;
       }
 
-      if (!this.imageValidation && this.selected === "url") {
+      if (!this.isValidImage && this.selected === "url") {
         return true;
       }
 
@@ -323,6 +224,13 @@ export default {
       if (typeof str === "string" || str instanceof String) return true;
       else return false;
     },
+    getImageSrc(value) {
+      if (this.$helper.isValidHttpUrl(value)) {
+        return value
+      }
+
+      return this.$store.state.badaso.meta.mediaBaseUrl + value
+    },
     getImages() {
       this.images.items = [];
       if (this.getSelectedFolder) {
@@ -343,11 +251,7 @@ export default {
     },
     emitInput() {
       if (this.selected !== "url") {
-        var url = null;
-        var url = this.images.items[this.activeImage].url.replace(
-          this.$store.state.badaso.meta.mediaBaseUrl,
-          ""
-        );
+        var url = this.images.items[this.activeImage].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, "");
         this.$emit("input", url);
       } else {
         this.$emit("input", this.inputByUrl);
@@ -384,30 +288,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.image-container {
-  width: 100% !important;
-  border: solid 1px #dedede;
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.1);
-  margin: unset;
-  margin-top: 10px;
-  max-width: unset;
-  position: relative;
-}
-.image {
-  width: 100%;
-}
-
-.delete-image {
-  opacity: 0;
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  transition: all 0.2s ease;
-}
-
-.image-container:hover .delete-image {
-  opacity: 1;
-}
-</style>

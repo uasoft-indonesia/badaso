@@ -1,0 +1,30 @@
+.database-management {
+  &__field-type, &__field-index {
+    width: 100%;
+  }
+
+  &__footer {
+    margin-top: 1.5rem !important;
+    width: unset !important;
+  }
+
+  &__popup {
+    z-index: 26000;
+  }
+
+  &__divider {
+    margin-top: 1.5rem;
+  }
+
+  &__table {
+    width: 100%;
+  }
+
+  &__popup-footer {
+    margin-bottom: 0 !important;
+  }
+
+  &__popup-sync {
+    float: right;
+  }
+}

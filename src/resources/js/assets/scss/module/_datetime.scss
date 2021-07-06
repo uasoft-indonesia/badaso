@@ -1,0 +1,48 @@
+.badaso-datetime {
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__datetime-container {
+    display: flex;
+  }
+
+  &__datetime-icon {
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+    padding-left: 3px;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 1rem;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  &__datetime-icon-box {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: unset;
+    display: grid;
+    padding: 0.4rem;
+  }
+
+  &__input {
+    width: -webkit-fill-available;
+
+    & .vdatetime-overlay {
+      z-index: 25000;
+    }
+
+    & .vdatetime-popup {
+      z-index: 26000;
+    }
+
+    &--error {
+      display: block;
+      color: $danger !important;
+    }
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: .85rem;
+    color: rgba(0,0,0,.7);
+  }
+}

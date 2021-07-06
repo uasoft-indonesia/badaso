@@ -1,10 +1,5 @@
 <template>
-  <img
-    v-if="adminPanelLogo && adminPanelLogo != ''"
-    :src="adminPanelLogo"
-    alt="adminPanelTitle"
-    style="max-width: 100%; max-height: 30px; float: right;"
-  />
+  <img v-if="adminPanelLogo && adminPanelLogo != ''" :src="adminPanelLogo" alt="adminPanelTitle" class="badaso-logo-display" />
 </template>
 
 <script>

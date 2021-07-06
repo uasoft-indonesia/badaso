@@ -1,0 +1,25 @@
+.badaso-sidebar-group {
+  &__container {
+    display: flex;
+  }
+
+  &__item-group {
+    text-align: left;
+  }
+
+  &__icon {
+    &--user {
+      padding-top: 10px;
+      font-size: 1rem;
+      margin-left: 18px;
+    }
+
+    &--arrow {
+      font-size: 1rem;
+    }
+  }
+
+  &__text {
+    display: block;
+  }
+}

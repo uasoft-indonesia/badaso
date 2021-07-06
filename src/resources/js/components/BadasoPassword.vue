@@ -1,24 +1,15 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <vs-input
-      type="password"
-      :label="label"
-      :placeholder="placeholder"
-      :value="value"
-      @input="handleInput($event)"
-    />
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-password__container">
+    <vs-input type="password" :label="label" :placeholder="placeholder" :value="value" @input="handleInput($event)"/>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p
-          class="text-danger"
-          v-for="(info, index) in alert"
-          :key="index"
-          v-html="info + '<br />'"
-        ></p>
+        <span class="badaso-password__input--error" v-for="(info, index) in alert" :key="index" >
+          {{ info }}
+        </span>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-password__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>

@@ -2,11 +2,11 @@
   <div>
     <vs-table v-model="selected" :data="data" stripe multiple>
       <template slot="header">
-        <vs-row style="margin-bottom: 0;">
+        <vs-row class="badaso-server-side-table__header">
           <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12">
-            <div style="display: flex; align-items: center; margin: 15px;">
+            <div class="badaso-server-side-table__header-select">
               Show&nbsp;
-              <vs-select class="selectExample" v-model="limit" width="100px">
+              <vs-select v-model="limit" width="100px">
                 <vs-select-item
                   :key="index"
                   :value="row"
@@ -18,15 +18,9 @@
             </div>
           </vs-col>
           <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12">
-            <div class="con-input-search vs-table--search" style="float: right;">
-              <input
-                type="text"
-                class="input-search vs-table--search-input"
-                v-on:keyup.enter="handleSearch"
-              />
-              <i class="vs-icon notranslate icon-scale material-icons null"
-                >search</i
-              >
+            <div class="badaso-server-side-table__header-search">
+              <input type="text" class="badaso-server-side-table__input-search" v-on:keyup.enter="handleSearch"/>
+              <vs-icon icon="search"></vs-icon>
             </div>
           </vs-col>
         </vs-row>
@@ -34,38 +28,16 @@
       <template slot="thead"><slot name="thead"/></template>
       <slot name="tbody" />
     </vs-table>
-    <div class="con-pagination-table vs-table--pagination">
-      <vs-row class="mt-3" vs-justify="space-between" vs-type="flex" vs-w="12">
-        <vs-col
-          class="vs-pagination--mb"
-          vs-type="flex"
-          vs-justify="flex-start"
-          vs-align="center"
-          vs-lg="6"
-          vs-md="12"
-          vs-sm="12"
-          vs-xs="12"
-        >
+    <div class="badaso-server-side-table__pagination">
+      <vs-row class="badaso-server-side-table__pagination-container" vs-justify="space-between" vs-type="flex" vs-w="12">
+        <vs-col class="badaso-server-side-table__pagination-item" vs-type="flex" vs-justify="flex-start" vs-align="center" vs-lg="6" vs-md="12" vs-sm="12" vs-xs="12">
           <span class="vs-pagination-desc">
             {{ descriptionTitle }}: {{ paginationData.from }} - {{ paginationData.to }}
           {{ descriptionConnector }} {{ paginationData.total }}
           </span>
         </vs-col>
-        <vs-col
-          class="vs-pagination--mb"
-          vs-type="flex"
-          vs-justify="flex-end"
-          vs-align="center"
-          vs-lg="6"
-          vs-md="12"
-          vs-sm="12"
-          vs-xs="12"
-        >
-          <vs-pagination
-            :total="totalItem"
-            v-model="page"
-            style="margin-bottom: 0;"
-          ></vs-pagination>
+        <vs-col class="badaso-server-side-table__pagination-item" vs-type="flex" vs-justify="flex-end" vs-align="center" vs-lg="6" vs-md="12" vs-sm="12" vs-xs="12">
+          <vs-pagination :total="totalItem" v-model="page"></vs-pagination>
         </vs-col>
       </vs-row>
     </div>

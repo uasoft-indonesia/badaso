@@ -1,0 +1,18 @@
+.badaso-textarea {
+  &__container {
+    margin-bottom: 1rem !important;
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  &__input {
+    &--error {
+      color: $danger;
+      display: block;
+    }
+  }
+}

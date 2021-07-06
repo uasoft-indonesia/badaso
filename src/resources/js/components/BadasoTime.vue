@@ -1,31 +1,28 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label v-if="label != ''"  for="" class="vs-input--label">{{ label }}</label>
-    <div class="datetime-box">
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-time__container">
+    <label v-if="label != ''"  for="" class="badaso-time__label">{{ label }}</label>
+    <div class="badaso-time__time-container">
       <datetime
         :label="label"
         type="time"
         :title="label"
         :value="value"
-        class="datetime-input"
+        class="badaso-time__input"
         @input="handleInput($event)"
       ></datetime>
-      <div class="datetime-icon-box">
-        <vs-icon icon="schedule" class="datetime-icon"></vs-icon>
+      <div class="badaso-time__item-icon-box">
+        <vs-icon icon="schedule" class="badaso-time__item-icon"></vs-icon>
         </diV>
     </div>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <p
-          class="text-danger"
-          v-for="(info, index) in alert"
-          :key="index"
-          v-html="info + '<br />'"
-        ></p>
+        <span class="badaso-time__input--error" v-for="(info, index) in alert" :key="index">
+          {{ info }}
+        </span>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-time__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -70,10 +67,3 @@ export default {
   },
 };
 </script>
-<style>
-.vdatetime-input {
-  width: 100%;
-  padding: 0.4rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-</style>

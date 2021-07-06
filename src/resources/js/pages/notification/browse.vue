@@ -27,7 +27,7 @@
                 <vs-th :sort-key="title"> {{ $t("notification.table.thead.title") }} </vs-th>
                 <vs-th :sort-key="body"> {{ $t("notification.table.thead.message") }} </vs-th>
                 <vs-th :sort-key="user_name"> {{ $t("notification.table.thead.user") }} </vs-th>
-                <vs-th style="width:5%"> {{ $t("crud.header.action") }} </vs-th>
+                <vs-th> {{ $t("crud.header.action") }} </vs-th>
               </template>
 
               <template slot-scope="{ data }">

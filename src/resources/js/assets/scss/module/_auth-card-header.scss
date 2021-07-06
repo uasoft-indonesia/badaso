@@ -1,0 +1,17 @@
+.badaso-auth-card-header {
+  &__container {
+    padding-bottom: 0 !important;
+  }
+
+  &__logo {
+    padding: 0 !important;
+  }
+
+  &__title {
+    padding: 0 !important;
+
+    &--text {
+      margin-bottom: 0.25rem !important;
+    }
+  }
+}

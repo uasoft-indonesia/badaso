@@ -111,14 +111,14 @@
             <h3>Add CRUD Fields for {{ $route.params.tableName }}</h3>
           </div>
           <vs-row>
-            <vs-col col-lg="12" style="overflow-x: auto">
-              <table class="table">
+            <vs-col col-lg="12">
+              <table class="badaso-table">
                 <thead>
-                  <th style="width: 1%; word-wrap: nowrap;"></th>
-                  <th style="width: 1%; word-wrap: nowrap;">Field</th>
-                  <th style="width: 1%; word-wrap: nowrap;">Visibility</th>
-                  <th style="width: 1%; word-wrap: nowrap;">Input Type</th>
-                  <th style="width: 200px;">Display Name</th>
+                  <th class="badaso-table__th"></th>
+                  <th class="badaso-table__th">Field</th>
+                  <th class="badaso-table__th">Visibility</th>
+                  <th class="badaso-table__th">Input Type</th>
+                  <th class="badaso-table__th--sm">Display Name</th>
                   <th>Optional Details</th>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
@@ -126,17 +126,17 @@
                     <td>
                       <vs-icon
                         icon="drag_indicator"
-                        class="drag_icon"
+                        class="is-draggable"
                       ></vs-icon>
                     </td>
                     <td :data="field.field">
                       <strong>{{ field.field }}</strong>
                       <br />
-                      <span style="white-space: nowrap">
+                      <span>
                         Type: {{ field.type }}
                       </span>
                       <br />
-                      <span style="white-space: nowrap">
+                      <span>
                         Required: <span v-if="field.required">Yes</span
                         ><span v-else>No</span>
                       </span>
@@ -144,37 +144,32 @@
                     <td>
                       <vs-checkbox
                         v-model="field.browse"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__notification-item"
                         >Browse</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.read"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__notification-item"
                         >Read</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.edit"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__notification-item"
                         >Edit</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.add"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__notification-item"
                         >Add</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.delete"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__notification-item"
                         >Delete</vs-checkbox
                       >
                     </td>
                     <td>
-                      <vs-select class="selectExample" v-model="field.type">
+                      <vs-select v-model="field.type">
                         <vs-select-item
                           :key="index"
                           :value="item.value"
@@ -185,7 +180,6 @@
                     </td>
                     <td>
                       <vs-input
-                        class="inputx"
                         placeholder="Display Name"
                         v-model="field.displayName"
                       />
@@ -342,9 +336,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.drag_icon:hover {
-  cursor: all-scroll;
-}
-</style>

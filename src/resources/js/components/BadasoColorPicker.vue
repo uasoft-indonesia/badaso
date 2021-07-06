@@ -1,20 +1,16 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="mb-3">
-    <label v-if="label != ''" for="" class="vs-input--label">{{ label }}</label>
-    <div class="input-group color-picker" ref="colorpicker">
+  <vs-col :vs-lg="size" vs-xs="12" class="badaso-color-picker__container">
+    <label v-if="label != ''" for="" class="badaso-color-picker__label">{{ label }}</label>
+    <div class="badaso-color-picker__input-group" ref="colorpicker">
       <input
         type="text"
-        class="form-control"
+        class="badaso-color-picker__input"
         :value="colorValue"
         @focus="showPicker()"
         @input="updateFromInput"
       />
-      <span class="input-group-addon color-picker-container">
-        <span
-          class="current-color"
-          :style="'background-color: ' + colorValue"
-          @click="togglePicker()"
-        ></span>
+      <span>
+        <span :style="'background-color: ' + colorValue" @click="togglePicker()" ></span>
       </span>
       <color-picker
         :value="colorValue"
@@ -26,14 +22,14 @@
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <p
-          class="text-danger"
+          class="badaso-color-picker__input--error"
           v-for="(info, index) in alert"
           :key="index"
           v-html="info + '<br />'"
         ></p>
       </div>
       <div v-else>
-        <span class="text-danger" v-html="alert"></span>
+        <span class="badaso-color-picker__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
