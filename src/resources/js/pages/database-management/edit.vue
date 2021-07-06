@@ -92,6 +92,7 @@
                           :value="tr.fieldName"
                           class="inputx"
                           @change="alterFieldProperty(tr, $event, 'RENAME', 'fieldName', indextr)"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
@@ -100,6 +101,7 @@
                           class="database-management__field-type"
                           :value="tr.fieldType"
                           @input="alterFieldProperty(tr, $event, 'UPDATE_TYPE', 'fieldType', indextr)"
+                          :disabled="tr.undeletable"
                         >
                           <div
                             :key="index"
@@ -126,19 +128,20 @@
                           required
                           :value="tr.fieldLength"
                           @change="alterFieldProperty(tr, $event, 'UPDATE_LENGTH', 'fieldLength', indextr)"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldNull">
-                        <vs-checkbox :value="tr.fieldNull" @change="alterFieldProperty(tr, $event, 'UPDATE_NULL', 'fieldNull', indextr)"></vs-checkbox>
+                        <vs-checkbox :value="tr.fieldNull" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_NULL', 'fieldNull', indextr)"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldAttribute">
-                        <vs-checkbox :value="tr.fieldAttribute" @change="alterFieldProperty(tr, $event, 'UPDATE_ATTRIBUTE', 'fieldAttribute', indextr)"></vs-checkbox>
+                        <vs-checkbox :value="tr.fieldAttribute" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_ATTRIBUTE', 'fieldAttribute', indextr)"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIncrement">
-                        <vs-checkbox :value="tr.fieldIncrement" @change="alterFieldProperty(tr, $event, 'UPDATE_INCREMENT', 'fieldIncrement', indextr)"></vs-checkbox>
+                        <vs-checkbox :value="tr.fieldIncrement" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_INCREMENT', 'fieldIncrement', indextr)"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIndex">
@@ -146,6 +149,7 @@
                           class="database-management__field-index"
                           :value="tr.fieldIndex"
                           @input="alterFieldProperty(tr, $event, 'UPDATE_INDEX', 'fieldIndex', indextr)"
+                          :disabled="tr.undeletable"
                         >
                           <vs-select-item
                             text="-"
@@ -164,6 +168,7 @@
                           type="text"
                           :value="tr.fieldDefault"
                           @change="alterFieldProperty(tr, $event, 'UPDATE_DEFAULT', 'fieldDefault', indextr)"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
@@ -171,6 +176,7 @@
                         <vs-button
                           color="danger"
                           type="relief"
+                          v-if="!tr.undeletable"
                           @click="dropField(tr, indextr)"
                         >
                           <vs-icon icon="delete"></vs-icon>
@@ -268,10 +274,6 @@
               <vs-button type="relief" color="primary" @click="addField()">
                 <vs-icon icon="add"></vs-icon>
                 Add new column
-              </vs-button>
-              <vs-button type="relief" color="primary" @click="addTimestamps()">
-                <vs-icon icon="add"></vs-icon>
-                Add timestamps
               </vs-button>
 
               <!-- TODO for future development -->
@@ -501,7 +503,8 @@ export default {
                       .toLowerCase()
                   : null,
               fieldDefault: column.default,
-              modifyType: []
+              modifyType: [],
+              undeletable: column.name === 'created_at' || column.name === 'updated_at' ? true : false
             });
 
             this.databaseData.fields.currentFields.push({
@@ -587,7 +590,8 @@ export default {
     },
 
     addField() {
-      this.databaseData.fields.modifiedFields.push({
+      let index = this.databaseData.fields.modifiedFields.map(row => row.undeletable).indexOf(true)
+      this.databaseData.fields.modifiedFields.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
         fieldType: "",
@@ -617,53 +621,53 @@ export default {
       return found;
     },
 
-    addTimestamps() {
-      if (this.findFieldOnRows("created_at")) {
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "created_at" }),
-          color: "danger",
-        });
-      } else {
-        this.databaseData.fields.modifiedFields.push({
-          id: this.$helper.uuid(),
-          fieldName: "created_at",
-          fieldType: "timestamp",
-          fieldLength: null,
-          fieldNull: true,
-          fieldAttribute: false,
-          fieldIncrement: false,
-          fieldIndex: null,
-          fieldDefault: null,
-          modifyType: [
-            'CREATE'
-          ]
-        });
-      }
+    // addTimestamps() {
+    //   if (this.findFieldOnRows("created_at")) {
+    //     this.$vs.notify({
+    //       title: this.$t("alert.danger"),
+    //       text: this.$t("database.warning.exists", { 0: "created_at" }),
+    //       color: "danger",
+    //     });
+    //   } else {
+    //     this.databaseData.fields.modifiedFields.push({
+    //       id: this.$helper.uuid(),
+    //       fieldName: "created_at",
+    //       fieldType: "timestamp",
+    //       fieldLength: null,
+    //       fieldNull: true,
+    //       fieldAttribute: false,
+    //       fieldIncrement: false,
+    //       fieldIndex: null,
+    //       fieldDefault: null,
+    //       modifyType: [
+    //         'CREATE'
+    //       ]
+    //     });
+    //   }
 
-      if (this.findFieldOnRows("updated_at")) {
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "updated_at" }),
-          color: "danger",
-        });
-      } else {
-        this.databaseData.fields.modifiedFields.push({
-          id: this.$helper.uuid(),
-          fieldName: "updated_at",
-          fieldType: "timestamp",
-          fieldLength: null,
-          fieldNull: true,
-          fieldAttribute: false,
-          fieldIncrement: false,
-          fieldIndex: null,
-          fieldDefault: null,
-          modifyType: [
-            'CREATE'
-          ]
-        });
-      }
-    },
+    //   if (this.findFieldOnRows("updated_at")) {
+    //     this.$vs.notify({
+    //       title: this.$t("alert.danger"),
+    //       text: this.$t("database.warning.exists", { 0: "updated_at" }),
+    //       color: "danger",
+    //     });
+    //   } else {
+    //     this.databaseData.fields.modifiedFields.push({
+    //       id: this.$helper.uuid(),
+    //       fieldName: "updated_at",
+    //       fieldType: "timestamp",
+    //       fieldLength: null,
+    //       fieldNull: true,
+    //       fieldAttribute: false,
+    //       fieldIncrement: false,
+    //       fieldIndex: null,
+    //       fieldDefault: null,
+    //       modifyType: [
+    //         'CREATE'
+    //       ]
+    //     });
+    //   }
+    // },
 
     dropField(item, index) {
       this.$vs.dialog({

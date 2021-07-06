@@ -93,6 +93,7 @@
                         <vs-input
                           type="text"
                           required
+                          :disabled="tr.undeletable"
                           v-model="tr.fieldName"
                         />
                       </vs-td>
@@ -101,6 +102,7 @@
                         <vs-select
                           class="database-management__field-type"
                           v-model="tr.fieldType"
+                          :disabled="tr.undeletable"
                         >
                           <div
                             :key="index"
@@ -126,25 +128,27 @@
                           type="text"
                           required
                           v-model="tr.fieldLength"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldNull">
-                        <vs-checkbox v-model="tr.fieldNull"></vs-checkbox>
+                        <vs-checkbox v-model="tr.fieldNull" :disabled="tr.undeletable"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldAttribute">
-                        <vs-checkbox v-model="tr.fieldAttribute"></vs-checkbox>
+                        <vs-checkbox v-model="tr.fieldAttribute" :disabled="tr.undeletable"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIncrement">
-                        <vs-checkbox v-model="tr.fieldIncrement"></vs-checkbox>
+                        <vs-checkbox v-model="tr.fieldIncrement" :disabled="tr.undeletable"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIndex">
                         <vs-select
                           class="database-management__field-index"
                           v-model="tr.fieldIndex"
+                          :disabled="tr.undeletable"
                         >
                           <vs-select-item
                             :key="index"
@@ -159,6 +163,7 @@
                         <vs-input
                           type="text"
                           v-model="tr.fieldDefault"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
@@ -166,6 +171,7 @@
                         <vs-button
                           color="danger"
                           type="relief"
+                          v-if="!tr.undeletable"
                           @click="dropField(indextr)"
                         >
                           <vs-icon icon="delete"></vs-icon>
@@ -233,10 +239,6 @@
               <vs-button type="relief" color="primary" @click="addField()">
                 <vs-icon icon="add"></vs-icon>
                 Add new column
-              </vs-button>
-              <vs-button type="relief" color="primary" @click="addTimestamps()">
-                <vs-icon icon="add"></vs-icon>
-                Add timestamps
               </vs-button>
 
               <!-- TODO for future development -->
@@ -427,7 +429,8 @@ export default {
       }
     },
     addField() {
-      this.databaseData.rows.push({
+      let index = this.databaseData.rows.map(row => row.undeletable).indexOf(true)
+      this.databaseData.rows.splice(index, 0, {
         fieldName: "",
         fieldType: "",
         fieldLength: null,
@@ -436,7 +439,7 @@ export default {
         fieldIncrement: false,
         fieldIndex: null,
         fieldDefault: "",
-      });
+      })
     },
 
     findFieldOnRows(fieldName) {
@@ -453,45 +456,45 @@ export default {
       return found;
     },
 
-    addTimestamps() {
-      if (this.findFieldOnRows("created_at")) {
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "created_at" }),
-          color: "danger",
-        });
-      } else {
-        this.databaseData.rows.push({
-          fieldName: "created_at",
-          fieldType: "timestamp",
-          fieldLength: null,
-          fieldNull: true,
-          fieldAttribute: false,
-          fieldIncrement: false,
-          fieldIndex: null,
-          fieldDefault: null,
-        });
-      }
+    // addTimestamps() {
+    //   if (this.findFieldOnRows("created_at")) {
+    //     this.$vs.notify({
+    //       title: this.$t("alert.danger"),
+    //       text: this.$t("database.warning.exists", { 0: "created_at" }),
+    //       color: "danger",
+    //     });
+    //   } else {
+    //     this.databaseData.rows.push({
+    //       fieldName: "created_at",
+    //       fieldType: "timestamp",
+    //       fieldLength: null,
+    //       fieldNull: true,
+    //       fieldAttribute: false,
+    //       fieldIncrement: false,
+    //       fieldIndex: null,
+    //       fieldDefault: null,
+    //     });
+    //   }
 
-      if (this.findFieldOnRows("updated_at")) {
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "updated_at" }),
-          color: "danger",
-        });
-      } else {
-        this.databaseData.rows.push({
-          fieldName: "updated_at",
-          fieldType: "timestamp",
-          fieldLength: null,
-          fieldNull: true,
-          fieldAttribute: false,
-          fieldIncrement: false,
-          fieldIndex: null,
-          fieldDefault: null,
-        });
-      }
-    },
+    //   if (this.findFieldOnRows("updated_at")) {
+    //     this.$vs.notify({
+    //       title: this.$t("alert.danger"),
+    //       text: this.$t("database.warning.exists", { 0: "updated_at" }),
+    //       color: "danger",
+    //     });
+    //   } else {
+    //     this.databaseData.rows.push({
+    //       fieldName: "updated_at",
+    //       fieldType: "timestamp",
+    //       fieldLength: null,
+    //       fieldNull: true,
+    //       fieldAttribute: false,
+    //       fieldIncrement: false,
+    //       fieldIndex: null,
+    //       fieldDefault: null,
+    //     });
+    //   }
+    // },
 
     addSoftDeletes() {
       if (this.findFieldOnRows("deleted_at")) {
@@ -536,6 +539,26 @@ export default {
         fieldIncrement: true,
         fieldIndex: "primary",
         fieldDefault: null,
+      }, {
+        fieldName: "created_at",
+        fieldType: "timestamp",
+        fieldLength: null,
+        fieldNull: true,
+        fieldAttribute: false,
+        fieldIncrement: false,
+        fieldIndex: null,
+        fieldDefault: null,
+        undeletable: true
+      }, {
+        fieldName: "updated_at",
+        fieldType: "timestamp",
+        fieldLength: null,
+        fieldNull: true,
+        fieldAttribute: false,
+        fieldIncrement: false,
+        fieldIndex: null,
+        fieldDefault: null,
+        undeletable: true
       });
     },
   },
