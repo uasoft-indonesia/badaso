@@ -145,7 +145,7 @@ class BadasoSetup extends Command
         // Badaso
         mix
             .js(
-                "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
+                "vendor/badaso/core/src/resources/js/app.js",
                 "public/js/badaso.js"
             )
         EOT;

@@ -6,13 +6,13 @@
     padding: 10px;
 
     &--shadow {
-      box-shadow: 0 0.5rem 1rem rgb(43 43 43 / 15%) !important;
+      box-shadow: 0 0.5rem 1rem rgb(43, 43, 43 / 15%) !important;
 
       & .badaso-collapse-item--open {
         -webkit-transform: scale(1.01);
         transform: scale(1.01);
-        -webkit-box-shadow: 0 2px 15px 0 rgb(0 0 0 / 5%);
-        box-shadow: 0 2px 15px 0 rgb(0 0 0 / 5%);
+        -webkit-box-shadow: 0 2px 15px 0 rgb(0, 0, 0 / 5%);
+        box-shadow: 0 2px 15px 0 rgb(0, 0, 0 / 5%);
         margin-top: 5px;
         border-bottom: 0 solid transparent;
         margin-bottom: 10px;
@@ -23,16 +23,16 @@
     &--margin {
       margin-top: 10px;
       margin-bottom: 10px;
-      -webkit-box-shadow: 0 2px 15px 0 rgb(0 0 0 / 5%);
-      box-shadow: 0 2px 15px 0 rgb(0 0 0 / 5%);
+      -webkit-box-shadow: 0 2px 15px 0 rgb(0, 0, 0 / 5%);
+      box-shadow: 0 2px 15px 0 rgb(0, 0, 0 / 5%);
       border-radius: 5px;
       border-bottom: 0 solid transparent;
 
       & .badaso-collapse-item__container {
         margin-top: 10px;
         margin-bottom: 10px;
-        -webkit-box-shadow: 0 2px 15px 0 rgb(0 0 0 / 5%);
-        box-shadow: 0 2px 15px 0 rgb(0 0 0 / 5%);
+        -webkit-box-shadow: 0 2px 15px 0 rgb(0, 0, 0 / 5%);
+        box-shadow: 0 2px 15px 0 rgb(0, 0, 0 / 5%);
         border-radius: 5px;
         border-bottom: 0 solid transparent;
       }
