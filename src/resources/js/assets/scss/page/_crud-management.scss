@@ -1,0 +1,35 @@
+.crud-management {
+  &__notification-title {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 1.5rem;
+  }
+
+  &__notification-item {
+    margin-bottom: 1rem !important;
+    justify-content: start;
+  }
+
+  &__field-visibility {
+    margin-bottom: 0.5rem !important;
+    justify-content: start;
+  }
+
+  &__relation-destination {
+    margin-bottom: 1rem;
+  }
+
+  &__button {
+    &--block {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  &__mobile-row {
+    background-color: white;
+    border: solid 1px #dedede;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+}

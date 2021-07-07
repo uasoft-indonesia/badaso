@@ -1,10 +1,6 @@
 <template>
-  <vs-col
-    vs-lg="12"
-    class="login-register-box"
-    style="justify-content: center; align-items: center; margin-left: 0%; width: 100%;"
-  >
-    <vs-card class="mb-0">
+  <vs-col vs-lg="12" class="main-container__box--auth">
+    <vs-card class="main-container__card--auth">
       <badaso-auth-card-header slot="header">{{
         $t("register.title")
       }}</badaso-auth-card-header>
@@ -16,19 +12,16 @@
             size="default"
             :placeholder="$t('register.field.name')"
             v-model="name"
-            class="w-100 mb-4 mt-2 "
+            class="register__input"
           />
-          <div v-if="errors.name" class="mb-4">
+          <div v-if="errors.name" class="register__error-container">
             <div v-if="$helper.isArray(errors.name)">
-              <span
-                class="text-danger"
-                v-for="(info, index) in errors.name"
-                :key="index"
-                v-html="info + '<br />'"
-              ></span>
+              <span class="register__input--error" v-for="(info, index) in errors.name" :key="index" >
+                {{ info }}
+              </span>
             </div>
             <div v-else>
-              <span class="text-danger" v-html="errors.name"></span>
+              <span class="register__input--error" v-html="errors.name"></span>
             </div>
           </div>
           <vs-input
@@ -37,19 +30,16 @@
             size="default"
             :placeholder="$t('register.field.email')"
             v-model="email"
-            class="w-100 mb-4 mt-2 "
+            class="register__input"
           />
-          <div v-if="errors.email" class="mb-4">
+          <div v-if="errors.email" class="register__error-container">
             <div v-if="$helper.isArray(errors.email)">
-              <span
-                class="text-danger"
-                v-for="(info, index) in errors.email"
-                :key="index"
-                v-html="info"
-              ></span>
+              <span class="register__input--error" v-for="(info, index) in errors.email" :key="index">
+                {{ info }}
+              </span>
             </div>
             <div v-else>
-              <span class="text-danger" v-html="errors.email"></span>
+              <span class="register__input--error" v-html="errors.email"></span>
             </div>
           </div>
           <vs-input
@@ -59,19 +49,16 @@
             size="default"
             :placeholder="$t('register.field.password')"
             v-model="password"
-            class="w-100 mb-4 mt-2 "
+            class="register__input"
           />
-          <div v-if="errors.password" class="mb-4">
+          <div v-if="errors.password" class="register__error-container">
             <div v-if="$helper.isArray(errors.password)">
-              <span
-                class="text-danger"
-                v-for="(info, index) in errors.password"
-                :key="index"
-                v-html="info"
-              ></span>
+              <span class="register__input--error" v-for="(info, index) in errors.password" :key="index" >
+                {{ info }}
+              </span>
             </div>
             <div v-else>
-              <span class="text-danger" v-html="errors.password"></span>
+              <span class="register__input--error" v-html="errors.password"></span>
             </div>
           </div>
           <vs-input
@@ -81,14 +68,14 @@
             size="default"
             :placeholder="$t('register.field.passwordConfirmation')"
             v-model="passwordConfirmation"
-            class="w-100 mb-4 mt-2 "
+            class="register__input"
           />
-          <vs-button type="relief" class="btn-block" @click="register()">{{
+          <vs-button type="relief" class="register__button" @click="register()">{{
             $t("register.button")
           }}</vs-button>
         </form>
 
-        <div class="d-flex justify-content-center mt-3">
+        <div class="register__login-link">
           {{ $t("register.existingAccount.text") }} &nbsp;
           <router-link :to="'/' + baseUrl + '/login'">{{
             $t("register.existingAccount.link")
@@ -148,9 +135,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.login-register-box {
-  max-width: 400px;
-}
-</style>

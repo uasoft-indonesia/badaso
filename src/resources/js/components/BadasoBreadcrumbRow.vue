@@ -1,21 +1,17 @@
 <template>
-  <vs-row>
+  <vs-row class="badaso-breadcrumb-row__container">
     <vs-col vs-lg="6" vs-md="12" vs-sm="12">
-      <vs-icon
-        icon="arrow_back_ios"
-        style="cursor:pointer; float:left; padding-top: 0.6rem;"
-        @click="goBack()"
-      ></vs-icon>
+      <vs-icon icon="arrow_back_ios" class="badaso-breadcrumb-row__icon" @click="goBack()" />
       <vs-breadcrumb>
         <li v-for="(item, index) in items" :key="index">
           <router-link :to="item.url">{{ item.title }}</router-link>
-          <span class="vs-breadcrum--separator">/</span>
+          <span class="badaso-breadcrumb-row__separator">/</span>
         </li>
-        <li aria-current="page" class="active">{{ activePage.title }}</li>
+        <li aria-current="page">{{ activePage.title }}</li>
       </vs-breadcrumb>
     </vs-col>
     <vs-col vs-lg="6" vs-md="12" vs-sm="12">
-      <div style="float: right">
+      <div class="badaso-breadcrumb-row__container--right">
         <slot name="action" />
       </div>
     </vs-col>
@@ -74,12 +70,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.vs-breadcrumb--ol {
-  margin-bottom: 0;
-}
-.vs-row {
-  margin-bottom: 1rem;
-}
-</style>

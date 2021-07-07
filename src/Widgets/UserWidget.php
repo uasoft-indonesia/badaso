@@ -21,6 +21,7 @@ class UserWidget implements WidgetInterface
     {
         return [
             'label' => 'User',
+            'icon' => 'person',
             'value' => User::count(),
         ];
     }

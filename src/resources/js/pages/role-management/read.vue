@@ -30,7 +30,7 @@
           <div slot="header">
             <h3>{{ $t("role.detail.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr>
               <th>{{ $t("role.detail.name") }}</th>
               <td>{{ role.name }}</td>

@@ -1,0 +1,30 @@
+.badaso-loading-page {
+  &__box {
+    max-width: 400px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  &__card {
+    margin-bottom: 0 !important;
+  }
+
+  &__container {
+    min-height: 100vh;
+    margin: 0 auto !important;
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 100%;
+  }
+
+  &__title {
+    margin-bottom: 0.25rem !important;
+  }
+
+  // &__wrapper {}
+}

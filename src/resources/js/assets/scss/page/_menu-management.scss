@@ -1,0 +1,68 @@
+.menu-management {
+  &__button {
+    width: 100%;
+    display: block;
+  }
+
+  &__builder-col {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  &__box {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__display {
+    position: relative;
+  }
+
+  &__text-display {
+    width: max-content;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+
+  &__action {
+    float: right;
+  }
+
+  &__tree {
+    .tree3 .tree-node-inner {
+      border: none;
+      padding: 0px;
+    }
+    .tree3 .tree-node-inner-back:hover {
+      background: #ddd;
+    }
+    .tree4 .tree-node-inner {
+      border: none;
+      border-bottom: 1px solid #ccc;
+      padding: 5px 10px;
+      background: #ccc;
+    }
+    .tree4 .draggable-placeholder-inner {
+      background-color: orangered;
+    }
+    .he-tree {
+      padding: 20px;
+    }
+    .tree-node-inner {
+      padding: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+    .draggable-placeholder-inner {
+      border: 1px dashed #0088f8;
+      box-sizing: border-box;
+      background: rgba(0, 136, 249, 0.09);
+      color: #0088f9;
+      text-align: center;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

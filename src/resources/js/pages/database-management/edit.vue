@@ -19,16 +19,16 @@
               </badaso-text>
             </vs-col>
             <vs-col vs-lg="12">
-              <div v-if="$v.databaseData.table.modifiedName.$dirty" class="d-inline-grid" >
-                <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.required" >
+              <div v-if="$v.databaseData.table.modifiedName.$dirty">
+                <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.table.modifiedName.required" >
                   {{ $t("database.edit.row.field.tableName") }} <br />
                 </i18n>
 
-                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger),1)" v-if=" !$v.databaseData.table.modifiedName .alphaNumAndUnderscoreValidator " >
+                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.table.modifiedName .alphaNumAndUnderscoreValidator " >
                   {{ $t("database.edit.row.field.tableName") }} <br />
                 </i18n>
 
-                <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger),1)" v-if="!$v.databaseData.table.modifiedName.maxLength" >
+                <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.table.modifiedName.maxLength" >
                   <template v-slot:field>
                     {{ $t("database.edit.row.field.tableName") }}
                   </template>
@@ -53,34 +53,34 @@
             <template slot="desc">{{ $t('database.edit.warning.content') }}</template>
           </badaso-alert-block>
           <vs-row vs-justify="center" vs-align="center">
-            <vs-col col-lg="12" style="overflow-x: auto">
+            <vs-col col-lg="12">
               <vs-table :data="databaseData.fields.modifiedFields">
                 <template slot="thead">
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldName") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldType") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldLength") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldNull") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldAttribute") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldIncrement") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldIndex") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap">
+                  <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldDefault") }}
                   </vs-th>
-                  <vs-th style="word-wrap: nowrap"></vs-th>
+                  <vs-th class="badaso-table__no-wrap"></vs-th>
                 </template>
                 <template slot-scope="{ data }">
                   <template v-for="(tr, indextr) in data">
@@ -92,15 +92,16 @@
                           :value="tr.fieldName"
                           class="inputx"
                           @change="alterFieldProperty(tr, $event, 'RENAME', 'fieldName', indextr)"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldType">
                         <vs-select
-                          class="selectExample"
+                          class="database-management__field-type"
                           :value="tr.fieldType"
-                          style="width: 100%"
                           @input="alterFieldProperty(tr, $event, 'UPDATE_TYPE', 'fieldType', indextr)"
+                          :disabled="tr.undeletable"
                         >
                           <div
                             :key="index"
@@ -126,29 +127,29 @@
                           type="text"
                           required
                           :value="tr.fieldLength"
-                          class="inputx"
                           @change="alterFieldProperty(tr, $event, 'UPDATE_LENGTH', 'fieldLength', indextr)"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldNull">
-                        <vs-checkbox :value="tr.fieldNull" @change="alterFieldProperty(tr, $event, 'UPDATE_NULL', 'fieldNull', indextr)"></vs-checkbox>
+                        <vs-checkbox :value="tr.fieldNull" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_NULL', 'fieldNull', indextr)"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldAttribute">
-                        <vs-checkbox :value="tr.fieldAttribute" @change="alterFieldProperty(tr, $event, 'UPDATE_ATTRIBUTE', 'fieldAttribute', indextr)"></vs-checkbox>
+                        <vs-checkbox :value="tr.fieldAttribute" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_ATTRIBUTE', 'fieldAttribute', indextr)"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIncrement">
-                        <vs-checkbox :value="tr.fieldIncrement" @change="alterFieldProperty(tr, $event, 'UPDATE_INCREMENT', 'fieldIncrement', indextr)"></vs-checkbox>
+                        <vs-checkbox :value="tr.fieldIncrement" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_INCREMENT', 'fieldIncrement', indextr)"></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIndex">
                         <vs-select
-                          class="selectExample"
+                          class="database-management__field-index"
                           :value="tr.fieldIndex"
-                          style="width: 100%"
                           @input="alterFieldProperty(tr, $event, 'UPDATE_INDEX', 'fieldIndex', indextr)"
+                          :disabled="tr.undeletable"
                         >
                           <vs-select-item
                             text="-"
@@ -166,8 +167,8 @@
                         <vs-input
                           type="text"
                           :value="tr.fieldDefault"
-                          class="inputx"
                           @change="alterFieldProperty(tr, $event, 'UPDATE_DEFAULT', 'fieldDefault', indextr)"
+                          :disabled="tr.undeletable"
                         />
                       </vs-td>
 
@@ -175,6 +176,7 @@
                         <vs-button
                           color="danger"
                           type="relief"
+                          v-if="!tr.undeletable"
                           @click="dropField(tr, indextr)"
                         >
                           <vs-icon icon="delete"></vs-icon>
@@ -188,12 +190,12 @@
                       <!-- FIELD NAME -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.required" >
+                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.required" >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- maxLength -->
-                        <i18n path="vuelidate.maxLength" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.maxLength" >
+                        <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.maxLength" >
                           <template v-slot:field>
                             {{ $t("database.add.row.field.fieldName") }}
                           </template>
@@ -203,12 +205,12 @@
                         </i18n>
 
                         <!-- alphaNumAndUnderscoreValidator -->
-                        <i18n path="vuelidate.alphaNumAndUnderscoreValidator" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.alphaNumAndUnderscoreValidator" >
+                        <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.alphaNumAndUnderscoreValidator" >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- unique -->
-                        <i18n path="vuelidate.unique" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.unique" >
+                        <i18n path="vuelidate.unique" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.unique" >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
                       </vs-td>
@@ -216,7 +218,7 @@
                       <!-- FIELD TYPE -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldType.required" >
+                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldType.required" >
                           {{ $t("database.add.row.field.fieldType") }}
                         </i18n>
                       </vs-td>
@@ -224,7 +226,7 @@
                       <!-- FIELD LENGTH -->
                       <vs-td>
                         <!-- requiredIf -->
-                        <i18n path="vuelidate.required" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldLength.required" >
+                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldLength.required" >
                           {{ $t("database.add.row.field.fieldLength") }}
                         </i18n>
                       </vs-td>
@@ -238,7 +240,7 @@
                       <!-- FIELD INCREMENT -->
                       <vs-td>
                         <!-- distinct -->
-                        <i18n path="vuelidate.distinct" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIncrement.distinct" >
+                        <i18n path="vuelidate.distinct" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIncrement.distinct" >
                           {{ $t("database.add.row.field.fieldIncrement") }}
                         </i18n>
                       </vs-td>
@@ -246,12 +248,12 @@
                       <!-- FIELD INDEX -->
                       <vs-td>
                         <!-- distinct -->
-                        <i18n path="vuelidate.distinct" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIndex.distinct" >
+                        <i18n path="vuelidate.distinct" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIndex.distinct" >
                           {{ 'primary' }}
                         </i18n>
 
                         <!-- required -->
-                        <i18n path="vuelidate.requiredPrimary" style="color: rgba(var(--vs-danger), 1)" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIndex.required" >
+                        <i18n path="vuelidate.requiredPrimary" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIndex.required" >
                           {{ 'primary' }}
                         </i18n>
                       </vs-td>
@@ -265,17 +267,13 @@
             </vs-col>
             <vs-col
               vs-w="6"
-              class="mt-4 w-unset"
+              class="database-management__footer"
               vs-justify="center"
               vs-align="center"
             >
               <vs-button type="relief" color="primary" @click="addField()">
                 <vs-icon icon="add"></vs-icon>
                 Add new column
-              </vs-button>
-              <vs-button type="relief" color="primary" @click="addTimestamps()">
-                <vs-icon icon="add"></vs-icon>
-                Add timestamps
               </vs-button>
 
               <!-- TODO for future development -->
@@ -299,11 +297,10 @@
               vs-lg="10"
               vs-align="center"
               v-if="$v.databaseData.fields.modifiedFields.$dirty"
-              class="d-inline-grid"
             >
               <i18n
                 path="vuelidate.rowsRequired"
-                style="color: rgba(var(--vs-danger),1)"
+                class="is-error"
                 v-if="!$v.databaseData.fields.modifiedFields.required"
               >
               </i18n>
@@ -506,7 +503,8 @@ export default {
                       .toLowerCase()
                   : null,
               fieldDefault: column.default,
-              modifyType: []
+              modifyType: [],
+              undeletable: column.name === 'created_at' || column.name === 'updated_at' ? true : false
             });
 
             this.databaseData.fields.currentFields.push({
@@ -592,7 +590,8 @@ export default {
     },
 
     addField() {
-      this.databaseData.fields.modifiedFields.push({
+      let index = this.databaseData.fields.modifiedFields.map(row => row.undeletable).indexOf(true)
+      this.databaseData.fields.modifiedFields.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
         fieldType: "",
@@ -622,53 +621,53 @@ export default {
       return found;
     },
 
-    addTimestamps() {
-      if (this.findFieldOnRows("created_at")) {
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "created_at" }),
-          color: "danger",
-        });
-      } else {
-        this.databaseData.fields.modifiedFields.push({
-          id: this.$helper.uuid(),
-          fieldName: "created_at",
-          fieldType: "timestamp",
-          fieldLength: null,
-          fieldNull: true,
-          fieldAttribute: false,
-          fieldIncrement: false,
-          fieldIndex: null,
-          fieldDefault: null,
-          modifyType: [
-            'CREATE'
-          ]
-        });
-      }
+    // addTimestamps() {
+    //   if (this.findFieldOnRows("created_at")) {
+    //     this.$vs.notify({
+    //       title: this.$t("alert.danger"),
+    //       text: this.$t("database.warning.exists", { 0: "created_at" }),
+    //       color: "danger",
+    //     });
+    //   } else {
+    //     this.databaseData.fields.modifiedFields.push({
+    //       id: this.$helper.uuid(),
+    //       fieldName: "created_at",
+    //       fieldType: "timestamp",
+    //       fieldLength: null,
+    //       fieldNull: true,
+    //       fieldAttribute: false,
+    //       fieldIncrement: false,
+    //       fieldIndex: null,
+    //       fieldDefault: null,
+    //       modifyType: [
+    //         'CREATE'
+    //       ]
+    //     });
+    //   }
 
-      if (this.findFieldOnRows("updated_at")) {
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "updated_at" }),
-          color: "danger",
-        });
-      } else {
-        this.databaseData.fields.modifiedFields.push({
-          id: this.$helper.uuid(),
-          fieldName: "updated_at",
-          fieldType: "timestamp",
-          fieldLength: null,
-          fieldNull: true,
-          fieldAttribute: false,
-          fieldIncrement: false,
-          fieldIndex: null,
-          fieldDefault: null,
-          modifyType: [
-            'CREATE'
-          ]
-        });
-      }
-    },
+    //   if (this.findFieldOnRows("updated_at")) {
+    //     this.$vs.notify({
+    //       title: this.$t("alert.danger"),
+    //       text: this.$t("database.warning.exists", { 0: "updated_at" }),
+    //       color: "danger",
+    //     });
+    //   } else {
+    //     this.databaseData.fields.modifiedFields.push({
+    //       id: this.$helper.uuid(),
+    //       fieldName: "updated_at",
+    //       fieldType: "timestamp",
+    //       fieldLength: null,
+    //       fieldNull: true,
+    //       fieldAttribute: false,
+    //       fieldIncrement: false,
+    //       fieldIndex: null,
+    //       fieldDefault: null,
+    //       modifyType: [
+    //         'CREATE'
+    //       ]
+    //     });
+    //   }
+    // },
 
     dropField(item, index) {
       this.$vs.dialog({
@@ -733,12 +732,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.drag_icon:hover {
-  cursor: all-scroll;
-}
-.vs-select--options {
-  z-index: 99999 !important;
-}
-</style>

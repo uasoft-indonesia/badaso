@@ -4,6 +4,10 @@
   z-index: 25000;
   min-height: $topbar-height;
 
+  &__header {
+    display: contents;
+  }
+
   &__menu {
 
     &--left {
@@ -16,7 +20,12 @@
   }
 
   &__notification {
-    // notification
+    display: flex;
+    align-items: center;
+
+    &-item {
+      margin-bottom : -4%;
+    }
   }
 
   .vs-navbar--item {
@@ -64,27 +73,40 @@
       width: 18px;
     }
   }
-}
 
-.themelogo {
-  display: flex;
-  align-items: center;
-  padding: $logo-padding;
+  &__logo {
+    display: flex;
+    align-items: center;
+    padding: $logo-padding;
 
-  &__wrapper {
+    @media only screen and (min-width: 768px) {
+      min-width: $full-sidebar;
+    }
+
+    & img {
+      height: 30px;
+    }
+  }
+
+  &__logo-wrapper {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .logo-text {
+  &__logo-text {
     font-size: 16px;
     font-weight: $font-weight-bold;
   }
 
-  @media only screen and (min-width: 768px) {
-    min-width: $full-sidebar;
+  &__icon {
+    cursor: pointer;
+  }
+
+  &__i18n-container {
+    margin-left: 1.5rem !important;
+    cursor: pointer;
   }
 }
 

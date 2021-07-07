@@ -1,15 +1,12 @@
 <template>
-  <div
-    :class="[{ stripe: stripe, hoverFlat: hoverFlat }, `vs-table-${color}`]"
-    class="vs-component vs-con-table"
-  >
+  <div :class="[{ stripe: stripe, hoverFlat: hoverFlat }, `vs-table-${color}`]" class="vs-component vs-con-table">
     <!-- header -->
     <header class="header-table vs-table--header">
-      <vs-row style="margin-bottom: 0;">
+      <vs-row class="badaso-table__table-header">
         <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="pagination">
-          <div style="display: flex; align-items: center; margin: 15px;">
+          <div class="badaso-table__header-dropdown">
             Show&nbsp;
-            <vs-select class="selectExample" v-model="maxItemsx" width="100px">
+            <vs-select v-model="maxItemsx" width="100px">
               <vs-select-item
                 :key="index"
                 :value="row"
@@ -21,7 +18,7 @@
           </div>
         </vs-col>
         <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="search">
-          <div class="con-input-search vs-table--search" style="float: right;">
+          <div class="con-input-search vs-table--search badaso-table__search">
             <input
               v-model="searchx"
               class="input-search vs-table--search-input"

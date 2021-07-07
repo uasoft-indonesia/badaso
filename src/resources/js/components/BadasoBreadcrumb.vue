@@ -1,16 +1,12 @@
 <template>
   <div>
-    <vs-icon
-      icon="arrow_back_ios"
-      style="cursor:pointer; float:left; padding-top: 0.6rem;"
-      @click="goBack()"
-    ></vs-icon>
+    <vs-icon icon="arrow_back_ios" class="badaso-breadcrumb__icon" @click="goBack()" />
     <vs-breadcrumb>
       <li v-for="(item, index) in items" :key="index">
         <router-link :to="item.url">{{ item.title }}</router-link>
-        <span class="vs-breadcrum--separator">/</span>
+        <span class="badaso-breadcrumb__separator">/</span>
       </li>
-      <li aria-current="page" class="active">{{ activePage.title }}</li>
+      <li aria-current="page">{{ activePage.title }}</li>
     </vs-breadcrumb>
   </div>
 </template>

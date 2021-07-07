@@ -1,8 +1,10 @@
-// Import Bootstrap source files (Required file)
-
 @import "variable";
-@import "./bootstrap/bootstrap";
 @import "./layout/layout";
 @import "./layout/custom";
+
+@import "base/reset.scss";
+@import "page/index.scss";
+@import "module/index.scss";
+@import "state/index.scss";
 
 @import "../../../../../../../../resources/js/badaso/scss/custom.scss";

@@ -45,7 +45,7 @@
               :placeholder="$t('user.add.field.avatar.placeholder')"
               :alert="errors.avatar"
             ></badaso-upload-image>
-            <vs-col vs-lg="12" class="mb-3">
+            <vs-col vs-lg="12">
               <badaso-code-editor
                 v-model="user.additionalInfo"
                 size="12"

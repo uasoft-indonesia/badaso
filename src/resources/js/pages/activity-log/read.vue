@@ -7,7 +7,7 @@
           <div slot="header">
             <h3>{{ $t("activityLog.detail.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr>
               <th>{{ $t("activityLog.header.logName") }}</th>
               <td>{{ activitylog.logName }}</td>
@@ -48,10 +48,10 @@
           <div slot="header">
             <h3>{{ $t("activityLog.detail.subject.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr v-for="(item, index) in filteredSubject" :key="index">
               <th>
-                <span style="text-transform: capitalize;">{{
+                <span class="activity-log__text--capitalize">{{
                   index | replaceTitle
                 }}</span>
               </th>
@@ -72,10 +72,10 @@
           <div slot="header">
             <h3>{{ $t("activityLog.detail.causer.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr v-for="(item, index) in filteredCauser" :key="index">
               <th>
-                <span style="text-transform: capitalize;">{{
+                <span class="activity-log__text--capitalize">{{
                   index | replaceTitle
                 }}</span>
               </th>
@@ -97,22 +97,22 @@
           <div slot="header">
             <h3>{{ $t("activityLog.detail.properties.title") }}</h3>
           </div>
-          <table class="table">
+          <table class="badaso-table">
             <tr v-for="(item, index) in properties" :key="index">
               <th>
-                <span style="text-transform: capitalize;">{{
+                <span class="activity-log__text--capitalize">{{
                   index | replaceTitle
                 }}</span>
               </th>
               <td v-if="typeof item === 'object'">
-                <table class="table">
+                <table class="badaso-table">
                   <tr
                     v-for="(value, index) in item"
                     :key="index"
                     v-if="index !== 'password'"
                   >
                     <th>
-                      <span style="text-transform: capitalize;">{{
+                      <span class="activity-log__text--capitalize">{{
                         index | replaceTitle
                       }}</span>
                     </th>
@@ -193,9 +193,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.vs-card--content {
-  overflow: auto;
-}
-</style>

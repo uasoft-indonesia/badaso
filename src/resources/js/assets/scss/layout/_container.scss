@@ -16,20 +16,39 @@
   }
 }
 
-.login-register-bg {
-  margin: 0 auto !important;
-  background-size: cover;
-  background-position: center;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  width: 100%;
-}
+.main-container {
+  &__background {
+    &--auth {
+      margin: 0 auto !important;
+      background-size: cover;
+      background-position: center;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+  }
 
-.login-register-box {
-  max-width: 400px;
-  justify-content: center;
-  align-items: center;
-  margin-left: 0;
-  width: 100%;
+  &__box {
+    &--auth {
+      max-width: 400px;
+      justify-content: center;
+      align-items: center;
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  &__alert {
+    &--auth {
+      margin-bottom: 1rem !important;
+    }
+  }
+
+  &__card {
+    &--auth {
+      margin-bottom: 0 !important;
+    }
+  }
 }

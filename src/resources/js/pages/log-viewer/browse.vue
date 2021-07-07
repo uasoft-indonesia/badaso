@@ -14,7 +14,7 @@
               v-if="isShow"
               ref="logViewerIFrame"
               :src="urlIframe"
-              style="width: 100%; height: 750px; overflow: hidden; border: none;"
+              class="log-viewer__iframe"
             ></iframe>
           </div>
         </vs-card>

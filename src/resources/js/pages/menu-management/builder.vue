@@ -1,7 +1,6 @@
 <template>
   <div>
     <vs-popup
-      class="holamundo"
       :title="$t('menu.builder.popup.add.title')"
       :active.sync="addMenuItemPopUp"
     >
@@ -45,7 +44,7 @@
       <vs-row vs-type="flex" vs-justify="space-between">
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
           <vs-button
-            class="btn-block"
+            class="menu-management__button"
             color="danger"
             @click="closeModal()"
             type="relief"
@@ -54,7 +53,7 @@
         </vs-col>
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
           <vs-button
-            class="btn-block"
+            class="menu-management__button"
             color="primary"
             @click="saveMenuItem()"
             type="relief"
@@ -76,22 +75,23 @@
           <div slot="header">
             <h3>{{ $t("menu.builder.title") }}</h3>
           </div>
-          <div class="row">
-            <div class="col-12">
+          <vs-row>
+            <vs-col class="menu-management__builder-col">
               <Tree
                 :data="menuItems"
                 draggable="draggable"
                 cross-tree="cross-tree"
                 :ondragend="saveMenuOrder()"
+                class="menu-management__tree"
               >
                 <div
                   slot-scope="{ data, store }"
-                  class="data-box"
+                  class="menu-management__box"
                   @click="store.toggleOpen(data)"
                 >
                   <template v-if="!data.isDragPlaceHolder">
-                    <div class="data-display">
-                      <div class="text-display">
+                    <div class="menu-management__display">
+                      <div class="menu-management__text-display">
                         <b v-if="data.children && data.children.length"
                           >{{ data.open ? "-" : "+" }}&nbsp;
                         </b>
@@ -101,7 +101,7 @@
                         <span>{{ data.title }}</span>
                       </div>
                     </div>
-                    <div class="data-action">
+                    <div class="menu-management__action">
                       <badaso-dropdown vs-trigger-click>
                         <vs-button
                           size="large"
@@ -137,7 +137,6 @@
                       </badaso-dropdown>
                     </div>
                     <vs-popup
-                      class="holamundo"
                       :title="$t('menu.builder.popup.edit.title')"
                       :active.sync="data.editItem"
                     >
@@ -189,7 +188,7 @@
                       <vs-row vs-type="flex" vs-justify="space-between">
                         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                           <vs-button
-                            class="btn-block"
+                            class="menu-management__button"
                             color="danger"
                             @click="closeModal()"
                             type="relief"
@@ -200,7 +199,7 @@
                         </vs-col>
                         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                           <vs-button
-                            class="btn-block"
+                            class="menu-management__button"
                             color="primary"
                             @click="updateMenuItem(data)"
                             type="relief"
@@ -214,8 +213,8 @@
                   </template>
                 </div>
               </Tree>
-            </div>
-          </div>
+            </vs-col>
+          </vs-row>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -525,61 +524,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.drag_icon:hover {
-  cursor: all-scroll;
-}
-.he-tree {
-  padding: 20px;
-}
-.tree-node-inner {
-  padding: 5px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-}
-.draggable-placeholder-inner {
-  border: 1px dashed #0088f8;
-  box-sizing: border-box;
-  background: rgba(0, 136, 249, 0.09);
-  color: #0088f9;
-  text-align: center;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-.tree3 .tree-node-inner {
-  border: none;
-  padding: 0px;
-}
-.tree3 .tree-node-inner-back:hover {
-  background: #ddd;
-}
-.tree4 .tree-node-inner {
-  border: none;
-  border-bottom: 1px solid #ccc;
-  padding: 5px 10px;
-  background: #ccc;
-}
-.tree4 .draggable-placeholder-inner {
-  background-color: orangered;
-}
-
-.data-box {
-  display: flex;
-  justify-content: space-between;
-}
-.data-display {
-  position: relative;
-}
-.data-action {
-  float: right;
-}
-
-.text-display {
-  width: max-content;
-  position: absolute;
-  top: 50%;
-  transform: translate(0, -50%);
-}
-</style>

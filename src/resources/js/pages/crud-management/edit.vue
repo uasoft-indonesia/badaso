@@ -132,7 +132,7 @@
               :alert="errors.defaultServerSideSearchField"
             ></badaso-hidden>
 
-            <div class="row ml-3 mr-3">
+            <div class="crud-management__notification-title">
               <label for="">{{
                 $t("crud.edit.field.activeEventNotification.title")
               }}</label>
@@ -141,10 +141,9 @@
             <vs-row>
               <vs-col>
                 <vs-checkbox
-                  class="mb-2"
+                  class="crud-management__notification-item"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onCreate"
-                  style="justify-content: start;"
                   >{{
                     $t("crud.edit.field.activeEventNotification.label.onCreate")
                   }}</vs-checkbox
@@ -187,10 +186,9 @@
             <vs-row>
               <vs-col>
                 <vs-checkbox
-                  class="mb-2"
+                  class="crud-management__notification-item"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onRead"
-                  style="justify-content: start;"
                   >{{
                     $t("crud.edit.field.activeEventNotification.label.onRead")
                   }}</vs-checkbox
@@ -233,10 +231,9 @@
             <vs-row>
               <vs-col>
                 <vs-checkbox
-                  class="mb-2"
+                  class="crud-management__notification-item"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onUpdate"
-                  style="justify-content: start;"
                   >{{
                     $t("crud.edit.field.activeEventNotification.label.onUpdate")
                   }}</vs-checkbox
@@ -279,10 +276,9 @@
             <vs-row>
               <vs-col>
                 <vs-checkbox
-                  class="mb-2"
+                  class="crud-management__notification-item"
                   @change="onCheckBoxNotificationOnEvent"
                   v-model="onDelete"
-                  style="justify-content: start;"
                   >{{
                     $t("crud.edit.field.activeEventNotification.label.onDelete")
                   }}</vs-checkbox
@@ -345,23 +341,23 @@
             </h3>
           </div>
           <vs-row class="hide-for-mobile">
-            <vs-col col-lg="12" style="overflow-x: auto">
-              <table class="table">
+            <vs-col col-lg="12">
+              <table class="badaso-table">
                 <thead>
-                  <th style="width: 1%; word-wrap: nowrap;"></th>
-                  <th style="width: 1%; word-wrap: nowrap;">
+                  <th class="badaso-table__th"></th>
+                  <th class="badaso-table__th">
                     {{ $t("crud.edit.header.field") }}
                   </th>
-                  <th style="width: 1%; word-wrap: nowrap;">
+                  <th class="badaso-table__th">
                     {{ $t("crud.edit.header.visibility") }}
                   </th>
-                  <th style="width: 1%; word-wrap: nowrap; min-width: 200px;">
+                  <th class="badaso-table__th badaso-table__th--sm">
                     {{ $t("crud.edit.header.inputType") }}
                   </th>
-                  <th style="min-width: 200px;">
+                  <th class="badaso-table__th--sm">
                     {{ $t("crud.edit.header.displayName") }}
                   </th>
-                  <th style="min-width: 200px;">
+                  <th class="badaso-table__th--sm">
                     {{ $t("crud.edit.header.optionalDetails") }}
                   </th>
                 </thead>
@@ -369,22 +365,21 @@
                   <tr
                     :key="index"
                     v-for="(field, index) in crudData.rows"
-                    style="background-color: white"
                   >
                     <td>
                       <vs-icon
                         icon="drag_indicator"
-                        class="drag_icon"
+                        class="is-draggable"
                       ></vs-icon>
                     </td>
                     <td :data="field.field">
                       <strong>{{ field.field }}</strong>
                       <br />
-                      <span style="white-space: nowrap">
+                      <span>
                         {{ $t("crud.edit.body.type") }} {{ field.type }}
                       </span>
                       <br />
-                      <span style="white-space: nowrap">
+                      <span>
                         {{ $t("crud.edit.body.required.title") }}
                         <span v-if="field.required">{{
                           $t("crud.edit.body.required.yes")
@@ -395,7 +390,7 @@
                       </span>
                       <br />
                       <span
-                        class="text-danger"
+                        class="is-error"
                         v-for="err in errors[`rows.${index}.field`]"
                         >{{ err }}</span
                       >
@@ -403,32 +398,27 @@
                     <td>
                       <vs-checkbox
                         v-model="field.browse"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__field-visibility"
                         >{{ $t("crud.edit.body.browse") }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.read"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__field-visibility"
                         >{{ $t("crud.edit.body.read") }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.edit"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__field-visibility"
                         >{{ $t("crud.edit.body.edit") }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.add"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__field-visibility"
                         >{{ $t("crud.edit.body.add") }}</vs-checkbox
                       >
                       <vs-checkbox
                         v-model="field.delete"
-                        class="mb-1"
-                        style="justify-content: start;"
+                        class="crud-management__field-visibility"
                         >{{ $t("crud.edit.body.delete") }}</vs-checkbox
                       >
                     </td>
@@ -462,7 +452,6 @@
                         >{{ $t("crud.edit.body.setRelation") }}</vs-button
                       >
                       <vs-popup
-                        class="holamundo"
                         :title="$t('crud.edit.body.setRelation')"
                         :active.sync="field.setRelation"
                       >
@@ -473,7 +462,7 @@
                             :items="relationTypes"
                             :label="$t('crud.edit.body.relationType')"
                           ></badaso-select>
-                          <vs-col vs-lg="12" class="mb-3">
+                          <vs-col vs-lg="12" class="crud-management__relation-destination">
                             <vs-select
                               :label="$t('crud.edit.body.destinationTable')"
                               width="100%"
@@ -506,7 +495,7 @@
                         <vs-row vs-type="flex" vs-justify="space-between">
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                             <vs-button
-                              class="btn-block"
+                              class="crud-management__button--block"
                               color="danger"
                               @click="field.setRelation = false"
                               type="relief"
@@ -517,7 +506,7 @@
                           </vs-col>
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                             <vs-button
-                              class="btn-block"
+                              class="crud-management__button--block"
                               color="primary"
                               @click="saveRelation(field)"
                               type="relief"
@@ -535,15 +524,15 @@
             </vs-col>
           </vs-row>
           <vs-row class="show-for-mobile">
-            <vs-col col-lg="12" style="overflow-x: auto">
+            <vs-col col-lg="12">
               <draggable v-model="crudData.rows" tag="div">
                 <vs-row
                   :key="index"
                   v-for="(field, index) in crudData.rows"
-                  style="background-color: white; border: solid 1px #dedede; margin-bottom: 20px; padding: 10px;"
+                  class="crud-management__mobile-row"
                 >
                   <vs-col col-lg="12" class="mb-2">
-                    <table class="table">
+                    <table class="badaso-table">
                       <tr>
                         <td>{{ $t("crud.add.header.field") }}</td>
                         <td>
@@ -568,7 +557,7 @@
                       <tr v-if="errors[`rows.${index}.field`]">
                         <td colspan="2">
                           <span
-                            class="text-danger"
+                            class="is-error"
                             v-for="err in errors[`rows.${index}.field`]"
                             >{{ err }}</span
                           >
@@ -579,32 +568,27 @@
                         <td>
                           <vs-checkbox
                             v-model="field.browse"
-                            class="mb-1"
-                            style="justify-content: start;"
+                            class="crud-management__field-visibility"
                             >{{ $t("crud.add.body.browse") }}</vs-checkbox
                           >
                           <vs-checkbox
                             v-model="field.read"
-                            class="mb-1"
-                            style="justify-content: start;"
+                            class="crud-management__field-visibility"
                             >{{ $t("crud.add.body.read") }}</vs-checkbox
                           >
                           <vs-checkbox
                             v-model="field.edit"
-                            class="mb-1"
-                            style="justify-content: start;"
+                            class="crud-management__field-visibility"
                             >{{ $t("crud.add.body.edit") }}</vs-checkbox
                           >
                           <vs-checkbox
                             v-model="field.add"
-                            class="mb-1"
-                            style="justify-content: start;"
+                            class="crud-management__field-visibility"
                             >{{ $t("crud.add.body.add") }}</vs-checkbox
                           >
                           <vs-checkbox
                             v-model="field.delete"
-                            class="mb-1"
-                            style="justify-content: start;"
+                            class="crud-management__field-visibility"
                             >{{ $t("crud.add.body.delete") }}</vs-checkbox
                           >
                         </td>
@@ -658,7 +642,7 @@
                                 :items="relationTypes"
                                 :label="$t('crud.add.body.relationType')"
                               ></badaso-select>
-                              <vs-col vs-lg="12" class="mb-3">
+                              <vs-col vs-lg="12" class="crud-management__relation-destination">
                                 <vs-select
                                   :label="$t('crud.add.body.destinationTable')"
                                   width="100%"
@@ -1091,9 +1075,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.drag_icon:hover {
-  cursor: all-scroll;
-}
-</style>

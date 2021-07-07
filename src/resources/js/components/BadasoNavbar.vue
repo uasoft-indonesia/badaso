@@ -1,15 +1,7 @@
 <template>
-  <header
-    :style="[styleNavbar]"
-    :class="[
-      `vs-navbar-${type}`,
-      `vs-navbar-color-${color}`,
-      { collapse: collapse },
-    ]"
-    class="vs-navbar"
-  >
-    <div v-if="viewType == $constants.DESKTOP" style="display: contents;">
-      <div class="themelogo">
+  <header :style="[styleNavbar]" :class="[ `vs-navbar-${type}`, `vs-navbar-color-${color}`, { collapse: collapse }, ]" class="vs-navbar">
+    <div v-if="viewType == $constants.DESKTOP" class="top-navbar__header">
+      <div class="top-navbar__logo">
         <slot name="logo"> </slot>
       </div>
       <slot name="navigation"> </slot>
@@ -22,7 +14,7 @@
     </div>
     <div v-if="viewType == $constants.MOBILE" class="vs-navbar--header">
       <slot name="navigation"> </slot>
-      <div class="themelogo">
+      <div class="top-navbar__logo">
         <slot name="logo"> </slot>
         &nbsp;
         <slot name="title"> </slot>
@@ -101,4 +93,3 @@ export default {
   },
 };
 </script>
-
