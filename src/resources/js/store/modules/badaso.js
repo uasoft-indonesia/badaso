@@ -212,6 +212,9 @@ export default {
     SET_GLOBAL_STATE(state, { key, value }) {
       state[key] = value;
     },
+    SET_META(state, payload) {
+      state.meta = payload
+    }
   },
   actions: {},
   getters: {

@@ -9,6 +9,7 @@ import PageNotFound from "./../pages/error/PageNotFound.vue";
 import Maintenance from "./../pages/maintenance.vue";
 
 import api from '../api/index'
+import store from '../store/store'
 
 const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -208,6 +209,7 @@ router.beforeEach((to, from, next) => {
       path: to.path
     })
     .then((res) => {
+      store.commit('badaso/SET_META', res.meta)
       if (res.data.maintenance) {
         next({ name: "Maintenance" });
       } else {
