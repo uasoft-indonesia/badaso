@@ -172,7 +172,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'generate_always' => env('BADASO_SWAGGER_GENERATE_ALWAYS', true),
+    'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', true),
 
     /*
     |--------------------------------------------------------------------------

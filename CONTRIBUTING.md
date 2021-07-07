@@ -48,8 +48,8 @@ After getting the license, you can proceed to Badaso installation.
 1, Clone badaso into Laravel project. Sample:
 - Root Laravel Project
   - /packages // new folder
-    - /uasoft-indonesia // new folder
-      - badaso // clone here
+    - /badaso // new folder
+      - core // clone here
 
 cd into uasoft-indonesia directory, then run
 ```
@@ -81,13 +81,13 @@ git clone https://github.com/uasoft-indonesia/badaso.git
 "autoload": {
     "psr-4": {
         "App\\": "app/",
-        "Uasoft\\Badaso\\": "packages/uasoft-indonesia/badaso/src/"
+        "Uasoft\\Badaso\\": "packages/badaso/core/src/"
     },
     ...
 }
 ```
 
-5. Copy required library from ```packages/uasoft-indonesia/badaso/composer.json``` to ```/composer.json``` then ```composer install```
+5. Copy required library from ```packages/badaso/core/composer.json``` to ```/composer.json``` then ```composer install```
 
 6. Run the following commands to update dependencies in package.json and webpack.
 ```
@@ -172,7 +172,7 @@ php artisan badaso:admin your@email.com --create
 ```
 // Badaso
 mix.js(
-        "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
+        "vendor/badaso/core/src/resources/js/app.js",
         "public/js/badaso.js"
     )
 ```
@@ -180,7 +180,7 @@ into
 ```
 // Badaso
 mix.js(
-        "packages/uasoft-indonesia/badaso/src/resources/js/app.js",
+        "packages/badaso/core/src/resources/js/app.js",
         "public/js/badaso.js"
     )
 ```

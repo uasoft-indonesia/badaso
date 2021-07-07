@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-rc.6",
-  "name": "uasoft-indonesia/badaso",
+  "name": "badaso/core",
   "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
   "keywords": [
     "laravel",
