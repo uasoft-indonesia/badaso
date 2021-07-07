@@ -145,7 +145,7 @@ class BadasoSetup extends Command
         // Badaso
         mix
             .js(
-                "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
+                "vendor/badaso/core/src/resources/js/app.js",
                 "public/js/badaso.js"
             )
         EOT;
@@ -233,7 +233,7 @@ class BadasoSetup extends Command
 
             $exported_config_auth = VarExporter::export($config_auth);
             $exported_config_auth = <<<PHP
-                <?php 
+                <?php
                 return {$exported_config_auth} ;
                 PHP;
             file_put_contents($path_config_auth, $exported_config_auth);
