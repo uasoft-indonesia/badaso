@@ -36,7 +36,7 @@ class ApiDocs
 
     const PHP_WRAPPER = <<<'TXT'
     <?php
-    
+
     %s
     TXT;
 
@@ -504,9 +504,6 @@ class ApiDocs
         $stub = self::getStub($table_name, $data_rows, $data_type);
 
         $status_put_file = $filesystem->put($file_path, $stub);
-        if ($status_put_file) {
-            chmod($file_path, 0775);
-        }
 
         return $status_put_file;
     }
