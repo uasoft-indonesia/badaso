@@ -23,30 +23,19 @@
               readonly
             ></badaso-text>
             <badaso-switch
-              size="3"
+              size="2"
               v-model="crudData.generatePermissions"
               :label="$t('crud.edit.field.generatePermissions')"
               :alert="errors.generatePermissions"
             ></badaso-switch>
             <badaso-switch
-              size="3"
+              size="2"
               v-model="crudData.serverSide"
               :label="$t('crud.edit.field.serverSide')"
               :alert="errors.serverSide"
             ></badaso-switch>
-          </vs-row>
-          <vs-row>
-            <badaso-text
-              v-model="crudData.name"
-              size="6"
-              :label="$t('crud.add.field.tableName.title')"
-              :placeholder="$t('crud.add.field.tableName.title')"
-              required
-              readonly
-              :alert="errors.name"
-            ></badaso-text>
             <badaso-switch
-              size="3"
+              size="2"
               v-model="crudData.createSoftDelete"
               :label="$t('crud.add.field.createSoftDelete')"
               :alert="errors.createSoftDelete"

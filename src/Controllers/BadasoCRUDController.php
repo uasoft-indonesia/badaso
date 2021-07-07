@@ -158,7 +158,7 @@ class BadasoCRUDController extends Controller
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],
-                'is_soft_delete' => ['required', 'boolean', function ($att, $val, $failed) use ($request) {
+                'create_soft_delete' => ['required', 'boolean', function ($att, $val, $failed) use ($request) {
                     if (isset($request->name) && $val) {
                         if (! Schema::hasColumn($request->name, 'deleted_at')) {
                             $failed(__('badaso::validation.crud.table_deleted_at_not_exists', [
