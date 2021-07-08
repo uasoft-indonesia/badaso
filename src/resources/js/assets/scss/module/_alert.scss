@@ -1,7 +1,7 @@
 .badaso-alert {
   &__body {
     background-color: #f3f5f7;
-    border-color: var(--danger);
+    border-color: $danger;
     border-left-width: .2rem;
     border-left-style: solid;
     margin: -15px -15px 0 -15px;
@@ -10,6 +10,7 @@
   &__title {
     font-weight: bold;
     margin-bottom: -.4rem;
+    color: $danger;
   }
 
   &__description, &__title {

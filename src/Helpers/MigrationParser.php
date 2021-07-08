@@ -146,6 +146,22 @@ class MigrationParser
     DB::statement('ALTER TABLE %s ALTER COLUMN %s DROP DEFAULT');
     TXT;
 
+    const ADD_FOREIGN_KEY = <<<'TXT'
+    $table->foreign('%s')->references('%s')->on('%s')
+    TXT;
+
+    const DROP_FOREIGN_KEY = <<<'TXT'
+    $table->dropForeign([%s]);
+    TXT;
+
+    const ADD_FOREIGN_KEY_ON_DELETE = <<<'TXT'
+    ->onDelete('%s')
+    TXT;
+
+    const ADD_FOREIGN_KEY_ON_UPDATE = <<<'TXT'
+    ->onUpdate('%s')
+    TXT;
+
     public static function getMigrationSchemaUp($name, $rows, $prefix = null)
     {
         if ($prefix == 'drop') {
@@ -156,6 +172,36 @@ class MigrationParser
         }
 
         return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows)));
+    }
+
+    public static function getMigrationRelationshipSchemaUp($name, $relations)
+    {
+        return sprintf(self::ALTER_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationRelationshipUp($name, $relations)));
+    }
+
+    public static function getAlterMigrationRelationshipSchemaUp($name, $relations)
+    {
+        if (implode(PHP_EOL.chr(9).chr(9).chr(9), self::getAlterMigrationRelationshipUp($relations)) !== "") {
+            return sprintf(self::ALTER_WRAPPER, 
+                $name['current_name'],
+                implode(PHP_EOL.chr(9).chr(9).chr(9), self::getAlterMigrationRelationshipUp($relations))
+            );
+        }
+    }
+
+    public static function getMigrationRelationshipSchemaDown($name, $relations)
+    {
+        return sprintf(self::ALTER_WRAPPER, $name, self::getMigrationRelationshipDown($relations));
+    }
+
+    public static function getAlterMigrationRelationshipSchemaDown($name, $relations)
+    {
+        if (implode(PHP_EOL.chr(9).chr(9).chr(9), self::getAlterMigrationRelationshipDown($relations)) !== "") {
+            return sprintf(self::ALTER_WRAPPER, 
+                $name['current_name'],
+                implode(PHP_EOL.chr(9).chr(9).chr(9), self::getAlterMigrationRelationshipDown($relations))
+            );
+        }
     }
 
     public static function getMigrationSchemaDown($name, $rows = [], $prefix = null, bool $timestamp = true)
@@ -170,11 +216,13 @@ class MigrationParser
         );
     }
 
-    public static function getAlterMigrationSchemaUp($name, $rows, $prefix = null)
+    public static function getAlterMigrationSchemaUp($name, $rows, $prefix = null, $relations = [])
     {
         $stub = '';
+        $dropped_fk_field = '';
+
         if ($prefix == 'rename') {
-            $stub .= sprintf(
+            $stub .= chr(9).chr(9).chr(9).sprintf(
                 self::RENAME_TABLE_WRAPPER,
                 $name['current_name'],
                 $name['modified_name'],
@@ -187,11 +235,23 @@ class MigrationParser
                 $dropped_field = 0;
                 $altered_field = 0;
                 $added_field = 0;
+                $dropped_fk = 0;
                 $fields = [];
                 $modified = [];
                 $alter = [];
+                $fk = [];
 
                 $rows = self::formatRows($rows);
+
+                if (!empty($relations)) {
+                    foreach ($relations['modified_relations'] as $key => $relation) {
+                        if (array_key_exists('modify_type', $relation) && $relation['modify_type'] === 'DROP_FOREIGN_KEY') {
+                            $dropped_fk++;
+                            $fk[] = $relation;
+                        }
+
+                    }
+                }
 
                 foreach ($rows['current_fields'] as $key => $value) {
                     if (! array_key_exists($key, $rows['modified_fields'])) {
@@ -237,6 +297,14 @@ class MigrationParser
                     if (in_array('UPDATE_DEFAULT', $value['modify_type'])) {
                         $altered_field++;
                     }
+                }
+
+                if ($dropped_fk > 0) {
+                    $fk_fields = [];
+                    foreach ($fk as $key => $value) {
+                        $fk_fields[] = sprintf(self::DROP_FOREIGN_KEY, "'" . $value['source_field'] . "'");
+                    }
+                    $dropped_fk_field = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fk_fields));
                 }
 
                 if ($altered_field > 0) {
@@ -309,14 +377,15 @@ class MigrationParser
             }
         }
 
-        return $stub;
+        return ($dropped_fk_field ? $dropped_fk_field.PHP_EOL.PHP_EOL : null) . $stub;
     }
 
-    public static function getAlterMigrationSchemaDown($name, $rows = null, $prefix = null)
+    public static function getAlterMigrationSchemaDown($name, $rows = null, $prefix = null, $relations = [])
     {
         $stub = '';
+        $dropped_fk_field = '';
         if ($prefix == 'rename') {
-            $stub .= sprintf(
+            $stub .= chr(9).chr(9).chr(9).sprintf(
                 self::RENAME_TABLE_WRAPPER,
                 $name['modified_name'],
                 $name['current_name'],
@@ -326,9 +395,20 @@ class MigrationParser
                 $dropped_field = 0;
                 $altered_field = 0;
                 $added_field = 0;
+                $dropped_fk = 0;
                 $fields = [];
                 $modified = [];
                 $alter = [];
+                $fk = [];
+
+                if (!empty($relations)) {
+                    foreach ($relations['modified_relations'] as $key => $relation) {
+                        if (array_key_exists('modify_type', $relation) && $relation['modify_type'] === 'DROP_FOREIGN_KEY') {
+                            $dropped_fk++;
+                            $fk[] = $relation;
+                        }
+                    }
+                }
 
                 $rows = self::formatRows($rows);
 
@@ -378,6 +458,23 @@ class MigrationParser
                     }
                 }
 
+                if ($dropped_fk > 0) {
+                    $fk_fields = [];
+
+                    foreach ($fk as $key => $value) {
+                        $temp_field = sprintf(self::ADD_FOREIGN_KEY, $value['source_field'], $value['target_field'], $value['target_table']);
+                        if (!empty($value['on_delete'])) {
+                            $temp_field .= sprintf(self::ADD_FOREIGN_KEY_ON_DELETE, $value['on_delete']);
+                        }
+                        if (!empty($value['on_update'])) {
+                            $temp_field .= sprintf(self::ADD_FOREIGN_KEY_ON_UPDATE, $value['on_update']);
+                        }
+                        $fk_fields[] = $temp_field . ";";
+                    }
+
+                    $dropped_fk_field = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fk_fields));
+                }
+
                 if ($altered_field > 0) {
                     $fields = self::getAlterMigrationDownFields($rows, $name);
 
@@ -409,17 +506,21 @@ class MigrationParser
                 if ($dropped_field > 0) {
                     foreach ($rows['modified_fields'] as $key => $value) {
                         if (in_array('DROP_FIELD', $value['modify_type'])) {
-                            $modified[] = sprintf(
-                                self::FIELD_STUB,
-                                self::getMigrationTypeField($value['field_type']),
-                                $value['field_name'],
-                                self::getMigrationLengthField($value['field_length'], $value['field_type']),
-                                $value['field_default'],
-                                self::getMigrationNullField($value['field_null']),
-                                self::getMigrationIndexField($value['field_index'], null, $value['field_name']),
-                                self::getMigrationAttributeField($value['field_attribute'] ?? null),
-                                self::getMigrationIncrementField($value['field_increment'])
-                            );
+                            if (in_array($value['field_type'], ['timestamp']) && in_array($value['field_name'], ['deleted_at'])) {
+                                $modified[] = sprintf(self::SOFT_DELETE);
+                            } else {
+                                $modified[] = sprintf(
+                                    self::FIELD_STUB,
+                                    self::getMigrationTypeField($value['field_type']),
+                                    $value['field_name'],
+                                    self::getMigrationLengthField($value['field_length'], $value['field_type']),
+                                    $value['field_default'],
+                                    self::getMigrationNullField($value['field_null']),
+                                    self::getMigrationIndexField($value['field_index'], null, $value['field_name']),
+                                    self::getMigrationAttributeField($value['field_attribute'] ?? null),
+                                    self::getMigrationIncrementField($value['field_increment'])
+                                );
+                            }
                         }
                     }
                 }
@@ -441,7 +542,106 @@ class MigrationParser
             }
         }
 
-        return $stub;
+        return $stub . ($dropped_fk_field ? $dropped_fk_field.PHP_EOL.PHP_EOL : null);
+    }
+
+    public static function getMigrationRelationshipUp($name, $relations)
+    {
+        $fields = [];
+
+        foreach ($relations as $relation) {
+            $field = sprintf(self::ADD_FOREIGN_KEY, $relation['source_field'], $relation['target_field'], $relation['target_table']);
+
+            if (!empty($relation['on_delete'])) {
+                $field .= sprintf(self::ADD_FOREIGN_KEY_ON_DELETE, $relation['on_delete']);
+            }
+
+            if (!empty($relation['on_update'])) {
+                $field .= sprintf(self::ADD_FOREIGN_KEY_ON_UPDATE, $relation['on_update']);
+            }
+
+            $fields[] = $field . ";";
+        }
+
+        return $fields;
+    }
+
+    public static function getAlterMigrationRelationshipUp($relations)
+    {
+        $fields = [];
+
+        foreach ($relations['modified_relations'] as $relation) {
+            $type = $relation['modify_type'] ?? null;
+            if (!empty($type)) {
+                if ($type === 'ADD_FOREIGN_KEY') {
+                    $field = sprintf(self::ADD_FOREIGN_KEY, $relation['source_field'], $relation['target_field'], $relation['target_table']);
+        
+                    if (!empty($relation['on_delete'])) {
+                        $field .= sprintf(self::ADD_FOREIGN_KEY_ON_DELETE, $relation['on_delete']);
+                    }
+        
+                    if (!empty($relation['on_update'])) {
+                        $field .= sprintf(self::ADD_FOREIGN_KEY_ON_UPDATE, $relation['on_update']);
+                    }
+        
+                    $fields[] = $field . ";";
+                }
+
+                if ($type === 'CHANGE_FOREIGN_KEY') {
+                    $filteredRelation = "'" . $relation['source_field'] . "'";
+                    $fields[] = sprintf(self::DROP_FOREIGN_KEY, $filteredRelation);
+
+                    $field = sprintf(self::ADD_FOREIGN_KEY, $relation['source_field'], $relation['target_field'], $relation['target_table']);
+                    if (!empty($relation['on_delete'])) {
+                        $field .= sprintf(self::ADD_FOREIGN_KEY_ON_DELETE, $relation['on_delete']);
+                    }
+                    if (!empty($relation['on_update'])) {
+                        $field .= sprintf(self::ADD_FOREIGN_KEY_ON_UPDATE, $relation['on_update']);
+                    }
+                    $fields[] = $field . ";";
+                }
+            }
+        }
+
+        return $fields;
+    }
+
+    public static function getMigrationRelationshipDown($relations)
+    {
+        $filteredRelation = collect(array_values($relations))->pluck('source_field')->toArray();
+        $relation = "'" . implode("', '", $filteredRelation) . "'";
+        return sprintf(self::DROP_FOREIGN_KEY, $relation);
+    }
+
+    public static function getAlterMigrationRelationshipDown($relations)
+    {
+        $fields = [];
+
+        foreach ($relations['modified_relations'] as $key => $relation) {
+            $type = $relation['modify_type'] ?? null;
+            if (!empty($type)) {
+                if ($type === 'ADD_FOREIGN_KEY') {
+                    $filteredRelation = "'" . $relation['source_field'] . "'";
+                    $fields[] = sprintf(self::DROP_FOREIGN_KEY, $filteredRelation);
+                }
+                
+                if ($type === 'CHANGE_FOREIGN_KEY') {
+                    $filteredRelation = "'" . $relation['source_field'] . "'";
+                    $fields[] = sprintf(self::DROP_FOREIGN_KEY, $filteredRelation);
+
+                    $field = sprintf(self::ADD_FOREIGN_KEY, $relation['source_field'], $relations['current_relations'][$key]['target_field'], $relations['current_relations'][$key]['target_table']);
+                    if (!empty($relations['current_relations'][$key]['on_delete'])) {
+                        $field .= sprintf(self::ADD_FOREIGN_KEY_ON_DELETE, $relations['current_relations'][$key]['on_delete']);
+                    }
+                    if (!empty($relations['current_relations'][$key]['on_update'])) {
+                        $field .= sprintf(self::ADD_FOREIGN_KEY_ON_UPDATE, $relations['current_relations'][$key]['on_update']);
+                    }
+                    $fields[] = $field . ";";
+                }
+            }
+        }
+
+        return $fields;
     }
 
     public static function getMigrationFields($name, $rows)
@@ -454,7 +654,7 @@ class MigrationParser
             } elseif (in_array($row['field_type'], ['timestamp']) && in_array($row['field_name'], ['deleted_at'])) {
                 $fields[] = sprintf(self::SOFT_DELETE);
             } else {
-                if ($row['field_index'] !== null) {
+                if (!empty($row['field_index']) && $row['field_index'] !== 'foreign') {
                     $index = '->'.self::getMigrationIndexField($row['field_index'], null, $row['field_name']);
                 } else {
                     $index = null;
@@ -569,11 +769,19 @@ class MigrationParser
                         self::getMigrationIndexField($row['field_index'], $current_fields['field_index'], $row['field_name']),
                     );
                 } elseif ($current_fields['field_index'] !== null && $row['field_index'] === null) {
-                    if ($current_fields['field_index'] !== 'primary') {
+                    if ($current_fields['field_index'] !== 'primary' && $current_fields['field_index'] !== 'foreign') {
                         $stub[] = sprintf(
                             self::DROP_INDEX,
                             ucfirst($current_fields['field_index']),
                             $row['field_name']
+                        );
+                    }
+
+                    if ($current_fields['field_index'] === 'foreign') {
+                        $stub[] = sprintf(
+                            self::DROP_INDEX,
+                            'Index',
+                            $table['current_name'] . '_' . $row['field_name'] . '_foreign'
                         );
                     }
                 }
@@ -695,7 +903,7 @@ class MigrationParser
 
             if (! empty(array_intersect($row['modify_type'], ['UPDATE_INDEX', 'UPDATE_INCREMENT']))) {
                 if ($current_fields['field_index'] !== null && $row['field_index'] === null) {
-                    if ($current_fields['field_index'] !== 'primary') {
+                    if ($current_fields['field_index'] !== 'primary' && $current_fields['field_index'] !== 'foreign') {
                         $indexes[] = sprintf(
                             self::CREATE_INDEX,
                             self::getMigrationIndexField($row['field_index'], $current_fields['field_index'], $row['field_name']),
@@ -820,7 +1028,7 @@ class MigrationParser
 
     public static function getMigrationDefaultField($fieldType, $field)
     {
-        if ($field !== null) {
+        if (!empty($field)) {
             if (in_array($fieldType, ['integer', 'float', 'double', 'decimal'])) {
                 return sprintf(self::FIELD_DEFAULT_DECIMAL, $field);
             } else {
@@ -848,10 +1056,12 @@ class MigrationParser
 
     public static function getMigrationIndexField($field, $current = null, $name)
     {
-        if ($field === null && $current !== null) {
-            return sprintf(self::FIELD_INDEX, $current, $name);
-        } elseif ($field !== null && $current === null) {
-            return sprintf(self::FIELD_INDEX, $field, $name);
+        if ($field !== 'foreign') {
+            if ($field === null && $current !== null) {
+                return sprintf(self::FIELD_INDEX, $current, $name);
+            } elseif ($field !== null && $current === null) {
+                return sprintf(self::FIELD_INDEX, $field, $name);
+            }
         }
     }
 
