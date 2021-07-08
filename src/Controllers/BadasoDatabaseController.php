@@ -337,16 +337,18 @@ class BadasoDatabaseController extends Controller
         }
     }
 
-    public function dumpObject($object) {
-        if(!is_object($object)){
+    public function dumpObject($object)
+    {
+        if (! is_object($object)) {
             return false;
         }
         $reflection = new \ReflectionObject($object);
-        $properties = array();
-        foreach($reflection->getProperties() as $property){
+        $properties = [];
+        foreach ($reflection->getProperties() as $property) {
             $property->setAccessible(true);
             $properties[$property->getName()] = $property->getValue($object);
         }
+
         return array_merge((array) $reflection->getConstants(), $properties);
     }
 }
