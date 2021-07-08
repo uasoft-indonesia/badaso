@@ -336,4 +336,22 @@ class BadasoDatabaseController extends Controller
             return ApiResponse::failed($e);
         }
     }
+<<<<<<< HEAD
+=======
+
+    public function dumpObject($object)
+    {
+        if (! is_object($object)) {
+            return false;
+        }
+        $reflection = new \ReflectionObject($object);
+        $properties = [];
+        foreach ($reflection->getProperties() as $property) {
+            $property->setAccessible(true);
+            $properties[$property->getName()] = $property->getValue($object);
+        }
+
+        return array_merge((array) $reflection->getConstants(), $properties);
+    }
+>>>>>>> a452a27a75d9d1bfad18336ede649df4ff3292de
 }
