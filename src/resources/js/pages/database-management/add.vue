@@ -95,6 +95,7 @@
                           required
                           :disabled="tr.undeletable"
                           v-model="tr.fieldName"
+                          @input="renameForeignkey(tr)"
                         />
                       </vs-td>
 
@@ -149,6 +150,7 @@
                           class="database-management__field-index"
                           v-model="tr.fieldIndex"
                           :disabled="tr.undeletable"
+                          @change="setFieldIndex(tr)"
                         >
                           <vs-select-item
                             :key="index"
@@ -168,14 +170,24 @@
                       </vs-td>
 
                       <vs-td>
-                        <vs-button
-                          color="danger"
-                          type="relief"
-                          v-if="!tr.undeletable"
-                          @click="dropField(indextr)"
-                        >
-                          <vs-icon icon="delete"></vs-icon>
-                        </vs-button>
+                        <div class="database-management__button-group">
+                          <vs-button
+                            color="danger"
+                            type="relief"
+                            v-if="!tr.undeletable"
+                            @click="dropField(indextr, tr)"
+                          >
+                            <vs-icon icon="delete"></vs-icon>
+                          </vs-button>
+                          <vs-button
+                            color="primary"
+                            type="relief"
+                            v-if="!tr.undeletable && tr.fieldIndex === 'foreign'"
+                            @click="openRelationDialog(tr)"
+                          >
+                            <vs-icon icon="link"></vs-icon>
+                          </vs-button>
+                        </div>
                       </vs-td>
                     </vs-tr>
 
@@ -229,6 +241,42 @@
                   </template>
                 </template>
               </vs-table>
+              <vs-prompt type="confirm" @accept="setRelation" @cancel="cancelRelationDialog" :is-valid="!$v.databaseData.relations.$each.$invalid" :active.sync="relationDialog" title="Relationship" class="database-management__relationship-prompt">
+                <vs-row vs-type="grid" class="database-management__relationship-dialog">
+                  <vs-col vs-w="12">
+                    <h3>Source Table</h3>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <vs-input v-if="selectedField" disabled label="Field" placeholder="Field" v-model="databaseData.relations[selectedField].sourceField"/>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <h3>Target Table</h3>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <vs-select label="Table" v-if="selectedField" @change="fetchTableFields" width="100%" v-model="databaseData.relations[selectedField].targetTable">
+                      <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in tables" />
+                    </vs-select>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length === 0" width="100%" v-model="databaseData.relations[selectedField].targetField">
+                      <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in fields" />
+                    </vs-select>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <h3>Type</h3>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <vs-select label="On Delete" v-if="selectedField" width="100%" v-model="databaseData.relations[selectedField].onDelete">
+                      <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in relationType" />
+                    </vs-select>
+                  </vs-col>
+                  <vs-col vs-w="12">
+                    <vs-select label="On Update" v-if="selectedField" width="100%" v-model="databaseData.relations[selectedField].onUpdate">
+                      <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in relationType" />
+                    </vs-select>
+                  </vs-col>
+                </vs-row>
+              </vs-prompt>
             </vs-col>
             <vs-col
               vs-w="6"
@@ -242,10 +290,10 @@
               </vs-button>
 
               <!-- TODO for future development -->
-              <!-- <vs-button type="relief" color="primary" @click="addSoftDeletes()" >
+              <vs-button type="relief" color="primary" @click="addSoftDeletes()" >
                 <vs-icon icon="add"></vs-icon>
                 Add soft deletes
-              </vs-button> -->
+              </vs-button>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -317,12 +365,30 @@ export default {
     databaseData: {
       table: "",
       rows: [],
+      relations: {}
     },
     fieldTypeList: [],
+    relationDialog: false,
+    tables: [],
+    fields: [],
+    selectedField: ""
   }),
   validations() {
     return {
       databaseData: {
+        relations: {
+          $each: {
+            sourceField: {
+              required
+            },
+            targetTable: {
+              required
+            },
+            targetField: {
+              required
+            },
+          }
+        },
         table: {
           required,
           maxLength: maxLength(64),
@@ -356,12 +422,98 @@ export default {
         return this.$databaseHelper.getMigrationIndexList();
       },
     },
+    relationType() {
+      return this.$databaseHelper.getForeignConstraint();
+    }
   },
   mounted() {
     this.getDbmsFieldType();
     this.insertIdToRows();
   },
   methods: {
+    renameForeignkey(item) {
+      if (this.databaseData.relations[item.id]) {
+        let newVal = item.fieldName
+        let oldVal = this.databaseData.relations[item.id].sourceField || null
+        if (newVal !== oldVal) {
+          this.databaseData.relations[item.id].sourceField = newVal
+        }
+      }
+    },
+    setFieldIndex(item) {
+      if (item.fieldIndex === 'foreign') {
+        this.$set(this.databaseData.relations, item.id, {
+          sourceField: item.fieldName,
+          targetTable: "",
+          targetField: "",
+          onDelete: null,
+          onUpdate: null,
+        })
+      } else {
+        this.$delete(this.databaseData.relations, item.id)
+      }
+    },
+    setRelation() {
+      this.$v.databaseData.relations.$touch();
+      if (!this.$v.databaseData.relations.$invalid) {
+        this.relationDialog = false
+      }
+    },
+    fetchTableFields() {
+      this.$openLoader();
+      this.$api.badasoTable
+        .read({
+          table: this.databaseData.relations[this.selectedField].targetTable,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.fields = response.data.tableFields;
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    openRelationDialog(item) {
+      this.selectedField = item.id
+      this.relationDialog = true
+      this.getTableList()
+    },
+    cancelRelationDialog() {
+      this.$v.databaseData.relations.$touch();
+      if (this.$v.databaseData.relations.$invalid) {
+        this.relationDialog = false
+        this.databaseData.relations[this.selectedField].targetTable = ""
+        this.databaseData.relations[this.selectedField].targetField = ""
+        this.databaseData.relations[this.selectedField].onDelete = ""
+        this.databaseData.relations[this.selectedField].onUpdate = ""
+      }
+    },
+    getTableList() {
+      this.$openLoader();
+      this.$api.badasoCrud
+        .browse()
+        .then((response) => {
+          this.$closeLoader();
+          this.tables = response.data.tablesWithCrudData.map(table => {
+            return {
+              value: table.tableName
+            }
+          });
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
     getDbmsFieldType() {
       this.$openLoader();
       this.$api.badasoDatabase
@@ -431,6 +583,7 @@ export default {
     addField() {
       let index = this.databaseData.rows.map(row => row.undeletable).indexOf(true)
       this.databaseData.rows.splice(index, 0, {
+        id: this.$helper.uuid(),
         fieldName: "",
         fieldType: "",
         fieldLength: null,
@@ -456,46 +609,6 @@ export default {
       return found;
     },
 
-    // addTimestamps() {
-    //   if (this.findFieldOnRows("created_at")) {
-    //     this.$vs.notify({
-    //       title: this.$t("alert.danger"),
-    //       text: this.$t("database.warning.exists", { 0: "created_at" }),
-    //       color: "danger",
-    //     });
-    //   } else {
-    //     this.databaseData.rows.push({
-    //       fieldName: "created_at",
-    //       fieldType: "timestamp",
-    //       fieldLength: null,
-    //       fieldNull: true,
-    //       fieldAttribute: false,
-    //       fieldIncrement: false,
-    //       fieldIndex: null,
-    //       fieldDefault: null,
-    //     });
-    //   }
-
-    //   if (this.findFieldOnRows("updated_at")) {
-    //     this.$vs.notify({
-    //       title: this.$t("alert.danger"),
-    //       text: this.$t("database.warning.exists", { 0: "updated_at" }),
-    //       color: "danger",
-    //     });
-    //   } else {
-    //     this.databaseData.rows.push({
-    //       fieldName: "updated_at",
-    //       fieldType: "timestamp",
-    //       fieldLength: null,
-    //       fieldNull: true,
-    //       fieldAttribute: false,
-    //       fieldIncrement: false,
-    //       fieldIndex: null,
-    //       fieldDefault: null,
-    //     });
-    //   }
-    // },
-
     addSoftDeletes() {
       if (this.findFieldOnRows("deleted_at")) {
         this.$vs.notify({
@@ -517,13 +630,16 @@ export default {
       }
     },
 
-    dropField(index) {
+    dropField(index, item) {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
         title: this.$t("action.delete.title"),
         text: this.$t("action.delete.text"),
-        accept: () => this.databaseData.rows.splice(index, 1),
+        accept: () => {
+          this.databaseData.rows.splice(index, 1);
+          this.$delete(this.databaseData.relations, item.fieldName)
+        },
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
       });
@@ -531,6 +647,7 @@ export default {
 
     insertIdToRows() {
       this.databaseData.rows.push({
+        id: "id",
         fieldName: "id",
         fieldType: "bigint",
         fieldLength: null,

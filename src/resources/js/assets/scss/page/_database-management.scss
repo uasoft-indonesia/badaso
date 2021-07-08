@@ -27,4 +27,24 @@
   &__popup-sync {
     float: right;
   }
+
+  &__button-group {
+    display: flex;
+
+    & > button {
+      margin: 2px;
+    }
+  }
+
+  &__relationship-dialog {
+    row-gap: 8px;
+  }
+
+  &__relationship-prompt {
+    z-index: 29999;
+
+    & .vs-dialog-accept-button {
+      margin-right: 8px;
+    }
+  }
 }
