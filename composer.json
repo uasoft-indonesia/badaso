@@ -31,7 +31,7 @@
     "spatie/flysystem-dropbox": "^1.2.2",
     "nao-pon/flysystem-google-drive": "^1.1.13",
     "league/flysystem-aws-s3-v3": "^1.0.28",
-    "guzzlehttp/guzzle": "^7.3",
+    "guzzlehttp/guzzle": "^7.0.1",
     "unisharp/laravel-filemanager": "^2.2",
     "darkaonline/l5-swagger": "^8.0",
     "zircote/swagger-php": "^3.2",
