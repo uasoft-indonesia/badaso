@@ -132,7 +132,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -144,11 +144,11 @@ class BadasoSetup extends Command
         if ($this->checkExist($mix_file, $search)) {
             $data =
                 <<<'EOT'
-            
+
         // Badaso
         mix
             .js(
-                "vendor/uasoft-indonesia/badaso/src/resources/js/app.js",
+                "vendor/badaso/core/src/resources/js/app.js",
                 "public/js/badaso.js"
             ).vue()
         EOT;
@@ -236,7 +236,7 @@ class BadasoSetup extends Command
 
             $exported_config_auth = VarExporter::export($config_auth);
             $exported_config_auth = <<<PHP
-                <?php 
+                <?php
                 return {$exported_config_auth} ;
                 PHP;
             file_put_contents($path_config_auth, $exported_config_auth);
