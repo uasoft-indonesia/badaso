@@ -287,7 +287,7 @@ class FileGenerator
     /**
      * Generate Badaso Migration File.
      */
-    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows): string
+    public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows, array $relations = []): string
     {
         $migration_class_name = $this->file_system->generateMigrationClassName($table_name, $prefix);
 
@@ -301,8 +301,15 @@ class FileGenerator
 
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
 
-        $schema_up = $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
-        $schema_down = $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
+        $schema_up = '';
+        $schema_down = '';
+
+        $schema_up .= $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
+        if (! empty($relations)) {
+            $schema_up .= PHP_EOL.PHP_EOL.$this->migration_parser->getMigrationRelationshipSchemaUp($table_name, $relations);
+            $schema_down .= $this->migration_parser->getMigrationRelationshipSchemaDown($table_name, $relations).PHP_EOL.PHP_EOL;
+        }
+        $schema_down .= $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
@@ -324,7 +331,7 @@ class FileGenerator
     /**
      * Generate Badaso Alter Migration File.
      */
-    public function generateBDOAlterMigrationFile(array $table, array $rows = null, string $prefix): string
+    public function generateBDOAlterMigrationFile(array $table, array $rows = null, string $prefix, array $relations = []): string
     {
         $migration_class_name = $this->file_system->generateAlterMigrationClassName($table, $prefix);
 
@@ -337,8 +344,16 @@ class FileGenerator
         $migration_folder_path = $this->file_system->getMigrationFolderPath();
 
         $migration_file = $this->file_system->getMigrationFile($migration_file_name, $migration_folder_path);
-        $schema_up = $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix);
-        $schema_down = $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix);
+
+        $schema_up = '';
+        $schema_down = '';
+
+        $schema_up .= $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix, $relations);
+        if (array_key_exists('current_relations', $relations) && count($relations['current_relations']) > 0) {
+            $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
+            $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
+        }
+        $schema_down .= $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix, $relations);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);

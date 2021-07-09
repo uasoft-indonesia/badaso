@@ -77,7 +77,6 @@ class Badaso
         'password_resets',
         'menus',
         'menu_items',
-        'users',
         'roles',
         'permissions',
         'configurations',

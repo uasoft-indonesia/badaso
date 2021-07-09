@@ -985,7 +985,7 @@ export default {
       warning: {
         title: "IMPORTANT",
         content:
-          'Only the following column types can be "changed": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time.',
+        'Only the following column types can be "changed": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time. Also, every field that you change, it\'ll be recorded when you submit the alter table. If you make some mistakes, you can refresh this page to reset your changes.',
         crud:
           "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
         notAllowed: "You're not allowed to edit.",
