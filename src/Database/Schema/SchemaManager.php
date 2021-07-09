@@ -140,4 +140,9 @@ abstract class SchemaManager
     {
         return static::getDoctrineTable($table)->getColumn($column);
     }
+
+    public static function getDoctrineForeignKeys($table)
+    {
+        return static::manager()->listTableForeignKeys($table);
+    }
 }

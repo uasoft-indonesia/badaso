@@ -45,7 +45,7 @@ class BadasoDatabaseController extends Controller
                 'rows.*.field_type' => 'required|string',
             ]);
 
-            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows);
+            $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->relations);
 
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/',
@@ -89,8 +89,19 @@ class BadasoDatabaseController extends Controller
             ]);
 
             $columns = SchemaManager::describeTable($request->table)->toArray();
+            $columnsFK = SchemaManager::getDoctrineForeignKeys($request->table);
+            $fKConstraints = [];
+            foreach ($columnsFK as $columnFK) {
+                $fKConstraints[$columnFK->getUnquotedLocalColumns()[0]] = [
+                    'source_field' => $columnFK->getUnquotedLocalColumns()[0],
+                    'target_table' => $columnFK->getForeignTableName(),
+                    'target_field' => $columnFK->getForeignColumns()[0],
+                    'on_delete' => strtolower($columnFK->getOption('onDelete')),
+                    'on_update' => strtolower($columnFK->getOption('onUpdate')),
+                ];
+            }
 
-            return ApiResponse::success(['columns' => $columns]);
+            return ApiResponse::success(['columns' => $columns, 'columnsFK' => $fKConstraints]);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
@@ -114,15 +125,16 @@ class BadasoDatabaseController extends Controller
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
                 'fields.current_fields'  => 'required|array',
-                'fields.modified_fields' => 'nullable|array',
+                'fields.modified_fields' => 'required|array',
             ]);
 
             $data = $request->all();
             $fields = $data['fields'];
             $table = $data['table'];
+            $relations = $data['relations'];
 
-            if (count($fields['current_fields']) > 0) {
-                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter');
+            if (count($fields['modified_fields']) > 0) {
+                $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter', $relations);
             }
 
             if ($table['current_name'] !== $table['modified_name']) {
