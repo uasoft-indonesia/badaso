@@ -630,7 +630,7 @@ export default {
       }
     },
 
-    dropField(index, index) {
+    dropField(index, item) {
       this.$vs.dialog({
         type: "confirm",
         color: "danger",
