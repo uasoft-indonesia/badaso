@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.8",
   "name": "badaso/core",
-  "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
+  "description": "The most advanced headless CMS (PWA + CRUD + API generator & more) based on Laravel + Vue",
   "keywords": [
     "laravel",
     "admin",
