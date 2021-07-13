@@ -6,7 +6,7 @@
   >
     <vs-row>
       <vs-col>
-        <p>
+        <p class="badaso-unauthorize__title">
           {{ $t("authorizationIssue.subtitle") }}
         </p>
 				<div>

@@ -81,7 +81,7 @@ export default {
     user: {
       email: "",
       name: "",
-      avatar: {},
+      avatar: "",
       password: "",
       emailVerified: false,
       additionalInfo: "",
@@ -100,7 +100,7 @@ export default {
           .add({
             email: this.user.email,
             name: this.user.name,
-            avatar: this.user.avatar.base64,
+            avatar: this.user.avatar,
             password: this.user.password,
             emailVerified: this.user.emailVerified,
             additionalInfo: this.user.additionalInfo,

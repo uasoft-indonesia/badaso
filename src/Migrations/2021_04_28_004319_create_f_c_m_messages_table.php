@@ -13,7 +13,7 @@ class CreateFCMMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('f_c_m_messages', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'f_c_m_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('receiver_user_id');
             $table->string('type');
@@ -23,8 +23,8 @@ class CreateFCMMessagesTable extends Migration
             $table->unsignedBigInteger('sender_user_id');
             $table->timestamps();
 
-            $table->foreign('receiver_user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('sender_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('receiver_user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
+            $table->foreign('sender_user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
         });
     }
 
@@ -35,6 +35,6 @@ class CreateFCMMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('f_c_m_messages');
+        Schema::dropIfExists(config('badaso.database.prefix').'f_c_m_messages');
     }
 }
