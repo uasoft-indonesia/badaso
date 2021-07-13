@@ -12,11 +12,12 @@ class Permission extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'permissions';
+        $this->table = $prefix.'permissions';
         parent::__construct($attributes);
     }
 
@@ -70,17 +71,17 @@ class Permission extends Model
     }
 
     /**
-     * The roles that belong to the Permission
+     * The roles that belong to the Permission.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class, config('badaso.database.prefix') . 'role_permissions');
+        return $this->belongsToMany(Role::class, config('badaso.database.prefix').'role_permissions');
     }
 
     /**
-     * Get the role_permission that owns the Permission
+     * Get the role_permission that owns the Permission.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

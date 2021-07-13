@@ -58,8 +58,8 @@ class BadasoRolePermissionController extends Controller
                         WHEN B.role_id is not null then 1
                         else 0
                     END as selected
-                FROM '. $prefix .'permissions A
-                LEFT JOIN '. $prefix .'role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
+                FROM '.$prefix.'permissions A
+                LEFT JOIN '.$prefix.'role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
             ';
             $role_permissions = DB::select($query, [
                 'role_id' => $request->role_id,

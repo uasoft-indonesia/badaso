@@ -12,11 +12,12 @@ class MenuItem extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'menu_items';
+        $this->table = $prefix.'menu_items';
         parent::__construct($attributes);
     }
 

@@ -14,7 +14,7 @@ class CreateRoles extends Migration
     public function up()
     {
         try {
-            Schema::create(config('badaso.database.prefix') . 'roles', function (Blueprint $table) {
+            Schema::create(config('badaso.database.prefix').'roles', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name')->unique();
                 $table->string('display_name');
@@ -35,6 +35,6 @@ class CreateRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'roles');
+        Schema::dropIfExists(config('badaso.database.prefix').'roles');
     }
 }

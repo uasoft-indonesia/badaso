@@ -43,11 +43,11 @@ abstract class Controller extends BaseController
         if ($user = auth()->user()) {
             $permissions = DB::SELECT('
                 SELECT *
-                FROM '. $prefix .'permissions p
-                JOIN '. $prefix .'role_permissions rp ON p.id = rp.permission_id
-                JOIN '. $prefix .'roles r ON rp.role_id  = r.id
-                JOIN '. $prefix .'user_roles ur ON r.id = ur.role_id
-                JOIN '. $prefix .'users u ON ur.user_id = u.id
+                FROM '.$prefix.'permissions p
+                JOIN '.$prefix.'role_permissions rp ON p.id = rp.permission_id
+                JOIN '.$prefix.'roles r ON rp.role_id  = r.id
+                JOIN '.$prefix.'user_roles ur ON r.id = ur.role_id
+                JOIN '.$prefix.'users u ON ur.user_id = u.id
                 WHERE u.id = :user_id
                 AND p.key = :permission
             ', [

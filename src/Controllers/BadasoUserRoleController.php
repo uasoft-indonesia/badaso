@@ -58,8 +58,8 @@ class BadasoUserRoleController extends Controller
                         WHEN B.user_id is not null then 1
                         else 0
                     END as selected
-                FROM '. $prefix .'roles A
-                LEFT JOIN '. $prefix .'user_roles B ON A.id = B.role_id AND B.user_id = :user_id
+                FROM '.$prefix.'roles A
+                LEFT JOIN '.$prefix.'user_roles B ON A.id = B.role_id AND B.user_id = :user_id
             ';
             $user_roles = DB::select($query, [
                 'user_id' => $request->user_id,

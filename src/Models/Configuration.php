@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Uasoft\Badaso\Badaso;
 
 class Configuration extends Model
 {
@@ -13,11 +12,12 @@ class Configuration extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = array()) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'configurations';
+        $this->table = $prefix.'configurations';
         parent::__construct($attributes);
     }
 

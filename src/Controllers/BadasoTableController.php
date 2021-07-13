@@ -129,7 +129,7 @@ class BadasoTableController extends Controller
                 ],
             ]);
 
-            $records = DB::table(config('badaso.database.prefix') . $request->table)->select('*')->get();
+            $records = DB::table(config('badaso.database.prefix').$request->table)->select('*')->get();
 
             $data[$request->table] = $records;
 
@@ -173,7 +173,7 @@ class BadasoTableController extends Controller
                     && $destination_table_column
                     && $destination_table_display_column
                 ) {
-                    $relation_data = DB::table(config('badaso.database.prefix') . $destination_table)->select([
+                    $relation_data = DB::table(config('badaso.database.prefix').$destination_table)->select([
                         $destination_table_column,
                         $destination_table_display_column,
                     ])

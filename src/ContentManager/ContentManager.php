@@ -236,7 +236,7 @@ class ContentManager
         $inserts = '';
         $inserts .= sprintf(
             "\DB::table('%s')->insert(%s);",
-            config('badaso.database.prefix') . $table_name,
+            config('badaso.database.prefix').$table_name,
             $this->content_generator->formatContent($data_type_array)
         );
 

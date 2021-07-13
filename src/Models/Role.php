@@ -12,11 +12,12 @@ class Role extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'roles';
+        $this->table = $prefix.'roles';
         parent::__construct($attributes);
     }
 
@@ -26,7 +27,7 @@ class Role extends Model
     {
         $userModel = User::class;
 
-        return $this->belongsToMany($userModel, config('badaso.database.prefix') . 'user_roles')
+        return $this->belongsToMany($userModel, config('badaso.database.prefix').'user_roles')
             ->select(app($userModel)->getTable().'.*')
             ->union($this->hasMany($userModel))->getQuery();
     }
@@ -38,7 +39,7 @@ class Role extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, config('badaso.database.prefix') . 'role_permissions');
+        return $this->belongsToMany(Permission::class, config('badaso.database.prefix').'role_permissions');
     }
 
     protected static $logAttributes = true;
