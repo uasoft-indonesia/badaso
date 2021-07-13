@@ -8,7 +8,6 @@ use Uasoft\Badaso\Models\UserRole;
 
 class AuthenticatedUser
 {
-
     public static function getUser()
     {
         $user = auth()->user();
@@ -23,19 +22,21 @@ class AuthenticatedUser
     private static function getRoles($user_id)
     {
         $prefix = config('badaso.database.prefix');
-        return UserRole::join($prefix . 'roles', $prefix . 'roles.id', '=', $prefix . 'user_roles.role_id')
+
+        return UserRole::join($prefix.'roles', $prefix.'roles.id', '=', $prefix.'user_roles.role_id')
                 ->where('user_id', $user_id)
-                ->select($prefix . 'roles.*')
+                ->select($prefix.'roles.*')
                 ->get();
     }
 
     private static function getPermissions($user_id)
     {
         $prefix = config('badaso.database.prefix');
-        return RolePermission::join($prefix . 'user_roles', $prefix . 'role_permissions.role_id', '=', $prefix . 'user_roles.role_id')
-            ->join($prefix . 'permissions', $prefix . 'permissions.id', '=', $prefix . 'role_permissions.permission_id')
-            ->where($prefix . 'user_roles.user_id', $user_id)
-            ->select($prefix . 'permissions.id', $prefix . 'permissions.key')
+
+        return RolePermission::join($prefix.'user_roles', $prefix.'role_permissions.role_id', '=', $prefix.'user_roles.role_id')
+            ->join($prefix.'permissions', $prefix.'permissions.id', '=', $prefix.'role_permissions.permission_id')
+            ->where($prefix.'user_roles.user_id', $user_id)
+            ->select($prefix.'permissions.id', $prefix.'permissions.key')
             ->get();
     }
 

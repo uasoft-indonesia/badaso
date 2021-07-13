@@ -12,11 +12,12 @@ class DataRow extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'data_rows';
+        $this->table = $prefix.'data_rows';
         parent::__construct($attributes);
     }
 

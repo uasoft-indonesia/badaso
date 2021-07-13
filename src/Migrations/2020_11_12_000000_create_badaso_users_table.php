@@ -13,7 +13,7 @@ class CreateBadasoUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -33,6 +33,6 @@ class CreateBadasoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'users');
+        Schema::dropIfExists(config('badaso.database.prefix').'users');
     }
 }

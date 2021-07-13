@@ -14,7 +14,7 @@ class CreatePermissions extends Migration
     public function up()
     {
         try {
-            Schema::create(config('badaso.database.prefix') . 'permissions', function (Blueprint $table) {
+            Schema::create(config('badaso.database.prefix').'permissions', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('key')->index();
                 $table->string('description')->nullable();
@@ -37,6 +37,6 @@ class CreatePermissions extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'permissions');
+        Schema::dropIfExists(config('badaso.database.prefix').'permissions');
     }
 }

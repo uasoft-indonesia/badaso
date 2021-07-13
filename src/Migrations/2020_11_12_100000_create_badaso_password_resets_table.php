@@ -13,7 +13,7 @@ class CreateBadasoPasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('badaso.database.prefix') .'password_resets', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'password_resets', function (Blueprint $table) {
             $table->id();
             $table->string('email')->index();
             $table->string('token');
@@ -28,6 +28,6 @@ class CreateBadasoPasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'password_resets');
+        Schema::dropIfExists(config('badaso.database.prefix').'password_resets');
     }
 }

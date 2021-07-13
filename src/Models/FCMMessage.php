@@ -9,11 +9,12 @@ class FCMMessage extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'f_c_m_messages';
+        $this->table = $prefix.'f_c_m_messages';
         parent::__construct($attributes);
     }
 

@@ -10,11 +10,12 @@ class DataType extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'data_types';
+        $this->table = $prefix.'data_types';
         parent::__construct($attributes);
     }
 

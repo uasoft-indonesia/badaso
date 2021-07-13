@@ -9,11 +9,12 @@ class PasswordReset extends Model
     protected $table = null;
 
     /**
-     * Constructor for setting the table name dynamically
+     * Constructor for setting the table name dynamically.
      */
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'password_resets';
+        $this->table = $prefix.'password_resets';
         parent::__construct($attributes);
     }
 
