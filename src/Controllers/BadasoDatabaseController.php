@@ -32,7 +32,7 @@ class BadasoDatabaseController extends Controller
             $request->validate([
                 'table' => [
                     'required',
-                    'unique:data_types,slug',
+                    'unique:Uasoft\Badaso\Models\DataType,slug',
                     function ($attribute, $value, $fail) {
                         if (Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_already_exists', ['table' => $value]));

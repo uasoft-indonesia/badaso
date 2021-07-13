@@ -81,7 +81,7 @@ export default {
     user: {
       email: "",
       name: "",
-      avatar: {},
+      avatar: "",
       password: "",
       emailVerified: false,
       additionalInfo: "",

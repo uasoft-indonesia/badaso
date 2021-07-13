@@ -19,6 +19,7 @@ use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\EmailReset;
+use Uasoft\Badaso\Models\PasswordReset;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
@@ -91,7 +92,7 @@ class BadasoAuthController extends Controller
             DB::beginTransaction();
             $request->validate([
                 'name'     => 'required|string|max:255',
-                'email'    => 'required|string|email|max:255|unique:users',
+                'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
@@ -193,7 +194,7 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'exists:users'],
+                'email' => ['required', 'exists:Uasoft\Badaso\Models\User'],
                 'token' => ['required'],
             ]);
 
@@ -245,7 +246,6 @@ class BadasoAuthController extends Controller
                     'confirmed',
                     'string',
                     'min:6',
-                    'confirmed',
                     function ($attribute, $value, $fail) use ($user) {
                         if (Hash::check($value, $user->password)) {
                             $fail(__('badaso::validation.auth.password_not_changes'));
@@ -268,12 +268,12 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'email', 'exists:users,email'],
+                'email' => ['required', 'email', 'exists:Uasoft\Badaso\Models\User,email'],
             ]);
 
             $token = rand(111111, 999999);
 
-            DB::table('password_resets')->insert([
+            PasswordReset::insert([
                 'email'      => $request->email,
                 'token'      => $token,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -292,15 +292,12 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'email', 'exists:users,email'],
+                'email' => ['required', 'email', 'exists:Uasoft\Badaso\Models\User,email'],
                 'token' => [
                     'required',
-                    'exists:password_resets,token',
+                    'exists:Uasoft\Badaso\Models\PasswordReset,token',
                     function ($attribute, $value, $fail) use ($request) {
-                        $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token AND email = :email', [
-                            'token' => $request->token,
-                            'email' => $request->email,
-                        ]);
+                        $password_resets = PasswordReset::where('token', $request->token)->where('email', $request->email)->get();
                         $password_reset = collect($password_resets)->first();
                         if (is_null($password_reset)) {
                             $fail('Token or Email invalid');
@@ -319,15 +316,12 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'email', 'exists:users,email'],
+                'email' => ['required', 'email', 'exists:Uasoft\Badaso\Models\User,email'],
                 'token' => [
                     'required',
-                    'exists:password_resets,token',
+                    'exists:Uasoft\Badaso\Models\PasswordReset,token',
                     function ($attribute, $value, $fail) use ($request) {
-                        $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token AND email = :email', [
-                            'token' => $request->token,
-                            'email' => $request->email,
-                        ]);
+                        $password_resets = PasswordReset::where('token', $request->token)->where('email', $request->email)->get();
                         $password_reset = collect($password_resets)->first();
                         if (is_null($password_reset)) {
                             $fail('Token or Email invalid');
@@ -336,10 +330,7 @@ class BadasoAuthController extends Controller
                 ],
             ]);
 
-            $password_resets = DB::SELECT('SELECT * FROM password_resets WHERE token = :token AND email = :email', [
-                'token' => $request->token,
-                'email' => $request->email,
-            ]);
+            $password_resets = PasswordReset::where('token', $request->token)->where('email', $request->email)->get();
 
             $password_reset = collect($password_resets)->first();
 
@@ -358,7 +349,7 @@ class BadasoAuthController extends Controller
             $saved = $user->save();
 
             if ($saved) {
-                DB::table('password_resets')->where('token', $request->token)->delete();
+                PasswordReset::where('token', $request->token)->delete();
             }
 
             return ApiResponse::success();
@@ -460,7 +451,7 @@ class BadasoAuthController extends Controller
             }
 
             $request->validate([
-                'email' => 'required|email|unique:users,email',
+                'email' => 'required|email|unique:Uasoft\Badaso\Models\User,email',
             ]);
 
             $user = User::find($user->id);
@@ -516,7 +507,7 @@ class BadasoAuthController extends Controller
             }
 
             $request->validate([
-                'email' => ['required', 'unique:users', 'email'],
+                'email' => ['required', 'unique:Uasoft\Badaso\Models\User', 'email'],
                 'token' => ['required'],
             ]);
 

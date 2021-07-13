@@ -9,13 +9,25 @@ class Role extends Model
 {
     use LogsActivity;
 
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'roles';
+        parent::__construct($attributes);
+    }
+
     protected $guarded = [];
 
     public function users()
     {
         $userModel = User::class;
 
-        return $this->belongsToMany($userModel, 'user_roles')
+        return $this->belongsToMany($userModel, config('badaso.database.prefix').'user_roles')
             ->select(app($userModel)->getTable().'.*')
             ->union($this->hasMany($userModel))->getQuery();
     }
@@ -27,7 +39,7 @@ class Role extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class, config('badaso.database.prefix').'role_permissions');
     }
 
     protected static $logAttributes = true;

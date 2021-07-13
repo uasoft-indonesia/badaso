@@ -143,7 +143,7 @@ class BadasoTableController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:data_types,slug',
+                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();

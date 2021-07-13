@@ -61,7 +61,7 @@ class BadasoCRUDController extends Controller
     {
         try {
             $request->validate([
-                'table' => 'required|exists:data_types,name',
+                'table' => 'required|exists:Uasoft\Badaso\Models\DataType,name',
             ]);
             $table = $request->input('table', '');
             $data_type = Badaso::model('DataType')::where('name', $table)->first();
@@ -105,7 +105,7 @@ class BadasoCRUDController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:data_types,slug',
+                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
@@ -128,10 +128,10 @@ class BadasoCRUDController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:data_types',
+                'id' => 'required|exists:Uasoft\Badaso\Models\DataType',
                 'name' => [
                     'required',
-                    "unique:data_types,name,{$request->id}",
+                    "unique:Uasoft\Badaso\Models\DataType,name,{$request->id}",
                     function ($attribute, $value, $fail) {
                         if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
@@ -275,7 +275,7 @@ class BadasoCRUDController extends Controller
             $request->validate([
                 'name' => [
                     'required',
-                    'unique:data_types',
+                    'unique:Uasoft\Badaso\Models\DataType',
                     function ($attribute, $value, $fail) {
                         if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
@@ -405,7 +405,7 @@ class BadasoCRUDController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:data_types,id',
+                'id' => 'required|exists:Uasoft\Badaso\Models\DataType,id',
             ]);
 
             $data_type = DataType::find($request->id);

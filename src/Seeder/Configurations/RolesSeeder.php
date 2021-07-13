@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Models\Role;
 
 class RolesSeeder extends Seeder
 {
@@ -35,9 +36,7 @@ class RolesSeeder extends Seeder
 
             $new_roles = [];
             foreach ($roles as $key => $value) {
-                $role = \DB::table('roles')
-                        ->where('id', $value['id'])
-                        ->first();
+                $role = Role::where('id', $value['id'])->first();
 
                 if (isset($role)) {
                     continue;
@@ -45,7 +44,7 @@ class RolesSeeder extends Seeder
                 $new_roles[] = $value;
             }
 
-            \DB::table('roles')->insert($new_roles);
+            Role::insert($new_roles);
 
             \DB::commit();
         } catch (Exception $e) {
