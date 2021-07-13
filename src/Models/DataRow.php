@@ -9,7 +9,16 @@ class DataRow extends Model
 {
     use LogsActivity;
 
-    protected $table = 'data_rows';
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically
+     */
+    public function __construct(array $attributes = []) {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix . 'data_rows';
+        parent::__construct($attributes);
+    }
 
     public $timestamps = false;
 

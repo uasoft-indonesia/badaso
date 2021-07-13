@@ -95,155 +95,155 @@ class Badaso
         {
            "title": "Frequently used",
            "group": [
-              {
-                 "label": "Integer",
-                 "value": "integer"
-              },
-              {
-                 "label": "Varchar",
-                 "value": "varchar"
-              },
-              {
-                 "label": "Text",
-                 "value": "text"
-              },
-              {
-                 "label": "Date",
-                 "value": "date"
-              }
+                {
+                    "label": "Integer",
+                    "value": "integer"
+                },
+                {
+                    "label": "Varchar",
+                    "value": "varchar"
+                },
+                {
+                    "label": "Text",
+                    "value": "text"
+                },
+                {
+                    "label": "Date",
+                    "value": "date"
+                }
            ]
         },
         {
            "title": "Numeric",
            "group": [
-              {
-                 "label": "Tiny Integer",
-                 "value": "tinyint"
-              },
-              {
-                 "label": "Small Integer",
-                 "value": "smallint"
-              },
-              {
-                 "label": "Medium Integer",
-                 "value": "mediumint"
-              },
-              {
-                 "label": "Big Integer",
-                 "value": "bigint"
-              },
-              {
-                 "label": "Decimal",
-                 "value": "decimal"
-              },
-              {
-                 "label": "Float",
-                 "value": "float"
-              },
-              {
-                 "label": "Double",
-                 "value": "double"
-              },
-              {
-                 "label": "Boolean",
-                 "value": "boolean"
-              }
+                {
+                    "label": "Tiny Integer",
+                    "value": "tinyint"
+                },
+                {
+                    "label": "Small Integer",
+                    "value": "smallint"
+                },
+                {
+                    "label": "Medium Integer",
+                    "value": "mediumint"
+                },
+                {
+                    "label": "Big Integer",
+                    "value": "bigint"
+                },
+                {
+                    "label": "Decimal",
+                    "value": "decimal"
+                },
+                {
+                    "label": "Float",
+                    "value": "float"
+                },
+                {
+                    "label": "Double",
+                    "value": "double"
+                },
+                {
+                    "label": "Boolean",
+                    "value": "boolean"
+                }
            ]
         },
         {
            "title": "Date and Time",
            "group": [
-              {
-                 "label": "Datetime",
-                 "value": "datetime"
-              },
-              {
-                 "label": "Time",
-                 "value": "time"
-              },
-              {
-                 "label": "Year",
-                 "value": "year"
-              },
-              {
-                 "label": "Timestamp",
-                 "value": "timestamp"
-              }
+                {
+                    "label": "Datetime",
+                    "value": "datetime"
+                },
+                {
+                    "label": "Time",
+                    "value": "time"
+                },
+                {
+                    "label": "Year",
+                    "value": "year"
+                },
+                {
+                    "label": "Timestamp",
+                    "value": "timestamp"
+                }
            ]
         },
         {
            "title": "String",
            "group": [
-              {
-                 "label": "Char",
-                 "value": "char"
-              },
-              {
-                 "label": "Medium Text",
-                 "value": "mediumtext"
-              },
-              {
-                 "label": "Long Text",
-                 "value": "longtext"
-              },
-              {
-                 "label": "BLOB",
-                 "value": "blob"
-              },
-              {
-                 "label": "Enum",
-                 "value": "enum"
-              },
-              {
-                 "label": "Set",
-                 "value": "set"
-              }
+                {
+                    "label": "Char",
+                    "value": "char"
+                },
+                {
+                    "label": "Medium Text",
+                    "value": "mediumtext"
+                },
+                {
+                    "label": "Long Text",
+                    "value": "longtext"
+                },
+                {
+                    "label": "BLOB",
+                    "value": "blob"
+                },
+                {
+                    "label": "Enum",
+                    "value": "enum"
+                },
+                {
+                    "label": "Set",
+                    "value": "set"
+                }
            ]
         },
         {
            "title": "Spatial",
            "group": [
-              {
-                 "label": "Geometry",
-                 "value": "geometry"
-              },
-              {
-                 "label": "Point",
-                 "value": "point"
-              },
-              {
-                 "label": "Multi Point",
-                 "value": "multipoint"
-              },
-              {
-                 "label": "Polygon",
-                 "value": "polygon"
-              },
-              {
-                 "label": "Multi Polygon",
-                 "value": "multipolygon"
-              },
-              {
-                 "label": "Linestring",
-                 "value": "linestring"
-              },
-              {
-                 "label": "Multi Linestring",
-                 "value": "multilinestring"
-              },
-              {
-                 "label": "Geometry Collection",
-                 "value": "geometrycollection"
-              }
+                {
+                    "label": "Geometry",
+                    "value": "geometry"
+                },
+                {
+                    "label": "Point",
+                    "value": "point"
+                },
+                {
+                    "label": "Multi Point",
+                    "value": "multipoint"
+                },
+                {
+                    "label": "Polygon",
+                    "value": "polygon"
+                },
+                {
+                    "label": "Multi Polygon",
+                    "value": "multipolygon"
+                },
+                {
+                    "label": "Linestring",
+                    "value": "linestring"
+                },
+                {
+                    "label": "Multi Linestring",
+                    "value": "multilinestring"
+                },
+                {
+                    "label": "Geometry Collection",
+                    "value": "geometrycollection"
+                }
            ]
         },
         {
            "title": "JSON",
            "group": [
-              {
-                 "label": "JSON",
-                 "value": "json"
-              }
+                {
+                    "label": "JSON",
+                    "value": "json"
+                }
            ]
         }
     ]';
@@ -273,9 +273,14 @@ class Badaso
         return $this->supported_table_relations;
     }
 
-    public function getProtectedTables()
+    public static function getProtectedTables()
     {
-        return config('badaso-hidden-tables', []);
+        return array_map(function ($table) {
+            if (in_array($table, ['activity_log', 'failed_jobs', 'migrations'])) { 
+                return $table;
+            }
+            return config('badaso.database.prefix') . $table;
+        }, config('badaso-hidden-tables', []));
     }
 
     public function getBadasoCloudApi()
@@ -296,6 +301,11 @@ class Badaso
     public function getBadasoDbmsFieldType()
     {
         return $this->badaso_dbms_field_type;
+    }
+
+    public static function getBadasoTablePrefix()
+    {
+        return config('badaso.database.prefix');
     }
 
     public function getConfig($key, $default_value = null)

@@ -14,25 +14,25 @@ class CreateUserRoles extends Migration
     public function up()
     {
         try {
-            Schema::create('user_roles', function (Blueprint $table) {
+            Schema::create(config('badaso.database.prefix') . 'user_roles', function (Blueprint $table) {
                 $table->increments('id');
                 // $table->unsignedInteger('user_id')->index();
                 $table->unsignedBigInteger('user_id')->index();
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix') .'users')->onDelete('cascade');
                 $table->unsignedInteger('role_id')->index();
-                $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+                $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix') .'roles')->onDelete('cascade');
                 $table->timestamps();
             });
         } catch (PDOException $ex) {
             $this->down();
 
             try {
-                Schema::create('user_roles', function (Blueprint $table) {
+                Schema::create(config('badaso.database.prefix') . 'user_roles', function (Blueprint $table) {
                     $table->increments('id');
                     $table->unsignedInteger('user_id')->index();
-                    $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                    $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix') .'users')->onDelete('cascade');
                     $table->unsignedInteger('role_id')->index();
-                    $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
+                    $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix') .'roles')->onDelete('cascade');
                     $table->timestamps();
                 });
             } catch (PDOException $ex) {
@@ -50,6 +50,6 @@ class CreateUserRoles extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists(config('badaso.database.prefix') . 'user_roles');
     }
 }

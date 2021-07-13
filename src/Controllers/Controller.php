@@ -39,14 +39,15 @@ abstract class Controller extends BaseController
 
     public function isAuthorize($method, $data_type)
     {
+        $prefix = config('badaso.database.prefix');
         if ($user = auth()->user()) {
             $permissions = DB::SELECT('
                 SELECT *
-                FROM permissions p
-                JOIN role_permissions rp ON p.id = rp.permission_id
-                JOIN roles r ON rp.role_id  = r.id
-                JOIN user_roles ur ON r.id = ur.role_id
-                JOIN users u ON ur.user_id = u.id
+                FROM '. $prefix .'permissions p
+                JOIN '. $prefix .'role_permissions rp ON p.id = rp.permission_id
+                JOIN '. $prefix .'roles r ON rp.role_id  = r.id
+                JOIN '. $prefix .'user_roles ur ON r.id = ur.role_id
+                JOIN '. $prefix .'users u ON ur.user_id = u.id
                 WHERE u.id = :user_id
                 AND p.key = :permission
             ', [

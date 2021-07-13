@@ -31,7 +31,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id' => 'required|exists:roles,id',
+                'role_id' => 'required|exists:Uasoft\Badaso\Models\Role,id',
             ]);
             $role_permissions = RolePermission::where('role_id', $request->role_id)->get();
 
@@ -49,16 +49,17 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id' => 'required|exists:roles,id',
+                'role_id' => 'required|exists:Uasoft\Badaso\Models\Role,id',
             ]);
+            $prefix = config('badaso.database.prefix');
             $query = '
                 SELECT A.*,
                     CASE
                         WHEN B.role_id is not null then 1
                         else 0
                     END as selected
-                FROM permissions A
-                LEFT JOIN role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
+                FROM '. $prefix .'permissions A
+                LEFT JOIN '. $prefix .'role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
             ';
             $role_permissions = DB::select($query, [
                 'role_id' => $request->role_id,
@@ -76,7 +77,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id'     => 'required|exists:roles,id',
+                'role_id'     => 'required|exists:Uasoft\Badaso\Models\Role,id',
                 'permissions' => 'required',
             ]);
             $permissions = $request->permissions;

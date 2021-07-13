@@ -4,10 +4,22 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Uasoft\Badaso\Badaso;
 
 class Configuration extends Model
 {
     use LogsActivity;
+
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically
+     */
+    public function __construct(array $attributes = array()) {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix . 'configurations';
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
         'key',

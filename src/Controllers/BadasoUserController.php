@@ -31,7 +31,7 @@ class BadasoUserController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:users,id',
+                'id' => 'required|exists:Uasoft\Badaso\Models\User,id',
             ]);
 
             $user = User::find($request->id);
@@ -54,9 +54,9 @@ class BadasoUserController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    'exists:users,id',
+                    'exists:Uasoft\Badaso\Models\User,id',
                 ],
-                'email'  => "required|email|unique:users,email,{$request->id}",
+                'email'  => "required|email|unique:Uasoft\Badaso\Models\User,email,{$request->id}",
                 'name'   => 'required',
                 'avatar' => 'nullable',
             ]);
@@ -91,7 +91,7 @@ class BadasoUserController extends Controller
 
         try {
             $request->validate([
-                'email'  => 'required|email|unique:users',
+                'email'  => 'required|email|unique:Uasoft\Badaso\Models\User',
                 'name'   => 'required',
                 'avatar' => 'nullable',
             ]);
@@ -125,7 +125,7 @@ class BadasoUserController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    'exists:users',
+                    'exists:Uasoft\Badaso\Models\User',
                 ],
             ]);
 

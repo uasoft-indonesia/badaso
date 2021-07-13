@@ -129,7 +129,7 @@ class BadasoTableController extends Controller
                 ],
             ]);
 
-            $records = DB::table($request->table)->select('*')->get();
+            $records = DB::table(config('badaso.database.prefix') . $request->table)->select('*')->get();
 
             $data[$request->table] = $records;
 
@@ -143,7 +143,7 @@ class BadasoTableController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:data_types,slug',
+                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
@@ -173,7 +173,7 @@ class BadasoTableController extends Controller
                     && $destination_table_column
                     && $destination_table_display_column
                 ) {
-                    $relation_data = DB::table($destination_table)->select([
+                    $relation_data = DB::table(config('badaso.database.prefix') . $destination_table)->select([
                         $destination_table_column,
                         $destination_table_display_column,
                     ])

@@ -3,6 +3,7 @@
 namespace Database\Seeders\Badaso;
 
 use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Models\Configuration;
 
 class SiteManagementSeeder extends Seeder
 {
@@ -154,10 +155,10 @@ class SiteManagementSeeder extends Seeder
             ];
 
             foreach ($settings as $key => $value) {
-                \DB::table('configurations')->where('key', $value['key'])->delete();
+                Configuration::where('key', $value['key'])->delete();
             }
 
-            \DB::table('configurations')->insert($settings);
+            Configuration::insert($settings);
 
             \DB::commit();
         } catch (Exception $e) {

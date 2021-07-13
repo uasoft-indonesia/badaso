@@ -14,7 +14,7 @@ class CreateMenus extends Migration
     public function up()
     {
         try {
-            Schema::create('menus', function (Blueprint $table) {
+            Schema::create(config('badaso.database.prefix') . 'menus', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('key')->unique();
                 $table->string('display_name');
@@ -35,6 +35,6 @@ class CreateMenus extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menus');
+        Schema::dropIfExists(config('badaso.database.prefix') . 'menus');
     }
 }

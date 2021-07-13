@@ -9,6 +9,17 @@ class Permission extends Model
 {
     use LogsActivity;
 
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically
+     */
+    public function __construct(array $attributes = []) {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix . 'permissions';
+        parent::__construct($attributes);
+    }
+
     protected $guarded = [];
 
     public static function generateFor($table_name, $is_maintenance = false)
@@ -56,5 +67,25 @@ class Permission extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
+    }
+
+    /**
+     * The roles that belong to the Permission
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, config('badaso.database.prefix') . 'role_permissions');
+    }
+
+    /**
+     * Get the role_permission that owns the Permission
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function role_permission()
+    {
+        return $this->belongsTo(RolePermission::class);
     }
 }
