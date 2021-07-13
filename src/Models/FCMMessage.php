@@ -3,9 +3,12 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Uasoft\Badaso\Traits\Uuid;
 
 class FCMMessage extends Model
 {
+    use Uuid;
+
     protected $table = null;
 
     /**

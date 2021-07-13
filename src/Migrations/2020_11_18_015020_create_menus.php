@@ -15,7 +15,7 @@ class CreateMenus extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'menus', function (Blueprint $table) {
-                $table->increments('id');
+                $table->uuid('id')->primary();
                 $table->string('key')->unique();
                 $table->string('display_name');
                 $table->string('icon')->nullable();

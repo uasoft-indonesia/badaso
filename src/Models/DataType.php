@@ -4,9 +4,12 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Uasoft\Badaso\Facades\Badaso;
+use Uasoft\Badaso\Traits\Uuid;
 
 class DataType extends Model
 {
+    use Uuid;
+
     protected $table = null;
 
     /**

@@ -14,7 +14,7 @@ class CreateBadasoPasswordResetsTable extends Migration
     public function up()
     {
         Schema::create(config('badaso.database.prefix').'password_resets', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('email')->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();

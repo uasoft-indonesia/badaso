@@ -4,10 +4,11 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Uasoft\Badaso\Traits\Uuid;
 
 class UserRole extends Model
 {
-    use LogsActivity;
+    use LogsActivity, Uuid;
 
     protected $table = null;
 

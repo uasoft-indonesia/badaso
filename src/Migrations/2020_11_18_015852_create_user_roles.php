@@ -15,11 +15,10 @@ class CreateUserRoles extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'user_roles', function (Blueprint $table) {
-                $table->increments('id');
-                // $table->unsignedInteger('user_id')->index();
-                $table->unsignedBigInteger('user_id')->index();
+                $table->uuid('id')->primary();
+                $table->uuid('user_id');
+                $table->uuid('role_id');
                 $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
-                $table->unsignedInteger('role_id')->index();
                 $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix').'roles')->onDelete('cascade');
                 $table->timestamps();
             });
@@ -28,10 +27,10 @@ class CreateUserRoles extends Migration
 
             try {
                 Schema::create(config('badaso.database.prefix').'user_roles', function (Blueprint $table) {
-                    $table->increments('id');
-                    $table->unsignedInteger('user_id')->index();
+                    $table->uuid('id')->primary();
+                    $table->uuid('user_id');
+                    $table->uuid('role_id');
                     $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
-                    $table->unsignedInteger('role_id')->index();
                     $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix').'roles')->onDelete('cascade');
                     $table->timestamps();
                 });
