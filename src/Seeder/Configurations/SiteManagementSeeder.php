@@ -137,7 +137,6 @@ class SiteManagementSeeder extends Seeder
                 Configuration::create($value);
             }
 
-
             \DB::commit();
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
