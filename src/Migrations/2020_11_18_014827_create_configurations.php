@@ -14,8 +14,8 @@ class CreateConfigurations extends Migration
     public function up()
     {
         try {
-            Schema::create('configurations', function (Blueprint $table) {
-                $table->increments('id');
+            Schema::create(config('badaso.database.prefix').'configurations', function (Blueprint $table) {
+                $table->id();
                 $table->string('key')->unique();
                 $table->string('display_name');
                 $table->text('value')->nullable();
@@ -40,6 +40,6 @@ class CreateConfigurations extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('configurations');
+        Schema::dropIfExists(config('badaso.database.prefix').'configurations');
     }
 }

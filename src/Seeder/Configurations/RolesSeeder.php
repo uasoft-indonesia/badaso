@@ -3,6 +3,7 @@
 namespace Database\Seeders\Badaso;
 
 use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Models\Role;
 
 class RolesSeeder extends Seeder
 {
@@ -23,31 +24,24 @@ class RolesSeeder extends Seeder
                     'id' => 1,
                     'name' => 'administrator',
                     'display_name' => 'Administrator',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
                     'id' => 2,
                     'name' => 'customer',
                     'display_name' => 'Customer',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
             $new_roles = [];
             foreach ($roles as $key => $value) {
-                $role = \DB::table('roles')
-                        ->where('id', $value['id'])
-                        ->first();
+                $role = Role::where('name', $value['name'])->first();
 
                 if (isset($role)) {
                     continue;
                 }
-                $new_roles[] = $value;
-            }
 
-            \DB::table('roles')->insert($new_roles);
+                Role::create($value);
+            }
 
             \DB::commit();
         } catch (Exception $e) {

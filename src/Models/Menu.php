@@ -9,10 +9,19 @@ class Menu extends Model
 {
     use LogsActivity;
 
-    protected $fillable = [
-        'key',
-        'display_name',
-    ];
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'menus';
+        parent::__construct($attributes);
+    }
+
+    protected $guarded = [];
 
     protected static $logAttributes = true;
     protected static $logFillable = true;

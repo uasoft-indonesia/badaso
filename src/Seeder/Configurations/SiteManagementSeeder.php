@@ -3,6 +3,7 @@
 namespace Database\Seeders\Badaso;
 
 use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Models\Configuration;
 
 class SiteManagementSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class SiteManagementSeeder extends Seeder
         try {
             $settings = [
                 0 => [
+                    'id' => 1,
                     'key' => 'adminPanelTitle',
                     'display_name' => 'Admin Panel Title',
                     'value' => 'Badaso',
@@ -28,10 +30,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 1,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
+                    'id' => 2,
                     'key' => 'adminPanelDescription',
                     'display_name' => 'Admin Panel Description',
                     'value' => 'Badaso, SPA CRUD Generator',
@@ -40,10 +41,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 2,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 2 => [
+                    'id' => 3,
                     'key' => 'adminPanelLogo',
                     'display_name' => 'Admin Panel Logo',
                     'value' => 'files/shares/logo.webp',
@@ -52,10 +52,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 3,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 3 => [
+                    'id' => 4,
                     'key' => 'adminPanelHeaderColor',
                     'display_name' => 'Admin Panel Header Color',
                     'value' => '#ffffff',
@@ -64,10 +63,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 4,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 4 => [
+                    'id' => 5,
                     'key' => 'landingPageTitle',
                     'display_name' => 'Landing Page Title',
                     'value' => 'Badaso',
@@ -76,10 +74,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 1,
                     'group' => 'landingPage',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 5 => [
+                    'id' => 6,
                     'key' => 'adminPanelHeaderFontColor',
                     'display_name' => 'Admin Panel Header Font Color',
                     'value' => '#06bbd3',
@@ -88,10 +85,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 5,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 6 => [
+                    'id' => 7,
                     'key' => 'adminPanelVerifyEmail',
                     'display_name' => 'Should verify email after register',
                     'value' => '1',
@@ -100,10 +96,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 6,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 7 => [
+                    'id' => 8,
                     'key' => 'adminPanelLogoConfig',
                     'display_name' => 'Admin Panel Logo Config',
                     'value' => 'logo_only',
@@ -112,10 +107,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 1,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-03-16 05:36:00',
-                    'updated_at' => '2021-03-16 05:36:00',
                 ],
                 8 => [
+                    'id' => 9,
                     'key' => 'favicon',
                     'display_name' => 'Favicon',
                     'value' => 'files/shares/favicon.png',
@@ -124,10 +118,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 7,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 9 => [
+                    'id' => 10,
                     'key' => 'maintenance',
                     'display_name' => 'Maintenance for all pages.',
                     'value' => '0',
@@ -136,10 +129,9 @@ class SiteManagementSeeder extends Seeder
                     'order' => 8,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 10 => [
+                    'id' => 11,
                     'key' => 'authBackgroundImage',
                     'display_name' => 'Background image for login page.',
                     'value' => 'files/shares/auth-bg.jpg',
@@ -148,16 +140,13 @@ class SiteManagementSeeder extends Seeder
                     'order' => 9,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
             foreach ($settings as $key => $value) {
-                \DB::table('configurations')->where('key', $value['key'])->delete();
+                Configuration::where('key', $value['key'])->delete();
+                Configuration::create($value);
             }
-
-            \DB::table('configurations')->insert($settings);
 
             \DB::commit();
         } catch (Exception $e) {

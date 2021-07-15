@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FCMMessage extends Model
+class PasswordReset extends Model
 {
     protected $table = null;
 
@@ -14,21 +14,9 @@ class FCMMessage extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'f_c_m_messages';
+        $this->table = $prefix.'password_resets';
         parent::__construct($attributes);
     }
 
-    protected $fillable = [
-        'receiver_user_id',
-        'type',
-        'title',
-        'content',
-        'is_read',
-        'sender_user_id',
-    ];
-
-    public function sender_users()
-    {
-        return $this->belongsTo(User::class, 'sender_user_id');
-    }
+    protected $guarded = [];
 }

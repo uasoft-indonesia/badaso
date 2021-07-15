@@ -14,9 +14,9 @@ class CreateMenuItems extends Migration
     public function up()
     {
         try {
-            Schema::create('menu_items', function (Blueprint $table) {
-                $table->increments('id');
-                $table->unsignedInteger('menu_id')->nullable();
+            Schema::create(config('badaso.database.prefix').'menu_items', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('menu_id');
                 $table->string('title');
                 $table->string('url');
                 $table->string('target')->default('_self');
@@ -41,6 +41,6 @@ class CreateMenuItems extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu_items');
+        Schema::dropIfExists(config('badaso.database.prefix').'menu_items');
     }
 }

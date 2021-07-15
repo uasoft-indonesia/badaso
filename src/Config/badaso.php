@@ -6,6 +6,9 @@ return [
     'default_menu' => env('MIX_DEFAULT_MENU', 'admin'),
     'api_route_prefix' => env('MIX_API_ROUTE_PREFIX', 'badaso-api'),
     'license_key' => env('BADASO_LICENSE_KEY'),
+    'database' => [
+        'prefix' => env('BADASO_TABLE_PREFIX', 'badaso_'),
+    ],
     'storage' => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
     ],

@@ -13,9 +13,9 @@ class CreateEmailResets extends Migration
      */
     public function up()
     {
-        Schema::create('email_resets', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('user_id')->nullable();
+        Schema::create(config('badaso.database.prefix').'email_resets', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->nullable();
             $table->string('email');
             $table->string('verification_token')->nullable()->unique();
             $table->dateTime('expired_at')->nullable();
@@ -31,6 +31,6 @@ class CreateEmailResets extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('email_resets');
+        Schema::dropIfExists(config('badaso.database.prefix').'email_resets');
     }
 }

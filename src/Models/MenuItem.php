@@ -9,7 +9,20 @@ class MenuItem extends Model
 {
     use LogsActivity;
 
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'menu_items';
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
+        'id',
         'menu_id',
         'title',
         'url',

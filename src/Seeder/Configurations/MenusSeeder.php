@@ -3,6 +3,7 @@
 namespace Database\Seeders\Badaso;
 
 use Illuminate\Database\Seeder;
+use Uasoft\Badaso\Models\Menu;
 
 class MenusSeeder extends Seeder
 {
@@ -23,31 +24,23 @@ class MenusSeeder extends Seeder
                     'id' => 1,
                     'key' => 'admin',
                     'display_name' => 'Admin Menu',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
                     'id' => 2,
                     'key' => 'configuration',
                     'display_name' => 'Configuration',
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
             $new_menus = [];
             foreach ($menus as $key => $value) {
-                $menu = \DB::table('menus')
-                        ->where('key', $value['key'])
-                        ->first();
+                $menu = Menu::where('key', $value['key'])->first();
 
                 if (isset($menu)) {
                     continue;
                 }
-                $new_menus[] = $value;
+                Menu::create($value);
             }
-
-            \DB::table('menus')->insert($new_menus);
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
             \DB::rollBack();

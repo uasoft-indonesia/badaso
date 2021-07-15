@@ -368,7 +368,7 @@ class BadasoBaseController extends Controller
         DB::beginTransaction();
         try {
             $request->validate([
-                'slug' => 'required|exists:data_types,slug',
+                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
                 'is_maintenance' => 'required',
             ]);
 

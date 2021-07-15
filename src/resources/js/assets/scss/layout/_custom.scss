@@ -221,3 +221,7 @@ a {
   object-fit: contain;
   height: 100%;
 }
+
+.vs-select--options {
+  z-index: 99999 !important;
+}

@@ -9,6 +9,18 @@ class EmailReset extends Model
 {
     use LogsActivity;
 
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'email_resets';
+        parent::__construct($attributes);
+    }
+
     protected $fillable = [
         'user_id',
         'email',

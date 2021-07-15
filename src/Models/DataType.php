@@ -7,7 +7,17 @@ use Uasoft\Badaso\Facades\Badaso;
 
 class DataType extends Model
 {
-    protected $table = 'data_types';
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'data_types';
+        parent::__construct($attributes);
+    }
 
     protected $fillable = [
         'name',
