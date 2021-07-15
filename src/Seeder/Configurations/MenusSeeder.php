@@ -39,7 +39,6 @@ class MenusSeeder extends Seeder
                 }
                 Menu::create($value);
             }
-
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
             \DB::rollBack();
