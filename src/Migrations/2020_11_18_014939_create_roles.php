@@ -15,7 +15,7 @@ class CreateRoles extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'roles', function (Blueprint $table) {
-                $table->uuid('id')->primary();
+                $table->id();
                 $table->string('name')->unique();
                 $table->string('display_name');
                 $table->string('description')->nullable();

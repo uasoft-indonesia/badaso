@@ -23,6 +23,7 @@ class FixedMenuItemSeeder extends Seeder
             $menu_id = Menu::where('key', 'configuration')->firstOrFail()->id;
             $menu_items = [
                 0 => [
+                    'id' => 1,
                     'menu_id' => $menu_id,
                     'title' => 'Permission Management',
                     'url' => '/permission',
@@ -34,6 +35,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_permissions',
                 ],
                 1 => [
+                    'id' => 2,
                     'menu_id' => $menu_id,
                     'title' => 'Role Management',
                     'url' => '/role',
@@ -45,6 +47,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_roles',
                 ],
                 2 => [
+                    'id' => 3,
                     'menu_id' => $menu_id,
                     'title' => 'User Management',
                     'url' => '/user',
@@ -56,6 +59,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_users',
                 ],
                 3 => [
+                    'id' => 4,
                     'menu_id' => $menu_id,
                     'title' => 'Menu Management',
                     'url' => '/menu',
@@ -67,6 +71,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_menus',
                 ],
                 4 => [
+                    'id' => 5,
                     'menu_id' => $menu_id,
                     'title' => 'CRUD Management',
                     'url' => '/crud',
@@ -78,6 +83,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_crud_data',
                 ],
                 5 => [
+                    'id' => 6,
                     'menu_id' => $menu_id,
                     'title' => 'Database Management',
                     'url' => '/database',
@@ -89,6 +95,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_database',
                 ],
                 6 => [
+                    'id' => 7,
                     'menu_id' => $menu_id,
                     'title' => 'Site Management',
                     'url' => '/site',
@@ -100,6 +107,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_configurations',
                 ],
                 7 => [
+                    'id' => 8,
                     'menu_id' => $menu_id,
                     'title' => 'Activity Log',
                     'url' => '/activity-log',
@@ -111,6 +119,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_activitylogs',
                 ],
                 8 => [
+                    'id' => 9,
                     'menu_id' => $menu_id,
                     'title' => 'Log Viewer',
                     'url' => '/log-viewer',
@@ -122,6 +131,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_logviewer',
                 ],
                 9 => [
+                    'id' => 10,
                     'menu_id' => $menu_id,
                     'title' => 'File Manager',
                     'url' => '/file-manager',
@@ -133,6 +143,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_file_manager',
                 ],
                 10 => [
+                    'id' => 11,
                     'menu_id' => $menu_id,
                     'title' => 'API Documentation',
                     'url' => '/api-docs',

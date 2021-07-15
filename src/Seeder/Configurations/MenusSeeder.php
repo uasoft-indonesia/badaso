@@ -21,10 +21,12 @@ class MenusSeeder extends Seeder
         try {
             $menus = [
                 0 => [
+                    'id' => 1,
                     'key' => 'admin',
                     'display_name' => 'Admin Menu',
                 ],
                 1 => [
+                    'id' => 2,
                     'key' => 'configuration',
                     'display_name' => 'Configuration',
                 ],

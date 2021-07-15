@@ -14,7 +14,7 @@ class CreateBadasoUsersTable extends Migration
     public function up()
     {
         Schema::create(config('badaso.database.prefix').'users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->string('name');
             $table->string('email')->unique();
             $table->text('additional_info')->nullable();

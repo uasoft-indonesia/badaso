@@ -4,17 +4,12 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Uasoft\Badaso\Traits\Uuid;
 
 class DataRow extends Model
 {
-    use LogsActivity, Uuid;
+    use LogsActivity;
 
     protected $table = null;
-
-    public $incrementing = false;
-
-    public $keyType = 'string';
 
     /**
      * Constructor for setting the table name dynamically.

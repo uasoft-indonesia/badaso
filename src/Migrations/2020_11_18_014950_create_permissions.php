@@ -15,7 +15,7 @@ class CreatePermissions extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'permissions', function (Blueprint $table) {
-                $table->uuid('id')->primary();
+                $table->id();
                 $table->string('key')->index();
                 $table->string('description')->nullable();
                 $table->string('table_name')->nullable();

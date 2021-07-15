@@ -6,19 +6,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Uasoft\Badaso\Traits\Uuid;
 
 class User extends Authenticatable implements JWTSubject
 {
     // use HasFactory;
     use Notifiable;
-    use LogsActivity, Uuid;
+    use LogsActivity;
 
     protected $table = null;
-
-    public $incrementing = false;
-
-    public $keyType = 'string';
 
     /**
      * Constructor for setting the table name dynamically.

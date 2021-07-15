@@ -21,10 +21,12 @@ class RolesSeeder extends Seeder
         try {
             $roles = [
                 0 => [
+                    'id' => 1,
                     'name' => 'administrator',
                     'display_name' => 'Administrator',
                 ],
                 1 => [
+                    'id' => 2,
                     'name' => 'customer',
                     'display_name' => 'Customer',
                 ],

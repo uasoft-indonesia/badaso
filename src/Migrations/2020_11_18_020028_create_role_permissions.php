@@ -15,9 +15,9 @@ class CreateRolePermissions extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'role_permissions', function (Blueprint $table) {
-                $table->uuid('id')->primary();
-                $table->uuid('role_id');
-                $table->uuid('permission_id');
+                $table->id();
+                $table->foreignId('role_id');
+                $table->foreignId('permission_id');
                 $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix').'roles')->onDelete('cascade');
                 $table->foreign('permission_id')->references('id')->on(config('badaso.database.prefix').'permissions')->onDelete('cascade');
                 $table->timestamps();

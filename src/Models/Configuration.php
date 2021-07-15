@@ -4,15 +4,10 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Uasoft\Badaso\Traits\Uuid;
 
 class Configuration extends Model
 {
-    use LogsActivity, Uuid;
-
-    public $incrementing = false;
-
-    public $keyType = 'string';
+    use LogsActivity;
 
     protected $table = null;
 

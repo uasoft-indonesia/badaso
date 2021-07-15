@@ -14,13 +14,13 @@ class CreateFCMMessagesTable extends Migration
     public function up()
     {
         Schema::create(config('badaso.database.prefix').'f_c_m_messages', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('receiver_user_id');
+            $table->id();
+            $table->foreignId('receiver_user_id');
             $table->string('type');
             $table->string('title');
             $table->text('content');
             $table->boolean('is_read')->default(0);
-            $table->uuid('sender_user_id');
+            $table->foreignId('sender_user_id');
             $table->timestamps();
 
             $table->foreign('receiver_user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');

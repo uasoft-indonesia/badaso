@@ -15,9 +15,9 @@ class CreateUserRoles extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'user_roles', function (Blueprint $table) {
-                $table->uuid('id')->primary();
-                $table->uuid('user_id');
-                $table->uuid('role_id');
+                $table->id();
+                $table->foreignId('user_id');
+                $table->foreignId('role_id');
                 $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
                 $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix').'roles')->onDelete('cascade');
                 $table->timestamps();
@@ -27,9 +27,9 @@ class CreateUserRoles extends Migration
 
             try {
                 Schema::create(config('badaso.database.prefix').'user_roles', function (Blueprint $table) {
-                    $table->uuid('id')->primary();
-                    $table->uuid('user_id');
-                    $table->uuid('role_id');
+                    $table->id();
+                    $table->foreignId('user_id');
+                    $table->foreignId('role_id');
                     $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
                     $table->foreign('role_id')->references('id')->on(config('badaso.database.prefix').'roles')->onDelete('cascade');
                     $table->timestamps();
