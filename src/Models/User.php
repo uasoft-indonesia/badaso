@@ -13,6 +13,18 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use LogsActivity;
 
+    protected $table = null;
+
+    /**
+     * Constructor for setting the table name dynamically.
+     */
+    public function __construct(array $attributes = [])
+    {
+        $prefix = config('badaso.database.prefix');
+        $this->table = $prefix.'users';
+        parent::__construct($attributes);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

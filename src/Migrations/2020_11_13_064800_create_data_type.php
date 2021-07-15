@@ -14,7 +14,7 @@ class CreateDataType extends Migration
     public function up()
     {
         try {
-            Schema::create('data_types', function (Blueprint $table) {
+            Schema::create(config('badaso.database.prefix').'data_types', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('name')->unique();
                 $table->string('slug')->unique();
@@ -39,7 +39,7 @@ class CreateDataType extends Migration
             });
 
             // Create table for storing roles
-            Schema::create('data_rows', function (Blueprint $table) {
+            Schema::create(config('badaso.database.prefix').'data_rows', function (Blueprint $table) {
                 $table->increments('id');
                 $table->integer('data_type_id')->unsigned();
                 $table->string('field');
@@ -55,8 +55,7 @@ class CreateDataType extends Migration
                 $table->text('relation')->nullable();
                 $table->integer('order')->default(1);
 
-                $table->foreign('data_type_id')->references('id')->on('data_types')
-                    ->onUpdate('cascade')->onDelete('cascade');
+                $table->foreign('data_type_id')->references('id')->on(config('badaso.database.prefix').'data_types')->onUpdate('cascade')->onDelete('cascade');
             });
         } catch (PDOException $ex) {
             $this->down();
@@ -72,7 +71,7 @@ class CreateDataType extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data_rows');
-        Schema::dropIfExists('data_types');
+        Schema::dropIfExists(config('badaso.database.prefix').'data_rows');
+        Schema::dropIfExists(config('badaso.database.prefix').'data_types');
     }
 }

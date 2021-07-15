@@ -31,7 +31,7 @@ class BadasoUserRoleController extends Controller
     {
         try {
             $request->validate([
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:Uasoft\Badaso\Models\User,id',
             ]);
             $user_roles = UserRole::where('user_id', $request->user_id)->get();
 
@@ -49,16 +49,17 @@ class BadasoUserRoleController extends Controller
     {
         try {
             $request->validate([
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:Uasoft\Badaso\Models\User,id',
             ]);
+            $prefix = config('badaso.database.prefix');
             $query = '
                 SELECT A.*,
                     CASE
                         WHEN B.user_id is not null then 1
                         else 0
                     END as selected
-                FROM roles A
-                LEFT JOIN user_roles B ON A.id = B.role_id AND B.user_id = :user_id
+                    FROM '.$prefix.'roles A
+                    LEFT JOIN '.$prefix.'user_roles B ON A.id = B.role_id AND B.user_id = :user_id
             ';
             $user_roles = DB::select($query, [
                 'user_id' => $request->user_id,
@@ -76,7 +77,7 @@ class BadasoUserRoleController extends Controller
     {
         try {
             $request->validate([
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:Uasoft\Badaso\Models\User,id',
             ]);
             $roles = $request->get('roles', []);
 

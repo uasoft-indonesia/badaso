@@ -76,29 +76,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-.widget {
-  &__content {
-    position: relative;
-  }
-  &__icon {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translate(0, -50%);
-    font-size: 40px;
-    z-index: 0;
-    color: #e0e0e0;
-    cursor: default;
-    user-select: none;
-  }
-  &__progress-bar {
-    z-index: 10;
-    position: relative;
-  }
-  &__icon-container {
-    position: relative;
-  }
-}
-</style> 

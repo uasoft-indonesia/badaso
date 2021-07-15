@@ -147,7 +147,7 @@ class BadasoConfigurationsController extends Controller
 
         try {
             $request->validate([
-                'key' => 'required|unique:configurations',
+                'key' => 'required|unique:Uasoft\Badaso\Models\Configuration',
                 'display_name' => 'required',
                 'group' => 'required',
                 'type' => 'required',

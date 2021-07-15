@@ -13,7 +13,7 @@ class CreateUserVerifications extends Migration
      */
     public function up()
     {
-        Schema::create('user_verifications', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'user_verifications', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('user_id')->nullable();
             $table->string('verification_token')->nullable()->unique();
@@ -30,6 +30,6 @@ class CreateUserVerifications extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_verifications');
+        Schema::dropIfExists(config('badaso.database.prefix').'user_verifications');
     }
 }
