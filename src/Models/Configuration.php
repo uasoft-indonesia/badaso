@@ -10,6 +10,10 @@ class Configuration extends Model
 {
     use LogsActivity, Uuid;
 
+    public $incrementing = false;
+
+    public $keyType = 'string';
+
     protected $table = null;
 
     /**

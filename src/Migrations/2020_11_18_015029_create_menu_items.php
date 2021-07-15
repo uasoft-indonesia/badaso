@@ -16,7 +16,7 @@ class CreateMenuItems extends Migration
         try {
             Schema::create(config('badaso.database.prefix').'menu_items', function (Blueprint $table) {
                 $table->uuid('id')->primary();
-                $table->unsignedInteger('menu_id')->nullable();
+                $table->uuid('menu_id');
                 $table->string('title');
                 $table->string('url');
                 $table->string('target')->default('_self');

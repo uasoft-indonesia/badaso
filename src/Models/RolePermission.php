@@ -12,6 +12,10 @@ class RolePermission extends Model
 
     protected $table = null;
 
+    public $incrementing = false;
+
+    public $keyType = 'string';
+
     /**
      * Constructor for setting the table name dynamically.
      */
@@ -23,6 +27,7 @@ class RolePermission extends Model
     }
 
     protected $fillable = [
+        'id',
         'role_id',
         'permission_id',
     ];

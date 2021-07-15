@@ -29,8 +29,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 1,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 1 => [
                     'key' => 'adminPanelDescription',
@@ -41,8 +39,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 2,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 2 => [
                     'key' => 'adminPanelLogo',
@@ -53,8 +49,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 3,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 3 => [
                     'key' => 'adminPanelHeaderColor',
@@ -65,8 +59,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 4,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 4 => [
                     'key' => 'landingPageTitle',
@@ -77,8 +69,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 1,
                     'group' => 'landingPage',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 5 => [
                     'key' => 'adminPanelHeaderFontColor',
@@ -89,8 +79,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 5,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 6 => [
                     'key' => 'adminPanelVerifyEmail',
@@ -101,8 +89,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 6,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 7 => [
                     'key' => 'adminPanelLogoConfig',
@@ -113,8 +99,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 1,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-03-16 05:36:00',
-                    'updated_at' => '2021-03-16 05:36:00',
                 ],
                 8 => [
                     'key' => 'favicon',
@@ -125,8 +109,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 7,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 9 => [
                     'key' => 'maintenance',
@@ -137,8 +119,6 @@ class SiteManagementSeeder extends Seeder
                     'order' => 8,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
                 10 => [
                     'key' => 'authBackgroundImage',
@@ -149,16 +129,14 @@ class SiteManagementSeeder extends Seeder
                     'order' => 9,
                     'group' => 'adminPanel',
                     'can_delete' => 0,
-                    'created_at' => '2021-01-01 15:26:06',
-                    'updated_at' => '2021-01-01 15:26:06',
                 ],
             ];
 
             foreach ($settings as $key => $value) {
                 Configuration::where('key', $value['key'])->delete();
+                Configuration::create($value);
             }
 
-            Configuration::insert($settings);
 
             \DB::commit();
         } catch (Exception $e) {

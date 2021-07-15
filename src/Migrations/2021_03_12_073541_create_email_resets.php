@@ -15,7 +15,7 @@ class CreateEmailResets extends Migration
     {
         Schema::create(config('badaso.database.prefix').'email_resets', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->bigInteger('user_id')->nullable();
+            $table->uuid('user_id')->nullable();
             $table->string('email');
             $table->string('verification_token')->nullable()->unique();
             $table->dateTime('expired_at')->nullable();

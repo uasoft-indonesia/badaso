@@ -15,7 +15,7 @@ class CreateUserVerifications extends Migration
     {
         Schema::create(config('badaso.database.prefix').'user_verifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->bigInteger('user_id')->nullable();
+            $table->uuid('user_id')->nullable();
             $table->string('verification_token')->nullable()->unique();
             $table->dateTime('expired_at')->nullable();
             $table->integer('count_incorrect')->nullable();

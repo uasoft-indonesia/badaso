@@ -12,6 +12,10 @@ class Menu extends Model
 
     protected $table = null;
 
+    public $incrementing = false;
+
+    public $keyType = 'string';
+
     /**
      * Constructor for setting the table name dynamically.
      */
@@ -22,10 +26,7 @@ class Menu extends Model
         parent::__construct($attributes);
     }
 
-    protected $fillable = [
-        'key',
-        'display_name',
-    ];
+    protected $guarded = [];
 
     protected static $logAttributes = true;
     protected static $logFillable = true;

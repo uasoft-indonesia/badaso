@@ -12,6 +12,10 @@ class Permission extends Model
 
     protected $table = null;
 
+    public $incrementing = false;
+
+    public $keyType = 'string';
+
     /**
      * Constructor for setting the table name dynamically.
      */
