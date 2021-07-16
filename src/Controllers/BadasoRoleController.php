@@ -52,7 +52,7 @@ class BadasoRoleController extends Controller
                 ],
                 'name'         => "required|unique:Uasoft\Badaso\Models\Role,name,{$request->id}",
                 'display_name' => 'required',
-                'description'  => 'required',
+                'description'  => 'nullable',
             ]);
 
             $role = Role::find($request->id);
@@ -79,7 +79,7 @@ class BadasoRoleController extends Controller
             $request->validate([
                 'name'         => 'required|unique:Uasoft\Badaso\Models\Role,name',
                 'display_name' => 'required',
-                'description'  => 'required',
+                'description'  => 'nullable',
             ]);
 
             $role = new Role();
