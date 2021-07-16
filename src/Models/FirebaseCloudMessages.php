@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class FirebaseCloudMessages extends Model
