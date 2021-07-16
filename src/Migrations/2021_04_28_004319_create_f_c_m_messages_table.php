@@ -16,11 +16,11 @@ class CreateFCMMessagesTable extends Migration
         Schema::create(config('badaso.database.prefix').'f_c_m_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('receiver_user_id');
+            $table->unsignedBigInteger('sender_user_id');
             $table->string('type');
             $table->string('title');
             $table->text('content');
             $table->boolean('is_read')->default(0);
-            $table->unsignedBigInteger('sender_user_id');
             $table->timestamps();
 
             $table->foreign('receiver_user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');

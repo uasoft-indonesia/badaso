@@ -21,10 +21,7 @@ class Menu extends Model
         parent::__construct($attributes);
     }
 
-    protected $fillable = [
-        'key',
-        'display_name',
-    ];
+    protected $guarded = [];
 
     protected static $logAttributes = true;
     protected static $logFillable = true;

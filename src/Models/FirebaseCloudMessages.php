@@ -35,13 +35,4 @@ class FirebaseCloudMessages extends Model
     {
         return "This model has been {$eventName}";
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (Model $model) {
-            $model->setAttribute($model->getKeyName(), Str::uuid());
-        });
-    }
 }

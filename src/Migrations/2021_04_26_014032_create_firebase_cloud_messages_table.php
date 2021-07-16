@@ -14,7 +14,7 @@ class CreateFirebaseCloudMessagesTable extends Migration
     public function up()
     {
         Schema::create(config('badaso.database.prefix').'firebase_cloud_messages', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->string('token_get_message');
             $table->timestamps();

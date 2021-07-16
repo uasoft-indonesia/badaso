@@ -15,7 +15,7 @@ class CreateDataType extends Migration
     {
         try {
             Schema::create(config('badaso.database.prefix').'data_types', function (Blueprint $table) {
-                $table->increments('id');
+                $table->bigIncrements('id');
                 $table->string('name')->unique();
                 $table->string('slug')->unique();
                 $table->string('display_name_singular');
@@ -40,8 +40,8 @@ class CreateDataType extends Migration
 
             // Create table for storing roles
             Schema::create(config('badaso.database.prefix').'data_rows', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('data_type_id')->unsigned();
+                $table->bigIncrements('id');
+                $table->unsignedBigInteger('data_type_id');
                 $table->string('field');
                 $table->string('type');
                 $table->string('display_name');
