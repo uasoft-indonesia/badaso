@@ -39,5 +39,5 @@ return [
     'rule' => [
         'model_ids' => ':attribute yang diberikan tidak ada.',
         'unique_model' => ':attribute yang diberikan harus unik.',
-    ]
+    ],
 ];

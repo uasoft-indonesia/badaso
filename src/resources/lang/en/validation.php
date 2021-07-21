@@ -39,5 +39,5 @@ return [
     'rule' => [
         'exists_model' => 'The given :attribute do not exist.',
         'unique_model' => 'The given :attribute must unique.',
-    ]
+    ],
 ];

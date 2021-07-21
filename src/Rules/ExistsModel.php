@@ -31,7 +31,7 @@ class ExistsModel implements Rule
 
         $this->modelId = $value;
 
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             $this->modelId = [$value];
         }
 

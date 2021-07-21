@@ -95,7 +95,7 @@ class BadasoAuthController extends Controller
             // new ExistsModel(User::class, 'email')
             $request->validate([
                 'name'     => 'required|string|max:255',
-                'email'    => ['required','string','email','max:255', new UniqueModel(User::class, 'email')],
+                'email'    => ['required', 'string', 'email', 'max:255', new UniqueModel(User::class, 'email')],
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
@@ -454,7 +454,7 @@ class BadasoAuthController extends Controller
             }
 
             $request->validate([
-                'email' => ['required','email', new UniqueModel(User::class, 'email')],
+                'email' => ['required', 'email', new UniqueModel(User::class, 'email')],
             ]);
 
             $user = User::find($user->id);
