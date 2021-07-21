@@ -23,6 +23,8 @@ use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 use Uasoft\Badaso\Models\Permission;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class BadasoCRUDController extends Controller
 {
@@ -61,7 +63,7 @@ class BadasoCRUDController extends Controller
     {
         try {
             $request->validate([
-                'table' => 'required|exists:Uasoft\Badaso\Models\DataType,name',
+                'table' => ['required', new ExistsModel(DataType::class, 'name')],
             ]);
             $table = $request->input('table', '');
             $data_type = Badaso::model('DataType')::where('name', $table)->first();
@@ -105,7 +107,7 @@ class BadasoCRUDController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
+                'slug' => ['required', new ExistsModel(DataType::class, 'slug')],
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
@@ -128,10 +130,10 @@ class BadasoCRUDController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Models\DataType',
+                'id' => ['required', new ExistsModel(DataType::class)],
                 'name' => [
                     'required',
-                    "unique:Uasoft\Badaso\Models\DataType,name,{$request->id}",
+                    new UniqueModel(DataType::class, 'name', $request->id),
                     function ($attribute, $value, $fail) {
                         if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
@@ -275,7 +277,7 @@ class BadasoCRUDController extends Controller
             $request->validate([
                 'name' => [
                     'required',
-                    'unique:Uasoft\Badaso\Models\DataType',
+                    new UniqueModel(DataType::class, 'name'),
                     function ($attribute, $value, $fail) {
                         if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
@@ -405,7 +407,7 @@ class BadasoCRUDController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Models\DataType,id',
+                'id' => ['required', new ExistsModel(DataType::class)],
             ]);
 
             $data_type = DataType::find($request->id);

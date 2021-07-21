@@ -12,7 +12,9 @@ use Uasoft\Badaso\ContentManager\FileGenerator;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class BadasoDatabaseController extends Controller
 {
@@ -32,7 +34,7 @@ class BadasoDatabaseController extends Controller
             $request->validate([
                 'table' => [
                     'required',
-                    'unique:Uasoft\Badaso\Models\DataType,slug',
+                    new UniqueModel(DataType::class, 'slug'),
                     function ($attribute, $value, $fail) {
                         if (Schema::hasTable($value)) {
                             $fail(__('badaso::validation.database.table_already_exists', ['table' => $value]));

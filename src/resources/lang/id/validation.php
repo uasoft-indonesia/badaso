@@ -36,4 +36,8 @@ return [
         'rollback_success'          => 'Rollback sukses.',
         'rollback_failed'           => 'Rollback gagal.',
     ],
+    'rule' => [
+        'model_ids' => ':attribute yang diberikan tidak ada.',
+        'unique_model' => ':attribute yang diberikan harus unik.',
+    ]
 ];

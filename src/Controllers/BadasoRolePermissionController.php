@@ -9,6 +9,7 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\RolePermission;
+use Uasoft\Badaso\Rules\ExistsModel;
 
 class BadasoRolePermissionController extends Controller
 {
@@ -31,7 +32,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id' => 'required|exists:Uasoft\Badaso\Models\Role,id',
+                'role_id' => ['required', new ExistsModel(Role::class, 'id')]
             ]);
             $role_permissions = RolePermission::where('role_id', $request->role_id)->get();
 
@@ -49,7 +50,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id' => 'required|exists:Uasoft\Badaso\Models\Role,id',
+                'role_id' => ['required', new ExistsModel(Role::class, 'id')],
             ]);
             $prefix = config('badaso.database.prefix');
             $query = '
@@ -77,7 +78,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id'     => 'required|exists:Uasoft\Badaso\Models\Role,id',
+                'role_id'     => ['required', new ExistsModel(Role::class, 'id')],
                 'permissions' => 'required',
             ]);
             $permissions = $request->permissions;

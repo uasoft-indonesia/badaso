@@ -11,6 +11,8 @@ use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
 use Uasoft\Badaso\Models\Permission;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class BadasoMenuController extends Controller
 {
@@ -54,7 +56,7 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', new ExistsModel(Menu::class)],
             ]);
             $menu = Menu::find($request->menu_id);
 
@@ -70,8 +72,8 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'menu_item_id' => ['required', new ExistsModel(MenuItem::class)],
             ]);
 
             $menu_item = MenuItem::where('menu_id', $request->menu_id)->where('id', $request->menu_item_id)->first();
@@ -88,7 +90,7 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_key' => ['required', 'exists:Uasoft\Badaso\Models\Menu,key'],
+                'menu_key' => ['required', new ExistsModel(Menu::class, 'key')],
             ]);
             $prefix = config('badaso.database.prefix');
             $menu = Menu::where('key', $request->menu_key)->first();
@@ -182,7 +184,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'key'          => ['required', 'unique:Uasoft\Badaso\Models\Menu'],
+                'key'          => ['required', new UniqueModel(Menu::class)],
                 'display_name' => ['required'],
             ]);
 
@@ -208,7 +210,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', new ExistsModel(Menu::class)],
                 'title'   => ['required'],
                 'url'     => ['required'],
                 'target'  => ['required'],
@@ -246,8 +248,8 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'key'          => ['required', "unique:Uasoft\Badaso\Models\Menu,id,{$request->menu_id}"],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'key'          => ['required', new UniqueModel(Menu::class, 'key', $request->menu_id)],
                 'display_name' => ['required'],
             ]);
 
@@ -273,8 +275,8 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'menu_item_id' => ['required', new ExistsModel(MenuItem::class)],
                 'title'        => ['required'],
                 'url'          => ['required'],
                 'target'       => ['required'],
@@ -310,8 +312,8 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'menu_item_id' => ['required', new ExistsModel(MenuItem::class)],
             ]);
             $menu_item = MenuItem::find($request->menu_item_id);
             $order = $request->get('order');
@@ -364,7 +366,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'    => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id'    => ['required', new ExistsModel(Menu::class)],
                 'menu_items' => ['required'],
             ]);
 
@@ -399,7 +401,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', new ExistsModel(Menu::class)],
             ]);
 
             Menu::find($request->menu_id)->delete();
@@ -420,8 +422,8 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'menu_item_id' => ['required', new ExistsModel(MenuItem::class)],
             ]);
 
             MenuItem::find($request->menu_item_id)->delete();
@@ -440,8 +442,8 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'menu_item_id' => ['required', new ExistsModel(MenuItem::class)],
             ]);
 
             $menu_item = MenuItem::find($request->menu_item_id);
@@ -476,8 +478,8 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
+                'menu_id'      => ['required', new ExistsModel(Menu::class)],
+                'menu_item_id' => ['required', new ExistsModel(MenuItem::class)],
             ]);
 
             $permission_ids = $request->get('permissions', []);

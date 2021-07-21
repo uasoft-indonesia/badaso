@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Permission;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class BadasoPermissionController extends Controller
 {
@@ -27,7 +29,7 @@ class BadasoPermissionController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Models\Permission,id',
+                'id' => ['required', new ExistsModel(Permission::class)],
             ]);
 
             $permission = Permission::find($request->id);
@@ -46,11 +48,8 @@ class BadasoPermissionController extends Controller
 
         try {
             $request->validate([
-                'id' => [
-                    'required',
-                    'exists:Uasoft\Badaso\Models\Permission,id',
-                ],
-                'key'          => "required|unique:Uasoft\Badaso\Models\Permission,key,{$request->id}",
+                'id'           => ['required',new ExistsModel(Permission::class, 'id'),],
+                'key'          => ['required', new UniqueModel(Permission::class, 'key', $request->id)],
                 'description'  => 'nullable',
                 'always_allow' => 'required',
                 'is_public'    => 'required',
@@ -80,7 +79,7 @@ class BadasoPermissionController extends Controller
 
         try {
             $request->validate([
-                'key'          => 'required|unique:Uasoft\Badaso\Models\Permission',
+                'key'          => ['required', new UniqueModel(Permission::class, 'key')],
                 'description'  => 'nullable',
                 'always_allow' => 'required',
                 'is_public'    => 'required',
@@ -111,7 +110,7 @@ class BadasoPermissionController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    'exists:Uasoft\Badaso\Models\Permission',
+                    new ExistsModel(Permission::class, 'id'),
                 ],
             ]);
 

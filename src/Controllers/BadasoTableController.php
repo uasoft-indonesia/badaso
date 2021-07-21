@@ -15,6 +15,7 @@ use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Helpers\DataTypeToComponent;
 use Uasoft\Badaso\Models\DataRow;
 use Uasoft\Badaso\Models\DataType;
+use Uasoft\Badaso\Rules\ExistsModel;
 
 class BadasoTableController extends Controller
 {
@@ -143,7 +144,7 @@ class BadasoTableController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
+                'slug' => ['required', new ExistsModel(DataType::class, 'slug')],
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();

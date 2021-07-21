@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Configuration;
+use Uasoft\Badaso\Rules\UniqueModel;
 use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoConfigurationsController extends Controller
@@ -147,7 +148,7 @@ class BadasoConfigurationsController extends Controller
 
         try {
             $request->validate([
-                'key' => 'required|unique:Uasoft\Badaso\Models\Configuration',
+                'key' => ['required', new UniqueModel(Configuration::class, 'key')],
                 'display_name' => 'required',
                 'group' => 'required',
                 'type' => 'required',
