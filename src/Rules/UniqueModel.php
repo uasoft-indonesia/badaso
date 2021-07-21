@@ -36,13 +36,13 @@ class UniqueModel implements Rule
 
         $this->modelId = $value;
 
-        if (!is_array($value)) {
+        if (! is_array($value)) {
             $this->modelId = [$value];
         }
 
         $modelCount = $this->modelClassName::whereIn($this->modelAttribute, $this->modelId);
 
-        if (!is_null($this->except)) {
+        if (! is_null($this->except)) {
             $modelCount->where('id', '!=', $this->except);
         }
 

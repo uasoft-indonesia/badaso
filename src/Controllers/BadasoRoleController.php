@@ -105,7 +105,7 @@ class BadasoRoleController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    new ExistsModel(Role::class, 'id')
+                    new ExistsModel(Role::class, 'id'),
                 ],
             ]);
 

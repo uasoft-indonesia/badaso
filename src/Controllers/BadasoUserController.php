@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\User;
-use Uasoft\Badaso\Traits\FileHandler;
 use Uasoft\Badaso\Rules\ExistsModel;
 use Uasoft\Badaso\Rules\UniqueModel;
+use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoUserController extends Controller
 {
@@ -56,7 +56,7 @@ class BadasoUserController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    new ExistsModel(User::class, 'id')
+                    new ExistsModel(User::class, 'id'),
                 ],
                 'email'  => ['required', 'email', new UniqueModel(User::class, 'email', $request->id)],
                 'name'   => 'required',
@@ -127,7 +127,7 @@ class BadasoUserController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    new ExistsModel(User::class, 'id')
+                    new ExistsModel(User::class, 'id'),
                 ],
             ]);
 

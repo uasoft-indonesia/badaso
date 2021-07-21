@@ -32,7 +32,7 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id' => ['required', new ExistsModel(Role::class, 'id')]
+                'role_id' => ['required', new ExistsModel(Role::class, 'id')],
             ]);
             $role_permissions = RolePermission::where('role_id', $request->role_id)->get();
 

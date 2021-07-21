@@ -48,7 +48,7 @@ class BadasoPermissionController extends Controller
 
         try {
             $request->validate([
-                'id'           => ['required',new ExistsModel(Permission::class, 'id'),],
+                'id'           => ['required', new ExistsModel(Permission::class, 'id')],
                 'key'          => ['required', new UniqueModel(Permission::class, 'key', $request->id)],
                 'description'  => 'nullable',
                 'always_allow' => 'required',
