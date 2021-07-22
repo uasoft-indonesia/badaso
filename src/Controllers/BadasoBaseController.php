@@ -9,6 +9,7 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
+use Uasoft\Badaso\Rules\ExistsModel;
 
 class BadasoBaseController extends Controller
 {
@@ -368,7 +369,7 @@ class BadasoBaseController extends Controller
         DB::beginTransaction();
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
+                'slug' => ['required', new ExistsModel(DataType::class, 'slug')],
                 'is_maintenance' => 'required',
             ]);
 

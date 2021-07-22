@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Role;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 
 class BadasoRoleController extends Controller
 {
@@ -27,7 +29,7 @@ class BadasoRoleController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Models\Role,id',
+                'id' => ['required', new ExistsModel(Role::class, 'id')],
             ]);
 
             $role = Role::find($request->id);
@@ -46,11 +48,8 @@ class BadasoRoleController extends Controller
 
         try {
             $request->validate([
-                'id' => [
-                    'required',
-                    'exists:Uasoft\Badaso\Models\Role,id',
-                ],
-                'name'         => "required|unique:Uasoft\Badaso\Models\Role,name,{$request->id}",
+                'id'           => ['required', new ExistsModel(Role::class, 'id')],
+                'name'         => ['required', new UniqueModel(Role::class, 'name', $request->id)],
                 'display_name' => 'required',
                 'description'  => 'nullable',
             ]);
@@ -77,7 +76,7 @@ class BadasoRoleController extends Controller
 
         try {
             $request->validate([
-                'name'         => 'required|unique:Uasoft\Badaso\Models\Role,name',
+                'name'         => ['required', new UniqueModel(Role::class, 'name')],
                 'display_name' => 'required',
                 'description'  => 'nullable',
             ]);
@@ -106,7 +105,7 @@ class BadasoRoleController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    'exists:Uasoft\Badaso\Models\Role',
+                    new ExistsModel(Role::class, 'id'),
                 ],
             ]);
 

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\User;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoUserController extends Controller
@@ -31,7 +33,7 @@ class BadasoUserController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Models\User,id',
+                'id' => ['required', new ExistsModel(User::class, 'id')],
             ]);
 
             $user = User::find($request->id);
@@ -54,9 +56,9 @@ class BadasoUserController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    'exists:Uasoft\Badaso\Models\User,id',
+                    new ExistsModel(User::class, 'id'),
                 ],
-                'email'  => "required|email|unique:Uasoft\Badaso\Models\User,email,{$request->id}",
+                'email'  => ['required', 'email', new UniqueModel(User::class, 'email', $request->id)],
                 'name'   => 'required',
                 'avatar' => 'nullable',
             ]);
@@ -91,7 +93,7 @@ class BadasoUserController extends Controller
 
         try {
             $request->validate([
-                'email'  => 'required|email|unique:Uasoft\Badaso\Models\User',
+                'email'  => ['required', 'email', new UniqueModel(User::class, 'email')],
                 'name'   => 'required',
                 'avatar' => 'nullable',
             ]);
@@ -125,7 +127,7 @@ class BadasoUserController extends Controller
             $request->validate([
                 'id' => [
                     'required',
-                    'exists:Uasoft\Badaso\Models\User',
+                    new ExistsModel(User::class, 'id'),
                 ],
             ]);
 

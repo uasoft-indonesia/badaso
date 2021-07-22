@@ -24,6 +24,8 @@ use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 use Uasoft\Badaso\Models\UserVerification;
+use Uasoft\Badaso\Rules\ExistsModel;
+use Uasoft\Badaso\Rules\UniqueModel;
 use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoAuthController extends Controller
@@ -90,9 +92,10 @@ class BadasoAuthController extends Controller
     {
         try {
             DB::beginTransaction();
+            // new ExistsModel(User::class, 'email')
             $request->validate([
                 'name'     => 'required|string|max:255',
-                'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
+                'email'    => ['required', 'string', 'email', 'max:255', new UniqueModel(User::class, 'email')],
                 'password' => 'required|string|min:6|confirmed',
             ]);
 
@@ -194,7 +197,7 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'exists:Uasoft\Badaso\Models\User'],
+                'email' => ['required', new ExistsModel(User::class, 'email')],
                 'token' => ['required'],
             ]);
 
@@ -268,7 +271,7 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'email', 'exists:Uasoft\Badaso\Models\User,email'],
+                'email' => ['required', 'email', new ExistsModel(User::class, 'email')],
             ]);
 
             $token = rand(111111, 999999);
@@ -292,10 +295,10 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'email', 'exists:Uasoft\Badaso\Models\User,email'],
+                'email' => ['required', 'email', new ExistsModel(User::class, 'email')],
                 'token' => [
                     'required',
-                    'exists:Uasoft\Badaso\Models\PasswordReset,token',
+                    new ExistsModel(PasswordReset::class, 'token'),
                     function ($attribute, $value, $fail) use ($request) {
                         $password_resets = PasswordReset::where('token', $request->token)->where('email', $request->email)->get();
                         $password_reset = collect($password_resets)->first();
@@ -316,10 +319,10 @@ class BadasoAuthController extends Controller
     {
         try {
             $request->validate([
-                'email' => ['required', 'email', 'exists:Uasoft\Badaso\Models\User,email'],
+                'email' => ['required', 'email', new ExistsModel(User::class, 'email')],
                 'token' => [
                     'required',
-                    'exists:Uasoft\Badaso\Models\PasswordReset,token',
+                    new ExistsModel(PasswordReset::class, 'token'),
                     function ($attribute, $value, $fail) use ($request) {
                         $password_resets = PasswordReset::where('token', $request->token)->where('email', $request->email)->get();
                         $password_reset = collect($password_resets)->first();
@@ -451,7 +454,7 @@ class BadasoAuthController extends Controller
             }
 
             $request->validate([
-                'email' => 'required|email|unique:Uasoft\Badaso\Models\User,email',
+                'email' => ['required', 'email', new UniqueModel(User::class, 'email')],
             ]);
 
             $user = User::find($user->id);
@@ -507,7 +510,7 @@ class BadasoAuthController extends Controller
             }
 
             $request->validate([
-                'email' => ['required', 'unique:Uasoft\Badaso\Models\User', 'email'],
+                'email' => ['required', new UniqueModel(User::class, 'email'), 'email'],
                 'token' => ['required'],
             ]);
 
