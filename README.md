@@ -3,7 +3,7 @@
     <img src="https://i.ibb.co/tx2NJvD/LOGO-BADASO-5.png" width="318px" alt="Badaso logo" />
   </a>
 </p>
-<h3 align="center">The first & most advandced Open-Source headless PWA CMS based on Laravel + Vue.</h3>
+<h3 align="center">The most advandced Open-Source headless CMS based on Laravel + Vue.</h3>
 <p align="center">PWA dashboard + CRUD + API generator & more.</p>
 <p align="center"><a href="#live-demo">Try live demo</a></p>
 <br />
@@ -19,13 +19,9 @@
 
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
-    <img src="https://i.imgur.com/PRfcYLv.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
+    <img src="https://i.ibb.co/n6LwwRw/Screen-Shot-2021-07-29-at-11-30-41.png" alt="screencapture-badaso-dashboard-uatech-co-id-dashboard-crud-2021-03-17-09-57-08-1" />
   </a>
 </p>
-
-<br>
-
-Badaso is a open-source Laravel Vue headless CMS (with PWA dashboard + CRUD + API generator & more) for more productivity !
 
 ### Why badaso ?
 
@@ -42,17 +38,17 @@ Badaso is a open-source Laravel Vue headless CMS (with PWA dashboard + CRUD + AP
 
 ### Badaso features 
 
-- **Advanced CRUD generator** - Build your application faster and be more productive !
-- **API generator** - Integrate your application (mobile, desktop even IoT) more faster !
-- **User management** - Manage your application user out of the box !
-- **Role management** - Your application user can has different role out of the box !
-- **Permission management** - Each of role has different access permission !
-- **Menu management** - Manage your application menu so easy and faster !
-- **Database migration management** - Handle your database migration direct on application !
-- **Activity logging** - Keep your system safe, know who makes the trouble !
-- **Log UI viewer** - Don't need open your server to check the log, stay on your application !
-- **Daily database backup** - Keep your valuable database safety !
-- **Media manager** - MAnager your media on local, even on cloud direct on your application !
+- **Advanced CRUD generator** - Build your application faster and be more productive 
+- **API generator** - Integrate your application (mobile, desktop even IoT) more faster 
+- **User management** - Manage your application user 
+- **Role management** - Your application user can has different role
+- **Permission management** - Each of role has different access permission 
+- **Menu management** - Manage your application menu so easy and faster 
+- **Database migration management** - Handle your database migration via application 
+- **Activity logging** - Keep your system safe, know who makes the trouble 
+- **Log UI viewer** - Don't need open your server to check the log, stay on your application
+- **Daily database backup** - Keep your valuable database safety 
+- **Media manager** - Manage your local & cloud media via application 
 - Many more !
 
 ## Live demo
