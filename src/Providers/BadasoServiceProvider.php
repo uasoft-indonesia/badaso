@@ -53,7 +53,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Seeder/ManualGenerate' => database_path('seeders/Badaso/ManualGenerate'),
             __DIR__.'/../resources/customization/' => resource_path('js/badaso'),
             __DIR__.'/../resources/lang' => resource_path('lang/vendor/badaso'),
-            __DIR__.'/../Swagger/swagger_models/settings/badaso.php' => app_path('Http/Swagger/swagger_models/settings/badaso.php'),
+            __DIR__.'/../Swagger/swagger_models' => app_path('Http/Swagger/swagger_models'),
             __DIR__.'/../Config/lfm.php' => config_path('lfm.php'),
             __DIR__.'/../Config/firebase.php' => config_path('firebase.php'),
             __DIR__.'/../Config/l5-swagger.php' => config_path('l5-swagger.php'),
