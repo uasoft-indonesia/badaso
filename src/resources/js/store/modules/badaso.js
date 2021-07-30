@@ -143,6 +143,7 @@ export default {
             menu: res.data.menu,
             menuItems: menuItems,
           };
+          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -151,6 +152,7 @@ export default {
         .component()
         .then((res) => {
           state.componentList = res.data.components;
+          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -159,6 +161,7 @@ export default {
         .configurationGroups()
         .then((res) => {
           state.groupList = res.data.groups;
+          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -167,6 +170,7 @@ export default {
         .applyable()
         .then((res) => {
           state.config = res.data.configuration;
+          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -175,6 +179,7 @@ export default {
         .user()
         .then((res) => {
           state.user = res.data.user;
+          state.meta = res.meta
         })
         .catch((err) => {});
     },
