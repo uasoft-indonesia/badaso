@@ -28,7 +28,7 @@ export default {
     authorizationIssue: {
       unauthorized: false,
     },
-    verified: false,
+    verified: true,
     isOnline: false,
     countUnreadMessage: 0,
     meta: {}
@@ -195,24 +195,6 @@ export default {
     LOGOUT(state) {
       localStorage.clear();
       window.location.reload();
-    },
-    VERIFY_BADASO(state) {
-      api.badaso
-        .verify()
-        .then((res) => {
-          state.verified = true;
-        })
-        .catch((err) => {
-          if (err.status) {
-            if (err.status == 402 || err.status == 400) {
-              state.keyIssue = {
-                ...err,
-                invalid: true,
-              };
-            }
-          }
-          state.verified = true;
-        });
     },
     SET_GLOBAL_STATE(state, { key, value }) {
       state[key] = value;
