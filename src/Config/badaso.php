@@ -28,7 +28,6 @@ return [
             '/login',
         ],
         'api' => [
-            '/v1/verify-badaso',
             '/v1/configurations/applyable',
             '/v1/maintenance',
             '/v1/auth/login',
