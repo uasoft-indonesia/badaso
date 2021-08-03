@@ -14,35 +14,39 @@ class BadasoDashboardController extends Controller
 {
     public function verifyLicense()
     {
-        $license = config('badaso.license_key');
-        if (is_null($license)) {
-            return ApiResponse::paymentRequired('BADASO_LICENSE_KEY not found on .env');
-        } elseif ($license == '') {
-            return ApiResponse::paymentRequired('BADASO_LICENSE_KEY License Empty');
-        } else {
-            // Call Badaso Dashboard API here
-            try {
-                $client = new Client();
-                $req = $client->request('POST', Badaso::getBadasoVerifyApi(), [
-                    'json' => [
-                        'license' => $license,
-                    ],
-                ]);
+        // not verify lincense
+        return ApiResponse::success([]);
 
-                return ApiResponse::success([]);
-            } catch (BadResponseException $e) {
-                if ($e->hasResponse()) {
-                    $response = $e->getResponse()->getBody();
-                    $status = $e->getResponse()->getStatusCode();
+        // remove check verify lincense
+        // $license = config('badaso.license_key');
+        // if (is_null($license)) {
+        //     return ApiResponse::paymentRequired('BADASO_LICENSE_KEY not found on .env');
+        // } elseif ($license == '') {
+        //     return ApiResponse::paymentRequired('BADASO_LICENSE_KEY License Empty');
+        // } else {
+        //     // Call Badaso Dashboard API here
+        //     try {
+        //         $client = new Client();
+        //         $req = $client->request('POST', Badaso::getBadasoVerifyApi(), [
+        //             'json' => [
+        //                 'license' => $license,
+        //             ],
+        //         ]);
 
-                    return response(json_decode($response, true), $status);
-                } else {
-                    return ApiResponse::failed($e);
-                }
-            } catch (Exception $e) {
-                return ApiResponse::failed($e);
-            }
-        }
+        //         return ApiResponse::success([]);
+        //     } catch (BadResponseException $e) {
+        //         if ($e->hasResponse()) {
+        //             $response = $e->getResponse()->getBody();
+        //             $status = $e->getResponse()->getStatusCode();
+
+        //             return response(json_decode($response, true), $status);
+        //         } else {
+        //             return ApiResponse::failed($e);
+        //         }
+        //     } catch (Exception $e) {
+        //         return ApiResponse::failed($e);
+        //     }
+        // }
     }
 
     public function index()
