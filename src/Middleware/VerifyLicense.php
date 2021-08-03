@@ -13,9 +13,6 @@ class VerifyLicense
 {
     public function handle($request, Closure $next)
     {
-        // not verify lincense
-        return ApiResponse::success([]);
-
         // remove check verify lincense
         // $license = env('BADASO_LICENSE_KEY');
         // if (is_null($license)) {
@@ -43,6 +40,6 @@ class VerifyLicense
         //     }
         // }
 
-        // return $next($request);
+        return $next($request);
     }
 }
