@@ -227,7 +227,7 @@ export default [
   },
 
   {
-    path: prefix + "/site",
+    path: prefix + "/configuration",
     name: "SiteManagementBrowse",
     component: Pages,
     meta: {
@@ -235,7 +235,7 @@ export default [
     },
   },
   {
-    path: prefix + "/site/add",
+    path: prefix + "/configuration/add",
     name: "SiteManagementAdd",
     component: Pages,
     meta: {

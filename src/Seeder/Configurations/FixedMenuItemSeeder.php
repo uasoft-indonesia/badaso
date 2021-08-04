@@ -20,7 +20,7 @@ class FixedMenuItemSeeder extends Seeder
         \DB::beginTransaction();
 
         try {
-            $menu_id = Menu::where('key', 'configuration')->firstOrFail()->id;
+            $menu_id = Menu::where('key', 'core')->firstOrFail()->id;
             $menu_items = [
                 0 => [
                     'id' => 1,
@@ -97,10 +97,10 @@ class FixedMenuItemSeeder extends Seeder
                 6 => [
                     'id' => 7,
                     'menu_id' => $menu_id,
-                    'title' => 'Site Management',
-                    'url' => '/site',
+                    'title' => 'Configuration',
+                    'url' => '/configuration',
                     'target' => '_self',
-                    'icon_class' => 'desktop_mac',
+                    'icon_class' => 'settings',
                     'color' => '',
                     'parent_id' => null,
                     'order' => 6,
