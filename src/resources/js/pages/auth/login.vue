@@ -16,7 +16,11 @@
           />
           <div v-if="errors.email" class="login__error-container">
             <div v-if="$helper.isArray(errors.email)">
-              <span class="login__input--error" v-for="(info, index) in errors.email" :key="index" >
+              <span
+                class="login__input--error"
+                v-for="(info, index) in errors.email"
+                :key="index"
+              >
                 {{ info }}
               </span>
             </div>
@@ -36,7 +40,11 @@
           />
           <div v-if="errors.password" class="login__error-container">
             <div v-if="$helper.isArray(errors.password)">
-              <span class="login__input--error" v-for="(info, index) in errors.password" :key="index">
+              <span
+                class="login__input--error"
+                v-for="(info, index) in errors.password"
+                :key="index"
+              >
                 {{ info }}
               </span>
             </div>
@@ -46,7 +54,9 @@
           </div>
 
           <div class="login__footer">
-            <div class="vs-component con-vs-checkbox vs-checkbox-primary vs-checkbox-default">
+            <div
+              class="vs-component con-vs-checkbox vs-checkbox-primary vs-checkbox-default"
+            >
               <input
                 type="checkbox"
                 class="vs-checkbox--input"
@@ -98,71 +108,49 @@ export default {
   methods: {
     login() {
       this.$openLoader();
-      this.$api.badaso
-        .verify()
-        .then((res) => {
-          this.$store.commit("badaso/SET_AUTH_ISSUE", {
-            unauthorized: false,
-          });
-          this.$api.badasoAuth
-            .login({
-              email: this.email,
-              password: this.password,
-              remember: this.rememberMe,
-            })
-            .then((response) => {
-              this.$closeLoader();
-              if (response.data.accessToken) {
-                this.$router.push({ name: "Home" });
-              } else {
-                this.$router.push({
-                  name: "AuthVerify",
-                  query: {
-                    email: this.email,
-                  },
-                });
-              }
-
-              if (this.$statusActiveFeatureFirebase) {
-                this.$messagingToken.then((tokenMessage) => {
-                  try {
-                    this.$api.badasoFcm.saveTokenMessage(tokenMessage);
-                  } catch (error) {
-                    console.error(
-                      "Errors set token firebase cloud message :",
-                      error
-                    );
-                  }
-                });
-              }
-            })
-            .catch((error) => {
-              this.errors = error.errors;
-              this.$closeLoader();
-              this.$vs.notify({
-                title: this.$t("alert.danger"),
-                text: error.message,
-                color: "danger",
-              });
-            });
+      this.$store.commit("badaso/SET_AUTH_ISSUE", {
+        unauthorized: false,
+      });
+      this.$api.badasoAuth
+        .login({
+          email: this.email,
+          password: this.password,
+          remember: this.rememberMe,
         })
-        .catch((error) => {
+        .then((response) => {
           this.$closeLoader();
-          if (error.status == 402 || error.status == 400) {
-            this.$store.commit("badaso/SET_GLOBAL_STATE", {
-              key : 'keyIssue',
-              value : {
-                ...error,
-                invalid : true,
+          if (response.data.accessToken) {
+            this.$router.push({ name: "Home" });
+          } else {
+            this.$router.push({
+              name: "AuthVerify",
+              query: {
+                email: this.email,
               },
             });
-          } else {
-            this.$vs.notify({
-              title: this.$t("alert.danger"),
-              text: error.message,
-              color: "danger",
+          }
+
+          if (this.$statusActiveFeatureFirebase) {
+            this.$messagingToken.then((tokenMessage) => {
+              try {
+                this.$api.badasoFcm.saveTokenMessage(tokenMessage);
+              } catch (error) {
+                console.error(
+                  "Errors set token firebase cloud message :",
+                  error
+                );
+              }
             });
           }
+        })
+        .catch((error) => {
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
         });
     },
   },
