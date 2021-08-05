@@ -2,12 +2,22 @@
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-upload-image-multiple__container">
     <vs-input :label="label" :placeholder="placeholder" @click="showOverlay" v-on:keyup.space="showOverlay" readonly v-model="imagesName" icon="attach_file" icon-after="true" />
     <vs-row>
-      <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
-        <div class="badaso-upload-image-multiple__preview">
-          <vs-button class="badaso-upload-image-multiple__remove-button" color="danger" icon="close" @click="deleteFilePicked(imageData)" />
-          <img :src="getImageSrc(imageData)" class="badaso-upload-image-multiple__preview-image" />
-        </div>
-      </vs-col>
+      <template v-if="isPicked">
+        <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in selectedImageUrl" :key="index">
+          <div class="badaso-upload-image-multiple__preview">
+            <vs-button class="badaso-upload-image-multiple__remove-button" color="danger" icon="close" @click="deleteFilePicked(imageData)" />
+            <img :src="imageData" class="badaso-upload-image-multiple__preview-image" />
+          </div>
+        </vs-col>
+      </template>
+      <template v-else>
+        <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
+          <div class="badaso-upload-image-multiple__preview">
+            <vs-button class="badaso-upload-image-multiple__remove-button" color="danger" icon="close" @click="deleteFilePicked(imageData)" />
+            <img :src="imageData" class="badaso-upload-image-multiple__preview-image" />
+          </div>
+        </vs-col>
+      </template>
     </vs-row>
     <div class="badaso-upload-image-multiple__popup-dialog" tabindex="0" v-if="show">
       <div class="badaso-upload-image-multiple__popup-container">
@@ -128,7 +138,9 @@ export default {
       inputByUrl: "",
       isValidImage: false,
       isImageSelected: false,
-      dirty: false
+      dirty: false,
+      isPicked: false,
+      selectedImageUrl: []
     };
   },
   mounted() {
@@ -172,11 +184,13 @@ export default {
     showOverlay() {
       this.show = true
       document.body.style.setProperty('position', 'fixed')
+      document.body.style.setProperty("width", "100%");
       this.getImages()
     },
     closeOverlay() {
       this.show = false
       document.body.style.removeProperty('position')
+      document.body.style.removeProperty("width");
     },
     onFilePicked(e) {
       let files = e.target.files;
@@ -200,13 +214,6 @@ export default {
         console.error(error);
       })
     },
-    getImageSrc(value) {
-      if (this.$helper.isValidHttpUrl(value)) {
-        return value
-      } 
-
-      return this.$store.state.badaso.meta.mediaBaseUrl + value
-    },
     getImages() {
       this.images.items = []
       if (this.getSelectedFolder) {
@@ -229,9 +236,10 @@ export default {
       if (this.selected !== 'url') {
         let url = []
         this.activeImage.forEach(element => {
-          url.push(this.images.items[element].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, ''))
+          url.push(this.images.items[element].url)
         });
         this.imagesName = url.join(', ')
+        this.isPicked = true
         this.$emit('input', url)
       } else {
         this.$emit('input', this.inputByUrl)

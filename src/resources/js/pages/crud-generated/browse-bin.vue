@@ -116,8 +116,7 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${meta.mediaBaseUrl +
-                            record[
+                          `${record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
                             ]}`
                         "
@@ -135,7 +134,7 @@
                             ]
                           )"
                           :key="indexImage"
-                          :src="`${meta.mediaBaseUrl + image}`"
+                          :src="`${image}`"
                           width="100%"
                           alt=""
                           style="margin-bottom: 10px;"
@@ -394,10 +393,9 @@
                         <img
                           v-if="dataRow.type === 'upload_image'"
                           :src="
-                            meta.mediaBaseUrl +
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           "
                           width="100%"
                           alt=""
@@ -413,7 +411,7 @@
                               ]
                             )"
                             :key="indexImage"
-                            :src="`${meta.mediaBaseUrl + image}`"
+                            :src="`${image}`"
                             width="100%"
                             alt=""
                             style="margin-bottom: 10px;"
@@ -688,7 +686,6 @@ export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowseBin",
   data: () => ({
-    meta: {},
     errors: {},
     data: {},
     descriptionItems: [10, 50, 100],
@@ -818,7 +815,6 @@ export default {
           showSoftDelete: this.isShowDataRecycle,
         })
         .then((response) => {
-          this.meta = response.meta;
           this.$closeLoader();
           this.data = response.data.entities;
           this.records = response.data.entities.data;

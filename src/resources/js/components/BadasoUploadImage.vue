@@ -5,7 +5,7 @@
       <vs-col vs-lg="4" vs-sm="12">
         <div class="badaso-upload-image__preview" v-if="imageUrl !== null && imageUrl !== ''">
           <vs-button class="badaso-upload-image__remove-button" color="danger" icon="close" @click="deleteFilePicked(value)" />
-          <img :src="getImageSrc(value)" class="badaso-upload-image__preview-image" />
+          <img :src="value" class="badaso-upload-image__preview-image" />
         </div>
       </vs-col>
     </vs-row>
@@ -187,12 +187,14 @@ export default {
     showOverlay() {
       this.show = true;
       document.body.style.setProperty("position", "fixed");
+      document.body.style.setProperty("width", "100%");
       this.getImages();
     },
     closeOverlay() {
       this.show = false;
       this.activeImage = null;
-      document.body.style.setProperty("position", "relative");
+      document.body.style.removeProperty("position");
+      document.body.style.removeProperty("width");
     },
     onFilePicked(e) {
       this.$refs.image.tabindex = -1;
@@ -224,13 +226,6 @@ export default {
       if (typeof str === "string" || str instanceof String) return true;
       else return false;
     },
-    getImageSrc(value) {
-      if (this.$helper.isValidHttpUrl(value)) {
-        return value
-      }
-
-      return this.$store.state.badaso.meta.mediaBaseUrl + value
-    },
     getImages() {
       this.images.items = [];
       if (this.getSelectedFolder) {
@@ -251,7 +246,7 @@ export default {
     },
     emitInput() {
       if (this.selected !== "url") {
-        var url = this.images.items[this.activeImage].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, "");
+        let url = this.images.items[this.activeImage].url;
         this.$emit("input", url);
       } else {
         this.$emit("input", this.inputByUrl);
