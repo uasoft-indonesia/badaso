@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Helpers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -18,6 +17,7 @@ class HandleFile
                 $objects[$key] = self::handleUrl($value);
             }
         }
+
         return $objects;
     }
 
@@ -28,6 +28,7 @@ class HandleFile
         if (in_array($extension, ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'svg', 'ico', 'tif', 'tiff', 'webp', 'heif']) && filter_var($val, FILTER_VALIDATE_URL) === false) {
             return Storage::url($val);
         }
+
         return $val;
     }
 
@@ -41,6 +42,7 @@ class HandleFile
                 $objects[$key] = self::removeBaseUrl($value);
             }
         }
+
         return $objects;
     }
 
@@ -49,6 +51,7 @@ class HandleFile
         if (Str::contains($val, Storage::url('/'))) {
             return Str::remove(Storage::url('/'), $val);
         }
+
         return $val;
     }
 }
