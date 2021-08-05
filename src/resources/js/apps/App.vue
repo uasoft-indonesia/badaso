@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <router-view v-if="verified && !keyIssue.invalid"></router-view>
-    <badaso-loading-page v-else title="Verifying Badaso" />
-    <badaso-license-blocker v-if="keyIssue.invalid" />
+    <router-view ></router-view>
     <badaso-prompt
       :active.sync="loader"
       buttons-hidden
@@ -77,7 +75,7 @@ export default {
     this.$store.commit("badaso/FETCH_CONFIGURATION");
   },
   beforeMount() {
-    this.$store.commit("badaso/VERIFY_BADASO");
+
   },
 };
 </script>

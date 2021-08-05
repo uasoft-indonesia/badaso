@@ -69,13 +69,13 @@ class MigrationParser
     const ALTER_WRAPPER = <<<'TXT'
             Schema::table('%s', function (Blueprint $table) {
                 %s
-            });    
+            });
     TXT;
 
     const RENAME_WRAPPER = <<<'TXT'
             Schema::table('%s', function (Blueprint $table) {
                 %s
-            }); 
+            });
     TXT;
 
     const RENAME_COLUMN = <<<'TXT'
@@ -1054,7 +1054,7 @@ class MigrationParser
         }
     }
 
-    public static function getMigrationIndexField($field, $current = null, $name)
+    public static function getMigrationIndexField($field, $current = null, $name = null)
     {
         if ($field !== 'foreign') {
             if ($field === null && $current !== null) {
