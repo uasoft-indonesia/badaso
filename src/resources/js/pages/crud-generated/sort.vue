@@ -73,7 +73,7 @@
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
             <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
@@ -99,6 +99,12 @@ export default {
   }),
   mounted() {
     this.getAllEntityData();
+  },
+  computed: {
+    maintenanceImg() {
+      let config = this.$store.getters["badaso/getConfig"];
+      return config.maintenanceImage;
+    }
   },
   methods: {
     getAllEntityData() {

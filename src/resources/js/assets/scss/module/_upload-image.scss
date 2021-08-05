@@ -14,6 +14,14 @@
     }
   }
 
+  &__menu {
+    &--disabled {
+      opacity: 0.25;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+  }
+
   &__popup {
     &--bottom-bar {
       grid-column: 1/3;
@@ -130,6 +138,12 @@
       height: 300px;
       width: auto;
       margin: 0 auto;
+    }
+
+    &:hover {
+      & > .badaso-upload-image__remove-button {
+        opacity: 1;
+      }
     }
   }
 

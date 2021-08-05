@@ -184,11 +184,13 @@ export default {
     showOverlay() {
       this.show = true;
       document.body.style.setProperty("position", "fixed");
+      document.body.style.setProperty("width", "100%");
       this.getFiles();
     },
     closeOverlay() {
       this.show = false;
       document.body.style.removeProperty("position");
+      document.body.style.removeProperty("width");
     },
     onFilePicked(e) {
       let files = e.target.files;
@@ -235,7 +237,7 @@ export default {
     emitInput() {
       let url = [];
       this.activeFile.forEach((element) => {
-        url.push(this.files.items[element].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, ""))
+        url.push(this.files.items[element].url)
       });
       this.filesName = url.join(", ");
       this.$emit("input", url);

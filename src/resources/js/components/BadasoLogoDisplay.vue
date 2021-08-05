@@ -17,12 +17,7 @@ export default {
     adminPanelLogo: {
       get() {
         let config = this.$store.getters["badaso/getConfig"];
-        let meta = this.$store.getters["badaso/getMeta"];
-        if (config.adminPanelLogo && config.adminPanelLogo != "") {
-          return meta.mediaBaseUrl + config.adminPanelLogo;
-        } else {
-          return null;
-        }
+        return config.adminPanelLogo;
       },
     },
     adminPanelHeaderColor: {

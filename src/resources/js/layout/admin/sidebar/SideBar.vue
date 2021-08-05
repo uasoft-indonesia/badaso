@@ -284,9 +284,7 @@ export default {
     },
     getAvatar() {
       let user = this.$store.getters["badaso/getUser"];
-      return user.avatar 
-        ? this.$store.state.badaso.meta.mediaBaseUrl + user.avatar
-        : '/storage/files/shares/default-user.png';
+      return user.avatar
     }
   },
   methods: {
