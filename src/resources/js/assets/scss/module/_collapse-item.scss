@@ -37,6 +37,7 @@
     display: block;
     padding: 10px;
     position: relative;
+    box-shadow: 0 10px 15px -10px rgb(0 0 0 / 5%);
   }
 
   &__header-icon {
@@ -66,7 +67,7 @@
   }
 
   &__content {
-    padding: 10px;
+    padding: 4px;
     padding-top: 0;
     font-size: .85rem;
     opacity: .2;

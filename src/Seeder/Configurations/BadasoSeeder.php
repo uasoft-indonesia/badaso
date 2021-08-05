@@ -16,6 +16,6 @@ class BadasoSeeder extends Seeder
         $this->call(RolePermissionsSeeder::class);
         $this->call(MenusSeeder::class);
         $this->call(FixedMenuItemSeeder::class);
-        $this->call(SiteManagementSeeder::class);
+        $this->call(ConfigurationsSeeder::class);
     }
 }

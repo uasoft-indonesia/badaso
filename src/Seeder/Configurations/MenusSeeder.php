@@ -25,8 +25,8 @@ class MenusSeeder extends Seeder
                 ],
                 1 => [
                     'id' => 2,
-                    'key'          => 'configuration',
-                    'display_name' => 'Configuration',
+                    'key'          => 'core',
+                    'display_name' => 'Core',
                 ],
             ];
 

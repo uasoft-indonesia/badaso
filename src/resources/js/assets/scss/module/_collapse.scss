@@ -2,8 +2,11 @@
   &__container {
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 10px;
+    margin-bottom: 30px;
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgb(43 43 43 / 10%) !important;
 
     &--shadow {
       box-shadow: 0 0.5rem 1rem rgba(43, 43, 43, 0.15) !important;
