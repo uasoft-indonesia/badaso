@@ -1054,7 +1054,7 @@ class MigrationParser
         }
     }
 
-    public static function getMigrationIndexField($field, $current = null, $name=null)
+    public static function getMigrationIndexField($field, $current = null, $name = null)
     {
         if ($field !== 'foreign') {
             if ($field === null && $current !== null) {
