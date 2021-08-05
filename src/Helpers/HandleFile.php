@@ -49,7 +49,7 @@ class HandleFile
     protected static function removeBaseUrl($val)
     {
         if (Str::contains($val, Storage::url('/'))) {
-            return str_replace(Storage::get('/'), '', $val);
+            return str_replace(Storage::url('/'), '', $val);
         }
 
         return $val;
