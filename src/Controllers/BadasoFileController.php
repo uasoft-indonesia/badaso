@@ -42,6 +42,7 @@ class BadasoFileController extends Controller
                 if (isUrl) {
                     return $file;
                 }
+
                 return Storage::get($file);
             }
         } catch (Exception $e) {
