@@ -5,7 +5,7 @@ namespace Database\Seeders\Badaso;
 use Illuminate\Database\Seeder;
 use Uasoft\Badaso\Models\Configuration;
 
-class SiteManagementSeeder extends Seeder
+class ConfigurationsSeeder extends Seeder
 {
     /**
      * Auto generated seed file.
@@ -66,17 +66,6 @@ class SiteManagementSeeder extends Seeder
                 ],
                 4 => [
                     'id' => 5,
-                    'key' => 'landingPageTitle',
-                    'display_name' => 'Landing Page Title',
-                    'value' => 'Badaso',
-                    'details' => '',
-                    'type' => 'text',
-                    'order' => 1,
-                    'group' => 'landingPage',
-                    'can_delete' => 0,
-                ],
-                5 => [
-                    'id' => 6,
                     'key' => 'adminPanelHeaderFontColor',
                     'display_name' => 'Admin Panel Header Font Color',
                     'value' => '#06bbd3',
@@ -86,8 +75,8 @@ class SiteManagementSeeder extends Seeder
                     'group' => 'adminPanel',
                     'can_delete' => 0,
                 ],
-                6 => [
-                    'id' => 7,
+                5 => [
+                    'id' => 6,
                     'key' => 'adminPanelVerifyEmail',
                     'display_name' => 'Should verify email after register',
                     'value' => '1',
@@ -97,8 +86,8 @@ class SiteManagementSeeder extends Seeder
                     'group' => 'adminPanel',
                     'can_delete' => 0,
                 ],
-                7 => [
-                    'id' => 8,
+                6 => [
+                    'id' => 7,
                     'key' => 'adminPanelLogoConfig',
                     'display_name' => 'Admin Panel Logo Config',
                     'value' => 'logo_only',
@@ -108,8 +97,8 @@ class SiteManagementSeeder extends Seeder
                     'group' => 'adminPanel',
                     'can_delete' => 0,
                 ],
-                8 => [
-                    'id' => 9,
+                7 => [
+                    'id' => 8,
                     'key' => 'favicon',
                     'display_name' => 'Favicon',
                     'value' => 'files/shares/favicon.png',
@@ -119,8 +108,8 @@ class SiteManagementSeeder extends Seeder
                     'group' => 'adminPanel',
                     'can_delete' => 0,
                 ],
-                9 => [
-                    'id' => 10,
+                8 => [
+                    'id' => 9,
                     'key' => 'maintenance',
                     'display_name' => 'Maintenance for all pages.',
                     'value' => '0',
@@ -130,8 +119,8 @@ class SiteManagementSeeder extends Seeder
                     'group' => 'adminPanel',
                     'can_delete' => 0,
                 ],
-                10 => [
-                    'id' => 11,
+                9 => [
+                    'id' => 10,
                     'key' => 'authBackgroundImage',
                     'display_name' => 'Background image for login page.',
                     'value' => 'files/shares/auth-bg.jpg',
