@@ -129,8 +129,6 @@ export default {
       isValidImage: false,
       isImageSelected: false,
       dirty: false,
-      isPicked: false,
-      selectedImageUrl: []
     };
   },
   mounted() {
