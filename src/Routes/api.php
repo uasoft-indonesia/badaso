@@ -10,8 +10,6 @@ use Uasoft\Badaso\Middleware\BadasoCheckPermissionsForCRUD;
 $api_route_prefix = \config('badaso.api_route_prefix');
 Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Controllers', 'as' => 'badaso.', 'middleware' => [ApiRequest::class]], function () {
     Route::group(['prefix' => 'v1'], function () {
-        Route::post('/verify-badaso', 'BadasoDashboardController@verifyLicense');
-
         Route::group(['prefix' => 'dashboard'], function () {
             Route::get('/', 'BadasoDashboardController@index')->middleware(BadasoAuthenticate::class);
         });
