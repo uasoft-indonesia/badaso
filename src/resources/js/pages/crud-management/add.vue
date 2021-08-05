@@ -23,27 +23,6 @@
               readonly
               :alert="errors.name"
             ></badaso-text>
-            <badaso-switch
-              size="2"
-              v-model="crudData.generatePermissions"
-              :label="$t('crud.add.field.generatePermissions')"
-              :alert="errors.generatePermissions"
-            ></badaso-switch>
-            <badaso-switch
-              size="2"
-              v-model="crudData.serverSide"
-              :label="$t('crud.add.field.serverSide')"
-              :alert="errors.serverSide"
-            ></badaso-switch>
-            <badaso-switch
-                size="2"
-                :onChange="onChangeSwitchCreateSoftDelete"
-                v-model="crudData.createSoftDelete"
-                :label="$t('crud.add.field.createSoftDelete')"
-                :alert="errors.createSoftDelete"
-              ></badaso-switch>
-          </vs-row>
-          <vs-row>
             <badaso-text
               v-model="crudData.displayNameSingular"
               size="6"
@@ -78,254 +57,278 @@
               "
               :alert="errors.icon"
             ></badaso-text>
-            <badaso-text
-              v-model="crudData.modelName"
-              size="6"
-              :label="$t('crud.add.field.modelName.title')"
-              :placeholder="$t('crud.add.field.modelName.placeholder')"
-              :alert="errors.modelName"
-            ></badaso-text>
-            <badaso-text
-              v-model="crudData.controller"
-              size="6"
-              :label="$t('crud.add.field.controllerName.title')"
-              :placeholder="$t('crud.add.field.controllerName.placeholder')"
-              :alert="errors.controller"
-            ></badaso-text>
-            <badaso-select
-              v-model="crudData.orderColumn"
-              size="4"
-              :label="$t('crud.add.field.orderColumn.title')"
-              :placeholder="$t('crud.add.field.orderColumn.placeholder')"
-              :items="fieldList"
-              :alert="errors.orderColumn"
-            ></badaso-select>
-            <badaso-select
-              v-model="crudData.orderDisplayColumn"
-              size="4"
-              :label="$t('crud.add.field.orderDisplayColumn.title')"
-              :placeholder="$t('crud.add.field.orderDisplayColumn.placeholder')"
-              :items="fieldList"
-              :alert="errors.orderDisplayColumn"
-              :additionalInfo="
-                $t('crud.add.field.orderDisplayColumn.description')
-              "
-            ></badaso-select>
-            <badaso-select
-              v-model="crudData.orderDirection"
-              size="4"
-              :label="$t('crud.add.field.orderDirection.title')"
-              :placeholder="$t('crud.add.field.orderDirection.placeholder')"
-              :items="orderDirections"
-              :alert="errors.orderDirection"
-            ></badaso-select>
-            <badaso-hidden
-              v-model="crudData.defaultServerSideSearchField"
-              size="3"
-              :label="$t('crud.add.field.defaultServerSideSearchField.title')"
-              :placeholder="
-                $t('crud.add.field.defaultServerSideSearchField.placeholder')
-              "
-              :items="fieldList"
-              :alert="errors.defaultServerSideSearchField"
-            ></badaso-hidden>
-
-            <div class="crud-management__notification-title">
-              <label for="">{{
-                $t("crud.edit.field.activeEventNotification.title")
-              }}</label>
-            </div>
-
-            <vs-row>
-              <vs-col>
-                <vs-checkbox
-                  class="crud-management__notification-item"
-                  @change="onCheckBoxNotificationOnEvent"
-                  v-model="onCreate"
-                  >{{
-                    $t("crud.edit.field.activeEventNotification.label.onCreate")
-                  }}</vs-checkbox
-                >
-              </vs-col>
-              <vs-col v-if="onCreate">
-                <badaso-text
-                  v-model="onCreateTitle"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onCreateTitle'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onCreateTitle'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-                <badaso-text
-                  v-model="onCreateMessage"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onCreateMessage'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onCreateMessage'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-              </vs-col>
-            </vs-row>
-
-            <vs-row>
-              <vs-col>
-                <vs-checkbox
-                  class="crud-management__notification-item"
-                  @change="onCheckBoxNotificationOnEvent"
-                  v-model="onRead"
-                  >{{
-                    $t("crud.edit.field.activeEventNotification.label.onRead")
-                  }}</vs-checkbox
-                >
-              </vs-col>
-              <vs-col v-if="onRead">
-                <badaso-text
-                  v-model="onReadTitle"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onReadTitle'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onReadTitle'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-                <badaso-text
-                  v-model="onReadMessage"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onReadMessage'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onReadMessage'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-              </vs-col>
-            </vs-row>
-
-            <vs-row>
-              <vs-col>
-                <vs-checkbox
-                  class="crud-management__notification-item"
-                  @change="onCheckBoxNotificationOnEvent"
-                  v-model="onUpdate"
-                  >{{
-                    $t("crud.edit.field.activeEventNotification.label.onUpdate")
-                  }}</vs-checkbox
-                >
-              </vs-col>
-              <vs-col v-if="onUpdate">
-                <badaso-text
-                  v-model="onUpdateTitle"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onUpdateTitle'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onUpdateTitle'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-                <badaso-text
-                  v-model="onUpdateMessage"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onUpdateMessage'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onUpdateMessage'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-              </vs-col>
-            </vs-row>
-
-            <vs-row>
-              <vs-col>
-                <vs-checkbox
-                  class="crud-management__notification-item"
-                  @change="onCheckBoxNotificationOnEvent"
-                  v-model="onDelete"
-                  >{{
-                    $t("crud.edit.field.activeEventNotification.label.onDelete")
-                  }}</vs-checkbox
-                >
-              </vs-col>
-              <vs-col v-if="onDelete">
-                <badaso-text
-                  v-model="onDeleteTitle"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onDeleteTitle'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onDeleteTitle'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-                <badaso-text
-                  v-model="onDeleteMessage"
-                  :label="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onDeleteMessage'
-                    )
-                  "
-                  :placeholder="
-                    $t(
-                      'crud.edit.field.activeEventNotification.label.onDeleteMessage'
-                    )
-                  "
-                  :additionalInfo="null"
-                  :alert="errors.icon"
-                ></badaso-text>
-              </vs-col>
-            </vs-row>
-
-            <badaso-textarea
-              size="12"
-              :label="$t('crud.add.field.description.title')"
-              :placeholder="$t('crud.add.field.description.placeholder')"
-              v-model="crudData.description"
-              :alert="errors.description"
-            >
-            </badaso-textarea>
           </vs-row>
         </vs-card>
+      </vs-col>
+      <vs-col vs-lg="12">
+        <badaso-collapse>
+          <badaso-collapse-item>
+            <h3 slot="header">{{ $t("crud.add.title.advance") }}</h3>
+            <vs-row>
+              <badaso-text
+                v-model="crudData.modelName"
+                size="6"
+                :label="$t('crud.add.field.modelName.title')"
+                :placeholder="$t('crud.add.field.modelName.placeholder')"
+                :alert="errors.modelName"
+              ></badaso-text>
+              <badaso-text
+                v-model="crudData.controller"
+                size="6"
+                :label="$t('crud.add.field.controllerName.title')"
+                :placeholder="$t('crud.add.field.controllerName.placeholder')"
+                :alert="errors.controller"
+              ></badaso-text>
+              <badaso-switch
+                size="2"
+                v-model="crudData.generatePermissions"
+                :label="$t('crud.add.field.generatePermissions')"
+                :alert="errors.generatePermissions"
+              ></badaso-switch>
+              <badaso-switch
+                size="2"
+                v-model="crudData.serverSide"
+                :label="$t('crud.add.field.serverSide')"
+                :alert="errors.serverSide"
+              ></badaso-switch>
+              <badaso-switch
+                size="2"
+                v-model="crudData.createSoftDelete"
+                :label="$t('crud.add.field.createSoftDelete')"
+                :alert="errors.createSoftDelete"
+              ></badaso-switch>
+              <vs-col vs-lg="6" />
+              <badaso-select
+                v-model="crudData.orderColumn"
+                size="4"
+                :label="$t('crud.add.field.orderColumn.title')"
+                :placeholder="$t('crud.add.field.orderColumn.placeholder')"
+                :items="fieldList"
+                :alert="errors.orderColumn"
+              ></badaso-select>
+              <badaso-select
+                v-model="crudData.orderDisplayColumn"
+                size="4"
+                :label="$t('crud.add.field.orderDisplayColumn.title')"
+                :placeholder="$t('crud.add.field.orderDisplayColumn.placeholder')"
+                :items="fieldList"
+                :alert="errors.orderDisplayColumn"
+                :additionalInfo="
+                  $t('crud.add.field.orderDisplayColumn.description')
+                "
+              ></badaso-select>
+              <badaso-select
+                v-model="crudData.orderDirection"
+                size="4"
+                :label="$t('crud.add.field.orderDirection.title')"
+                :placeholder="$t('crud.add.field.orderDirection.placeholder')"
+                :items="orderDirections"
+                :alert="errors.orderDirection"
+              ></badaso-select>
+              <badaso-hidden
+                v-model="crudData.defaultServerSideSearchField"
+                size="3"
+                :label="$t('crud.add.field.defaultServerSideSearchField.title')"
+                :placeholder="
+                  $t('crud.add.field.defaultServerSideSearchField.placeholder')
+                "
+                :items="fieldList"
+                :alert="errors.defaultServerSideSearchField"
+              ></badaso-hidden>
+              <vs-col class="crud-management__notification-title">
+                <label>{{ $t("crud.edit.field.activeEventNotification.title") }}</label>
+              </vs-col>
+              <vs-row>
+                <vs-col>
+                  <vs-checkbox
+                    class="crud-management__notification-item"
+                    @change="onCheckBoxNotificationOnEvent"
+                    v-model="onCreate"
+                    >{{
+                      $t("crud.edit.field.activeEventNotification.label.onCreate")
+                    }}</vs-checkbox
+                  >
+                </vs-col>
+                <vs-col v-if="onCreate">
+                  <badaso-text
+                    v-model="onCreateTitle"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onCreateTitle'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onCreateTitle'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                  <badaso-text
+                    v-model="onCreateMessage"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onCreateMessage'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onCreateMessage'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                </vs-col>
+              </vs-row>
+
+              <vs-row>
+                <vs-col>
+                  <vs-checkbox
+                    class="crud-management__notification-item"
+                    @change="onCheckBoxNotificationOnEvent"
+                    v-model="onRead"
+                    >{{
+                      $t("crud.edit.field.activeEventNotification.label.onRead")
+                    }}</vs-checkbox
+                  >
+                </vs-col>
+                <vs-col v-if="onRead">
+                  <badaso-text
+                    v-model="onReadTitle"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onReadTitle'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onReadTitle'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                  <badaso-text
+                    v-model="onReadMessage"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onReadMessage'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onReadMessage'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                </vs-col>
+              </vs-row>
+
+              <vs-row>
+                <vs-col>
+                  <vs-checkbox
+                    class="crud-management__notification-item"
+                    @change="onCheckBoxNotificationOnEvent"
+                    v-model="onUpdate"
+                    >{{
+                      $t("crud.edit.field.activeEventNotification.label.onUpdate")
+                    }}</vs-checkbox
+                  >
+                </vs-col>
+                <vs-col v-if="onUpdate">
+                  <badaso-text
+                    v-model="onUpdateTitle"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onUpdateTitle'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onUpdateTitle'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                  <badaso-text
+                    v-model="onUpdateMessage"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onUpdateMessage'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onUpdateMessage'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                </vs-col>
+              </vs-row>
+
+              <vs-row>
+                <vs-col>
+                  <vs-checkbox
+                    class="crud-management__notification-item"
+                    @change="onCheckBoxNotificationOnEvent"
+                    v-model="onDelete"
+                    >{{
+                      $t("crud.edit.field.activeEventNotification.label.onDelete")
+                    }}</vs-checkbox
+                  >
+                </vs-col>
+                <vs-col v-if="onDelete">
+                  <badaso-text
+                    v-model="onDeleteTitle"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onDeleteTitle'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onDeleteTitle'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                  <badaso-text
+                    v-model="onDeleteMessage"
+                    :label="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onDeleteMessage'
+                      )
+                    "
+                    :placeholder="
+                      $t(
+                        'crud.edit.field.activeEventNotification.label.onDeleteMessage'
+                      )
+                    "
+                    :additionalInfo="null"
+                    :alert="errors.icon"
+                  ></badaso-text>
+                </vs-col>
+              </vs-row>
+
+              <badaso-textarea
+                size="12"
+                :label="$t('crud.add.field.description.title')"
+                :placeholder="$t('crud.add.field.description.placeholder')"
+                v-model="crudData.description"
+                :alert="errors.description"
+              >
+              </badaso-textarea>
+            </vs-row>
+          </badaso-collapse-item>
+        </badaso-collapse>
       </vs-col>
       <vs-col vs-lg="12">
         <vs-card>
@@ -925,20 +928,37 @@ export default {
             };
           });
           this.crudData.rows = fieldList.map((field) => {
-            return {
-              field: field.name,
-              type: field.type,
-              displayName: this.$helper.generateDisplayName(field.name),
-              required: field.isNotNull,
-              browse: true,
-              read: true,
-              edit: false,
-              add: false,
-              delete: false,
-              details: "{}",
-              order: 1,
-              setRelation: false,
-            };
+            if (['id', 'created_at', 'updated_at', 'deleted_at'].includes(field.name)) {
+              return {
+                field: field.name,
+                type: field.type,
+                displayName: this.$helper.generateDisplayName(field.name),
+                required: field.isNotNull,
+                browse: true,
+                read: true,
+                edit: false,
+                add: false,
+                delete: false,
+                details: "{}",
+                order: 1,
+                setRelation: false,
+              };
+            } else {
+              return {
+                field: field.name,
+                type: field.type,
+                displayName: this.$helper.generateDisplayName(field.name),
+                required: field.isNotNull,
+                browse: true,
+                read: true,
+                edit: true,
+                add: true,
+                delete: true,
+                details: "{}",
+                order: 1,
+                setRelation: false,
+              };
+            }
           });
           this.$closeLoader();
         })
