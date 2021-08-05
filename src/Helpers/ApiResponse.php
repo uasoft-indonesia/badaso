@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Uasoft\Badaso\Exceptions\SingleException;
 
@@ -19,6 +18,7 @@ class ApiResponse
         if ($request->method() === 'GET') {
             $response = HandleFile::handle($response);
         }
+
         return response()->json($response, $http_status);
     }
 
