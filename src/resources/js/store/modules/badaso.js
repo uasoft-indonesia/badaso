@@ -115,7 +115,7 @@ export default {
         : "badaso-dashboard";
       api.badasoMenu
         .browseItemByKey({
-          menu_key: "configuration",
+          menu_key: "core",
         })
         .then((res) => {
           let menuItems = res.data.menuItems;

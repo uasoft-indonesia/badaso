@@ -14,7 +14,6 @@ return [
     ],
     'configuration_groups' => [
         ['value' => 'adminPanel', 'label' => 'Admin Panel'],
-        ['value' => 'landingPage', 'label' => 'Landing Page'],
     ],
     'widgets' => [
         'Uasoft\\Badaso\\Widgets\\UserWidget',

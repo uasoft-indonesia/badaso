@@ -273,6 +273,7 @@ export default {
       title: {
         table: "Add CRUD for {tableName}",
         field: "Add CRUD Fields for {tableName}",
+        advance: "Advanced Setting"
       },
       field: {
         tableName: {
@@ -369,6 +370,7 @@ export default {
       title: {
         table: "Edit CRUD for {tableName}",
         field: "Edit CRUD Fields for {tableName}",
+        advance: "Advanced Setting"
       },
       field: {
         tableName: {

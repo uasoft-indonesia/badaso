@@ -46,7 +46,8 @@ export default {
   data:() => ({
     maxHeight: '0px',
     // only used for sst
-    dataReady: false
+    dataReady: false,
+    padding: '0'
   }),
   computed:{
     accordion() {
@@ -57,13 +58,19 @@ export default {
     },
     styleContent() {
       return {
-        maxHeight: this.maxHeight
+        maxHeight: this.maxHeight,
+        paddingTop: this.paddingTop
       }
     }
   },
   watch:{
-    maxHeight() {
+    maxHeight(newVal, oldVal) {
       this.$parent.emitChange()
+      if (newVal === 'unset') {
+        this.paddingTop = '15px'
+      } else {
+        this.paddingTop = '0'
+      }
     },
     ready(newVal, oldVal) {
       if (oldVal != newVal && newVal) {
@@ -105,7 +112,6 @@ export default {
       }
     },
     initMaxHeight() {
-      const maxHeightx = this.$refs.content.scrollHeight
       if(this.maxHeight == '0px') {
         this.maxHeight = `unset`
       } else {
