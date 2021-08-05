@@ -2,7 +2,9 @@
 
 namespace Uasoft\Badaso\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use UniSharp\LaravelFilemanager\Controllers\DeleteController;
 use UniSharp\LaravelFilemanager\Controllers\ItemsController;
@@ -33,9 +35,18 @@ class BadasoFileController extends Controller
 
     public function viewFile(Request $request)
     {
-        $file = $request->input('file', []);
-
-        return $this->handleViewFile($file);
+        try {
+            if ($request->has('file')) {
+                $file = $request->file;
+                // Verify this parameter to be an url
+                if (isUrl) {
+                    return $file;
+                }
+                return Storage::get($file);
+            }
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
     }
 
     /**

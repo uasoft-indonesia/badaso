@@ -21,7 +21,7 @@
         <ul class="badaso-upload-image-multiple__popup--left-bar">
           <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">Private</li>
           <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">Shares</li>
-          <li :class="[getSelected === 'url' ? 'active' : '' ]" @click="selected = 'url'">Insert by URL</li>
+          <li :class="[getSelected === 'url' ? 'active' : '', $store.state.badaso.isOnline ? '' : 'badaso-upload-image__menu--disabled' ]" @click="selected = 'url'">Insert by URL</li>
         </ul>
         <div class="badaso-upload-image-multiple__popup--right-bar" v-if="getSelected !== 'url'">
           <div class="badaso-upload-image-multiple__popup-add-image" @click="pickFile">
