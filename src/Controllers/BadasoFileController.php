@@ -35,18 +35,9 @@ class BadasoFileController extends Controller
 
     public function viewFile(Request $request)
     {
-        try {
-            if ($request->has('file')) {
-                $file = $request->file;
-                // Verify this parameter to be an url
-                if (isUrl) {
-                    return $file;
-                }
-                return Storage::get($file);
-            }
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
+        $file = $request->input('file', []);
+
+        return $this->handleViewFile($file);
     }
 
     /**
