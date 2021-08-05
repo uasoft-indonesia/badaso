@@ -128,6 +128,17 @@ class ConfigurationsSeeder extends Seeder
                     'group' => 'adminPanel',
                     'can_delete' => 0,
                 ],
+                10 => [
+                    'id' => 11,
+                    'key' => 'maintenanceImage',
+                    'display_name' => 'Image for maintenance page',
+                    'value' => 'files/shares/maintenance.png',
+                    'details' => '{"type":"shares-only"}',
+                    'type' => 'upload_image',
+                    'order' => 10,
+                    'group' => 'adminPanel',
+                    'can_delete' => 0,
+                ],
             ];
 
             foreach ($settings as $key => $value) {

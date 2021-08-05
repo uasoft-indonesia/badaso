@@ -179,11 +179,13 @@ export default {
     showOverlay() {
       this.show = true
       document.body.style.setProperty('position', 'fixed')
+      document.body.style.setProperty("width", "100%");
       this.getFiles()
     },
     closeOverlay() {
       this.show = false
       document.body.style.removeProperty('position')
+      document.body.style.removeProperty("width");
     },
     onFilePicked(e) {
       const files = e.target.files;
@@ -234,7 +236,7 @@ export default {
       }
     },
     emitInput() {
-      var url = this.files.items[this.activeFile].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, '')
+      let url = this.files.items[this.activeFile].url
       this.$emit('input', url)
       this.closeOverlay()
     },

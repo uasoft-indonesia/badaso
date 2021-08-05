@@ -30,7 +30,6 @@ export default {
     },
     isOnline: false,
     countUnreadMessage: 0,
-    meta: {}
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -105,7 +104,6 @@ export default {
             });
           }
           state.menu = menus;
-          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -142,7 +140,6 @@ export default {
             menu: res.data.menu,
             menuItems: menuItems,
           };
-          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -151,7 +148,6 @@ export default {
         .component()
         .then((res) => {
           state.componentList = res.data.components;
-          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -160,7 +156,6 @@ export default {
         .configurationGroups()
         .then((res) => {
           state.groupList = res.data.groups;
-          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -169,7 +164,6 @@ export default {
         .applyable()
         .then((res) => {
           state.config = res.data.configuration;
-          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -178,7 +172,6 @@ export default {
         .user()
         .then((res) => {
           state.user = res.data.user;
-          state.meta = res.meta
         })
         .catch((err) => {});
     },
@@ -198,9 +191,6 @@ export default {
     SET_GLOBAL_STATE(state, { key, value }) {
       state[key] = value;
     },
-    SET_META(state, payload) {
-      state.meta = payload
-    }
   },
   actions: {},
   getters: {
@@ -218,9 +208,6 @@ export default {
     },
     getConfig: (state) => {
       return state.config;
-    },
-    getMeta: (state) => {
-      return state.meta;
     },
     getUser: (state) => {
       return state.user;

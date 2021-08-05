@@ -120,6 +120,12 @@
     margin-top: 10px;
     overflow: hidden;
     position: relative;
+    
+    &:hover {
+      & > .badaso-upload-file-multiple__remove-button {
+        opacity: 1;
+      }
+    }
   }
 
   &__preview-text {

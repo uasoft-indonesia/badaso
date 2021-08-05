@@ -209,7 +209,6 @@ router.beforeEach((to, from, next) => {
       path: to.path
     })
     .then((res) => {
-      store.commit('badaso/SET_META', res.meta)
       if (res.data.maintenance) {
         next({ name: "Maintenance" });
       } else {

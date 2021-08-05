@@ -131,6 +131,12 @@
       width: auto;
       margin: 0 auto;
     }
+    
+    &:hover {
+      & > .badaso-upload-image-multiple__remove-button {
+        opacity: 1;
+      }
+    }
   }
 
   &__preview-image {
