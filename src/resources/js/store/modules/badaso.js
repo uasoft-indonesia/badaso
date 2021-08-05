@@ -28,7 +28,6 @@ export default {
     authorizationIssue: {
       unauthorized: false,
     },
-    verified: true,
     isOnline: false,
     countUnreadMessage: 0,
     meta: {}
@@ -231,9 +230,6 @@ export default {
     },
     getSelectedLocale: (state) => {
       return state.selectedLocale;
-    },
-    isVerified: (state) => {
-      return state.verified;
     },
     getGlobalState: (state) => {
       return state;
