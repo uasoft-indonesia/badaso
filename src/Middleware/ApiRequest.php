@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Foundation\Application;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\CaseConvert;
+use Uasoft\Badaso\Helpers\HandleFile;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Models\DataType;
 
@@ -52,6 +53,7 @@ class ApiRequest
         app()->setLocale($lang);
 
         $request->merge(CaseConvert::snake($request->all()));
+        $request->merge(HandleFile::normalize($request->all()));
 
         if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance() || $this->isCrudGeneratedMaintenance($request)) {
             if ($this->isAdministrator()) {

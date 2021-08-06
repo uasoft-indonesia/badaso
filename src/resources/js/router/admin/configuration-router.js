@@ -231,7 +231,7 @@ export default [
     name: "SiteManagementBrowse",
     component: Pages,
     meta: {
-      title: "Site Configuration",
+      title: "Configuration",
     },
   },
   {
@@ -239,7 +239,7 @@ export default [
     name: "SiteManagementAdd",
     component: Pages,
     meta: {
-      title: "Add Site Configuration",
+      title: "Add Configuration",
     },
   },
   {

@@ -162,7 +162,7 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${ meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)] }`
+                          `${ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }`
                         "
                         width="100%"
                         alt=""
@@ -178,7 +178,7 @@
                             ]
                           )"
                           :key="indexImage"
-                          :src="`${ meta.mediaBaseUrl + image }`"
+                          :src="`${ image }`"
                           width="100%"
                           alt=""
                           class="crud-generated__item--image"
@@ -203,7 +203,7 @@
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
                         :href="
-                          `${meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
+                          `${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
                         "
                         target="_blank"
                         >{{
@@ -223,7 +223,7 @@
                           :key="indexFile"
                         >
                           <a
-                            :href="`${meta.mediaBaseUrl + file}`"
+                            :href="`${file}`"
                             target="_blank"
                             >{{ file }}</a
                           >
@@ -424,7 +424,7 @@
                       >
                         <img
                           v-if="dataRow.type === 'upload_image'"
-                          :src="meta.mediaBaseUrl + record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
+                          :src="record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
                           width="100%"
                           alt=""
                         />
@@ -439,7 +439,7 @@
                               ]
                             )"
                             :key="indexImage"
-                            :src="`${meta.mediaBaseUrl + image}`"
+                            :src="`${image}`"
                             width="100%"
                             alt=""
                             class="crud-generated__item--image"
@@ -470,7 +470,7 @@
                         <a
                           v-else-if="dataRow.type === 'upload_file'"
                           :href="
-                            `${meta.mediaBaseUrl + record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]}`
+                            `${record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]}`
                           "
                           target="_blank"
                           >{{
@@ -494,7 +494,7 @@
                             :key="indexFile"
                           >
                             <a
-                              :href="`${meta.mediaBaseUrl + file}`"
+                              :href="`${file}`"
                               target="_blank"
                               >{{ getDownloadUrl(file) }}</a
                             >
@@ -679,7 +679,7 @@
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
             <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
@@ -698,7 +698,6 @@ export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowse",
   data: () => ({
-    meta: {},
     errors: {},
     data: {},
     descriptionItems: [10, 50, 100],
@@ -799,7 +798,6 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
         })
         .then((response) => {
-          this.meta = response.meta
           this.$closeLoader();
           this.data = response.data.entities;
           this.records = response.data.entities.data;
@@ -1130,6 +1128,10 @@ export default {
         return isOnline;
       },
     },
+    maintenanceImg() {
+      let config = this.$store.getters["badaso/getConfig"];
+      return config.maintenanceImage;
+    }
   },
 };
 </script>
