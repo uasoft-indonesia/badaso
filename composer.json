@@ -1,12 +1,16 @@
 {
-  "version": "2.0.0-rc.11",
+  "version": "2.0.0-rc.12",
   "name": "badaso/core",
-  "description": "The First Open-Source Laravel Vue headless CMS (PWA dashboard + CRUD + API generator & more) for more productivity !",
+  "description": "The API & platform builder, build your apps 10x faster even more, it's open source & 100% free !",
   "keywords": [
     "laravel",
     "admin",
     "panel",
     "dashboard",
+    "lcdp",
+    "ncdp",
+    "no code",
+    "low code",
     "pwa",
     "vue",
     "generator"
