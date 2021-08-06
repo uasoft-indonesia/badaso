@@ -25,39 +25,39 @@
 
 ### Why badaso ?
 
-- **100% FREE** - No need extra thinking about finance to adopt badaso
+- **100% FREE** - No need for extra thinking about finance to adopt badaso
 - **Modern PWA  Dashboard** - Fast and SPA based on Vue.js with PWA technology
-- **Native installation** - Lazy to open browser ? Install badaso on Windows, Linux, MacOS, Android & iOS 
-- **Working offline** - No more f*cked with bad internet connection, badaso can running offline
+- **Native installation** - Lazy to open the browser? Install badaso on Windows, Linux, MacOS, Android & iOS 
+- **Working offline** - No more f*cked with a bad internet connection, badaso can running offline
 - **Headless** - Badaso use JWT authentication & authorization as default
-- **Seamless integration** - Badaso use Rest API & GraphQL, no need develop API for your mobile & IoT
+- **Seamless integration** - Badaso use Rest API & GraphQL, no need to develop API for your mobile & IoT
 - **Modern design** - Keep your system design amazing and up to date
 - **Secure** - Build based on laravel make it secure as laravel
-- **Modular** - Install custom library in seconds like another your laravel projects
-- **Scalable** - Like your another laravel projects 
-- **Easy maintenance** - Like your another laravel projects 
+- **Modular** - Install custom library in seconds like your other laravel projects
+- **Scalable** - Like your other laravel projects 
+- **Easy maintenance** - Like your other laravel projects 
 - **Long time support** - Great choice for your long-term project, maintain by [uasoft](https://soft.uatech.co.id)
 
 ### Badaso features 
 
 - **Advanced CRUD generator** - Build your application faster and be more productive 
-- **API generator** - Integrate your application (mobile, desktop even IoT) through Rest API & GraphQL
+- **API generator** - Integrate your application (mobile, desktop, even IoT) through Rest API & GraphQL
 - **User management** - Manage your application user 
-- **Role management** - Your application user can has different role
-- **Permission management** - Each of role has different access permission 
+- **Role management** - Your application user can have a different role
+- **Permission management** - Each role has different access permission 
 - **Menu management** - Manage your application menu so easy and faster 
 - **Database management** - Handle your database migration via application 
 - **Activity logging** - Keep your system safe, know who makes the trouble 
-- **Log UI viewer** - Don't need open your server to check the log, stay on your application
+- **Log UI viewer** - No need to open your server to check the log, just stay focused on your application
 - **Daily database backup** - Keep your valuable database safety 
 - **Media manager** - Manage your local & cloud media via application 
-- Many more !
+- Many more!
 
 ## Live demo
 
 <a href="https://badaso-demo.uatech.co.id" target="_blank">Click here for live demo</a> (some error may happen because random test by a lot of random people)
 
-Live demo will reset every 1 hour
+The live demo will reset every 1 hour
 
 ## Getting started (installation, how to use & more)
 
@@ -65,17 +65,17 @@ You can see <a href="https://badaso-docs.uatech.co.id" target="_blank">official 
 
 ## Support Badaso
 
-For keep badaso up to date and keep support your awesome long-term project up to datem you also can donate to badaso.
+To keep badaso up to date and support this awesome long-term project you also can donate to badaso.
 
-We appreciate it so much and will keep badaso up to update and support your awesome long-term projects !
+We appreciate it so much and will keep badaso up to update and support your awesome long-term projects!
 
 - [Become a backer/sponsors on OpenCollective](https://opencollective.com/badaso)
 - Become a backer/sponsors on Patreon (coming soon)
 - One-time donation via Paypal (coming soon)
 
-Good financial support will make badaso keep up to date and keep support your awesome long-term projects !
+Good financial support will make badaso keep up to date and keep support your awesome long-term projects!
 
-Thanks to all backers & sponsors !
+Thanks to all backers & sponsors!
 
 ### Sponsors
 
@@ -93,7 +93,7 @@ Thank you for considering contributing to badaso !
 
 Please read our [contributing guideline](./CONTRIBUTING.md) before submitting a Pull Request to the project.
 
-Thanks for all contributors !
+Thanks to all contributors!
 
 <a href="https://github.com/uasoft-indonesia/badaso/graphs/contributors"><img src="https://opencollective.com/badaso/contributors.svg?width=890&button=false" /></a>
 
@@ -132,7 +132,7 @@ Thanks to these awesome projects that make badaso awesome :
 - [UniSharp/laravel-filemanager](https://github.com/UniSharp/laravel-filemanager) (file manager)
 - Contact us for credit [here](https://t.me/rizkiheryandi).
 
-All financial support that badaso get, will also share to project above for support the ecosystem and make badaso keep up to date and keep your awesome long-term projects running.
+All financial support that badaso gets will also shared to project above to support the ecosystem and make badaso keep up to date and keep your awesome long-term projects running.
 
 ## License
 

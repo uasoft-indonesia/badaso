@@ -28,7 +28,6 @@ export default {
     authorizationIssue: {
       unauthorized: false,
     },
-    verified: false,
     isOnline: false,
     countUnreadMessage: 0,
   },
@@ -189,24 +188,7 @@ export default {
       localStorage.clear();
       window.location.reload();
     },
-    VERIFY_BADASO(state) {
-      api.badaso
-        .verify()
-        .then((res) => {
-          state.verified = true;
-        })
-        .catch((err) => {
-          if (err.status) {
-            if (err.status == 402 || err.status == 400) {
-              state.keyIssue = {
-                ...err,
-                invalid: true,
-              };
-            }
-          }
-          state.verified = true;
-        });
-    },
+
     SET_GLOBAL_STATE(state, { key, value }) {
       state[key] = value;
     },
@@ -236,9 +218,6 @@ export default {
     },
     getSelectedLocale: (state) => {
       return state.selectedLocale;
-    },
-    isVerified: (state) => {
-      return state.verified;
     },
     getGlobalState: (state) => {
       return state;
