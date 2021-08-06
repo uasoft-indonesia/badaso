@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0-rc.12",
+  "version": "1.0.0-rc.13",
   "name": "badaso/core",
-  "description": "The most advanced headless CMS (PWA + CRUD + API generator & more) based on Laravel + Vue",
+  "description": "The API & platform builder, build your apps 10x faster even more, it's open source & 100% free !",
   "keywords": [
     "laravel",
     "admin",
@@ -9,7 +9,11 @@
     "dashboard",
     "pwa",
     "vue",
-    "generator"
+    "generator",
+    "lcdp",
+    "ncdp",
+    "low code",
+    "no code"
   ],
   "license": "proprietary",
   "homepage": "https://badaso.uatech.co.id/",
