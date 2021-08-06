@@ -23,10 +23,20 @@ class HandleFile
 
     protected static function handleUrl($val)
     {
-        $exploded = explode('.', $val);
-        $extension = end($exploded);
-        if (in_array($extension, ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'svg', 'ico', 'tif', 'tiff', 'webp', 'heif']) && filter_var($val, FILTER_VALIDATE_URL) === false) {
+        if (stristr($val, 'http://') ?: stristr($val, 'https://')) {
+            return $val;
+        }
+
+        if (preg_match('/^.*\.(jpg|jpeg|gif|svg|ico|tif|tiff|webp|heif|png|bmp)$/i', $val)) {
             return Storage::url($val);
+        }
+
+        if (Str::contains($val, config('lfm.folder_categories.file.folder_name') . '/')) {
+            return str_replace(
+                config('lfm.folder_categories.file.folder_name') . '/', 
+                Storage::url('/') . config('lfm.folder_categories.file.folder_name') . '/', 
+                $val
+            );
         }
 
         return $val;
