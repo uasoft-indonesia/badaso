@@ -4,8 +4,8 @@ namespace Uasoft\Badaso\Helpers;
 
 use Exception;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Uasoft\Badaso\Exceptions\SingleException;
 
@@ -13,13 +13,11 @@ class ApiResponse
 {
     private static function send($data, $http_status = 200)
     {
-        if (is_object($data)) {
-            $data->meta = ['media_base_url' => Storage::url('/')];
-        } else {
-            $data['meta']['media_base_url'] = Storage::url('/');
-        }
-
+        $request = new Request;
         $response = CaseConvert::camel($data);
+        if ($request->method() === 'GET') {
+            $response = HandleFile::handle($response);
+        }
 
         return response()->json($response, $http_status);
     }

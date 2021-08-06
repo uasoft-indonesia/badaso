@@ -5,7 +5,7 @@
       <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
         <div class="badaso-upload-image-multiple__preview">
           <vs-button class="badaso-upload-image-multiple__remove-button" color="danger" icon="close" @click="deleteFilePicked(imageData)" />
-          <img :src="getImageSrc(imageData)" class="badaso-upload-image-multiple__preview-image" />
+          <img :src="imageData" class="badaso-upload-image-multiple__preview-image" />
         </div>
       </vs-col>
     </vs-row>
@@ -21,7 +21,7 @@
         <ul class="badaso-upload-image-multiple__popup--left-bar">
           <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">Private</li>
           <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">Shares</li>
-          <li :class="[getSelected === 'url' ? 'active' : '' ]" @click="selected = 'url'">Insert by URL</li>
+          <li :class="[getSelected === 'url' ? 'active' : '', $store.state.badaso.isOnline ? '' : 'badaso-upload-image__menu--disabled' ]" @click="selected = 'url'">Insert by URL</li>
         </ul>
         <div class="badaso-upload-image-multiple__popup--right-bar" v-if="getSelected !== 'url'">
           <div class="badaso-upload-image-multiple__popup-add-image" @click="pickFile">
@@ -172,11 +172,13 @@ export default {
     showOverlay() {
       this.show = true
       document.body.style.setProperty('position', 'fixed')
+      document.body.style.setProperty("width", "100%");
       this.getImages()
     },
     closeOverlay() {
       this.show = false
       document.body.style.removeProperty('position')
+      document.body.style.removeProperty("width");
     },
     onFilePicked(e) {
       let files = e.target.files;
@@ -200,13 +202,6 @@ export default {
         console.error(error);
       })
     },
-    getImageSrc(value) {
-      if (this.$helper.isValidHttpUrl(value)) {
-        return value
-      } 
-
-      return this.$store.state.badaso.meta.mediaBaseUrl + value
-    },
     getImages() {
       this.images.items = []
       if (this.getSelectedFolder) {
@@ -229,7 +224,7 @@ export default {
       if (this.selected !== 'url') {
         let url = []
         this.activeImage.forEach(element => {
-          url.push(this.images.items[element].url.replace(this.$store.state.badaso.meta.mediaBaseUrl, ''))
+          url.push(this.images.items[element].url)
         });
         this.imagesName = url.join(', ')
         this.$emit('input', url)

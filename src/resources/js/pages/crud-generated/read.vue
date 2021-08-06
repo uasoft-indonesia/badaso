@@ -41,7 +41,7 @@
                     <td class="badaso-table__value">
                       <img
                         v-if="dataRow.type === 'upload_image'"
-                        :src="meta.mediaBaseUrl + record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+                        :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                         width="100%"
                         alt=""
                       />
@@ -54,7 +54,7 @@
                             record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                           )"
                           :key="indexImage"
-                          :src="meta.mediaBaseUrl + image"
+                          :src="image"
                           width="100%"
                           alt=""
                           class="crud-generated__item--image"
@@ -187,7 +187,7 @@
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${$store.state.badaso.meta.mediaBaseUrl}files/shares/maintenance.png`" alt="Maintenance Icon">
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
             <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
           </div>
         </vs-col>
@@ -203,7 +203,6 @@ export default {
   name: "CrudGeneratedRead",
   components: {},
   data: () => ({
-    meta: {},
     dataType: {},
     record: {},
     isMaintenance: false
@@ -225,7 +224,6 @@ export default {
           id: this.$route.params.id,
         })
         .then((response) => {
-          this.meta = response.meta
           this.$closeLoader();
           this.dataType = response.data.dataType;
           this.record = response.data.entities;
