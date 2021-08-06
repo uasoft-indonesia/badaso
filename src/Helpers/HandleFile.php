@@ -31,10 +31,10 @@ class HandleFile
             return Storage::url($val);
         }
 
-        if (Str::contains($val, config('lfm.folder_categories.file.folder_name') . '/')) {
+        if (Str::contains($val, config('lfm.folder_categories.file.folder_name').'/')) {
             return str_replace(
-                config('lfm.folder_categories.file.folder_name') . '/', 
-                Storage::url('/') . config('lfm.folder_categories.file.folder_name') . '/', 
+                config('lfm.folder_categories.file.folder_name').'/',
+                Storage::url('/').config('lfm.folder_categories.file.folder_name').'/',
                 $val
             );
         }
