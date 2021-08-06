@@ -95,7 +95,7 @@ Please read our [contributing guideline](./CONTRIBUTING.md) before submitting a 
 
 Thanks to all contributors!
 
-<a href="https://github.com/uasoft-indonesia/badaso/graphs/contributors"><img src="https://opencollective.com/badaso/contributors.svg?width=890&button=false" /></a>
+<a href="https://github.com/uasoft-indonesia/badaso/graphs/contributors"><img src="https://contrib.rocks/image?repo=uasoft-indonesia/badaso" /></a>
 
 For documentation repo contributing [click here](https://github.com/uasoft-indonesia/badaso-documentation).
 
