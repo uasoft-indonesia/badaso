@@ -62,6 +62,8 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
 
             Route::get('/', 'BadasoConfigurationsController@browse')->middleware(BadasoCheckPermissions::class.':browse_configurations');
             Route::get('/read', 'BadasoConfigurationsController@read')->middleware(BadasoCheckPermissions::class.':read_configurations');
+            Route::get('/fetch', 'BadasoConfigurationsController@fetch');
+            Route::get('/fetch-multiple', 'BadasoConfigurationsController@fetchMultiple');
             Route::put('/edit', 'BadasoConfigurationsController@edit')->middleware(BadasoCheckPermissions::class.':edit_configurations');
             Route::put('/edit-multiple', 'BadasoConfigurationsController@editMultiple')->middleware(BadasoCheckPermissions::class.':edit_configurations');
             Route::post('/add', 'BadasoConfigurationsController@add')->middleware(BadasoCheckPermissions::class.':add_configurations');

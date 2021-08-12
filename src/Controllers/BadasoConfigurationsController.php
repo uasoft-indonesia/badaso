@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\Configuration;
+use Uasoft\Badaso\Rules\ExistsModel;
 use Uasoft\Badaso\Rules\UniqueModel;
 use Uasoft\Badaso\Traits\FileHandler;
 
@@ -34,6 +35,64 @@ class BadasoConfigurationsController extends Controller
                 'id' => 'required',
             ]);
             $configuration = Configuration::find($request->id);
+
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function fetch(Request $request)
+    {
+        try {
+            $request->validate([
+                'key' => ['sometimes', 'required', new ExistsModel(Configuration::class, 'key')],
+                'group' => ['sometimes', 'required', new ExistsModel(Configuration::class, 'group')],
+            ]);
+
+            $configuration = Configuration::when($request->key, function ($query, $key) {
+                $query->orWhere('key', $key);
+            })
+                ->when($request->group, function ($query, $group) {
+                    return $query->orWhere('group', $group);
+                })
+                ->get()
+                ->toArray();
+
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function fetchMultiple(Request $request)
+    {
+        try {
+            $request->validate([
+                'key' => 'sometimes|required',
+                'group' => 'sometimes|required',
+            ]);
+
+            $configuration = Configuration::when($request->key, function ($query, $key) {
+                foreach (explode(',', $key) as $index => $value) {
+                    $query->orWhere('key', $value);
+                }
+
+                return $query;
+            })
+                ->when($request->group, function ($query, $group) {
+                    foreach (explode(',', $group) as $index => $value) {
+                        $query->orWhere('group', $value);
+                    }
+
+                    return $query;
+                })
+                ->get()
+                ->toArray();
 
             $data['configuration'] = $configuration;
 
