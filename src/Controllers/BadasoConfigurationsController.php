@@ -79,12 +79,14 @@ class BadasoConfigurationsController extends Controller
                 foreach (explode(',', $key) as $index => $value) {
                     $query->orWhere('key', $value);
                 }
+
                 return $query;
             })
                 ->when($request->group, function ($query, $group) {
                     foreach (explode(',', $group) as $index => $value) {
                         $query->orWhere('group', $value);
                     }
+
                     return $query;
                 })
                 ->get()
