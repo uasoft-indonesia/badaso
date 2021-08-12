@@ -42,6 +42,62 @@ class BadasoConfigurationsController extends Controller
         }
     }
 
+    public function fetch(Request $request)
+    {
+        try {
+            $request->validate([
+                'key' => 'sometimes|required|exists:Uasoft\Badaso\Models\Configuration,key',
+                'group' => 'sometimes|required|exists:Uasoft\Badaso\Models\Configuration,group',
+            ]);
+
+            $configuration = Configuration::when($request->key, function ($query, $key) {
+                $query->orWhere('key', $key);
+            })
+                ->when($request->group, function ($query, $group) {
+                    return $query->orWhere('group', $group);
+                })
+                ->get()
+                ->toArray();
+
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function fetchMultiple(Request $request)
+    {
+        try {
+            $request->validate([
+                'key' => 'sometimes|required',
+                'group' => 'sometimes|required',
+            ]);
+
+            $configuration = Configuration::when($request->key, function ($query, $key) {
+                foreach (explode(',', $key) as $index => $value) {
+                    $query->orWhere('key', $value);
+                }
+                return $query;
+            })
+                ->when($request->group, function ($query, $group) {
+                    foreach (explode(',', $group) as $index => $value) {
+                        $query->orWhere('group', $value);
+                    }
+                    return $query;
+                })
+                ->get()
+                ->toArray();
+
+            $data['configuration'] = $configuration;
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function applyable(Request $request)
     {
         try {

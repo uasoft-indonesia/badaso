@@ -34,6 +34,19 @@ export default {
     return resource.get(url);
   },
 
+  fetch(data) {
+    let ep = apiPrefix + "/v1/configurations/fetch";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+  fetchMultiple(data) {
+    let ep = apiPrefix + "/v1/configurations/fetch-multiple";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
   edit(data) {
     return resource.put(apiPrefix + "/v1/configurations/edit", data);
   },
