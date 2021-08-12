@@ -12,6 +12,7 @@
  *              mediaType="multipart/form-data",
  *              @OA\Schema(
  *                @OA\Property(
+ *                    description="/shares use if you access storage public users, /{user_id} use if you access storage private users",
  *                    property="working_dir",
  *                    type="string",
  *                    example="/shares"
@@ -44,9 +45,10 @@
  *          name="workingDir",
  *          required=true,
  *          in="path",
+ *          description="/shares use if you access storage public users, /{user_id} use if you access storage private users",
  *          @OA\Schema(
  *              type="string",
- *              example="/shares"
+ *              example="/shares",
  *          )
  *      ),
  *      @OA\Response(response=200, description="Successful operation"),
@@ -72,6 +74,7 @@
  *          name="workingDir",
  *          required=true,
  *          in="path",
+ *          description="/shares use if you access storage public users, /{user_id} use if you access storage private users",
  *          @OA\Schema(
  *              type="string",
  *              example="/shares"
