@@ -33,7 +33,6 @@
  * )
  */
 
-
 /**
  * @OA\Get(
  *      path="/v1/file/browse/lfm?workingDir={workingDir}",
@@ -59,9 +58,7 @@
  *          {"bearerAuth": {}}
  *      }
  * )
- *
  */
-
 
 /**
  * @OA\Get(
@@ -100,6 +97,4 @@
  *          {"bearerAuth": {}}
  *      }
  * )
- *
  */
-
