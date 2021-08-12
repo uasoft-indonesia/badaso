@@ -15,7 +15,6 @@
  * )
  */
 
-
 /**
  * @OA\Get(
  *      path="/v1/users/read?id={id}",
@@ -196,4 +195,3 @@
  *      security={{"bearerAuth" : {}}}
  * )
  */
-
