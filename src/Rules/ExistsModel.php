@@ -35,7 +35,11 @@ class ExistsModel implements Rule
             $this->modelId = [$value];
         }
 
-        $model = $this->modelClassName::whereIn($this->modelAttribute, $this->modelId)->pluck($attribute)->toArray();
+        if (empty($this->modelId)) {
+            return true;
+        }
+
+        $model = $this->modelClassName::whereIn($this->modelAttribute, $this->modelId)->pluck($this->modelAttribute)->toArray();
         $modelCount = count($model);
 
         return array_count_values($model)[$value] === $modelCount;
