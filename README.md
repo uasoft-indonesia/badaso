@@ -71,7 +71,7 @@ We appreciate it so much and will keep badaso up to update and support your awes
 
 - [Become a backer/sponsors on OpenCollective](https://opencollective.com/badaso)
 - Become a backer/sponsors on Patreon (coming soon)
-- One-time donation via Paypal (coming soon)
+- [One-time donation via Paypal](https://paypal.me/rizkiheryandi)
 
 Good financial support will make badaso keep up to date and keep support your awesome long-term projects!
 
