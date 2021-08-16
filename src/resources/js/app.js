@@ -5,11 +5,6 @@ import { Datetime } from "vue-datetime";
 import Vuelidate from "vuelidate";
 import VueGtag from "vue-gtag";
 
-import "vuesax/dist/vuesax.css"; //Vuesax styles
-import "material-icons/iconfont/material-icons.css";
-import "vue-datetime/dist/vue-datetime.css";
-import "./assets/scss/style.scss";
-
 import api from "./api/index";
 import handleError from "./api/handle-error";
 import resource from "./api/resource";
