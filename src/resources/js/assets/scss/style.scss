@@ -1,6 +1,10 @@
 @import "~vuesax/dist/vuesax.css";
 @import "~material-icons/iconfont/material-icons.css";
 @import "~vue-datetime/dist/vue-datetime.css";
+@import "~tinymce/skins/ui/oxide/skin.min.css";
+@import "~tinymce/skins/ui/oxide/content.min.css";
+@import "~vue-prism-editor/dist/prismeditor.min.css";
+@import "~prismjs/themes/prism-tomorrow.css";
 
 @import "variable";
 @import "./layout/layout";
