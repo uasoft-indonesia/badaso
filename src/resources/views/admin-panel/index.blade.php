@@ -23,6 +23,7 @@
     @else
         <link rel="shortcut icon" href="{{ asset('storage' . $favicon) }}" type="image/png">
     @endif
+    <link rel="stylesheet" href="{{ mix('css/badaso.css') }}">
 </head>
 <body>
     <div id="app"></div>
