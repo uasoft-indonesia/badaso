@@ -93,17 +93,6 @@
   </div>
 </template>
 
-<style>
-.notification-item {
-  display: flex;
-  flex-direction: column;
-}
-.row-div {
-  display: flex;
-  align-items: center;
-}
-</style>
-
 <script>
 export default {
   data() {
