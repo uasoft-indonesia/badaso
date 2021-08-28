@@ -65,6 +65,8 @@ You can see <a href="https://badaso-docs.uatech.co.id" target="_blank">official 
 
 ## Support Badaso
 
+<a href="https://www.producthunt.com/posts/badaso?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-badaso" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=310331&theme=light" alt="Badaso - The API & platform builder, build app 10x faster for free ! | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
 To keep badaso up to date and support this awesome long-term project you also can donate to badaso.
 
 We appreciate it so much and will keep badaso up to update and support your awesome long-term projects!
