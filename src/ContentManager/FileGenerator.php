@@ -262,7 +262,7 @@ class FileGenerator
     /**
      * Repacks data read from the database.
      *
-     * @param array|object $data
+     * @param  array|object  $data
      */
     public function repackSeedData($data): array
     {
