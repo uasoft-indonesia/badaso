@@ -37,6 +37,7 @@
               :alert="errors.emailVerified"
               onLabel="Yes"
               offLabel="No"
+              :tooltip="$t('user.help.emailVerified')"
             ></badaso-switch>
             <badaso-upload-image
               v-model="user.avatar"

@@ -254,6 +254,12 @@ export default {
       switchDataRecycle: "Show Recycle Data",
       switchDataNormal: "Show Normal Data",
     },
+    help: {
+      generatePermissions: "Will generate permission for the CRUD created",
+      serverSide: "Set the pagination on browse to server side",
+      createSoftDelete: "Will create soft delete if the table is supported",
+      activeEventNotificationTitle: "Please configure firebase push notification before using this feature"
+    },
     warning: {
       notAllowed: "You're not allowed to browse CRUD.",
     },
@@ -605,6 +611,9 @@ export default {
       descriptionConnector: "of",
       descriptionBody: "Pages",
     },
+    help: {
+      emailVerified: "Switch this to on to automatically verified the email of created user"
+    },
     add: {
       title: "Add User",
       field: {
@@ -777,6 +786,10 @@ export default {
       notAllowedToAdd: "You're not allowed to add Permission",
       notAllowedToEdit: "You're not allowed to edit Permission",
       notAllowedToRead: "You're not allowed to read Permission",
+    },
+    help: {
+      alwaysAllow: "After the permission is created, it will assign to every role that created after the permission",
+      isPublic: "The permission will be public"
     },
     header: {
       key: "Key",
