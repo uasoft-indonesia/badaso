@@ -84,18 +84,21 @@
                 v-model="crudData.generatePermissions"
                 :label="$t('crud.add.field.generatePermissions')"
                 :alert="errors.generatePermissions"
+                :tooltip="$t('crud.help.generatePermissions')"
               ></badaso-switch>
               <badaso-switch
                 size="2"
                 v-model="crudData.serverSide"
                 :label="$t('crud.add.field.serverSide')"
                 :alert="errors.serverSide"
+                :tooltip="$t('crud.help.serverSide')"
               ></badaso-switch>
               <badaso-switch
                 size="2"
                 v-model="crudData.createSoftDelete"
                 :label="$t('crud.add.field.createSoftDelete')"
                 :alert="errors.createSoftDelete"
+                :tooltip="$t('crud.help.createSoftDelete')"
               ></badaso-switch>
               <vs-col vs-lg="6" />
               <badaso-select
@@ -136,7 +139,11 @@
                 :alert="errors.defaultServerSideSearchField"
               ></badaso-hidden>
               <vs-col class="crud-management__notification-title">
-                <label>{{ $t("crud.edit.field.activeEventNotification.title") }}</label>
+                <label class="crud-management__label">{{ $t("crud.edit.field.activeEventNotification.title") }}
+                  <vs-tooltip :text="$t('crud.help.activeEventNotificationTitle')">
+                    <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
+                  </vs-tooltip>
+                </label>
               </vs-col>
               <vs-row>
                 <vs-col>
