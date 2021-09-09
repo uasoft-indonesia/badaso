@@ -47,7 +47,7 @@ abstract class SchemaManager
     }
 
     /**
-     * @param string $table_name
+     * @param  string  $table_name
      *
      * @return \Uasoft\Badaso\Database\Schema\Table
      */
@@ -68,7 +68,7 @@ abstract class SchemaManager
     /**
      * Describes given table.
      *
-     * @param string $table_name
+     * @param  string  $table_name
      *
      * @return \Illuminate\Support\Collection
      */
