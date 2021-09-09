@@ -255,10 +255,12 @@ export default {
       switchDataNormal: "Show Normal Data",
     },
     help: {
-      generatePermissions: "Will generate permission for the CRUD created",
-      serverSide: "Set the pagination on browse to server side",
-      createSoftDelete: "Will create soft delete if the table is supported",
-      activeEventNotificationTitle: "Please configure firebase push notification before using this feature"
+      generatePermissions: "Will generate permission for the CRUD created. The generated permissions is: browse_{table_name}, read_{table_name}, edit_{table_name}, add_{table_name}, delete_{table_name} and maintenance_{table_name}.",
+      serverSide: "Set the pagination on browse to server side or client side. If you have small data, just turn this to Off, vice versa.",
+      createSoftDelete: "Switch this to On if you want feature like recycle bin. You can recover the deleted data. Will create soft delete if the table is supported.",
+      activeEventNotificationTitle: "This will show notification on right sidebar if the below action event is set. Please configure firebase push notification before using this feature.",
+      modelName: "Fill this input if you want to override the CRUD Model. For example: App\\Models\\User.",
+      controllerName: "Fill this input if you want to override the CRUD Controller. For example: App\\Http\\Controller\\HomeController. You can override one of the following methods: browse, all, read, edit, add, delete, restore, deleteMultiple, restoreMultiple, sort or setMaintenanceState.",
     },
     warning: {
       notAllowed: "You're not allowed to browse CRUD.",
@@ -491,6 +493,9 @@ export default {
       notAllowedToBrowse: "You're not allowed to browse Menu",
       notAllowedToAdd: "You're not allowed to add Menu",
       notAllowedToEdit: "You're not allowed to edit Menu",
+    },
+    help: {
+      key: "You can set this key to be default menu in .env file. Also, you can register new menu on .env by input value."
     },
     header: {
       key: "Key",
@@ -789,7 +794,7 @@ export default {
     },
     help: {
       alwaysAllow: "After the permission is created, it will assign to every role that created after the permission",
-      isPublic: "The permission will be public"
+      isPublic: "Permissions will be publicly available"
     },
     header: {
       key: "Key",

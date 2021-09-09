@@ -254,6 +254,14 @@ export default {
       switchDataRecycle: "Tampilkan Data Recycle",
       switchDataNormal: "Tampilkan Data Normal",
     },
+    help: {
+      generatePermissions: "Akan menghasilkan permission untuk CRUD yang dibuat. Permission yang dihasilkan adalah: browse_{table_name}, read_{table_name}, edit_{table_name}, add_{table_name}, delete_{table_name} dan maintenance_{table_name}.",
+      serverSide: "Atur pagination saat browse di server side atau client side. Jika Anda memiliki data kecil, matikan saja ke Off, atau sebaliknya.",
+      createSoftDelete: "Ubah ini menjadi On jika Anda menginginkan fitur seperti recycle bin. Anda dapat memulihkan data yang dihapus. Akan membuat soft delete jika tabel didukung.",
+      activeEventNotificationTitle: "Akan menampilkan notifikasi di sidebar kanan jika action event di bawah ini diatur. Harap konfigurasikan push notification firebase sebelum menggunakan fitur ini.",
+      modelName: "Isi input ini jika Anda ingin overriding Model CRUD. Sebagai contoh: App\\Models\\User.",
+      controllerName: "Isi input ini jika Anda ingin overriding Model CRUD. Sebagai contoh: App\\Http\\Controller\\HomeController. Anda dapat mengganti salah satu metode berikut: browse, all, read, edit, add, delete, restore, deleteMultiple, restoreMultiple, sort atau setMaintenanceState.",
+    },
     warning: {
       notAllowed: "Anda tidak diizinkan untuk mengakses CRUD.",
     },
@@ -483,6 +491,9 @@ export default {
       notAllowedToBrowse: "Anda tidak diizinkan untuk mengakses Menu",
       notAllowedToAdd: "Anda tidak diizinkan untuk menambahkan Menu",
       notAllowedToEdit: "Anda tidak diizinkan untuk mengubah Menu",
+    },
+    help: {
+      key: "Anda dapat mengatur key ini menjadi menu default di file .env. Juga, Anda dapat mendaftarkan menu baru di .env dengan nilai input."
     },
     header: {
       key: "Kunci",
@@ -783,6 +794,10 @@ export default {
       alwaysAllow: "Selalu diizinkan",
       isPublic: "Publik",
       action: "Aksi",
+    },
+    help: {
+      alwaysAllow: "Setelah permission dibuat, itu akan ditetapkan ke setiap role yang dibuat setelah permission",
+      isPublic: "Permission akan tersedia untuk umum"
     },
     footer: {
       descriptionTitle: "Baris yang ditampilkan",
