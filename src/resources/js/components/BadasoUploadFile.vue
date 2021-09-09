@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import * as _ from "lodash"
 export default {
   name: "BadasoUploadFile",
   props: {
@@ -207,6 +208,14 @@ export default {
       this.$api.badasoFile
         .uploadUsingLfm(files)
         .then(res => {
+          let error = _.get(res, 'data.original.error', null)
+          if (error) {
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+          }
           this.getFiles()
         })
         .catch(error => {
@@ -225,6 +234,14 @@ export default {
             workingDir: this.getSelectedFolder
           })
           .then(res => {
+            let error = _.get(res, 'data.original.error', null)
+            if (error) {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: error.message,
+                color: "danger",
+              });
+            }
             this.files = res.data
             this.files.items = res.data.items.filter(val => {
               return val.thumbUrl === null
@@ -247,6 +264,14 @@ export default {
           'items[]': this.files.items[this.activeFile].name
         })
         .then(res => {
+          let error = _.get(res, 'data.original.error', null)
+          if (error) {
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+          }
           this.getFiles()
         })
         .catch(error => {
