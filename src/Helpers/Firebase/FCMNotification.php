@@ -33,7 +33,7 @@ class FCMNotification
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      */
     protected function send(array $ids = [], string $title = '', string $body = '', $data): void
     {
@@ -61,7 +61,7 @@ class FCMNotification
     }
 
     /**
-     * @param array $data
+     * @param  array  $data
      */
     protected function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', $data): void
     {
@@ -119,9 +119,9 @@ class FCMNotification
     }
 
     /**
-     * @param string $title
-     * @param string $body
-     * @param array  $data
+     * @param  string  $title
+     * @param  string  $body
+     * @param  array  $data
      */
     public static function notification(string $active_event, string $table_name, string $title = null, string $body = null, $data = [])
     {
