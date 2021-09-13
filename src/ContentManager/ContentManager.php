@@ -82,7 +82,6 @@ class ContentManager
      *
      * @param  string  $class_name
      * @param  string  $content
-     *
      * @return mixed|string|string[]|null
      */
     public function updateDeploymentOrchestraSeederContent($class_name, $content)
