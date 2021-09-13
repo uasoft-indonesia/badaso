@@ -13,7 +13,7 @@ class CRUDDataAddedHandler
     /**
      * CRUDDataAddedHandler constructor.
      *
-     * @param FilesGenerator $file_generator
+     * @param  FilesGenerator  $file_generator
      */
     public function __construct(FileGenerator $file_generator)
     {

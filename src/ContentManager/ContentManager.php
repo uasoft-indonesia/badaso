@@ -80,9 +80,8 @@ class ContentManager
     /**
      * Update Deployment Orchestra Seeder Content.
      *
-     * @param string $class_name
-     * @param string $content
-     *
+     * @param  string  $class_name
+     * @param  string  $content
      * @return mixed|string|string[]|null
      */
     public function updateDeploymentOrchestraSeederContent($class_name, $content)
@@ -246,10 +245,9 @@ class ContentManager
     /**
      * Replace String.
      *
-     * @param string $search
-     * @param string $replace
+     * @param  string  $search
+     * @param  string  $replace
      * @param $stub
-     *
      * @return mixed
      */
     public function replaceString($search, $replace, $stub)
