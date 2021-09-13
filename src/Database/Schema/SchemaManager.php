@@ -48,6 +48,7 @@ abstract class SchemaManager
 
     /**
      * @param  string  $table_name
+     *
      * @return \Uasoft\Badaso\Database\Schema\Table
      */
     public static function listTableDetails($table_name)
@@ -68,6 +69,7 @@ abstract class SchemaManager
      * Describes given table.
      *
      * @param  string  $table_name
+     *
      * @return \Illuminate\Support\Collection
      */
     public static function describeTable($table_name)
