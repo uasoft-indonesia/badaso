@@ -44,7 +44,7 @@ class PermissionsSeeder extends Seeder
             Permission::firstOrCreate([
                 'key' => $key['key'],
                 'table_name' => null,
-                'always_allow' => $key['always_allow']
+                'always_allow' => $key['always_allow'],
             ]);
         }
 
