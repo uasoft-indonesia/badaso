@@ -89,7 +89,6 @@ abstract class Index
      * @param  array  $columns
      * @param  string  $type
      * @param  string  $table
-     *
      * @return string
      */
     public static function createName(array $columns, $type, $table = null)
