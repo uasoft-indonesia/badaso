@@ -80,8 +80,7 @@ class ContentGenerator
      * Format Content.
      *
      * @param $array
-     * @param bool $indexed
-     *
+     * @param  bool  $indexed
      * @return mixed|string|string[]|null
      */
     public function formatContent($array, $indexed = true)
@@ -159,7 +158,7 @@ class ContentGenerator
      * Get Permission Statements.
      *
      * @param $data_type
-     * @param null $type
+     * @param  null  $type
      */
     public function getPermissionStatement($data_type, $type = null): string
     {
@@ -198,9 +197,8 @@ class ContentGenerator
     /**
      * Generate Orchestra Seeder Content.
      *
-     * @param string $class_name
-     * @param string $content
-     *
+     * @param  string  $class_name
+     * @param  string  $content
      * @return mixed|string|string[]|null
      */
     public function generateOrchestraSeederContent($class_name, $content)
@@ -245,9 +243,8 @@ class ContentGenerator
     /**
      * Generate Orchestra Seeder Content.
      *
-     * @param string $class_name
-     * @param string $content
-     *
+     * @param  string  $class_name
+     * @param  string  $content
      * @return mixed|string|string[]|null
      */
     public function generateManualSeederContent($class_name, $content)
