@@ -2,7 +2,6 @@
   &__notification-title {
     display: flex;
     flex-wrap: wrap;
-    margin: 0 1.5rem;
   }
 
   &__notification-item {
@@ -31,5 +30,15 @@
     border: solid 1px #dedede;
     margin-bottom: 20px;
     padding: 10px;
+  }
+
+  &__label {
+    padding-left: 5px;
+    font-size: 0.85rem;
+    color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
   }
 }
