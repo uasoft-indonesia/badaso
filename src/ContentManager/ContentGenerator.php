@@ -81,7 +81,6 @@ class ContentGenerator
      *
      * @param $array
      * @param  bool  $indexed
-     *
      * @return mixed|string|string[]|null
      */
     public function formatContent($array, $indexed = true)
@@ -200,7 +199,6 @@ class ContentGenerator
      *
      * @param  string  $class_name
      * @param  string  $content
-     *
      * @return mixed|string|string[]|null
      */
     public function generateOrchestraSeederContent($class_name, $content)
@@ -247,7 +245,6 @@ class ContentGenerator
      *
      * @param  string  $class_name
      * @param  string  $content
-     *
      * @return mixed|string|string[]|null
      */
     public function generateManualSeederContent($class_name, $content)
