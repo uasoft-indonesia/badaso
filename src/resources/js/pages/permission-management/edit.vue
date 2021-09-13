@@ -22,6 +22,7 @@
               :label="$t('permission.edit.field.alwaysAllow')"
               placeholder="Always Allow"
               :alert="errors.alwaysAllow"
+              :tooltip="$t('permission.help.alwaysAllow')"
             ></badaso-switch>
             <badaso-switch
               v-model="permission.isPublic"
@@ -29,6 +30,7 @@
               :label="$t('permission.edit.field.isPublic')"
               placeholder="Is Public"
               :alert="errors.isPublic"
+              :tooltip="$t('permission.help.isPublic')"
             ></badaso-switch>
             <badaso-textarea
               v-model="permission.description"
