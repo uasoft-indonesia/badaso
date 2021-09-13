@@ -39,10 +39,9 @@ class BadasoFileController extends Controller
     }
 
     /**
-     * @param int $page             => current page number
-     * @param string $working_dir   => working directory
-     * @param string $sort_type     => sorting type: name | date
-     *
+     * @param  int  $page  => current page number
+     * @param  string  $working_dir  => working directory
+     * @param  string  $sort_type  => sorting type: name | date
      * @return mixed
      */
     public function browseFileUsingLfm(Request $request)
