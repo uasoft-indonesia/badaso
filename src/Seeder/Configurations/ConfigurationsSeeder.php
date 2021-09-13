@@ -10,9 +10,9 @@ class ConfigurationsSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function run()
     {
