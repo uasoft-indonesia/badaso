@@ -1,3 +1,5 @@
+> Badaso v1.x will not update for new features, only update for bug fix, please use the newer version instead
+
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
     <img src="https://i.ibb.co/tx2NJvD/LOGO-BADASO-5.png" width="318px" alt="Badaso logo" />
