@@ -997,7 +997,8 @@ export default {
               this[event + "Message"] = notification_message;
           }
 
-          this.crudData = JSON.parse(JSON.stringify(crudData));
+          this.crudData = { ...crudData }
+          this.crudData.notification = notification
           this.$closeLoader();
         })
         .catch((error) => {
