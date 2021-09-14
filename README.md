@@ -1,4 +1,4 @@
-> Badaso v1.x will not update for new features, only update for bug fix, please use the newer version instead
+> Badaso v1.x will not update for new features, only update for bug fix, please use the newest version instead
 
 <p align="center">
   <a href="https://badaso-docs.uatech.co.id/">
