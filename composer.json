@@ -24,7 +24,7 @@
   },
   "type": "library",
   "require": {
-    "webpatser/laravel-uuid": "^3.0",
+    "webpatser/laravel-uuid": "^4.0",
     "doctrine/dbal": "^2.12",
     "tymon/jwt-auth": "^1.0",
     "lcobucci/jwt": "^3.3",
