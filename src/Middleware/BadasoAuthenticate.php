@@ -9,7 +9,6 @@ use Uasoft\Badaso\Helpers\TokenManagement;
 
 class BadasoAuthenticate extends Authenticate
 {
-
     /**
      * Handle an incoming request.
      *
@@ -22,8 +21,7 @@ class BadasoAuthenticate extends Authenticate
      */
     public function handle($request, Closure $next, ...$guards)
     {
-
-        if($this->isAuthorize($request)){
+        if ($this->isAuthorize($request)) {
             return $next($request);
         }
 
@@ -32,7 +30,7 @@ class BadasoAuthenticate extends Authenticate
 
     protected function isAuthorize($request)
     {
-        $guard  = config('badaso.authenticate.guard');
+        $guard = config('badaso.authenticate.guard');
 
         if ($this->auth->guard($guard)->check()) {
             $this->auth->shouldUse($guard);
@@ -44,7 +42,7 @@ class BadasoAuthenticate extends Authenticate
             return true;
         }
 
-        if (!$request->expectsJson()) {
+        if (! $request->expectsJson()) {
             return false;
         }
 
