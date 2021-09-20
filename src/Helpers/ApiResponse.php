@@ -47,7 +47,7 @@ class ApiResponse
         }
         $response = [];
         $response['data'] = null;
-        $response['message'] = null ;
+        $response['message'] = null;
         $response['errors'] = [];
 
         $http_status = 500;
@@ -69,7 +69,7 @@ class ApiResponse
             $response['message'] = $error->getMessage();
             $response['errors'] = $errors;
         } elseif ($error instanceof Exception) {
-            if(env('APP_DEBUG') == true){
+            if (env('APP_DEBUG') == true) {
                 $response['message'] = $error->getMessage();
                 $response['errors'] = json_decode(json_encode($error->getTrace()));
             } else {

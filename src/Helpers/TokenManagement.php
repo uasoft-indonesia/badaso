@@ -10,10 +10,9 @@ use Uasoft\Badaso\Models\User;
 
 class TokenManagement
 {
-
-    public static $REMEMBER_ABILITY = "remember";
-    public static $EXPIRED_DATE_ABILITY = "expired_date";
-    public static $KEY_GET_TOKEN = "get_token";
+    public static $REMEMBER_ABILITY = 'remember';
+    public static $EXPIRED_DATE_ABILITY = 'expired_date';
+    public static $KEY_GET_TOKEN = 'get_token';
 
     public User $user;
     public string $token;
@@ -26,12 +25,14 @@ class TokenManagement
     public function getRememberAbility(bool $remember = false): string
     {
         $key = self::$REMEMBER_ABILITY;
+
         return "{$key}:{$remember}";
     }
 
     public function getTokenName(string $email): string
     {
         $key = self::$KEY_GET_TOKEN;
+
         return Hash::make("{$key}:{$email}");
     }
 
@@ -41,7 +42,7 @@ class TokenManagement
 
         if ($remember) {
             $expired_time = intval(config('sanctum.expired_remember'));
-            // minutes, hours, day
+        // minutes, hours, day
         } else {
             $expired_time = intval(config('sanctum.expired_no_remember'));
             // minutes, hours, day
@@ -66,18 +67,19 @@ class TokenManagement
         return $this;
     }
 
-    public function refreshToken() : self
+    public function refreshToken(): self
     {
         $personal_access_token = $this->user->currentAccessToken();
         $remember_ability = $this->findAbility(self::$REMEMBER_ABILITY, $personal_access_token);
-        $remember = $remember_ability->value ;
+        $remember = $remember_ability->value;
 
         $personal_access_token->delete();
 
         return $this->createToken($remember);
     }
 
-    public function deleteToken() : void{
+    public function deleteToken(): void
+    {
         $personal_access_token = $this->user->currentAccessToken();
         $personal_access_token->delete();
     }
@@ -117,7 +119,7 @@ class TokenManagement
 
         $ability = array_values($abilities)[0];
 
-        $pos_split = strpos($ability, ":");
+        $pos_split = strpos($ability, ':');
         $ability_key = trim(substr($ability, 0, $pos_split));
         $ability_value = trim(substr($ability, $pos_split + 1));
 
@@ -136,6 +138,7 @@ class TokenManagement
     public static function fromAuth(): self
     {
         $user = Auth::guard(config('badaso.authenticate.guard'))->user();
+
         return new TokenManagement($user);
     }
 }

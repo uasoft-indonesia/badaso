@@ -1,7 +1,5 @@
 <?php
 
-
-
 Route::group([
     'prefix' => '/',
     'namespace' => 'Uasoft\Badaso\Controllers',
