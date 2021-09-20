@@ -64,7 +64,7 @@ class AuthenticatedUser
     public static function ignore($permissions_string = '')
     {
         $permissions = explode(',', $permissions_string);
-        $public_permissions = Permission::where('is_public', 1)->get();
+        $public_permissions = Permission::where('is_public', 1)->orWhere('always_allow', 1)->get();
         $public_permissions = collect($public_permissions)->pluck('key')->toArray();
 
         $intersect = array_intersect($permissions, $public_permissions);
