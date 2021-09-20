@@ -219,15 +219,7 @@ class BadasoSetup extends Command
             $path_config_auth = config_path('auth.php');
             $config_auth = require $path_config_auth;
 
-            $config_auth['defaults'] = [
-                'guard' => 'badaso_guard',
-                'passwords' => 'users',
-            ];
-            $config_auth['guards']['badaso_guard'] = [
-                'driver' => 'jwt',
-                'provider' => 'badaso_users',
-            ];
-            $config_auth['providers']['badaso_users'] = [
+            $config_auth['providers']['users'] = [
                 'driver' => 'eloquent',
                 'model' => \Uasoft\Badaso\Models\User::class,
             ];

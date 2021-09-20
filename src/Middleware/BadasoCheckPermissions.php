@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 
-class BadasoCheckPermissions
+class BadasoCheckPermissions extends BadasoAuthenticate
 {
-    public function handle($request, Closure $next, $permissions)
+    public function handle($request, Closure $next, ...$guards)
     {
+        [$permissions] = $guards ;
+
         if ($permissions == null) {
             return $next($request);
         } else {
@@ -18,7 +20,7 @@ class BadasoCheckPermissions
             if ($continue) {
                 return $next($request);
             } else {
-                if (Auth::check()) {
+                if($this->isAuthorize($request)){
                     $continue = AuthenticatedUser::isAllowedTo($permissions);
                     if ($continue) {
                         return $next($request);

@@ -1,7 +1,6 @@
 <?php
 
-$prefix_file_manager_route = 'filemanager';
-$middleware_file_manager = \config('lfm.middleware');
+
 
 Route::group([
     'prefix' => '/',
@@ -11,6 +10,8 @@ Route::group([
     Route::get('manifest.webmanifest', 'BadasoDashboardController@manifest');
 });
 
+$prefix_file_manager_route = \config('lfm.prefix_route');
+$middleware_file_manager = \config('lfm.middleware');
 Route::group(['prefix' => $prefix_file_manager_route, 'middleware' => $middleware_file_manager], function () {
     if (class_exists("\UniSharp\LaravelFilemanager\Lfm")) {
         \UniSharp\LaravelFilemanager\Lfm::routes();
