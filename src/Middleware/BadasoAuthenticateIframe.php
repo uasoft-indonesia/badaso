@@ -19,16 +19,15 @@ class BadasoAuthenticateIframe
     public function handle(Request $request, Closure $next, ...$guards)
     {
 
-        if(isset($request->token)){
-            $token = $request->token ;
+        if (isset($request->token)) {
+            $token = $request->token;
             $personal_access_token = PersonalAccessToken::findToken($token);
 
-            if(isset($personal_access_token)){
-                return $next($request);
+            if (!isset($personal_access_token)) {
+                return redirect(config('badaso.admin_panel_route_prefix'));
             }
         }
 
-        return redirect(config('badaso.admin_panel_route_prefix'));
-
+        return $next($request);
     }
 }

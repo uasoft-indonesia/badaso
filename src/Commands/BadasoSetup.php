@@ -94,6 +94,7 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
         $decoded_json['devDependencies']['sass'] = '^1.32.11';
         $decoded_json['devDependencies']['sass-loader'] = '^11.0.1';
+        $decoded_json['devDependencies']['resolve-url-loader'] = '^4.0.0';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
