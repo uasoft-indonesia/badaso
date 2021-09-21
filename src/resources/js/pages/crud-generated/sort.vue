@@ -127,7 +127,7 @@ export default {
         this.$closeLoader();
 
         this.dataType = dataType;
-        this.data = response.data.entities.data;
+        this.data = response.data.data;
       } catch (error) {
         if (error.status === 503) {
           this.isMaintenance = true;

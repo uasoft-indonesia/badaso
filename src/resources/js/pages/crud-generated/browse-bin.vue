@@ -821,11 +821,11 @@ export default {
         });
 
         this.$closeLoader();
-        this.data = response.data.entities;
-        this.records = response.data.entities.data;
+        this.data = response.data;
+        this.records = response.data.data;
         this.totalItem =
-          response.data.entities.total > 0
-            ? Math.ceil(response.data.entities.total / this.limit)
+          response.data.total > 0
+            ? Math.ceil(response.data.total / this.limit)
             : 1;
 
         this.dataType = dataType;

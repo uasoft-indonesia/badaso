@@ -95,7 +95,7 @@ class ApiResponse
     public static function onlyEntity($data= null, $permissions = null){
         $response = [];
         $response['message'] = __('badaso::api_response.200');
-        $response['data']['entities'] = $data;
+        $response['data'] = $data;
         $response['errors'] = null;
         $response = json_decode(json_encode($response));
 
