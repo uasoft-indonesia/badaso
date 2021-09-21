@@ -220,40 +220,47 @@ export default {
 
       return item.split('storage').pop()
     },
-    getDetailEntity() {
+    async getDetailEntity() {
       this.$openLoader();
-      this.$api.badasoEntity
-        .read({
+
+      try {
+        let response = await this.$api.badasoEntity.read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
-        })
-        .then((response) => {
-          this.$closeLoader();
-          this.dataType = response.data.dataType;
-          this.record = response.data.entities;
-
-          let dataRows = this.dataType.dataRows.map((data) => {
-            try {
-              data.add = data.add === 1;
-              data.edit = data.edit === 1;
-              data.read = data.read === 1;
-              data.details = JSON.parse(data.details);
-            } catch (error) {}
-            return data;
-          });
-          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        })
-        .catch((error) => {
-          if (error.status === 503) {
-            this.isMaintenance = true;
-          }
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
         });
+
+        let {
+          data: { dataType },
+        } = await this.$api.badasoTable.getDataType({
+          slug: this.$route.params.slug,
+        });
+
+        this.$closeLoader();
+
+        this.dataType = dataType;
+        this.record = response.data;
+
+        let dataRows = this.dataType.dataRows.map((data) => {
+          try {
+            data.add = data.add === 1;
+            data.edit = data.edit === 1;
+            data.read = data.read === 1;
+            data.details = JSON.parse(data.details);
+          } catch (error) {}
+          return data;
+        });
+        this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+      } catch (error) {
+        if (error.status === 503) {
+          this.isMaintenance = true;
+        }
+        this.$closeLoader();
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
     },
     bindSelection(items, value) {
       const selected = _.find(items, ["value", value]);

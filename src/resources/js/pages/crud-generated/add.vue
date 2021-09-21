@@ -334,7 +334,6 @@
 </template>
 
 <script>
-import { readObjectStore } from '../../utils/indexed-db';
 export default {
   name: "CrudGeneratedAdd",
   components: {},
@@ -395,59 +394,59 @@ export default {
           });
         });
     },
-    getDataType() {
+    async getDataType() {
       this.$openLoader();
-      this.$api.badasoCrud
-        .readBySlug({
+
+      try {
+        let response = await this.$api.badasoCrud.readBySlug({
           slug: this.$route.params.slug,
-        })
-        .then((response) => {
-          this.$closeLoader();
-          this.dataType = response.data.crudData;
-          let dataRows = response.data.crudData.dataRows.map((data) => {
-            if (
-              data.value === undefined &&
-              (data.type === "upload_image" || data.type === "upload_file")
-            ) {
-              data.value = "";
-            } else if (
-              data.value === undefined &&
-              (data.type === "upload_image_multiple" ||
-                data.type === "upload_file_multiple" ||
-                data.type === "select_multiple" ||
-                data.type === "checkbox")
-            ) {
-              data.value = [];
-            } else if (data.value === undefined && data.type === "slider") {
-              data.value = 0;
-            } else if (data.value === undefined && data.type === "switch") {
-              data.value = false;
-            } else if (data.value === undefined && data.type === "tags") {
-              data.value = "";
-            } else if (data.value === undefined) {
-              data.value = "";
-            }
-            try {
-              data.details = JSON.parse(data.details);
-              if (data.type === "hidden") {
-                data.value = data.details.value ? data.details.value : "";
-              }
-            } catch (error) {}
-            return data;
-          });
-          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        })
-        .catch((error) => {
-          if (error.status === 503) {
-            this.isMaintenance = true;
-          }
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
         });
+
+        this.$closeLoader();
+        this.dataType = response.data.crudData;
+        let dataRows = response.data.crudData.dataRows.map((data) => {
+          if (
+            data.value === undefined &&
+            (data.type === "upload_image" || data.type === "upload_file")
+          ) {
+            data.value = "";
+          } else if (
+            data.value === undefined &&
+            (data.type === "upload_image_multiple" ||
+              data.type === "upload_file_multiple" ||
+              data.type === "select_multiple" ||
+              data.type === "checkbox")
+          ) {
+            data.value = [];
+          } else if (data.value === undefined && data.type === "slider") {
+            data.value = 0;
+          } else if (data.value === undefined && data.type === "switch") {
+            data.value = false;
+          } else if (data.value === undefined && data.type === "tags") {
+            data.value = "";
+          } else if (data.value === undefined) {
+            data.value = "";
+          }
+          try {
+            data.details = JSON.parse(data.details);
+            if (data.type === "hidden") {
+              data.value = data.details.value ? data.details.value : "";
+            }
+          } catch (error) {}
+          return data;
+        });
+        this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+      } catch (error) {
+        if (error.status === 503) {
+          this.isMaintenance = true;
+        }
+        this.$closeLoader();
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
     },
     getRelationDataBySlug() {
       this.$openLoader();
@@ -472,7 +471,7 @@ export default {
         });
     },
     requestObjectStoreData() {
-      readObjectStore(this.pathname).then((store) => {
+      this.$readObjectStore(this.pathname).then((store) => {
         if (store.result) {
           this.dataLength = store.result.data.length;
         }

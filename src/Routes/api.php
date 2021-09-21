@@ -140,11 +140,12 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
         });
 
         Route::group(['prefix' => 'table'], function () {
-            Route::get('/', 'BadasoTableController@browse');
-            Route::get('/read', 'BadasoTableController@read');
-            Route::get('/data', 'BadasoTableController@getDataByTable');
-            Route::get('/generate-crud', 'BadasoTableController@generateCRUD');
-            Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug');
+            Route::get('/data-type', 'BadasoTableController@getDataType')->middleware(BadasoAuthenticate::class);
+            Route::get('/', 'BadasoTableController@browse')->middleware(BadasoAuthenticate::class);
+            Route::get('/read', 'BadasoTableController@read')->middleware(BadasoAuthenticate::class);
+            Route::get('/data', 'BadasoTableController@getDataByTable')->middleware(BadasoAuthenticate::class);
+            Route::get('/generate-crud', 'BadasoTableController@generateCRUD')->middleware(BadasoAuthenticate::class);
+            Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug')->middleware(BadasoAuthenticate::class);
         });
 
         Route::group(['prefix' => 'maintenance'], function () {

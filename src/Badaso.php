@@ -275,13 +275,7 @@ class Badaso
 
     public static function getProtectedTables()
     {
-        return array_map(function ($table) {
-            if (in_array($table, ['activity_log', 'failed_jobs', 'migrations'])) {
-                return $table;
-            }
-
-            return config('badaso.database.prefix').$table;
-        }, config('badaso-hidden-tables', []));
+        return config('badaso-hidden-tables', []);
     }
 
     public function getBadasoCloudApi()
