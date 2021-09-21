@@ -238,7 +238,7 @@ export default {
         this.$closeLoader();
 
         this.dataType = dataType;
-        this.record = response.data.entities;
+        this.record = response.data;
 
         let dataRows = this.dataType.dataRows.map((data) => {
           try {
