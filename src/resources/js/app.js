@@ -20,6 +20,7 @@ import "firebase/firebase-messaging";
 import { notificationMessageReceiveHandle } from "./utils/firebase";
 import { broadcastMessageHandle } from "./utils/broadcast-messages";
 import { checkConnection } from "./utils/check-connection";
+import { readObjectStore, setObjectStore } from "./utils/indexed-db";
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -231,6 +232,8 @@ const i18n = new VueI18n({
   messages: lang.i18n,
 });
 
+Vue.prototype.$readObjectStore = readObjectStore;
+Vue.prototype.$setObjectStore = setObjectStore;
 Vue.prototype.$api = api;
 Vue.prototype.$handleError = handleError;
 Vue.prototype.$resource = resource;

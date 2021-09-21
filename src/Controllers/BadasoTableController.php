@@ -195,4 +195,22 @@ class BadasoTableController extends Controller
             return APIResponse::failed($e);
         }
     }
+
+    public function getDataType(Request $request)
+    {
+        try {
+            $data_type = new DataType();
+
+            if ($request->slug) {
+                $data_type = $data_type->where('slug', $request->slug)->first();
+                $data_type->data_rows = json_decode(json_encode($data_type->dataRows));
+            }
+
+            return ApiResponse::success([
+                'data_type' => $data_type,
+            ]);
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
+    }
 }

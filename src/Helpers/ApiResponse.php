@@ -92,6 +92,17 @@ class ApiResponse
         return self::send($response);
     }
 
+    public static function onlyEntity($data = null, $permissions = null)
+    {
+        $response = [];
+        $response['message'] = __('badaso::api_response.200');
+        $response['data'] = $data;
+        $response['errors'] = null;
+        $response = json_decode(json_encode($response));
+
+        return self::send($response);
+    }
+
     public static function unauthorized($message = null)
     {
         $response['message'] = $message ? $message : __('badaso::api_response.401');
