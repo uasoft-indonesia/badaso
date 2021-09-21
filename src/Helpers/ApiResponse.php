@@ -92,7 +92,8 @@ class ApiResponse
         return self::send($response);
     }
 
-    public static function onlyEntity($data= null, $permissions = null){
+    public static function onlyEntity($data = null, $permissions = null)
+    {
         $response = [];
         $response['message'] = __('badaso::api_response.200');
         $response['data']['entities'] = $data;
