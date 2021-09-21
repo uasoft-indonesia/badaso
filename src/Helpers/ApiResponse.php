@@ -27,7 +27,7 @@ class ApiResponse
         $response = [];
         $response['message'] = __('badaso::api_response.200');
         $response['errors'] = null;
-        if (! is_null($value)) {
+        if (!is_null($value)) {
             if (is_array($value)) {
                 $response['data'] = $value;
             } elseif (is_object($value)) {
@@ -85,6 +85,17 @@ class ApiResponse
         $response = [];
         $response['message'] = __('badaso::api_response.200');
         $response['data']['data_type'] = $data_type;
+        $response['data']['entities'] = $data;
+        $response['errors'] = null;
+        $response = json_decode(json_encode($response));
+
+        return self::send($response);
+    }
+
+    public static function onlyEntity($data = null, $permissions = null)
+    {
+        $response = [];
+        $response['message'] = __('badaso::api_response.200');
         $response['data']['entities'] = $data;
         $response['errors'] = null;
         $response = json_decode(json_encode($response));
