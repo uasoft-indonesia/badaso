@@ -693,7 +693,6 @@ import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { readObjectStore, setObjectStore } from "../../utils/indexed-db";
 export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowse",
@@ -786,65 +785,65 @@ export default {
         cancel: () => {},
       });
     },
-    getEntity() {
+    async getEntity() {
       this.$openLoader();
-      this.$api.badasoEntity
-        .browse({
+      try {
+        let response = await this.$api.badasoEntity.browse({
           slug: this.$route.params.slug,
           limit: this.limit,
           page: this.page,
           filterValue: this.filter,
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
-        })
-        .then((response) => {
-          this.$closeLoader();
-          this.data = response.data.entities;
-          this.records = response.data.entities.data;
-          this.totalItem =
-            response.data.entities.total > 0
-              ? Math.ceil(response.data.entities.total / this.limit)
-              : 1;
-          this.dataType = response.data.dataType;
-          this.isMaintenance = this.dataType.isMaintenance === 1 ? true : false;
-          let dataRows = this.dataType.dataRows.map((data) => {
-            try {
-              data.details = JSON.parse(data.details);
-            } catch (error) {}
-            return data;
-          });
-          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-
-          let addFields = _.filter(dataRows, ["add", 1]);
-          let editFields = _.filter(dataRows, ["edit", 1]);
-          let readFields = _.filter(dataRows, ["read", 1]);
-
-          this.isCanAdd = addFields.length > 0;
-          this.isCanEdit = editFields.length > 0;
-          this.isCanRead = readFields.length > 0;
-
-          if (this.dataType.orderColumn && this.dataType.orderDisplayColumn) {
-            this.isCanSort = true;
-          }
-
-          this.prepareExcelExporter();
-        })
-        .catch((error) => {
-          if (error.status === 503) {
-            this.showMaintenancePage = true;
-          }
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
+          showSoftDelete: this.isShowDataRecycle,
         });
+        let {
+          data: { dataType },
+        } = await this.$api.badasoTable.getDataType({
+          slug: this.$route.params.slug,
+        });
+        this.$closeLoader();
+        this.data = response.data;
+        this.records = response.data.data;
+        this.totalItem =
+          response.data.total > 0
+            ? Math.ceil(response.data.total / this.limit)
+            : 1;
+        this.dataType = dataType;
+        this.isMaintenance = this.dataType.isMaintenance === 1 ? true : false;
+        let dataRows = this.dataType.dataRows.map((data) => {
+          try {
+            data.details = JSON.parse(data.details);
+          } catch (error) {}
+          return data;
+        });
+        this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+        let addFields = _.filter(dataRows, ["add", 1]);
+        let editFields = _.filter(dataRows, ["edit", 1]);
+        let readFields = _.filter(dataRows, ["read", 1]);
+        this.isCanAdd = addFields.length > 0;
+        this.isCanEdit = editFields.length > 0;
+        this.isCanRead = readFields.length > 0;
+        if (this.dataType.orderColumn && this.dataType.orderDisplayColumn) {
+          this.isCanSort = true;
+        }
+        this.prepareExcelExporter();
+      } catch (error) {
+        if (error.status === 503) {
+          this.showMaintenancePage = true;
+        }
+        this.$closeLoader();
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
     },
     deleteRecordDataPending(id) {
       try {
         let keyStore = window.location.pathname;
-        readObjectStore(keyStore).then((store) => {
+        this.$readObjectStore(keyStore).then((store) => {
           if (store.result) {
             let data = store.result.data;
             let newData = [];
@@ -872,7 +871,7 @@ export default {
               }
             }
 
-            setObjectStore(keyStore, { data: newData });
+            this.$setObjectStore(keyStore, { data: newData });
 
             this.idsOfflineDeleteRecord = this.idsOfflineDeleteRecord.filter(
               (itemId, index) => itemId != id
@@ -1079,7 +1078,7 @@ export default {
     loadIdsOfflineDelete() {
       try {
         let keyStore = window.location.pathname;
-        let dataObject = readObjectStore(keyStore).then((store) => {
+        let dataObject = this.$readObjectStore(keyStore).then((store) => {
           let dataResult = store.result;
           if (dataResult) {
             dataResult = dataResult.data;
