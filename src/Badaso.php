@@ -275,13 +275,7 @@ class Badaso
 
     public static function getProtectedTables()
     {
-        return array_map(function ($table) {
-            if (in_array($table, ['activity_log', 'failed_jobs', 'migrations'])) {
-                return $table;
-            }
-
-            return config('badaso.database.prefix').$table;
-        }, config('badaso-hidden-tables', []));
+        return config('badaso-hidden-tables', []);
     }
 
     public function getBadasoCloudApi()
@@ -291,7 +285,7 @@ class Badaso
 
     public function getBadasoVerifyApi()
     {
-        return $this->badaso_cloud_api.'/api/verify-license';
+        return $this->badaso_cloud_api . '/api/verify-license';
     }
 
     public function getDefaultJwtTokenLifetime()
