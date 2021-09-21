@@ -285,7 +285,7 @@ class Badaso
 
     public function getBadasoVerifyApi()
     {
-        return $this->badaso_cloud_api . '/api/verify-license';
+        return $this->badaso_cloud_api.'/api/verify-license';
     }
 
     public function getDefaultJwtTokenLifetime()
