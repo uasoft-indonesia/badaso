@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Controllers;
 
 use App\Http\Controllers\Controller;
+use Doctrine\DBAL\Types\DateType;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -191,6 +192,24 @@ class BadasoTableController extends Controller
             }
 
             return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
+    }
+
+    public function getDataType(Request $request){
+        try {
+
+            $data_type = new DataType() ;
+
+            if($request->slug){
+                $data_type = $data_type->where('slug', $request->slug)->first();
+                $data_type->data_rows = json_decode(json_encode($data_type->dataRows));;
+            }
+
+            return ApiResponse::success([
+                'data_type' => $data_type
+            ]);
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }

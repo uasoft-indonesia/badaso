@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="!showMaintenancePage">
-      <badaso-breadcrumb-hover full :visibleButtonAction="selected.length  != 0">
+      <badaso-breadcrumb-hover full :visibleButtonAction="selected.length != 0">
         <template slot="action">
           <badaso-dropdown-item
             icon="list"
@@ -26,10 +26,7 @@
           </badaso-dropdown-item>
           <badaso-dropdown-item
             icon="restore"
-            v-if="
-              selected.length > 0 &&
-                isShowDataRecycle
-            "
+            v-if="selected.length > 0 && isShowDataRecycle"
             @click.stop
             @click="confirmRestoreMultiple"
           >
@@ -116,9 +113,11 @@
                       <img
                         v-if="dataRow.type === 'upload_image'"
                         :src="
-                          `${record[
+                          `${
+                            record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]}`
+                            ]
+                          }`
                         "
                         width="100%"
                         alt=""
@@ -394,8 +393,8 @@
                           v-if="dataRow.type === 'upload_image'"
                           :src="
                             record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           "
                           width="100%"
                           alt=""
@@ -681,7 +680,6 @@ import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { readObjectStore, setObjectStore } from "../../utils/indexed-db";
 export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowseBin",
@@ -802,10 +800,11 @@ export default {
         cancel: () => {},
       });
     },
-    getEntity() {
+    async getEntity() {
       this.$openLoader();
-      this.$api.badasoEntity
-        .browse({
+
+      try {
+        let response = await this.$api.badasoEntity.browse({
           slug: this.$route.params.slug,
           limit: this.limit,
           page: this.page,
@@ -813,55 +812,61 @@ export default {
           orderField: this.$caseConvert.snake(this.orderField),
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
-        })
-        .then((response) => {
-          this.$closeLoader();
-          this.data = response.data.entities;
-          this.records = response.data.entities.data;
-          this.totalItem =
-            response.data.entities.total > 0
-              ? Math.ceil(response.data.entities.total / this.limit)
-              : 1;
-          this.dataType = response.data.dataType;
-          this.isMaintenance = this.dataType.isMaintenance === 1 ? true : false;
-          let dataRows = this.dataType.dataRows.map((data) => {
-            try {
-              data.details = JSON.parse(data.details);
-            } catch (error) {}
-            return data;
-          });
-          this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-
-          let addFields = _.filter(dataRows, ["add", 1]);
-          let editFields = _.filter(dataRows, ["edit", 1]);
-          let readFields = _.filter(dataRows, ["read", 1]);
-
-          this.isCanAdd = addFields.length > 0;
-          this.isCanEdit = editFields.length > 0;
-          this.isCanRead = readFields.length > 0;
-
-          if (this.dataType.orderColumn && this.dataType.orderDisplayColumn) {
-            this.isCanSort = true;
-          }
-
-          this.prepareExcelExporter();
-        })
-        .catch((error) => {
-          if (error.status === 503) {
-            this.showMaintenancePage = true;
-          }
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
         });
+
+        let {
+          data: { dataType },
+        } = await this.$api.badasoTable.getDataType({
+          slug: this.$route.params.slug,
+        });
+
+        this.$closeLoader();
+        this.data = response.data.entities;
+        this.records = response.data.entities.data;
+        this.totalItem =
+          response.data.entities.total > 0
+            ? Math.ceil(response.data.entities.total / this.limit)
+            : 1;
+
+        this.dataType = dataType;
+        this.isMaintenance = this.dataType.isMaintenance === 1 ? true : false;
+        let dataRows = this.dataType.dataRows.map((data) => {
+          try {
+            data.details = JSON.parse(data.details);
+          } catch (error) {}
+          return data;
+        });
+        this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+
+        let addFields = _.filter(dataRows, ["add", 1]);
+        let editFields = _.filter(dataRows, ["edit", 1]);
+        let readFields = _.filter(dataRows, ["read", 1]);
+
+        this.isCanAdd = addFields.length > 0;
+        this.isCanEdit = editFields.length > 0;
+        this.isCanRead = readFields.length > 0;
+
+        if (this.dataType.orderColumn && this.dataType.orderDisplayColumn) {
+          this.isCanSort = true;
+        }
+
+        this.prepareExcelExporter();
+      } catch (error) {
+        if (error.status === 503) {
+          this.showMaintenancePage = true;
+        }
+        this.$closeLoader();
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
     },
     deleteRecordDataPending(id) {
       try {
         let keyStore = window.location.pathname;
-        readObjectStore(keyStore).then((store) => {
+        this.$readObjectStore(keyStore).then((store) => {
           if (store.result) {
             let data = store.result.data;
             let newData = [];
@@ -889,7 +894,7 @@ export default {
               }
             }
 
-            setObjectStore(keyStore, { data: newData });
+            this.$setObjectStore(keyStore, { data: newData });
 
             this.idsOfflineDeleteRecord = this.idsOfflineDeleteRecord.filter(
               (itemId, index) => itemId != id
@@ -939,7 +944,7 @@ export default {
               value: this.willDeleteId,
             },
           ],
-          isHardDelete : true,
+          isHardDelete: true,
         })
         .then((response) => {
           this.$closeLoader();
@@ -969,7 +974,7 @@ export default {
               value: ids.join(","),
             },
           ],
-          isHardDelete : true,
+          isHardDelete: true,
         })
         .then((response) => {
           this.$closeLoader();
@@ -1156,7 +1161,7 @@ export default {
     loadIdsOfflineDelete() {
       try {
         let keyStore = window.location.pathname;
-        let dataObject = readObjectStore(keyStore).then((store) => {
+        let dataObject = this.$readObjectStore(keyStore).then((store) => {
           let dataResult = store.result;
           if (dataResult) {
             dataResult = dataResult.data;

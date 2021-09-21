@@ -6,6 +6,14 @@ let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
 
 export default {
+
+  getDataType(data){
+    let ep = apiPrefix + "/v1/table/data-type";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
+
   read(data) {
     let ep = apiPrefix + "/v1/table/read";
     let qs = QueryString(data);
