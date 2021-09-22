@@ -3,12 +3,10 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Models\PersonalAccessToken;
 
 class BadasoAuthenticateIframe extends BadasoAuthenticate
 {
-
     /**
      * Handle an incoming request.
      *
@@ -21,7 +19,6 @@ class BadasoAuthenticateIframe extends BadasoAuthenticate
      */
     public function handle($request, Closure $next, ...$types)
     {
-
         $token = $request->header('authorization');
         if ($token != null) {
             [$bearer, $token_bearer] = explode(' ', $token);
@@ -36,10 +33,9 @@ class BadasoAuthenticateIframe extends BadasoAuthenticate
 
         $personal_access_token = PersonalAccessToken::findToken($token);
 
-        if (!isset($personal_access_token)) {
+        if (! isset($personal_access_token)) {
             return abort(401);
         }
-
 
         foreach ($types as $key => $type) {
             switch ($type) {

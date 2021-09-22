@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Auth\Middleware\Authenticate;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\TokenManagement;
-use Uasoft\Badaso\Models\PersonalAccessToken;
 
 class BadasoAuthenticate extends Authenticate
 {
@@ -31,13 +30,10 @@ class BadasoAuthenticate extends Authenticate
 
     protected function isAuthorize($request)
     {
-
-        $guard  = config('badaso.authenticate.guard');
-
+        $guard = config('badaso.authenticate.guard');
 
         if ($this->auth->guard($guard)->check()) {
             $this->auth->shouldUse($guard);
-
 
             if (TokenManagement::fromAuth()->hasTimeoutConnection()) {
                 return false;

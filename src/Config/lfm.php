@@ -8,9 +8,6 @@
 | offline => vendor/unisharp/laravel-filemanager/docs/config.md
  */
 
-use Uasoft\Badaso\Middleware\BadasoAuthenticate;
-use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
-
 return [
     /*
     |--------------------------------------------------------------------------
