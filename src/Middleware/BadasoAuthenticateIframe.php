@@ -3,28 +3,58 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Models\PersonalAccessToken;
 
-class BadasoAuthenticateIframe
+class BadasoAuthenticateIframe extends BadasoAuthenticate
 {
+
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * @param  string[]  ...$guards
      * @return mixed
+     *
+     * @throws \Illuminate\Auth\AuthenticationException
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, ...$types)
     {
 
-        if (isset($request->token)) {
-            $token = $request->token;
-            $personal_access_token = PersonalAccessToken::findToken($token);
+        $token = $request->header('authorization');
+        if ($token != null) {
+            [$bearer, $token_bearer] = explode(' ', $token);
+            $token = trim($token_bearer);
+        } else {
+            if (isset($request->token)) {
+                $token = urldecode($request->token);
+            } else {
+                return abort(401);
+            }
+        }
 
-            if (!isset($personal_access_token)) {
-                return redirect(config('badaso.admin_panel_route_prefix'));
+        $personal_access_token = PersonalAccessToken::findToken($token);
+
+        if (!isset($personal_access_token)) {
+            return abort(401);
+        }
+
+
+        foreach ($types as $key => $type) {
+            switch ($type) {
+                case 'lfm':
+                    break;
+
+                case 'log-viewer':
+                    break;
+
+                case 'l5-swagger':
+                    break;
+
+                default:
+
+                    break;
             }
         }
 
