@@ -48,7 +48,6 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
-
-    'expired_remember' => 60 * 24 * 30 ,
-    'expired_no_remember' => 60 * 24
+    'expired_remember' => 60 * 24 * 30,
+    'expired_no_remember' => 60 * 24,
 ];

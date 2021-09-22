@@ -10,7 +10,6 @@ use Uasoft\Badaso\Models\PersonalAccessToken;
 
 class BadasoAuthenticate extends Authenticate
 {
-
     /**
      * Handle an incoming request.
      *
@@ -23,8 +22,7 @@ class BadasoAuthenticate extends Authenticate
      */
     public function handle($request, Closure $next, ...$guards)
     {
-
-        if($this->isAuthorize($request)){
+        if ($this->isAuthorize($request)) {
             return $next($request);
         }
 
@@ -48,7 +46,7 @@ class BadasoAuthenticate extends Authenticate
             return true;
         }
 
-        if (!$request->expectsJson()) {
+        if (! $request->expectsJson()) {
             return false;
         }
 

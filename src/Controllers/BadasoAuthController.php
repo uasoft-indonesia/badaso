@@ -2,28 +2,28 @@
 
 namespace Uasoft\Badaso\Controllers;
 
-use Exception;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Uasoft\Badaso\Models\Role;
-use Uasoft\Badaso\Models\User;
-use Uasoft\Badaso\Helpers\Config;
-use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Models\UserRole;
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Uasoft\Badaso\Models\EmailReset;
-use Uasoft\Badaso\Traits\FileHandler;
-use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Mail\ForgotPassword;
-use Uasoft\Badaso\Models\PasswordReset;
-use Uasoft\Badaso\Models\UserVerification;
-use Uasoft\Badaso\Helpers\AuthenticatedUser;
-use Uasoft\Badaso\Mail\SendUserVerification;
+use Illuminate\Support\Str;
 use Uasoft\Badaso\Exceptions\SingleException;
+use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\AuthenticatedUser;
+use Uasoft\Badaso\Helpers\Config;
 use Uasoft\Badaso\Helpers\TokenManagement;
+use Uasoft\Badaso\Mail\ForgotPassword;
+use Uasoft\Badaso\Mail\SendUserVerification;
+use Uasoft\Badaso\Models\EmailReset;
+use Uasoft\Badaso\Models\PasswordReset;
+use Uasoft\Badaso\Models\Role;
+use Uasoft\Badaso\Models\User;
+use Uasoft\Badaso\Models\UserRole;
+use Uasoft\Badaso\Models\UserVerification;
+use Uasoft\Badaso\Traits\FileHandler;
 
 class BadasoAuthController extends Controller
 {
@@ -46,7 +46,7 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (!$token = Auth::attempt($credentials)) {
+                        if (! $token = Auth::attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
@@ -63,7 +63,6 @@ class BadasoAuthController extends Controller
             }
 
             return TokenManagement::fromUser($user)->createToken($remember)->response();
-
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -104,8 +103,7 @@ class BadasoAuthController extends Controller
             $user_role->save();
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
-            if (!$should_verify_email) {
-
+            if (! $should_verify_email) {
                 Auth::guard(config('badaso.authenticate.guard'))->login($user);
 
                 $token = $user->createToken(Str::random(10))->plainTextToken;
@@ -153,8 +151,7 @@ class BadasoAuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-
-            if (!$user = AuthenticatedUser::getUser()) {
+            if (! $user = AuthenticatedUser::getUser()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -208,7 +205,7 @@ class BadasoAuthController extends Controller
     public function changePassword(Request $request)
     {
         try {
-            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -216,7 +213,7 @@ class BadasoAuthController extends Controller
                 'old_password' => [
                     'required',
                     function ($attribute, $value, $fail) use ($user) {
-                        if (!Hash::check($value, $user->password)) {
+                        if (! Hash::check($value, $user->password)) {
                             $fail(__('badaso::validation.auth.wrong_old_password'));
                         }
                     },
@@ -350,7 +347,7 @@ class BadasoAuthController extends Controller
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
 
-            if (!$user_verification) {
+            if (! $user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
 
@@ -395,7 +392,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -426,7 +423,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -482,7 +479,7 @@ class BadasoAuthController extends Controller
     public function verifyEmail(Request $request)
     {
         try {
-            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -514,7 +511,6 @@ class BadasoAuthController extends Controller
             Auth::login($user);
 
             return TokenManagement::fromAuth()->createToken()->response();
-
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

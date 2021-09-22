@@ -179,8 +179,8 @@ return [
 
     'middleware' => [
         'web',
-        \Uasoft\Badaso\Middleware\BadasoAuthenticateIframe::class.":lfm",
+        \Uasoft\Badaso\Middleware\BadasoAuthenticateIframe::class.':lfm',
     ],
 
-    'prefix_route' => '/filemanager'
+    'prefix_route' => '/filemanager',
 ];
