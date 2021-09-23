@@ -55,7 +55,7 @@ return [
              * Middleware allows to prevent unexpected access to API documentation
             */
             'middleware' => [
-                'api' => ['web', 'auth'],
+                'api' => ['web', \Uasoft\Badaso\Middleware\BadasoAuthenticateIframe::class.':l5-swagger'],
                 'asset' => [],
                 'docs' => [],
                 'oauth2_callback' => [],

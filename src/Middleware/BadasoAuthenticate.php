@@ -3,24 +3,49 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\TokenManagement;
 
-class BadasoAuthenticate
+class BadasoAuthenticate extends Authenticate
 {
-    public function handle($request, Closure $next)
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string[]  ...$guards
+     * @return mixed
+     *
+     * @throws \Illuminate\Auth\AuthenticationException
+     */
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (Auth::check()) {
-            // $token_payload = Auth::payload();
-            // $expires = $token_payload['exp'];
-            // $now = time();
-            // if ($expires <= $now) {
-            //     return ApiResponse::unauthorized('expired authorization');
-            // }
-
+        if ($this->isAuthorize($request)) {
             return $next($request);
         }
 
         return ApiResponse::unauthorized();
+    }
+
+    protected function isAuthorize($request)
+    {
+        $guard = config('badaso.authenticate.guard');
+
+        if ($this->auth->guard($guard)->check()) {
+            $this->auth->shouldUse($guard);
+
+            if (TokenManagement::fromAuth()->hasTimeoutConnection()) {
+                return false;
+            }
+
+            return true;
+        }
+
+        if (! $request->expectsJson()) {
+            return false;
+        }
+
+        return false;
     }
 }

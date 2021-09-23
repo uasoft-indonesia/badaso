@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'middleware' => [
+        'authenticate' => \Uasoft\Badaso\Middleware\BadasoAuthenticate::class,
+        'check_permission' => \Uasoft\Badaso\Middleware\BadasoCheckPermissions::class,
+        'check_crud_permission' => \Uasoft\Badaso\Middleware\BadasoCheckPermissionsForCRUD::class,
+    ],
+
+    'authenticate' => [
+        'guard' => 'sanctum',
+    ],
+
     'db_name' => env('DB_DATABASE'),
     'admin_panel_route_prefix' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-dashboard'),
     'default_menu' => env('MIX_DEFAULT_MENU', 'admin'),

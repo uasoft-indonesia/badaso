@@ -14,6 +14,7 @@
               :label="$t('menu.edit.field.key.title')"
               :placeholder="$t('menu.edit.field.key.placeholder')"
               :alert="errors.key"
+              :tooltip="$t('menu.help.key')"
             ></badaso-text>
             <badaso-text
               v-model="menu.displayName"

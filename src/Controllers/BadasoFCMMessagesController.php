@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\FCMMessage;
 
@@ -10,7 +11,8 @@ class BadasoFCMMessagesController extends Controller
     public function getMessages()
     {
         try {
-            $user = auth()->user();
+            $user = Auth::guard(config('badaso.guard'))->user();
+
             $fcm_messages = FCMMessage::where('receiver_user_id', $user->id)->orderBy('created_at', 'desc')->get();
             foreach ($fcm_messages as $key => $value) {
                 $value->sender_users;
@@ -45,7 +47,7 @@ class BadasoFCMMessagesController extends Controller
     public function getCountUnreadMessage()
     {
         try {
-            $user = auth()->user();
+            $user = Auth::guard(config('badaso.authenticate.guard'))->user();
             $user_id = $user->id;
             $fcm_messages = FCMMessage::where('receiver_user_id', $user_id)->where('is_read', true)->count();
 

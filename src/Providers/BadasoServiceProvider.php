@@ -7,6 +7,7 @@ use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use L5Swagger\L5SwaggerServiceProvider;
 use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
+use Laravel\Sanctum\Sanctum;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
 use Uasoft\Badaso\Commands\BackupCommand;
@@ -16,6 +17,7 @@ use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
 use Uasoft\Badaso\Middleware\CheckForMaintenanceMode;
 use Uasoft\Badaso\Middleware\GenerateForSwagger;
+use Uasoft\Badaso\Models\PersonalAccessToken;
 
 class BadasoServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,8 @@ class BadasoServiceProvider extends ServiceProvider
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('web', CheckForMaintenanceMode::class);
         $router->pushMiddlewareToGroup('web', GenerateForSwagger::class);
+
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
 
         $this->app->singleton('badaso', function () {
             return new Badaso();
@@ -61,6 +65,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/badaso-hidden-tables.php' => config_path('badaso-hidden-tables.php'),
             __DIR__.'/../Config/badaso-watch-tables.php' => config_path('badaso-watch-tables.php'),
             __DIR__.'/../Config/analytics.php' => config_path('analytics.php'),
+            __DIR__.'/../Config/sanctum.php' => config_path('sanctum.php'),
         ], 'Badaso');
 
         $this->publishes([

@@ -22,7 +22,7 @@ class BadasoBaseController extends Controller
 
             $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
 
-            return ApiResponse::entity($data_type, $data);
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -45,7 +45,7 @@ class BadasoBaseController extends Controller
                 $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
             }
 
-            return ApiResponse::entity($data_type, $records);
+            return ApiResponse::onlyEntity($records);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -70,7 +70,7 @@ class BadasoBaseController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
 
-            return ApiResponse::entity($data_type, $data);
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -109,7 +109,7 @@ class BadasoBaseController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);
 
-            return ApiResponse::entity($data_type, $updated['updated_data']);
+            return ApiResponse::onlyEntity($updated['updated_data']);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -147,7 +147,7 @@ class BadasoBaseController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_CREATE, $table_name);
 
-            return ApiResponse::entity($data_type, $stored_data);
+            return ApiResponse::onlyEntity($stored_data);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -188,7 +188,7 @@ class BadasoBaseController extends Controller
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_DELETE, $table_name);
 
-            return ApiResponse::entity($data_type);
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -223,7 +223,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            return ApiResponse::entity($data_type);
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -265,7 +265,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            return ApiResponse::entity($data_type);
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -305,7 +305,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            return ApiResponse::entity($data_type);
+            return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             DB::rollBack();
 
@@ -355,7 +355,7 @@ class BadasoBaseController extends Controller
 
             DB::commit();
 
-            return ApiResponse::entity($data_type);
+            return ApiResponse::onlyEntity();
         } catch (Exception $e) {
             DB::rollBack();
 

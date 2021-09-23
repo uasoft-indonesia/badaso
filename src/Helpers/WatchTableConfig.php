@@ -47,8 +47,8 @@ class WatchTableConfig
     private function formatFileConfig($exported_config): string
     {
         return <<<PHP
-        <?php 
-        
+        <?php
+
         return {$exported_config};
         PHP;
     }
