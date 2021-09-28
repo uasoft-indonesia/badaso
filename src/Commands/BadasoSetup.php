@@ -256,7 +256,6 @@ class BadasoSetup extends Command
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
             'MIX_API_ROUTE_PREFIX' => 'badaso-api',
             'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
-            'MIX_API_ROUTE_PREFIX' => 'admin',
             'MIX_FIREBASE_API_KEY' => '',
             'MIX_FIREBASE_AUTH_DOMAIN' => '',
             'MIX_FIREBASE_PROJECT_ID' => '',
