@@ -1,15 +1,21 @@
-Copyright (c) 2021-present Uasoft
+MIT License
 
-By using the Badaso Software, You hereby agree to the below terms and conditions.
+Copyright (c) 2021 Uasoft
 
-1. Notwithstanding any terms to the contrary in the Enterprise Agreement or Subscription Agreement, You may copy, modify and publish patches to the Badaso Software in a production environment (such copies, “Production Copies,” such modifications, “Production Modifications” and such patches, “Production Patches”) if and only if (a) You have agreed to, and are in full compliance with, the Enterprise Agreement or Subscription Agreement, as applicable, and (b) You have a valid license to the Badaso Software for the correct number of projects. You agree that Badaso and/or its licensors (as applicable) will own all right, title and interest in and to all such Production Copies, Production Modifications and Production Patches. You may display and/or distribute such Production Copies, Production Modifications and Production Patches if and only if (i) You have a valid license to the Badaso Software for the correct number of projects and (ii) You are in compliance with the Enterprise Agreement or Subscription Agreement, as applicable. You hereby assign to Badaso all right, title and interest in and to all Production Copies, Production Modifications and Production Patches, including all intellectual property rights embodied in or related to the foregoing.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-2. Notwithstanding the foregoing, You may copy and modify the Badaso Software solely for development and testing purposes (such copies, “Development Copies” and such modifications, “Development Modifications”) with or without a license to the Badaso Software if your use is in compliance with this Section 2. You agree that Badaso and/or its licensors (as applicable) will own all right, title and interest in and to all Development Copies and Development Modifications and You hereby assign to Badaso all right, title and interest in and to all Development Copies and Development Modifications, including all intellectual property rights embodied in or related to the foregoing. If You do not have a license to the Badaso Software, then You further agree as follows:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-Other than as expressly set forth in this Section 2, You may not (a) copy or modify the Badaso Software, (b) create derivative works of the Badaso Software, (c) remove or modify any notice of any patent, copyright, trademark, or other proprietary rights that appear on or in the Badaso Software, (d) reverse engineer, decompile, translate, disassemble, or discover the source code of all or any portion of the Badaso Software, (e) publicly display all or any part of the Badaso Software, (f) distribute, disclose, market, lease, publish, merge, resell, assign, loan, sublicense, rent, or transfer the Badaso Software to any third party, (g) use the Badaso Software for any dial-up, remote access, interactive, or other on-line or hosted service, or to provide a service bureau, time share, or other services to third parties, (h) merge the Badaso Software into another product, (i) disclose the results of any Badaso Software performance benchmarks or test results to any third party without Badaso’s prior written consent, (j) use any trademarks, logos, service marks, trade names of Badaso, or any portion thereof, without Badaso’s prior written consent, (k) use the Badaso Software, or any portion thereof, in a manner that does not comply with applicable law, regulations, or governmental orders, or (l) use or store the Badaso Software on equipment not owned or controlled by Customer. 
-
-THE BADASO SOFTWARE IS PROVIDED ON AN “AS IS” BASIS WITHOUT ANY REPRESENTATIONS, WARRANTIES, COVENANTS, OR CONDITIONS OF ANY KIND (EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE), INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, TITLE, FITNESS FOR A PARTICULAR PURPOSE, OR NONINFRINGEMENT.  FURTHER, BADASO DOES NOT REPRESENT OR WARRANT THAT (A) THE ACCESS TO OR USE OF THE BADASO SOFTWARE WILL BE SECURE, TIMELY, UNINTERRUPTED, ERROR-FREE, OR OPERATE IN COMBINATION WITH ANY OTHER HARDWARE, SOFTWARE, SYSTEM, OR DATA, (B) THE BADASO SOFTWARE WILL MEET YOUR REQUIREMENTS OR EXPECTATIONS, OR OTHERWISE PRODUCE ANY PARTICULAR RESULTS, (C) ERRORS OR DEFECTS WILL BE CORRECTED, PATCHES OR WORKAROUNDS WILL BE PROVIDED, OR BADASO WILL DETECT ANY BUG IN THE BADASO SOFTWARE, (D) THE SOFTWARE IS FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS, OR (E) THIRD-PARTY DISRUPTIONS OR SECURITY BREACHES OF THE BADASO SOFTWARE WILL BE PREVENTED.
-
-BADASO WILL NOT BE LIABLE FOR ANY LOSS OF PROFITS OR ANY INDIRECT, SPECIAL, INCIDENTAL, RELIANCE, OR CONSEQUENTIAL DAMAGES OF ANY KIND, REGARDLESS OF THE FORM OF ACTION, WHETHER IN CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY, OR OTHERWISE, EVEN IF INFORMED OF THE POSSIBILITY OF SUCH DAMAGES IN ADVANCE. 
-
-3. You are not granted any other rights beyond what is expressly stated herein and in the Enterprise Agreement or Subscription Agreement, as applicable.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
