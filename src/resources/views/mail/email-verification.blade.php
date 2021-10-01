@@ -161,7 +161,7 @@
       <td class="container"
         style="font-family: sans-serif; font-size: 14px; vertical-align: top; display: block; Margin: 0 auto; max-width: 580px; padding: 10px; width: 580px;">
         <div style="text-align: center;"><img
-            src="{{ asset('badaso-images/badaso-logo.png') }}"
+            src="{{ Storage::url('files/shares/logo-144px.png') }}"
             width="25%" alt="Logo Badaso"></div>
         <div class="content"
           style="box-sizing: border-box; display: block; Margin: 0 auto; max-width: 580px; padding: 10px;">

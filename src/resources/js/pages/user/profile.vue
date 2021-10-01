@@ -14,6 +14,13 @@
                   :placeholder="$t('myProfile.name')"
                   :alert="errors.name"
                 ></badaso-text>
+                <badaso-text
+                  v-model="user.username"
+                  size="12"
+                  :label="$t('myProfile.username')"
+                  :placeholder="$t('myProfile.username')"
+                  :alert="errors.username"
+                ></badaso-text>
                 <badaso-upload-image
                   v-model="user.avatar"
                   size="12"
@@ -125,6 +132,7 @@ export default {
     user: {
       email: "",
       name: "",
+      username: "",
       avatar: "",
       additionalInfo: "",
       oldPassword: "",
@@ -173,6 +181,7 @@ export default {
       this.$api.badasoAuthUser
         .updateProfile({
           name: this.user.name,
+          username: this.user.username,
           avatar: this.user.avatar,
           additionalInfo:
             this.user.additionalInfo !== ""
