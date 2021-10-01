@@ -85,6 +85,7 @@ class BadasoAuthController extends Controller
             DB::beginTransaction();
             $request->validate([
                 'name'     => 'required|string|max:255',
+                'username' => 'required|string|max:255|alpha_num',
                 'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
                 'password' => 'required|string|min:6|confirmed',
             ]);
@@ -92,6 +93,7 @@ class BadasoAuthController extends Controller
             $user = User::create([
                 'name'     => $request->get('name'),
                 'email'    => $request->get('email'),
+                'username' => $request->get('username'),
                 'password' => Hash::make($request->get('password')),
             ]);
 
@@ -396,14 +398,18 @@ class BadasoAuthController extends Controller
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
+            $user_id = auth()->user()->id;
+
             $request->validate([
-                'name'   => 'required',
-                'avatar' => 'nullable',
+                'name'      => 'required|string|max:255',
+                'username'  => "required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username,{$user_id}",
+                'avatar'    => 'nullable',
             ]);
 
             $user = User::find($user->id);
 
             $user->name = $request->name;
+            $user->username = $request->username;
             $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             $user->save();
