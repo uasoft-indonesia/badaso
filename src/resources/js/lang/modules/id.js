@@ -39,6 +39,7 @@ export default {
     subtitle: "Silakan isi formulir di bawah ini.",
     field: {
       name: "Nama",
+      username: "Username",
       email: "Email",
       password: "Kata sandi",
       passwordConfirmation: "Konfirmasi kata sandi",
@@ -113,6 +114,7 @@ export default {
 
   myProfile: {
     title: "My Profile",
+    username: "Username",
     logout: "Logout",
     profile: "Profile",
     email: "Email",
@@ -625,6 +627,10 @@ export default {
           title: "Email",
           placeholder: "Email",
         },
+        username: {
+          title: "Username",
+          placeholder: "Username",
+        },
         password: {
           title: "Kata sandi",
           placeholder: "Kata sandi",
@@ -651,6 +657,10 @@ export default {
         name: {
           title: "Nama",
           placeholder: "Nama",
+        },
+        username: {
+          title: "Username",
+          placeholder: "Username",
         },
         email: {
           title: "Email",
@@ -680,6 +690,7 @@ export default {
       title: "Detail Pengguna",
       avatar: "Avatar",
       name: "Nama",
+      username: "Username",
       email: "Email",
       additionalInfo: "Info Tambahan",
       emailVerified: "Email Diverifikasi",

@@ -39,6 +39,7 @@ export default {
     subtitle: "Please fill in the form below.",
     field: {
       name: "Name",
+      username: "Username",
       email: "Email",
       password: "Password",
       passwordConfirmation: "Password Confirmation",
@@ -113,6 +114,7 @@ export default {
 
   myProfile: {
     title: "My Profile",
+    username: "Username",
     logout: "Logout",
     profile: "Profile",
     email: "Email",
@@ -626,6 +628,10 @@ export default {
           title: "Name",
           placeholder: "Name",
         },
+        username: {
+          title: "Username",
+          placeholder: "Username",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -657,6 +663,10 @@ export default {
           title: "Name",
           placeholder: "Name",
         },
+        username: {
+          title: "Username",
+          placeholder: "Username",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -685,6 +695,7 @@ export default {
       title: "Detail User",
       avatar: "Avatar",
       name: "Name",
+      username: "Username",
       email: "Email",
       additionalInfo: "Additional Info",
       emailVerified: "Is Email Verified",

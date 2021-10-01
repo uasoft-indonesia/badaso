@@ -10,10 +10,17 @@
           <vs-row>
             <badaso-text
               v-model="user.name"
-              size="12"
+              size="6"
               :label="$t('user.edit.field.name.title')"
               :placeholder="$t('user.edit.field.name.placeholder')"
               :alert="errors.name"
+            ></badaso-text>
+            <badaso-text
+              v-model="user.username"
+              size="6"
+              :label="$t('user.edit.field.username.title')"
+              :placeholder="$t('user.edit.field.username.placeholder')"
+              :alert="errors.username"
             ></badaso-text>
             <badaso-text
               v-model="user.email"
@@ -82,6 +89,7 @@ export default {
     user: {
       email: "",
       name: "",
+      username: "",
       avatar: "",
       password: "",
       emailVerified: false,
@@ -131,6 +139,7 @@ export default {
           id: this.$route.params.id,
           email: this.user.email,
           name: this.user.name,
+          username: this.user.username,
           avatar: this.user.avatar ? this.user.avatar.base64 : null,
           password: this.user.password,
           emailVerified: this.user.emailVerified,
