@@ -15,7 +15,8 @@ class AddUsernameToUsersTable extends Migration
     {
         Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             if (! Schema::hasColumn(config('badaso.database.prefix').'users', 'username')) {
-                $table->string('username')->unique()->default('')->after('name');
+                $table->string('username')->unique()->nullable()->default('')->after('name');
+                
             }
         });
     }
