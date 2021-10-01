@@ -25,6 +25,24 @@
             </div>
           </div>
           <vs-input
+            icon="person"
+            icon-after
+            size="default"
+            :placeholder="$t('register.field.username')"
+            v-model="username"
+            class="register__input"
+          />
+          <div v-if="errors.username" class="register__error-container">
+            <div v-if="$helper.isArray(errors.username)">
+              <span class="register__input--error" v-for="(info, index) in errors.username" :key="index" >
+                {{ info }}
+              </span>
+            </div>
+            <div v-else>
+              <span class="register__input--error" v-html="errors.username"></span>
+            </div>
+          </div>
+          <vs-input
             icon="email"
             icon-after
             size="default"
@@ -92,6 +110,7 @@ export default {
   data: () => ({
     errors: {},
     name: "",
+    username: "",
     email: "",
     password: "",
     passwordConfirmation: "",
@@ -105,6 +124,7 @@ export default {
       this.$api.badasoAuth
         .register({
           name: this.name,
+          username: this.username,
           email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation,

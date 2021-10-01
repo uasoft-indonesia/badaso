@@ -33,6 +33,7 @@ class AdminCommand extends Command
         return [
             ['create', null, InputOption::VALUE_NONE, 'Create an admin user', null],
             ['name', null, InputOption::VALUE_REQUIRED, 'Name of the user', null],
+            ['username', null, InputOption::VALUE_REQUIRED, 'Username of the user', null],
             ['password', null, InputOption::VALUE_REQUIRED, 'Password of the user', null],
             ['confirm_password', null, InputOption::VALUE_REQUIRED, 'Confirmation password', null],
         ];
@@ -105,6 +106,7 @@ class AdminCommand extends Command
     {
         $email = $this->argument('email');
         $name = $this->option('name');
+        $username = $this->option('username');
         $password = $this->option('password');
         $confirmPassword = $this->option('confirm_password');
 
@@ -112,6 +114,10 @@ class AdminCommand extends Command
         if ($create) {
             if (! $name) {
                 $name = $this->ask('Enter the admin name');
+            }
+
+            if (! $username) {
+                $username = $this->ask('Enter the admin username (lowercase)');
             }
 
             if (! $password) {
@@ -138,6 +144,7 @@ class AdminCommand extends Command
 
             $user = new User();
             $user->name = $name;
+            $user->username = $username;
             $user->email = $email;
             $user->email_verified_at = date('Y-m-d H:i:s');
             $user->password = Hash::make($password);
