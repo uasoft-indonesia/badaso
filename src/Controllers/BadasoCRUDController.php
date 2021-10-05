@@ -26,7 +26,6 @@ use Uasoft\Badaso\Models\Permission;
 
 class BadasoCRUDController extends Controller
 {
-
     public function browse(Request $request)
     {
         try {
@@ -92,7 +91,6 @@ class BadasoCRUDController extends Controller
                     $data_rows[] = $data_row;
                 }
             }
-
 
             $data_type->data_rows = $data_rows;
 

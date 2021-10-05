@@ -203,7 +203,7 @@ class BadasoTableController extends Controller
 
             if ($request->slug) {
                 $data_type = $data_type->where('slug', $request->slug)->first();
-                $data_type->dataRows = $this->dataRowsTypeReplace($data_type->dataRows)->toArray() ;
+                $data_type->dataRows = $this->dataRowsTypeReplace($data_type->dataRows)->toArray();
             }
 
             return ApiResponse::success([
