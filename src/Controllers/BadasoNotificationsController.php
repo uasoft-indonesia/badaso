@@ -3,15 +3,15 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Models\FCMMessage;
+use Uasoft\Badaso\Models\Notification;
 
-class BadasoFCMMessagesController extends Controller
+class BadasoNotificationsController extends Controller
 {
     public function getMessages()
     {
         try {
             $user = auth()->user();
-            $fcm_messages = FCMMessage::where('receiver_user_id', $user->id)->orderBy('created_at', 'desc')->get();
+            $fcm_messages = Notification::where('receiver_user_id', $user->id)->orderBy('created_at', 'desc')->get();
             foreach ($fcm_messages as $key => $value) {
                 $value->sender_users;
             }
@@ -27,7 +27,7 @@ class BadasoFCMMessagesController extends Controller
     public function readMessage($id)
     {
         try {
-            $fcm_messages = FCMMessage::where('id', $id)->first();
+            $fcm_messages = Notification::where('id', $id)->first();
             if (isset($fcm_messages)) {
                 $fcm_messages->update([
                     'is_read' => true,
@@ -47,7 +47,7 @@ class BadasoFCMMessagesController extends Controller
         try {
             $user = auth()->user();
             $user_id = $user->id;
-            $fcm_messages = FCMMessage::where('receiver_user_id', $user_id)->where('is_read', true)->count();
+            $fcm_messages = Notification::where('receiver_user_id', $user_id)->where('is_read', true)->count();
 
             return ApiResponse::success([
                 'count_unread_message' => $fcm_messages,

@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Helpers\Firebase;
 
 use GuzzleHttp\Client;
 use Uasoft\Badaso\Models\DataType;
-use Uasoft\Badaso\Models\FCMMessage;
+use Uasoft\Badaso\Models\Notification;
 use Uasoft\Badaso\Models\User;
 
 class FCMNotification
@@ -109,7 +109,7 @@ class FCMNotification
                             'created_at' => $datetime_now,
                             'updated_at' => $datetime_now,
                         ];
-                        $fmc_messages_model = FCMMessage::create($fmc_messages);
+                        $fmc_messages_model = Notification::create($fmc_messages);
                         $data['fcm_message_id'] = $fmc_messages_model->id;
                         $this->send([$user_get_token_messages], $title, $body, $data);
                     }

@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FCMMessage extends Model
+class Notification extends Model
 {
     protected $table = null;
 
@@ -14,7 +14,7 @@ class FCMMessage extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'f_c_m_messages';
+        $this->table = $prefix.'notifications';
         parent::__construct($attributes);
     }
 
