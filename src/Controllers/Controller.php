@@ -521,7 +521,6 @@ abstract class Controller extends BaseController
 
     protected function dataRowsTypeReplace(Collection $data_rows): Collection
     {
-
         if (env('DB_CONNECTION') == 'sqlite') {
             foreach ($data_rows as $index => $rows) {
                 foreach ($rows->toArray() as $key => $value) {
