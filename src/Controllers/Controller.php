@@ -518,4 +518,26 @@ abstract class Controller extends BaseController
 
         return $records;
     }
+
+    protected function dataRowsTypeReplace(Collection $data_rows): Collection
+    {
+
+        if (env('DB_CONNECTION') == 'sqlite') {
+            foreach ($data_rows as $index => $rows) {
+                foreach ($rows->toArray() as $key => $value) {
+                    if (is_numeric($value)) {
+                        if (is_double($value)) {
+                            $value = doubleval($value);
+                        } else {
+                            $value = intval($value);
+                        }
+                    }
+
+                    $data_rows[$index][$key] = $value;
+                }
+            }
+        }
+
+        return $data_rows;
+    }
 }
