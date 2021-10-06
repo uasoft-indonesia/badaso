@@ -61,6 +61,7 @@ class BadasoServiceProvider extends ServiceProvider
             __DIR__.'/../Config/badaso-hidden-tables.php' => config_path('badaso-hidden-tables.php'),
             __DIR__.'/../Config/badaso-watch-tables.php' => config_path('badaso-watch-tables.php'),
             __DIR__.'/../Config/analytics.php' => config_path('analytics.php'),
+            __DIR__.'/../Config/octane.php' => config_path('octane.php'),
         ], 'Badaso');
 
         $this->publishes([
