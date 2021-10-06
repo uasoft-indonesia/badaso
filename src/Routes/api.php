@@ -229,9 +229,9 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                 Route::put('/save-token-messages', 'BadasoFCMController@saveTokenMessage');
             });
             Route::group(['prefix' => 'messages', 'middleware' => 'auth'], function () {
-                Route::get('/', 'BadasoFCMMessagesController@getMessages');
-                Route::put('/{id}', 'BadasoFCMMessagesController@readMessage');
-                Route::get('/count-unread', 'BadasoFCMMessagesController@getCountUnreadMessage');
+                Route::get('/', 'BadasoNotificationsController@getMessages');
+                Route::put('/{id}', 'BadasoNotificationsController@readMessage');
+                Route::get('/count-unread', 'BadasoNotificationsController@getCountUnreadMessage');
             });
         });
     });
