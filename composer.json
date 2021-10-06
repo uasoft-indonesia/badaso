@@ -40,7 +40,8 @@
     "symfony/var-exporter": "^5.2.0",
     "google/apiclient": "^2.9",
     "laravel/ui": "^3.3",
-    "laravel/sanctum": "^2.11"
+    "laravel/sanctum": "^2.11",
+    "laravel/octane": "^1.0"
   },
   "authors": [
     {
