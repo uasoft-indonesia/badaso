@@ -67,7 +67,7 @@ class BadasoCRUDController extends Controller
             ]);
             $table = $request->input('table', '');
             $data_type = Badaso::model('DataType')::where('name', $table)->first();
-            $data_rows = $data_type->dataRows;
+            $data_rows = $this->dataRowsTypeReplace($data_type->dataRows);
 
             $table_fields = SchemaManager::describeTable($table);
             $generated_fields = collect($data_rows)->pluck('field')->toArray();
@@ -111,7 +111,7 @@ class BadasoCRUDController extends Controller
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
-            $data_rows = $data_type->dataRows;
+            $data_rows = $this->dataRowsTypeReplace($data_type->dataRows);
 
             $crud_data = $data_type;
             $crud_data->data_rows = collect($data_rows)->toArray();
