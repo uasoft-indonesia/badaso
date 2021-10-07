@@ -175,6 +175,7 @@ class BadasoBaseController extends Controller
             $data_type = $this->getDataType($slug);
 
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+
             $this->deleteData($data, $data_type, $is_hard_delete);
 
             activity($data_type->display_name_singular)
