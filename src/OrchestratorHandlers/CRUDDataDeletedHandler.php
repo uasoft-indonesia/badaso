@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\OrchestratorHandlers;
 
-use Exception;
 use Uasoft\Badaso\ContentManager\FileGenerator;
 use Uasoft\Badaso\Events\CRUDDataChanged;
 use Uasoft\Badaso\Models\Permission;

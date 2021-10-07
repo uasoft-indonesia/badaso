@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Helpers\Firebase;
 
-use Exception;
 use GuzzleHttp\Client;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\FCMMessage;
