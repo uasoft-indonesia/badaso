@@ -7,6 +7,8 @@ use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Helpers\MigrationParser;
+use Laravel\Octane\RoadRunner\ServerProcessInspector as RoadRunnerServerProcessInspector;
+use Laravel\Octane\Swoole\ServerProcessInspector as SwooleServerProcessInspector;
 
 class FileSystem
 {
@@ -219,7 +221,7 @@ class FileSystem
         }
 
         if ($run_composer_dump_autoload) {
-            $this->composer->dumpAutoloads();
+            $this->safeDumpAutoloads();
         }
 
         return true;
@@ -231,9 +233,39 @@ class FileSystem
             return false;
         }
 
-        $this->composer->dumpAutoloads();
+        $this->safeDumpAutoloads();
 
         return true;
+    }
+
+    private function safeDumpAutoloads()
+    {
+        try {
+            $inspector = null;
+            $server = config('octane.server');
+            switch ($server) {
+                case 'swoole':
+                    $inspector = app(SwooleServerProcessInspector::class);
+                    break;
+                case 'roadrunner':
+                    $inspector = app(RoadRunnerServerProcessInspector::class);
+                    break;
+            }
+
+            if (isset($inspector)) {
+                if ($inspector->serverIsRunning()) {
+                    if(env('APP_ENV') == 'local'){
+                        $inspector->reloadServer();
+                    }
+                } else {
+                    $this->composer->dumpAutoloads();
+                }
+            } else {
+                $this->composer->dumpAutoloads();
+            }
+        } catch (\Exception $e) {
+            // skip
+        }
     }
 
     /**

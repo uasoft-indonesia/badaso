@@ -27,7 +27,7 @@ class ApiResponse
         $response = [];
         $response['message'] = __('badaso::api_response.200');
         $response['errors'] = null;
-        if (! is_null($value)) {
+        if (!is_null($value)) {
             if (is_array($value)) {
                 $response['data'] = $value;
             } elseif (is_object($value)) {
@@ -47,6 +47,7 @@ class ApiResponse
         }
         $response = [];
         $response['data'] = null;
+        $response['message'] = null;
         $response['errors'] = [];
 
         $http_status = 500;
@@ -68,7 +69,12 @@ class ApiResponse
             $response['message'] = $error->getMessage();
             $response['errors'] = $errors;
         } elseif ($error instanceof Exception) {
-            $response['message'] = $error->getMessage();
+            if (env('APP_DEBUG') == true) {
+                $response['message'] = $error->getMessage();
+                $response['errors'] = json_decode(json_encode($error->getTrace()));
+            } else {
+                $response['message'] = $error->getMessage();
+            }
         } else {
             if (is_object($error) || is_array($error)) {
                 $response['message'] = json_encode($error);
