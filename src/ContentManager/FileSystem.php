@@ -256,7 +256,9 @@ class FileSystem
 
             if (isset($inspector)) {
                 if ($inspector->serverIsRunning()) {
-                    $inspector->reloadServer();
+                    if (env('APP_ENV') == 'local') {
+                        $inspector->reloadServer();
+                    }
                 } else {
                     $this->composer->dumpAutoloads();
                 }

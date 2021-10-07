@@ -152,7 +152,9 @@ class FCMNotification
             }
 
             $fcm = new self();
-            $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
+            if (count($data) > 0) {
+                $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
+            }
         } catch (\Exception $e) {
             //throw $th;
         }
