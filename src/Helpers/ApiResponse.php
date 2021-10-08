@@ -27,7 +27,7 @@ class ApiResponse
         $response = [];
         $response['message'] = __('badaso::api_response.200');
         $response['errors'] = null;
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             if (is_array($value)) {
                 $response['data'] = $value;
             } elseif (is_object($value)) {

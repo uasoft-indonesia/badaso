@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Helpers\Firebase;
 
-use Exception;
 use GuzzleHttp\Client;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\FCMMessage;
@@ -152,7 +151,7 @@ class FCMNotification
             }
 
             $fcm = new self();
-            if(count($data) > 0){
+            if (count($data) > 0) {
                 $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
             }
         } catch (\Exception $e) {

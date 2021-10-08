@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Support\Composer;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Helpers\MigrationParser;
 use Laravel\Octane\RoadRunner\ServerProcessInspector as RoadRunnerServerProcessInspector;
 use Laravel\Octane\Swoole\ServerProcessInspector as SwooleServerProcessInspector;
+use Uasoft\Badaso\Helpers\MigrationParser;
 
 class FileSystem
 {
