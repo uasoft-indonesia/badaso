@@ -240,31 +240,29 @@ class FileSystem
 
     private function safeDumpAutoloads()
     {
-        try {
-            $inspector = null;
-            $server = config('octane.server');
-            switch ($server) {
-                case 'swoole':
-                    $inspector = app(SwooleServerProcessInspector::class);
-                    break;
-                case 'roadrunner':
-                    $inspector = app(RoadRunnerServerProcessInspector::class);
-                    break;
-            }
+        $inspector = null;
+        $server = config('octane.server');
+        switch ($server) {
+            case 'swoole':
+                $inspector = app(SwooleServerProcessInspector::class);
+                break;
+            case 'roadrunner':
+                $inspector = app(RoadRunnerServerProcessInspector::class);
+                break;
+        }
 
-            if (isset($inspector)) {
-                if ($inspector->serverIsRunning()) {
-                    if (env('APP_ENV') == 'local') {
-                        $inspector->reloadServer();
-                    }
-                } else {
+        if (isset($inspector)) {
+            if ($inspector->serverIsRunning()) {
+                $inspector->reloadServer();
+            } else {
+                if (env('APP_ENV') == 'local') {
                     $this->composer->dumpAutoloads();
                 }
-            } else {
+            }
+        } else {
+            if (env('APP_ENV') == 'local') {
                 $this->composer->dumpAutoloads();
             }
-        } catch (\Exception $e) {
-            // skip
         }
     }
 
