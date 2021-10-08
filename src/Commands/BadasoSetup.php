@@ -286,6 +286,7 @@ class BadasoSetup extends Command
             'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
             'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
             'BADASO_TABLE_PREFIX' => 'badaso_',
+            'OCTANE_SERVER' => 'roadrunner',
         ];
     }
 
