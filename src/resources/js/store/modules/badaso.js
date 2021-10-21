@@ -42,7 +42,7 @@ export default {
     FETCH_MENU(state) {
       const menuKey = process.env.MIX_BADASO_MENU
         ? process.env.MIX_BADASO_MENU
-        : "admin";
+        : "general";
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-dashboard";
@@ -55,7 +55,7 @@ export default {
           for (let index = 0; index < res.data.length; index++) {
             let menu = res.data[index].menu;
             let items = res.data[index].menuItems;
-            if (menu.key === "admin") {
+            if (menu.key === "general") {
               items.map((item) => {
                 if (helpers.isValidHttpUrl(item.url)) {
                   item.url = item.url;

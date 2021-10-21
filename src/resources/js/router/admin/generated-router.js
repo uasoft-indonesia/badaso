@@ -1,12 +1,16 @@
 import Pages from "./../../pages/index.vue";
 
-let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+let adminPanelRoutePrefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
+let defaultMenuPrefix = process.env.MIX_DEFAULT_MENU
+  ? "/" + process.env.MIX_DEFAULT_MENU
+  : "/general";
+let prefix = `${adminPanelRoutePrefix}${defaultMenuPrefix}`;
 
 export default [
   {
-    path: prefix + "/admin/:slug",
+    path: prefix + "/:slug",
     name: "CrudGeneratedBrowse",
     component: Pages,
     meta: {
@@ -14,7 +18,7 @@ export default [
     },
   },
   {
-    path: prefix + "/admin/:slug/bin",
+    path: prefix + "/:slug/bin",
     name: "CrudGeneratedBrowseBin",
     component: Pages,
     meta: {
@@ -22,7 +26,7 @@ export default [
     },
   },
   {
-    path: prefix + "/admin/:slug/add",
+    path: prefix + "/:slug/add",
     name: "CrudGeneratedAdd",
     component: Pages,
     meta: {
@@ -30,7 +34,7 @@ export default [
     },
   },
   {
-    path: prefix + "/admin/:slug/sort",
+    path: prefix + "/:slug/sort",
     name: "CrudGeneratedSort",
     component: Pages,
     meta: {
@@ -38,7 +42,7 @@ export default [
     },
   },
   {
-    path: prefix + "/admin/:slug/:id",
+    path: prefix + "/:slug/:id",
     name: "CrudGeneratedRead",
     component: Pages,
     meta: {
@@ -46,7 +50,7 @@ export default [
     },
   },
   {
-    path: prefix + "/admin/:slug/:id/edit",
+    path: prefix + "/:slug/:id/edit",
     name: "CrudGeneratedEdit",
     component: Pages,
     meta: {

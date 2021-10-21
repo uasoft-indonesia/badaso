@@ -132,7 +132,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -251,7 +251,7 @@ class BadasoSetup extends Command
             'BADASO_AUTH_TOKEN_LIFETIME' => '',
             'BADASO_LICENSE_KEY' => '',
             'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
-            'MIX_DEFAULT_MENU' => 'admin',
+            'MIX_DEFAULT_MENU' => 'general',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
             'MIX_API_ROUTE_PREFIX' => 'badaso-api',
@@ -324,7 +324,7 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env '.$e->getMessage());
+            $this->error('Failed adding badaso env ' . $e->getMessage());
         }
     }
 
