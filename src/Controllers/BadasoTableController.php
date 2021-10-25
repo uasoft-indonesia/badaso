@@ -123,7 +123,7 @@ class BadasoTableController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
@@ -178,7 +178,7 @@ class BadasoTableController extends Controller
                         $destination_table_column,
                         $destination_table_display_column,
                     ])
-                    ->get();
+                        ->get();
                     $result = collect($relation_data);
                     $data[$destination_table] = $result->map(function ($res) use ($destination_table_column, $destination_table_display_column) {
                         $item = $res;

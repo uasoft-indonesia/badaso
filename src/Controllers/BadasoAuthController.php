@@ -92,6 +92,7 @@ class BadasoAuthController extends Controller
 
             $user = User::create([
                 'name'     => $request->get('name'),
+                'username' => $request->get('username'),
                 'email'    => $request->get('email'),
                 'username' => $request->get('username'),
                 'password' => Hash::make($request->get('password')),

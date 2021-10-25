@@ -13,9 +13,9 @@ class AddUsernameToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
-            if (! Schema::hasColumn(config('badaso.database.prefix').'users', 'username')) {
-                $table->string('username')->unique()->nullable()->default('')->after('name');
+        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+            if (!Schema::hasColumn(config('badaso.database.prefix') . 'users', 'username')) {
+                $table->string('username')->unique()->nullable()->default(null)->after('name');
             }
         });
     }
@@ -27,8 +27,8 @@ class AddUsernameToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
-            if (Schema::hasColumn(config('badaso.database.prefix').'users', 'username')) {
+        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+            if (Schema::hasColumn(config('badaso.database.prefix') . 'users', 'username')) {
                 $table->dropColumn('username');
             }
         });

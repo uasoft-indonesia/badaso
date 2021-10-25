@@ -22,8 +22,8 @@ class MenusSeeder extends Seeder
             $menus = [
                 0 => [
                     'id' => 1,
-                    'key' => 'admin',
-                    'display_name' => 'Admin Menu',
+                    'key' => 'general',
+                    'display_name' => 'General Menu',
                 ],
                 1 => [
                     'id' => 2,
@@ -42,7 +42,7 @@ class MenusSeeder extends Seeder
                 Menu::create($value);
             }
         } catch (Exception $e) {
-            throw new Exception('Exception occur '.$e);
+            throw new Exception('Exception occur ' . $e);
             \DB::rollBack();
         }
 
