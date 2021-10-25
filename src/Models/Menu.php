@@ -19,7 +19,7 @@ class Menu extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'menus';
+        $this->table = $prefix.'menus';
         parent::__construct($attributes);
     }
 
