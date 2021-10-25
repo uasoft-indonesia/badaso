@@ -15,10 +15,13 @@ class AddIsShowHeaderAndExpandInMenusTable extends Migration
     {
         Schema::table('badaso_menus', function (Blueprint $table) {
             if (!Schema::hasColumn('badaso_menus', 'is_show_header')) {
-                $table->boolean('is_show_header')->default(true);
+                $table->boolean('is_show_header')->default(true)->after('icon');
             }
             if (!Schema::hasColumn('badaso_menus', 'is_expand')) {
-                $table->boolean('is_expand')->default(true);
+                $table->boolean('is_expand')->default(true)->after('icon');
+            }
+            if (!Schema::hasColumn('badaso_menus', 'order')) {
+                $table->boolean('order')->nullable()->after('icon');
             }
         });
     }
@@ -36,6 +39,9 @@ class AddIsShowHeaderAndExpandInMenusTable extends Migration
             }
             if (Schema::hasColumn('badaso_menus', 'is_expand')) {
                 $table->dropColumn('is_expand');
+            }
+            if (Schema::hasColumn('badaso_menus', 'order')) {
+                $table->dropColumn('order');
             }
         });
     }

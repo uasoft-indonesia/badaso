@@ -15,7 +15,7 @@ export default {
     groupList: [],
     config: {},
     user: {
-      avatar: 'files/shares/default-user.png'
+      avatar: "files/shares/default-user.png",
     },
     locale: lang.languages,
     selectedLocale: {
@@ -40,70 +40,20 @@ export default {
       state.reduceSidebar = value;
     },
     FETCH_MENU(state) {
-      const menuKey = process.env.MIX_BADASO_MENU
-        ? process.env.MIX_BADASO_MENU
-        : "general";
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-dashboard";
       api.badasoMenu
-        .browseItemByKeys({
-          menu_key: menuKey,
-        })
+        .browseItemByKeys({})
         .then((res) => {
-          var menus = [];
-          for (let index = 0; index < res.data.length; index++) {
-            let menu = res.data[index].menu;
-            let items = res.data[index].menuItems;
-            if (menu.key === "general") {
-              items.map((item) => {
-                if (helpers.isValidHttpUrl(item.url)) {
-                  item.url = item.url;
-                } else {
-                  item.url = "/" + prefix + "" + item.url;
-                }
-
-                if (item.children && item.children.length > 0) {
-                  item.children.map((subItem) => {
-                    if (helpers.isValidHttpUrl(subItem.url)) {
-                      subItem.url = subItem.url;
-                    } else {
-                      subItem.url = "/" + prefix + "" + subItem.url;
-                    }
-                    return subItem;
-                  });
-                }
-
-                return item;
-              });
-            } else {
-              items.map((item) => {
-                if (helpers.isValidHttpUrl(item.url)) {
-                  item.url = item.url;
-                } else {
-                  item.url = "/" + prefix + "" + item.url;
-                }
-
-                if (item.children && item.children.length > 0) {
-                  item.children.map((subItem) => {
-                    if (helpers.isValidHttpUrl(subItem.url)) {
-                      subItem.url = subItem.url;
-                    } else {
-                      subItem.url = "/" + prefix + "" + subItem.url;
-                    }
-                    return subItem;
-                  });
-                }
-
-                return item;
-              });
-            }
-            menus.push({
-              menu: res.data[index].menu,
-              mainMenu: items,
+          let { data } = res;
+          state.menu = data.map((menu) => {
+            menu.menuItems.map((menuItem) => {
+              menuItem.url = "/" + prefix + menuItem.url;
+              return menuItem;
             });
-          }
-          state.menu = menus;
+            return menu;
+          });
         })
         .catch((err) => {});
     },
