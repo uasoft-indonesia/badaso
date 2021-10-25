@@ -123,7 +123,7 @@ class BadasoTableController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (!Schema::hasTable($value)) {
+                        if (! Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
