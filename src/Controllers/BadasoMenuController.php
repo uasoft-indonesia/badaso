@@ -37,24 +37,24 @@ class BadasoMenuController extends Controller
 
                 foreach ($request->order as $index => $menu_id) {
                     Menu::find($menu_id)->update([
-                        'order' => $index + 1
+                        'order' => $index + 1,
                     ]);
                 }
-            } else if (isset($request->is_expand)) {
+            } elseif (isset($request->is_expand)) {
                 $request->validate([
                     'menu_id' => ['required', 'integer'],
                 ]);
 
                 $menu = Menu::find($request->menu_id);
-                $menu->is_expand = !$menu->is_expand;
+                $menu->is_expand = ! $menu->is_expand;
                 $menu->save();
-            } else if (isset($request->is_show_header)) {
+            } elseif (isset($request->is_show_header)) {
                 $request->validate([
                     'menu_id' => ['required', 'integer'],
                 ]);
 
                 $menu = Menu::find($request->menu_id);
-                $menu->is_show_header = !$menu->is_show_header;
+                $menu->is_show_header = ! $menu->is_show_header;
                 $menu->save();
             }
 
@@ -74,7 +74,7 @@ class BadasoMenuController extends Controller
 
             $menu_items = MenuItem::where('menu_id', $request->menu_id)
                 ->orderBy('order', 'asc')
-                ->whereNull($prefix . 'menu_items.parent_id')
+                ->whereNull($prefix.'menu_items.parent_id')
                 ->get();
 
             $menu_items = $this->getChildMenuItems($menu_items);
@@ -130,11 +130,11 @@ class BadasoMenuController extends Controller
             $prefix = config('badaso.database.prefix');
             $menu = Menu::where('key', $request->menu_key)->first();
 
-            $all_menu_items = MenuItem::join($prefix . 'menus', $prefix . 'menus.id', $prefix . 'menu_items.menu_id')
-                ->where($prefix . 'menus.key', $request->menu_key)
-                ->whereNull($prefix . 'menu_items.parent_id')
-                ->select($prefix . 'menu_items.*')
-                ->orderBy($prefix . 'menu_items.order', 'asc')
+            $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
+                ->where($prefix.'menus.key', $request->menu_key)
+                ->whereNull($prefix.'menu_items.parent_id')
+                ->select($prefix.'menu_items.*')
+                ->orderBy($prefix.'menu_items.order', 'asc')
                 ->get();
             $menu_items = [];
             foreach ($all_menu_items as $menu_item) {
@@ -166,11 +166,11 @@ class BadasoMenuController extends Controller
                 foreach ($menu_keys as $key => $menu_key) {
                     $menu = Menu::where('key', $menu_key)->first();
 
-                    $all_menu_items = MenuItem::join($prefix . 'menus', $prefix . 'menus.id', $prefix . 'menu_items.menu_id')
-                        ->where($prefix . 'menus.key', $menu_key)
-                        ->whereNull($prefix . 'menu_items.parent_id')
-                        ->select($prefix . 'menu_items.*')
-                        ->orderBy($prefix . 'menu_items.order', 'asc')
+                    $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
+                        ->where($prefix.'menus.key', $menu_key)
+                        ->whereNull($prefix.'menu_items.parent_id')
+                        ->select($prefix.'menu_items.*')
+                        ->orderBy($prefix.'menu_items.order', 'asc')
                         ->get();
                     $menu_items = [];
                     foreach ($all_menu_items as $menu_item) {
@@ -186,13 +186,13 @@ class BadasoMenuController extends Controller
 
                 $data = collect($data)->toArray();
             } else {
-                $all_menu_items = MenuItem::orderBy($prefix . 'menu_items.order', 'asc')
+                $all_menu_items = MenuItem::orderBy($prefix.'menu_items.order', 'asc')
                     ->get();
                 $menus = Menu::orderBy('order')->get();
 
                 $data = [];
                 foreach ($menus as $index => $menu) {
-                    $menu_items = $all_menu_items->whereNull($prefix . 'menu_items.parent_id')
+                    $menu_items = $all_menu_items->whereNull($prefix.'menu_items.parent_id')
                         ->where('menu_id', $menu->id)->map(function ($item) use ($all_menu_items) {
                             $children = array_values($all_menu_items->where('parent_id', $item->id)->toArray());
 
@@ -278,7 +278,7 @@ class BadasoMenuController extends Controller
 
             $url = $request->get('url');
             if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-                $url = substr($request->get('url'), 0, 1) != '/' ? '/' . $request->get('url') : $request->get('url');
+                $url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
             }
 
             $new_menu_item = new MenuItem();
@@ -344,7 +344,7 @@ class BadasoMenuController extends Controller
 
             $url = $request->get('url');
             if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-                $url = substr($request->get('url'), 0, 1) != '/' ? '/' . $request->get('url') : $request->get('url');
+                $url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
             }
 
             $menu_item = MenuItem::find($request->menu_item_id);
