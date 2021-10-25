@@ -14,13 +14,13 @@ class AddIsShowHeaderAndExpandInMenusTable extends Migration
     public function up()
     {
         Schema::table('badaso_menus', function (Blueprint $table) {
-            if (!Schema::hasColumn('badaso_menus', 'is_show_header')) {
+            if (! Schema::hasColumn('badaso_menus', 'is_show_header')) {
                 $table->boolean('is_show_header')->default(true)->after('icon');
             }
-            if (!Schema::hasColumn('badaso_menus', 'is_expand')) {
+            if (! Schema::hasColumn('badaso_menus', 'is_expand')) {
                 $table->boolean('is_expand')->default(true)->after('icon');
             }
-            if (!Schema::hasColumn('badaso_menus', 'order')) {
+            if (! Schema::hasColumn('badaso_menus', 'order')) {
                 $table->boolean('order')->nullable()->after('icon');
             }
         });
