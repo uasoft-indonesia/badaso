@@ -28,7 +28,9 @@
                       <td
                         :data="
                           field[
-                            $caseConvert.stringSnakeToCamel(dataType.orderColumn)
+                            $caseConvert.stringSnakeToCamel(
+                              dataType.orderColumn
+                            )
                           ]
                         "
                       >
@@ -67,14 +69,15 @@
       </vs-row>
     </template>
     <template v-if="isMaintenance">
-      <badaso-breadcrumb-row full>
-      </badaso-breadcrumb-row>
+      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
-            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
+            <h1 class="badaso-maintenance__text">
+              We are under <br />maintenance
+            </h1>
           </div>
         </vs-col>
       </vs-row>
@@ -95,7 +98,7 @@ export default {
     dataType: {},
     record: {},
     data: [],
-    isMaintenance: false
+    isMaintenance: false,
   }),
   mounted() {
     this.getAllEntityData();
@@ -104,31 +107,38 @@ export default {
     maintenanceImg() {
       let config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
-    }
+    },
   },
   methods: {
-    getAllEntityData() {
+    async getAllEntityData() {
       this.$openLoader();
-      this.$api.badasoEntity
-        .all({
+
+      try {
+        let response = await this.$api.badasoEntity.all({
           slug: this.$route.params.slug,
-        })
-        .then((response) => {
-          this.$closeLoader();
-          this.dataType = response.data.dataType;
-          this.data = response.data.entities.data;
-        })
-        .catch((error) => {
-          if (error.status === 503) {
-            this.isMaintenance = true;
-          }
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
         });
+
+        let {
+          data: { dataType },
+        } = await this.$api.badasoTable.getDataType({
+          slug: this.$route.params.slug,
+        });
+
+        this.$closeLoader();
+
+        this.dataType = dataType;
+        this.data = response.data.data;
+      } catch (error) {
+        if (error.status === 503) {
+          this.isMaintenance = true;
+        }
+        this.$closeLoader();
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
     },
     sortData(e) {
       this.$openLoader();

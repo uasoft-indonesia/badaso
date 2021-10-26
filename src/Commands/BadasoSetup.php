@@ -94,6 +94,7 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
         $decoded_json['devDependencies']['sass'] = '^1.32.11';
         $decoded_json['devDependencies']['sass-loader'] = '^11.0.1';
+        $decoded_json['devDependencies']['resolve-url-loader'] = '^4.0.0';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
@@ -219,15 +220,7 @@ class BadasoSetup extends Command
             $path_config_auth = config_path('auth.php');
             $config_auth = require $path_config_auth;
 
-            $config_auth['defaults'] = [
-                'guard' => 'badaso_guard',
-                'passwords' => 'users',
-            ];
-            $config_auth['guards']['badaso_guard'] = [
-                'driver' => 'jwt',
-                'provider' => 'badaso_users',
-            ];
-            $config_auth['providers']['badaso_users'] = [
+            $config_auth['providers']['users'] = [
                 'driver' => 'eloquent',
                 'model' => \Uasoft\Badaso\Models\User::class,
             ];
@@ -251,12 +244,11 @@ class BadasoSetup extends Command
             'BADASO_AUTH_TOKEN_LIFETIME' => '',
             'BADASO_LICENSE_KEY' => '',
             'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
-            'MIX_DEFAULT_MENU' => 'admin',
+            'MIX_DEFAULT_MENU' => 'general',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
             'MIX_API_ROUTE_PREFIX' => 'badaso-api',
             'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
-            'MIX_API_ROUTE_PREFIX' => 'admin',
             'MIX_FIREBASE_API_KEY' => '',
             'MIX_FIREBASE_AUTH_DOMAIN' => '',
             'MIX_FIREBASE_PROJECT_ID' => '',
@@ -287,6 +279,7 @@ class BadasoSetup extends Command
             'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
             'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
             'BADASO_TABLE_PREFIX' => 'badaso_',
+            'OCTANE_SERVER' => 'roadrunner',
         ];
     }
 

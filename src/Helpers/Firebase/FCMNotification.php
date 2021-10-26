@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Helpers\Firebase;
 
 use GuzzleHttp\Client;
 use Uasoft\Badaso\Models\DataType;
-use Uasoft\Badaso\Models\FCMMessage;
+use Uasoft\Badaso\Models\Notification;
 use Uasoft\Badaso\Models\User;
 
 class FCMNotification
@@ -35,7 +35,7 @@ class FCMNotification
     /**
      * @param  array  $data
      */
-    protected function send(array $ids = [], string $title = '', string $body = '', $data): void
+    protected function send(array $ids = [], string $title = '', string $body = '', $data = []): void
     {
         $data_json_params = [
             'registration_ids' => $ids,
@@ -50,20 +50,22 @@ class FCMNotification
             $data_json_params['data'] = $data;
         }
 
-        $this->response = $this->client->post(self::$FIREBASE_URL_API, [
-            'json' => $data_json_params,
-            'headers' => [
-                'Authorization' => "Bearer {$this->firebase_server_key}",
-                'Content-Type' => 'application/json',
-            ],
-        ]);
-        $this->response = json_decode($this->response->getBody(), true);
+        if (count($ids) > 0) {
+            $this->response = $this->client->post(self::$FIREBASE_URL_API, [
+                'json' => $data_json_params,
+                'headers' => [
+                    'Authorization' => "Bearer {$this->firebase_server_key}",
+                    'Content-Type' => 'application/json',
+                ],
+            ]);
+            $this->response = json_decode($this->response->getBody(), true);
+        }
     }
 
     /**
      * @param  array  $data
      */
-    protected function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', $data): void
+    protected function notificationEvent(string $active_event, string $table_name, string $title = '', string $body = '', $data = []): void
     {
         // get table data_types
         $data_type = DataType::where('name', $table_name)->first();
@@ -109,7 +111,7 @@ class FCMNotification
                             'created_at' => $datetime_now,
                             'updated_at' => $datetime_now,
                         ];
-                        $fmc_messages_model = FCMMessage::create($fmc_messages);
+                        $fmc_messages_model = Notification::create($fmc_messages);
                         $data['fcm_message_id'] = $fmc_messages_model->id;
                         $this->send([$user_get_token_messages], $title, $body, $data);
                     }
@@ -149,7 +151,9 @@ class FCMNotification
             }
 
             $fcm = new self();
-            $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
+            if (count($data) > 0) {
+                $fcm->notificationEvent($active_event, $table_name, $title, $body, $data);
+            }
         } catch (\Exception $e) {
             //throw $th;
         }

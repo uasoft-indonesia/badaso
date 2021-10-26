@@ -47,6 +47,7 @@ class ApiResponse
         }
         $response = [];
         $response['data'] = null;
+        $response['message'] = null;
         $response['errors'] = [];
 
         $http_status = 500;
@@ -68,7 +69,12 @@ class ApiResponse
             $response['message'] = $error->getMessage();
             $response['errors'] = $errors;
         } elseif ($error instanceof Exception) {
-            $response['message'] = $error->getMessage();
+            if (env('APP_DEBUG') == true) {
+                $response['message'] = $error->getMessage();
+                $response['errors'] = json_decode(json_encode($error->getTrace()));
+            } else {
+                $response['message'] = $error->getMessage();
+            }
         } else {
             if (is_object($error) || is_array($error)) {
                 $response['message'] = json_encode($error);
@@ -86,6 +92,17 @@ class ApiResponse
         $response['message'] = __('badaso::api_response.200');
         $response['data']['data_type'] = $data_type;
         $response['data']['entities'] = $data;
+        $response['errors'] = null;
+        $response = json_decode(json_encode($response));
+
+        return self::send($response);
+    }
+
+    public static function onlyEntity($data = null, $permissions = null)
+    {
+        $response = [];
+        $response['message'] = __('badaso::api_response.200');
+        $response['data'] = $data;
         $response['errors'] = null;
         $response = json_decode(json_encode($response));
 

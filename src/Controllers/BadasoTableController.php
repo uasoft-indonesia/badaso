@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Controllers;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -147,7 +148,7 @@ class BadasoTableController extends Controller
             ]);
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
-            $data_rows = $data_type->dataRows;
+            $data_rows = $this->dataRowsTypeReplace($data_type->dataRows);
             $data = [];
             $relational_rows = collect($data_rows)->filter(function ($value, $key) {
                 return $value->relation != null;
@@ -177,7 +178,7 @@ class BadasoTableController extends Controller
                         $destination_table_column,
                         $destination_table_display_column,
                     ])
-                    ->get();
+                        ->get();
                     $result = collect($relation_data);
                     $data[$destination_table] = $result->map(function ($res) use ($destination_table_column, $destination_table_display_column) {
                         $item = $res;
@@ -193,5 +194,44 @@ class BadasoTableController extends Controller
         } catch (Exception $e) {
             return APIResponse::failed($e);
         }
+    }
+
+    public function getDataType(Request $request)
+    {
+        try {
+            $data_type = new DataType();
+
+            if ($request->slug) {
+                $data_type = $data_type->where('slug', $request->slug)->first();
+                $data_type->data_rows = $this->dataRowsTypeReplace($data_type->dataRows)->toArray();
+            }
+
+            return ApiResponse::success([
+                'data_type' => $data_type,
+            ]);
+        } catch (Exception $e) {
+            return APIResponse::failed($e);
+        }
+    }
+
+    protected function dataRowsTypeReplace(Collection $data_rows): Collection
+    {
+        if (env('DB_CONNECTION') == 'sqlite') {
+            foreach ($data_rows as $index => $rows) {
+                foreach ($rows->toArray() as $key => $value) {
+                    if (is_numeric($value)) {
+                        if (is_double($value)) {
+                            $value = doubleval($value);
+                        } else {
+                            $value = intval($value);
+                        }
+                    }
+
+                    $data_rows[$index][$key] = $value;
+                }
+            }
+        }
+
+        return $data_rows;
     }
 }

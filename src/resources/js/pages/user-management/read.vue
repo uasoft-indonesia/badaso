@@ -44,6 +44,10 @@
               <td>{{ user.name }}</td>
             </tr>
             <tr>
+              <th>{{ $t("user.detail.username") }}</th>
+              <td>{{ user.username }}</td>
+            </tr>
+            <tr>
               <th>{{ $t("user.detail.email") }}</th>
               <td>{{ user.email }}</td>
             </tr>

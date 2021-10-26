@@ -8,8 +8,6 @@
 | offline => vendor/unisharp/laravel-filemanager/docs/config.md
  */
 
-use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -178,7 +176,8 @@ return [
 
     'middleware' => [
         'web',
-        'auth',
-        BadasoCheckPermissions::class.':browse_file_manager',
+        \Uasoft\Badaso\Middleware\BadasoAuthenticateIframe::class.':lfm',
     ],
+
+    'prefix_route' => '/filemanager',
 ];
