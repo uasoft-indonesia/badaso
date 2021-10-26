@@ -491,6 +491,10 @@ export default {
 
   menu: {
     title: "Menu",
+    options:{
+        showHeader : "Show Header Menu",
+        expand : "Expand",
+    },
     warning: {
       notAllowedToBrowse: "You're not allowed to browse Menu",
       notAllowedToAdd: "You're not allowed to add Menu",

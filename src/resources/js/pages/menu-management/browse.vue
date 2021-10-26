@@ -17,80 +17,95 @@
             <h3>{{ $t("menu.title") }}</h3>
           </div>
           <div>
-            <badaso-table
-              v-model="selected"
-              pagination
-              max-items="10"
-              search
+            <Tree
               :data="menus"
-              stripe
-              description
-              :description-items="descriptionItems"
-              :description-title="$t('menu.footer.descriptionTitle')"
-              :description-connector="$t('menu.footer.descriptionConnector')"
-              :description-body="$t('menu.footer.descriptionBody')"
+              draggable="draggable"
+              cross-tree="cross-tree"
+              class="menu-management__tree"
+              :ondragend="saveMenuOrder()"
             >
-              <template slot="thead">
-                <vs-th sort-key="key"> {{ $t("menu.header.key") }} </vs-th>
-                <vs-th sort-key="displayName">
-                  {{ $t("menu.header.displayName") }}
-                </vs-th>
-                <vs-th>{{ $t("menu.header.action") }}</vs-th>
-              </template>
-
-              <template slot-scope="{ data }">
-                <vs-tr
-                  :data="table"
-                  :key="index"
-                  v-for="(table, index) in data"
+              <vs-row
+                vs-w="12"
+                vs-justify="space-between"
+                slot-scope="{ data }"
+              >
+                <vs-col
+                  vs-type="flex"
+                  vs-justify="flex-start"
+                  vs-align="center"
+                  vs-w="2"
                 >
-                  <vs-td :data="data[index].key">
-                    {{ data[index].key }}
-                  </vs-td>
-                  <vs-td :data="data[index].displayName">
-                    {{ data[index].displayName }}
-                  </vs-td>
-                  <vs-td class="badaso-table__td">
-                    <badaso-dropdown vs-trigger-click>
-                      <vs-button
-                        size="large"
-                        type="flat"
-                        icon="more_vert"
-                      ></vs-button>
-                      <vs-dropdown-menu>
-                        <badaso-dropdown-item
-                          icon="list"
-                          v-if="$helper.isAllowed('edit_menus')"
-                          :to="{
-                            name: 'MenuManagementBuilder',
-                            params: { id: data[index].id },
-                          }"
-                        >
-                          Manage Items
-                        </badaso-dropdown-item>
-                        <badaso-dropdown-item
-                          icon="edit"
-                          v-if="$helper.isAllowed('edit_menus')"
-                          :to="{
-                            name: 'MenuManagementEdit',
-                            params: { id: data[index].id },
-                          }"
-                        >
-                          Edit
-                        </badaso-dropdown-item>
-                        <badaso-dropdown-item
-                          icon="delete"
-                          v-if="$helper.isAllowed('delete_menus')"
-                          @click="openConfirm(data[index].id)"
-                        >
-                          Delete
-                        </badaso-dropdown-item>
-                      </vs-dropdown-menu>
-                    </badaso-dropdown>
-                  </vs-td>
-                </vs-tr>
-              </template>
-            </badaso-table>
+                  <strong>{{ data.displayName }}</strong>
+                </vs-col>
+                <vs-col
+                  vs-type="flex"
+                  vs-justify="flex-start"
+                  vs-align="center"
+                  vs-w="2"
+                >
+                  <vs-checkbox
+                    :value="data.isShowHeader"
+                    @change="saveCheckMenuShowHeader(data.id)"
+                    >{{ $t("menu.options.showHeader") }}</vs-checkbox
+                  >
+                </vs-col>
+                <vs-col
+                  vs-type="flex"
+                  vs-justify="flex-start"
+                  vs-align="center"
+                  vs-w="2"
+                >
+                  <vs-checkbox
+                    :value="data.isExpand"
+                    @change="saveCheckMenuExpand(data.id)"
+                    >{{ $t("menu.options.expand") }}</vs-checkbox
+                  >
+                </vs-col>
+                <vs-col
+                  vs-type="flex"
+                  vs-justify="flex-end"
+                  vs-align="center"
+                  vs-w="2"
+                >
+                  <badaso-dropdown vs-trigger-click>
+                    <vs-button
+                      size="large"
+                      type="flat"
+                      icon="more_vert"
+                    ></vs-button>
+                    <vs-dropdown-menu>
+                      <badaso-dropdown-item
+                        icon="list"
+                        v-if="$helper.isAllowed('edit_menus')"
+                        :to="{
+                          name: 'MenuManagementBuilder',
+                          params: { id: data.id },
+                        }"
+                      >
+                        Manage Items
+                      </badaso-dropdown-item>
+                      <badaso-dropdown-item
+                        icon="edit"
+                        v-if="$helper.isAllowed('edit_menus')"
+                        :to="{
+                          name: 'MenuManagementEdit',
+                          params: { id: data.id },
+                        }"
+                      >
+                        Edit
+                      </badaso-dropdown-item>
+                      <badaso-dropdown-item
+                        icon="delete"
+                        v-if="$helper.isAllowed('delete_menus')"
+                        @click="openConfirm(data.id)"
+                      >
+                        Delete
+                      </badaso-dropdown-item>
+                    </vs-dropdown-menu>
+                  </badaso-dropdown>
+                </vs-col>
+              </vs-row>
+            </Tree>
           </div>
         </vs-card>
       </vs-col>
@@ -110,19 +125,76 @@
 </template>
 
 <script>
+import { DraggableTree } from "vue-draggable-nested-tree";
+import _ from "lodash";
+
 export default {
-  components: {},
+  components: {
+    Tree: DraggableTree,
+  },
   name: "MenuManagementBrowse",
   data: () => ({
     selected: [],
     descriptionItems: [10, 50, 100],
     menus: [],
+    saveOrder: [],
     willDeleteId: null,
   }),
   mounted() {
     this.getMenuList();
   },
   methods: {
+    saveMenuOrder() {
+      let order = this.menus
+        .map((item) => item.id)
+        .filter((item) => item != undefined);
+      if (JSON.stringify(order) != JSON.stringify(this.saveOrder)) {
+        this.saveOrder = order;
+        this.$api.badasoMenu
+          .menuOptions({ order })
+          .then((res) => {
+            this.getMenuList();
+            this.$store.commit("badaso/FETCH_MENU");
+          })
+          .catch((err) => {
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
+          });
+      }
+    },
+    saveCheckMenuExpand(menuId) {
+      this.$api.badasoMenu
+        .menuOptions({ menu_id: menuId, is_expand : 'event' })
+        .then((res) => {
+          this.getMenuList();
+          this.$store.commit("badaso/FETCH_MENU");
+        })
+        .catch((err) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    saveCheckMenuShowHeader(menuId) {
+      this.$api.badasoMenu
+        .menuOptions({ menu_id: menuId, is_show_header : 'event' })
+        .then((res) => {
+          this.getMenuList();
+          this.$store.commit("badaso/FETCH_MENU");
+        })
+        .catch((err) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
     openConfirm(id) {
       this.willDeleteId = id;
       this.$vs.dialog({

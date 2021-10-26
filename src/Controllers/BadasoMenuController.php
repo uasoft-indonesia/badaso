@@ -17,11 +17,48 @@ class BadasoMenuController extends Controller
     public function browseMenu(Request $request)
     {
         try {
-            $menus = Menu::all();
+            $menus = Menu::orderBy('order')->get();
 
             $data['menus'] = $menus;
 
             return ApiResponse::success(collect($data)->toArray());
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function menuOptions(Request $request)
+    {
+        try {
+            if (isset($request->order)) {
+                $request->validate([
+                    'order' => ['array'],
+                ]);
+
+                foreach ($request->order as $index => $menu_id) {
+                    Menu::find($menu_id)->update([
+                        'order' => $index + 1,
+                    ]);
+                }
+            } elseif (isset($request->is_expand)) {
+                $request->validate([
+                    'menu_id' => ['required', 'integer'],
+                ]);
+
+                $menu = Menu::find($request->menu_id);
+                $menu->is_expand = ! $menu->is_expand;
+                $menu->save();
+            } elseif (isset($request->is_show_header)) {
+                $request->validate([
+                    'menu_id' => ['required', 'integer'],
+                ]);
+
+                $menu = Menu::find($request->menu_id);
+                $menu->is_show_header = ! $menu->is_show_header;
+                $menu->save();
+            }
+
+            return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -36,9 +73,9 @@ class BadasoMenuController extends Controller
             $prefix = config('badaso.database.prefix');
 
             $menu_items = MenuItem::where('menu_id', $request->menu_id)
-                    ->orderBy('order', 'asc')
-                    ->whereNull($prefix.'menu_items.parent_id')
-                    ->get();
+                ->orderBy('order', 'asc')
+                ->whereNull($prefix.'menu_items.parent_id')
+                ->get();
 
             $menu_items = $this->getChildMenuItems($menu_items);
 
@@ -94,11 +131,11 @@ class BadasoMenuController extends Controller
             $menu = Menu::where('key', $request->menu_key)->first();
 
             $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
-                    ->where($prefix.'menus.key', $request->menu_key)
-                    ->whereNull($prefix.'menu_items.parent_id')
-                    ->select($prefix.'menu_items.*')
-                    ->orderBy($prefix.'menu_items.order', 'asc')
-                    ->get();
+                ->where($prefix.'menus.key', $request->menu_key)
+                ->whereNull($prefix.'menu_items.parent_id')
+                ->select($prefix.'menu_items.*')
+                ->orderBy($prefix.'menu_items.order', 'asc')
+                ->get();
             $menu_items = [];
             foreach ($all_menu_items as $menu_item) {
                 $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
@@ -121,33 +158,58 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_key' => ['required'],
+                'menu_key' => ['string'],
             ]);
             $prefix = config('badaso.database.prefix');
-            $menu_keys = explode(',', $request->menu_key);
+            if (isset($request->menu_key)) {
+                $menu_keys = explode(',', $request->menu_key);
+                foreach ($menu_keys as $key => $menu_key) {
+                    $menu = Menu::where('key', $menu_key)->first();
 
-            foreach ($menu_keys as $key => $menu_key) {
-                $menu = Menu::where('key', $menu_key)->first();
-
-                $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
+                    $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
                         ->where($prefix.'menus.key', $menu_key)
                         ->whereNull($prefix.'menu_items.parent_id')
                         ->select($prefix.'menu_items.*')
                         ->orderBy($prefix.'menu_items.order', 'asc')
                         ->get();
-                $menu_items = [];
-                foreach ($all_menu_items as $menu_item) {
-                    $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
-                    if ($allowed) {
-                        $menu_items[] = $menu_item;
+                    $menu_items = [];
+                    foreach ($all_menu_items as $menu_item) {
+                        $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
+                        if ($allowed) {
+                            $menu_items[] = $menu_item;
+                        }
                     }
-                }
-                $menu_items = $this->getChildMenuItems($menu_items);
+                    $menu_items = $this->getChildMenuItems($menu_items);
 
-                $data[] = ['menu' => $menu, 'menu_items' => $menu_items];
+                    $data[] = ['menu' => $menu, 'menu_items' => $menu_items];
+                }
+
+                $data = collect($data)->toArray();
+            } else {
+                $all_menu_items = MenuItem::orderBy($prefix.'menu_items.order', 'asc')
+                    ->get();
+                $menus = Menu::orderBy('order')->get();
+
+                $data = [];
+                foreach ($menus as $index => $menu) {
+                    $menu_items = $all_menu_items->whereNull($prefix.'menu_items.parent_id')
+                        ->where('menu_id', $menu->id)->map(function ($item) use ($all_menu_items) {
+                            $children = array_values($all_menu_items->where('parent_id', $item->id)->toArray());
+
+                            if (count($children) > 0) {
+                                $item->children = $children;
+                            }
+
+                            return $item;
+                        })->toArray();
+                    $data[$index] = [
+                        'menu' => $menu,
+                        'menu_items' => array_values($menu_items),
+                    ];
+                }
             }
 
-            return ApiResponse::success(collect($data)->toArray());
+            return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
