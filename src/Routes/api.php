@@ -86,6 +86,8 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
 
             Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');
             Route::get('/item-by-keys', 'BadasoMenuController@browseMenuItemByKeys');
+
+            Route::put('/menu-options', 'BadasoMenuController@menuOptions');
         });
 
         Route::group(['prefix' => 'users'], function () {
@@ -226,9 +228,9 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
                 Route::put('/save-token-messages', 'BadasoFCMController@saveTokenMessage');
             });
             Route::group(['prefix' => 'messages', 'middleware' => \config('badaso.middleware.authenticate')], function () {
-                Route::get('/', 'BadasoFCMMessagesController@getMessages');
-                Route::put('/{id}', 'BadasoFCMMessagesController@readMessage');
-                Route::get('/count-unread', 'BadasoFCMMessagesController@getCountUnreadMessage');
+                Route::get('/', 'BadasoNotificationsController@getMessages');
+                Route::put('/{id}', 'BadasoNotificationsController@readMessage');
+                Route::get('/count-unread', 'BadasoNotificationsController@getCountUnreadMessage');
             });
         });
     });
