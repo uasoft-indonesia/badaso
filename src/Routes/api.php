@@ -51,6 +51,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/browse/lfm', 'BadasoFileController@browseFileUsingLfm');
             Route::post('/upload/lfm', 'BadasoFileController@uploadFileUsingLfm');
             Route::get('/delete/lfm', 'BadasoFileController@deleteFileUsingLfm');
+            Route::get('/mimetypes', 'BadasoFileController@availableMimetype');
         });
 
         Route::group(['prefix' => 'configurations'], function () {

@@ -1,73 +1,228 @@
 <template>
-  <vs-col :vs-lg="size" vs-xs="12" class="badaso-upload-image-multiple__container">
-    <vs-input :label="label" :placeholder="placeholder" @click="showOverlay" v-on:keyup.space="showOverlay" readonly v-model="imagesName" icon="attach_file" icon-after="true" />
-    <vs-row>
-      <vs-col vs-lg="4" vs-sm="12" v-for="(imageData, index) in value" :key="index">
-        <div class="badaso-upload-image-multiple__preview">
-          <vs-button class="badaso-upload-image-multiple__remove-button" color="danger" icon="close" @click="deleteFilePicked(imageData)" />
-          <img :src="imageData" class="badaso-upload-image-multiple__preview-image" />
-        </div>
-      </vs-col>
-    </vs-row>
-    <div class="badaso-upload-image-multiple__popup-dialog" tabindex="0" v-if="show">
-      <div class="badaso-upload-image-multiple__popup-container">
-        <div class="badaso-upload-image-multiple__popup--top-bar">
-          <h3>{{ $t('fileManager.title') }}</h3>
-          <vs-spacer />
-          <vs-button color="danger" type="relief" class="badaso-upload-image-multiple__popup-button--delete" v-if="getSelected !== 'url' &&   isImageSelected" @click="openDialog">
-            <vs-icon icon="delete"></vs-icon>
-          </vs-button>
-        </div>
-        <ul class="badaso-upload-image-multiple__popup--left-bar">
-          <li :class="[getSelected === 'private'  ? 'active' : '' ]" @click="selected = 'private'" v-if="privateOnly || !privateOnly && !sharesOnly">Private</li>
-          <li :class="[getSelected === 'shares' ? 'active' : '' ]" @click="selected = 'shares'" v-if="sharesOnly || !sharesOnly && !privateOnly">Shares</li>
-          <li :class="[getSelected === 'url' ? 'active' : '', $store.state.badaso.isOnline ? '' : 'badaso-upload-image__menu--disabled' ]" @click="selected = 'url'">Insert by URL</li>
-        </ul>
-        <div class="badaso-upload-image-multiple__popup--right-bar" v-if="getSelected !== 'url'">
-          <div class="badaso-upload-image-multiple__popup-add-image" @click="pickFile">
-            <vs-icon icon="add" color="#06bbd3" size="75px"></vs-icon>
-          </div>
-          <img :class="[activeImage.includes(index) ? 'active' : '', 'badaso-upload-image-multiple__popup-image']" :src="item.thumbUrl" v-for="(item, index) in images.items" :key="index" @click="selectImage(index)">
-        </div>
-        <div v-if="getSelected === 'url'" class="badaso-upload-image-multiple__popup--right-bar badaso-upload-image-multiple__popup--url-bar">
-          <vs-input v-if="getSelected === 'url'" label="Paste an image URL here" placeholder="URL" v-model="inputByUrl" description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG." @input="inputByUrl === '' ? dirty = false : dirty = true" ></vs-input>
-          <p v-if="!isValidImage && getSelected === 'url' && dirty" class="is-error">Only valid image (PNG and JPEG) is accepted</p>
-          <img accept="image/png" v-if="getSelected === 'url'" :src="inputByUrl" alt="" @load="isValidImage = true" @error="isValidImage = false" class="badaso-upload-image-multiple__preview--small">
-        </div>
-        <div class="badaso-upload-image-multiple__popup--bottom-bar">
-          <div class="badaso-upload-image-multiple__popup-button--footer">
-            <vs-button color="primary" type="relief" @click="emitInput" :disabled="isSubmitDisable">
-              {{ $t('button.submit') }}
-            </vs-button>
-            <vs-button color="danger" type="relief" @click="closeOverlay">
-              {{ $t('button.close') }}
-            </vs-button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <input type="file" class="badaso-upload-image__input--hidden" ref="image" accept="image/*" @change="onFilePicked" multiple />
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+  <vs-col
+    :vs-lg="size"
+    vs-xs="12"
+    class="badaso-upload-image-multiple__container"
+  >
+    <vs-input
+      :label="label"
+      :placeholder="placeholder"
+      @click="openFileManager"
+      v-on:keyup.space="openFileManager"
+      readonly
+      v-model="value"
+      icon="attach_file"
+      icon-after="true"
+    />
+    <input
+      type="file"
+      class="badaso-upload-image-multiple__input--hidden"
+      ref="image"
+      :accept="availableMimetypes.image.validMime.join(',')"
+      @change="onFilePicked"
+      multiple
+    />
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-upload-image-multiple__input--error" v-for="(info, index) in alert" :key="index">
+        <span
+          class="badaso-upload-image-multiple__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+        >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-upload-image-multiple__input--error" v-html="alert"></span>
+        <span
+          class="badaso-upload-image-multiple__input--error"
+          v-html="alert"
+        />
       </div>
     </div>
+    <vs-row v-if="hasValue">
+      <vs-col
+        vs-lg="4"
+        vs-sm="12"
+        v-for="(val, index) in getImageModels"
+        :key="index"
+      >
+        <div class="badaso-upload-image-multiple__preview">
+          <vs-button
+            class="badaso-upload-image-multiple__remove-button"
+            color="danger"
+            icon="close"
+            @click="() => deleteSelectedImage(val)"
+          />
+          <img :src="val" class="badaso-upload-image-multiple__preview-image" />
+        </div>
+      </vs-col>
+    </vs-row>
+
+    <div
+      class="badaso-upload-image-multiple__popup-dialog"
+      tabindex="0"
+      v-if="showFileManager"
+    >
+      <div class="badaso-upload-image-multiple__popup-container">
+        <div class="badaso-upload-image-multiple__popup--top-bar">
+          <h3>{{ $t("fileManager.title") }}</h3>
+          <vs-spacer />
+          <vs-button
+            color="danger"
+            type="relief"
+            class="badaso-upload-image-multiple__popup-button--delete"
+            v-if="getActiveTab !== 'url' && model"
+            @click="openDeleteDialog"
+          >
+            <vs-icon icon="delete"></vs-icon>
+          </vs-button>
+        </div>
+
+        <ul class="badaso-upload-image-multiple__popup--left-bar">
+          <li
+            :class="{ active: getActiveTab === 'private' }"
+            @click="setActiveTab('private')"
+            v-if="privateOnly || (!privateOnly && !sharesOnly)"
+          >
+            Private
+          </li>
+          <li
+            :class="{ active: getActiveTab === 'shares' }"
+            @click="setActiveTab('shares')"
+            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
+          >
+            Shares
+          </li>
+          <li
+            :class="{
+              active: getActiveTab === 'url',
+              'badaso-upload-image-multiple__menu--disabled':
+                !$store.state.badaso.isOnline,
+            }"
+            @click="setActiveTab('url')"
+          >
+            Insert by URL
+          </li>
+        </ul>
+
+        <div
+          class="badaso-upload-image-multiple__popup--right-bar"
+          v-if="getActiveTab !== 'url'"
+        >
+          <div
+            class="badaso-upload-image-multiple__popup-add-image"
+            @click="$refs.image.click()"
+          >
+            <vs-icon icon="add" color="#06bbd3" size="40px"></vs-icon>
+          </div>
+          <img
+            :class="{
+              active: model.includes(image.url),
+              'badaso-upload-image-multiple__popup-image': true,
+            }"
+            :src="image.thumbUrl ? image.thumbUrl : image.url"
+            v-for="(image, index) in images"
+            :key="index"
+            @click="selectImage(image.url)"
+          />
+        </div>
+
+        <div
+          v-if="getActiveTab === 'url'"
+          class="
+            badaso-upload-image-multiple__popup--right-bar
+            badaso-upload-image-multiple__popup--url-bar
+          "
+        >
+          <vs-input
+            label="Paste an image URL here"
+            placeholder="URL"
+            v-model="model"
+            @input="$openLoader()"
+            description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG."
+          />
+          <p
+            v-if="isValidImageUrl === false && model.length > 0"
+            class="is-error"
+          >
+            Only valid image (PNG and JPEG) is accepted
+          </p>
+          <img
+            accept="image/png"
+            :src="model"
+            alt=""
+            @load="
+              isValidImageUrl = true;
+              $closeLoader();
+            "
+            @error="
+              isValidImageUrl = false;
+              $closeLoader();
+            "
+            class="badaso-upload-image-multiple__preview--small"
+          />
+        </div>
+
+        <div class="badaso-upload-image-multiple__popup--bottom-bar">
+          <div class="badaso-upload-image-multiple__popup-button--footer">
+            <div v-if="getActiveTab !== 'url'">
+              <vs-pagination
+                :total="Math.ceil(paginator.total / paginator.perPage)"
+                v-model="page"
+                :max="1"
+              ></vs-pagination>
+            </div>
+            <vs-spacer />
+            <vs-button
+              color="primary"
+              type="relief"
+              class="badaso-upload-image-multiple__popup-button"
+              @click="emitInput"
+              :disabled="!model || model.length === 0"
+            >
+              {{ $t("button.submit") }}
+            </vs-button>
+            <vs-button
+              color="danger"
+              type="relief"
+              class="badaso-upload-image-multiple__popup-button"
+              @click="closeFileManager"
+            >
+              {{ $t("button.close") }}
+            </vs-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <vs-popup
+      :title="$t('action.delete.title')"
+      :active.sync="showDeleteImage"
+      class="badaso-upload-image-multiple__popup-dialog--delete"
+    >
+      <p>{{ $t("action.delete.text") }}</p>
+      <div class="badaso-upload-image-multiple__popup-dialog-content--delete">
+        <vs-button color="primary" type="relief" @click="closeDeleteDialog">
+          {{ $t("action.delete.cancel") }}
+        </vs-button>
+        <vs-button color="danger" type="relief" @click="deleteImage()">
+          {{ $t("action.delete.accept") }}
+        </vs-button>
+      </div>
+    </vs-popup>
   </vs-col>
 </template>
 
 <script>
-import * as _ from "lodash"
+import { mapState } from "vuex";
+import * as _ from "lodash";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 export default {
   name: "BadasoUploadImageMultiple",
   props: {
     size: {
-      type: String,
+      type: String | Number,
       default: "12",
     },
     label: {
@@ -79,10 +234,7 @@ export default {
       default: "Upload Image Multiple",
     },
     value: {
-      type: Array,
-      default: () => {
-        return [];
-      },
+      default: "",
     },
     additionalInfo: {
       type: String,
@@ -99,203 +251,260 @@ export default {
       type: Boolean,
     },
   },
-  watch: {
-    selected: {
-      handler(val) {
-        this.getImages()
-        this.isImageSelected = false
-      }
-    },
-    value: {
-      handler(val) {
-        this.imageUrl = val
-      }
-    }
-  },
   data() {
     return {
-      imagesName: "",
-      dialog: false,
-      activeImage: [],
-      show: false,
-      selected: 'private',
-      images: {
-        display: "",
-        items: [],
-        paginator: {},
+      showFileManager: false,
+      activeTab: "private",
+      showDeleteImage: false,
+      page: 1,
+      images: [],
+      paginator: {
+        total: 1,
+        perPage: 30,
       },
-      files: [],
-      imageUrl: [],
-      inputByUrl: "",
-      isValidImage: false,
-      isImageSelected: false,
-      dirty: false,
+      model: [],
+      isValidImageUrl: undefined,
     };
   },
-  mounted() {
+  watch: {
+    page: {
+      handler() {
+        this.getImages();
+      },
+      immediate: false,
+    },
+  },
+  created() {
     if (this.sharesOnly) {
-      this.selected = "shares"
+      this.activeTab = "shares";
     }
-    
-    this.imageUrl = this.value
-    this.imagesName = this.imageUrl.join(', ')
   },
   computed: {
-    getSelected() {
-      this.activeImage = []
-      return this.selected
+    getActiveTab() {
+      return this.activeTab;
     },
-    getSelectedFolder() {
-      if (this.getSelected === 'shares') return '/shares'
-      else if (this.getSelected === 'url') return
-      else return this.getUserFolder
+    getActiveFolder() {
+      switch (this.getActiveTab) {
+        case "url":
+          return;
+        case "shares":
+          return "/shares";
+        default:
+          return `/${this.userId}`;
+      }
     },
-    getUserFolder() {
-      return '/' + this.$store.state.badaso.user.id
+    hasValue() {
+      return (
+        this.value !== null &&
+        this.value !== "null" &&
+        this.value !== "" &&
+        this.value !== "[]" &&
+        this.value !== "{}"
+      );
     },
-    isSubmitDisable() {
-      if (!this.isImageSelected && this.selected !== 'url') {
-        return true
+    getImageModels() {
+      if (this.hasValue) {
+        return JSON.parse(this.value);
+      } else {
+        return this.model;
       }
-      if (!this.isValidImage && this.selected === 'url') {
-        return true
-      }
-      if (this.activeImage.length === 0 && this.selected !== 'url') {
-        return true
-      }
-      return false
-    }
+    },
+    ...mapState({
+      userId(state) {
+        return state.badaso.user.id;
+      },
+      availableMimetypes(state) {
+        return state.badaso.availableMimetypes;
+      },
+    }),
   },
   methods: {
-    pickFile() {
-      this.$refs.image.click();
+    deleteSelectedImage(url) {
+      let index = this.getImageModels.indexOf(url);
+      this.getImageModels.splice(index, 1);
+      this.$emit("input", JSON.stringify(this.getImageModels));
     },
-    showOverlay() {
-      this.show = true
-      document.body.style.setProperty('position', 'fixed')
-      document.body.style.setProperty("width", "100%");
-      this.getImages()
+    selectImage(url) {
+      if (this.model.includes(url)) {
+        let idx = this.model.indexOf(url);
+        this.model.splice(idx, 1);
+      } else {
+        this.model.push(url);
+      }
     },
-    closeOverlay() {
-      this.show = false
-      document.body.style.removeProperty('position')
-      document.body.style.removeProperty("width");
+    resetState() {
+      this.showFileManager = false;
+      if (this.sharesOnly) {
+        this.activeTab = "shares";
+      } else {
+        this.activeTab = "private";
+      }
+      this.showDeleteImage = false;
+      this.page = 1;
+      this.images = [];
+      this.paginator = {
+        total: 1,
+        perPage: 30,
+      };
+      if (!this.hasValue) {
+        this.model = [];
+      }
+      this.isValidImageUrl = undefined;
+    },
+    setActiveTab(tab) {
+      if (this.getActiveTab !== tab) {
+        this.activeTab = tab;
+        this.model = [];
+        this.page = 1;
+        this.getImages();
+      }
+    },
+    openFileManager() {
+      this.showFileManager = true;
+      this.disableScrollOnBody();
+      this.getImages();
+    },
+    closeFileManager() {
+      this.showFileManager = false;
+      this.enableScrollOnBody();
+      this.resetState();
+    },
+    openDeleteDialog() {
+      this.showDeleteImage = true;
+    },
+    closeDeleteDialog() {
+      this.showDeleteImage = false;
+    },
+    emitInput() {
+      this.$emit("input", JSON.stringify(this.model));
+      this.closeFileManager();
+    },
+    disableScrollOnBody() {
+      disableBodyScroll(document.querySelector("body"));
+    },
+    enableScrollOnBody() {
+      enableBodyScroll(document.querySelector("body"));
     },
     onFilePicked(e) {
-      let files = e.target.files;
-      files.forEach((file) => {
-        if (file.size > 512000) {
-          this.errorMessages = ["Out of limit size"];
-          return;
+      this.$refs.image.tabindex = -1;
+      const files = e.target.files;
+      for (const file of files) {
+        if (file !== undefined) {
+          if (file.size > (this.availableMimetypes.image.maxSize * 100)) {
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: "Size too large (Max. 5MB)",
+              color: "danger",
+            });
+            return;
+          }
+
+          this.uploadImage(file);
         }
-        this.files = file
-        this.uploadImage()
-      });
-    },
-    uploadImage() {
-      const files = new FormData()
-      files.append('upload', this.files)
-      files.append('working_dir', this.getSelectedFolder)
-      this.$api.badasoFile.uploadUsingLfm(files)
-      .then(res => {
-        let error = _.get(res, 'data.original.error', null)
-        if (error) {
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        }
-        this.getImages()
-      }).catch(error => {
-        console.error(error);
-      })
+      }
     },
     getImages() {
-      this.images.items = []
-      if (this.getSelectedFolder) {
-        this.$api.badasoFile.browseUsingLfm({
-          workingDir: this.getSelectedFolder
-        })
-        .then(res => {
-          let error = _.get(res, 'data.original.error', null)
+      if (this.getActiveFolder) {
+        this.$openLoader();
+        this.$api.badasoFile
+          .browseUsingLfm({
+            workingDir: this.getActiveFolder,
+            type: "image",
+            page: this.page,
+          })
+          .then((res) => {
+            let error = _.get(res, "data.original.error", null);
+            if (error) {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: error.message,
+                color: "danger",
+              });
+            }
+
+            this.images = res.data.items;
+            this.paginator = res.data.paginator;
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            this.$closeLoader();
+          });
+      }
+    },
+    uploadImage(file) {
+      const files = new FormData();
+      files.append("upload", file);
+      files.append("type", "image");
+      files.append("working_dir", this.getActiveFolder);
+      this.$api.badasoFile
+        .uploadUsingLfm(files)
+        .then((res) => {
+          let error = _.get(res, "data.original.error", null);
           if (error) {
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: error.message,
               color: "danger",
             });
+          } else {
+            this.$vs.notify({
+              title: this.$t("alert.success"),
+              text: "Upload successful",
+              color: "success",
+            });
           }
-          const items = res.data.items.filter(val => {
-            return val.thumbUrl !== null
-          })
-          this.images = res.data
-          this.images.items = items
         })
-        .catch(error => {
-          console.log(error);
-        })
-      }
-    },
-    emitInput() {
-      if (this.selected !== 'url') {
-        let url = []
-        this.activeImage.forEach(element => {
-          url.push(this.images.items[element].url)
-        });
-        this.imagesName = url.join(', ')
-        this.isPicked = true
-        this.$emit('input', url)
-      } else {
-        this.$emit('input', this.inputByUrl)
-      }
-      this.closeOverlay()
-    },
-    deleteImage() {
-      this.$api.badasoFile.deleteUsingLfm({
-        workingDir: this.getSelectedFolder,
-        'items[]': this.images.items[this.activeImage].name
-      })
-      .then(res => {
-        let error = _.get(res, 'data.original.error', null)
-        if (error) {
+        .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
-        }
-        this.getImages()
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      this.activeImage = []
-      this.dialog = false
+        })
+        .finally(() => {
+          this.getImages();
+        });
     },
-    openDialog() {
-      this.dialog = true
-    },
-    selectImage(index) {
-      if (!this.activeImage.includes(index)) {
-        this.activeImage.push(index)
-      } else {
-        let idx = this.activeImage.indexOf(index)
-        this.activeImage.splice(idx, 1)
+    deleteImage() {
+      this.$openLoader();
+
+      for (let index = 0; index < this.model.length; index++) {
+        const element = this.model[index];
+        console.log(element);
+        const currentModel = _.filter(this.images, { url: element });
+        this.$api.badasoFile
+          .deleteUsingLfm({
+            workingDir: this.getActiveFolder,
+            type: "image",
+            "items[]": currentModel[0].name,
+          })
+          .then((res) => {
+            let error = _.get(res, "data.original.error", null);
+            if (error) {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: error.message,
+                color: "danger",
+              });
+            }
+
+            if (index + 1 === this.model.length) {
+              this.getImages();
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+          .finally(() => {
+            if (index + 1 === this.model.length) {
+              this.$closeLoader();
+              this.closeDeleteDialog();
+            }
+          });
       }
-      this.isImageSelected = true
     },
-    deleteFilePicked(item) {
-      if (item === null || item === undefined) return
-      if (typeof item === 'string' && item !== '') {
-        let idx = this.imageUrl.indexOf(item)
-        let activeIdx = this.activeImage.indexOf(idx)
-        this.activeImage.splice(activeIdx, 1)
-        this.imageUrl.splice(idx, 1)
-        this.imagesName = this.imageUrl.join(', ')
-        this.$emit('input', this.imageUrl)
-      }
-    }
   },
 };
 </script>
