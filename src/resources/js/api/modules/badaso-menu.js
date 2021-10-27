@@ -92,7 +92,12 @@ export default {
     let url = ep + qs;
     return resource.get(url);
   },
+
   setItemPermissions(data) {
     return resource.put(apiPrefix + "/v1/menus/item/permissions", data);
+  },
+
+  menuOptions(data) {
+    return resource.put(apiPrefix + "/v1/menus/menu-options", data);
   },
 };

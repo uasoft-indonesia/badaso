@@ -11,6 +11,8 @@ class Menu extends Model
 
     protected $table = null;
 
+    protected $fillable = ['key', 'display_name', 'icon', 'order', 'is_expand', 'is_show_header'];
+
     /**
      * Constructor for setting the table name dynamically.
      */

@@ -90,6 +90,8 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
 
             Route::get('/item-by-key', 'BadasoMenuController@browseMenuItemByKey');
             Route::get('/item-by-keys', 'BadasoMenuController@browseMenuItemByKeys');
+
+            Route::put('/menu-options', 'BadasoMenuController@menuOptions');
         });
 
         Route::group(['prefix' => 'users'], function () {
