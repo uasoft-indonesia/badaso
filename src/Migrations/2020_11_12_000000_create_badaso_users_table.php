@@ -18,7 +18,7 @@ class CreateBadasoUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->text('additional_info')->nullable();
-            $table->string('avatar')->nullable()->default('files/shares/default-user.png');
+            $table->string('avatar')->nullable()->default('photos/shares/default-user.png');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

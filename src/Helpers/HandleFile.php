@@ -39,6 +39,14 @@ class HandleFile
             );
         }
 
+        if (Str::contains($val, config('lfm.folder_categories.image.folder_name').'/')) {
+            return str_replace(
+                config('lfm.folder_categories.image.folder_name').'/',
+                Storage::url('/').config('lfm.folder_categories.image.folder_name').'/',
+                $val
+            );
+        }
+
         return $val;
     }
 

@@ -97,6 +97,7 @@ class BadasoSetup extends Command
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
+        $decoded_json['dependencies']['body-scroll-lock'] = '^4.0.0-beta.0';
         $decoded_json['dependencies']['chart.js'] = '^2.8.0';
         $decoded_json['dependencies']['firebase'] = '^8.4.2';
         $decoded_json['dependencies']['jspdf'] = '^2.3.1';

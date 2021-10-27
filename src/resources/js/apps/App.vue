@@ -73,6 +73,7 @@ export default {
   mounted() {
     this.$i18n.locale = this.getSelectedLocale.key;
     this.$store.commit("badaso/FETCH_CONFIGURATION");
+    this.$store.commit("badaso/FETCH_FILE_CONFIGURATION");
   },
   beforeMount() {
 

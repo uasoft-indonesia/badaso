@@ -15,7 +15,7 @@ export default {
     groupList: [],
     config: {},
     user: {
-      avatar: 'files/shares/default-user.png'
+      avatar: 'photos/shares/default-user.png'
     },
     locale: lang.languages,
     selectedLocale: {
@@ -30,6 +30,10 @@ export default {
     },
     isOnline: false,
     countUnreadMessage: 0,
+    availableMimetypes: {
+      file: {},
+      image: {},
+    }
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -188,7 +192,16 @@ export default {
       localStorage.clear();
       window.location.reload();
     },
-
+    FETCH_FILE_CONFIGURATION(state) {
+      api.badasoFile.browseConfiguration()
+      .then(res => {
+        state.availableMimetypes.image = res.data.image;
+        state.availableMimetypes.file = res.data.file;
+      })
+      .catch(err => {
+        console.error(err);
+      })
+    },
     SET_GLOBAL_STATE(state, { key, value }) {
       state[key] = value;
     },
