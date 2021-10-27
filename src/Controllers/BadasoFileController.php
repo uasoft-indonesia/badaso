@@ -67,4 +67,9 @@ class BadasoFileController extends Controller
 
         return ApiResponse::success(json_decode(json_encode($file)));
     }
+
+    public function availableMimetype()
+    {
+        return ApiResponse::success(config('lfm.folder_categories'));
+    }
 }

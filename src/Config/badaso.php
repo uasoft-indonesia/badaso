@@ -39,17 +39,17 @@ return [
         'description' => 'Badaso Progressive Web App ',
         'icons' => [
             [
-                'src' => '/storage/files/shares/logo-144px.png',
+                'src' => '/storage/photos/shares/logo-144px.png',
                 'sizes' => '144x144',
                 'type' => 'image/png',
             ],
             [
-                'src' => '/storage/files/shares/logo-192px.png',
+                'src' => '/storage/photos/shares/logo-192px.png',
                 'sizes' => '192x192',
                 'type' => 'image/png',
             ],
             [
-                'src' => '/storage/files/shares/logo-512px.png',
+                'src' => '/storage/photos/shares/logo-512px.png',
                 'sizes' => '512x512',
                 'type' => 'image/png',
             ],

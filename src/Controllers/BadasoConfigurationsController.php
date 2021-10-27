@@ -130,15 +130,7 @@ class BadasoConfigurationsController extends Controller
             if (! is_null($configuration)) {
                 $configuration->key = $request->key;
                 $configuration->display_name = $request->display_name;
-                if (in_array($request->type, ['upload_image', 'upload_file'])) {
-                    $uploaded_path = $this->handleUploadFiles([$request->value]);
-                    $configuration->value = implode(',', $uploaded_path);
-                } elseif (in_array($request->type, ['upload_image_multiple', 'upload_file_multiple'])) {
-                    $uploaded_path = $this->handleUploadFiles($request->value);
-                    $configuration->value = implode(',', $uploaded_path);
-                } else {
-                    $configuration->value = $request->value;
-                }
+                $configuration->value = $request->value;
                 $configuration->details = $request->details;
                 $configuration->type = $request->type;
                 $configuration->order = $request->order;
@@ -172,15 +164,7 @@ class BadasoConfigurationsController extends Controller
                 if (! is_null($configuration)) {
                     $updated_configuration->key = $configuration['key'];
                     $updated_configuration->display_name = $configuration['display_name'];
-                    if (in_array($configuration['type'], ['upload_image', 'upload_file'])) {
-                        $uploaded_path = $this->handleUploadFiles([$configuration['value']]);
-                        $updated_configuration->value = implode(',', $uploaded_path);
-                    } elseif (in_array($configuration['type'], ['upload_image_multiple', 'upload_file_multiple'])) {
-                        $uploaded_path = $this->handleUploadFiles($configuration['value']);
-                        $updated_configuration->value = implode(',', $uploaded_path);
-                    } else {
-                        $updated_configuration->value = $configuration['value'];
-                    }
+                    $updated_configuration->value = $configuration['value'];
                     $updated_configuration->details = json_encode($configuration['details']);
                     $updated_configuration->type = $configuration['type'];
                     $updated_configuration->order = $configuration['order'];
