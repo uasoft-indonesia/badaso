@@ -92,9 +92,15 @@ return [
 
     'disk' => env('FILESYSTEM_DRIVER', 'public'),
 
+    /*
+     * Will rename the file using uniqid()
+     */
     'rename_file' => false,
 
-    'rename_duplicates' => false,
+    /*
+     * Will rename the file if there is duplicated file
+     */
+    'rename_duplicates' => true,
 
     'alphanumeric_filename' => false,
 
