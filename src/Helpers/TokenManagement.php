@@ -14,8 +14,8 @@ class TokenManagement
     public static $EXPIRED_DATE_ABILITY = 'expired_date';
     public static $KEY_GET_TOKEN = 'get_token';
 
-    public User $user;
-    public string $token;
+    public $user;
+    public $token;
 
     public function __construct(User $user)
     {
@@ -104,7 +104,7 @@ class TokenManagement
 
         $date_now_time = strtotime(date('Y-m-d H:i:s'));
 
-        if ($expired_date < $date_now_time) {
+        if ($expired_time < $date_now_time) {
             $personal_access_token->delete();
         }
     }
