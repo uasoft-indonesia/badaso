@@ -48,5 +48,12 @@ export default {
     let qs = QueryString(data);
     let url = ep + qs;
     return resource.get(url);
-  }
+  },
+
+  browseConfiguration(data = {}) {
+    let ep = apiPrefix + "/v1/file/mimetypes";
+    let qs = QueryString(data);
+    let url = ep + qs;
+    return resource.get(url);
+  },
 };
