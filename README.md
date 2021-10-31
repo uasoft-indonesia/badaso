@@ -81,7 +81,7 @@ Thanks to all backers & sponsors!
 
 ### Sponsors
 
-  <a href="https://opencollective.com/vuetify">
+  <a href="https://opencollective.com/badaso">
     <img src="https://opencollective.com/static/images/become_sponsor.svg" alt="Donate to OpenCollective">
   </a>
 
