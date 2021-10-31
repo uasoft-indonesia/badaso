@@ -111,7 +111,7 @@ For additional help, you can use one of these channels to ask a question:
 - [Github issues](https://github.com/uasoft-indonesia/badaso/issues) (Bug reports, Contributions)
 - [Facebook groups](https://facebook.com/groups/badaso) (Discussion for active facebook users)
 - [Telegram groups](https://t.me/badaso_developers) (Discussion for active telegram users)
-- Youtube tutorial (coming soon)
+- [Youtube tutorial](https://youtube.com/playlist?list=PLO-UCDr2KEwPZPeQvjLmj-RVfNHycttPl) (For visual learner)
 
 ## Credits
 
