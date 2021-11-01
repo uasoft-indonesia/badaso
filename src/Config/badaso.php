@@ -14,11 +14,10 @@ return [
     /**
      * Configuration for authentication expired token.
      */
-
     'expired_token' => [
 
         /**
-         * Expired token for default authentication 
+         * Expired token for default authentication
          * (remember me is false).
          */
         'default' => 60 * 24,
