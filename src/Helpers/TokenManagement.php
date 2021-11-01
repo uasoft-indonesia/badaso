@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Helpers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use stdClass;
@@ -41,16 +42,12 @@ class TokenManagement
         $key = self::$EXPIRED_DATE_ABILITY;
 
         if ($remember) {
-            $expired_time = intval(config('sanctum.expired_remember'));
-        // minutes, hours, day
+            $expired = Carbon::now()->addMinutes(config('badaso.expired_token.remember'));
         } else {
-            $expired_time = intval(config('sanctum.expired_no_remember'));
-            // minutes, hours, day
+            $expired = Carbon::now()->addMinutes(config('badaso.expired_token.default'));
         }
 
-        $expired_date = date('Y-m-d H:i:s', strtotime("+{$expired_time} minutes"));
-
-        return "{$key}:{$expired_date}";
+        return "{$key}:{$expired}";
     }
 
     public function createToken(bool $remember = false): self
@@ -100,11 +97,8 @@ class TokenManagement
 
         $expired_date_ability = $this->findAbility(self::$EXPIRED_DATE_ABILITY, $personal_access_token);
         $expired_date = $expired_date_ability->value;
-        $expired_time = strtotime($expired_date);
 
-        $date_now_time = strtotime(date('Y-m-d H:i:s'));
-
-        if ($expired_time < $date_now_time) {
+        if (Carbon::create($expired_date)->lessThan(now())) {
             $personal_access_token->delete();
         }
     }

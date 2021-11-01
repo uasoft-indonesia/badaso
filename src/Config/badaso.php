@@ -11,6 +11,24 @@ return [
         'guard' => 'sanctum',
     ],
 
+    /**
+     * Configuration for authentication expired token.
+     */
+    'expired_token' => [
+
+        /**
+         * Expired token for default authentication
+         * (remember me is false).
+         */
+        'default' => 60 * 24,
+
+        /**
+         * Expired token for remember is true.
+         */
+        'remember' => 60 * 24 * 30,
+
+    ],
+
     'db_name' => env('DB_DATABASE'),
     'admin_panel_route_prefix' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-dashboard'),
     'default_menu' => env('MIX_DEFAULT_MENU', 'admin'),
