@@ -61,7 +61,7 @@ class BadasoBaseController extends Controller
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
             $request->validate([
-                'id' => 'exists:'.$data_type->name,
+                'id' => 'exists:' . $data_type->name,
             ]);
 
             $data = $this->getDataDetail($slug, $request->id);
@@ -82,16 +82,17 @@ class BadasoBaseController extends Controller
 
         try {
             $request->validate([
-                'slug' => 'required',
                 'data' => [
                     'required',
                 ],
             ]);
 
+            // get slug by route name and get data type
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+            // get data in request, validate, and update data
+            $data = $request->input('data');
             $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
 
@@ -101,7 +102,7 @@ class BadasoBaseController extends Controller
                     'old' => $updated['old_data'],
                     'attributes' => $updated['updated_data'],
                 ])
-                ->log($data_type->display_name_singular.' has been updated');
+                ->log($data_type->display_name_singular . ' has been updated');
 
             DB::commit();
 
@@ -120,26 +121,28 @@ class BadasoBaseController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
-                'slug' => 'required',
                 'data' => [
                     'required',
                 ],
             ]);
 
+            // get slug by route name and get data type in table
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+            // get data from request
+            $data = $request->input('data');
+
+            // validate and store data to table
             $this->validateData($data, $data_type);
             $stored_data = $this->insertData($data, $data_type);
 
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $stored_data])
-                ->log($data_type->display_name_singular.' has been created');
+                ->log($data_type->display_name_singular . ' has been created');
 
             DB::commit();
 
@@ -181,7 +184,7 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been deleted');
+                ->log($data_type->display_name_singular . ' has been deleted');
 
             DB::commit();
 
@@ -220,7 +223,7 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been restore');
+                ->log($data_type->display_name_singular . ' has been restore');
 
             DB::commit();
 
@@ -262,7 +265,7 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been bulk deleted');
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
 
             DB::commit();
 
@@ -302,7 +305,7 @@ class BadasoBaseController extends Controller
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data)
-                ->log($data_type->display_name_singular.' has been bulk deleted');
+                ->log($data_type->display_name_singular . ' has been bulk deleted');
 
             DB::commit();
 
@@ -340,7 +343,7 @@ class BadasoBaseController extends Controller
                     activity($data_type->display_name_singular)
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $single_data])
-                        ->log($data_type->display_name_singular.' has been sorted');
+                        ->log($data_type->display_name_singular . ' has been sorted');
                 }
             } else {
                 foreach ($request->data as $index => $row) {
@@ -350,7 +353,7 @@ class BadasoBaseController extends Controller
                     activity($data_type->display_name_singular)
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $updated_data])
-                        ->log($data_type->display_name_singular.' has been sorted');
+                        ->log($data_type->display_name_singular . ' has been sorted');
                 }
             }
 
