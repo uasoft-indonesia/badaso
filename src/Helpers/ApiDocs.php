@@ -98,19 +98,9 @@ class ApiDocs
       *             mediaType="application/json",
       *             @OA\Schema(
       *                 @OA\Property(
-      *                     property="slug",
-      *                     example="%s",
-      *                     type="string"
-      *                 ),
-      *                 @OA\Property(
       *                     property="data",
-      *                     type="array",
+      *                     type="object",
       *                     example={%s},
-      *                     @OA\Items(
-      *                         type="object",
-      *                         @OA\Property(type="string", property="field"),
-      *                         @OA\Property(type="{}", property="value"),
-      *                   ),
       *                 ),
       *             )
       *         )
@@ -140,19 +130,9 @@ class ApiDocs
       *             mediaType="application/json",
       *             @OA\Schema(
       *                 @OA\Property(
-      *                     property="slug",
-      *                     example="%s",
-      *                     type="string"
-      *                 ),
-      *                 @OA\Property(
       *                     property="data",
-      *                     type="array",
+      *                     type="object",
       *                     example={%s},
-      *                     @OA\Items(
-      *                         type="object",
-      *                         @OA\Property(type="string", property="field"),
-      *                         @OA\Property(type="{}", property="value"),
-      *                     ),
       *                ),
       *             )
       *         )
@@ -363,7 +343,6 @@ class ApiDocs
             $data_type->slug,
             $data_type->display_name_singular,
             $data_type->display_name_singular,
-            $data_type->slug,
             self::getColumns($add),
             self::getAuthorize('add', $table_name_data_type, $permission),
         );
@@ -375,7 +354,6 @@ class ApiDocs
             $data_type->slug,
             $data_type->display_name_singular,
             $data_type->display_name_singular,
-            $data_type->slug,
             self::getColumns($edit),
             self::getAuthorize('edit', $table_name_data_type, $permission),
         );
