@@ -180,6 +180,11 @@
  *                     example="johndoe@gmail.com"
  *                 ),
  *                 @OA\Property(
+ *                     property="username",
+ *                     type="string",
+ *                     example="johndoe"
+ *                 ),
+ *                 @OA\Property(
  *                     property="password",
  *                     type="string",
  *                     example=""
