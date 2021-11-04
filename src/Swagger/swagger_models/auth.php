@@ -104,6 +104,8 @@
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ *
+ *      security={{"bearerAuth" : {}}}
  * )
  */
 
@@ -130,6 +132,8 @@
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ *
+ *      security={{"bearerAuth" : {}}}
  * )
  */
 
@@ -144,6 +148,8 @@
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ *
+ *      security={{"bearerAuth" : {}}}
  * )
  */
 
@@ -167,6 +173,11 @@
  *                     property="email",
  *                     type="string",
  *                     example="johndoe@gmail.com"
+ *                 ),
+ *                @OA\Property(
+ *                     property="username",
+ *                     type="string",
+ *                     example="johndoe"
  *                 ),
  *                 @OA\Property(
  *                     property="password",
@@ -216,6 +227,8 @@
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ *
+ *      security={{"bearerAuth" : {}}}
  * )
  */
 
@@ -247,5 +260,7 @@
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
  *      @OA\Response(response=402, description="Payment Required"),
+ *
+ *      security={{"bearerAuth" : {}}}
  * )
  */

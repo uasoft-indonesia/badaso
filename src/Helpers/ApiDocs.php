@@ -438,7 +438,7 @@ class ApiDocs
         $items = [];
         foreach ($rows as $key => $row) {
             $items[] = sprintf(
-                self::ITEMS,
+                self::ITEM,
                 CaseConvert::camel($row['field']),
                 self::getColumnExample($row['type']),
             );
