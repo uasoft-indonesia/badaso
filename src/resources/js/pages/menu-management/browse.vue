@@ -153,7 +153,6 @@ export default {
         this.$api.badasoMenu
           .menuOptions({ order })
           .then((res) => {
-            this.getMenuList();
             this.$store.commit("badaso/FETCH_MENU");
           })
           .catch((err) => {
@@ -169,7 +168,6 @@ export default {
       this.$api.badasoMenu
         .menuOptions({ menu_id: menuId, is_expand : 'event' })
         .then((res) => {
-          this.getMenuList();
           this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((err) => {
@@ -184,7 +182,6 @@ export default {
       this.$api.badasoMenu
         .menuOptions({ menu_id: menuId, is_show_header : 'event' })
         .then((res) => {
-          this.getMenuList();
           this.$store.commit("badaso/FETCH_MENU");
         })
         .catch((err) => {

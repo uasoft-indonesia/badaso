@@ -21,11 +21,7 @@ abstract class Controller extends BaseController
 
     public function getSlug(Request $request)
     {
-        if (isset($this->slug)) {
-            $slug = $this->slug;
-        } else {
-            $slug = explode('.', $request->route()->getName())[1];
-        }
+        $slug = explode('.', $request->route()->getName())[1];
 
         return $slug;
     }
@@ -33,7 +29,7 @@ abstract class Controller extends BaseController
     public function getDataType($slug)
     {
         $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
-        $data_type->data_rows = json_decode(json_encode($data_type->dataRows));
+        $data_type->data_rows = $data_type->dataRows;
 
         return $data_type;
     }
