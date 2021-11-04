@@ -82,16 +82,17 @@ class BadasoBaseController extends Controller
 
         try {
             $request->validate([
-                'slug' => 'required',
                 'data' => [
                     'required',
                 ],
             ]);
 
+            // get slug by route name and get data type
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+            // get data in request, validate, and update data
+            $data = $request->input('data');
             $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
 
@@ -120,19 +121,21 @@ class BadasoBaseController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
-
         try {
             $request->validate([
-                'slug' => 'required',
                 'data' => [
                     'required',
                 ],
             ]);
 
+            // get slug by route name and get data type in table
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
 
-            $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+            // get data from request
+            $data = $request->input('data');
+
+            // validate and store data to table
             $this->validateData($data, $data_type);
             $stored_data = $this->insertData($data, $data_type);
 

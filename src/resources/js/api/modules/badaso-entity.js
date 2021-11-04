@@ -29,11 +29,15 @@ export default {
   },
 
   edit(data) {
-    return resource.put(entity_prefix + "/" + data.slug + "/edit", data);
+    return resource.put(entity_prefix + "/" + data.slug + "/edit", {
+      data: data.data,
+    });
   },
 
   add(data) {
-    return resource.post(entity_prefix + "/" + data.slug + "/add", data);
+    return resource.post(entity_prefix + "/" + data.slug + "/add", {
+      data: data.data,
+    });
   },
 
   restore(data) {
