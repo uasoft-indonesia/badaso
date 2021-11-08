@@ -188,6 +188,6 @@ return [
     'middleware' => [
         'web',
         'auth',
-        BadasoCheckPermissions::class . ':browse_file_manager',
+        BadasoCheckPermissions::class.':browse_file_manager',
     ],
 ];
