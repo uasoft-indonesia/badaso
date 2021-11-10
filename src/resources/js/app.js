@@ -251,7 +251,7 @@ let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-dashboard";
 Vue.prototype.$baseUrl = "/" + baseUrl;
 
-Vue.prototype.$openLoader = function(payload) {
+Vue.prototype.$openLoader = function (payload) {
   try {
     this.$root.$children[0].openLoader(payload);
   } catch (error) {
@@ -259,7 +259,7 @@ Vue.prototype.$openLoader = function(payload) {
   }
 };
 
-Vue.prototype.$closeLoader = function() {
+Vue.prototype.$closeLoader = function () {
   try {
     this.$root.$children[0].closeLoader();
   } catch (error) {
@@ -267,7 +267,7 @@ Vue.prototype.$closeLoader = function() {
   }
 };
 
-Vue.prototype.$syncLoader = function(statusSyncLoader) {
+Vue.prototype.$syncLoader = function (statusSyncLoader) {
   try {
     this.$root.$children[0].syncLoader(statusSyncLoader);
   } catch (error) {

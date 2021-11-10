@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
 use Uasoft\Badaso\Models\Configuration;
 
 class BadasoMaintenanceController extends Controller
@@ -81,7 +82,8 @@ class BadasoMaintenanceController extends Controller
 
     private function isUnderMaintenance()
     {
-        $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+        $configuration_model = ConfigurationRedis::get();
+        $maintenance = $configuration_model->where('key', 'maintenance')->firstOrFail();
 
         return $maintenance->value === '1' ? true : false;
     }

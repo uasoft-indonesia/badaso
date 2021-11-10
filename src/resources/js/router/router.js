@@ -8,7 +8,7 @@ import LandingPageContainer from "./../layout/public/Container.vue";
 import PageNotFound from "./../pages/error/PageNotFound.vue";
 import Maintenance from "./../pages/maintenance.vue";
 
-import api from '../api/index'
+import api from "../api/index";
 
 const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -52,10 +52,9 @@ try {
 
   // DYNAMIC IMPORT BADASO PLUGINS ROUTERS
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(",");
     if (plugins && plugins.length > 0) {
-
-      for(let index in plugins){
+      for (let index in plugins) {
         let plugin = plugins[index];
         let routes = require("../../../../../" +
           plugin +
@@ -78,13 +77,20 @@ try {
               break;
           }
         });
-        
-        _pluginRouters["AdminContainer"] = [..._pluginRouters["AdminContainer"], ...adminRouters];
-        _pluginRouters["AuthContainer"] = [..._pluginRouters["AuthContainer"], ...authRouters];
-        _pluginRouters["LandingPageContainer"] = [..._pluginRouters["LandingPageContainer"], ...landingPageRouters];
 
+        _pluginRouters["AdminContainer"] = [
+          ..._pluginRouters["AdminContainer"],
+          ...adminRouters,
+        ];
+        _pluginRouters["AuthContainer"] = [
+          ..._pluginRouters["AuthContainer"],
+          ...authRouters,
+        ];
+        _pluginRouters["LandingPageContainer"] = [
+          ..._pluginRouters["LandingPageContainer"],
+          ...landingPageRouters,
+        ];
       }
-
     }
   }
 } catch (error) {
@@ -144,10 +150,7 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: [
-        ..._authRouters,
-        ..._pluginRouters['AuthContainer']
-      ],
+      children: [..._authRouters, ..._pluginRouters["AuthContainer"]],
     },
     {
       path: "",
@@ -156,10 +159,7 @@ const router = new VueRouter({
       meta: {
         guest: true,
       },
-      children: [
-        ..._publicRouters,
-        ..._pluginRouters['LandingPageContainer']
-      ],
+      children: [..._publicRouters, ..._pluginRouters["LandingPageContainer"]],
     },
     {
       path: "",
@@ -168,10 +168,7 @@ const router = new VueRouter({
       meta: {
         authenticatedUser: true,
       },
-      children: [
-        ..._adminRouters,
-        ..._pluginRouters['AdminContainer']
-      ],
+      children: [..._adminRouters, ..._pluginRouters["AdminContainer"]],
     },
     ..._otherRouters,
     {
@@ -204,30 +201,32 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title ? to.meta.title : to.name;
   if (to.matched.some((record) => record.name !== "Maintenance")) {
-    api.badasoMaintenance.maintenance({
-      path: to.path
-    })
-    .then((res) => {
-      if (res.data.maintenance) {
-        next({ name: "Maintenance" });
-      } else {
-        if (to.matched.some((record) => record.meta.authenticatedUser)) {
-          if (localStorage.getItem("token") == null) {
-            next({ name: "AuthLogin" });
-          } else {
-            next();
-          }
-        } else if (to.matched.some((record) => record.meta.guest)) {
-          if (localStorage.getItem("token") == null) {
-            next();
-          } else {
-            next({ name: "Home" });
-          }
-        } else {
-          next();
+    api.badasoMaintenance
+      .maintenance({
+        path: to.path,
+      })
+      .then((res) => {
+        if (res.data.maintenance) {
+          next({ name: "Maintenance" });
         }
+      })
+      .catch((err) => {});
+
+    if (to.matched.some((record) => record.meta.authenticatedUser)) {
+      if (localStorage.getItem("token") == null) {
+        next({ name: "AuthLogin" });
+      } else {
+        next();
       }
-    }).catch((err) => {});
+    } else if (to.matched.some((record) => record.meta.guest)) {
+      if (localStorage.getItem("token") == null) {
+        next();
+      } else {
+        next({ name: "Home" });
+      }
+    } else {
+      next();
+    }
   } else {
     next();
   }

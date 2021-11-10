@@ -45,4 +45,5 @@ class Configuration extends Model
     {
         return $value == 1;
     }
+
 }
