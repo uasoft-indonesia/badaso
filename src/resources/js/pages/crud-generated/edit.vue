@@ -290,7 +290,7 @@
                 <badaso-select
                   v-if="
                     dataRow.type === 'relation' &&
-                      dataRow.relation.relationType === 'belongs_to'
+                    dataRow.relation.relationType === 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -307,7 +307,7 @@
                 <badaso-text
                   v-if="
                     dataRow.type === 'relation' &&
-                      dataRow.relation.relationType !== 'belongs_to'
+                    dataRow.relation.relationType !== 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -402,16 +402,16 @@ export default {
   },
   methods: {
     submitForm() {
-      let dataRows = this.dataType.dataRows.filter(function(row) {
-        return row && row.value;
-      });
-      dataRows = dataRows.map((row) => {
-        return {
-          field: row.field,
-          value: row.value,
-        };
-      });
-      if (dataRows.length <= 0) {
+      // init data row
+      let dataRows = {};
+      for (let row of this.dataType.dataRows) {
+        if (row && row.value) {
+          dataRows[row.field] = row.value;
+        }
+      }
+
+      // validate values in data rows must not equals 0
+      if (Object.values(dataRows).length == 0) {
         this.isValid = false;
         return;
       }
@@ -473,9 +473,8 @@ export default {
               data.type === "checkbox" ||
               data.type === "select_multiple"
             ) {
-              let val = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
-              ];
+              let val =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
               if (val) {
                 data.value = val.split(",");
               }
@@ -512,9 +511,8 @@ export default {
                 ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                 : "";
             } else {
-              data.value = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
-              ];
+              data.value =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
             }
           } catch (error) {}
           return data;
