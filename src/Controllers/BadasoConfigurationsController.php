@@ -178,8 +178,6 @@ class BadasoConfigurationsController extends Controller
             // save all configuration to redis
             ConfigurationRedis::save();
 
-            ConfigurationRedis::get();
-
             DB::commit();
 
             return ApiResponse::success();
