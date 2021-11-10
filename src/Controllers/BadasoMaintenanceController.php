@@ -7,7 +7,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
-use Uasoft\Badaso\Models\Configuration;
 
 class BadasoMaintenanceController extends Controller
 {
