@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Controllers;
 
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -90,7 +89,7 @@ class BadasoMaintenanceController extends Controller
 
     private function isAdministrator()
     {
-        $guard = config('badaso.authenticate.guard') ;
+        $guard = config('badaso.authenticate.guard');
         $user = Auth::guard($guard)->user();
         if (isset($user)) {
             $roles = $user->roles ?? null;
