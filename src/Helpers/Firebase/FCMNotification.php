@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Helpers\Firebase;
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Notification;
 use Uasoft\Badaso\Models\User;
@@ -89,7 +90,9 @@ class FCMNotification
                     ->join('roles', 'roles.id', '=', 'user_roles.role_id')
                     ->whereIn('roles.name', $this->tell_role_names);
 
-                $user = auth()->user();
+                $guard = config('badaso.authenticate.guard');
+                $user = Auth::guard($guard)->user();
+
                 if (isset($user)) {
                     $user_id = $user->id;
                     $user_get_messages = $user_get_messages->where('users.id', '!=', $user_id);
@@ -129,7 +132,10 @@ class FCMNotification
     {
         try {
             $user_name = 'user';
-            $user = auth()->user();
+
+            $guard = config('badaso.authenticate.guard');
+            $user = Auth::guard($guard)->user();
+
             if (isset($user)) {
                 $user_name = $user->name;
                 $data['user_name'] = $user_name;

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Traits\FileHandler;
 
@@ -127,7 +128,7 @@ class BadasoConfigurationsController extends Controller
             ]);
             $configuration = Configuration::find($request->id);
 
-            if (! is_null($configuration)) {
+            if (!is_null($configuration)) {
                 $configuration->key = $request->key;
                 $configuration->display_name = $request->display_name;
                 $configuration->value = $request->value;
@@ -161,7 +162,7 @@ class BadasoConfigurationsController extends Controller
                     'id' => ['required'],
                 ])->validate();
                 $updated_configuration = Configuration::find($configuration['id']);
-                if (! is_null($configuration)) {
+                if (!is_null($configuration)) {
                     $updated_configuration->key = $configuration['key'];
                     $updated_configuration->display_name = $configuration['display_name'];
                     $updated_configuration->value = $configuration['value'];
@@ -172,6 +173,9 @@ class BadasoConfigurationsController extends Controller
                     $updated_configuration->save();
                 }
             }
+
+            // save configurations to redis
+            ConfigurationRedis::save();
 
             DB::commit();
 
@@ -198,14 +202,14 @@ class BadasoConfigurationsController extends Controller
                         if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
                             json_decode($value);
                             $is_json = (json_last_error() == JSON_ERROR_NONE);
-                            if (! $is_json) {
+                            if (!$is_json) {
                                 $fail('The details must be a valid JSON string.');
                             }
                         }
                     },
                     function ($attribute, $value, $fail) use ($request) {
                         if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
-                            if (! isset($value) || is_null($value)) {
+                            if (!isset($value) || is_null($value)) {
                                 $fail('Options is required for  Checkbox, Radio, Select, Select-multiple');
                             }
                         }

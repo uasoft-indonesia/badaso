@@ -9,6 +9,7 @@ use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
 use Uasoft\Badaso\Models\DataType;
+use Illuminate\Support\Facades\Auth;
 
 class BadasoBaseController extends Controller
 {
@@ -96,8 +97,11 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties([
                     'old' => $updated['old_data'],
                     'attributes' => $updated['updated_data'],
@@ -139,8 +143,11 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $stored_data = $this->insertData($data, $data_type);
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties(['attributes' => $stored_data])
                 ->log($data_type->display_name_singular.' has been created');
 
@@ -181,8 +188,11 @@ class BadasoBaseController extends Controller
 
             $this->deleteData($data, $data_type, $is_hard_delete);
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties($data)
                 ->log($data_type->display_name_singular.' has been deleted');
 
@@ -220,8 +230,11 @@ class BadasoBaseController extends Controller
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
             $this->restoreData($data, $data_type);
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties($data)
                 ->log($data_type->display_name_singular.' has been restore');
 
@@ -262,8 +275,11 @@ class BadasoBaseController extends Controller
                 $this->deleteData($should_delete, $data_type, $is_hard_delete);
             }
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties($data)
                 ->log($data_type->display_name_singular.' has been bulk deleted');
 
@@ -302,8 +318,11 @@ class BadasoBaseController extends Controller
                 $this->restoreData($should_delete, $data_type);
             }
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity($data_type->display_name_singular)
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties($data)
                 ->log($data_type->display_name_singular.' has been bulk deleted');
 
@@ -333,6 +352,9 @@ class BadasoBaseController extends Controller
             $data_type = $this->getDataType($slug);
             $order_column = $data_type->order_column;
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             if ($data_type->model_name) {
                 $model = app($data_type->model_name);
                 foreach ($request->data as $index => $row) {
@@ -341,7 +363,7 @@ class BadasoBaseController extends Controller
                     $single_data->save();
 
                     activity($data_type->display_name_singular)
-                        ->causedBy(auth()->user() ?? null)
+                        ->causedBy($user_auth ?? null)
                         ->withProperties(['attributes' => $single_data])
                         ->log($data_type->display_name_singular.' has been sorted');
                 }
@@ -351,7 +373,7 @@ class BadasoBaseController extends Controller
                     DB::table($data_type->name)->where('id', $row['id'])->update($updated_data);
 
                     activity($data_type->display_name_singular)
-                        ->causedBy(auth()->user() ?? null)
+                        ->causedBy($user_auth ?? null)
                         ->withProperties(['attributes' => $updated_data])
                         ->log($data_type->display_name_singular.' has been sorted');
                 }

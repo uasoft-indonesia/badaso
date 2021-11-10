@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Models\FirebaseCloudMessages;
 
@@ -15,7 +16,8 @@ class BadasoFCMController extends Controller
                 'token_get_message' => ['required'],
             ]);
 
-            $user = \auth()->user();
+            $guard = config('badaso.authenticate.guard');
+            $user = Auth::guard($guard)->user();
 
             if (isset($user)) {
                 $firebase_cloud_messages = FirebaseCloudMessages::where('user_id', $user->id)->first();

@@ -5,8 +5,9 @@ namespace Uasoft\Badaso\Controllers;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Models\Configuration;
+use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
 
 class BadasoMaintenanceController extends Controller
 {
@@ -81,35 +82,16 @@ class BadasoMaintenanceController extends Controller
 
     private function isUnderMaintenance()
     {
-        $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+        $model_configuration = ConfigurationRedis::get();
+        $maintenance = $model_configuration->where('key', 'maintenance')->firstOrFail();
 
         return $maintenance->value === '1' ? true : false;
     }
 
-    private function getRolesByToken(Request $request)
-    {
-        try {
-            $request->validate([
-                'token' => 'nullable',
-            ]);
-
-            $data['roles'] = null;
-
-            if ($request->token) {
-                if (\JWTAuth::user()) {
-                    $data['roles'] = \JWTAuth::user()->roles;
-                }
-            }
-
-            return ApiResponse::success(collect($data)->toArray());
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
-
     private function isAdministrator()
     {
-        $user = auth()->user();
+        $guard = config('badaso.authenticate.guard') ;
+        $user = Auth::guard($guard)->user();
         if (isset($user)) {
             $roles = $user->roles ?? null;
             if (isset($roles)) {
