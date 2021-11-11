@@ -5,6 +5,7 @@ namespace Uasoft\Badaso\Controllers;
 use Exception;
 use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -174,8 +175,11 @@ class BadasoCRUDController extends Controller
 
             $data_type = DataType::find($request->input('id'));
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity('CRUD')
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties([
                     'old' => $data_type,
                     'new' => $request->input(),
@@ -385,8 +389,11 @@ class BadasoCRUDController extends Controller
 
             $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity('CRUD')
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties(['attributes' => $new_data_type])
                 ->log('Table '.$new_data_type->slug.' has been created');
 
@@ -421,8 +428,11 @@ class BadasoCRUDController extends Controller
 
             event(new CRUDDataDeleted($data_type));
 
+            $guard = config('badaso.authenticate.guard');
+            $user_auth = Auth::guard($guard)->user();
+
             activity('CRUD')
-                ->causedBy(auth()->user() ?? null)
+                ->causedBy($user_auth ?? null)
                 ->withProperties($data_type)
                 ->log('Table '.$data_type->slug.' has been deleted');
 

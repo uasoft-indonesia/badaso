@@ -4,6 +4,7 @@ namespace Uasoft\Badaso\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Helpers\HandleFile;
@@ -79,7 +80,8 @@ class ApiRequest
 
     protected function isAdministrator()
     {
-        $user = auth()->user();
+        $guard = config('badaso.authenticate.guard');
+        $user = Auth::guard($guard)->user();
         if (isset($user)) {
             $roles = $user->roles ?? null;
             if (isset($roles)) {

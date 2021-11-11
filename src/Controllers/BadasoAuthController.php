@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
@@ -107,13 +106,11 @@ class BadasoAuthController extends Controller
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if (! $should_verify_email) {
-                Auth::guard(config('badaso.authenticate.guard'))->login($user);
-
-                $token = $user->createToken(Str::random(10))->plainTextToken;
+                $auth = Auth::login($user);
 
                 DB::commit();
 
-                return $this->createNewToken($token, auth()->user());
+                return TokenManagement::fromUser($user)->createToken()->response();
             } else {
                 $token = rand(111111, 999999);
                 $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
@@ -395,11 +392,13 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            $guard = config('badaso.authenticate.guard');
+
+            if (! $user = Auth::guard($guard)->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
-            $user_id = auth()->user()->id;
+            $user_id = Auth::guard($guard)->user()->id;
 
             $request->validate([
                 'name'      => 'required|string|max:255',
