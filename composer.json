@@ -40,6 +40,7 @@
     "zircote/swagger-php": "^3.2",
     "symfony/var-exporter": "^5.2.0",
     "google/apiclient": "^2.9",
+    "predis/predis": "^1.1",
     "laravel/ui": "^3.3",
     "laravel/octane": "^1.0"
   },

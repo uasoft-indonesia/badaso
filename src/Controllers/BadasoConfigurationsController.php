@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Traits\FileHandler;
 
@@ -156,6 +157,7 @@ class BadasoConfigurationsController extends Controller
             $request->validate([
                 'configurations' => 'required',
             ]);
+
             foreach ($request->configurations as $configuration) {
                 Validator::make($configuration, [
                     'id' => ['required'],
@@ -172,6 +174,9 @@ class BadasoConfigurationsController extends Controller
                     $updated_configuration->save();
                 }
             }
+
+            // save all configuration to redis
+            ConfigurationRedis::save();
 
             DB::commit();
 
