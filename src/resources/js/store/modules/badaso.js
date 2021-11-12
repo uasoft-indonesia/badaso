@@ -54,6 +54,12 @@ export default {
           state.menu = data.map((menu) => {
             menu.menuItems.map((menuItem) => {
               menuItem.url = "/" + prefix + menuItem.url;
+              if (menuItem.children) {
+                menuItem.children = menuItem.children.map((menuChildren) => {
+                  menuChildren.url = "/" + prefix + menuChildren.url;
+                  return menuChildren;
+                });
+              }
               return menuItem;
             });
             return menu;

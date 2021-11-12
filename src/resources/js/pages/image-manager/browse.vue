@@ -35,7 +35,7 @@
 </template>
 <script>
 export default {
-  name: "FileManagerBrowse",
+  name: "ImageManagerBrowse",
   components: {},
   data() {
     return {
@@ -76,7 +76,7 @@ export default {
     urlFileManager() {
       let host = window.location.origin;
       let token = localStorage.getItem("token");
-      let url = `${host}/filemanager?type=Files&token=${token}`;
+      let url = `${host}/filemanager?type=Images&token=${token}`;
       return url;
     },
   },
