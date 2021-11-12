@@ -193,7 +193,7 @@ class BadasoMenuController extends Controller
                 $data = [];
                 foreach ($menus as $index => $menu) {
                     $menu_items = $all_menu_items
-                        ->where("parent_id", null)
+                        ->where('parent_id', null)
                         ->where('menu_id', $menu->id)->map(function ($item) use ($all_menu_items) {
                             $children = array_values($all_menu_items->where('parent_id', $item->id)->toArray());
 
