@@ -135,18 +135,6 @@ class FixedMenuItemSeeder extends Seeder
                 9 => [
                     'id' => 10,
                     'menu_id' => $menu_core,
-                    'title' => 'File Manager',
-                    'url' => '/file-manager',
-                    'target' => '_self',
-                    'icon_class' => 'perm_media',
-                    'color' => '',
-                    'parent_id' => null,
-                    'order' => 8,
-                    'permissions' => 'browse_file_manager',
-                ],
-                10 => [
-                    'id' => 11,
-                    'menu_id' => $menu_core,
                     'title' => 'API Documentation',
                     'url' => '/api-docs',
                     'target' => '_self',
@@ -157,9 +145,47 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_apidocs',
                 ],
 
-                // general menu
+                // media manager
+                10 => [
+                    'id' => 11,
+                    'menu_id' => $menu_core,
+                    'title' => 'Media Manager',
+                    'url' => '#',
+                    'target' => '_self',
+                    'icon_class' => '',
+                    'color' => '',
+                    'parent_id' => null,
+                    'order' => 10,
+                    'permissions' => '',
+                ],
                 11 => [
                     'id' => 12,
+                    'menu_id' => $menu_core,
+                    'title' => 'Files',
+                    'url' => '/file-manager',
+                    'target' => '_self',
+                    'icon_class' => 'folder',
+                    'color' => '',
+                    'parent_id' => 11,
+                    'order' => 1,
+                    'permissions' => 'browse_file_manager',
+                ],
+                12 => [
+                    'id' => 13,
+                    'menu_id' => $menu_core,
+                    'title' => 'Images',
+                    'url' => '/image-manager',
+                    'target' => '_self',
+                    'icon_class' => 'perm_media',
+                    'color' => '',
+                    'parent_id' => 11,
+                    'order' => 2,
+                    'permissions' => 'browse_file_manager',
+                ],
+
+                // general menu
+                13 => [
+                    'id' => 14,
                     'menu_id' => $menu_general,
                     'title' => 'Dashboard',
                     'url' => '/home',
@@ -182,10 +208,15 @@ class FixedMenuItemSeeder extends Seeder
                     continue;
                 }
 
-                MenuItem::create($value);
+                $menu_item = MenuItem::find($value['id']);
+                if (isset($menu_item)) {
+                    $menu_item->update($value);
+                } else {
+                    $menu_item = MenuItem::create($value);
+                }
             }
-        } catch (Exception $e) {
-            throw new Exception('Exception occur '.$e);
+        } catch (\Exception $e) {
+            throw new \Exception('Exception occur '.$e);
             \DB::rollBack();
         }
 

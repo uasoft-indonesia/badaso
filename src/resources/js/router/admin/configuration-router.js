@@ -274,7 +274,15 @@ export default [
     name: "FileManagerBrowse",
     component: Pages,
     meta: {
-      title: "File Manager",
+      title: "Files",
+    },
+  },
+  {
+    path: prefix + "/image-manager",
+    name: "ImageManagerBrowse",
+    component: Pages,
+    meta: {
+      title: "Images",
     },
   },
   {
