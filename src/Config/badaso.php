@@ -3,7 +3,7 @@
 return [
     'db_name' => env('DB_DATABASE'),
     'admin_panel_route_prefix' => env('MIX_ADMIN_PANEL_ROUTE_PREFIX', 'badaso-dashboard'),
-    'default_menu' => env('MIX_DEFAULT_MENU', 'admin'),
+    'default_menu' => env('MIX_DEFAULT_MENU', 'general'),
     'api_route_prefix' => env('MIX_API_ROUTE_PREFIX', 'badaso-api'),
     'license_key' => env('BADASO_LICENSE_KEY'),
     'database' => [
