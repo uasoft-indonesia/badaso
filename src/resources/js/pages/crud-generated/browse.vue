@@ -4,12 +4,12 @@
       <badaso-breadcrumb-hover full>
         <template slot="action">
           <download-excel
-              :data="records"
-              :fields="fieldsForExcel"
-              :worksheet="dataType.displayNameSingular"
-              :name="dataType.displayNameSingular + '.xls'"
-              class="crud-generated__excel-button"
-            >
+            :data="records"
+            :fields="fieldsForExcel"
+            :worksheet="dataType.displayNameSingular"
+            :name="dataType.displayNameSingular + '.xls'"
+            class="crud-generated__excel-button"
+          >
             <badaso-dropdown-item
               icon="file_upload"
               v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)"
@@ -29,7 +29,7 @@
             :to="{ name: 'CrudGeneratedAdd' }"
             v-if="
               isCanAdd &&
-                $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
+              $helper.isAllowedToModifyGeneratedCRUD('add', dataType)
             "
           >
             {{ $t("action.add") }}
@@ -39,7 +39,7 @@
             :to="{ name: 'CrudGeneratedSort' }"
             v-if="
               isCanSort &&
-                $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
+              $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
             "
           >
             {{ $t("action.sort") }}
@@ -48,7 +48,7 @@
             icon="delete_sweep"
             v-if="
               selected.length > 0 &&
-                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
+              $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
             "
             @click.stop
             @click="confirmDeleteMultiple"
@@ -79,7 +79,7 @@
             @click.stop
             :to="{ name: 'CrudGeneratedBrowseBin' }"
           >
-            {{$t("action.showTrash")}}
+            {{ $t("action.showTrash") }}
           </badaso-dropdown-item>
         </template>
       </badaso-breadcrumb-hover>
@@ -138,7 +138,7 @@
                   <vs-tr
                     v-if="
                       !idsOfflineDeleteRecord.includes(record.id.toString()) ||
-                        !isOnline
+                      !isOnline
                     "
                     :data="record"
                     :key="index"
@@ -161,9 +161,9 @@
                     >
                       <img
                         v-if="dataRow.type === 'upload_image'"
-                        :src="
-                          `${ record[$caseConvert.stringSnakeToCamel(dataRow.field)] }`
-                        "
+                        :src="`${
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }`"
                         width="100%"
                         alt=""
                       />
@@ -178,7 +178,7 @@
                             ]
                           )"
                           :key="indexImage"
-                          :src="`${ image }`"
+                          :src="`${image}`"
                           width="100%"
                           alt=""
                           class="crud-generated__item--image"
@@ -202,9 +202,9 @@
                       >
                       <a
                         v-else-if="dataRow.type === 'upload_file'"
-                        :href="
-                          `${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
-                        "
+                        :href="`${
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }`"
                         target="_blank"
                         >{{
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -222,11 +222,7 @@
                           )"
                           :key="indexFile"
                         >
-                          <a
-                            :href="`${file}`"
-                            target="_blank"
-                            >{{ file }}</a
-                          >
+                          <a :href="`${file}`" target="_blank">{{ file }}</a>
                         </p>
                       </div>
                       <p
@@ -246,7 +242,7 @@
                       <div
                         v-else-if="
                           dataRow.type === 'select_multiple' ||
-                            dataRow.type === 'checkbox'
+                          dataRow.type === 'checkbox'
                         "
                         class="crud-generated__item--select-multiple"
                       >
@@ -263,14 +259,12 @@
                       </div>
                       <div v-else-if="dataRow.type === 'color_picker'">
                         <div
-                        class="crud-generated__item--color-picker"
-                          :style="
-                            `background-color: ${
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            }`
-                          "
+                          class="crud-generated__item--color-picker"
+                          :style="`background-color: ${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`"
                         ></div>
                         {{
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -301,11 +295,11 @@
                             }"
                             v-if="
                               isCanRead &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'read',
-                                  dataType.name
-                                ) &&
-                                !isShowDataRecycle
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'read',
+                                dataType.name
+                              ) &&
+                              !isShowDataRecycle
                             "
                             icon="visibility"
                           >
@@ -321,11 +315,11 @@
                             }"
                             v-if="
                               isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'edit',
+                                dataType
+                              ) &&
+                              !isShowDataRecycle
                             "
                             icon="edit"
                           >
@@ -338,10 +332,10 @@
                               !idsOfflineDeleteRecord.includes(
                                 record.id.toString()
                               ) &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'delete',
-                                  dataType
-                                )
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'delete',
+                                dataType
+                              )
                             "
                           >
                             Delete
@@ -424,7 +418,11 @@
                       >
                         <img
                           v-if="dataRow.type === 'upload_image'"
-                          :src="record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]"
+                          :src="
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          "
                           width="100%"
                           alt=""
                         />
@@ -469,9 +467,11 @@
                         >
                         <a
                           v-else-if="dataRow.type === 'upload_file'"
-                          :href="
-                            `${record[ $caseConvert.stringSnakeToCamel(dataRow.field) ]}`
-                          "
+                          :href="`${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`"
                           target="_blank"
                           >{{
                             getDownloadUrl(
@@ -493,17 +493,15 @@
                             )"
                             :key="indexFile"
                           >
-                            <a
-                              :href="`${file}`"
-                              target="_blank"
-                              >{{ getDownloadUrl(file) }}</a
-                            >
+                            <a :href="`${file}`" target="_blank">{{
+                              getDownloadUrl(file)
+                            }}</a>
                           </p>
                         </div>
                         <p
                           v-else-if="
                             dataRow.type === 'radio' ||
-                              dataRow.type === 'select'
+                            dataRow.type === 'select'
                           "
                         >
                           {{
@@ -518,7 +516,7 @@
                         <div
                           v-else-if="
                             dataRow.type === 'select_multiple' ||
-                              dataRow.type === 'checkbox'
+                            dataRow.type === 'checkbox'
                           "
                           class="crud-generated__item--select-multiple"
                         >
@@ -536,13 +534,11 @@
                         <div v-else-if="dataRow.type === 'color_picker'">
                           <div
                             class="crud-generated__item--color-picker"
-                            :style="
-                              `background-color: ${
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }`
-                            "
+                            :style="`background-color: ${
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            }`"
                           ></div>
                           {{
                             record[
@@ -575,10 +571,10 @@
                               }"
                               v-if="
                                 isCanRead &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'read',
-                                    dataType
-                                  )
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'read',
+                                  dataType
+                                )
                               "
                               icon="visibility"
                             >
@@ -594,10 +590,10 @@
                               }"
                               v-if="
                                 isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  )
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                )
                               "
                               icon="edit"
                             >
@@ -610,10 +606,10 @@
                                 !idsOfflineDeleteRecord.includes(
                                   record.id.toString()
                                 ) &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'delete',
-                                    dataType
-                                  )
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'delete',
+                                  dataType
+                                )
                               "
                             >
                               Delete
@@ -643,7 +639,10 @@
             </div>
           </vs-card>
         </vs-col>
-        <vs-prompt @accept="saveMaintenanceState" :active.sync="maintenanceDialog">
+        <vs-prompt
+          @accept="saveMaintenanceState"
+          :active.sync="maintenanceDialog"
+        >
           <vs-row>
             <badaso-switch
               :label="$t('crudGenerated.maintenanceDialog.switch')"
@@ -679,8 +678,10 @@
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
-            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
+            <h1 class="badaso-maintenance__text">
+              We are under <br />maintenance
+            </h1>
           </div>
         </vs-col>
       </vs-row>
@@ -723,7 +724,7 @@ export default {
     showMaintenancePage: false,
   }),
   watch: {
-    $route: function(to, from) {
+    $route: function (to, from) {
       this.getEntity();
     },
     // page: function(to, from) {
@@ -856,9 +857,8 @@ export default {
                   let valueIds = fieldData.value.split(",");
                   valueIds = valueIds.filter((valueId, index) => valueId != id);
                   if (valueIds.length != 0) {
-                    data[indexData].requestData.data[
-                      indexItem
-                    ].value = valueIds.join(",");
+                    data[indexData].requestData.data[indexItem].value =
+                      valueIds.join(",");
 
                     newData[newData.length] = data[indexData];
                   }
@@ -1004,9 +1004,8 @@ export default {
     },
     prepareExcelExporter() {
       for (const iterator of this.dataType.dataRows) {
-        this.fieldsForExcel[
-          iterator.displayName
-        ] = this.$caseConvert.stringSnakeToCamel(iterator.field);
+        this.fieldsForExcel[iterator.displayName] =
+          this.$caseConvert.stringSnakeToCamel(iterator.field);
       }
 
       for (const iterator of this.dataType.dataRows) {
@@ -1060,17 +1059,17 @@ export default {
 
       let output = doc.output("blob");
 
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-        window.navigator.msSaveOrOpenBlob(output);
-        return;
-      }
+      // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      //   return;
+      // }
 
       var data = window.URL.createObjectURL(output);
-      var link = document.createElement("a");
-      link.href = data;
-      link.download = this.dataType.displayNameSingular + ".pdf";
-      link.click();
-      setTimeout(function() {
+      // var link = document.createElement("a");
+      // link.href = data;
+      // link.download = this.dataType.displayNameSingular + ".pdf";
+      window.open(data, "_blank");
+      // link.click();
+      setTimeout(function () {
         // For Firefox it is necessary to delay revoking the ObjectURL
         window.URL.revokeObjectURL(data);
       }, 100);
@@ -1130,7 +1129,7 @@ export default {
     maintenanceImg() {
       let config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
-    }
+    },
   },
 };
 </script>
