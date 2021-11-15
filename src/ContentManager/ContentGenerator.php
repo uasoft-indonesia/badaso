@@ -28,7 +28,7 @@ class ContentGenerator
                     ->where('url', '%s')
                     ->first();
 
-                $order = $menu_item->highestOrderMenuItem();
+                $order = Badaso::model('MenuItem')->highestOrderMenuItem($menu->id);
 
                 if (!is_null($menu_item)) {
                     $menu_item->fill([

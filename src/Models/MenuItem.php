@@ -17,7 +17,7 @@ class MenuItem extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'menu_items';
+        $this->table = $prefix . 'menu_items';
         parent::__construct($attributes);
     }
 
@@ -33,18 +33,19 @@ class MenuItem extends Model
         'order',
     ];
 
-    public function highestOrderMenuItem($parent = null)
+    public function highestOrderMenuItem($menu_id = null, $parent = null)
     {
         $order = 1;
 
-        $item = self::where('menu_id', $this->menu_id);
+        $menu_id = $menu_id != null ? $menu_id : $this->menu_id;
+        $item = self::where('menu_id', $menu_id);
 
         if ($parent != null) {
             $item = $item->where('parent_id', $parent);
         }
 
         $item = $item->orderBy('order', 'DESC')
-        ->first();
+            ->first();
 
         if (!is_null($item)) {
             $order = intval($item->order) + 1;
