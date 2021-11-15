@@ -17,7 +17,7 @@ class MenuItem extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'menu_items';
+        $this->table = $prefix.'menu_items';
         parent::__construct($attributes);
     }
 
@@ -47,7 +47,7 @@ class MenuItem extends Model
         $item = $item->orderBy('order', 'DESC')
             ->first();
 
-        if (!is_null($item)) {
+        if (! is_null($item)) {
             $order = intval($item->order) + 1;
         }
 
