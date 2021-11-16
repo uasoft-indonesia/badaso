@@ -1046,10 +1046,16 @@ export default {
 
       const doc = new jsPDF("l");
 
+      // Dynamic table title
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(28);
+      doc.text(this.dataType.displayNameSingular, 149, 20, "center");
+
+      //Data table
       doc.autoTable({
         head: [this.fieldsForPdf],
         body: result,
-        startY: 15,
+        startY: 30,
         // Default for all columns
         styles: { valign: "middle" },
         headStyles: { fillColor: [6, 187, 211] },
@@ -1057,18 +1063,11 @@ export default {
         columnStyles: { text: { cellWidth: "wrap" } },
       });
 
+      //Output Table title and data table in new tab
       let output = doc.output("blob");
-
-      // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-      //   return;
-      // }
-
       var data = window.URL.createObjectURL(output);
-      // var link = document.createElement("a");
-      // link.href = data;
-      // link.download = this.dataType.displayNameSingular + ".pdf";
       window.open(data, "_blank");
-      // link.click();
+
       setTimeout(function () {
         // For Firefox it is necessary to delay revoking the ObjectURL
         window.URL.revokeObjectURL(data);
