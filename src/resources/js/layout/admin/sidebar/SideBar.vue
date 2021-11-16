@@ -64,6 +64,7 @@
               v-if="menu.children && menu.children.length > 0"
               :title="menu.title"
               open
+              parentMenu
               :icon="menu.iconClass"
               :key="index"
             >
@@ -123,6 +124,7 @@
         <div :key="indexMenu" v-else>
           <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-group
+              parentMenu
               v-if="menu.children && menu.children.length > 0"
               :title="menu.title"
               open
@@ -299,6 +301,11 @@ export default {
     setLocale(item) {
       this.$i18n.locale = item.key;
       this.$store.commit("badaso/SET_LOCALE", item);
+    },
+    getTemplate() {
+      let template = "";
+      template += `<h1>Hello World</h1>`;
+      return template;
     },
   },
   watch: {
