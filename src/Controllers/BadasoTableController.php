@@ -178,7 +178,7 @@ class BadasoTableController extends Controller
                         $destination_table_column,
                         $destination_table_display_column,
                     ])
-                        ->get();
+                    ->get();
                     $result = collect($relation_data);
                     $data[$destination_table] = $result->map(function ($res) use ($destination_table_column, $destination_table_display_column) {
                         $item = $res;
@@ -203,7 +203,7 @@ class BadasoTableController extends Controller
 
             if ($request->slug) {
                 $data_type = $data_type->where('slug', $request->slug)->first();
-                $data_type->data_rows = $this->dataRowsTypeReplace($data_type->dataRows)->toArray();
+                $data_type->dataRows = $this->dataRowsTypeReplace($data_type->dataRows)->toArray();
             }
 
             return ApiResponse::success([
@@ -214,7 +214,7 @@ class BadasoTableController extends Controller
         }
     }
 
-    protected function dataRowsTypeReplace(Collection $data_rows): Collection
+    private function dataRowsTypeReplace(Collection $data_rows): Collection
     {
         if (env('DB_CONNECTION') == 'sqlite') {
             foreach ($data_rows as $index => $rows) {

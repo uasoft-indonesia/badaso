@@ -33,7 +33,7 @@ export default {
     availableMimetypes: {
       file: {},
       image: {},
-    }
+    },
   },
   mutations: {
     //This is for Sidbar trigger in mobile
@@ -47,21 +47,36 @@ export default {
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-dashboard";
+
+      // function add prefix in children
+      const menuItemAddPrefix = (arrayMenuChild, callbackMenuItemAddPrefix) => {
+        arrayMenuChild = arrayMenuChild.map((menuItem) => {
+          menuItem.url = "/" + prefix + menuItem.url;
+
+          if (menuItem.children) {
+            menuItem.children = callbackMenuItemAddPrefix(
+              menuItem.children,
+              callbackMenuItemAddPrefix
+            );
+          }
+
+          return menuItem;
+        });
+
+        return arrayMenuChild;
+      };
+
       api.badasoMenu
         .browseItemByKeys({})
         .then((res) => {
           let { data } = res;
+
           state.menu = data.map((menu) => {
-            menu.menuItems.map((menuItem) => {
-              menuItem.url = "/" + prefix + menuItem.url;
-              if (menuItem.children) {
-                menuItem.children = menuItem.children.map((menuChildren) => {
-                  menuChildren.url = "/" + prefix + menuChildren.url;
-                  return menuChildren;
-                });
-              }
-              return menuItem;
-            });
+            menu.menuItems = menuItemAddPrefix(
+              menu.menuItems,
+              menuItemAddPrefix
+            );
+
             return menu;
           });
         })
@@ -149,14 +164,15 @@ export default {
       window.location.reload();
     },
     FETCH_FILE_CONFIGURATION(state) {
-      api.badasoFile.browseConfiguration()
-      .then(res => {
-        state.availableMimetypes.image = res.data.image;
-        state.availableMimetypes.file = res.data.file;
-      })
-      .catch(err => {
-        console.error(err);
-      })
+      api.badasoFile
+        .browseConfiguration()
+        .then((res) => {
+          state.availableMimetypes.image = res.data.image;
+          state.availableMimetypes.file = res.data.file;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     SET_GLOBAL_STATE(state, { key, value }) {
       state[key] = value;

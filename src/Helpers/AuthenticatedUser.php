@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Helpers;
 
-use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\RolePermission;
 use Uasoft\Badaso\Models\UserRole;
@@ -11,7 +10,7 @@ class AuthenticatedUser
 {
     public static function getUser()
     {
-        $user = Auth::guard(config('badaso.authenticate.guard'))->user();
+        $user = auth()->user();
         if (! is_null($user)) {
             $user->roles = self::getRoles($user->id);
             $user->permissions = self::getPermissions($user->id);
@@ -48,7 +47,6 @@ class AuthenticatedUser
         }
         $permissions = explode(',', $permissions_string);
         $user = self::getUser();
-
         $user_permissions = isset($user) ? $user->permissions : [];
         $user_permissions = collect($user_permissions)->pluck('key')->toArray();
 

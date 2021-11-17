@@ -94,7 +94,6 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
         $decoded_json['devDependencies']['sass'] = '^1.32.11';
         $decoded_json['devDependencies']['sass-loader'] = '^11.0.1';
-        $decoded_json['devDependencies']['resolve-url-loader'] = '^4.0.0';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
@@ -221,7 +220,15 @@ class BadasoSetup extends Command
             $path_config_auth = config_path('auth.php');
             $config_auth = require $path_config_auth;
 
-            $config_auth['providers']['users'] = [
+            $config_auth['defaults'] = [
+                'guard' => 'badaso_guard',
+                'passwords' => 'users',
+            ];
+            $config_auth['guards']['badaso_guard'] = [
+                'driver' => 'jwt',
+                'provider' => 'badaso_users',
+            ];
+            $config_auth['providers']['badaso_users'] = [
                 'driver' => 'eloquent',
                 'model' => \Uasoft\Badaso\Models\User::class,
             ];

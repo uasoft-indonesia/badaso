@@ -290,7 +290,7 @@
                 <badaso-select
                   v-if="
                     dataRow.type === 'relation' &&
-                    dataRow.relation.relationType === 'belongs_to'
+                      dataRow.relation.relationType === 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -307,7 +307,7 @@
                 <badaso-text
                   v-if="
                     dataRow.type === 'relation' &&
-                    dataRow.relation.relationType !== 'belongs_to'
+                      dataRow.relation.relationType !== 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -473,8 +473,9 @@ export default {
               data.type === "checkbox" ||
               data.type === "select_multiple"
             ) {
-              let val =
-                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              let val = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ];
               if (val) {
                 data.value = val.split(",");
               }
@@ -511,8 +512,9 @@ export default {
                 ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                 : "";
             } else {
-              data.value =
-                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ];
             }
           } catch (error) {}
           return data;

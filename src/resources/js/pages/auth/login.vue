@@ -107,50 +107,51 @@ export default {
   }),
   methods: {
     login() {
-        this.$openLoader();
-        this.$store.commit("badaso/SET_AUTH_ISSUE", {
-          unauthorized: false,
-        });
-        this.$api.badasoAuth
-          .login({
-            email: this.email,
-            password: this.password,
-            remember: this.rememberMe,
-          })
-          .then((response) => {
-            this.$closeLoader();
-            if (response.data.accessToken) {
-              this.$router.push({ name: "Home" });
-            } else {
-              this.$router.push({
-                name: "AuthVerify",
-                query: {
-                  email: this.email,
-                },
-              });
-            }
-            if (this.$statusActiveFeatureFirebase) {
-              this.$messagingToken.then((tokenMessage) => {
-                try {
-                  this.$api.badasoFcm.saveTokenMessage(tokenMessage);
-                } catch (error) {
-                  console.error(
-                    "Errors set token firebase cloud message :",
-                    error
-                  );
-                }
-              });
-            }
-          })
-          .catch((error) => {
-        this.errors = error.errors;
-        this.$closeLoader();
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: error.message,
-          color: "danger",
-        });
+      this.$openLoader();
+      this.$store.commit("badaso/SET_AUTH_ISSUE", {
+        unauthorized: false,
       });
+      this.$api.badasoAuth
+        .login({
+          email: this.email,
+          password: this.password,
+          remember: this.rememberMe,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          if (response.data.accessToken) {
+            this.$router.push({ name: "Home" });
+          } else {
+            this.$router.push({
+              name: "AuthVerify",
+              query: {
+                email: this.email,
+              },
+            });
+          }
+
+          if (this.$statusActiveFeatureFirebase) {
+            this.$messagingToken.then((tokenMessage) => {
+              try {
+                this.$api.badasoFcm.saveTokenMessage(tokenMessage);
+              } catch (error) {
+                console.error(
+                  "Errors set token firebase cloud message :",
+                  error
+                );
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
     },
   },
 };

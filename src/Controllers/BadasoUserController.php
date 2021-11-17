@@ -61,7 +61,6 @@ class BadasoUserController extends Controller
 
             $user = User::find($request->id);
             $user->name = $request->name;
-            $user->username = $request->username;
             $user->email = $request->email;
             $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;

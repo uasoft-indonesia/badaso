@@ -8,6 +8,8 @@
 | offline => vendor/unisharp/laravel-filemanager/docs/config.md
  */
 
+use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -51,12 +53,6 @@ return [
             'startup_view' => 'list',
             'max_size' => 50000, // size in KB
             'valid_mime' => [
-                'image/jpeg',
-                'image/jpg',
-                'image/pjpeg',
-                'image/png',
-                'image/gif',
-                'image/svg+xml',
                 'application/pdf',
                 'text/plain',
             ],
@@ -130,6 +126,7 @@ return [
 
     // Create thumbnails automatically only for listed types.
     'raster_mimetypes' => [
+        'image/jpg',
         'image/jpeg',
         'image/jpg',
         'image/pjpeg',
@@ -182,11 +179,9 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-
     'middleware' => [
         'web',
-        \Uasoft\Badaso\Middleware\BadasoAuthenticateIframe::class.':lfm',
+        'auth',
+        BadasoCheckPermissions::class.':browse_file_manager',
     ],
-
-    'prefix_route' => '/filemanager',
 ];

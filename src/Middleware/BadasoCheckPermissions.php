@@ -3,15 +3,14 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 
-class BadasoCheckPermissions extends BadasoAuthenticate
+class BadasoCheckPermissions
 {
-    public function handle($request, Closure $next, ...$guards)
+    public function handle($request, Closure $next, $permissions)
     {
-        [$permissions] = $guards;
-
         if ($permissions == null) {
             return $next($request);
         } else {
@@ -19,7 +18,7 @@ class BadasoCheckPermissions extends BadasoAuthenticate
             if ($continue) {
                 return $next($request);
             } else {
-                if ($this->isAuthorize($request)) {
+                if (Auth::check()) {
                     $continue = AuthenticatedUser::isAllowedTo($permissions);
                     if ($continue) {
                         return $next($request);

@@ -157,6 +157,7 @@ class BadasoConfigurationsController extends Controller
             $request->validate([
                 'configurations' => 'required',
             ]);
+
             foreach ($request->configurations as $configuration) {
                 Validator::make($configuration, [
                     'id' => ['required'],

@@ -125,6 +125,7 @@ class BadasoBaseController extends Controller
     public function add(Request $request)
     {
         DB::beginTransaction();
+
         try {
             $request->validate([
                 'data' => [
@@ -185,7 +186,6 @@ class BadasoBaseController extends Controller
             $data_type = $this->getDataType($slug);
 
             $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
-
             $this->deleteData($data, $data_type, $is_hard_delete);
 
             $guard = config('badaso.authenticate.guard');

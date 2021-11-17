@@ -3,16 +3,15 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 
-class BadasoCheckPermissionsForCRUD extends BadasoAuthenticate
+class BadasoCheckPermissionsForCRUD
 {
-    public function handle($request, Closure $next, ...$parameter)
+    public function handle($request, Closure $next, $slug, $action)
     {
-        [$slug, $action] = $parameter;
-
         $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
 
         if ($data_type) {
@@ -23,7 +22,7 @@ class BadasoCheckPermissionsForCRUD extends BadasoAuthenticate
                 if ($continue) {
                     return $next($request);
                 } else {
-                    if ($this->isAuthorize($request)) {
+                    if (Auth::check()) {
                         $continue = AuthenticatedUser::isAllowedTo($action.'_'.$data_type->name);
                         if ($continue) {
                             return $next($request);

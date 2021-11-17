@@ -5,17 +5,17 @@ namespace Uasoft\Badaso\Controllers;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Uasoft\Badaso\Exceptions\SingleException;
+use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Helpers\Config;
-use Uasoft\Badaso\Helpers\TokenManagement;
 use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
+use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\EmailReset;
 use Uasoft\Badaso\Models\PasswordReset;
 use Uasoft\Badaso\Models\Role;
@@ -30,7 +30,7 @@ class BadasoAuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware(config('badaso.middleware.authenticate'), ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification', 'validateTokenForgetPassword']]);
+        $this->middleware(BadasoAuthenticate::class, ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification', 'validateTokenForgetPassword']]);
     }
 
     public function login(Request $request)
@@ -45,23 +45,28 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (! $token = Auth::attempt($credentials)) {
+                        if (! $token = auth()->attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
                 ],
                 'password' => ['required'],
             ]);
-            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
 
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {
-                $user = Auth::guard(config('badaso.authenticate.guard'))->user();
+                $user = auth()->user();
                 if (is_null($user->email_verified_at)) {
                     return ApiResponse::success([]);
                 }
             }
 
-            return TokenManagement::fromUser($user)->createToken($remember)->response();
+            $ttl = $this->getTTL($remember);
+            $token = auth()->setTTL($ttl)->attempt($credentials);
+
+            return $this->createNewToken($token, auth()->user(), $remember);
+        } catch (JWTException $e) {
+            return ApiResponse::failed($e);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -70,7 +75,8 @@ class BadasoAuthController extends Controller
     public function logout(Request $request)
     {
         try {
-            TokenManagement::fromAuth()->deleteToken();
+            auth()->logout();
+            // auth()->invalidate();
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -93,7 +99,6 @@ class BadasoAuthController extends Controller
                 'name'     => $request->get('name'),
                 'username' => $request->get('username'),
                 'email'    => $request->get('email'),
-                'username' => $request->get('username'),
                 'password' => Hash::make($request->get('password')),
             ]);
 
@@ -124,7 +129,7 @@ class BadasoAuthController extends Controller
 
                 UserVerification::firstOrCreate($data);
 
-                // $this->sendVerificationToken(['user' => $user, 'token' => $token]);
+                $this->sendVerificationToken(['user' => $user, 'token' => $token]);
 
                 DB::commit();
 
@@ -142,7 +147,12 @@ class BadasoAuthController extends Controller
     public function refreshToken(Request $request)
     {
         try {
-            return TokenManagement::fromAuth()->refreshToken()->response();
+            $ttl = $this->getTTL();
+            $token = auth()->setTTL($ttl)->refresh();
+
+            return $this->createNewToken($token, auth()->user());
+
+            return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -161,6 +171,17 @@ class BadasoAuthController extends Controller
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
+    }
+
+    protected function createNewToken($token, $user, $remember = false)
+    {
+        $obj = new stdClass();
+        $obj->access_token = $token;
+        $obj->token_type = 'bearer';
+        $obj->user = $user;
+        $obj->expires_in = auth()->factory()->getTTL();
+
+        return ApiResponse::success($obj);
     }
 
     public function sendVerificationToken($data)
@@ -194,9 +215,10 @@ class BadasoAuthController extends Controller
                 throw new SingleException(__('badaso::validation.verification.invalid_verification_token'));
             }
 
-            Auth::login($user);
+            $ttl = $this->getTTL();
+            $token = auth()->setTTL($ttl)->login($user);
 
-            return TokenManagement::fromAuth()->createToken()->response();
+            return $this->createNewToken($token, auth()->user());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -205,7 +227,7 @@ class BadasoAuthController extends Controller
     public function changePassword(Request $request)
     {
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -429,7 +451,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -485,7 +507,7 @@ class BadasoAuthController extends Controller
     public function verifyEmail(Request $request)
     {
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (! $user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -514,11 +536,28 @@ class BadasoAuthController extends Controller
                 throw new SingleException(__('badaso::validation.verification.invalid_verification_token'));
             }
 
-            Auth::login($user);
+            $ttl = $this->getTTL();
+            $token = auth()->setTTL($ttl)->login($user);
 
-            return TokenManagement::fromAuth()->createToken()->response();
+            return $this->createNewToken($token, auth()->user());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
+    }
+
+    private function getTTL($remember = false)
+    {
+        $remember_lifetime = 60 * 24 * 30; // a month
+        $ttl = env('BADASO_AUTH_TOKEN_LIFETIME', Badaso::getDefaultJwtTokenLifetime());
+        if ($ttl != '') {
+            $ttl = (int) $ttl;
+        } else {
+            $ttl = Badaso::getDefaultJwtTokenLifetime();
+        }
+        if ($remember && $ttl < $remember_lifetime) {
+            $ttl = $remember_lifetime;
+        }
+
+        return $ttl;
     }
 }

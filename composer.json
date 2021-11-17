@@ -26,6 +26,7 @@
   "require": {
     "webpatser/laravel-uuid": "^4.0",
     "doctrine/dbal": "^2.12",
+    "tymon/jwt-auth": "dev-develop",
     "larapack/doctrine-support": "^0.1.9",
     "arcanedev/log-viewer": "^8.1",
     "spatie/laravel-activitylog": "^3.17",
@@ -39,8 +40,8 @@
     "zircote/swagger-php": "^3.2",
     "symfony/var-exporter": "^5.2.0",
     "google/apiclient": "^2.9",
+    "predis/predis": "^1.1",
     "laravel/ui": "^3.3",
-    "laravel/sanctum": "^2.11",
     "laravel/octane": "^1.0"
   },
   "authors": [

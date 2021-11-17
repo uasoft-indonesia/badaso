@@ -29,7 +29,6 @@ abstract class Controller extends BaseController
 
     public function getDataType($slug)
     {
-        // get data type by slug
         $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
         $data_type->data_rows = $data_type->dataRows;
 

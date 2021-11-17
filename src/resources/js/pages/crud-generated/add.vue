@@ -290,7 +290,7 @@
                 <badaso-select
                   v-if="
                     dataRow.type === 'relation' &&
-                    dataRow.relation.relationType === 'belongs_to'
+                      dataRow.relation.relationType === 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -310,7 +310,7 @@
                 <badaso-text
                   v-if="
                     dataRow.type === 'relation' &&
-                    dataRow.relation.relationType !== 'belongs_to'
+                      dataRow.relation.relationType !== 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -414,9 +414,9 @@ export default {
       // init data rows
       let dataRows = {};
       for (let row of this.dataType.dataRows) {
-          if(row && row.value){
-            dataRows[row.field] = row.value
-          }
+        if (row && row.value) {
+          dataRows[row.field] = row.value;
+        }
       }
 
       // validate values in data rows must not equals 0

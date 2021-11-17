@@ -49,7 +49,8 @@ class BadasoDeploymentOrchestrator
         if (! in_array(
             $crud_data_changed->data_type->name,
             config('badaso-watch-tables')
-        )) {
+        )
+        ) {
             return;
         }
 

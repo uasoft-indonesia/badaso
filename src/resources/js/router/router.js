@@ -208,7 +208,6 @@ router.beforeEach((to, from, next) => {
       .then((res) => {
         if (res.data.maintenance) {
           next({ name: "Maintenance" });
-        } else {
         }
       })
       .catch((err) => {});

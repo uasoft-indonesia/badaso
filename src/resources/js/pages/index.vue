@@ -112,6 +112,7 @@ export default {
     DataPendingAddBrowse,
     DataPendingEditRead,
     ApiDocsBrowse,
+    ImageManagerBrowse,
   },
   name: "ActivityLogIndex",
   data: () => ({

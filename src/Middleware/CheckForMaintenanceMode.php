@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Models\Configuration;
 
 class CheckForMaintenanceMode
@@ -93,7 +92,7 @@ class CheckForMaintenanceMode
 
     protected function isAdministrator()
     {
-        $user = Auth::guard(config('badaso.authenticate.guard'))->user();
+        $user = auth()->user();
         if (isset($user)) {
             $roles = $user->roles ?? null;
             if (isset($roles)) {
