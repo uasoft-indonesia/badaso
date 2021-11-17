@@ -53,12 +53,6 @@ return [
             'startup_view' => 'list',
             'max_size' => 50000, // size in KB
             'valid_mime' => [
-                'image/jpeg',
-                'image/jpg',
-                'image/pjpeg',
-                'image/png',
-                'image/gif',
-                'image/svg+xml',
                 'application/pdf',
                 'text/plain',
             ],

@@ -191,18 +191,28 @@ class BadasoMenuController extends Controller
                 $menus = Menu::orderBy('order')->get();
 
                 $data = [];
+                // variable function to search and call child menu item
+                $menu_children = function ($collection, $menu_children_callback) use ($all_menu_items) {
+                    return $collection->map(function ($item) use ($all_menu_items, $menu_children_callback) {
+                        $children = $all_menu_items->where('parent_id', $item->id);
+
+                        if (count($children) > 0) {
+                            $children = $menu_children_callback($children, $menu_children_callback);
+
+                            $item->children = array_values($children->toArray());
+                        }
+
+                        return $item;
+                    });
+                };
                 foreach ($menus as $index => $menu) {
                     $menu_items = $all_menu_items
                         ->where('parent_id', null)
-                        ->where('menu_id', $menu->id)->map(function ($item) use ($all_menu_items) {
-                            $children = array_values($all_menu_items->where('parent_id', $item->id)->toArray());
+                        ->where('menu_id', $menu->id);
 
-                            if (count($children) > 0) {
-                                $item->children = $children;
-                            }
+                    $menu_items = $menu_children($menu_items, $menu_children);
 
-                            return $item;
-                        })->toArray();
+                    $menu_items = $menu_items->toArray();
                     $data[$index] = [
                         'menu' => $menu,
                         'menu_items' => array_values($menu_items),
