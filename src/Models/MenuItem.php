@@ -47,7 +47,7 @@ class MenuItem extends Model
         $item = $item->orderBy('order', 'DESC')
         ->first();
 
-        if (!is_null($item)) {
+        if (! is_null($item)) {
             $order = intval($item->order) + 1;
         }
 
