@@ -79,7 +79,7 @@ class ConfigurationsSeeder extends Seeder
                     'id' => 6,
                     'key' => 'adminPanelVerifyEmail',
                     'display_name' => 'Should verify email after register',
-                    'value' => '1',
+                    'value' => '0',
                     'details' => '',
                     'type' => 'switch',
                     'order' => 6,
