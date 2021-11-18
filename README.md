@@ -10,8 +10,8 @@
 
 <p align="center">
 <a href="https://github.styleci.io/repos/347838630"><img src="https://github.styleci.io/repos/347838630/shield" alt="Badaso StyleCI"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/uasoft-indonesia/badaso" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/uasoft-indonesia/badaso" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/badaso/core" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/badaso/core" alt="Latest Stable Version"></a>
 </p>
 
 
@@ -81,7 +81,7 @@ Thanks to all backers & sponsors!
 
 ### Sponsors
 
-  <a href="https://opencollective.com/vuetify">
+  <a href="https://opencollective.com/badaso">
     <img src="https://opencollective.com/static/images/become_sponsor.svg" alt="Donate to OpenCollective">
   </a>
 
@@ -111,7 +111,7 @@ For additional help, you can use one of these channels to ask a question:
 - [Github issues](https://github.com/uasoft-indonesia/badaso/issues) (Bug reports, Contributions)
 - [Facebook groups](https://facebook.com/groups/badaso) (Discussion for active facebook users)
 - [Telegram groups](https://t.me/badaso_developers) (Discussion for active telegram users)
-- Youtube tutorial (coming soon)
+- [Youtube tutorial](https://youtube.com/playlist?list=PLO-UCDr2KEwPZPeQvjLmj-RVfNHycttPl) (For visual learner)
 
 ## Credits
 
