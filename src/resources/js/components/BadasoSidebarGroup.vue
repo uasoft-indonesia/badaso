@@ -5,10 +5,7 @@
     @mouseover="mouseover"
     @mouseout="mouseout"
   >
-    <div
-      :style="`${parentMenu && 'margin-top:10px'}`"
-      class="badaso-sidebar-group__container"
-    >
+    <div class="badaso-sidebar-group__container">
       <vs-icon
         class="badaso-sidebar-group__icon--user"
         v-if="icon"
@@ -41,7 +38,6 @@
       </h4>
       <span class="vs-sidebar--tooltip">{{ title }}</span>
     </div>
-    <vs-divider v-if="parentMenu" style="margin-top:10px;" />
     <ul ref="items" :style="styleItems" class="vs-sidebar--group-items">
       <slot></slot>
     </ul>
