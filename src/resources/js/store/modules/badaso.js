@@ -52,6 +52,7 @@ export default {
       const menuItemAddPrefix = (arrayMenuChild, callbackMenuItemAddPrefix) => {
         arrayMenuChild = arrayMenuChild.map((menuItem) => {
           menuItem.url = "/" + prefix + menuItem.url;
+          menuItem.icon = menuItem.iconClass;
 
           if (menuItem.children) {
             menuItem.children = callbackMenuItemAddPrefix(
