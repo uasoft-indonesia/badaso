@@ -45,17 +45,18 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (! $token = Auth::attempt($credentials)) {
+                        if (!$token = Auth::attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
                 ],
                 'password' => ['required'],
             ]);
-            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
+            $user = Auth::guard(config('badaso.authenticate.guard'))->user();
 
+            // verify email verified at
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {
-                $user = Auth::guard(config('badaso.authenticate.guard'))->user();
                 if (is_null($user->email_verified_at)) {
                     return ApiResponse::success([]);
                 }
@@ -105,7 +106,7 @@ class BadasoAuthController extends Controller
             $user_role->save();
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
-            if (! $should_verify_email) {
+            if (!$should_verify_email) {
                 $auth = Auth::login($user);
 
                 DB::commit();
@@ -151,7 +152,7 @@ class BadasoAuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-            if (! $user = AuthenticatedUser::getUser()) {
+            if (!$user = AuthenticatedUser::getUser()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -205,7 +206,7 @@ class BadasoAuthController extends Controller
     public function changePassword(Request $request)
     {
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -213,7 +214,7 @@ class BadasoAuthController extends Controller
                 'old_password' => [
                     'required',
                     function ($attribute, $value, $fail) use ($user) {
-                        if (! Hash::check($value, $user->password)) {
+                        if (!Hash::check($value, $user->password)) {
                             $fail(__('badaso::validation.auth.wrong_old_password'));
                         }
                     },
@@ -347,7 +348,7 @@ class BadasoAuthController extends Controller
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
 
-            if (! $user_verification) {
+            if (!$user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
 
@@ -394,7 +395,7 @@ class BadasoAuthController extends Controller
         try {
             $guard = config('badaso.authenticate.guard');
 
-            if (! $user = Auth::guard($guard)->user()) {
+            if (!$user = Auth::guard($guard)->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -429,7 +430,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -485,7 +486,7 @@ class BadasoAuthController extends Controller
     public function verifyEmail(Request $request)
     {
         try {
-            if (! $user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
+            if (!$user = Auth::guard(config('badaso.authenticate.guard'))->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 

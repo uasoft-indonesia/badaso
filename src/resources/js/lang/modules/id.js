@@ -1076,6 +1076,13 @@ export default {
       invalid: "Gambar tidak valid",
     },
   },
+  imageManager: {
+    title: "Pengolahan Image",
+    warning: {
+      notAllowedToBrowse:
+        "Anda tidak diizinkan untuk mengakses gambar manager.",
+    },
+  },
   firebase: {
     title: "Firebase",
     feature: "Fitur",
