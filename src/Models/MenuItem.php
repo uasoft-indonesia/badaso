@@ -33,14 +33,19 @@ class MenuItem extends Model
         'order',
     ];
 
-    public function highestOrderMenuItem($parent = null)
+    public function highestOrderMenuItem($menu_id = null, $parent = null)
     {
         $order = 1;
 
-        $item = $this->where('parent_id', '=', $parent)
-            ->where('menu_id', $this->menu_id)
-            ->orderBy('order', 'DESC')
-            ->first();
+        $menu_id = $menu_id != null ? $menu_id : $this->menu_id;
+        $item = self::where('menu_id', $menu_id);
+
+        if ($parent != null) {
+            $item = $item->where('parent_id', $parent);
+        }
+
+        $item = $item->orderBy('order', 'DESC')
+        ->first();
 
         if (! is_null($item)) {
             $order = intval($item->order) + 1;

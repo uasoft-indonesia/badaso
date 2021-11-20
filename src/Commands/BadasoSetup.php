@@ -241,9 +241,7 @@ class BadasoSetup extends Command
     protected function envListUpload()
     {
         return [
-            'JWT_SECRET' => '',
             'BADASO_AUTH_TOKEN_LIFETIME' => '',
-            'BADASO_LICENSE_KEY' => '',
             'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
             'MIX_DEFAULT_MENU' => 'general',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',

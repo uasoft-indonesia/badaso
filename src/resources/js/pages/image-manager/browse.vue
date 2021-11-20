@@ -7,7 +7,7 @@
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t("fileManager.title") }}</h3>
+            <h3>{{ $t("imageManager.title") }}</h3>
           </div>
           <iframe
             v-if="isShow"
@@ -25,7 +25,7 @@
         <vs-card>
           <vs-row>
             <vs-col vs-lg="12">
-              <h3>{{ $t("fileManager.warning.notAllowedToBrowse") }}</h3>
+              <h3>{{ $t("imageManager.warning.notAllowedToBrowse") }}</h3>
             </vs-col>
           </vs-row>
         </vs-card>

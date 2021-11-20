@@ -152,7 +152,7 @@ class FixedMenuItemSeeder extends Seeder
                     'title' => 'Media Manager',
                     'url' => '#',
                     'target' => '_self',
-                    'icon_class' => '',
+                    'icon_class' => 'folder_open',
                     'color' => '',
                     'parent_id' => null,
                     'order' => 10,

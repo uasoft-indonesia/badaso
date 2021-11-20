@@ -52,10 +52,11 @@ class BadasoAuthController extends Controller
                 ],
                 'password' => ['required'],
             ]);
-            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
+            $user = Auth::guard(config('badaso.authenticate.guard'))->user();
 
+            // verify email verified at
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {
-                $user = Auth::guard(config('badaso.authenticate.guard'))->user();
                 if (is_null($user->email_verified_at)) {
                     return ApiResponse::success([]);
                 }
