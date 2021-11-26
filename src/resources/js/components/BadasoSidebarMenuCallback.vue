@@ -33,10 +33,8 @@
         :class="getItemActive().vsALinkItemActive"
         v-else
       >
-        <span class="hide-in-minisidebar">
-          <vs-icon :icon="icon ? icon : 'remove'" />
-          {{ title }}</span
-        >
+        <vs-icon :icon="icon ? icon : 'remove'" />
+        <span class="hide-in-minisidebar"> {{ title }}</span>
       </router-link>
     </div>
     <!-- vs-sidebar--group-items -->

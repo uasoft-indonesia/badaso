@@ -101,6 +101,13 @@
                         <span>{{ data.title }}</span>
                       </div>
                     </div>
+                    <div class="align-content-center align-items-center">
+                      <vs-checkbox
+                        :value="data.isExpand"
+                        @change="saveCheckMenuItemExpand(data)"
+                        >{{ $t("menu.options.expand") }}</vs-checkbox
+                      >
+                    </div>
                     <div class="menu-management__action">
                       <badaso-dropdown vs-trigger-click>
                         <vs-button
@@ -303,6 +310,7 @@ export default {
     getMenuItems() {
       this.arrangeItems = false;
       this.$openLoader();
+
       this.$api.badasoMenu
         .browseItem({
           menuId: this.$route.params.id,
@@ -520,6 +528,43 @@ export default {
           });
           this.$closeLoader();
         });
+    },
+    async saveCheckMenuItemExpand(menuItem) {
+      let { id: menu_item_id, isExpand: is_expand } = menuItem;
+
+      try {
+        // request api from menu
+        let responseMenu = await this.$api.badasoMenu.menuOptions({
+          menu_item_id,
+          is_expand: !is_expand,
+          type: "menu_item",
+        });
+
+        // request api from menu item
+        let responseMenuItem = await this.$api.badasoMenu.browseItem({
+          menuId: this.$route.params.id,
+        });
+        this.menuItems = responseMenuItem.data.menuItems.map((item) => {
+          let _item = item;
+          _item.editItem = false;
+          _item.title = item.title ? item.title : "";
+          _item.iconClass = item.iconClass ? item.iconClass : "";
+          _item.color = item.color ? item.color : "#000000";
+          return _item;
+        });
+        this.savedItems = [...responseMenuItem.data.menuItems];
+        this.flatSavedItems = this.flattenItems([
+          ...responseMenuItem.data.menuItems,
+        ]);
+
+        this.$store.commit("badaso/FETCH_MENU");
+      } catch (error) {
+        this.$vs.notify({
+          title: this.$t("alert.danger"),
+          text: error.message,
+          color: "danger",
+        });
+      }
     },
   },
 };

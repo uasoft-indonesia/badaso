@@ -41,13 +41,35 @@ class BadasoMenuController extends Controller
                     ]);
                 }
             } elseif (isset($request->is_expand)) {
-                $request->validate([
-                    'menu_id' => ['required', 'integer'],
-                ]);
+                $type = $request->get('type', 'menu');
+                switch ($type) {
+                    case 'menu_item':
+                        $request->validate([
+                            'menu_item_id' => ['required', 'integer'],
+                            'is_expand' => ['boolean'],
+                        ]);
 
-                $menu = Menu::find($request->menu_id);
-                $menu->is_expand = !$menu->is_expand;
-                $menu->save();
+                        $menu_item_id = $request->menu_item_id ;
+                        $menu_item = MenuItem::find($menu_item_id) ;
+
+                        $is_expand = $request->get('is_expand', !$menu_item->is_expand) ;
+                        $menu_item->is_expand = $is_expand ;
+                        $menu_item->save() ;
+                        break;
+                    default:
+                        $request->validate([
+                            'menu_id' => ['required', 'integer'],
+                            'is_expand' => ['boolean'],
+                        ]);
+
+                        $menu_id = $request->menu_id ;
+                        $menu = Menu::find($menu_id);
+
+                        $is_expand = $request->get('is_expand', !$menu->is_expand) ;
+                        $menu->is_expand = $is_expand;
+                        $menu->save();
+                        break;
+                }
             } elseif (isset($request->is_show_header)) {
                 $request->validate([
                     'menu_id' => ['required', 'integer'],
