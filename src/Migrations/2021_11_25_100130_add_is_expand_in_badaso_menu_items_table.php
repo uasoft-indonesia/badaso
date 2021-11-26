@@ -14,7 +14,7 @@ class AddIsExpandInBadasoMenuItemsTable extends Migration
     public function up()
     {
         Schema::table(config('badaso.database.prefix').'menu_items', function (Blueprint $table) {
-           if (! Schema::hasColumn(config('badaso.database.prefix').'menu_items', 'is_expand')) {
+            if (! Schema::hasColumn(config('badaso.database.prefix').'menu_items', 'is_expand')) {
                 $table->boolean('is_expand')->default(true)->after('order');
             }
         });
