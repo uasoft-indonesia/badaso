@@ -45,8 +45,8 @@ import RoleManagementRead from "./role-management/read";
 import RoleManagementEdit from "./role-management/edit";
 import RoleManagementAdd from "./role-management/add";
 import RoleManagementPermissions from "./role-management/permissions";
-import SiteManagementBrowse from "./configuration/browse";
-import SiteManagementAdd from "./configuration/add";
+import ConfigurationBrowse from "./configuration/browse";
+import ConfigurationAdd from "./configuration/add";
 import UserManagementBrowse from "./user-management/browse";
 import UserManagementRead from "./user-management/read";
 import UserManagementEdit from "./user-management/edit";
@@ -54,11 +54,11 @@ import UserManagementAdd from "./user-management/add";
 import UserManagementRoles from "./user-management/roles";
 import FileManagerBrowse from "./file-manager/browse";
 import ImageManagerBrowse from "./image-manager/browse";
-import LogViewerBrowse from './log-viewer/browse';
-import NotificationBrowse from './notification/browse';
-import DataPendingAddBrowse from './data-pending-add/browse';
-import DataPendingEditRead from './data-pending-edit/read';
-import ApiDocsBrowse from './api-documentation/browse';
+import LogViewerBrowse from "./log-viewer/browse";
+import NotificationBrowse from "./notification/browse";
+import DataPendingAddBrowse from "./data-pending-add/browse";
+import DataPendingEditRead from "./data-pending-edit/read";
+import ApiDocsBrowse from "./api-documentation/browse";
 
 export default {
   components: {
@@ -98,8 +98,8 @@ export default {
     RoleManagementEdit,
     RoleManagementAdd,
     RoleManagementPermissions,
-    SiteManagementBrowse,
-    SiteManagementAdd,
+    ConfigurationBrowse,
+    ConfigurationAdd,
     UserManagementBrowse,
     UserManagementRead,
     UserManagementEdit,

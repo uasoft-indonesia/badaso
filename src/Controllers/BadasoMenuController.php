@@ -49,12 +49,12 @@ class BadasoMenuController extends Controller
                             'is_expand' => ['boolean'],
                         ]);
 
-                        $menu_item_id = $request->menu_item_id ;
-                        $menu_item = MenuItem::find($menu_item_id) ;
+                        $menu_item_id = $request->menu_item_id;
+                        $menu_item = MenuItem::find($menu_item_id);
 
-                        $is_expand = $request->get('is_expand', !$menu_item->is_expand) ;
-                        $menu_item->is_expand = $is_expand ;
-                        $menu_item->save() ;
+                        $is_expand = $request->get('is_expand', !$menu_item->is_expand);
+                        $menu_item->is_expand = $is_expand;
+                        $menu_item->save();
                         break;
                     default:
                         $request->validate([
@@ -62,10 +62,10 @@ class BadasoMenuController extends Controller
                             'is_expand' => ['boolean'],
                         ]);
 
-                        $menu_id = $request->menu_id ;
+                        $menu_id = $request->menu_id;
                         $menu = Menu::find($menu_id);
 
-                        $is_expand = $request->get('is_expand', !$menu->is_expand) ;
+                        $is_expand = $request->get('is_expand', !$menu->is_expand);
                         $menu->is_expand = $is_expand;
                         $menu->save();
                         break;
@@ -219,7 +219,6 @@ class BadasoMenuController extends Controller
                         $children = $all_menu_items->where('parent_id', $item->id);
 
                         if (count($children) > 0) {
-
                             $children = $menu_children_callback($children, $menu_children_callback);
 
                             $item->children = array_values($children->toArray());
