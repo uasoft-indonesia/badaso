@@ -16,7 +16,7 @@
         :class="getItemActive().vsALinkItemActive"
         v-if="isParentMenu"
       >
-        <span class="hide-in-minisidebar">
+        <span class="hide-in-minisidebar flex-row">
           <vs-icon :icon="icon ? icon : 'remove'" />
           {{ title }}</span
         >
