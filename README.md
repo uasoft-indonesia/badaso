@@ -81,7 +81,7 @@ Thanks to all backers & sponsors!
 
 ### Sponsors
 
-<a href="https://persis.or.id"><img width="200px" src="https://i.postimg.cc/NfGvGd8V/logo-Kominfo-PP-Pemuda-Persis.png" target="_blank"></a>
+<a href="https://persis.or.id" target="_blank"><img width="200px" src="https://i.postimg.cc/NfGvGd8V/logo-Kominfo-PP-Pemuda-Persis.png"></a>
 
   <a href="https://opencollective.com/badaso">
     <img src="https://opencollective.com/static/images/become_sponsor.svg" alt="Donate to OpenCollective">
