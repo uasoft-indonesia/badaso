@@ -57,7 +57,7 @@
                 >
                   <vs-checkbox
                     :value="data.isExpand"
-                    @change="saveCheckMenuExpand(data.id)"
+                    @change="saveCheckMenuExpand(data)"
                     >{{ $t("menu.options.expand") }}</vs-checkbox
                   >
                 </vs-col>
@@ -165,8 +165,10 @@ export default {
       }
     },
     saveCheckMenuExpand(menuId) {
+      let { id: menu_id, isExpand: is_expand } = menu;
+
       this.$api.badasoMenu
-        .menuOptions({ menu_id: menuId, is_expand : 'event' })
+        .menuOptions({ menu_id, is_expand: !is_expand, type: "menu" })
         .then((res) => {
           this.$store.commit("badaso/FETCH_MENU");
         })
@@ -180,7 +182,7 @@ export default {
     },
     saveCheckMenuShowHeader(menuId) {
       this.$api.badasoMenu
-        .menuOptions({ menu_id: menuId, is_show_header : 'event' })
+        .menuOptions({ menu_id: menuId, is_show_header: "event" })
         .then((res) => {
           this.$store.commit("badaso/FETCH_MENU");
         })
