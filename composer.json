@@ -28,6 +28,7 @@
     "doctrine/dbal": "^2.12",
     "tymon/jwt-auth": "dev-develop",
     "larapack/doctrine-support": "^0.1.9",
+    "fruitcake/laravel-cors": "^2.0",
     "arcanedev/log-viewer": "^8.1",
     "spatie/laravel-activitylog": "^3.17",
     "spatie/laravel-backup": "^6.16",
