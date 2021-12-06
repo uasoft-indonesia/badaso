@@ -1,5 +1,0 @@
-frontend: ["*.js", "*.css", "*.html", "*.vue"]
-backend: ["/app", "*.php"]
-legal: ["LICENSE*", "NOTICES*"]
-config: .github
-dependencies: ["composer.json"]
