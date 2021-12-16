@@ -80,21 +80,21 @@ class BadasoSetup extends Command
     {
         $package_json = file_get_contents(base_path('package.json'));
         $decoded_json = json_decode($package_json, true);
+
         $decoded_json['devDependencies']['axios'] = '^0.18';
-        $decoded_json['devDependencies']['bootstrap'] = '^4.0.0';
-        $decoded_json['devDependencies']['copy-files-from-to'] = '^3.2.0';
-        $decoded_json['devDependencies']['popper.js'] = '^1.12';
-        $decoded_json['devDependencies']['cross-env'] = '^5.1';
-        $decoded_json['devDependencies']['jquery'] = '^3.2';
         $decoded_json['devDependencies']['laravel-mix'] = '^6.0.19';
         $decoded_json['devDependencies']['lodash'] = '^4.17.4';
-        $decoded_json['devDependencies']['vue'] = '^2.5.7';
-        $decoded_json['devDependencies']['vue-loader'] = '^15.9.5';
-        $decoded_json['devDependencies']['vue-template-compiler'] = '^2.6.14';
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
-        $decoded_json['devDependencies']['sass'] = '^1.32.11';
-        $decoded_json['devDependencies']['sass-loader'] = '^11.0.1';
-        $decoded_json['devDependencies']['resolve-url-loader'] = '^4.0.0';
+
+        $decoded_json['dependencies']['copy-files-from-to'] = '^3.2.0';
+        $decoded_json['dependencies']['popper.js'] = '^1.12';
+        $decoded_json['dependencies']['cross-env'] = '^5.1';
+        $decoded_json['dependencies']['vue'] = '^2.5.7';
+        $decoded_json['dependencies']['vue-loader'] = '^15.9.5';
+        $decoded_json['dependencies']['vue-template-compiler'] = '^2.6.14';
+        $decoded_json['dependencies']['sass'] = '^1.32.11';
+        $decoded_json['dependencies']['sass-loader'] = '^11.0.1';
+        $decoded_json['dependencies']['resolve-url-loader'] = '^4.0.0';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
@@ -134,7 +134,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -317,7 +317,7 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env '.$e->getMessage());
+            $this->error('Failed adding badaso env ' . $e->getMessage());
         }
     }
 
