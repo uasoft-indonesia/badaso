@@ -10,8 +10,8 @@
 
 <p align="center">
 <a href="https://github.styleci.io/repos/347838630"><img src="https://github.styleci.io/repos/347838630/shield" alt="Badaso StyleCI"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/uasoft-indonesia/badaso" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/uasoft-indonesia/badaso" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/badaso/core" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/badaso/core" alt="Latest Stable Version"></a>
 </p>
 
 
@@ -72,7 +72,7 @@ To keep badaso up to date and support this awesome long-term project you also ca
 We appreciate it so much and will keep badaso up to update and support your awesome long-term projects!
 
 - [Become a backer/sponsors on OpenCollective](https://opencollective.com/badaso)
-- Become a backer/sponsors on Patreon (coming soon)
+- [Become a sponsor via github](https://github.com/sponsors/uasoft-indonesia)
 - [One-time donation via Paypal](https://paypal.me/rizkiheryandi)
 
 Good financial support will make badaso keep up to date and keep support your awesome long-term projects!
@@ -81,13 +81,19 @@ Thanks to all backers & sponsors!
 
 ### Sponsors
 
-  <a href="https://opencollective.com/vuetify">
-    <img src="https://opencollective.com/static/images/become_sponsor.svg" alt="Donate to OpenCollective">
-  </a>
+<div align="center">
+<h3>via <a href="https://github.com/sponsors/uasoft-indonesia">Github</a> & <a href="https://paypal.me/rizkiheryandi">Direct</a></h3>
 
-### Backers
+<a href="https://persis.or.id" target="_blank"><img height="100px" src="https://i.postimg.cc/BvKwwg97/68747470733a2f2f692e706f7374696d672e63632f4e664776476438562f6c6f676f2d4b6f6d696e666f2d50502d50656d75.png"></a>
+<a href="https://github.com/SiscaKohl" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95972391?v=4"></a>
+<a href="https://github.com/MelSakano" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/96273538?v=4"></a>
+</div>
 
-<a href="https://opencollective.com/badaso#backers" target="_blank"><img src="https://opencollective.com/badaso/backers.svg?width=890"></a>
+<div align="center">
+<h3>via <a href="https://opencollective.com/badaso">OpenCollective</a></h3>
+
+<a href="https://opencollective.com/badaso" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/gold-backer/0/avatar.svg?sanitize=true" height="100px"></a>
+</div>
 
 ## Contributing
 
@@ -111,7 +117,7 @@ For additional help, you can use one of these channels to ask a question:
 - [Github issues](https://github.com/uasoft-indonesia/badaso/issues) (Bug reports, Contributions)
 - [Facebook groups](https://facebook.com/groups/badaso) (Discussion for active facebook users)
 - [Telegram groups](https://t.me/badaso_developers) (Discussion for active telegram users)
-- Youtube tutorial (coming soon)
+- [Youtube tutorial](https://youtube.com/playlist?list=PLO-UCDr2KEwPZPeQvjLmj-RVfNHycttPl) (For visual learner)
 
 ## Credits
 
