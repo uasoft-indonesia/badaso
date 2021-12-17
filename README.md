@@ -92,7 +92,7 @@ Thanks to all backers & sponsors!
 <div align="center">
 <h3>via <a href="https://opencollective.com/badaso">OpenCollective</a></h3>
 
-<a href="https://opencollective.com/vuejs/tiers/gold-sponsors/0/website" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/gold-backer/0/avatar.svg?sanitize=true" height="100px"></a>
+<a href="https://opencollective.com/badaso" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/gold-backer/0/avatar.svg?sanitize=true" height="100px"></a>
 </div>
 
 ## Contributing
