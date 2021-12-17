@@ -84,6 +84,7 @@ Thanks to all backers & sponsors!
 <div align="center">
 <h3>via <a href="https://github.com/sponsors/uasoft-indonesia">Github</a> & <a href="https://paypal.me/rizkiheryandi">Direct</a></h3>
 
+<a href="https://soft.uatech.co.id" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/32425950?s=400&u=6b3d016c70331eb0921b64366b06c658381e13ea&v=4"></a>
 <a href="https://persis.or.id" target="_blank"><img height="100px" src="https://i.postimg.cc/BvKwwg97/68747470733a2f2f692e706f7374696d672e63632f4e664776476438562f6c6f676f2d4b6f6d696e666f2d50502d50656d75.png"></a>
 <a href="https://github.com/SiscaKohl" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95972391?v=4"></a>
 <a href="https://github.com/MelSakano" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/96273538?v=4"></a>
