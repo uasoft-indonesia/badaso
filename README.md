@@ -74,6 +74,7 @@ We appreciate it so much and will keep badaso up to update and support your awes
 - [Become a backer/sponsors on OpenCollective](https://opencollective.com/badaso)
 - [Become a sponsor via github](https://github.com/sponsors/uasoft-indonesia)
 - [One-time donation via Paypal](https://paypal.me/rizkiheryandi)
+- Direct (contact hello@uatech.co.id)
 
 Good financial support will make badaso keep up to date and keep support your awesome long-term projects!
 
