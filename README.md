@@ -91,6 +91,9 @@ Thanks to all backers & sponsors!
 <a href="https://gurusaham.com" target="_blank"><img style="border-radius:50%" height="100px" src="https://i.postimg.cc/m2XCTJF5/unnamed-1.jpg"></a>
 <a href="https://github.com/MelSakano" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/96273538?v=4"></a>
 <a href="https://cariharga.co.id" target="_blank"><img style="border-radius:50%" height="100px" src="https://i.postimg.cc/wBv6g4L0/logo-cariharga-v2.png"></a>
+<a href="https://github.com/BariArdian" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95889773?v=4"></a>
+<a href="https://github.com/RecFreeForm" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95894729?s=200&v=4"></a>
+<a href="https://github.com/Zykap" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/96396332?v=4"></a>
 </div>
 
 <div align="center">
