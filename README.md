@@ -72,8 +72,9 @@ To keep badaso up to date and support this awesome long-term project you also ca
 We appreciate it so much and will keep badaso up to update and support your awesome long-term projects!
 
 - [Become a backer/sponsors on OpenCollective](https://opencollective.com/badaso)
-- Become a backer/sponsors on Patreon (coming soon)
+- [Become a sponsor via github](https://github.com/sponsors/uasoft-indonesia)
 - [One-time donation via Paypal](https://paypal.me/rizkiheryandi)
+- Direct (contact hello@uatech.co.id)
 
 Good financial support will make badaso keep up to date and keep support your awesome long-term projects!
 
@@ -81,15 +82,25 @@ Thanks to all backers & sponsors!
 
 ### Sponsors
 
-<a href="https://persis.or.id" target="_blank"><img width="200px" src="https://i.postimg.cc/XqYnBcJC/68747470733a2f2f692e706f7374696d672e63632f4e664776476438562f6c6f676f2d4b6f6d696e666f2d50502d50656d75.png"></a>
+<div align="center">
+<h3>via <a href="https://github.com/sponsors/uasoft-indonesia">Github</a> & <a href="https://paypal.me/rizkiheryandi">Direct</a></h3>
 
-  <a href="https://opencollective.com/badaso">
-    <img src="https://opencollective.com/static/images/become_sponsor.svg" alt="Donate to OpenCollective">
-  </a>
+<a href="https://soft.uatech.co.id" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/32425950?s=400&u=6b3d016c70331eb0921b64366b06c658381e13ea&v=4"></a>
+<a href="https://persis.or.id" target="_blank"><img height="100px" src="https://i.postimg.cc/BvKwwg97/68747470733a2f2f692e706f7374696d672e63632f4e664776476438562f6c6f676f2d4b6f6d696e666f2d50502d50656d75.png"></a>
+<a href="https://github.com/SiscaKohl" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95972391?v=4"></a>
+<a href="https://gurusaham.com" target="_blank"><img style="border-radius:50%" height="100px" src="https://i.postimg.cc/m2XCTJF5/unnamed-1.jpg"></a>
+<a href="https://github.com/MelSakano" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/96273538?v=4"></a>
+<a href="https://cariharga.co.id" target="_blank"><img style="border-radius:50%" height="100px" src="https://i.postimg.cc/wBv6g4L0/logo-cariharga-v2.png"></a>
+<a href="https://github.com/BariArdian" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95889773?v=4"></a>
+<a href="https://github.com/RecFreeForm" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/95894729?s=200&v=4"></a>
+<a href="https://github.com/Zykap" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/96396332?v=4"></a>
+</div>
 
-### Backers
+<div align="center">
+<h3>via <a href="https://opencollective.com/badaso">OpenCollective</a></h3>
 
-<a href="https://opencollective.com/badaso#backers" target="_blank"><img src="https://opencollective.com/badaso/backers.svg?width=890"></a>
+<a href="https://opencollective.com/badaso" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/gold-backer/0/avatar.svg?sanitize=true" height="100px"></a>
+</div>
 
 ## Contributing
 
