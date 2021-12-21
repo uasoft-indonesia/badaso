@@ -24,7 +24,7 @@ class CreateFCMMessagesTable extends Migration
             $table->timestamps();
 
             $table->foreign('receiver_user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
-            $table->foreign('sender_user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
+            $table->foreign('sender_user_id')->references('id')->on(config('badaso.database.prefix').'users');
         });
     }
 
