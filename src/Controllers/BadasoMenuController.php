@@ -225,6 +225,10 @@ class BadasoMenuController extends Controller
                         }
 
                         return $item;
+                    })->filter(function ($menu_item) {
+                        $allowed = AuthenticatedUser::isAllowedTo($menu_item->permissions);
+
+                        return $allowed;
                     });
                 };
                 foreach ($menus as $index => $menu) {
