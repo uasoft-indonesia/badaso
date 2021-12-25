@@ -10,8 +10,8 @@
 
 <p align="center">
 <a href="https://github.styleci.io/repos/347838630"><img src="https://github.styleci.io/repos/347838630/shield" alt="Badaso StyleCI"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/dt/badaso/core" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/uasoft-indonesia/badaso"><img src="https://img.shields.io/packagist/v/badaso/core" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/badaso/core"><img src="https://img.shields.io/packagist/dt/badaso/core" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/badaso/core"><img src="https://img.shields.io/packagist/v/badaso/core" alt="Latest Stable Version"></a>
 </p>
 
 
