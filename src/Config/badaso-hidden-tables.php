@@ -14,7 +14,6 @@ return [
     env('BADASO_TABLE_PREFIX', 'badaso_').'user_roles',
     env('BADASO_TABLE_PREFIX', 'badaso_').'user_verifications',
     env('BADASO_TABLE_PREFIX', 'badaso_').'email_resets',
-    env('BADASO_TABLE_PREFIX', 'badaso_').'f_c_m_messages',
     env('BADASO_TABLE_PREFIX', 'badaso_').'notifications',
     env('BADASO_TABLE_PREFIX', 'badaso_').'firebase_cloud_messages',
     env('BADASO_TABLE_PREFIX', 'badaso_').'password_resets',
