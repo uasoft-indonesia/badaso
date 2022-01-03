@@ -330,16 +330,19 @@ Vue.prototype.$broadcastChannel = broadcastChannel;
 // START G-TAG
 
 Vue.use(
-  VueGtag,
-  {
-    pageTrackerExcludedRoutes: excluded,
-    config: {
-      id: process.env.MIX_ANALYTICS_TRACKING_ID
-        ? process.env.MIX_ANALYTICS_TRACKING_ID
-        : null,
+    VueGtag,
+    {
+        pageTrackerExcludedRoutes: excluded,
+        config: {
+            id: process.env.MIX_ANALYTICS_TRACKING_ID
+                ? process.env.MIX_ANALYTICS_TRACKING_ID
+                : null,
+            params: {
+                send_page_view: true,
+            },
+        },
     },
-  },
-  router
+    router
 );
 
 // END G-TAG
