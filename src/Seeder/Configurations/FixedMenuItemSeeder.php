@@ -156,7 +156,7 @@ class FixedMenuItemSeeder extends Seeder
                     'color' => '',
                     'parent_id' => null,
                     'order' => 10,
-                    'permissions' => '',
+                    'permissions' => null,
                 ],
                 11 => [
                     'id' => 12,

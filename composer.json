@@ -41,7 +41,8 @@
     "google/apiclient": "^2.9",
     "laravel/ui": "^3.3",
     "laravel/sanctum": "^2.11",
-    "laravel/octane": "^1.0"
+    "laravel/octane": "^1.0",
+    "predis/predis": "^1.1"
   },
   "authors": [
     {
