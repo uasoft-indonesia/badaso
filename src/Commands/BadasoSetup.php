@@ -134,7 +134,7 @@ class BadasoSetup extends Command
 
     protected function checkExist($file, $search)
     {
-        return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
+        return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
     protected function updateWebpackMix()
@@ -148,8 +148,8 @@ class BadasoSetup extends Command
                 <<<'EOT'
 
         // Badaso
-        mix.js("vendor/badaso/core/src/resources/js/app.js", "public/js/badaso.js")
-            .sass("vendor/badaso/core/src/resources/js/assets/scss/style.scss", "public/css/badaso.css")
+        mix.js("vendor/badaso/core/src/resources/badaso/app.js", "public/js/badaso.js")
+            .sass("vendor/badaso/core/src/resources/badaso/assets/scss/style.scss", "public/css/badaso.css")
             .vue()
         EOT;
 
@@ -317,7 +317,7 @@ class BadasoSetup extends Command
 
             $this->info('Adding badaso env');
         } catch (\Exception $e) {
-            $this->error('Failed adding badaso env '.$e->getMessage());
+            $this->error('Failed adding badaso env ' . $e->getMessage());
         }
     }
 
