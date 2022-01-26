@@ -7,13 +7,12 @@ use Illuminate\Console\Command;
 
 class BadasoTestSetup extends Command
 {
-
-    public static $PHPUNIT_XML_PATH = "phpunit.xml";
+    public static $PHPUNIT_XML_PATH = 'phpunit.xml';
     public static $BADASO_UNIT_TEST_PATHS = [
-        "./packages/badaso/core/tests/Unit",
+        './packages/badaso/core/tests/Unit',
     ];
     public static $BADASO_FEATURE_TEST_PATHS = [
-        "./packages/badaso/core/tests/Feature",
+        './packages/badaso/core/tests/Feature',
     ];
 
     /**
@@ -73,9 +72,9 @@ class BadasoTestSetup extends Command
 
                     // check and add directory test
                     foreach ($badaso_test_paths as $_ => $badaso_test_path) {
-                        if (!in_array($badaso_test_path, $now_test_paths)) {
-                            $new_directory = $document->createElement("directory", $badaso_test_path);
-                            $new_directory->setAttribute("suffix", "Test.php");
+                        if (! in_array($badaso_test_path, $now_test_paths)) {
+                            $new_directory = $document->createElement('directory', $badaso_test_path);
+                            $new_directory->setAttribute('suffix', 'Test.php');
 
                             $test_suite_features->item($index_test_suite_feature)->appendChild($new_directory);
                         }
@@ -95,9 +94,9 @@ class BadasoTestSetup extends Command
 
                     // check and add directory test
                     foreach ($badaso_test_paths as $_ => $badaso_test_path) {
-                        if (!in_array($badaso_test_path, $now_test_paths)) {
-                            $new_directory = $document->createElement("directory", $badaso_test_path);
-                            $new_directory->setAttribute("suffix", "Test.php");
+                        if (! in_array($badaso_test_path, $now_test_paths)) {
+                            $new_directory = $document->createElement('directory', $badaso_test_path);
+                            $new_directory->setAttribute('suffix', 'Test.php');
 
                             $test_suite_features->item($index_test_suite_feature)->appendChild($new_directory);
                         }
