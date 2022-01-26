@@ -12,6 +12,7 @@ use Uasoft\Badaso\Commands\AdminCommand;
 use Uasoft\Badaso\Commands\BackupCommand;
 use Uasoft\Badaso\Commands\BadasoFirebaseCommand;
 use Uasoft\Badaso\Commands\BadasoSetup;
+use Uasoft\Badaso\Commands\BadasoTestSetup;
 use Uasoft\Badaso\Commands\GenerateSeederCommand;
 use Uasoft\Badaso\Facades\Badaso as FacadesBadaso;
 use Uasoft\Badaso\Middleware\CheckForMaintenanceMode;
@@ -116,5 +117,6 @@ class BadasoServiceProvider extends ServiceProvider
         $this->commands(BackupCommand::class);
         $this->commands(GenerateSeederCommand::class);
         $this->commands(BadasoFirebaseCommand::class);
+        $this->commands(BadasoTestSetup::class);
     }
 }

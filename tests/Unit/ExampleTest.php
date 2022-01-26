@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Uasoft\Badaso\Models\User;
 
 class ExampleTest extends TestCase
 {
