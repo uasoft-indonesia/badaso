@@ -44,6 +44,10 @@
     "laravel/ui": "^3.3",
     "laravel/octane": "^1.0"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "orchestra/testbench": "^6.24"
+  },
   "authors": [
     {
       "name": "UASOFT",
@@ -54,6 +58,11 @@
   "autoload": {
     "psr-4": {
       "Uasoft\\Badaso\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Uasoft\\Badaso\\Tests\\": "tests/"
     }
   },
   "extra": {
