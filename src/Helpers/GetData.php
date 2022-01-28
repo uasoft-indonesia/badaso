@@ -53,7 +53,7 @@ class GetData
         foreach ($collection as $row) {
             $class = new ReflectionClass(get_class($row));
             $class_methods = $class->getMethods();
-            $record = $row ;
+            $record = $row;
             foreach ($class_methods as $class_method) {
                 if ($class_method->class == $class->name) {
                     try {
@@ -256,7 +256,6 @@ class GetData
                 && $destination_table_column
                 && $destination_table_display_column
             ) {
-
                 if (isset($row->{$field->field})) {
                     $relation_data = DB::table($destination_table)->select([
                         $destination_table_column,
