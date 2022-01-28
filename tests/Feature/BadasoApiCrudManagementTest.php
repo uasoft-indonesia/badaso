@@ -661,7 +661,7 @@ class BadasoApiCrudManagementTest extends TestCase
         }
     }
 
-    private function testBrowseDataEntityCrudManagement()
+    public function testBrowseDataEntityCrudManagement()
     {
         $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
@@ -673,7 +673,7 @@ class BadasoApiCrudManagementTest extends TestCase
         }
     }
 
-    private function testGetAllDataEntityCrudManagement()
+    public function testGetAllDataEntityCrudManagement()
     {
         $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
@@ -701,7 +701,11 @@ class BadasoApiCrudManagementTest extends TestCase
 
             // cek data from database
             $table_row = DB::table($table)->where('id', $id)->first();
-            $this->assertTrue($table_row == null);
+            if (isset($table_row)) {
+                $this->assertNotEmpty($table_row->created_at);
+            } else {
+                $this->assertEmpty($table_row);
+            }
 
             // get ids for multiple delete
             $ids = [];
