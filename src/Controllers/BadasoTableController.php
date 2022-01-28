@@ -180,8 +180,10 @@ class BadasoTableController extends Controller
                     ])
                     ->get();
                     $result = collect($relation_data);
+
                     $data[$destination_table] = $result->map(function ($res) use ($destination_table_column, $destination_table_display_column) {
                         $item = $res;
+
                         $item->value = $res->{$destination_table_column};
                         $item->label = $res->{$destination_table_display_column};
 
