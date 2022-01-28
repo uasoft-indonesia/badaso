@@ -53,7 +53,7 @@ class GetData
         foreach ($collection as $row) {
             $class = new ReflectionClass(get_class($row));
             $class_methods = $class->getMethods();
-            $record = json_decode(json_encode($row));
+            $record = $row;
             foreach ($class_methods as $class_method) {
                 if ($class_method->class == $class->name) {
                     try {
