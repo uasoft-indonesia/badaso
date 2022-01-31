@@ -42,7 +42,7 @@ class RolesSeeder extends Seeder
 
             \DB::commit();
         } catch (Exception $e) {
-            throw new Exception('Exception occur ' . $e);
+            throw new Exception('Exception occur '.$e);
             \DB::rollBack();
         }
     }
