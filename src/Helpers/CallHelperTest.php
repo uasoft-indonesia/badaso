@@ -10,8 +10,8 @@ use Uasoft\Badaso\Models\UserRole;
 
 class CallHelperTest
 {
-    static $KEY_TOKEN_ADMIN_AUTHORIZE = "TOKEN_ADMIN_AUTHORIZE";
-    static $ADMINISTRATOR_ROLE_ID = 1;
+    public static $KEY_TOKEN_ADMIN_AUTHORIZE = 'TOKEN_ADMIN_AUTHORIZE';
+    public static $ADMINISTRATOR_ROLE_ID = 1;
 
     public static function getTokenUserAdminAuthorize()
     {
@@ -21,6 +21,7 @@ class CallHelperTest
     public static function getTokenUserAdminAuthorizeBearer()
     {
         $authorize = self::getTokenUserAdminAuthorize();
+
         return "Bearer {$authorize}";
     }
 
@@ -31,7 +32,7 @@ class CallHelperTest
 
     public static function getDataCreateOrUpdateUserAdmin()
     {
-        $name = env("BADASO_USER_NAME", "badaso.test");
+        $name = env('BADASO_USER_NAME', 'badaso.test');
         $username = $name;
         $email = "{$name}@test.com";
         $password = Hash::make($name);
@@ -60,28 +61,27 @@ class CallHelperTest
         $user = User::where('email', $data_create_or_update_user_admin['email'])
             ->first();
 
-        if (!isset($user)) {
+        if (! isset($user)) {
             $user = User::create($data_create_or_update_user_admin);
         } else {
             $user->update($data_create_or_update_user_admin);
         }
 
         $user_role = UserRole::where('user_id', $user->id)->first();
-        if (!isset($user_role)) {
+        if (! isset($user_role)) {
             $user_role = UserRole::create(['user_id' => $user->id, 'role_id' => self::$ADMINISTRATOR_ROLE_ID]);
         }
 
         return $user;
     }
 
-
     public static function handleUserAdminAuthorize(TestCase $test_case)
     {
         $user = self::getUserAdminRole();
-        $response = $test_case->json('POST', CallHelperTest::getUrlApiV1Prefix("/auth/login"), [
+        $response = $test_case->json('POST', CallHelperTest::getUrlApiV1Prefix('/auth/login'), [
             'email' =>  $user->email,
             'password' => $user->name,
-            'remember' => false
+            'remember' => false,
         ]);
         $response->assertSuccessful();
 
@@ -101,18 +101,21 @@ class CallHelperTest
 
     public static function withAuthorizeBearer(TestCase $test_case): TestCase
     {
-        return $test_case->withHeader("Authorization", self::getTokenUserAdminAuthorizeBearer());
+        return $test_case->withHeader('Authorization', self::getTokenUserAdminAuthorizeBearer());
     }
 
-    public static function setCache($key, $value){
+    public static function setCache($key, $value)
+    {
         Cache::store('file')->set($key, $value);
     }
 
-    public static function getCache($key){
+    public static function getCache($key)
+    {
         return Cache::store('file')->get($key);
     }
 
-    public static function clearCache(){
+    public static function clearCache()
+    {
         Cache::store('file')->clear();
     }
 }
