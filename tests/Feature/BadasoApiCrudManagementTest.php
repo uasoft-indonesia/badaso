@@ -700,7 +700,7 @@ class BadasoApiCrudManagementTest extends TestCase
             // cek data from database
             $table_row = DB::table($table)->where('id', $id)->first();
             if (isset($table_row)) {
-                $this->assertNotEmpty($table_row->created_at);
+                $this->assertNotEmpty($table_row->deleted_at);
             } else {
                 $this->assertEmpty($table_row);
             }
