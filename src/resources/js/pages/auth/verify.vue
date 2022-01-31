@@ -104,7 +104,7 @@ export default {
         .catch((error) => {
           this.processing = false;
           this.$closeLoader();
-          if (error.message && error.message === "EXPIRED") {
+          if (error.message && error.message == "EXPIRED") {
             this.expired = true;
             this.errors = {
               token: ["Verification token expired"],

@@ -100,10 +100,10 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.permission = response.data.permission;
-          this.permission.alwaysAllow = this.permission.alwaysAllow === 1;
-          this.permission.isPublic = this.permission.isPublic === 1;
+          this.permission.alwaysAllow = this.permission.alwaysAllow == 1;
+          this.permission.isPublic = this.permission.isPublic == 1;
           this.permission.description =
-            this.permission.description === null
+            this.permission.description == null
               ? ""
               : this.permission.description;
         })

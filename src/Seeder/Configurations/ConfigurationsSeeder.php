@@ -21,7 +21,6 @@ class ConfigurationsSeeder extends Seeder
         try {
             $settings = [
                 0 => [
-                    'id' => 1,
                     'key' => 'adminPanelTitle',
                     'display_name' => 'Admin Panel Title',
                     'value' => 'Badaso',
@@ -32,7 +31,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 1 => [
-                    'id' => 2,
                     'key' => 'adminPanelDescription',
                     'display_name' => 'Admin Panel Description',
                     'value' => 'Badaso, SPA CRUD Generator',
@@ -43,7 +41,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 2 => [
-                    'id' => 3,
                     'key' => 'adminPanelLogo',
                     'display_name' => 'Admin Panel Logo',
                     'value' => 'photos/shares/logo.webp',
@@ -54,7 +51,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 3 => [
-                    'id' => 4,
                     'key' => 'adminPanelHeaderColor',
                     'display_name' => 'Admin Panel Header Color',
                     'value' => '#ffffff',
@@ -65,7 +61,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 4 => [
-                    'id' => 5,
                     'key' => 'adminPanelHeaderFontColor',
                     'display_name' => 'Admin Panel Header Font Color',
                     'value' => '#06bbd3',
@@ -76,7 +71,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 5 => [
-                    'id' => 6,
                     'key' => 'adminPanelVerifyEmail',
                     'display_name' => 'Should verify email after register',
                     'value' => '0',
@@ -87,7 +81,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 6 => [
-                    'id' => 7,
                     'key' => 'adminPanelLogoConfig',
                     'display_name' => 'Admin Panel Logo Config',
                     'value' => 'logo_only',
@@ -98,7 +91,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 7 => [
-                    'id' => 8,
                     'key' => 'favicon',
                     'display_name' => 'Favicon',
                     'value' => 'photos/shares/favicon.png',
@@ -109,7 +101,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 8 => [
-                    'id' => 9,
                     'key' => 'maintenance',
                     'display_name' => 'Maintenance for all pages.',
                     'value' => '0',
@@ -120,7 +111,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 9 => [
-                    'id' => 10,
                     'key' => 'authBackgroundImage',
                     'display_name' => 'Background image for login page.',
                     'value' => 'photos/shares/auth-bg.jpg',
@@ -131,7 +121,6 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 10 => [
-                    'id' => 11,
                     'key' => 'maintenanceImage',
                     'display_name' => 'Image for maintenance page',
                     'value' => 'photos/shares/maintenance.png',

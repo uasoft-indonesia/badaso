@@ -21,12 +21,10 @@ class RolesSeeder extends Seeder
         try {
             $roles = [
                 0 => [
-                    'id' => 1,
                     'name' => 'administrator',
                     'display_name' => 'Administrator',
                 ],
                 1 => [
-                    'id' => 2,
                     'name' => 'customer',
                     'display_name' => 'Customer',
                 ],
@@ -35,17 +33,16 @@ class RolesSeeder extends Seeder
             $new_roles = [];
             foreach ($roles as $key => $value) {
                 $role = Role::where('name', $value['name'])->first();
-
                 if (isset($role)) {
-                    continue;
+                    $role->update($value);
+                } else {
+                    Role::create($value);
                 }
-
-                Role::create($value);
             }
 
             \DB::commit();
         } catch (Exception $e) {
-            throw new Exception('Exception occur '.$e);
+            throw new Exception('Exception occur ' . $e);
             \DB::rollBack();
         }
     }
