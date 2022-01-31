@@ -13,11 +13,11 @@ use Uasoft\Badaso\Models\DataType;
 class BadasoApiCrudManagementTest extends TestCase
 {
     private $KEY_LIST_CREATE_TABLES = 'LIST_CREATE_TABLES';
-    private $KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG = "DATA_TABLE_CRUD_MANAGEMENT_LOG";
-    private $KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT = "DATA_RESPONSE_ADD_CRUD_MANAGEMENT";
-    private $KEY_DATA_RESPONSE_READ_TABLE_ENTITY = "KEY_DATA_RESPONSE_READ_TABLE_ENTITY";
+    private $KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG = 'DATA_TABLE_CRUD_MANAGEMENT_LOG';
+    private $KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT = 'DATA_RESPONSE_ADD_CRUD_MANAGEMENT';
+    private $KEY_DATA_RESPONSE_READ_TABLE_ENTITY = 'KEY_DATA_RESPONSE_READ_TABLE_ENTITY';
     private $KEY_DATA_ADD_ENTITY = 'KEY_DATA_ADD_ENTITY';
-    private $TABLE_TEST_PREFIX = "test_table_";
+    private $TABLE_TEST_PREFIX = 'test_table_';
     private $MAXIMAL_CREATE_ENTITY = 3;
 
     private function getFields(): array
@@ -36,14 +36,14 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'email@example.com',
-                    'example_update' => 'update.email@example.com'
+                    'example_update' => 'update.email@example.com',
                 ],
                 [
                     'badaso_type' => 'password',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => "password",
-                    'example_update' => "password.update",
+                    'example' => 'password',
+                    'example_update' => 'password.update',
                 ],
                 [
                     'badaso_type' => 'textarea',
@@ -59,7 +59,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         'items' => [
                             ['label' => 'example_1', 'value' => 'example_1'],
                             ['label' => 'example_2', 'value' => 'example_2'],
-                        ]
+                        ],
                     ]),
                     'example' => ['example_1'],
                     'example_update' => ['example_2'],
@@ -89,22 +89,22 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'time',
                     'schema_type' => 'time',
                     'details' => json_encode((object) []),
-                    'example' => "2022-01-27T04:37:18.327Z",
-                    'example_update' => "2023-01-27T04:37:18.327Z",
+                    'example' => '2022-01-27T04:37:18.327Z',
+                    'example_update' => '2023-01-27T04:37:18.327Z',
                 ],
                 [
                     'badaso_type' => 'date',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => "2022-01-27T04:37:18.327Z",
-                    'example_update' => "2023-01-27T04:37:18.327Z",
+                    'example' => '2022-01-27T04:37:18.327Z',
+                    'example_update' => '2023-01-27T04:37:18.327Z',
                 ],
                 [
                     'badaso_type' => 'datetime',
                     'schema_type' => 'datetime',
                     'details' => json_encode((object) []),
-                    'example' => "2022-01-27T04:37:18.327Z",
-                    'example_update' => "2023-01-27T04:37:18.327Z",
+                    'example' => '2022-01-27T04:37:18.327Z',
+                    'example_update' => '2023-01-27T04:37:18.327Z',
                 ],
                 [
                     'badaso_type' => 'select',
@@ -113,7 +113,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         'items' => [
                             ['label' => 'example_1', 'value' => 'example_1'],
                             ['label' => 'example_2', 'value' => 'example_2'],
-                        ]
+                        ],
                     ]),
                     'example' => 'example_1',
                     'example_update' => 'example_2',
@@ -125,7 +125,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         'items' => [
                             ['label' => 'example_1', 'value' => 'example_1'],
                             ['label' => 'example_2', 'value' => 'example_2'],
-                        ]
+                        ],
                     ]),
                     'example' => 'example_1',
                     'example_update' => 'example_2',
@@ -155,15 +155,15 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'tags',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => join(",", ["badaso", "test", "crud", "management"]),
-                    'example_update' => join(",", ["badaso", "test", "crud", "management", "update"]),
+                    'example' => join(',', ['badaso', 'test', 'crud', 'management']),
+                    'example_update' => join(',', ['badaso', 'test', 'crud', 'management', 'update']),
                 ],
                 [
                     'badaso_type' => 'code',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'code',
-                    'example_update' => 'code.update'
+                    'example_update' => 'code.update',
                 ],
                 [
                     'badaso_type' => 'hidden',
@@ -190,7 +190,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                    'example_update' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png'
+                    'example_update' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
                 ],
                 [
                     'badaso_type' => 'select_multiple',
@@ -200,15 +200,15 @@ class BadasoApiCrudManagementTest extends TestCase
                             ['label' => 'example_1', 'value' => 'example_1'],
                             ['label' => 'example_2', 'value' => 'example_2'],
                             ['label' => 'example_3', 'value' => 'example_3'],
-                        ]
+                        ],
                     ]),
                     'example' => [
                         'example_1',
-                        'example_2'
+                        'example_2',
                     ],
                     'example_update' => [
                         'example_2',
-                        'example_3'
+                        'example_3',
                     ],
                 ],
                 [
@@ -320,6 +320,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $const_fields = $this->getFields();
         $const_fillable = collect($const_fields)->map(function ($fillable) {
             $field = $fillable['badaso_type'];
+
             return "\"$field\"";
         })->toArray();
         $const_fillable[] = '"deleted_at"';
@@ -335,87 +336,88 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($table_names as $index_table_name => $table_name) {
             $rows = [
                 [
-                    "field" => "id",
-                    "type" => "integer",
-                    "displayName" => "Id",
-                    "required" => rand(0, 1),
-                    "browse" => rand(0, 1),
-                    "read" => rand(0, 1),
-                    "edit" => 0,
-                    "add" => 0,
-                    "delete" => rand(0, 1),
-                    "details" => json_encode((object) []),
-                    "order" => 1,
-                    "setRelation" => false
+                    'field' => 'id',
+                    'type' => 'integer',
+                    'displayName' => 'Id',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
                 ],
                 [
-                    "field" => "created_at",
-                    "type" => "datetime",
-                    "displayName" => "Created At",
-                    "required" => rand(0, 1),
-                    "browse" => rand(0, 1),
-                    "read" => rand(0, 1),
-                    "edit" => 0,
-                    "add" => 0,
-                    "delete" => rand(0, 1),
-                    "details" => json_encode((object) []),
-                    "order" => 1,
-                    "setRelation" => false
+                    'field' => 'created_at',
+                    'type' => 'datetime',
+                    'displayName' => 'Created At',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
                 ],
                 [
-                    "field" => "updated_at",
-                    "type" => "datetime",
-                    "displayName" => "Update At",
-                    "required" => rand(0, 1),
-                    "browse" => rand(0, 1),
-                    "read" => rand(0, 1),
-                    "edit" => 0,
-                    "add" => 0,
-                    "delete" => rand(0, 1),
-                    "details" => json_encode((object) []),
-                    "order" => 1,
-                    "setRelation" => false
+                    'field' => 'updated_at',
+                    'type' => 'datetime',
+                    'displayName' => 'Update At',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
                 ],
                 [
-                    "field" => "deleted_at",
-                    "type" => "datetime",
-                    "displayName" => "Deleted At",
-                    "required" => rand(0, 1),
-                    "browse" => rand(0, 1),
-                    "read" => rand(0, 1),
-                    "edit" => 0,
-                    "add" => 0,
-                    "delete" => rand(0, 1),
-                    "details" => json_encode((object) []),
-                    "order" => 1,
-                    "setRelation" => false
-                ]
+                    'field' => 'deleted_at',
+                    'type' => 'datetime',
+                    'displayName' => 'Deleted At',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
+                ],
             ];
             foreach ($const_fields as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type, 'details' => $details]) {
-                if ($index_table_name == 0 && $badaso_type == 'relation') continue;
+                if ($index_table_name == 0 && $badaso_type == 'relation') {
+                    continue;
+                }
 
                 $field_name = ucwords(str_replace(['_'], ' ', $badaso_type));
                 $row = [
-                    "field" => $badaso_type,
-                    "type" => $badaso_type,
-                    "displayName" => $field_name,
-                    "required" => rand(0, 1),
-                    "browse" => rand(0, 1),
-                    "read" => rand(0, 1),
-                    "edit" => rand(0, 1),
-                    "add" => rand(0, 1),
-                    "delete" => rand(0, 1),
-                    "details" => $details,
-                    "order" => 1,
-                    "setRelation" => false
+                    'field' => $badaso_type,
+                    'type' => $badaso_type,
+                    'displayName' => $field_name,
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => rand(0, 1),
+                    'add' => rand(0, 1),
+                    'delete' => rand(0, 1),
+                    'details' => $details,
+                    'order' => 1,
+                    'setRelation' => false,
                 ];
 
                 if ($badaso_type == 'relation') {
                     $destination_field = $const_fields[rand(0, count($const_fields) - 1)];
 
-
                     if ($destination_field['badaso_type'] == 'relation') {
-                        $destination_field['badaso_type'] = "id";
+                        $destination_field['badaso_type'] = 'id';
                     }
 
                     $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
@@ -434,8 +436,8 @@ class BadasoApiCrudManagementTest extends TestCase
             $model_data = [];
             if (rand(0, 1)) {
                 // create new model
-                $fillable = join(",", $const_fillable);
-                $model_name = str_replace([" ", "_"], "", ucwords($table_name));
+                $fillable = join(',', $const_fillable);
+                $model_name = str_replace([' ', '_'], '', ucwords($table_name));
                 $model_file_name = "{$model_name}.php";
                 $model_body = <<<PHP
                 <?php
@@ -536,7 +538,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $request_body = $data_table_crud_management_log['request_body'];
             $table = $request_body['name'];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
                 'table' => $table,
             ]);
             $response->assertSuccessful();
@@ -549,7 +551,6 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddEditEntityCrudManagement()
     {
-
         $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
         $first_table = $tables[0];
 
@@ -562,7 +563,6 @@ class BadasoApiCrudManagementTest extends TestCase
 
         $data_add_entities = [];
         foreach ($response_read_table_entities as $table => $entities) {
-
             $entities = collect($entities)->filter(function ($entity) {
                 return $entity['add'];
             })->values();
@@ -610,7 +610,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     }
 
                     if (is_array($value)) {
-                        $this->assertSame($table_row->{$key}, join(",", $value));
+                        $this->assertSame($table_row->{$key}, join(',', $value));
                     } else {
                         if ('password' == $key) {
                             $this->assertTrue(Hash::check($value, $table_row->{$key}));
@@ -638,7 +638,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ]);
                 $response->assertSuccessful();
 
-
                 $data_add_entities[$table][] = $response->json('data');
             }
         }
@@ -652,7 +651,7 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($data_add_entities as $table => $data_add_entity) {
             foreach ($data_add_entity as $index => $entity) {
                 $id = $entity['id'];
-                $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
                     'id' => $id,
                 ]);
                 $response->assertSuccessful();
@@ -664,9 +663,9 @@ class BadasoApiCrudManagementTest extends TestCase
     {
         $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/entities/{$table}"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}"), [
                 'page' => 1,
-                'limit' => 10
+                'limit' => 10,
             ]);
             $response->assertSuccessful();
         }
@@ -676,7 +675,7 @@ class BadasoApiCrudManagementTest extends TestCase
     {
         $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));
             $response->assertSuccessful();
         }
     }
@@ -687,13 +686,13 @@ class BadasoApiCrudManagementTest extends TestCase
 
         foreach ($data_add_entities as $table => $data_add_entity) {
             $id = $data_add_entity[0]['id'];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("DELETE", CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete"), [
                 'slug' => $table,
                 'data' => [
                     [
                         'field' => 'id',
                         'value' => $id,
-                    ]
+                    ],
                 ],
             ]);
             $response->assertSuccessful();
@@ -713,13 +712,13 @@ class BadasoApiCrudManagementTest extends TestCase
                     $ids[] = $entity['id'];
                 }
             }
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("DELETE", CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete-multiple"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete-multiple"), [
                 'slug' => $table,
                 'data' => [
                     [
                         'field' => 'ids',
-                        'value' => join(",", $ids),
-                    ]
+                        'value' => join(',', $ids),
+                    ],
                 ],
             ]);
             $response->assertSuccessful();
