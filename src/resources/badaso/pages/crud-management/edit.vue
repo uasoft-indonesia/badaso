@@ -937,8 +937,8 @@ export default {
           crudData.description = crudData.description
             ? crudData.description
             : "";
-          crudData.generatePermissions = crudData.generatePermissions === 1;
-          crudData.serverSide = crudData.serverSide === 1;
+          crudData.generatePermissions = crudData.generatePermissions == 1;
+          crudData.serverSide = crudData.serverSide == 1;
           crudData.controller = crudData.controller ? crudData.controller : "";
           crudData.orderColumn = crudData.orderColumn
             ? crudData.orderColumn
@@ -960,12 +960,12 @@ export default {
               field: field.field,
               type: field.type,
               displayName: field.displayName,
-              required: field.required === 1,
-              browse: field.browse === 1,
-              read: field.read === 1,
-              edit: field.edit === 1,
-              add: field.add === 1,
-              delete: field.delete === 1,
+              required: field.required == 1,
+              browse: field.browse == 1,
+              read: field.read == 1,
+              edit: field.edit == 1,
+              add: field.add == 1,
+              delete: field.delete == 1,
               details: field.details,
               relationType: field.relation ? field.relation.relationType : "",
               destinationTable: field.relation

@@ -185,7 +185,7 @@
                           <vs-button
                             color="primary"
                             type="relief"
-                            v-if="!tr.undeletable && tr.fieldIndex === 'foreign'"
+                            v-if="!tr.undeletable && tr.fieldIndex == 'foreign'"
                             @click="openRelationDialog(tr)"
                           >
                             <vs-icon icon="link"></vs-icon>
@@ -291,7 +291,7 @@
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length === 0" width="100%" v-model="databaseData.relations.modifiedRelations[selectedField].targetField">
+                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length == 0" width="100%" v-model="databaseData.relations.modifiedRelations[selectedField].targetField">
                       <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in fields" />
                     </vs-select>
                   </vs-col>
@@ -386,7 +386,7 @@ const alphaNumAndUnderscoreValidator = helpers.regex(
 
 const unique = (group, key, keyValue) => {
   return (value) => {
-    if (value === '') return true
+    if (value == '') return true
 
     const found = group.filter((item) => {
       if (key) {
@@ -463,7 +463,7 @@ export default {
               fieldIndex: {
                 distinct: unique(this.databaseData.fields.modifiedFields, "fieldIndex", "primary"),
                 required: requiredIf (function (value) {
-                  return value.fieldIncrement === true
+                  return value.fieldIncrement == true
                 }),
               },
             },
@@ -564,7 +564,7 @@ export default {
       this.selectedField = item.id
       this.relationDialog = true
       this.getTableList()
-      
+
       if (this.databaseData.relations.modifiedRelations[this.selectedField].targetTable) {
         this.fetchTableFields()
       }
@@ -658,7 +658,7 @@ export default {
             this.databaseData.fields.modifiedFields.push({
               id: id,
               fieldName: column.name,
-              fieldType: column.type === 'longblob' ? 'blob' : column.type,
+              fieldType: column.type == 'longblob' ? 'blob' : column.type,
               fieldLength: this.getFieldLength(column),
               fieldNull: column.notnull ? false : true,
               fieldAttribute: column.unsigned,
@@ -666,13 +666,13 @@ export default {
               fieldIndex: this.getFieldIndexes(column.indexes),
               fieldDefault: column.default,
               modifyType: [],
-              undeletable: column.name === 'created_at' || column.name === 'updated_at' ? true : false
+              undeletable: column.name == 'created_at' || column.name == 'updated_at' ? true : false
             });
 
             this.databaseData.fields.currentFields.push({
               id: id,
               fieldName: column.name,
-              fieldType: column.type === 'longblob' ? 'blob' : column.type,
+              fieldType: column.type == 'longblob' ? 'blob' : column.type,
               fieldLength: this.getFieldLength(column),
               fieldNull: column.notnull ? false : true,
               fieldAttribute: column.unsigned,
@@ -834,7 +834,7 @@ export default {
 
     saveDrop(item, index) {
       this.databaseData.fields.modifiedFields.splice(index, 1)
-      if (item.fieldIndex === 'foreign') {
+      if (item.fieldIndex == 'foreign') {
         this.databaseData.relations.modifiedRelations[item.id].modifyType = 'DROP_FOREIGN_KEY'
 
         if (this.databaseData.relations.modifiedRelations[item.id].hasOwnProperty('new')) {
@@ -848,9 +848,9 @@ export default {
       let newValue = null
       let modifiedRelation = this.databaseData.relations.modifiedRelations[item.id] || null
 
-      if (field === 'fieldIndex') {
-        if (modifiedRelation === null) {
-          if (event === 'foreign') {
+      if (field == 'fieldIndex') {
+        if (modifiedRelation == null) {
+          if (event == 'foreign') {
             this.$set(this.databaseData.relations.modifiedRelations, item.id, {
               modifyType: "ADD_FOREIGN_KEY",
               sourceField: item.fieldName,
@@ -864,13 +864,13 @@ export default {
           }
         } else {
           if (this.databaseData.relations.modifiedRelations[item.id].hasOwnProperty('new')) {
-            if (newValue !== 'foreign' && oldValue === 'foreign') {
+            if (newValue !== 'foreign' && oldValue == 'foreign') {
               this.$delete(this.databaseData.relations.modifiedRelations, item.id)
             }
           } else {
-            if (newValue === 'foreign' && oldValue === null) {
+            if (newValue == 'foreign' && oldValue == null) {
               this.$delete(this.databaseData.relations.modifiedRelations[item.id], 'modifyType')
-            } else if (newValue === null && oldValue === null) {
+            } else if (newValue == null && oldValue == null) {
               this.$delete(this.databaseData.relations.modifiedRelations[item.id], 'modifyType')
             } else {
               this.$set(this.databaseData.relations.modifiedRelations[item.id], 'modifyType', 'DROP_FOREIGN_KEY')
@@ -879,9 +879,9 @@ export default {
         }
       }
 
-      if (field === 'fieldType' || field === 'fieldIndex') {
+      if (field == 'fieldType' || field == 'fieldIndex') {
         newValue = event
-      } else if (field === 'fieldNull' || field === 'fieldIncrement' || field === 'fieldAttribute') {
+      } else if (field == 'fieldNull' || field == 'fieldIncrement' || field == 'fieldAttribute') {
         newValue = event.target.checked
       } else {
         newValue = event.target.value
@@ -901,7 +901,7 @@ export default {
         }
 
         for (const value of this.databaseData.fields.currentFields) {
-          if (item.id === value.id) {
+          if (item.id == value.id) {
             if (newValue == value[field]) {
               let itemIndex = item.modifyType.indexOf(eventType);
 
@@ -912,7 +912,7 @@ export default {
           }
         }
 
-        if (newValue === "") {
+        if (newValue == "") {
           newValue = null
         }
 

@@ -37,7 +37,7 @@
             <tr>
               <th>{{ $t("permission.detail.alwaysAllow.title") }}</th>
               <td>
-                <span v-if="permission.alwaysAllow === 1">{{
+                <span v-if="permission.alwaysAllow == 1">{{
                   $t("permission.detail.alwaysAllow.yes")
                 }}</span>
                 <span v-else>{{ $t("permission.detail.alwaysAllow.no") }}</span>
@@ -46,7 +46,7 @@
             <tr>
               <th>{{ $t("permission.detail.isPublic.title") }}</th>
               <td>
-                <span v-if="permission.isPublic === 1">{{
+                <span v-if="permission.isPublic == 1">{{
                   $t("permission.detail.isPublic.yes")
                 }}</span>
                 <span v-else>{{ $t("permission.detail.isPublic.no") }}</span>

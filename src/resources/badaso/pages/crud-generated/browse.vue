@@ -125,7 +125,7 @@
                 <template slot="thead">
                   <vs-th
                     v-for="(dataRow, index) in dataType.dataRows"
-                    v-if="dataRow.browse === 1"
+                    v-if="dataRow.browse == 1"
                     :key="index"
                     :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
                   >
@@ -151,7 +151,7 @@
                   >
                     <vs-td
                       v-for="(dataRow, indexColumn) in dataType.dataRows"
-                      v-if="dataRow.browse === 1"
+                      v-if="dataRow.browse == 1"
                       :key="indexColumn"
                       :data="
                         data[index][
@@ -160,7 +160,7 @@
                       "
                     >
                       <img
-                        v-if="dataRow.type === 'upload_image'"
+                        v-if="dataRow.type == 'upload_image'"
                         :src="`${
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }`"
@@ -168,7 +168,7 @@
                         alt=""
                       />
                       <div
-                        v-else-if="dataRow.type === 'upload_image_multiple'"
+                        v-else-if="dataRow.type == 'upload_image_multiple'"
                         class="crud-generated__item--upload-image-multiple"
                       >
                         <img
@@ -185,13 +185,13 @@
                         />
                       </div>
                       <span
-                        v-else-if="dataRow.type === 'editor'"
+                        v-else-if="dataRow.type == 'editor'"
                         v-html="
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
                       ></span>
                       <a
-                        v-else-if="dataRow.type === 'url'"
+                        v-else-if="dataRow.type == 'url'"
                         :href="
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
@@ -201,7 +201,7 @@
                         }}</a
                       >
                       <a
-                        v-else-if="dataRow.type === 'upload_file'"
+                        v-else-if="dataRow.type == 'upload_file'"
                         :href="`${
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }`"
@@ -211,7 +211,7 @@
                         }}</a
                       >
                       <div
-                        v-else-if="dataRow.type === 'upload_file_multiple'"
+                        v-else-if="dataRow.type == 'upload_file_multiple'"
                         class="crud-generated__item--upload-file-multiple"
                       >
                         <p
@@ -227,7 +227,7 @@
                       </div>
                       <p
                         v-else-if="
-                          dataRow.type === 'radio' || dataRow.type === 'select'
+                          dataRow.type == 'radio' || dataRow.type == 'select'
                         "
                       >
                         {{
@@ -241,8 +241,8 @@
                       </p>
                       <div
                         v-else-if="
-                          dataRow.type === 'select_multiple' ||
-                          dataRow.type === 'checkbox'
+                          dataRow.type == 'select_multiple' ||
+                          dataRow.type == 'checkbox'
                         "
                         class="crud-generated__item--select-multiple"
                       >
@@ -257,7 +257,7 @@
                           {{ bindSelection(dataRow.details.items, selected) }}
                         </p>
                       </div>
-                      <div v-else-if="dataRow.type === 'color_picker'">
+                      <div v-else-if="dataRow.type == 'color_picker'">
                         <div
                           class="crud-generated__item--color-picker"
                           :style="`background-color: ${
@@ -270,7 +270,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }}
                       </div>
-                      <span v-else-if="dataRow.type === 'relation'">{{
+                      <span v-else-if="dataRow.type == 'relation'">{{
                         displayRelationData(record, dataRow)
                       }}</span>
                       <span v-else>{{
@@ -383,7 +383,7 @@
                   <template slot="thead">
                     <badaso-th
                       v-for="(dataRow, index) in dataType.dataRows"
-                      v-if="dataRow.browse === 1"
+                      v-if="dataRow.browse == 1"
                       :key="`header-${index}`"
                       :sort-key="$caseConvert.stringSnakeToCamel(dataRow.field)"
                     >
@@ -410,14 +410,14 @@
                     >
                       <vs-td
                         v-for="(dataRow, indexColumn) in dataType.dataRows"
-                        v-if="dataRow.browse === 1"
+                        v-if="dataRow.browse == 1"
                         :key="`${index}-${indexColumn}`"
                         :data="
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
                       >
                         <img
-                          v-if="dataRow.type === 'upload_image'"
+                          v-if="dataRow.type == 'upload_image'"
                           :src="
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -427,7 +427,7 @@
                           alt=""
                         />
                         <div
-                          v-else-if="dataRow.type === 'upload_image_multiple'"
+                          v-else-if="dataRow.type == 'upload_image_multiple'"
                           class="crud-generated__item--upload-image-multiple"
                         >
                           <img
@@ -444,7 +444,7 @@
                           />
                         </div>
                         <span
-                          v-else-if="dataRow.type === 'editor'"
+                          v-else-if="dataRow.type == 'editor'"
                           v-html="
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -452,7 +452,7 @@
                           "
                         ></span>
                         <a
-                          v-else-if="dataRow.type === 'url'"
+                          v-else-if="dataRow.type == 'url'"
                           :href="
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -466,7 +466,7 @@
                           }}</a
                         >
                         <a
-                          v-else-if="dataRow.type === 'upload_file'"
+                          v-else-if="dataRow.type == 'upload_file'"
                           :href="`${
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -482,7 +482,7 @@
                           }}</a
                         >
                         <div
-                          v-else-if="dataRow.type === 'upload_file_multiple'"
+                          v-else-if="dataRow.type == 'upload_file_multiple'"
                           class="crud-generated__item--upload-file-multiple"
                         >
                           <p
@@ -500,8 +500,7 @@
                         </div>
                         <p
                           v-else-if="
-                            dataRow.type === 'radio' ||
-                            dataRow.type === 'select'
+                            dataRow.type == 'radio' || dataRow.type == 'select'
                           "
                         >
                           {{
@@ -515,8 +514,8 @@
                         </p>
                         <div
                           v-else-if="
-                            dataRow.type === 'select_multiple' ||
-                            dataRow.type === 'checkbox'
+                            dataRow.type == 'select_multiple' ||
+                            dataRow.type == 'checkbox'
                           "
                           class="crud-generated__item--select-multiple"
                         >
@@ -531,7 +530,7 @@
                             {{ bindSelection(dataRow.details.items, selected) }}
                           </p>
                         </div>
-                        <div v-else-if="dataRow.type === 'color_picker'">
+                        <div v-else-if="dataRow.type == 'color_picker'">
                           <div
                             class="crud-generated__item--color-picker"
                             :style="`background-color: ${
@@ -546,7 +545,7 @@
                             ]
                           }}
                         </div>
-                        <span v-else-if="dataRow.type === 'relation'">{{
+                        <span v-else-if="dataRow.type == 'relation'">{{
                           displayRelationData(record, dataRow)
                         }}</span>
                         <span v-else>{{
@@ -740,7 +739,7 @@ export default {
   },
   methods: {
     getDownloadUrl(item) {
-      if (item === null || item === undefined) return;
+      if (item == null || item == undefined) return;
 
       return item.split("storage").pop();
     },
@@ -811,7 +810,7 @@ export default {
             ? Math.ceil(response.data.total / this.limit)
             : 1;
         this.dataType = dataType;
-        this.isMaintenance = this.dataType.isMaintenance === 1 ? true : false;
+        this.isMaintenance = this.dataType.isMaintenance == 1 ? true : false;
         let dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.details = JSON.parse(data.details);
@@ -819,9 +818,12 @@ export default {
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        let addFields = _.filter(dataRows, ["add", 1]);
-        let editFields = _.filter(dataRows, ["edit", 1]);
-        let readFields = _.filter(dataRows, ["read", 1]);
+        // let addFields = _.filter(dataRows, ["add", 1]);
+        let addFields = dataRows.filter((row) => row.add);
+        // let editFields = _.filter(dataRows, ["edit", 1]);
+        let editFields = dataRows.filter((row) => row.edit);
+        // let readFields = _.filter(dataRows, ["read", 1]);
+        let readFields = dataRows.filter((row) => row.read);
         this.isCanAdd = addFields.length > 0;
         this.isCanEdit = editFields.length > 0;
         this.isCanRead = readFields.length > 0;
@@ -830,7 +832,7 @@ export default {
         }
         this.prepareExcelExporter();
       } catch (error) {
-        if (error.status === 503) {
+        if (error.status == 503) {
           this.showMaintenancePage = true;
         }
         this.$closeLoader();
@@ -989,7 +991,7 @@ export default {
         let displayColumn = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableDisplayColumn
         );
-        if (relationType === "has_many") {
+        if (relationType == "has_many") {
           let list = record[table];
           let flatList = list.map((ls) => {
             return ls[displayColumn];
@@ -1010,7 +1012,7 @@ export default {
 
       for (const iterator of this.dataType.dataRows) {
         let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
-        if (iterator.browse === 1) {
+        if (iterator.browse == 1) {
           this.fieldsForPdf.push(
             string.charAt(0).toUpperCase() + string.slice(1)
           );
