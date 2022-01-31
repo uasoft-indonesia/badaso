@@ -123,7 +123,7 @@ class FixedMenuItemSeeder extends Seeder
                     'order' => 8,
                     'permissions' => 'browse_logviewer',
                 ],
-                9 => [,
+                9 => [
                     'menu_id' => $menu_core,
                     'title' => 'API Documentation',
                     'url' => '/api-docs',
@@ -136,7 +136,7 @@ class FixedMenuItemSeeder extends Seeder
                 ],
 
                 // media manager
-                10 => [,
+                10 => [
                     'menu_id' => $menu_core,
                     'title' => 'Media Manager',
                     'url' => '#',
@@ -147,7 +147,7 @@ class FixedMenuItemSeeder extends Seeder
                     'order' => 10,
                     'permissions' => '',
                 ],
-                11 => [,
+                11 => [
                     'menu_id' => $menu_core,
                     'title' => 'Files',
                     'url' => '/file-manager',
@@ -158,7 +158,7 @@ class FixedMenuItemSeeder extends Seeder
                     'order' => 1,
                     'permissions' => 'browse_file_manager',
                 ],
-                12 => [,
+                12 => [
                     'menu_id' => $menu_core,
                     'title' => 'Images',
                     'url' => '/image-manager',
@@ -171,7 +171,7 @@ class FixedMenuItemSeeder extends Seeder
                 ],
 
                 // general menu
-                13 => [,
+                13 => [
                     'menu_id' => $menu_general,
                     'title' => 'Dashboard',
                     'url' => '/home',
