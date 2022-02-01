@@ -50,7 +50,7 @@
               <i18n path="database.warning.docs">
                 <a
                   target="_blank"
-                  href="https://badaso-docs.uatech.co.id/docs/en/core-concept/database-management/"
+                  href="https://badaso-docs.uatech.co.id/core-concept/database-management"
                   >docs</a
                 >
               </i18n>
