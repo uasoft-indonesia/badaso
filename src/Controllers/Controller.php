@@ -235,6 +235,7 @@ abstract class Controller extends BaseController
         $fields = array_merge($fields, $ids);
         $data = null;
         $record = null;
+
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $row = $model::query()->select($fields)->where('id', $id)->first();
@@ -256,7 +257,7 @@ abstract class Controller extends BaseController
             $record = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
         }
 
-        $record = GetData::getRelationData($data_type, $record);
+        $record = GetData::getRelationData($data_type, $record, 'read');
 
         return $record;
     }

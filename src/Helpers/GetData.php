@@ -53,7 +53,7 @@ class GetData
         foreach ($collection as $row) {
             $class = new ReflectionClass(get_class($row));
             $class_methods = $class->getMethods();
-            $record = json_decode(json_encode($row));
+            $record = $row;
             foreach ($class_methods as $class_method) {
                 if ($class_method->class == $class->name) {
                     try {
@@ -103,7 +103,7 @@ class GetData
             $class = new ReflectionClass(get_class($row));
             $class_methods = $class->getMethods();
 
-            $record = json_decode(json_encode($row));
+            $record = $row;
             foreach ($class_methods as $class_method) {
                 if ($class_method->class == $class->name) {
                     try {
@@ -113,6 +113,7 @@ class GetData
                     }
                 }
             }
+
             $records[] = self::getRelationData($data_type, $record);
         }
 
@@ -256,29 +257,31 @@ class GetData
                 && $destination_table_column
                 && $destination_table_display_column
             ) {
-                $relation_data = DB::table($destination_table)->select([
-                    $destination_table_column,
-                    $destination_table_display_column,
-                ])
-                    ->where($destination_table_column, $row->{$field->field})
-                    ->get();
+                if (isset($row->{$field->field})) {
+                    $relation_data = DB::table($destination_table)->select([
+                        $destination_table_column,
+                        $destination_table_display_column,
+                    ])
+                        ->where($destination_table_column, $row->{$field->field})
+                        ->get();
 
-                switch ($relation_type) {
-                    case 'belongs_to':
-                        $row->{$destination_table} = collect($relation_data)->first();
-                        break;
+                    switch ($relation_type) {
+                        case 'belongs_to':
+                            $row->{$destination_table} = collect($relation_data)->first();
+                            break;
 
-                    case 'has_many':
-                        $row->{$destination_table} = collect($relation_data)->toArray();
-                        break;
+                        case 'has_many':
+                            $row->{$destination_table} = collect($relation_data)->toArray();
+                            break;
 
-                    case 'has_many':
-                        $row->{$destination_table} = collect($relation_data)->first();
-                        break;
+                        case 'has_many':
+                            $row->{$destination_table} = collect($relation_data)->first();
+                            break;
 
-                    default:
-                        // code...
-                        break;
+                        default:
+                            // code...
+                            break;
+                    }
                 }
             }
         }
