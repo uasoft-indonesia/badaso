@@ -818,11 +818,8 @@ export default {
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        // let addFields = _.filter(dataRows, ["add", 1]);
         let addFields = dataRows.filter((row) => row.add);
-        // let editFields = _.filter(dataRows, ["edit", 1]);
         let editFields = dataRows.filter((row) => row.edit);
-        // let readFields = _.filter(dataRows, ["read", 1]);
         let readFields = dataRows.filter((row) => row.read);
         this.isCanAdd = addFields.length > 0;
         this.isCanEdit = editFields.length > 0;
