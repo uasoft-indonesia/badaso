@@ -301,8 +301,8 @@ export default {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
           this.tables.map((value, index) => {
-            this.$set(value, 'isCanEdit', value.crudData === null ? true : false);
-            this.$set(value, 'isCanDrop', value.crudData === null ? true : false);
+            this.$set(value, 'isCanEdit', value.crudData == null ? true : false);
+            this.$set(value, 'isCanDrop', value.crudData == null ? true : false);
           })
         })
         .catch((error) => {
@@ -426,7 +426,7 @@ export default {
       let rollbackFileName = [];
       let items = [];
 
-      if (this.rollbackIndex === null) {
+      if (this.rollbackIndex == null) {
         for (let index = total; index > flag; index--) {
           items.push(index);
         }

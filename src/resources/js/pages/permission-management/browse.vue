@@ -77,11 +77,11 @@
                   </vs-td>
 
                   <vs-td :data="data[indextr].alwaysAllow">
-                    <span v-if="data[indextr].alwaysAllow === 1">Yes</span>
+                    <span v-if="data[indextr].alwaysAllow == 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
                   <vs-td :data="data[indextr].isPublic">
-                    <span v-if="data[indextr].isPublic === 1">Yes</span>
+                    <span v-if="data[indextr].isPublic == 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
                   <vs-td class="badaso-table__td">

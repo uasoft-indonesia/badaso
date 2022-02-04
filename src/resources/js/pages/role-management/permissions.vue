@@ -106,7 +106,7 @@ export default {
       let selectedPermissions = this.rolePermissions.filter(function(
         permission
       ) {
-        return permission.selected === 1 || permission.selected === true;
+        return permission.selected == 1 || permission.selected == true;
       });
       selectedPermissions = selectedPermissions.map(
         (permission) => permission.id

@@ -182,7 +182,7 @@
                           <vs-button
                             color="primary"
                             type="relief"
-                            v-if="!tr.undeletable && tr.fieldIndex === 'foreign'"
+                            v-if="!tr.undeletable && tr.fieldIndex == 'foreign'"
                             @click="openRelationDialog(tr)"
                           >
                             <vs-icon icon="link"></vs-icon>
@@ -258,7 +258,7 @@
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length === 0" width="100%" v-model="databaseData.relations[selectedField].targetField">
+                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length == 0" width="100%" v-model="databaseData.relations[selectedField].targetField">
                       <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in fields" />
                     </vs-select>
                   </vs-col>
@@ -345,7 +345,7 @@ const alphaNumAndUnderscoreValidator = helpers.regex(
 
 const unique = (group, key) => {
   return (value) => {
-    if (value === '') return true
+    if (value == '') return true
 
     const found = group.filter((item) => {
       if (key) {
@@ -441,7 +441,7 @@ export default {
       }
     },
     setFieldIndex(item) {
-      if (item.fieldIndex === 'foreign') {
+      if (item.fieldIndex == 'foreign') {
         this.$set(this.databaseData.relations, item.id, {
           sourceField: item.fieldName,
           targetTable: "",

@@ -146,7 +146,7 @@ export default {
           additionalInfo: JSON.stringify(this.user.additionalInfo),
         })
         .then((response) => {
-          if (this.loggedInUser.id === this.user.id) {
+          if (this.loggedInUser.id == this.user.id) {
             this.$store.commit("badaso/FETCH_USER");
           }
           this.$closeLoader();

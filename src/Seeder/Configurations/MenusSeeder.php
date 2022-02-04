@@ -21,12 +21,10 @@ class MenusSeeder extends Seeder
         try {
             $menus = [
                 0 => [
-                    'id' => 1,
                     'key' => 'general',
                     'display_name' => 'General Menu',
                 ],
                 1 => [
-                    'id' => 2,
                     'key' => 'core',
                     'display_name' => 'Core',
                 ],
@@ -35,11 +33,11 @@ class MenusSeeder extends Seeder
             $new_menus = [];
             foreach ($menus as $key => $value) {
                 $menu = Menu::where('key', $value['key'])->first();
-
                 if (isset($menu)) {
-                    continue;
+                    $menu->update($value);
+                } else {
+                    Menu::create($value);
                 }
-                Menu::create($value);
             }
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);

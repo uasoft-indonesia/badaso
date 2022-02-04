@@ -40,13 +40,13 @@
                     <td class="badaso-table__label">{{ dataRow.displayName }}</td>
                     <td class="badaso-table__value">
                       <img
-                        v-if="dataRow.type === 'upload_image'"
+                        v-if="dataRow.type == 'upload_image'"
                         :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
                         width="100%"
                         alt=""
                       />
                       <div
-                        v-else-if="dataRow.type === 'upload_image_multiple'"
+                        v-else-if="dataRow.type == 'upload_image_multiple'"
                         class="crud-generated__item--upload-image-multiple"
                       >
                         <img
@@ -61,13 +61,13 @@
                         />
                       </div>
                       <span
-                        v-else-if="dataRow.type === 'editor'"
+                        v-else-if="dataRow.type == 'editor'"
                         v-html="
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
                       ></span>
                       <a
-                        v-else-if="dataRow.type === 'url'"
+                        v-else-if="dataRow.type == 'url'"
                         :href="
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         "
@@ -77,7 +77,7 @@
                         }}</a
                       >
                       <a
-                        v-else-if="dataRow.type === 'upload_file'"
+                        v-else-if="dataRow.type == 'upload_file'"
                         :href="
                           `${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
                         "
@@ -87,7 +87,7 @@
                         }}</a
                       >
                       <div
-                        v-else-if="dataRow.type === 'upload_file_multiple'"
+                        v-else-if="dataRow.type == 'upload_file_multiple'"
                         class="crud-generated__item--upload-file-multiple"
                       >
                         <p
@@ -105,7 +105,7 @@
                       </div>
                       <p
                         v-else-if="
-                          dataRow.type === 'radio' || dataRow.type === 'select'
+                          dataRow.type == 'radio' || dataRow.type == 'select'
                         "
                       >
                         {{
@@ -117,8 +117,8 @@
                       </p>
                       <div
                         v-else-if="
-                          dataRow.type === 'select_multiple' ||
-                            dataRow.type === 'checkbox'
+                          dataRow.type == 'select_multiple' ||
+                            dataRow.type == 'checkbox'
                         "
                         class="crud-generated__item--select-multiple"
                       >
@@ -131,7 +131,7 @@
                           {{ bindSelection(dataRow.details.items, selected) }}
                         </p>
                       </div>
-                      <div v-else-if="dataRow.type === 'color_picker'">
+                      <div v-else-if="dataRow.type == 'color_picker'">
                         <div
                           class="crud-generated__item--color-picker"
                           :style="
@@ -146,7 +146,7 @@
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }}
                       </div>
-                      <span v-else-if="dataRow.type === 'relation'">{{
+                      <span v-else-if="dataRow.type == 'relation'">{{
                         displayRelationData(record, dataRow)
                       }}</span>
                       <span v-else>{{
@@ -216,7 +216,7 @@ export default {
   },
   methods: {
     getDownloadUrl(item) {
-      if (item === null || item === undefined) return
+      if (item == null || item == undefined) return
 
       return item.split('storage').pop()
     },
@@ -242,16 +242,16 @@ export default {
 
         let dataRows = this.dataType.dataRows.map((data) => {
           try {
-            data.add = data.add === 1;
-            data.edit = data.edit === 1;
-            data.read = data.read === 1;
+            data.add = data.add == 1;
+            data.edit = data.edit == 1;
+            data.read = data.read == 1;
             data.details = JSON.parse(data.details);
           } catch (error) {}
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
       } catch (error) {
-        if (error.status === 503) {
+        if (error.status == 503) {
           this.isMaintenance = true;
         }
         this.$closeLoader();
@@ -287,7 +287,7 @@ export default {
       let displayColumn = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTableDisplayColumn
       );
-      if (dataRow.relation.relationType === "has_many") {
+      if (dataRow.relation.relationType == "has_many") {
         let list = record[table];
         let flatList = list.map((ls) => {
           return ls[displayColumn];

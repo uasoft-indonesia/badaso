@@ -99,7 +99,7 @@ export default {
     },
     submitForm() {
       let selectedRoles = this.userRoles.filter(function(role) {
-        return role.selected === 1 || role.selected === true;
+        return role.selected == 1 || role.selected == true;
       });
       selectedRoles = selectedRoles.map((role) => role.id);
 
