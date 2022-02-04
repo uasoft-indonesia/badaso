@@ -211,7 +211,7 @@ class FixedMenuItemSeeder extends Seeder
                 }
             }
         } catch (\Exception $e) {
-            throw new \Exception('Exception occur ' . $e);
+            throw new \Exception('Exception occur '.$e);
             \DB::rollBack();
         }
 
