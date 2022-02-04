@@ -25,7 +25,7 @@ class FixedMenuItemSeeder extends Seeder
             $menu_items = [
                 // core menu
                 0 => [
-                    'id' => 1,
+
                     'menu_id' => $menu_core,
                     'title' => 'Permission Management',
                     'url' => '/permission',
@@ -37,7 +37,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_permissions',
                 ],
                 1 => [
-                    'id' => 2,
+
                     'menu_id' => $menu_core,
                     'title' => 'Role Management',
                     'url' => '/role',
@@ -49,7 +49,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_roles',
                 ],
                 2 => [
-                    'id' => 3,
+
                     'menu_id' => $menu_core,
                     'title' => 'User Management',
                     'url' => '/user',
@@ -61,7 +61,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_users',
                 ],
                 3 => [
-                    'id' => 4,
+
                     'menu_id' => $menu_core,
                     'title' => 'Menu Management',
                     'url' => '/menu',
@@ -73,7 +73,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_menus',
                 ],
                 4 => [
-                    'id' => 5,
+
                     'menu_id' => $menu_core,
                     'title' => 'CRUD Management',
                     'url' => '/crud',
@@ -85,7 +85,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_crud_data',
                 ],
                 5 => [
-                    'id' => 6,
+
                     'menu_id' => $menu_core,
                     'title' => 'Database Management',
                     'url' => '/database',
@@ -97,7 +97,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_database',
                 ],
                 6 => [
-                    'id' => 7,
+
                     'menu_id' => $menu_core,
                     'title' => 'Configuration',
                     'url' => '/configuration',
@@ -109,7 +109,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_configurations',
                 ],
                 7 => [
-                    'id' => 8,
+
                     'menu_id' => $menu_core,
                     'title' => 'Activity Log',
                     'url' => '/activity-log',
@@ -121,7 +121,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_activitylogs',
                 ],
                 8 => [
-                    'id' => 9,
+
                     'menu_id' => $menu_core,
                     'title' => 'Log Viewer',
                     'url' => '/log-viewer',
@@ -133,7 +133,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_logviewer',
                 ],
                 9 => [
-                    'id' => 10,
+
                     'menu_id' => $menu_core,
                     'title' => 'API Documentation',
                     'url' => '/api-docs',
@@ -147,7 +147,7 @@ class FixedMenuItemSeeder extends Seeder
 
                 // media manager
                 10 => [
-                    'id' => 11,
+
                     'menu_id' => $menu_core,
                     'title' => 'Media Manager',
                     'url' => '#',
@@ -159,7 +159,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => null,
                 ],
                 11 => [
-                    'id' => 12,
+
                     'menu_id' => $menu_core,
                     'title' => 'Files',
                     'url' => '/file-manager',
@@ -171,7 +171,7 @@ class FixedMenuItemSeeder extends Seeder
                     'permissions' => 'browse_file_manager',
                 ],
                 12 => [
-                    'id' => 13,
+
                     'menu_id' => $menu_core,
                     'title' => 'Images',
                     'url' => '/image-manager',
@@ -185,7 +185,7 @@ class FixedMenuItemSeeder extends Seeder
 
                 // general menu
                 13 => [
-                    'id' => 14,
+
                     'menu_id' => $menu_general,
                     'title' => 'Dashboard',
                     'url' => '/home',
@@ -204,11 +204,6 @@ class FixedMenuItemSeeder extends Seeder
                     ->where('url', $value['url'])
                     ->first();
 
-                if (isset($menu_item)) {
-                    continue;
-                }
-
-                $menu_item = MenuItem::find($value['id']);
                 if (isset($menu_item)) {
                     $menu_item->update($value);
                 } else {

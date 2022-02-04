@@ -55,14 +55,14 @@
                   index | replaceTitle
                 }}</span>
               </th>
-              <td v-if="index === 'avatar'">
+              <td v-if="index == 'avatar'">
                 <img
                   :src="item"
                   width="100%"
                   alt=""
                 />
               </td>
-              <td v-else>{{ item === null ? "null" : item }}</td>
+              <td v-else>{{ item == null ? "null" : item }}</td>
             </tr>
           </table>
         </vs-card>
@@ -79,14 +79,14 @@
                   index | replaceTitle
                 }}</span>
               </th>
-              <td v-if="index === 'avatar'">
+              <td v-if="index == 'avatar'">
                 <img
                   :src="item"
                   width="100%"
                   alt=""
                 />
               </td>
-              <td v-else>{{ item === null ? "null" : item }}</td>
+              <td v-else>{{ item == null ? "null" : item }}</td>
             </tr>
           </table>
         </vs-card>
@@ -104,7 +104,7 @@
                   index | replaceTitle
                 }}</span>
               </th>
-              <td v-if="typeof item === 'object'">
+              <td v-if="typeof item == 'object'">
                 <table class="badaso-table">
                   <tr
                     v-for="(value, index) in item"
@@ -116,11 +116,11 @@
                         index | replaceTitle
                       }}</span>
                     </th>
-                    <td>{{ value === null ? "null" : value }}</td>
+                    <td>{{ value == null ? "null" : value }}</td>
                   </tr>
                 </table>
               </td>
-              <td v-else>{{ item === null ? "null" : item }}</td>
+              <td v-else>{{ item == null ? "null" : item }}</td>
             </tr>
           </table>
         </vs-card>

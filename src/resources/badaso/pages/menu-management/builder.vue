@@ -339,7 +339,7 @@ export default {
       const isEqual = _.isEqual(this.menuItems, this.savedItems);
       if (!isEqual) {
         const isChange = this.checkArray(this.menuItems);
-        if (isChange === true) {
+        if (isChange == true) {
           this.arrangeItems = true;
         }
       }
@@ -355,7 +355,7 @@ export default {
             return false;
           }
         } else {
-          if (idx === -1) {
+          if (idx == -1) {
             return false;
           }
         }
