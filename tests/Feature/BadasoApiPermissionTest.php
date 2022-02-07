@@ -2,10 +2,10 @@
 
 namespace Uasoft\Badaso\Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Models\Permission;
+use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Models\Permission;
 
 class BadasoApiPermissionTest extends TestCase
 {
@@ -19,7 +19,7 @@ class BadasoApiPermissionTest extends TestCase
 
     public function testBrowsePermission()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/permissions"));
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/permissions'));
         $response->assertSuccessful();
     }
 
@@ -27,7 +27,7 @@ class BadasoApiPermissionTest extends TestCase
     {
         $permissions = Permission::all();
         foreach ($permissions as $key => $permission) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/permissions/read"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/permissions/read'), [
                 'id' => $permission->id,
             ]);
             $response->assertSuccessful();
@@ -50,7 +50,7 @@ class BadasoApiPermissionTest extends TestCase
             'key' =>  Str::uuid(),
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/permissions/add"), $request_data);
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/permissions/add'), $request_data);
         $response->assertSuccessful();
 
         $permission_id = $response->json('data.id');
@@ -75,7 +75,7 @@ class BadasoApiPermissionTest extends TestCase
             'id' => $permission_id,
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/permissions/edit"), $request_data);
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
         $response->assertSuccessful();
 
         $permission_id = $response->json('data.id');
@@ -91,7 +91,7 @@ class BadasoApiPermissionTest extends TestCase
     {
         $permission_id = CallHelperTest::getCache(self::$KEY_PERMISSION_LAST_CREATED_ID);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/permissions/delete"), [
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/permissions/delete'), [
             'id' => $permission_id,
         ]);
         $response->assertSuccessful();
@@ -103,7 +103,7 @@ class BadasoApiPermissionTest extends TestCase
     public function testDeleteMultiplePermission()
     {
         $maximal_count = 10;
-        $ids = [] ;
+        $ids = [];
         for ($i = 1; $i <= $maximal_count; $i++) {
             $request_data = [
                 'always_allow' =>  true,
@@ -112,14 +112,14 @@ class BadasoApiPermissionTest extends TestCase
                 'key' =>  Str::uuid(),
             ];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/permissions/add"), $request_data);
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/permissions/add'), $request_data);
             $response->assertSuccessful();
 
             $ids[] = $response->json('data.id');
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/permissions/delete-multiple"), [
-            'ids' => join(",", $ids),
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/permissions/delete-multiple'), [
+            'ids' => join(',', $ids),
         ]);
         $response->assertSuccessful();
 

@@ -2,12 +2,10 @@
 
 namespace Uasoft\Badaso\Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Models\Menu;
+use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Uasoft\Badaso\Models\Menu;
 
 class BadasoApiMenuTest extends TestCase
 {
@@ -21,7 +19,7 @@ class BadasoApiMenuTest extends TestCase
 
     public function testBrowseMenu()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/menus"));
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus'));
         $response->assertSuccessful();
 
         $response_menus = $response->json('data.menus');
@@ -43,7 +41,7 @@ class BadasoApiMenuTest extends TestCase
     {
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/menus/read"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus/read'), [
                 'menu_id' => $menu->id,
             ]);
             $response->assertSuccessful();
@@ -61,12 +59,12 @@ class BadasoApiMenuTest extends TestCase
     public function testAddMenu()
     {
         $request_data = [
-            "key" => Str::uuid(),
-            "displayName" => Str::random(20),
-            "icon" => 'add',
+            'key' => Str::uuid(),
+            'displayName' => Str::random(20),
+            'icon' => 'add',
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("POST", CallHelperTest::getUrlApiV1Prefix("/menus/add"), $request_data);
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/menus/add'), $request_data);
         $response->assertSuccessful();
 
         $menu_id = $response->json('data.id');
@@ -85,13 +83,13 @@ class BadasoApiMenuTest extends TestCase
         $menu_id = CallHelperTest::getCache(self::$KEY_MENU_LAST_CREATED_ID);
         $menu = Menu::find($menu_id);
         $request_data = [
-            "key" => $menu->key,
-            "displayName" => Str::random(20),
-            "icon" => 'add',
+            'key' => $menu->key,
+            'displayName' => Str::random(20),
+            'icon' => 'add',
             'menu_id' => $menu_id,
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("PUT", CallHelperTest::getUrlApiV1Prefix("/menus/edit"), $request_data);
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/edit'), $request_data);
         $response->assertSuccessful();
 
         $menu = Menu::find($menu_id);
@@ -106,8 +104,8 @@ class BadasoApiMenuTest extends TestCase
     {
         $menu_id = CallHelperTest::getCache(self::$KEY_MENU_LAST_CREATED_ID);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("DELETE", CallHelperTest::getUrlApiV1Prefix("/menus/delete"), [
-            "menu_id" => $menu_id,
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/menus/delete'), [
+            'menu_id' => $menu_id,
         ]);
         $response->assertSuccessful();
 
@@ -120,9 +118,9 @@ class BadasoApiMenuTest extends TestCase
         $order = [];
         for ($i = 0; $i <= 5; $i++) {
             $request_data = [
-                "key" => Str::uuid(),
-                "display_name" => Str::random(20),
-                "icon" => 'add',
+                'key' => Str::uuid(),
+                'display_name' => Str::random(20),
+                'icon' => 'add',
             ];
 
             $order[] = Menu::create($request_data);
@@ -132,14 +130,14 @@ class BadasoApiMenuTest extends TestCase
         })->toArray();
         shuffle($order);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/menus/menu-options"), [
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/menu-options'), [
             'order' => (array) $order,
         ]);
         $response->assertSuccessful();
 
         foreach ($order as $index => $menu_id) {
             $menu = Menu::find($menu_id);
-            $this->assertTrue($menu->order == $index+1);
+            $this->assertTrue($menu->order == $index + 1);
 
             $menu->delete();
         }
