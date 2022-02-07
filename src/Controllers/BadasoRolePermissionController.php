@@ -17,7 +17,7 @@ class BadasoRolePermissionController extends Controller
         try {
             $role_permissions = RolePermission::all();
             foreach ($role_permissions as $index => $role_permission) {
-                $role_permissions[$index]->permission = $role_permission->permission ;
+                $role_permissions[$index]->permission = $role_permission->permission;
             }
 
             // $role_permissions = $this->getDataRelations($role_permissions);
