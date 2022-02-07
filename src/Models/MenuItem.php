@@ -31,7 +31,7 @@ class MenuItem extends Model
         'color',
         'parent_id',
         'order',
-        'permissions'
+        'permissions',
     ];
 
     public function highestOrderMenuItem($menu_id = null, $parent = null)
