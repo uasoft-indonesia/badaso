@@ -17,8 +17,8 @@ class BadasoUserRoleController extends Controller
         try {
             $user_roles = UserRole::all();
             foreach ($user_roles as $index => $user_role) {
-                $user_role->role ;
-                $user_role->user ;
+                $user_role->role;
+                $user_role->user;
             }
 
             $data['user_roles'] = $user_roles;

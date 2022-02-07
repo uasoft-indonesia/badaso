@@ -1,6 +1,6 @@
 <?php
 
-namespace Uasoft\Badaso\Tests\Feature ;
+namespace Uasoft\Badaso\Tests\Feature;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
@@ -252,7 +252,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
-            if (!Schema::hasTable($table_name)) {
+            if (! Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -449,7 +449,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -470,7 +470,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -479,7 +479,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -781,7 +781,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -802,7 +802,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -811,7 +811,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -831,8 +831,8 @@ class BadasoApiCrudManagementTest extends TestCase
             $request_body = [
                 'name' =>  $table_name,
                 'slug' =>  $table_name,
-                'displayNameSingular' =>  $table_label . '(update)',
-                'displayNamePlural' =>  $table_label . '(update)',
+                'displayNameSingular' =>  $table_label.'(update)',
+                'displayNamePlural' =>  $table_label.'(update)',
                 'icon' =>  'add',
                 'modelName' =>  $model,
                 'policyName' =>  '',
@@ -916,14 +916,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
             // delete controller
             $controller_name = "{$name}Controller.php";
-            $controller_path = app_path('Http/Controllers/' . $controller_name);
+            $controller_path = app_path('Http/Controllers/'.$controller_name);
             if (file_exists($controller_path)) {
                 unlink($controller_path);
             }
 
             // delete models
             $model_name = "{$name}.php";
-            $model_path = app_path('Models/' . $model_name);
+            $model_path = app_path('Models/'.$model_name);
             if (file_exists($model_path)) {
                 unlink($model_path);
             }

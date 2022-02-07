@@ -2,14 +2,12 @@
 
 namespace Uasoft\Badaso\Tests\Feature;
 
-use Tests\TestCase;
 use Illuminate\Support\Str;
-use Uasoft\Badaso\Models\Role;
-use Uasoft\Badaso\Models\Permission;
-use Uasoft\Badaso\Models\RolePermission;
+use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Uasoft\Badaso\Models\Permission;
+use Uasoft\Badaso\Models\Role;
+use Uasoft\Badaso\Models\RolePermission;
 
 class BadasoApiRolePermissionTest extends TestCase
 {
@@ -21,11 +19,10 @@ class BadasoApiRolePermissionTest extends TestCase
 
     public function testRoleInPermissions()
     {
-
         $roles = Role::all();
         foreach ($roles as $index => $role) {
             $role_id = $role->id;
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/role-permissions/all-permission"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/role-permissions/all-permission'), [
                 'roleId' => $role_id,
             ]);
             $response->assertSuccessful();
@@ -47,7 +44,7 @@ class BadasoApiRolePermissionTest extends TestCase
 
     public function testRolePermissionAll()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/role-permissions/all"));
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/role-permissions/all'));
         $response->assertSuccessful();
 
         $response_data_permissions = $response->json('data.rolePermissions');
@@ -62,11 +59,10 @@ class BadasoApiRolePermissionTest extends TestCase
 
     public function testRolePermission()
     {
-
         $roles = Role::all();
         foreach ($roles as $index => $role) {
             $role_id = $role['id'];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/role-permissions"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/role-permissions'), [
                 'roleId' => $role_id,
             ]);
             $response->assertSuccessful();
@@ -104,7 +100,7 @@ class BadasoApiRolePermissionTest extends TestCase
             'roleId' => $role_id,
             'permissions' => $request_permissions,
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("POST", CallHelperTest::getUrlApiV1Prefix("/role-permissions/add-edit"), $request_data);
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/role-permissions/add-edit'), $request_data);
         $response->assertSuccessful();
 
         foreach ($request_permissions as $index => $request_permission) {

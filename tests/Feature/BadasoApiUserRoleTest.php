@@ -2,19 +2,16 @@
 
 namespace Uasoft\Badaso\Tests\Feature;
 
-use Tests\TestCase;
-use Illuminate\Support\Str;
-use Uasoft\Badaso\Models\Role;
-use Uasoft\Badaso\Helpers\CallHelperTest;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Tests\TestCase;
+use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 
 class BadasoApiUserRoleTest extends TestCase
 {
-
     public function testStartInit()
     {
         // init user login
@@ -32,14 +29,14 @@ class BadasoApiUserRoleTest extends TestCase
         $create_user = [
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@gmail.com",
+            'email' => $name.'@gmail.com',
             'password' => Hash::make($name),
         ];
         $user = User::create($create_user);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/user-roles/add-edit"), [
-            "userId" => $user->id,
-            "roles" => (array) $role_ids,
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/user-roles/add-edit'), [
+            'userId' => $user->id,
+            'roles' => (array) $role_ids,
         ]);
         $response->assertSuccessful();
 
@@ -55,7 +52,7 @@ class BadasoApiUserRoleTest extends TestCase
 
     public function testUserRoleAll()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/user-roles/all"));
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/user-roles/all'));
         $response->assertSuccessful();
 
         $response_user_roles = $response->json('data.userRoles');
@@ -72,7 +69,7 @@ class BadasoApiUserRoleTest extends TestCase
         $create_user = [
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@gmail.com",
+            'email' => $name.'@gmail.com',
             'password' => Hash::make($name),
         ];
         $user = User::create($create_user);
@@ -85,7 +82,7 @@ class BadasoApiUserRoleTest extends TestCase
             ]);
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/user-roles"), [
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/user-roles'), [
             'userId' => $user->id,
         ]);
         $response->assertSuccessful();
@@ -111,7 +108,7 @@ class BadasoApiUserRoleTest extends TestCase
         $create_user = [
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@gmail.com",
+            'email' => $name.'@gmail.com',
             'password' => Hash::make($name),
         ];
         $user = User::create($create_user);
@@ -124,7 +121,7 @@ class BadasoApiUserRoleTest extends TestCase
             ]);
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/user-roles/all-role"), [
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/user-roles/all-role'), [
             'userId' => $user->id,
         ]);
         $response->assertSuccessful();
@@ -132,7 +129,7 @@ class BadasoApiUserRoleTest extends TestCase
         $response_user_roles = $response->json('data.userRoles');
 
         foreach ($user_roles as $key => $user_role) {
-            $user_role_id = $user_role->role_id ;
+            $user_role_id = $user_role->role_id;
 
             $response_user_role = collect($response_user_roles)->where('id', $user_role_id)->first();
             $this->assertNotEmpty($response_user_role);

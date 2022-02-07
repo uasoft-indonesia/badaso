@@ -1,21 +1,17 @@
 <?php
 
-namespace Uasoft\Badaso\Tests\Feature ;
+namespace Uasoft\Badaso\Tests\Feature;
 
-use Tests\TestCase;
-use Prophecy\Call\Call;
 use Illuminate\Support\Str;
+use Tests\TestCase;
+use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Models\MenuItem;
-use Uasoft\Badaso\Helpers\CallHelperTest;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Uasoft\Badaso\Models\Permission;
 
 class BadasoApiMenuItemTest extends TestCase
 {
-
-    public static $KEY_DATA_CREATED_MENU_ITEMS  = 'DATA_CREATED_MENU_ITEMS';
+    public static $KEY_DATA_CREATED_MENU_ITEMS = 'DATA_CREATED_MENU_ITEMS';
 
     public function testStartInit()
     {
@@ -27,7 +23,7 @@ class BadasoApiMenuItemTest extends TestCase
     {
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/menus/item"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus/item'), [
                 'menuId' => $menu->id,
             ]);
             $response->assertSuccessful();
@@ -56,7 +52,7 @@ class BadasoApiMenuItemTest extends TestCase
     {
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("GET", CallHelperTest::getUrlApiV1Prefix("/menus/item-by-key"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus/item-by-key'), [
                 'menu_key' => $menu->key,
             ]);
             $response->assertSuccessful();
@@ -87,16 +83,16 @@ class BadasoApiMenuItemTest extends TestCase
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
             $request_data = [
-                "menuId" =>  $menu->id,
-                "title" =>  Str::random(10),
-                "url" =>  Str::random(10),
-                "target" =>  "_self",
-                "iconClass" =>  'add',
-                "color" =>  '#FFFFFF',
-                "parentId" =>  null,
-                "order" =>  null
+                'menuId' =>  $menu->id,
+                'title' =>  Str::random(10),
+                'url' =>  Str::random(10),
+                'target' =>  '_self',
+                'iconClass' =>  'add',
+                'color' =>  '#FFFFFF',
+                'parentId' =>  null,
+                'order' =>  null,
             ];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json("POST", CallHelperTest::getUrlApiV1Prefix("/menus/item/add"), $request_data);
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/menus/item/add'), $request_data);
             $response->assertSuccessful();
 
             $response_menu_item = $response->json('data');
@@ -129,15 +125,15 @@ class BadasoApiMenuItemTest extends TestCase
         foreach ($data_created_menu_items as $key => ['menu_id' => $menu_id, 'menu_item_id' => $menu_item_id]) {
             $request_data = [
                 'menuItemId' => $menu_item_id,
-                "menuId" =>  $menu_id,
-                "title" =>  Str::random(10),
-                "url" =>  "/" . Str::random(10),
-                "target" =>  "_self",
-                "iconClass" =>  'add',
-                "color" =>  '#OOOOOO',
+                'menuId' =>  $menu_id,
+                'title' =>  Str::random(10),
+                'url' =>  '/'.Str::random(10),
+                'target' =>  '_self',
+                'iconClass' =>  'add',
+                'color' =>  '#OOOOOO',
             ];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/menus/item/edit"), $request_data);
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/item/edit'), $request_data);
             $response->assertSuccessful();
 
             $menu_item = MenuItem::find($menu_item_id)->toArray();
@@ -156,8 +152,7 @@ class BadasoApiMenuItemTest extends TestCase
         $data_created_menu_items = CallHelperTest::getCache(self::$KEY_DATA_CREATED_MENU_ITEMS);
 
         foreach ($data_created_menu_items as $key => ['menu_id' => $menu_id, 'menu_item_id' => $menu_item_id]) {
-
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/menus/item/read"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus/item/read'), [
                 'menu_id' => $menu_id,
                 'menu_item_id' => $menu_item_id,
             ]);
@@ -191,7 +186,7 @@ class BadasoApiMenuItemTest extends TestCase
             ];
         })->toArray();
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/menus/arrange-items"), [
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/arrange-items'), [
             'menuId' => $menuId,
             'menuItems' => (array) $menu_items,
         ]);
@@ -211,9 +206,9 @@ class BadasoApiMenuItemTest extends TestCase
     {
         $data_created_menu_items = CallHelperTest::getCache(self::$KEY_DATA_CREATED_MENU_ITEMS);
         foreach ($data_created_menu_items as $key => ['menu_id' => $menu_id, 'menu_item_id' => $menu_item_id]) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/menus/item/delete"), [
-                "menuId" =>  $menu_id,
-                "menuItemId" =>  $menu_item_id
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/menus/item/delete'), [
+                'menuId' =>  $menu_id,
+                'menuItemId' =>  $menu_item_id,
             ]);
             $response->assertSuccessful();
 
@@ -224,34 +219,32 @@ class BadasoApiMenuItemTest extends TestCase
 
     public function testMenuItemGetPermission()
     {
-
         $permission_keys = Permission::get()->map(function ($item) {
             return $item->key;
         })->toArray();
-
 
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
             shuffle($permission_keys);
             $permission_menu_keys = array_slice($permission_keys, 0, rand(1, 5));
-            $permissions = join(",", $permission_menu_keys);
+            $permissions = join(',', $permission_menu_keys);
 
             $menu_id = $menu->id;
             $create_data = [
-                "menu_id" =>  $menu_id,
-                "title" =>  Str::random(10),
-                "url" =>  Str::random(10),
-                "target" =>  "_self",
-                "icon_class" =>  'add',
-                "color" =>  '#FFFFFF',
+                'menu_id' =>  $menu_id,
+                'title' =>  Str::random(10),
+                'url' =>  Str::random(10),
+                'target' =>  '_self',
+                'icon_class' =>  'add',
+                'color' =>  '#FFFFFF',
                 'order' => 1,
-                "permissions" => $permissions,
+                'permissions' => $permissions,
             ];
             $menu_item = MenuItem::create($create_data);
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/menus/item/permissions"), [
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus/item/permissions'), [
                 'menu_id' => $menu_id,
-                "menu_item_id" => $menu_item->id
+                'menu_item_id' => $menu_item->id,
             ]);
             $response->assertSuccessful();
 
@@ -283,34 +276,34 @@ class BadasoApiMenuItemTest extends TestCase
             $permission_menu_keys = collect($rand_menu_permissions)->map(function ($item) {
                 return $item['key'];
             })->toArray();
-            $permission_menu_keys = join(",", $permission_menu_keys);
+            $permission_menu_keys = join(',', $permission_menu_keys);
 
             $menu_id = $menu->id;
             $create_data = [
-                "menu_id" =>  $menu_id,
-                "title" =>  Str::random(10),
-                "url" =>  Str::random(10),
-                "target" =>  "_self",
-                "icon_class" =>  'add',
-                "color" =>  '#FFFFFF',
+                'menu_id' =>  $menu_id,
+                'title' =>  Str::random(10),
+                'url' =>  Str::random(10),
+                'target' =>  '_self',
+                'icon_class' =>  'add',
+                'color' =>  '#FFFFFF',
                 'order' => 1,
-                "permissions" => null,
+                'permissions' => null,
             ];
             $menu_item = MenuItem::create($create_data);
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/menus/item/permissions"), [
-                "menuId" => $menu_id,
-                "menuItemId" => $menu_item->id,
-                "permissions" => (array) $permission_menu_ids,
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/item/permissions'), [
+                'menuId' => $menu_id,
+                'menuItemId' => $menu_item->id,
+                'permissions' => (array) $permission_menu_ids,
             ]);
             $response->assertSuccessful();
 
             $menu_item = MenuItem::find($menu_item->id);
             $this->assertNotEmpty($menu_item->permissions);
-            $menu_item_permissions = explode(",", $menu_item->permissions);
+            $menu_item_permissions = explode(',', $menu_item->permissions);
 
             foreach ($rand_menu_permissions as $index => $rand_menu_permission) {
-                $menu_item_permission_key = $rand_menu_permission['key'] ;
+                $menu_item_permission_key = $rand_menu_permission['key'];
 
                 $this->assertTrue(in_array($menu_item_permission_key, $menu_item_permissions));
             }
