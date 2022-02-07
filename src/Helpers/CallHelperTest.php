@@ -99,6 +99,12 @@ class CallHelperTest
         $test_case->assertSame($bearer_token_authorize, $bearer_cache_token_authorize);
     }
 
+    public static function handleDeleteUserAdmin(){
+        $name = env('BADASO_USER_NAME', 'badaso.test');
+        $email = "{$name}@test.com";
+        User::where('email', $email)->first()->delete();
+    }
+
     public static function withAuthorizeBearer(TestCase $test_case): TestCase
     {
         return $test_case->withHeader('Authorization', self::getTokenUserAdminAuthorizeBearer());
