@@ -33,9 +33,6 @@ return [
             '/v1/file/*',
         ],
     ],
-    'unit-test' => [
-        'prefix' => '/vendor',
-    ],
     'manifest' => [
         'name' => 'Badaso',
         'short_name' => 'Badaso',
