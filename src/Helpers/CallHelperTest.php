@@ -121,23 +121,22 @@ class CallHelperTest
 
     public static function login(TestCase $test_case)
     {
-
         $login = $test_case->post(CallHelperTest::getApiAuth('login'), [
-            "email" => "admin@admin.com",
-            "password" => "admin",
-            "remember" => false
+            'email' => 'admin@admin.com',
+            'password' => 'admin',
+            'remember' => false,
         ]);
-        return $login->json("data.accessToken");
+
+        return $login->json('data.accessToken');
     }
 
     public static function getApiAuth($path)
     {
-        return "badaso-api/v1/auth/" . $path;
+        return 'badaso-api/v1/auth/'.$path;
     }
 
     public static function getApiV1($path)
     {
-        return "badaso-api/module/post/v1" . $path;
+        return 'badaso-api/module/post/v1'.$path;
     }
-
 }
