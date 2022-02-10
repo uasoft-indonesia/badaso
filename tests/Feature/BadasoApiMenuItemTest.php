@@ -32,7 +32,6 @@ class BadasoApiMenuItemTest extends TestCase
             foreach ($response_menu_items as $index_response_menu_item => $response_menu_item) {
                 $menu_item_id = $response_menu_item['id'];
 
-
                 $menu_item = MenuItem::find($menu_item_id);
                 $this->assertNotEmpty($menu_item);
                 $this->assertTrue($menu_item['menu_id'] == $response_menu_item['menuId']);

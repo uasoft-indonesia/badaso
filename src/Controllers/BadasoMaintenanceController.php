@@ -85,9 +85,11 @@ class BadasoMaintenanceController extends Controller
         try {
             $configuration_model = ConfigurationRedis::get();
             $maintenance = $configuration_model->where('key', 'maintenance')->firstOrFail();
+
             return $maintenance->value == '1' ? true : false;
         } catch (\Exception $e) {
             $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+
             return $maintenance->value == '1' ? true : false;
         }
     }
