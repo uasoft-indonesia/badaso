@@ -16,8 +16,10 @@ class BadasoUserRoleController extends Controller
     {
         try {
             $user_roles = UserRole::all();
-
-            $user_roles = $this->getDataRelations($user_roles);
+            foreach ($user_roles as $index => $user_role) {
+                $user_role->role;
+                $user_role->user;
+            }
 
             $data['user_roles'] = $user_roles;
 
@@ -35,7 +37,10 @@ class BadasoUserRoleController extends Controller
             ]);
             $user_roles = UserRole::where('user_id', $request->user_id)->get();
 
-            $user_roles = $this->getDataRelations($user_roles);
+            foreach ($user_roles as $index => $user_role) {
+                $user_role->role;
+                $user_role->user;
+            }
 
             $data['user_roles'] = $user_roles;
 
