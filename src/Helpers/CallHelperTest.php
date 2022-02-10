@@ -121,12 +121,14 @@ class CallHelperTest
 
     public static function login(TestCase $test_case)
     {
-
+        $user = self::getUserAdminRole();
+        
         $login = $test_case->post(CallHelperTest::getApiAuth('login'), [
-            "email" => "admin@admin.com",
-            "password" => "admin",
+            "email" => $user->email,
+            "password" => $user->name,
             "remember" => false
         ]);
+   
         return $login->json("data.accessToken");
     }
 
