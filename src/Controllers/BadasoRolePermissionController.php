@@ -20,8 +20,6 @@ class BadasoRolePermissionController extends Controller
                 $role_permissions[$index]->permission = $role_permission->permission;
             }
 
-            // $role_permissions = $this->getDataRelations($role_permissions);
-
             $data['role_permissions'] = $role_permissions;
 
             return ApiResponse::success(collect($data)->toArray());
@@ -41,8 +39,6 @@ class BadasoRolePermissionController extends Controller
             foreach ($role_permissions as $index => $role_permission) {
                 $role_permissions[$index]->permission = $role_permission->permission;
             }
-
-            // $role_permissions = $this->getDataRelations($role_permissions);
 
             $data['role_permissions'] = $role_permissions;
 
