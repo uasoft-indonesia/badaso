@@ -125,7 +125,8 @@ class CallHelperTest
     {
         Cache::store('file')->clear();
     }
-     public static function login(TestCase $test_case)
+
+    public static function login(TestCase $test_case)
     {
         $user = self::getUserAdminRole();
 
