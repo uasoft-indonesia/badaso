@@ -95,11 +95,13 @@ class TokenManagement
     {
         $personal_access_token = $this->user->currentAccessToken();
 
-        $expired_date_ability = $this->findAbility(self::$EXPIRED_DATE_ABILITY, $personal_access_token);
-        $expired_date = $expired_date_ability->value;
+        if($personal_access_token instanceof PersonalAccessToken){
+            $expired_date_ability = $this->findAbility(self::$EXPIRED_DATE_ABILITY, $personal_access_token);
+            $expired_date = $expired_date_ability->value;
 
-        if (Carbon::create($expired_date)->lessThan(now())) {
-            $personal_access_token->delete();
+            if (Carbon::create($expired_date)->lessThan(now())) {
+                $personal_access_token->delete();
+            }
         }
     }
 
