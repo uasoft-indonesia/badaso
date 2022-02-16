@@ -95,7 +95,7 @@ class TokenManagement
     {
         $personal_access_token = $this->user->currentAccessToken();
 
-        if($personal_access_token instanceof PersonalAccessToken){
+        if ($personal_access_token instanceof PersonalAccessToken) {
             $expired_date_ability = $this->findAbility(self::$EXPIRED_DATE_ABILITY, $personal_access_token);
             $expired_date = $expired_date_ability->value;
 
