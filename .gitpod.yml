@@ -14,8 +14,6 @@ tasks:
       php artisan storage:link &&
       npm install &&
       php artisan migrate &&
-      # php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-      # php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && npm run dev &&
       php artisan serve
 ports:
   - port: 8000
