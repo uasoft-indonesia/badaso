@@ -15,6 +15,7 @@ tasks:
       php artisan key:generate &&
       mysql -u root -e "create database laravel"
     command: php artisan badaso:setup --force &&
+      php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
       php artisan storage:link &&
       php artisan migrate &&
