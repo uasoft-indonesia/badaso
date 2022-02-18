@@ -2,7 +2,7 @@ image:
   file: .gitpod.Dockerfile
 tasks:
   - name: Starting Project
-    init:  composer create-project laravel/laravel:^8.0 laravel &&
+    init: composer create-project laravel/laravel:^8.0 laravel &&
       mkdir -p laravel/packages/badaso/core &&
       mv {,.}* laravel/packages/badaso/core 2>/dev/null; true &&
       cd laravel &&
@@ -19,9 +19,7 @@ tasks:
       php artisan storage:link &&
       php artisan migrate &&
       npm install &&
-      npm run dev
-  - name: Running Server
-    init: php artisan serve
+      php artisan serve
 ports:
   - port: 8000
     onOpen: open-browser
