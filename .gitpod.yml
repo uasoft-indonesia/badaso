@@ -14,10 +14,14 @@ tasks:
       composer install &&
       php artisan key:generate
     command: mysql -u root -e "create database laravel" &&
+      php artisan badaso:setup --force
+      php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
       php artisan storage:link &&
-      npm install &&
       php artisan migrate &&
-      php artisan serve
+      npm install &&
+      npm run dev
+  - name: Running Server
+    init: php artisan serve
 ports:
   - port: 8000
     onOpen: open-browser
