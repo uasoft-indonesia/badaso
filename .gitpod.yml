@@ -2,7 +2,9 @@ image:
   file: .gitpod.Dockerfile
 tasks:
   - name: Starting Project
-    init: composer create-project laravel/laravel:^8.0 laravel &&
+    init:  composer create-project laravel/laravel:^8.0 laravel &&
+      mkdir -p laravel/packages/badaso/core && 
+      mv {,.}* laravel/packages/badaso/core 2>/dev/null; true &&
       cd laravel &&
       cp .env.example .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
@@ -10,7 +12,6 @@ tasks:
       composer install &&
       php artisan key:generate
     command: mysql -u root -e "create database badaso" &&
-      php artisan badaso:setup &&
       php artisan storage:link &&
       npm install &&
       php artisan migrate &&
