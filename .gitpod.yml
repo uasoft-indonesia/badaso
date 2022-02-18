@@ -7,7 +7,7 @@ tasks:
       mv {,.}* laravel/packages/badaso/core 2>/dev/null; true &&
       cd laravel &&
       cp packages/badaso/core/.gitpod/app.php config/app.php &&
-      cp ./packages/badaso/core/.gitpod/composer.json composer.json &&
+      cp packages/badaso/core/.gitpod/composer.json composer.json &&
       cp .env.example .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
       sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env &&
