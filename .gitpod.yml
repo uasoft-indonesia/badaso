@@ -14,8 +14,8 @@ tasks:
       composer install &&
       php artisan key:generate
     command: mysql -u root -e "create database laravel" &&
-      php artisan badaso:setup --force
-      php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+      php artisan badaso:setup --force &&
+      php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
       php artisan storage:link &&
       php artisan migrate &&
       npm install &&
