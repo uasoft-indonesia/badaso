@@ -21,6 +21,7 @@ tasks:
       php artisan storage:link &&
       php artisan migrate &&
       npm install &&
+      npm run dev &&
       php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && npm run dev &&
       php artisan serve
 ports:
