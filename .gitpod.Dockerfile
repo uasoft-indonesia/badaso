@@ -8,7 +8,7 @@ RUN sudo add-apt-repository ppa:ondrej/php -y
 RUN sudo apt update -y
 
 # Install PHP 8
-RUN sudo apt install -y php-pear libapache2-mod-php
+# RUN sudo apt install -y php-pear libapache2-mod-php
 RUN sudo apt install -y php-common php-cli
 RUN sudo apt install -y php-bz2 php-zip php-curl php-gd php-mysql php-xml php-dev php-mbstring php-bcmath
 RUN sudo php -v
