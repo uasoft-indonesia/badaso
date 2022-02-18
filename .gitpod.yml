@@ -11,7 +11,7 @@ tasks:
       sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env &&
       composer install &&
       php artisan key:generate
-    command: mysql -u root -e "create database badaso" &&
+    command: mysql -u root -e "create database laravel" &&
       php artisan storage:link &&
       npm install &&
       php artisan migrate &&
