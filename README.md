@@ -101,6 +101,7 @@ Thanks to all backers & sponsors!
 
 <a href="https://opencollective.com/badaso" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/gold-backer/0/avatar.svg?sanitize=true" height="100px"></a>
   <a href="https://opencollective.com/badaso" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/bronze-backer/0/avatar.svg?sanitize=true" height="100px"></a>
+  <a href="https://opencollective.com/badaso" target="_blank" rel="noopener noreferrer"><img src="https://opencollective.com/badaso/tiers/bronze-backer/1/avatar.svg?sanitize=true" height="100px"></a>
 </div>
 
 ## Contributing
