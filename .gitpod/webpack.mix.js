@@ -19,9 +19,9 @@ mix
 
 // Badaso
 mix
-  .js("packages/badaso/core/src/resources/badaso/app.js", "public/js/badaso.js")
+  .js("packages/badaso/core/src/resources/js/app.js", "public/js/badaso.js")
   .sass(
-    "packages/badaso/core/src/resources/badaso/assets/scss/style.scss",
+    "packages/badaso/core/src/resources/js/assets/scss/style.scss",
     "public/css/badaso.css"
   )
   .vue();
