@@ -24,7 +24,7 @@ tasks:
       npm install &&
       php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && 
       npm run dev &&
-      php artisan l5-swaggeer:generate &&
+      php artisan l5-swagger:generate &&
       php artisan serve --host=0.0.0.0 --port=8000
 ports:
   - port: 8000
