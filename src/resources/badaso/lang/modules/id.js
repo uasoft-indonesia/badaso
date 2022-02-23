@@ -174,6 +174,7 @@ export default {
   alert: {
     success: "Sukses",
     danger: "Bahaya",
+    error: "Kesalahan",
   },
 
   activityLog: {
@@ -272,6 +273,7 @@ export default {
     },
     warning: {
       notAllowed: "Anda tidak diizinkan untuk mengakses CRUD.",
+      idNotAllowed: "Jangan ganti nama 'id' table dengan apapun",
     },
     header: {
       table: "Tabel",
@@ -960,6 +962,15 @@ export default {
         empty:
           "Kamu harus menghapus generated CRUD ini terlebih dahulu di CRUD Management.",
       },
+      fieldNotSupport: {
+        title: "Kesalahan Basis Data",
+        text: "Terdapat tipe data yang tidak didukung pada tabel, silahkan lihat tipe data yang didukung di dokumentasi Badaso",
+        tableList: "Daftar Tabel Bermasalah :",
+        button: {
+          tableList: "Table list yang tidak mendukung :",
+          visitDocs: "Kunjungi Dokumentasi"
+        }
+      }
     },
     add: {
       title: "Tambah Tabel",

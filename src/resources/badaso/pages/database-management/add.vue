@@ -557,6 +557,10 @@ export default {
             if (error.errors.table) {
               message = error.errors.table[0];
             }
+            
+            if (error.errors["rows.0.fieldType"]) {
+              message = error.errors["rows.0.fieldType"][0];
+            }
 
             this.$vs.notify({
               title: this.$t("alert.danger"),
@@ -581,7 +585,7 @@ export default {
       }
     },
     addField() {
-      let index = this.databaseData.rows.map(row => row.undeletable).indexOf(true)
+      let index = this.databaseData.rows.map(row => row.indexes).indexOf(true)
       this.databaseData.rows.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
@@ -656,7 +660,8 @@ export default {
         fieldIncrement: true,
         fieldIndex: "primary",
         fieldDefault: null,
-      }, {
+        undeletable: true
+      },{
         fieldName: "created_at",
         fieldType: "timestamp",
         fieldLength: null,
@@ -665,7 +670,8 @@ export default {
         fieldIncrement: false,
         fieldIndex: null,
         fieldDefault: null,
-        undeletable: true
+        undeletable: true,
+        indexes:true
       }, {
         fieldName: "updated_at",
         fieldType: "timestamp",

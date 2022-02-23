@@ -54,12 +54,21 @@ export default {
           }
         })
         .catch((error) => {
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
+          if(error.status == 401){
+            this.$closeLoader();
+            this.$vs.notify({
+              title: this.$t("alert.error"),
+              text: error.message,
+              color: "danger",
           });
+          }else{
+             this.$closeLoader();
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+          });
+          }
         });
     },
     saveTokenFcmMessage() {

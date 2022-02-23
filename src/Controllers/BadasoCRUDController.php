@@ -36,7 +36,7 @@ class BadasoCRUDController extends Controller
 
             $protected_tables = Badaso::getProtectedTables();
             $tables = SchemaManager::listTables();
-
+            
             $tables_with_crud_data = [];
             foreach ($tables as $key => $value) {
                 if (! in_array($key, $protected_tables)) {
@@ -50,7 +50,7 @@ class BadasoCRUDController extends Controller
                     $tables_with_crud_data[] = $table_with_crud_data;
                 }
             }
-
+        
             $data['tables_with_crud_data'] = $tables_with_crud_data;
 
             return ApiResponse::success(collect($data)->toArray());
@@ -96,7 +96,7 @@ class BadasoCRUDController extends Controller
             $data_type->data_rows = $data_rows;
 
             $data['crud'] = collect($data_type)->toArray();
-
+            
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return APIResponse::failed($e);
@@ -152,6 +152,8 @@ class BadasoCRUDController extends Controller
                             $row = collect($request->rows)->where('field', $value)->first();
                             if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
+                            }else if($row['field'] != 'id' && $field['key'] == "PRI" ){
+                                $fail(__('badaso::validation.crud.id_table_wrong',['table_column' => "$request->name.{$value}"]));
                             }
                         }
                     },
@@ -295,16 +297,19 @@ class BadasoCRUDController extends Controller
                         if (! Schema::hasColumn($request->name, $value)) {
                             $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                         } else {
-                            $table_fields = SchemaManager::describeTable($request->name);
+                            $table_fields = SchemaManager::describeTable($request->name);                    
                             $field = collect($table_fields)->where('field', $value)->first();
                             $row = collect($request->rows)->where('field', $value)->first();
                             if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
+                            } else if($row['field'] != 'id' && $field['key'] == "PRI" ){
+                                $fail(__('badaso::validation.crud.id_table_wrong',['table_column' => "$request->name.{$value}"]));
                             }
+                            
                         }
                     },
                 ],
-                'rows.*.type' => 'required',
+                'rows.*.type' => 'required',         
                 'rows.*.display_name' => 'required',
                 'display_name_singular' => 'required',
                 'notification.*.event' => ['in:onCreate,onRead,onUpdate,onDelete'],

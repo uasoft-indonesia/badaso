@@ -28,6 +28,7 @@ class BadasoDatabaseController extends Controller
 
     public function add(Request $request)
     {
+        
         try {
             $request->validate([
                 'table' => [
@@ -42,7 +43,24 @@ class BadasoDatabaseController extends Controller
                 ],
                 'rows' => 'required',
                 'rows.*.field_name' => 'required|string|distinct',
-                'rows.*.field_type' => 'required|string',
+                'rows.*.field_type' => [
+                    'required',
+                    'string',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $request_data = $request->rows;
+                        
+                         $mysql_data_type = [
+                                 "tinyint","smallint","mediumint","int","integer", "bigint","decimal","float","double","bit","char","varchar","binary","varbinary","tinyblob","blob","mediumblob","longblob","tinytext","text","mediumtext","longtext","enum","set","date","time","datetime","timestamp","year","geometry","point","linestring","polygon","geometrycollection","multilinestring","multipoint", "multipolygon","json","boolean"
+                            ];
+                            $cek =[];
+                            foreach ($request_data as $key => $value) {
+                                   if(!in_array($value['field_type'], $mysql_data_type)){
+                                       $cek[]=$value['field_type'];
+                                    $fail(__('badaso::validation.database.wrong_type_data'));   
+                                   }
+                            }
+                    },  
+                ]
             ]);
 
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->relations);
