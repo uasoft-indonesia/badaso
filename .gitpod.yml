@@ -7,6 +7,7 @@ tasks:
       mv {,.}* laravel/packages/badaso/core 2>/dev/null; true &&
       cd laravel &&
       cp packages/badaso/core/.gitpod/app.php config/app.php &&
+      cp packages/badaso/core/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/core/.gitpod/composer.json composer.json &&
       cp packages/badaso/core/.gitpod/webpack.mix.js webpack.mix.js &&
       cp .env.example .env &&
