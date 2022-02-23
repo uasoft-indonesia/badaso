@@ -82,7 +82,7 @@ class ApiResponse
                 $response['message'] = $error;
             }
         }
-        
+
         return self::send($response, $http_status);
     }
 

@@ -59,6 +59,5 @@ class DataTypeToComponent
 
     private static function reverse($type)
     {
-        
     }
 }
