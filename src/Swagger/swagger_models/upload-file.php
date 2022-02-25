@@ -85,7 +85,7 @@
  *              type="array",
  *              @OA\Items(
  *                  type="string",
- *                  example="https://8000-uasoftindonesia-badaso-fo8z1kfuuvd.ws-us33.gitpod.io/storage/1kb-thumb.png"
+ *                  example="http://localhost:8000/storage/1kb-thumb.png"
  *              ),
  *          )
  *      ),
