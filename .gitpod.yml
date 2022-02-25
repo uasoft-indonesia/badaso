@@ -7,9 +7,12 @@ tasks:
       mv {,.}* laravel/packages/badaso/core 2>/dev/null; true &&
       cd laravel &&
       cp packages/badaso/core/.gitpod/app.php config/app.php &&
+      cp packages/badaso/core/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/core/.gitpod/composer.json composer.json &&
       cp packages/badaso/core/.gitpod/webpack.mix.js webpack.mix.js &&
       cp .env.example .env &&
+      sed -i 's/http:\/\/localhost//g' .env &&
+      sed -i 's/FILESYSTEM_DRIVER=local/FILESYSTEM_DRIVER=public/g' .env &&
       sed -i "s|APP_URL=|APP_URL=${GITPOD_WORKSPACE_URL}|g" .env &&
       sed -i "s|APP_URL=https://|APP_URL=https://8000-|g" .env &&
       composer update &&
@@ -21,9 +24,10 @@ tasks:
       php artisan storage:link &&
       php artisan migrate &&
       npm install &&
+      php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && 
       npm run dev &&
-      php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && npm run dev &&
-      php artisan serve
+      php artisan l5-swagger:generate &&
+      php artisan serve --host=0.0.0.0
 ports:
   - port: 8000
     onOpen: open-browser
