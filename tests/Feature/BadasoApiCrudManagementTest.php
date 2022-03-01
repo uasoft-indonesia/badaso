@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
-use Tests\TestCase;
+use Uasoft\Badaso\Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\DataType;
 

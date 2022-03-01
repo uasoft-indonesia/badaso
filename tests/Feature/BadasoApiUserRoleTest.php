@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Tests\Feature;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Tests\TestCase;
+use Uasoft\Badaso\Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;

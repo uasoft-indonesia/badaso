@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Helpers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
-use Tests\TestCase;
+use Uasoft\Badaso\Tests\TestCase;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 

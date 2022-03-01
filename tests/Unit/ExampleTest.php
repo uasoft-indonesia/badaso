@@ -2,7 +2,7 @@
 
 namespace Uasoft\Badaso\Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Uasoft\Badaso\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

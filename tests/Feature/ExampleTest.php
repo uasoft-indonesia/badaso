@@ -2,7 +2,7 @@
 
 namespace Uasoft\Badaso\Tests\Feature;
 
-use Tests\TestCase;
+use Uasoft\Badaso\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

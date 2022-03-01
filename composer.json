@@ -45,6 +45,7 @@
     "predis/predis": "^1.1"
   },
   "require-dev": {
+    "orchestra/testbench": "^6.0",
     "phpunit/phpunit": "^9.5"
   },
   "authors": [
