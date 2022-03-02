@@ -38,9 +38,9 @@ jobs:
         uses: mirromutth/mysql-action@master
         with:
           mysql database: laravel
-          mysql user: root
-          mysql password: ""
-          mysql root password: ""
+          mysql user: developer
+          mysql root password: ${{ secrets.RootPassword }}
+          mysql password: ${{ secrets.DatabasePassword }}
 
       - name: Get Branch Name
         run: echo running on branch ${GITHUB_REF##*/} >> hello && cat hello
