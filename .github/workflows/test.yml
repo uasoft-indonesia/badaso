@@ -71,6 +71,7 @@ jobs:
       - name: Laravel setup 
         run: cd laravel &&
           php artisan badaso:setup --force &&
+          php artisan badaso-test:setup &&
           cat webpack.mix.js &&
           php artisan db:wipe && 
           php artisan migrate && 
