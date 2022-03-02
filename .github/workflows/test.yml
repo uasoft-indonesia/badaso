@@ -53,8 +53,7 @@ jobs:
           
       # Laravel require badaso core
       - name: Laravel file configuration
-        run: ls -l &&
-          git branch &&
+        run: git branch &&
           cd laravel &&
           composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction && 
@@ -72,7 +71,8 @@ jobs:
           
       # Badaso core test
       - name: Badaso core test
-        run: mkdir -p laravel/vendor/badaso/core &&
+        run: ls -l &&
+          mkdir -p laravel/vendor/badaso/core &&
           mv {,.}* laravel/vendor/badaso/core 2>/dev/null; true &&
           ls vendor -l &&
           cat composer.json && 
