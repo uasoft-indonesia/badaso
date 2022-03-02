@@ -34,30 +34,32 @@ jobs:
           coverage: none
 
       # Configure Database Mysql
-      - name: Set up MySQL 5.7
+      - name: Set Up Mysql
         uses: mirromutth/mysql-action@master
         with:
           mysql database: laravel
           mysql root password: ${{ secrets.DatabasePassword }}
 
+      - name: Get Branch Name
+        run: echo running on branch ${GITHUB_REF##*/}
       # Configure NPM
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
+      # - uses: actions/setup-node@v1
+      #   with:
+      #     node-version: '14.x'
 
       # Install PHP dependencies
-      - name: Install Composer dependencies
-        run: composer require "illuminate/support:${{ matrix.laravel }}"
+      # - name: Install Composer dependencies
+      #   run: composer require "illuminate/support:${{ matrix.laravel }}"
 
       # Install legacy factories for Laravel 8/9
-      - name: Install legacy factories for Laravel
-        if: ${{ matrix.laravel == '8.*' }}
-        run: composer require laravel/legacy-factories
+      # - name: Install legacy factories for Laravel
+      #   if: ${{ matrix.laravel == '8.*' }}
+      #   run: composer require laravel/legacy-factories
 
       # Display installed laravel version
-      - name: Show laravel version
-        run: composer show laravel/framework
+      # - name: Show laravel version
+      #   run: composer show laravel/framework
 
       # Run phpunit tests
-      - name: Run tests
-        run: ./vendor/bin/phpunit
+      # - name: Run tests
+      #   run: ./vendor/bin/phpunit
