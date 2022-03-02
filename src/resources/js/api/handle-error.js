@@ -11,6 +11,11 @@ export default (error) => {
       store.commit("badaso/SET_AUTH_ISSUE", {
         unauthorized: true,
       });
+      let data = error.response.data;
+      let message = error.response.data.message;
+      data.status = status;
+      data.message = message;
+      return Promise.reject(data);
     } else if (status === 402 || status === 412) {
       let data = error.response.data;
       data.status = status;
@@ -18,6 +23,12 @@ export default (error) => {
         invalid: true,
         message: data.message ? data.message : "",
       });
+      return Promise.reject(data);
+    } else if (status === 500) {
+      let data = error.response.data;
+      let message = error.response.data.message;
+      data.status = status;
+      data.message = message;
       return Promise.reject(data);
     } else if (status === 503) {
       let data = error.response.data;

@@ -127,7 +127,50 @@
         </vs-col>
       </vs-row>
     </vs-popup>
-
+<vs-popup
+      :active.sync="errorDatabase"
+      :title="$t('database.browse.fieldNotSupport.title')"
+      color="success"
+      class="database-management__popup"
+    >
+      <vs-row>
+        <vs-col>
+          <p>
+            {{ $t('database.browse.fieldNotSupport.text') }}
+          </p>
+          <br/>
+          <p>
+            {{ $t('database.browse.fieldNotSupport.tableList') }}
+          </p>
+          <p>
+             {{errorTable}}
+          </P >
+        </vs-col>
+      </vs-row>
+      <vs-row vs-align="center" class="database-management__popup-footer">
+        <vs-col vs-lg="12" vs-sm="12" vs-align="center">
+          <vs-row vs-align="center">
+            <vs-spacer></vs-spacer> 
+         <div class="database-management__popup-sync">
+           <vs-button
+              color="warning"
+              type="relief"
+              @click="goBack()"
+            >
+              {{ $t("database.browse.goBackButton") }}
+            </vs-button>
+            <vs-button
+              color="success"
+              type="relief"
+              href= "https://badaso-docs.uatech.co.id/crud-generator/datatype"
+            >
+              {{ $t("database.browse.fieldNotSupport.button.visitDocs") }}
+            </vs-button>
+            </div>
+          </vs-row>
+        </vs-col>
+      </vs-row>
+    </vs-popup>
     <vs-row v-if="$helper.isAllowed('browse_database')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -243,6 +286,8 @@ export default {
     isNotMigrated: false,
     notMigratedFile: [],
     isDeleteFile: false,
+    errorDatabase:false,
+    errorTable:"",
   }),
   validations: {
     willRollbackFile: {
@@ -307,11 +352,16 @@ export default {
         })
         .catch((error) => {
           this.$closeLoader();
-          this.$vs.notify({
+          if(error.message.indexOf("Unknown database") == 0){
+            this.errorTable = "- "+error.errors[2].args[0];
+            this.errorDatabase = true;  
+          }else{
+            this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",
           });
+          }
         });
     },
     deleteDatabase() {

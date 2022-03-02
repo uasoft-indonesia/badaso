@@ -94,7 +94,9 @@ export default {
     },
     children: {
       type: Array,
-      default: [],
+      default: ()=> {
+        []
+        },
     },
   },
   computed: {

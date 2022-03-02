@@ -666,7 +666,8 @@ export default {
               fieldIndex: this.getFieldIndexes(column.indexes),
               fieldDefault: column.default,
               modifyType: [],
-              undeletable: column.name == 'created_at' || column.name == 'updated_at' ? true : false
+              undeletable: column.name == 'id' || column.name == 'created_at' || column.name == 'updated_at' ? true : false,
+              indexes : column.name == 'created_at' ? true : false
             });
 
             this.databaseData.fields.currentFields.push({
@@ -764,7 +765,7 @@ export default {
     },
 
     addField() {
-      let index = this.databaseData.fields.modifiedFields.map(row => row.undeletable).indexOf(true)
+      let index = this.databaseData.fields.modifiedFields.map(row => row.indexes).indexOf(true)
       this.databaseData.fields.modifiedFields.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
