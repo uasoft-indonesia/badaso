@@ -79,12 +79,16 @@ jobs:
 
       # Install NPM dependencies
       - name: Install Dependencies
-        run: cd laravel && npm install
+        run: cd laravel 
+          && npm i -g yarn
+          && yarn 
 
       # Build static assets
       - name: Compile Assets
-        run: cd laravel && npm run dev
+        run: cd laravel 
+          && yarn dev
 
       # Run phpunit tests
       - name: Run tests
-        run: php artisan test
+        run: cd laravel && 
+          php artisan test
