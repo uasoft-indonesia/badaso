@@ -25,12 +25,14 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Set up MySQL 5.7
-        uses: mirromutth/mysql-action@master
+     - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: 5.7
-          mysql database: test
-          mysql root password: ${{ secrets.DatabasePassword }}
+          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
+          mysql database: 'FantasyFestivals' # Optional, default value is "test". The specified database which will be create
+          mysql root password: 'root' # Required if "mysql user" is empty, default is empty. The root superuser password:
+
 
       # Configure PHP
       - name: Select PHP version
