@@ -57,7 +57,9 @@ jobs:
           git branch &&
           cd laravel &&
           composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF} &&
-          composer update --no-interaction 
+          composer update --no-interaction && 
+          ls vendor -l &&
+          cat composer.json 
       
       # Laravel setup
       - name: Laravel setup 
