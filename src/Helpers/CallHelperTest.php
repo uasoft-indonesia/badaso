@@ -145,15 +145,16 @@ class CallHelperTest
         return 'badaso-api/v1/auth/'.$path;
     }
 
-<<<<<<< bugfix/v2/validation-and-pop-up
+
     public static function getContentApiV1($path)
     {
         return 'badaso-api/module/content/v1'.$path;
-=======
+    }
+    
     public static function getApiV1($path)
     {
         return 'badaso-api/module/post/v1'.$path;
->>>>>>> 2.x
+
     }
 }
 
