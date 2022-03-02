@@ -66,12 +66,6 @@ jobs:
           cat webpack.mix.js &&
           php artisan db:wipe && 
           php artisan migrate && 
-          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
-
-      # Run phpunit tests
-      - name: Run tests
-        run: cd laravel && 
-          ls vendor &&
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" && 
           ls vendor/badaso &&
-          ls vandor/badaso/core &&
           php artisan test
