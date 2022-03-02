@@ -57,12 +57,7 @@ jobs:
           git branch &&
           cd laravel &&
           composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF} --no-interaction --no-update &&
-          composer update --no-interaction --no-update &&
-          mkdir -p ../laravel/packages/badaso/core &&
-          mv {,.}* ../laravel/packages/badaso/core 2>/dev/null; true &&
-          ls vendor -l &&
-          cat composer.json && 
-          pwd
+          composer update --no-interaction --no-update 
       
       # Laravel setup
       - name: Laravel setup 
@@ -72,3 +67,12 @@ jobs:
           php artisan db:wipe && 
           php artisan migrate && 
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+          
+      # Badaso core test
+      - name: Badaso core test
+        run: cd .. &&
+          mkdir -p laravel/packages/badaso/core &&
+          mv {,.}* laravel/packages/badaso/core 2>/dev/null; true &&
+          ls vendor -l &&
+          cat composer.json && 
+          pwd
