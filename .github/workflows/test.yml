@@ -70,6 +70,7 @@ jobs:
       # Laravel setup
       - name: Laravel setup 
         run: cd laravel &&
+          php artisan badaso:setup --force &&
           php artisan db:wipe && 
           php artisan migrate && 
           php artisan db:seed
