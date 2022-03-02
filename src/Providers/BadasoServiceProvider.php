@@ -107,8 +107,8 @@ class BadasoServiceProvider extends ServiceProvider
         $this->app->register(DoctrineSupportServiceProvider::class);
         $this->app->register(DropboxServiceProvider::class);
         $this->app->register(GoogleDriveServiceProvider::class);
-        $this->app->register(LogViewerServiceProvider::class);
-        $this->app->register(L5SwaggerServiceProvider::class);
+        // $this->app->register(LogViewerServiceProvider::class);
+        // $this->app->register(L5SwaggerServiceProvider::class);
         $this->registerConsoleCommands();
     }
 
