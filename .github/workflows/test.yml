@@ -53,25 +53,22 @@ jobs:
           
       # Laravel require badaso core
       - name: Laravel file configuration
-        run: ls -l &&
-          git branch &&
+        run: git branch &&
           cd laravel &&
-          composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF}
+          composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
+          composer update --no-interaction && 
+          ls vendor -l &&
+          cat composer.json 
       
       # Laravel setup
       - name: Laravel setup 
         run: cd laravel &&
           php artisan badaso:setup --force &&
           php artisan badaso-test:setup &&
-          cat webpack.mix.js &&
           php artisan db:wipe && 
           php artisan migrate && 
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
-
-      # Run phpunit tests
-      - name: Run tests
-        run: cd laravel && 
-          ls vendor &&
-          ls vendor/badaso &&
-          ls vandor/badaso/core &&
-          php artisan test
+          
+      # Badaso core test
+      - name: Badaso core test
+        run: cd laravel && php artisan test
