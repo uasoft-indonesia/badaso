@@ -71,4 +71,7 @@ jobs:
       # Run phpunit tests
       - name: Run tests
         run: cd laravel && 
+          ls vendor &&
+          ls vendor/badaso &&
+          ls vandor/badaso/core &&
           php artisan test
