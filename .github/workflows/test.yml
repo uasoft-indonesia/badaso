@@ -1,0 +1,63 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - edited
+      - reopened
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.0]
+        laravel: ['8.*']
+
+    name: 'PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}'
+
+    steps:
+      - uses: actions/checkout@master
+
+      # Configure PHP
+      - name: Select PHP version
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: '${{ matrix.php }}'
+          extensions: mbstring, pdo_sqlite, fileinfo, gd
+          coverage: none
+
+      # Configure Database Mysql
+      - name: Set up MySQL 5.7
+        uses: mirromutth/mysql-action@master
+        with:
+          mysql database: laravel
+          mysql root password: ${{ secrets.DatabasePassword }}
+
+      # Configure NPM
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      # Install PHP dependencies
+      - name: Install Composer dependencies
+        run: composer require "illuminate/support:${{ matrix.laravel }}"
+
+      # Install legacy factories for Laravel 8/9
+      - name: Install legacy factories for Laravel
+        if: ${{ matrix.laravel == '8.*' }}
+        run: composer require laravel/legacy-factories
+
+      # Display installed laravel version
+      - name: Show laravel version
+        run: composer show laravel/framework
+
+      # Run phpunit tests
+      - name: Run tests
+        run: ./vendor/bin/phpunit

@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Tests;
 
-use Database\Seeders\Badaso\BadasoSeeder;
 use Uasoft\Badaso\Providers\BadasoServiceProvider;
 use Uasoft\Badaso\Providers\DropboxServiceProvider;
 use Uasoft\Badaso\Providers\GoogleDriveServiceProvider;
@@ -14,6 +13,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
         // additional setup
+
+        $this->artisan("db:wipe")->run();
+        $this->artisan("migrate")->run();
     }
 
     protected function getPackageProviders($app)
