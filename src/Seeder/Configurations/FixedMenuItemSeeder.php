@@ -139,13 +139,14 @@ class FixedMenuItemSeeder extends Seeder
                 10 => [
                     'menu_id' => $menu_core,
                     'title' => 'Media Manager',
-                    'url' => '#',
+                    'url' => '/#',
                     'target' => '_self',
-                    'icon_class' => '',
-                    'color' => '',
+                    'icon_class' => 'folder_open',
+                    'color' => null,
                     'parent_id' => null,
                     'order' => 10,
-                    'permissions' => '',
+                    'is_expand' => 1,
+                    'permissions' => null,
                 ],
                 11 => [
                     'menu_id' => $menu_core,

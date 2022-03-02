@@ -50,7 +50,7 @@
         <!-- if show header -->
         <badaso-sidebar-group
           :title="displayMenu.menu.displayName"
-          :open="displayMenu.menu.isExpand"
+          :open="displayMenu.menu.isExpand == 1"
           :icon="displayMenu.menu.icon"
           :key="indexMenu"
           v-if="
@@ -61,7 +61,7 @@
         >
           <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-menu
-              :defaultIsExpand="menu.isExpand"
+              :defaultIsExpand="menu.isExpand == 1"
               :title="menu.title"
               :url="menu.url"
               :icon="menu.icon"
@@ -75,7 +75,7 @@
         <div :key="indexMenu" v-else>
           <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-menu
-              :defaultIsExpand="menu.isExpand"
+              :defaultIsExpand="menu.isExpand == 1"
               :title="menu.title"
               :url="menu.url"
               :icon="menu.icon"

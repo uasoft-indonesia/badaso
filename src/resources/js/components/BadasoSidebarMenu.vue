@@ -78,7 +78,7 @@ export default {
   props: {
     defaultIsExpand: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     icon: {
       type: String,
@@ -94,9 +94,9 @@ export default {
     },
     children: {
       type: Array,
-      default: ()=> {
+      default: () => {
         []
-        },
+      },
     },
   },
   computed: {
