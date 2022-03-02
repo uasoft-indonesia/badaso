@@ -86,5 +86,5 @@ jobs:
         run: cd laravel && npm run dev
 
       # Run phpunit tests
-#       - name: Run tests
-#         run: ./vendor/bin/phpunit
+      - name: Run tests
+        run: php artisan test
