@@ -24,7 +24,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - uses: mirromutth/mysql-action@master
+
+      - name: Set up MySQL 5.7
+        uses: mirromutth/mysql-action@master
+        with:
+          mysql version: 5.7
+          mysql database: test
+          mysql root password: ${{ secrets.DatabasePassword }}
 
       # Configure PHP
       - name: Select PHP version
@@ -34,12 +40,10 @@ jobs:
           extensions: mbstring, pdo_sqlite, fileinfo, gd
           coverage: none
 
-      - name: Get Branch Name
-        run: echo running on branch ${GITHUB_REF##*/} >> hello && cat hello
-      # Configure NPM
-      # - uses: actions/setup-node@v1
-      #   with:
-      #     node-version: '14.x'
+      Configure NPM
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
 
       # Install PHP dependencies
       # - name: Install Composer dependencies
