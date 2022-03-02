@@ -74,7 +74,7 @@ jobs:
           cat webpack.mix.js &&
           php artisan db:wipe && 
           php artisan migrate && 
-          php artisan db:seed
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
 
       # Install NPM dependencies
       - name: Install Dependencies
