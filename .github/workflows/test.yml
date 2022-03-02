@@ -59,7 +59,8 @@ jobs:
           composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF} --no-interaction --no-update &&
           composer update &&
           ls vendor -l &&
-          cat composer.json
+          cat composer.json && 
+          pwd
       
       # Laravel setup
       - name: Laravel setup 
