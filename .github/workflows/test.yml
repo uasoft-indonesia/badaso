@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-     - name: Setup MySQL
+      - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
           collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
