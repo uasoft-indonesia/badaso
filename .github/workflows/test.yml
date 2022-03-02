@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
-      - uses: mirromutth/mysql-action@v1.1
+      - uses: mirromutth/mysql-action@master
 
       # Configure PHP
       - name: Select PHP version
