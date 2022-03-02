@@ -65,7 +65,7 @@ jobs:
         run: ls -l &&
           git branch &&
           cd laravel &&
-          composer require uasoft-indonesia/badaso:dev-${GITHUB_REF#refs/heads/}
+          composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF}
       
       # Laravel setup
       - name: Laravel setup 
