@@ -72,7 +72,8 @@ jobs:
       # Badaso core test
       - name: Badaso core test
         run: ls -l &&
-          ls laravel/vendor &&
+          ls laravel/vendor -l &&
+          mkdir laravel/vendor/badaso &&
           mkdir -p laravel/vendor/badaso/core &&
           mv {,.}* laravel/vendor/badaso/core 2>/dev/null; true &&
           ls vendor -l &&
