@@ -57,7 +57,9 @@ jobs:
           git branch &&
           cd laravel &&
           composer require uasoft-indonesia/badaso:dev-${GITHUB_HEAD_REF} --no-interaction --no-update &&
-          composer update &&
+          composer update --no-interaction --no-update &&
+          mkdir -p ../laravel/packages/badaso/core &&
+          mv {,.}* ../laravel/packages/badaso/core 2>/dev/null; true &&
           ls vendor -l &&
           cat composer.json && 
           pwd
@@ -67,7 +69,6 @@ jobs:
         run: cd laravel &&
           php artisan badaso:setup --force &&
           php artisan badaso-test:setup &&
-          cat webpack.mix.js &&
           php artisan db:wipe && 
           php artisan migrate && 
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
