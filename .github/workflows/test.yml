@@ -26,6 +26,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
+      - uses: nelonoel/branch-name@v1
 
       # Configure PHP
       - name: Select PHP version
@@ -63,7 +64,7 @@ jobs:
       # Laravel require badaso core
       - name: Laravel file configuration
         run: cd laravel &&
-          composer require uasoft-indonesia/badaso:dev-${GITHUB_REF##*/}
+          composer require uasoft-indonesia/badaso:dev-${BRANCH_NAME}
       
       # Laravel setup
       - name: Laravel setup 
