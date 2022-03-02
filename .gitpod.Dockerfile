@@ -26,9 +26,3 @@ RUN sudo apt -y install nodejs 2>/dev/null; true
 RUN sudo node -v
 
 USER gitpod
-
-
-
-
-
-
