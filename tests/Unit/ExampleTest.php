@@ -14,15 +14,6 @@ class ExampleTest extends TestCase
      */
     public function testBadasoExample()
     {
-
-        User::create([
-            'name' => 'hello',
-            'email' => 'hello@world.com',
-            'password' => 'hello@world.com',
-        ]);
-
-        dd(User::all()) ;
-
         $this->assertTrue(true);
     }
 }
