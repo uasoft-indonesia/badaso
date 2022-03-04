@@ -656,9 +656,9 @@ class BadasoApiCrudManagementTest extends TestCase
                     'id' => $id,
                 ]);
 
-                if ($response->status() == 200) {
-                    $response->assertSuccessful();
-                }
+                // if ($response->status() == 200) {
+                //     $response->assertSuccessful();
+                // }
 
                 $this->assertTrue(true);
             }
