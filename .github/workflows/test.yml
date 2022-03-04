@@ -82,3 +82,5 @@ jobs:
       # Badaso core test
       - name: Badaso core test
         run: cd laravel && php artisan test
+
+
