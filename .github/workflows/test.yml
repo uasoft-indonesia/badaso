@@ -18,14 +18,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.0]
+        php: [8.0, 8.1]
         laravel: ['8.*']
-        laravel-require: ['8.0']
+        laravel-require: [8.0]
+        mysql-version: [8.0]
 
     name: 'PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}'
 
     steps:
       - uses: actions/checkout@master
+      
+      - name: Mysql setup
+        uses: ankane/setup-mysql@v1
+        with:
+          mysql-version: ${{ matrix.mysql-version }}
+          database: laravel
+          
+      - name: Mysql test show databases
+        run: mysql -D testdb -e 'show databases;'
 
       # Configure PHP
       - name: Select PHP version
