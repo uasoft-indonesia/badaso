@@ -135,3 +135,7 @@ jobs:
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
         run: cd laravel && php artisan test
+        
+        
+        
+        
