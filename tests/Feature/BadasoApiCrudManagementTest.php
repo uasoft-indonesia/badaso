@@ -652,11 +652,13 @@ class BadasoApiCrudManagementTest extends TestCase
             foreach ($data_add_entity as $index => $entity) {
                 $id = $entity['id'];
 
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
-                    'id' => $id,
-                ]);
+                $table_entity = DB::table($table)->where('id', $id)->first();
+                if (isset($table_entity)) {
+                    $response = CallHelperTest::withAuthorizeBearer($this)
+                        ->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
+                            'id' => $id,
+                        ]);
 
-                if ($response->status() == 200) {
                     $response->assertSuccessful();
                 }
             }
