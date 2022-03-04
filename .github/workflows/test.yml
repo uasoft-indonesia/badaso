@@ -13,7 +13,25 @@ on:
 
 jobs:
   test:
+    # Setup ubuntu latest 
     runs-on: ubuntu-latest
+    
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: laravel
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     
     strategy:
       fail-fast: false
@@ -40,7 +58,7 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: '${{ matrix.php }}'
-          extensions: mbstring, pdo_sqlite, fileinfo, gd
+          extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql
           coverage: none
 
       # Install legacy factories for Laravel 8/9
@@ -90,6 +108,26 @@ jobs:
           
       # Sqlite | Badaso core test
       - name: Sqlite | Badaso core test
+        run: cd laravel && php artisan test
+        
+      # Pgsql | Laravel configuration
+      - name: Pgsql | Laravel file configuration
+        run: cd laravel &&
+          sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=pgsql/g' .env &&
+          sed -i 's/DB_DATABASE=database\/database.sqlite/DB_DATABASE=laravel/g' .env &&
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=postgres/g' .env  
+          
+      # Pgsql | Laravel setup
+      - name: Pgsql | Laravel setup 
+        run: cd laravel &&
+          php artisan badaso:setup --force &&
+          php artisan badaso-test:setup &&
+          php artisan db:wipe && 
+          php artisan migrate && 
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+          
+      # Pgsql | Badaso core test
+      - name: Pgsql | Badaso core test
         run: cd laravel && php artisan test
 
 
