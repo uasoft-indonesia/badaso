@@ -139,9 +139,7 @@ class CallHelperTest
         return $login->json('data.accessToken');
     }
 
-
     public static function getApiAuth($path)
-
     {
         return 'badaso-api/v1/auth/'.$path;
     }
@@ -151,4 +149,3 @@ class CallHelperTest
         return 'badaso-api/module/post/v1'.$path;
     }
 }
-
