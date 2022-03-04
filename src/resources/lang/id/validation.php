@@ -36,6 +36,6 @@ return [
         'nothing_changed'           => 'Request valid, namun tidak ada perubahan yang terjadi.',
         'rollback_success'          => 'Rollback sukses.',
         'rollback_failed'           => 'Rollback gagal.',
-        
+
     ],
 ];
