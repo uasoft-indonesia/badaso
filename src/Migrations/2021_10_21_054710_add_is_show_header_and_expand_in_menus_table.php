@@ -21,7 +21,7 @@ class AddIsShowHeaderAndExpandInMenusTable extends Migration
                 $table->boolean('is_expand')->default(true)->after('icon');
             }
             if (! Schema::hasColumn(config('badaso.database.prefix').'menus', 'order')) {
-                $table->boolean('order')->nullable()->after('icon');
+                $table->integer('order')->nullable()->after('icon');
             }
         });
     }

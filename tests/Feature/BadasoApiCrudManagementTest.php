@@ -252,7 +252,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
-            if (! Schema::hasTable($table_name)) {
+            if (!Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -449,7 +449,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (! file_exists($model_path)) {
+                if (!file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -470,7 +470,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -479,7 +479,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (! file_exists($controller_path)) {
+                if (!file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -651,9 +651,11 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($data_add_entities as $table => $data_add_entity) {
             foreach ($data_add_entity as $index => $entity) {
                 $id = $entity['id'];
+
                 $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
                     'id' => $id,
                 ]);
+
                 $response->assertSuccessful();
             }
         }
@@ -667,6 +669,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 'page' => 1,
                 'limit' => 10,
             ]);
+
             $response->assertSuccessful();
         }
     }
@@ -686,6 +689,7 @@ class BadasoApiCrudManagementTest extends TestCase
 
         foreach ($data_add_entities as $table => $data_add_entity) {
             $id = $data_add_entity[0]['id'];
+
             $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete"), [
                 'slug' => $table,
                 'data' => [
@@ -695,6 +699,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     ],
                 ],
             ]);
+
             $response->assertSuccessful();
 
             // cek data from database
@@ -724,8 +729,15 @@ class BadasoApiCrudManagementTest extends TestCase
             $response->assertSuccessful();
 
             // cek data from database
-            $table_row_count = DB::table($table)->whereId('id', $ids)->count();
-            $this->assertTrue($table_row_count == 0);
+            $table_row_count = DB::table($table)->whereIn('id', $ids);
+            if ($table_row_count->count() != 0) {
+                $table_row_count = $table_row_count->whereNotNull('deleted_at') ;
+                $this->assertTrue($table_row_count->count() == count($ids)) ;
+
+                $table_row_count->delete();
+            } else {
+                $this->assertTrue($table_row_count->count() == 0);
+            }
         }
     }
 
@@ -776,12 +788,11 @@ class BadasoApiCrudManagementTest extends TestCase
                 use Illuminate\Database\Eloquent\Factories\HasFactory;
                 use Illuminate\Database\Eloquent\Model;
                 class {$model_name} extends Model {
-                    use HasFactory;
                     protected \$table = "{$table_name}" ;
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (! file_exists($model_path)) {
+                if (!file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -802,7 +813,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -811,7 +822,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (! file_exists($controller_path)) {
+                if (!file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -831,8 +842,8 @@ class BadasoApiCrudManagementTest extends TestCase
             $request_body = [
                 'name' =>  $table_name,
                 'slug' =>  $table_name,
-                'displayNameSingular' =>  $table_label.'(update)',
-                'displayNamePlural' =>  $table_label.'(update)',
+                'displayNameSingular' =>  $table_label . '(update)',
+                'displayNamePlural' =>  $table_label . '(update)',
                 'icon' =>  'add',
                 'modelName' =>  $model,
                 'policyName' =>  '',
@@ -916,14 +927,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
             // delete controller
             $controller_name = "{$name}Controller.php";
-            $controller_path = app_path('Http/Controllers/'.$controller_name);
+            $controller_path = app_path('Http/Controllers/' . $controller_name);
             if (file_exists($controller_path)) {
                 unlink($controller_path);
             }
 
             // delete models
             $model_name = "{$name}.php";
-            $model_path = app_path('Models/'.$model_name);
+            $model_path = app_path('Models/' . $model_name);
             if (file_exists($model_path)) {
                 unlink($model_path);
             }
