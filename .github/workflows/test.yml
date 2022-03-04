@@ -51,13 +51,6 @@ jobs:
       - name: Show laravel version
         run: cd laravel && 
           composer show laravel/framework
-
-#       # Laravel configuration
-#       - name: Laravel file configuration
-#         run: cd laravel && 
-#           touch database/database.sqlite &&
-#           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
-#           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
           
       # Laravel require badaso core
       - name: Laravel file configuration
@@ -66,8 +59,8 @@ jobs:
           composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
       
-      # Laravel setup
-      - name: Laravel setup 
+      # [Mysql] Laravel setup
+      - name: [Mysql] Laravel setup
         run: cd laravel &&
           php artisan badaso:setup --force &&
           php artisan badaso-test:setup &&
@@ -75,8 +68,28 @@ jobs:
           php artisan migrate && 
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
           
-      # Badaso core test
-      - name: Badaso core test
+      # [Mysql] Badaso core test
+      - name: [Mysql] Badaso core test
+        run: cd laravel && php artisan test
+        
+      # [Sqlite] Laravel configuration
+      - name: [Sqlite] Laravel file configuration
+        run: cd laravel && 
+          touch database/database.sqlite &&
+          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
+          
+      # [Sqlite] Laravel setup
+      - name: [Sqlite] Laravel setup 
+        run: cd laravel &&
+          php artisan badaso:setup --force &&
+          php artisan badaso-test:setup &&
+          php artisan db:wipe && 
+          php artisan migrate && 
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+          
+      # [Sqlite] Badaso core test
+      - name: [Sqlite] Badaso core test
         run: cd laravel && php artisan test
 
 
