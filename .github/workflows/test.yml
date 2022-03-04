@@ -28,14 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@master
       
+      # Configure Mysql
       - name: Mysql setup
         uses: ankane/setup-mysql@v1
         with:
           mysql-version: ${{ matrix.mysql-version }}
           database: laravel
-          
-      - name: Mysql test show databases
-        run: mysql -D testdb -e 'show databases;'
 
       # Configure PHP
       - name: Select PHP version
@@ -54,12 +52,12 @@ jobs:
         run: cd laravel && 
           composer show laravel/framework
 
-      # Laravel configuration
-      - name: Laravel file configuration
-        run: cd laravel && 
-          touch database/database.sqlite &&
-          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
-          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
+#       # Laravel configuration
+#       - name: Laravel file configuration
+#         run: cd laravel && 
+#           touch database/database.sqlite &&
+#           sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
+#           sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
           
       # Laravel require badaso core
       - name: Laravel file configuration
@@ -67,8 +65,6 @@ jobs:
           cd laravel &&
           composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction && 
-          ls vendor -l &&
-          cat composer.json 
       
       # Laravel setup
       - name: Laravel setup 
