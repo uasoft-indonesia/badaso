@@ -16,9 +16,8 @@ class {{class}} extends Migration
         try {
             DB::beginTransaction();
 
-{{schema_up}}
+            {{schema_up}}
             
-            DB::commit();
         } catch (PDOException $ex) {
             DB::rollBack();
             throw $ex;

@@ -354,6 +354,8 @@ class FileGenerator
             $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
         }
         $schema_down .= $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix, $relations);
+        
+        $schema_up = str_replace("});","\nDB::Commit();\n});", $schema_up);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
         $stub = $this->content_manager->replaceString('{{schema_up}}', $schema_up, $stub);
