@@ -21,15 +21,27 @@
             </vs-col>
             <vs-col vs-lg="12">
               <div v-if="$v.databaseData.table.$dirty">
-                <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.table.required" >
+                <i18n
+                  path="vuelidate.required"
+                  class="is-error"
+                  v-if="!$v.databaseData.table.required"
+                >
                   {{ $t("database.add.row.field.tableName") }}
                 </i18n>
 
-                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator" >
+                <i18n
+                  path="vuelidate.alphaNumAndUnderscoreValidator"
+                  class="is-error"
+                  v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator"
+                >
                   {{ $t("database.add.row.field.tableName") }}
                 </i18n>
 
-                <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.table.maxLength" >
+                <i18n
+                  path="vuelidate.maxLength"
+                  class="is-error"
+                  v-if="!$v.databaseData.table.maxLength"
+                >
                   <template v-slot:field>
                     {{ $t("database.add.row.field.tableName") }}
                   </template>
@@ -134,15 +146,24 @@
                       </vs-td>
 
                       <vs-td :data="tr.fieldNull">
-                        <vs-checkbox v-model="tr.fieldNull" :disabled="tr.undeletable"></vs-checkbox>
+                        <vs-checkbox
+                          v-model="tr.fieldNull"
+                          :disabled="tr.undeletable"
+                        ></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldAttribute">
-                        <vs-checkbox v-model="tr.fieldAttribute" :disabled="tr.undeletable"></vs-checkbox>
+                        <vs-checkbox
+                          v-model="tr.fieldAttribute"
+                          :disabled="tr.undeletable"
+                        ></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIncrement">
-                        <vs-checkbox v-model="tr.fieldIncrement" :disabled="tr.undeletable"></vs-checkbox>
+                        <vs-checkbox
+                          v-model="tr.fieldIncrement"
+                          :disabled="tr.undeletable"
+                        ></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIndex">
@@ -193,16 +214,29 @@
 
                     <!-- VALIDATION MESSAGE SECTION -->
                     <vs-tr :key="'validation-' + indextr">
-
                       <!-- FIELD NAME -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.required" >
+                        <i18n
+                          path="vuelidate.required"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.rows.$each[indextr].fieldName
+                              .required
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- maxLength -->
-                        <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.maxLength" >
+                        <i18n
+                          path="vuelidate.maxLength"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.rows.$each[indextr].fieldName
+                              .maxLength
+                          "
+                        >
                           <template v-slot:field>
                             {{ $t("database.add.row.field.fieldName") }}
                           </template>
@@ -212,12 +246,26 @@
                         </i18n>
 
                         <!-- alphaNumAndUnderscoreValidator -->
-                        <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.alphaNumAndUnderscoreValidator" >
+                        <i18n
+                          path="vuelidate.alphaNumAndUnderscoreValidator"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.rows.$each[indextr].fieldName
+                              .alphaNumAndUnderscoreValidator
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- unique -->
-                        <i18n path="vuelidate.unique" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldName.unique" >
+                        <i18n
+                          path="vuelidate.unique"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.rows.$each[indextr].fieldName
+                              .unique
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
                       </vs-td>
@@ -225,7 +273,14 @@
                       <!-- FIELD TYPE -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldType.required" >
+                        <i18n
+                          path="vuelidate.required"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.rows.$each[indextr].fieldType
+                              .required
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldType") }}
                         </i18n>
                       </vs-td>
@@ -233,7 +288,14 @@
                       <!-- FIELD LENGTH -->
                       <vs-td>
                         <!-- requiredIf -->
-                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.rows.$each[indextr].fieldLength.required" >
+                        <i18n
+                          path="vuelidate.required"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.rows.$each[indextr].fieldLength
+                              .required
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldLength") }}
                         </i18n>
                       </vs-td>
@@ -241,38 +303,103 @@
                   </template>
                 </template>
               </vs-table>
-              <vs-prompt type="confirm" @accept="setRelation" @cancel="cancelRelationDialog" :is-valid="!$v.databaseData.relations.$each.$invalid" :active.sync="relationDialog" title="Relationship" class="database-management__relationship-prompt">
-                <vs-row vs-type="grid" class="database-management__relationship-dialog">
+              <vs-prompt
+                type="confirm"
+                @accept="setRelation"
+                @cancel="cancelRelationDialog"
+                :is-valid="!$v.databaseData.relations.$each.$invalid"
+                :active.sync="relationDialog"
+                title="Relationship"
+                class="database-management__relationship-prompt"
+              >
+                <vs-row
+                  vs-type="grid"
+                  class="database-management__relationship-dialog"
+                >
                   <vs-col vs-w="12">
                     <h3>Source Table</h3>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-input v-if="selectedField" disabled label="Field" placeholder="Field" v-model="databaseData.relations[selectedField].sourceField"/>
+                    <vs-input
+                      v-if="selectedField"
+                      disabled
+                      label="Field"
+                      placeholder="Field"
+                      v-model="
+                        databaseData.relations[selectedField].sourceField
+                      "
+                    />
                   </vs-col>
                   <vs-col vs-w="12">
                     <h3>Target Table</h3>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="Table" v-if="selectedField" @change="fetchTableFields" width="100%" v-model="databaseData.relations[selectedField].targetTable">
-                      <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in tables" />
+                    <vs-select
+                      label="Table"
+                      v-if="selectedField"
+                      @change="fetchTableFields"
+                      width="100%"
+                      v-model="
+                        databaseData.relations[selectedField].targetTable
+                      "
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.value"
+                        v-for="(item, index) in tables"
+                      />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length == 0" width="100%" v-model="databaseData.relations[selectedField].targetField">
-                      <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in fields" />
+                    <vs-select
+                      label="Field"
+                      v-if="selectedField"
+                      :disabled="fields.length == 0"
+                      width="100%"
+                      v-model="
+                        databaseData.relations[selectedField].targetField
+                      "
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.value"
+                        v-for="(item, index) in fields"
+                      />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
                     <h3>Type</h3>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="On Delete" v-if="selectedField" width="100%" v-model="databaseData.relations[selectedField].onDelete">
-                      <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in relationType" />
+                    <vs-select
+                      label="On Delete"
+                      v-if="selectedField"
+                      width="100%"
+                      v-model="databaseData.relations[selectedField].onDelete"
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.label"
+                        v-for="(item, index) in relationType"
+                      />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="On Update" v-if="selectedField" width="100%" v-model="databaseData.relations[selectedField].onUpdate">
-                      <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in relationType" />
+                    <vs-select
+                      label="On Update"
+                      v-if="selectedField"
+                      width="100%"
+                      v-model="databaseData.relations[selectedField].onUpdate"
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.label"
+                        v-for="(item, index) in relationType"
+                      />
                     </vs-select>
                   </vs-col>
                 </vs-row>
@@ -290,7 +417,11 @@
               </vs-button>
 
               <!-- TODO for future development -->
-              <vs-button type="relief" color="primary" @click="addSoftDeletes()" >
+              <vs-button
+                type="relief"
+                color="primary"
+                @click="addSoftDeletes()"
+              >
                 <vs-icon icon="add"></vs-icon>
                 Add soft deletes
               </vs-button>
@@ -337,7 +468,12 @@
 </template>
 
 <script>
-import { required, requiredIf, maxLength, helpers } from "vuelidate/lib/validators";
+import {
+  required,
+  requiredIf,
+  maxLength,
+  helpers,
+} from "vuelidate/lib/validators";
 const alphaNumAndUnderscoreValidator = helpers.regex(
   "alphaNumAndDot",
   /^[a-zA-Z\d_]*$/i
@@ -345,7 +481,7 @@ const alphaNumAndUnderscoreValidator = helpers.regex(
 
 const unique = (group, key) => {
   return (value) => {
-    if (value == '') return true
+    if (value == "") return true;
 
     const found = group.filter((item) => {
       if (key) {
@@ -365,13 +501,13 @@ export default {
     databaseData: {
       table: "",
       rows: [],
-      relations: {}
+      relations: {},
     },
     fieldTypeList: [],
     relationDialog: false,
     tables: [],
     fields: [],
-    selectedField: ""
+    selectedField: "",
   }),
   validations() {
     return {
@@ -379,15 +515,15 @@ export default {
         relations: {
           $each: {
             sourceField: {
-              required
+              required,
             },
             targetTable: {
-              required
+              required,
             },
             targetField: {
-              required
+              required,
             },
-          }
+          },
         },
         table: {
           required,
@@ -407,9 +543,17 @@ export default {
               required,
             },
             fieldLength: {
-              required: requiredIf (function (value) {
-                return value.fieldType == "double" || value.fieldType == "decimal" || value.fieldType == "float" || value.fieldType == "varchar" || value.fieldType == "char" || value.fieldType == "set" || value.fieldType == "enum"
-              })
+              required: requiredIf(function (value) {
+                return (
+                  value.fieldType == "double" ||
+                  value.fieldType == "decimal" ||
+                  value.fieldType == "float" ||
+                  value.fieldType == "varchar" ||
+                  value.fieldType == "char" ||
+                  value.fieldType == "set" ||
+                  value.fieldType == "enum"
+                );
+              }),
             },
           },
         },
@@ -424,7 +568,7 @@ export default {
     },
     relationType() {
       return this.$databaseHelper.getForeignConstraint();
-    }
+    },
   },
   mounted() {
     this.getDbmsFieldType();
@@ -433,30 +577,30 @@ export default {
   methods: {
     renameForeignkey(item) {
       if (this.databaseData.relations[item.id]) {
-        let newVal = item.fieldName
-        let oldVal = this.databaseData.relations[item.id].sourceField || null
+        let newVal = item.fieldName;
+        let oldVal = this.databaseData.relations[item.id].sourceField || null;
         if (newVal !== oldVal) {
-          this.databaseData.relations[item.id].sourceField = newVal
+          this.databaseData.relations[item.id].sourceField = newVal;
         }
       }
     },
     setFieldIndex(item) {
-      if (item.fieldIndex == 'foreign') {
+      if (item.fieldIndex == "foreign") {
         this.$set(this.databaseData.relations, item.id, {
           sourceField: item.fieldName,
           targetTable: "",
           targetField: "",
           onDelete: null,
           onUpdate: null,
-        })
+        });
       } else {
-        this.$delete(this.databaseData.relations, item.id)
+        this.$delete(this.databaseData.relations, item.id);
       }
     },
     setRelation() {
       this.$v.databaseData.relations.$touch();
       if (!this.$v.databaseData.relations.$invalid) {
-        this.relationDialog = false
+        this.relationDialog = false;
       }
     },
     fetchTableFields() {
@@ -479,18 +623,18 @@ export default {
         });
     },
     openRelationDialog(item) {
-      this.selectedField = item.id
-      this.relationDialog = true
-      this.getTableList()
+      this.selectedField = item.id;
+      this.relationDialog = true;
+      this.getTableList();
     },
     cancelRelationDialog() {
       this.$v.databaseData.relations.$touch();
       if (this.$v.databaseData.relations.$invalid) {
-        this.relationDialog = false
-        this.databaseData.relations[this.selectedField].targetTable = ""
-        this.databaseData.relations[this.selectedField].targetField = ""
-        this.databaseData.relations[this.selectedField].onDelete = ""
-        this.databaseData.relations[this.selectedField].onUpdate = ""
+        this.relationDialog = false;
+        this.databaseData.relations[this.selectedField].targetTable = "";
+        this.databaseData.relations[this.selectedField].targetField = "";
+        this.databaseData.relations[this.selectedField].onDelete = "";
+        this.databaseData.relations[this.selectedField].onUpdate = "";
       }
     },
     getTableList() {
@@ -499,10 +643,10 @@ export default {
         .browse()
         .then((response) => {
           this.$closeLoader();
-          this.tables = response.data.tablesWithCrudData.map(table => {
+          this.tables = response.data.tablesWithCrudData.map((table) => {
             return {
-              value: table.tableName
-            }
+              value: table.tableName,
+            };
           });
         })
         .catch((error) => {
@@ -583,7 +727,9 @@ export default {
       }
     },
     addField() {
-      let index = this.databaseData.rows.map(row => row.indexes).indexOf(true)
+      let index = this.databaseData.rows
+        .map((row) => row.indexes)
+        .indexOf(true);
       this.databaseData.rows.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
@@ -594,7 +740,7 @@ export default {
         fieldIncrement: false,
         fieldIndex: null,
         fieldDefault: "",
-      })
+      });
     },
 
     findFieldOnRows(fieldName) {
@@ -640,7 +786,7 @@ export default {
         text: this.$t("action.delete.text"),
         accept: () => {
           this.databaseData.rows.splice(index, 1);
-          this.$delete(this.databaseData.relations, item.fieldName)
+          this.$delete(this.databaseData.relations, item.fieldName);
         },
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
@@ -648,39 +794,43 @@ export default {
     },
 
     insertIdToRows() {
-      this.databaseData.rows.push({
-        id: "id",
-        fieldName: "id",
-        fieldType: "bigint",
-        fieldLength: null,
-        fieldNull: false,
-        fieldAttribute: true,
-        fieldIncrement: true,
-        fieldIndex: "primary",
-        fieldDefault: null,
-        undeletable: true
-      }, {
-        fieldName: "created_at",
-        fieldType: "timestamp",
-        fieldLength: null,
-        fieldNull: true,
-        fieldAttribute: false,
-        fieldIncrement: false,
-        fieldIndex: null,
-        fieldDefault: null,
-        undeletable: true,
-        indexes:true
-      }, {
-        fieldName: "updated_at",
-        fieldType: "timestamp",
-        fieldLength: null,
-        fieldNull: true,
-        fieldAttribute: false,
-        fieldIncrement: false,
-        fieldIndex: null,
-        fieldDefault: null,
-        undeletable: true
-      });
+      this.databaseData.rows.push(
+        {
+          id: "id",
+          fieldName: "id",
+          fieldType: "bigint",
+          fieldLength: null,
+          fieldNull: false,
+          fieldAttribute: true,
+          fieldIncrement: true,
+          fieldIndex: "primary",
+          fieldDefault: null,
+          undeletable: true,
+        },
+        {
+          fieldName: "created_at",
+          fieldType: "timestamp",
+          fieldLength: null,
+          fieldNull: true,
+          fieldAttribute: false,
+          fieldIncrement: false,
+          fieldIndex: null,
+          fieldDefault: null,
+          undeletable: true,
+          indexes: true,
+        },
+        {
+          fieldName: "updated_at",
+          fieldType: "timestamp",
+          fieldLength: null,
+          fieldNull: true,
+          fieldAttribute: false,
+          fieldIncrement: false,
+          fieldIndex: null,
+          fieldDefault: null,
+          undeletable: true,
+        }
+      );
     },
   },
 };

@@ -986,7 +986,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -1003,7 +1003,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -1022,7 +1022,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });

@@ -273,7 +273,7 @@ export default {
     },
     warning: {
       notAllowed: "Anda tidak diizinkan untuk mengakses CRUD.",
-      idNotAllowed: "Jangan ganti nama 'id' table dengan apapun",
+      idNotAllowed: "Jangan ganti nama 'id' tabel dengan apapun",
     },
     header: {
       table: "Tabel",

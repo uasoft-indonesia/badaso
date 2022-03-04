@@ -593,7 +593,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -607,7 +607,7 @@ export default {
         .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -698,7 +698,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -725,7 +725,7 @@ export default {
             this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.success"),
-              text: response.message,
+              text : response.message,
               color: "success",
             });
             this.$store.commit("badaso/FETCH_MENU");
@@ -743,7 +743,7 @@ export default {
 
             this.$vs.notify({
               title: this.$t("alert.danger"),
-              text: message ? message : this.$t('database.warning.errorOnRequest'),
+              text : message ? message : this.$t('database.warning.errorOnRequest'),
               color: "danger",
             });
           });
@@ -751,13 +751,13 @@ export default {
         if (this.$v.databaseData.fields.modifiedFields.$invalid) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: this.$t("database.warning.empty"),
+            text : this.$t("database.warning.empty"),
             color: "danger",
           });
         } else if (this.$v.databaseData.$invalid) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: this.$t("database.warning.invalid"),
+            text : this.$t("database.warning.invalid"),
             color: "danger",
           });
         }
@@ -800,7 +800,7 @@ export default {
       if (this.findFieldOnRows("deleted_at")) {
         this.$vs.notify({
           title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "deleted_at" }),
+          text : this.$t("database.warning.exists", { 0: "deleted_at" }),
           color: "danger",
         });
       } else {
