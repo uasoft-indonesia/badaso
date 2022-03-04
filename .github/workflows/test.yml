@@ -116,7 +116,7 @@ jobs:
           sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=pgsql/g' .env &&
           sed -i 's/DB_DATABASE=database\/database.sqlite/DB_DATABASE=laravel/g' .env &&
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=postgres/g' .env  &&
-          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=postgres/g' .env  &&
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=postgres/g' .env 
           
       # Pgsql | Laravel setup
       - name: Pgsql | Laravel setup 
