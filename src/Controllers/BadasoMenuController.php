@@ -346,7 +346,7 @@ class BadasoMenuController extends Controller
         try {
             $request->validate([
                 'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'key'          => ['required', "unique:Uasoft\Badaso\Models\Menu,id,{$request->menu_id}"],
+                'key'          => ['required', "unique:Uasoft\Badaso\Models\Menu,key,{$request->menu_id}"],
                 'display_name' => ['required'],
             ]);
 

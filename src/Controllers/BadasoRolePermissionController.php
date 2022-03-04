@@ -16,8 +16,9 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $role_permissions = RolePermission::all();
-
-            $role_permissions = $this->getDataRelations($role_permissions);
+            foreach ($role_permissions as $index => $role_permission) {
+                $role_permissions[$index]->permission = $role_permission->permission;
+            }
 
             $data['role_permissions'] = $role_permissions;
 
@@ -35,7 +36,9 @@ class BadasoRolePermissionController extends Controller
             ]);
             $role_permissions = RolePermission::where('role_id', $request->role_id)->get();
 
-            $role_permissions = $this->getDataRelations($role_permissions);
+            foreach ($role_permissions as $index => $role_permission) {
+                $role_permissions[$index]->permission = $role_permission->permission;
+            }
 
             $data['role_permissions'] = $role_permissions;
 
@@ -77,8 +80,8 @@ class BadasoRolePermissionController extends Controller
     {
         try {
             $request->validate([
-                'role_id'     => 'required|exists:Uasoft\Badaso\Models\Role,id',
-                'permissions' => 'required',
+                'permissions' => ['required'],
+                'role_id'     => ['required', 'exists:Uasoft\Badaso\Models\Role,id'],
             ]);
             $permissions = $request->permissions;
 

@@ -99,6 +99,13 @@ class CallHelperTest
         $test_case->assertSame($bearer_token_authorize, $bearer_cache_token_authorize);
     }
 
+    public static function handleDeleteUserAdmin()
+    {
+        $name = env('BADASO_USER_NAME', 'badaso.test');
+        $email = "{$name}@test.com";
+        User::where('email', $email)->first()->delete();
+    }
+
     public static function withAuthorizeBearer(TestCase $test_case): TestCase
     {
         return $test_case->withHeader('Authorization', self::getTokenUserAdminAuthorizeBearer());
@@ -118,7 +125,7 @@ class CallHelperTest
     {
         Cache::store('file')->clear();
     }
-    
+
     public static function login(TestCase $test_case)
     {
         $user = self::getUserAdminRole();
@@ -132,14 +139,16 @@ class CallHelperTest
         return $login->json('data.accessToken');
     }
 
-     public static function getApiAuth($path)
+
+    public static function getApiAuth($path)
+
     {
         return 'badaso-api/v1/auth/'.$path;
     }
 
-    public static function getContentApiV1($path)
+    public static function getApiV1($path)
     {
-        return 'badaso-api/module/content/v1'.$path;
+        return 'badaso-api/module/post/v1'.$path;
     }
 }
 
