@@ -65,12 +65,13 @@ jobs:
 
       # Install legacy factories for Laravel 8/9
       - name: Install legacy factories for Laravel
-        run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel
+        run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel 
 
       # Display installed laravel version
       - name: Show laravel version
         run: cd laravel && 
-          composer show laravel/framework
+          composer show laravel/framework &&
+          php artisan db:wipe
           
       # Laravel require badaso core
       - name: Laravel file configuration
@@ -134,5 +135,7 @@ jobs:
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
         run: cd laravel && php artisan test
-
-
+        
+        
+        
+        

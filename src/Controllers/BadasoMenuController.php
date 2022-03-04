@@ -36,8 +36,8 @@ class BadasoMenuController extends Controller
                 ]);
 
                 foreach ($request->order as $index => $menu_id) {
-                    $menu = Menu::find($menu_id) ;
-                    $menu->order = $index +1 ;
+                    $menu = Menu::find($menu_id);
+                    $menu->order = $index + 1;
                     $menu->save();
                 }
             } elseif (isset($request->is_expand)) {
