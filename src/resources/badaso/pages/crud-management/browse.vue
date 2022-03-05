@@ -158,7 +158,7 @@ export default {
         })
         .catch((error) => {
           this.$closeLoader();
-          this.$vs.notify({
+            this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
             color: "danger",

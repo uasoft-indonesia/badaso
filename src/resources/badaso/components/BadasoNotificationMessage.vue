@@ -148,11 +148,19 @@ export default {
           this.loadUnreadMessage()
         })
         .catch((error) => {
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
+          if(error.status == 401){
+            this.$vs.notify({
+            title: this.$t("alert.error"),
             text: error.message,
             color: "danger",
           });
+          }else{
+            this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+            });
+          }
         });
     },
     readMessage(id) {

@@ -152,6 +152,8 @@ class BadasoCRUDController extends Controller
                             $row = collect($request->rows)->where('field', $value)->first();
                             if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
+                            } elseif ($row['field'] != 'id' && $field['key'] == 'PRI') {
+                                $fail(__('badaso::validation.crud.id_table_wrong', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
                     },
@@ -300,6 +302,8 @@ class BadasoCRUDController extends Controller
                             $row = collect($request->rows)->where('field', $value)->first();
                             if (! $row['add'] && ! $field['autoincrement'] && $field['notnull'] && is_null($field['default'])) {
                                 $fail(__('badaso::validation.crud.table_column_not_have_default_value', ['table_column' => "$request->name.{$value}"]));
+                            } elseif ($row['field'] != 'id' && $field['key'] == 'PRI') {
+                                $fail(__('badaso::validation.crud.id_table_wrong', ['table_column' => "$request->name.{$value}"]));
                             }
                         }
                     },

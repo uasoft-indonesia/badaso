@@ -174,6 +174,7 @@ export default {
   alert: {
     success: "Success",
     danger: "Danger",
+    error: "Error",
   },
 
   activityLog: {
@@ -272,6 +273,7 @@ export default {
     },
     warning: {
       notAllowed: "You're not allowed to browse CRUD.",
+      idNotAllowed: "Dont change name id for anything",
     },
     header: {
       table: "Table",
@@ -964,6 +966,14 @@ export default {
           "Before you can use the Database Management, you should migrate the file that not migrated yet or you could delete the migration file. Here is a list of the migration files that haven't been migrated:",
         empty: "You must delete this generated CRUD first on CRUD Management.",
       },
+      fieldNotSupport: {
+        title : "Database Error",
+        text: "There's unsupported data type in table, please see the supported data type in badaso documentation",
+        tableList : "List of unsupported tables :",
+        button : {
+          visitDocs : "Visit Documentation"
+        }
+      }
     },
     add: {
       title: "Add Table",
