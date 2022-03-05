@@ -11,6 +11,7 @@ return [
         'table_not_found'                     => 'Table :table tidak ditemukan',
         'table_column_not_found'              => 'Row tidak valid, Field :table_column tidak ditemukan',
         'table_column_not_have_default_value' => 'Row tidak valid, Field :table_column tidak punya nilai default, tolong centang checkbox Add',
+        'id_table_wrong'                      => 'Primary Key harus diganti dengan "id"',
     ],
     'base64' => [
         'length_invalid'   => 'Format base64 tidak valid',
@@ -35,5 +36,6 @@ return [
         'nothing_changed'           => 'Request valid, namun tidak ada perubahan yang terjadi.',
         'rollback_success'          => 'Rollback sukses.',
         'rollback_failed'           => 'Rollback gagal.',
+
     ],
 ];

@@ -593,7 +593,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -607,7 +607,7 @@ export default {
         .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -666,7 +666,8 @@ export default {
               fieldIndex: this.getFieldIndexes(column.indexes),
               fieldDefault: column.default,
               modifyType: [],
-              undeletable: column.name == 'created_at' || column.name == 'updated_at' ? true : false
+              undeletable: column.name == 'id' || column.name == 'created_at' || column.name == 'updated_at' ? true : false,
+              indexes : column.name == 'created_at' ? true : false
             });
 
             this.databaseData.fields.currentFields.push({
@@ -697,7 +698,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: error.message,
+            text : error.message,
             color: "danger",
           });
         });
@@ -724,7 +725,7 @@ export default {
             this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.success"),
-              text: response.message,
+              text : response.message,
               color: "success",
             });
             this.$store.commit("badaso/FETCH_MENU");
@@ -742,7 +743,7 @@ export default {
 
             this.$vs.notify({
               title: this.$t("alert.danger"),
-              text: message ? message : this.$t('database.warning.errorOnRequest'),
+              text : message ? message : this.$t('database.warning.errorOnRequest'),
               color: "danger",
             });
           });
@@ -750,13 +751,13 @@ export default {
         if (this.$v.databaseData.fields.modifiedFields.$invalid) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: this.$t("database.warning.empty"),
+            text : this.$t("database.warning.empty"),
             color: "danger",
           });
         } else if (this.$v.databaseData.$invalid) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text: this.$t("database.warning.invalid"),
+            text : this.$t("database.warning.invalid"),
             color: "danger",
           });
         }
@@ -764,7 +765,7 @@ export default {
     },
 
     addField() {
-      let index = this.databaseData.fields.modifiedFields.map(row => row.undeletable).indexOf(true)
+      let index = this.databaseData.fields.modifiedFields.map(row => row.indexes).indexOf(true)
       this.databaseData.fields.modifiedFields.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
@@ -799,7 +800,7 @@ export default {
       if (this.findFieldOnRows("deleted_at")) {
         this.$vs.notify({
           title: this.$t("alert.danger"),
-          text: this.$t("database.warning.exists", { 0: "deleted_at" }),
+          text : this.$t("database.warning.exists", { 0: "deleted_at" }),
           color: "danger",
         });
       } else {

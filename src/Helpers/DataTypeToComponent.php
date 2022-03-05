@@ -18,6 +18,10 @@ class DataTypeToComponent
         'MEDIUMBLOB' => 'text',
         'LONGTEXT'   => 'text',
         'LONGBLOB'   => 'text',
+        'CHARACTER VARYING'  => 'text',
+        'CHARACTER'  => 'text',
+        'BYTEA'      => 'text',
+        'JSON'       => 'text',
         'ENUM'       => 'select',
         'SET'        => 'select_multiple',
         'BIT'        => 'text',
@@ -35,10 +39,13 @@ class DataTypeToComponent
         'DOUBLE'     => 'number',
         'DECIMAL'    => 'number',
         'DEC'        => 'number',
+        'YEAR'       => 'number',
+        'NUMERIC'    => 'number',
+        'DOUBLE'     => 'number',
+        'DOUBLE PRECISION'   => 'number',
         'DATETIME'   => 'datetime',
         'TIMESTAMP'  => 'datetime',
         'TIME'       => 'datetime',
-        'YEAR'       => 'number',
     ];
 
     public static function convert($type)
