@@ -21,7 +21,12 @@ class BadasoBaseController extends Controller
 
             $only_data_soft_delete = $request->showSoftDelete == 'true';
 
-            $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
+            try {
+                $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
+            } catch (\Exception $e) {
+                dd(json_decode(__FUNCTION__, json_encode($e->getTrace())));
+                //throw $th;
+            }
 
             return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
@@ -40,10 +45,14 @@ class BadasoBaseController extends Controller
                 'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
             ];
 
-            if ($data_type->model_name) {
-                $records = GetData::clientSideWithModel($data_type, $builder_params);
-            } else {
-                $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
+            try {
+                if ($data_type->model_name) {
+                    $records = GetData::clientSideWithModel($data_type, $builder_params);
+                } else {
+                    $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
+                }
+            } catch (\Exception $e) {
+                dd(json_decode(__FUNCTION__, json_encode($e->getTrace())));
             }
 
             return ApiResponse::onlyEntity($records);
@@ -68,7 +77,11 @@ class BadasoBaseController extends Controller
 
             $data = [];
             
-            $data = $this->getDataDetail($slug, $request->id);
+            try {
+                $data = $this->getDataDetail($slug, $request->id);
+            } catch (\Exception $e) {
+                dd(json_decode(__FUNCTION__, json_encode($e->getTrace())));
+            }
 
             // add event notification handle
             $table_name = $data_type->name;
