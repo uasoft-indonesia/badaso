@@ -68,11 +68,7 @@ class BadasoBaseController extends Controller
 
             $data = [];
             
-            try{
-                $data = $this->getDataDetail($slug, $request->id);
-            } catch(\Exception $e) {
-                dd(json_decode(json_encode($e->getTrace())));
-            }
+            $data = $this->getDataDetail($slug, $request->id);
 
             // add event notification handle
             $table_name = $data_type->name;
