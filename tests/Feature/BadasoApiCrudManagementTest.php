@@ -270,6 +270,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     }
                     $table->softDeletes();
                     $table->timestamps();
+                    
                 });
             }
             $table_names[] = $table_name;
