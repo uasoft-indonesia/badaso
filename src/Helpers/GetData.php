@@ -63,7 +63,7 @@ class GetData
                     }
                 }
             }
-            $records[] = self::getRelationData($data_type, $record);
+            // $records[] = self::getRelationData($data_type, $record);
         }
         $data->setCollection(collect($records));
 
@@ -113,7 +113,7 @@ class GetData
                     }
                 }
             }
-            $records[] = self::getRelationData($data_type, $record);
+            // $records[] = self::getRelationData($data_type, $record);
         }
 
         $entities['data'] = $records;
@@ -176,7 +176,7 @@ class GetData
 
         $records = [];
         foreach ($collection as $row) {
-            $records[] = self::getRelationData($data_type, $row);
+            // $records[] = self::getRelationData($data_type, $row);
         }
 
         $data = collect($records);
@@ -222,7 +222,7 @@ class GetData
         $data = [];
 
         foreach ($records as $row) {
-            $data[] = self::getRelationData($data_type, $row);
+            // $data[] = self::getRelationData($data_type, $row);
         }
 
         $entities['data'] = $data;
