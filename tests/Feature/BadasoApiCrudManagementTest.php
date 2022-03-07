@@ -415,9 +415,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
                 if ($badaso_type == 'relation') {
                     // $destination_field = $const_fields[rand(0, count($const_fields) - 1)];
-                    
+
                     // if ($destination_field['badaso_type'] == 'relation') {
-                        $destination_field['badaso_type'] = 'id';
+                    $destination_field['badaso_type'] = 'id';
                     // }
 
                     $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
@@ -426,7 +426,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     $row['destinationTableColumn'] = $destination_field['badaso_type'];
                     $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
                     $row['required'] = false;
-                    $row['setRelation'] = true ;
+                    $row['setRelation'] = true;
                 }
 
                 $rows[] = $row;
