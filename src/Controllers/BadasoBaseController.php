@@ -22,7 +22,7 @@ class BadasoBaseController extends Controller
             $only_data_soft_delete = $request->showSoftDelete == 'true';
 
             // try {
-                $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
+            $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
             // } catch (\Exception $e) {
             //     dd(json_decode(__FUNCTION__, json_encode($e->getTrace())));
             //     //throw $th;
@@ -46,11 +46,11 @@ class BadasoBaseController extends Controller
             ];
 
             // try {
-                if ($data_type->model_name) {
-                    $records = GetData::clientSideWithModel($data_type, $builder_params);
-                } else {
-                    $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
-                }
+            if ($data_type->model_name) {
+                $records = GetData::clientSideWithModel($data_type, $builder_params);
+            } else {
+                $records = GetData::clientSideWithQueryBuilder($data_type, $builder_params);
+            }
             // } catch (\Exception $e) {
             //     dd(json_decode(__FUNCTION__, json_encode($e->getTrace())));
             // }
@@ -76,9 +76,9 @@ class BadasoBaseController extends Controller
             ]);
 
             $data = [];
-            
+
             // try {
-                $data = $this->getDataDetail($slug, $request->id);
+            $data = $this->getDataDetail($slug, $request->id);
             // } catch (\Exception $e) {
             //     dd(json_decode(__FUNCTION__, json_encode($e->getTrace())));
             // }
