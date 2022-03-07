@@ -26,7 +26,6 @@ class BadasoApiCrudManagementTest extends TestCase
             $field_name = [
                 [
                     'badaso_type' => 'text',
-                    'badaso_field_name' => 'field_text',
                     'schema_type' => 'text',
                     'details' => json_encode((object) []),
                     'example' => 'text',
@@ -34,7 +33,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'email',
-                    'badaso_field_name' => 'field_email',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'email@example.com',
@@ -42,7 +40,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'password',
-                    'badaso_field_name' => 'field_password',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'password',
@@ -50,7 +47,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'textarea',
-                    'badaso_field_name' => 'field_textarea',
                     'schema_type' => 'text',
                     'details' => json_encode((object) []),
                     'example' => 'textarea',
@@ -58,7 +54,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'checkbox',
-                    'badaso_field_name' => 'field_checkbox',
                     'schema_type' => 'string',
                     'details' => json_encode([
                         'items' => [
@@ -71,7 +66,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'search',
-                    'badaso_field_name' => 'field_search',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'search',
@@ -79,7 +73,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'number',
-                    'badaso_field_name' => 'field_number',
                     'schema_type' => 'integer',
                     'details' => json_encode((object) []),
                     'example' => 1,
@@ -87,7 +80,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'url',
-                    'badaso_field_name' => 'field_url',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'https://badaso-docs.uatech.co.id',
@@ -95,7 +87,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'time',
-                    'badaso_field_name' => 'field_time',
                     'schema_type' => 'time',
                     'details' => json_encode((object) []),
                     'example' => '2022-01-27T04:37:18.327Z',
@@ -103,7 +94,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'date',
-                    'badaso_field_name' => 'field_date',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => '2022-01-27T04:37:18.327Z',
@@ -111,7 +101,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'datetime',
-                    'badaso_field_name' => 'field_datetime',
                     'schema_type' => 'datetime',
                     'details' => json_encode((object) []),
                     'example' => '2022-01-27T04:37:18.327Z',
@@ -119,7 +108,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'select',
-                    'badaso_field_name' => 'field_select',
                     'schema_type' => 'string',
                     'details' => json_encode([
                         'items' => [
@@ -132,7 +120,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'radio',
-                    'badaso_field_name' => 'field_radio',
                     'schema_type' => 'string',
                     'details' => json_encode([
                         'items' => [
@@ -145,7 +132,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'switch',
-                    'badaso_field_name' => 'field_switch',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => rand(0, 1),
@@ -153,7 +139,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'slider',
-                    'badaso_field_name' => 'field_slider',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => rand(1, 50),
@@ -161,7 +146,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'editor',
-                    'badaso_field_name' => 'field_editor',
                     'schema_type' => 'text',
                     'details' => json_encode((object) []),
                     'example' => 'editor',
@@ -169,7 +153,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'tags',
-                    'badaso_field_name' => 'field_tags',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => join(',', ['badaso', 'test', 'crud', 'management']),
@@ -177,7 +160,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'code',
-                    'badaso_field_name' => 'field_code',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'code',
@@ -185,7 +167,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'hidden',
-                    'badaso_field_name' => 'field_hidden',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'hidden',
@@ -193,14 +174,12 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'relation',
-                    'badaso_field_name' => 'field_relation',
                     'schema_type' => 'bigInteger',
                     'details' => json_encode((object) []),
                     'example' => null,
                 ],
                 [
                     'badaso_type' => 'color_picker',
-                    'badaso_field_name' => 'field_color_picker',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => '#000000',
@@ -208,7 +187,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'upload_image',
-                    'badaso_field_name' => 'field_upload_image',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
@@ -216,7 +194,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'select_multiple',
-                    'badaso_field_name' => 'field_select_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode([
                         'items' => [
@@ -236,7 +213,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'upload_file',
-                    'badaso_field_name' => 'field_upload_file',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
@@ -244,7 +220,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'upload_image_multiple',
-                    'badaso_field_name' => 'field_upload_image_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => [
@@ -258,7 +233,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
                 [
                     'badaso_type' => 'upload_file_multiple',
-                    'badaso_field_name' => 'field_upload_file_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => [
@@ -282,25 +256,20 @@ class BadasoApiCrudManagementTest extends TestCase
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
-                    foreach ($this->getFields() as $key => [
-                        'badaso_type' => $badaso_type, 
-                        'schema_type' => $schema_type,
-                        'badaso_field_name' => $badaso_field_name,
-                    ]) {
+                    foreach ($this->getFields() as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type]) {
                         if ($badaso_type == 'relation') {
                             if ($index >= 2) {
                                 $table_name_relation = $table_names[0];
-                                $table->{$schema_type}($badaso_field_name)->nullable()->unsigned();
+                                $table->{$schema_type}($badaso_type)->nullable()->unsigned();
 
-                                $table->foreign($badaso_field_name)->references('id')->on($table_name_relation)->onDelete('cascade');
+                                $table->foreign($badaso_type)->references('id')->on($table_name_relation)->onDelete('cascade');
                             }
                         } else {
-                            $table->{$schema_type}($badaso_field_name)->nullable();
+                            $table->{$schema_type}($badaso_type)->nullable();
                         }
                     }
                     $table->softDeletes();
                     $table->timestamps();
-
                 });
             }
             $table_names[] = $table_name;
@@ -350,7 +319,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
         $const_fields = $this->getFields();
         $const_fillable = collect($const_fields)->map(function ($fillable) {
-            $field = $fillable['badaso_field_name'];
+            $field = $fillable['badaso_type'];
 
             return "\"$field\"";
         })->toArray();
@@ -423,19 +392,14 @@ class BadasoApiCrudManagementTest extends TestCase
                     'setRelation' => false,
                 ],
             ];
-            foreach ($const_fields as $key => [
-                'badaso_type' => $badaso_type, 
-                'schema_type' => $schema_type, 
-                'details' => $details,
-                'badaso_field_name' => $badaso_field_name,
-            ]) {
+            foreach ($const_fields as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type, 'details' => $details]) {
                 if ($index_table_name == 0 && $badaso_type == 'relation') {
                     continue;
                 }
 
-                $field_name = ucwords(str_replace(['_'], ' ', $badaso_field_name));
+                $field_name = ucwords(str_replace(['_'], ' ', $badaso_type));
                 $row = [
-                    'field' => $badaso_field_name,
+                    'field' => $badaso_type,
                     'type' => $badaso_type,
                     'displayName' => $field_name,
                     'required' => rand(0, 1),
@@ -450,19 +414,19 @@ class BadasoApiCrudManagementTest extends TestCase
                 ];
 
                 if ($badaso_type == 'relation') {
-                    $destination_field = $const_fields[rand(0, count($const_fields) - 1)];
-
-                    if ($destination_field['badaso_type'] == 'relation') {
-                        $destination_field['badaso_field_name'] = 'id';
-                    }
+                    // $destination_field = $const_fields[rand(0, count($const_fields) - 1)];
+                    
+                    // if ($destination_field['badaso_type'] == 'relation') {
+                        $destination_field['badaso_type'] = 'id';
+                    // }
 
                     $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
-                    $row['relationType'] = true;
+                    // $row['relationType'] = true;
                     $row['destinationTable'] = $table_names[0];
-                    $row['destinationTableColumn'] = $destination_field['badaso_field_name'];
-                    $row['destinationTableDisplayColumn'] = $destination_field['badaso_field_name'];
+                    $row['destinationTableColumn'] = $destination_field['badaso_type'];
+                    $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
                     $row['required'] = false;
-                    // $row['setRelation'] = true ; 
+                    $row['setRelation'] = true ;
                 }
 
                 $rows[] = $row;
@@ -595,7 +559,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $fields = [];
 
         foreach ($this->getFields() as $key => $value) {
-            $fields[$value['badaso_field_name']] = $value;
+            $fields[$value['badaso_type']] = $value;
         }
 
         $data_add_entities = [];
