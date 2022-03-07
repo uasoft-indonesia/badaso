@@ -1,0 +1,137 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  test:
+    # Setup ubuntu latest
+    runs-on: ubuntu-latest
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: laravel
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.0, 8.1]
+        laravel: ["8.*"]
+        laravel-require: [8.0]
+        mysql-version: [8.0]
+
+    name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
+
+    steps:
+      - uses: actions/checkout@master
+
+      # Configure Mysql
+      - name: Mysql setup
+        uses: ankane/setup-mysql@v1
+        with:
+          mysql-version: ${{ matrix.mysql-version }}
+          database: laravel
+
+      # Configure PHP
+      - name: Select PHP version
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: "${{ matrix.php }}"
+          extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql
+          coverage: none
+
+      # Install legacy factories for Laravel 8/9
+      - name: Install legacy factories for Laravel
+        run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel
+
+      # Display installed laravel version
+      - name: Show laravel version
+        run: cd laravel &&
+          composer show laravel/framework &&
+          php artisan db:wipe
+
+      # Laravel require badaso core
+      - name: Laravel file configuration
+        run: git branch &&
+          cd laravel &&
+          composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
+          composer update --no-interaction
+
+      # Mysql | Laravel setup
+      - name: Mysql | Laravel setup
+        run: cd laravel &&
+          php artisan badaso:setup --force &&
+          php artisan badaso-test:setup &&
+          php artisan db:wipe &&
+          php artisan migrate &&
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+
+      # Mysql | Badaso core test
+      - name: Mysql | Badaso core test
+        run: cd laravel && php artisan test
+
+      # Sqlite | Laravel configuration
+      - name: Sqlite | Laravel file configuration
+        run: cd laravel &&
+          touch database/database.sqlite &&
+          sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/g' .env &&
+          sed -i 's/DB_DATABASE=laravel/DB_DATABASE=database\/database.sqlite/g' .env
+
+      # Sqlite | Laravel setup
+      - name: Sqlite | Laravel setup
+        run: cd laravel &&
+          php artisan badaso:setup --force &&
+          php artisan badaso-test:setup &&
+          php artisan db:wipe &&
+          php artisan migrate &&
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+
+      # Sqlite | Badaso core test
+      - name: Sqlite | Badaso core test
+        run: cd laravel && php artisan test
+
+      # Pgsql | Laravel configuration
+      - name: Pgsql | Laravel file configuration
+        run: cd laravel &&
+          sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=pgsql/g' .env &&
+          sed -i 's/DB_DATABASE=database\/database.sqlite/DB_DATABASE=laravel/g' .env &&
+          sed -i 's/DB_PASSWORD=/DB_PASSWORD=postgres/g' .env  &&
+          sed -i 's/DB_HOST=127.0.0.1/DB_HOST=localhost/g' .env &&
+          sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres/g' .env &&
+          sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env
+
+      # Pgsql | Laravel setup
+      - name: Pgsql | Laravel setup
+        run: cd laravel &&
+          php artisan badaso:setup --force &&
+          php artisan badaso-test:setup &&
+          php artisan db:wipe &&
+          php artisan migrate &&
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+
+      # Pgsql | Badaso core test
+      - name: Pgsql | Badaso core test
+        run: cd laravel && php artisan test
