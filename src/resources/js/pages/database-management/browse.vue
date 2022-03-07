@@ -387,6 +387,11 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.getTableList();
+          this.$vs.notify({
+            title : this.$t("alert.success"),
+            text  : response.data,
+            color : "success"
+          });
         })
         .catch((error) => {
           this.$closeLoader();

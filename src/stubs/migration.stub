@@ -14,13 +14,10 @@ class {{class}} extends Migration
     public function up()
     {
         try {
-            DB::beginTransaction();
 
-{{schema_up}}
-            
-            DB::commit();
+            {{schema_up}}
+
         } catch (PDOException $ex) {
-            DB::rollBack();
             throw $ex;
         }
     }
