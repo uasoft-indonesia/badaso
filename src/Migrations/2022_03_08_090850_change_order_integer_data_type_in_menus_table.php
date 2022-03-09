@@ -14,7 +14,7 @@ class ChangeOrderIntegerDataTypeInMenusTable extends Migration
     public function up()
     {
         Schema::table('menus', function (Blueprint $table) {
-            if ( Schema::hasColumn(config('badaso.database.prefix').'menus', 'order')) {
+            if (Schema::hasColumn(config('badaso.database.prefix').'menus', 'order')) {
                 $table->integer('order')->change();
             }
         });
@@ -28,7 +28,7 @@ class ChangeOrderIntegerDataTypeInMenusTable extends Migration
     public function down()
     {
         Schema::table('menus', function (Blueprint $table) {
-            if ( Schema::hasColumn(config('badaso.database.prefix').'menus', 'order')) {
+            if (Schema::hasColumn(config('badaso.database.prefix').'menus', 'order')) {
                 $table->integer('order')->change();
             }
         });
