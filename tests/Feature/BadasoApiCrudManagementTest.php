@@ -414,11 +414,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 ];
 
                 if ($badaso_type == 'relation') {
-                    $destination_field = $const_fields[rand(0, count($const_fields) - 1)];
-
-                    if ($destination_field['badaso_type'] == 'relation') {
-                        $destination_field['badaso_type'] = 'id';
-                    }
+                    $destination_field['badaso_type'] = 'id';
 
                     $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
                     $row['relationType'] = true;
@@ -651,10 +647,16 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($data_add_entities as $table => $data_add_entity) {
             foreach ($data_add_entity as $index => $entity) {
                 $id = $entity['id'];
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
-                    'id' => $id,
-                ]);
-                $response->assertSuccessful();
+
+                $table_entity = DB::table($table)->where('id', $id)->first();
+                if (isset($table_entity)) {
+                    $response = CallHelperTest::withAuthorizeBearer($this)
+                        ->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
+                            'id' => $id,
+                        ]);
+
+                    $response->assertSuccessful();
+                }
             }
         }
     }
@@ -724,8 +726,15 @@ class BadasoApiCrudManagementTest extends TestCase
             $response->assertSuccessful();
 
             // cek data from database
-            $table_row_count = DB::table($table)->whereId('id', $ids)->count();
-            $this->assertTrue($table_row_count == 0);
+            $table_row_count = DB::table($table)->whereIn('id', $ids);
+            if ($table_row_count->count() != 0) {
+                $table_row_count = $table_row_count->whereNotNull('deleted_at');
+                $this->assertTrue($table_row_count->count() == count($ids));
+
+                $table_row_count->delete();
+            } else {
+                $this->assertTrue($table_row_count->count() == 0);
+            }
         }
     }
 
@@ -776,7 +785,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 use Illuminate\Database\Eloquent\Factories\HasFactory;
                 use Illuminate\Database\Eloquent\Model;
                 class {$model_name} extends Model {
-                    use HasFactory;
                     protected \$table = "{$table_name}" ;
                 }
                 PHP;
