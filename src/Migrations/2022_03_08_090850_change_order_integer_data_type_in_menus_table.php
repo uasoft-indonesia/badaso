@@ -15,7 +15,12 @@ class ChangeOrderIntegerDataTypeInMenusTable extends Migration
     {
         Schema::table(config('badaso.database.prefix') . 'menus', function (Blueprint $table) {
             if (Schema::hasColumn(config('badaso.database.prefix') . 'menus', 'order')) {
-                $table->integer('order')->change();
+                $table->dropColumn('order');
+            }
+        });
+        Schema::table(config('badaso.database.prefix') . 'menus', function (Blueprint $table) {
+            if (!Schema::hasColumn(config('badaso.database.prefix') . 'menus', 'order')) {
+                $table->integer('order')->nullable()->before('icon');
             }
         });
     }
@@ -27,10 +32,6 @@ class ChangeOrderIntegerDataTypeInMenusTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix') . 'menus', function (Blueprint $table) {
-            if (Schema::hasColumn(config('badaso.database.prefix') . 'menus', 'order')) {
-                $table->integer('order')->change();
-            }
-        });
+
     }
 }
