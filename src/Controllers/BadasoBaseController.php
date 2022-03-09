@@ -61,9 +61,12 @@ class BadasoBaseController extends Controller
 
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
+
             $request->validate([
                 'id' => 'exists:'.$data_type->name,
             ]);
+
+            $data = [];
 
             $data = $this->getDataDetail($slug, $request->id);
 

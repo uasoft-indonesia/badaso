@@ -133,6 +133,7 @@ class BadasoApiMenuTest extends TestCase
         $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/menu-options'), [
             'order' => (array) $order,
         ]);
+
         $response->assertSuccessful();
 
         foreach ($order as $index => $menu_id) {
