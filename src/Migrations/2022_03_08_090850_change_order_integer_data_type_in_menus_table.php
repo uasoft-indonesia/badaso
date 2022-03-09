@@ -32,6 +32,5 @@ class ChangeOrderIntegerDataTypeInMenusTable extends Migration
      */
     public function down()
     {
-
     }
 }
