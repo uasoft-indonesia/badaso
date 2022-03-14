@@ -181,7 +181,6 @@ class MigrationParser
 
     public static function getAlterMigrationRelationshipSchemaUp($name, $relations)
     {
-        dd("ALSJLKASD");
         if (implode(PHP_EOL.chr(9).chr(9).chr(9), self::getAlterMigrationRelationshipUp($relations)) !== '') {
             return sprintf(self::ALTER_WRAPPER,
                 $name['current_name'],
