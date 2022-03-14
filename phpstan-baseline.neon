@@ -1,20 +1,8 @@
 parameters: 
     ignoreErrors:
-    - 
-        message: '#Call to an undefined static method Uasoft\\Badaso\\Models\\Role::[a-zA-Z0-9-()\_]+.#'
-        paths: 
-            - src/Controllers
-            - src/Commands
-            - src/Models
-            - src/Seeder
-            - src/Widgets
-            - tests
-
+    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\Role::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\User::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Spatie\\Activitylog\\Models\\Activity::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\UserVerification::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\PasswordReset::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\EmailReset::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\DataType::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Facades\\Badaso::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\DataRow::[a-zA-Z0-9-()\_]+.#'
@@ -39,7 +27,6 @@ parameters:
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
     - '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing.#'
     - '#Call to sprintf contains 1 placeholder, 0 values given.#'
-    - '#Variable \$custom_permissions might not be defined.#'
     - '#Call to static method debug[()]+ on an unknown class Log.#'
     - '#Call to static method first[()]+ on an unknown class Uasoft\\Badaso\\Models\\FirebaseServices.#'
     - '#Call to static method user[()]+ on an unknown class JWTAuth.#'
