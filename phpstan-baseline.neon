@@ -19,8 +19,6 @@ parameters:
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\Redis::[a-zA-Z0-9-()\_]+.#'
     - '#Parameter \$test_case of method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
-    - '#Class [a-zA-Z0-9-()\\_]+ not found.#'
-    - '#Class Tests\\TestCase not found.#'
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class Route.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
     - '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing.#'
