@@ -1,15 +1,15 @@
 parameters:
     excludes_analyse: 
-    - packages/badaso/core/src/Migrations   
+    - src/Migrations   
     ignoreErrors:
     - 
         message: '#Call to an undefined static method Uasoft\\Badaso\\Models\\Role::[a-zA-Z0-9-()\_]+.#'
         paths: 
-            - packages/badaso/core/src/Controllers
-            - packages/badaso/core/src/Commands
-            - packages/badaso/core/src/Models
-            - packages/badaso/core/src/Seeder
-            - packages/badaso/core/src/Widgets
+            - src/Controllers
+            - src/Commands
+            - src/Models
+            - src/Seeder
+            - src/Widgets
     
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\User::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Spatie\\Activitylog\\Models\\Activity::[a-zA-Z0-9-()\_]+.#'

@@ -3,6 +3,6 @@ includes:
     
 parameters:
     paths: 
-        - packages/badaso/core/src
+        - src
     
     level: 1    
