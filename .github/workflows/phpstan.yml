@@ -12,86 +12,30 @@ on:
       - reopened
 
 jobs:
-  test:
-    # Setup ubuntu latest
+  phpstan:
     runs-on: ubuntu-latest
-
-    # Service containers to run with `container-job`
-    services:
-      # Label used to access the service container
-      postgres:
-        # Docker Hub image
-        image: postgres
-        # Provide the password for postgres
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: laravel
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
-    strategy:
-      fail-fast: false
-      matrix:
-        php: [8.0]
-        laravel: ["8.*"]
-        laravel-require: [8.0]
-        mysql-version: [8.0]
-
-    name: "PHPStan / PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
+    env:
+      COMPOSER_NO_INTERACTION: 1
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
 
-      # Configure Mysql
-      - name: Mysql setup
-        uses: ankane/setup-mysql@v1
+      - uses: shivammathur/setup-php@v2
         with:
-          mysql-version: ${{ matrix.mysql-version }}
-          database: laravel
-
-      # Configure PHP
-      - name: Select PHP version
-        uses: shivammathur/setup-php@master
-        with:
-          php-version: "${{ matrix.php }}"
-          extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql
+          php-version: 8.1
           coverage: none
 
-      # Install legacy factories for Laravel 8/9
-      - name: Install legacy factories for Laravel
-        run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      # Display installed laravel version
-      - name: Show laravel version
-        run: cd laravel &&
-          composer show laravel/framework &&
-          php artisan db:wipe
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
 
-      # Laravel require badaso core
-      - name: Laravel file configuration
-        run: git branch &&
-          cd laravel &&
-          composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
-          composer update --no-interaction
+      - run: composer update --prefer-dist --no-progress
 
-      # Mysql | Laravel setup
-      - name: Mysql | Laravel setup
-        run: cd laravel &&
-          php artisan badaso:setup --force &&
-          php artisan badaso-test:setup &&
-          php artisan db:wipe &&
-          php artisan migrate &&
-          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
-
-      # Mysql | Badaso core test
-      - name: Mysql | Badaso core test
-        run: cd laravel && 
-             ./vendor/bin/phpstan analyse -c vendor/badaso/core/phpstan.neon.dist
-
-
+      - run: composer phpstan -- --no-progress
