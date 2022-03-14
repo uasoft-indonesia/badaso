@@ -92,6 +92,6 @@ jobs:
       # Mysql | Badaso core test
       - name: Mysql | Badaso core test
         run: cd laravel && 
-             ./vendor/bin/phpstan analyse -c phpstan.neon.dist
+             ./vendor/bin/phpstan analyse -c /vendor/badaso/core/phpstan.neon.dist
 
 
