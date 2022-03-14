@@ -57,7 +57,7 @@ class BadasoTestSetup extends Command
             </testsuites>
             <coverage processUncoveredFiles="true">
                 <include>
-                    <directory suffix=".php">./app</directory>
+                    <!-- <directory suffix=".php">./app</directory> -->
                     <directory suffix=".php">./vendor/badaso/core/src/Commands</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Controllers</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/ContentManager</directory>
