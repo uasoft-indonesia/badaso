@@ -43,7 +43,7 @@ jobs:
         laravel-require: [8.0]
         mysql-version: [8.0]
 
-    name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
+    name: "PHPStan / PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
     steps:
       - uses: actions/checkout@master
