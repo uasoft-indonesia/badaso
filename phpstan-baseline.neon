@@ -10,7 +10,8 @@ parameters:
             - src/Models
             - src/Seeder
             - src/Widgets
-    
+            - tests
+
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\User::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Spatie\\Activitylog\\Models\\Activity::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\UserVerification::[a-zA-Z0-9-()\_]+.#'
