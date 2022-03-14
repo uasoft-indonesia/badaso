@@ -48,32 +48,32 @@ class BadasoTestSetup extends Command
             <testsuites>
                 <testsuite name="Unit">
                     <directory suffix="Test.php">./tests/Unit</directory>
-                    <directory suffix="Test.php">./packages/badaso/core/tests/Unit</directory>
+                    <directory suffix="Test.php">./vendor/badaso/core/tests/Unit</directory>
                 </testsuite>
                 <testsuite name="Feature">
                     <directory suffix="Test.php">./tests/Feature</directory>
-                    <directory suffix="Test.php">./packages/badaso/core/tests/Feature</directory>
+                    <directory suffix="Test.php">./vendor/badaso/core/tests/Feature</directory>
                 </testsuite>
             </testsuites>
             <coverage processUncoveredFiles="true">
                 <include>
                     <directory suffix=".php">./app</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Commands</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Controllers</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/ContentManager</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Events</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Exceptions</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Helpers</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Listeners</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Mail</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Middleware</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Models</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/OrchestratorHandlers</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Providers</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Routes</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Traits</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Widgets</directory>
-                    <directory suffix=".php">./packages/badaso/core/src/Badaso.php</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Commands</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Controllers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/ContentManager</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Events</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Exceptions</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Helpers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Listeners</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Mail</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Middleware</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Models</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/OrchestratorHandlers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Providers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Routes</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Traits</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Widgets</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Badaso.php</directory>
                 </include>
             </coverage>
             <php>
