@@ -42,7 +42,8 @@
     "google/apiclient": "^2.9",
     "predis/predis": "^1.1",
     "laravel/ui": "^3.3",
-    "laravel/octane": "^1.0"
+    "laravel/octane": "^1.0",
+    "phpstan/phpstan": "^1.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",

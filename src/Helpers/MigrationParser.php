@@ -181,6 +181,7 @@ class MigrationParser
 
     public static function getAlterMigrationRelationshipSchemaUp($name, $relations)
     {
+        dd("ALSJLKASD");
         if (implode(PHP_EOL.chr(9).chr(9).chr(9), self::getAlterMigrationRelationshipUp($relations)) !== '') {
             return sprintf(self::ALTER_WRAPPER,
                 $name['current_name'],
@@ -207,7 +208,7 @@ class MigrationParser
     public static function getMigrationSchemaDown($name, $rows = [], $prefix = null, bool $timestamp = true)
     {
         if ($prefix == 'drop') {
-            return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows, $timestamp)));
+            return sprintf(self::MIGRATION_UP_WRAPPER, $name, implode(PHP_EOL.chr(9).chr(9).chr(9), self::getMigrationFields($name, $rows)));
         }
 
         return sprintf(
