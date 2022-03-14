@@ -18,6 +18,7 @@ parameters:
     - '#Call to an undefined static method Uasoft\\Badaso\\Database\\Schema\\SchemaManager::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\Redis::[a-zA-Z0-9-()\_]+.#'
+    - '#Class App\\Http\\Controllers\\Controller not found.#'
     - '#Parameter \$test_case of method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class Route.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
