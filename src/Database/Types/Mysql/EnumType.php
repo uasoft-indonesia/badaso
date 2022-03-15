@@ -10,7 +10,7 @@ class EnumType extends Type
 {
     const NAME = 'enum';
     private static $tableName;
-    
+
     public function getSQLDeclaration(array $field, AbstractPlatform $platform)
     {
         $enumField = collect(DB::select(DB::raw('SHOW COLUMNS FROM '.DB::getQueryGrammar()->wrap($this->tableName))))->where('Field', $field['name'])->first();

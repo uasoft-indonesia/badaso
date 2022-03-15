@@ -33,7 +33,7 @@ class DataTypeToComponent
         'INT'        => 'number',
         'INTEGER'    => 'number',
         'BIGINT'     => 'number',
-        'FLOAT'      => 'number',   
+        'FLOAT'      => 'number',
         'DECIMAL'    => 'number',
         'DEC'        => 'number',
         'YEAR'       => 'number',
