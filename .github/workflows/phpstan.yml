@@ -48,13 +48,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # Configure Mysql
-      - name: Mysql setup
-        uses: ankane/setup-mysql@v1
-        with:
-          mysql-version: ${{ matrix.mysql-version }}
-          database: laravel
-
       # Configure PHP
       - name: Select PHP version
         uses: shivammathur/setup-php@master
