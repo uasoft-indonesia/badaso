@@ -2,19 +2,11 @@
 
 namespace Uasoft\Badaso\Commands;
 
-use DOMDocument;
 use Illuminate\Console\Command;
 
 class BadasoTestSetup extends Command
 {
     public static $PHPUNIT_XML_PATH = 'phpunit.xml';
-    public static $BADASO_UNIT_TEST_PATHS = [
-        './vendor/badaso/core/tests/Unit',
-    ];
-    public static $BADASO_FEATURE_TEST_PATHS = [
-        './vendor/badaso/core/tests/Feature',
-    ];
-
     /**
      * The name and signature of the console command.
      *
@@ -47,66 +39,55 @@ class BadasoTestSetup extends Command
     public function handle()
     {
         $phpunit_xml_path = base_path(self::$PHPUNIT_XML_PATH);
-        $data = file_get_contents($phpunit_xml_path);
 
-        $document = new DOMDocument();
-        $document->loadXML($data);
+        $phpunit_xml_content = <<<'XML'
+        <?xml version="1.0" encoding="UTF-8"?>
+        <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+            <testsuites>
+                <testsuite name="Unit">
+                    <directory suffix="Test.php">./tests/Unit</directory>
+                    <directory suffix="Test.php">./vendor/badaso/core/tests/Unit</directory>
+                </testsuite>
+                <testsuite name="Feature">
+                    <directory suffix="Test.php">./tests/Feature</directory>
+                    <directory suffix="Test.php">./vendor/badaso/core/tests/Feature</directory>
+                </testsuite>
+            </testsuites>
+            <coverage processUncoveredFiles="true">
+                <include>
+                    <!-- <directory suffix=".php">./app</directory> -->
+                    <directory suffix=".php">./vendor/badaso/core/src/Commands</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Controllers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/ContentManager</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Events</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Exceptions</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Helpers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Listeners</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Mail</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Middleware</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Models</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/OrchestratorHandlers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Providers</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Routes</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Traits</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Widgets</directory>
+                    <directory suffix=".php">./vendor/badaso/core/src/Badaso.php</directory>
+                </include>
+            </coverage>
+            <php>
+                <server name="APP_ENV" value="testing"/>
+                <server name="BCRYPT_ROUNDS" value="4"/>
+                <server name="CACHE_DRIVER" value="array"/>
+                <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
+                <!-- <server name="DB_DATABASE" value=":memory:"/> -->
+                <server name="MAIL_MAILER" value="array"/>
+                <server name="QUEUE_CONNECTION" value="sync"/>
+                <server name="SESSION_DRIVER" value="array"/>
+                <server name="TELESCOPE_ENABLED" value="false"/>
+            </php>
+        </phpunit>
+        XML;
 
-        $test_suite_features = $document
-            ->getElementsByTagName('testsuite');
-
-        foreach ($test_suite_features as $index_test_suite_feature => $test_suite_feature) {
-            $attribute_name = $test_suite_feature->getAttribute('name');
-            switch ($attribute_name) {
-                case 'Unit':
-                    $directories = $test_suite_feature->getElementsByTagName('directory');
-
-                    // to input xml path badaso test
-                    $badaso_test_paths = self::$BADASO_UNIT_TEST_PATHS;
-
-                    // gets all path now in xml phpunit.xml
-                    $now_test_paths = [];
-                    foreach ($directories as $_ => $directory) {
-                        $now_test_paths[] = $directory->nodeValue;
-                    }
-
-                    // check and add directory test
-                    foreach ($badaso_test_paths as $_ => $badaso_test_path) {
-                        if (! in_array($badaso_test_path, $now_test_paths)) {
-                            $new_directory = $document->createElement('directory', $badaso_test_path);
-                            $new_directory->setAttribute('suffix', 'Test.php');
-
-                            $test_suite_features->item($index_test_suite_feature)->appendChild($new_directory);
-                        }
-                    }
-                    break;
-                case 'Feature':
-                    $directories = $test_suite_feature->getElementsByTagName('directory');
-
-                    // to input xml path badaso test
-                    $badaso_test_paths = self::$BADASO_FEATURE_TEST_PATHS;
-
-                    // gets all path now in xml phpunit.xml
-                    $now_test_paths = [];
-                    foreach ($directories as $_ => $directory) {
-                        $now_test_paths[] = $directory->nodeValue;
-                    }
-
-                    // check and add directory test
-                    foreach ($badaso_test_paths as $_ => $badaso_test_path) {
-                        if (! in_array($badaso_test_path, $now_test_paths)) {
-                            $new_directory = $document->createElement('directory', $badaso_test_path);
-                            $new_directory->setAttribute('suffix', 'Test.php');
-
-                            $test_suite_features->item($index_test_suite_feature)->appendChild($new_directory);
-                        }
-                    }
-
-                    break;
-            }
-        }
-
-        // save xml
-        file_put_contents($phpunit_xml_path, $document->saveHTML());
+        file_put_contents($phpunit_xml_path, $phpunit_xml_content);
     }
 }
