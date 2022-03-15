@@ -257,7 +257,7 @@ abstract class Controller extends BaseController
             $record = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
         }
 
-        $record = GetData::getRelationData($data_type, $record, 'read');
+        $record = GetData::getRelationData($data_type, $record);
 
         return $record;
     }
