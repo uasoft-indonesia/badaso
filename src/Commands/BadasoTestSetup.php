@@ -2,9 +2,7 @@
 
 namespace Uasoft\Badaso\Commands;
 
-use DOMDocument;
 use Illuminate\Console\Command;
-use SimpleXMLElement;
 
 class BadasoTestSetup extends Command
 {
@@ -42,7 +40,7 @@ class BadasoTestSetup extends Command
     {
         $phpunit_xml_path = base_path(self::$PHPUNIT_XML_PATH);
 
-        $phpunit_xml_content = <<<XML
+        $phpunit_xml_content = <<<'XML'
         <?xml version="1.0" encoding="UTF-8"?>
         <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
             <testsuites>
