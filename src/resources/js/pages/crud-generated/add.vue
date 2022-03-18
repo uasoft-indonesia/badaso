@@ -475,7 +475,7 @@ export default {
               data.type == "select_multiple" ||
               data.type == "checkbox")
           ) {
-            data.value = [];
+            data.value = Array;
           } else if (data.value == undefined && data.type == "slider") {
             data.value = 0;
           } else if (data.value == undefined && data.type == "switch") {
@@ -493,6 +493,7 @@ export default {
           } catch (error) {}
           return data;
         });
+        console.log(response.data.crudData.dataRows);
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
       } catch (error) {
         if (error.status == 503) {
