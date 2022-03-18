@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use stdClass;
-use Tymon\JWTAuth\Exceptions\JWTException;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;

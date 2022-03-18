@@ -62,7 +62,7 @@ git clone https://github.com/uasoft-indonesia/badaso.git
 'providers' => [
   ...,
   Uasoft\Badaso\Providers\BadasoServiceProvider::class,
-  Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+  PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
 ]
 ```
 
@@ -70,8 +70,8 @@ git clone https://github.com/uasoft-indonesia/badaso.git
 ```
 'aliases' => [
     ...,
-    'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-    'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+    'JWTAuth' => PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::class,
+    'JWTFactory' => PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory::class,
 ]
 ```
 
