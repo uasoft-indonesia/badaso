@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Permission extends Model
@@ -88,5 +89,11 @@ class Permission extends Model
     public function role_permission()
     {
         return $this->belongsTo(RolePermission::class);
+    }
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

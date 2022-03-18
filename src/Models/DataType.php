@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Uasoft\Badaso\Facades\Badaso;
 
 class DataType extends Model
@@ -42,5 +43,10 @@ class DataType extends Model
     public function dataRows()
     {
         return $this->hasMany(Badaso::model('DataRow'))->orderBy('order', 'asc');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }
