@@ -23,7 +23,7 @@ jobs:
         laravel: ["8.*"]
         laravel-require: [8.0]
 
-    name: "PHPStan / PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
+    name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
     steps:
       - uses: actions/checkout@master
