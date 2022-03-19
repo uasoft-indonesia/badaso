@@ -257,7 +257,7 @@ class GetData
                 }
                 return $record ;
             });
-            // dd($records);
+            
         $data = [];
 
         foreach ($records as $row) {
