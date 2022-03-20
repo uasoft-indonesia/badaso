@@ -63,7 +63,8 @@ class BadasoDatabaseController extends Controller
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->relations);
 
             $exitCode = Artisan::call('migrate', [
-                '--path' => 'database/migrations/badaso/', '--force' => true,
+                '--path' => 'database/migrations/badaso/',
+                '--force' => true,
             ]);
 
             switch ($exitCode) {
@@ -157,7 +158,8 @@ class BadasoDatabaseController extends Controller
             }
 
             $exitCode = Artisan::call('migrate', [
-                '--path' => 'database/migrations/badaso/', '--force' => true,
+                '--path' => 'database/migrations/badaso/',
+                '--force' => true,
             ]);
 
             switch ($exitCode) {
@@ -216,7 +218,8 @@ class BadasoDatabaseController extends Controller
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'drop', $rows);
 
             $exitCode = Artisan::call('migrate', [
-                '--path' => 'database/migrations/badaso/', '--force' => true,
+                '--path' => 'database/migrations/badaso/',
+                '--force' => true,
             ]);
 
             switch ($exitCode) {
@@ -310,6 +313,7 @@ class BadasoDatabaseController extends Controller
         try {
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/',
+                '--force' => true,
             ]);
 
             switch ($exitCode) {
