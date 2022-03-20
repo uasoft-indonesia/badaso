@@ -160,7 +160,7 @@ class BadasoDatabaseController extends Controller
             }
 
             $exitCode = Artisan::call('migrate', [
-                '--path' => 'database/migrations/badaso/', 
+                '--path' => 'database/migrations/badaso/',
                 '--force' => true,
             ]);
 
@@ -220,7 +220,7 @@ class BadasoDatabaseController extends Controller
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'drop', $rows);
 
             $exitCode = Artisan::call('migrate', [
-                '--path' => 'database/migrations/badaso/', 
+                '--path' => 'database/migrations/badaso/',
                 '--force' => true,
             ]);
 
