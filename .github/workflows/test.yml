@@ -134,12 +134,16 @@ jobs:
 
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
-        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='coverage.xml' && ls && cat coverage.xml
-
+        run: cd laravel && php artisan test
+        
+      # Running Coverage
+      - name: Runiing Coverage
+        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='coverage.xml'
+      
       # Upload coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:
-          file: ./coverage.xml
+          file: ./laravel/coverage.xml
 
 
