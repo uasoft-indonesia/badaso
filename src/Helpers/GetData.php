@@ -254,13 +254,15 @@ class GetData
 
                                 $upload_image = asset("storage/".$upload_image);
                                 $record->{$data_row->field} = $upload_image;
-                        }
+                            }
                     }
                     }
+                    
+                    
                 }
-                return $record ;
-            });
-            // dd($records);
+                return $record;
+        });
+        // dd($records);
         $data = [];
 
         foreach ($records as $row) {
