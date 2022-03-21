@@ -31,7 +31,6 @@
     "doctrine/dbal": "^2.5",
     "guzzlehttp/guzzle": "^7.2",
     "larapack/doctrine-support": "^0.1.9",
-    "laravel/framework": "^9.2",
     "laravel/octane": "^1.2",
     "laravel/sanctum": "^2.14.1",
     "laravel/tinker": "^2.7",
