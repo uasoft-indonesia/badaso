@@ -134,7 +134,7 @@ jobs:
 
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
-        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='coverage.xml'
+        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='coverage.xml' && ls && cat coverage.xml
 
       # Upload coverage
       - name: Upload coverage
