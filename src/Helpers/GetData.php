@@ -221,47 +221,47 @@ class GetData
 
         $records = $records->get()->map(function ($record) use ($data_rows) {
             foreach ($data_rows as $index => $data_row) {
-                    if($data_row->type == 'upload_image_multiple'){
-                        if(isset($record->{$data_row->field})){
-                        $upload_image_multiples = json_decode($record->{$data_row->field}, true) ;
-                        if(isset($upload_image_multiples)){
-                            $upload_image_multiples = collect($upload_image_multiples)->map(function($upload_image_multiple){
-                                $put_thumbs = "thumbs" ;
-                                $upload_image_multiple = explode("/", $upload_image_multiple);
-                                $file_name = $upload_image_multiple[count($upload_image_multiple) -1];
-                                $upload_image_multiple[count($upload_image_multiple) -1] = $put_thumbs ;
-                                $upload_image_multiple[] = $file_name ;
-                                $upload_image_multiple = join("/", $upload_image_multiple);
+                if ($data_row->type == 'upload_image_multiple') {
+                    if (isset($record->{$data_row->field})) {
+                        $upload_image_multiples = json_decode($record->{$data_row->field}, true);
+                        if (isset($upload_image_multiples)) {
+                            $upload_image_multiples = collect($upload_image_multiples)->map(function ($upload_image_multiple) {
+                                $put_thumbs = 'thumbs';
+                                $upload_image_multiple = explode('/', $upload_image_multiple);
+                                $file_name = $upload_image_multiple[count($upload_image_multiple) - 1];
+                                $upload_image_multiple[count($upload_image_multiple) - 1] = $put_thumbs;
+                                $upload_image_multiple[] = $file_name;
+                                $upload_image_multiple = join('/', $upload_image_multiple);
 
-                                $asset = asset("storage/".$upload_image_multiple);
+                                $asset = asset('storage/'.$upload_image_multiple);
 
                                 return $asset;
                             });
-                            $upload_image_multiples = implode(",",json_decode($upload_image_multiples));
+                            $upload_image_multiples = implode(',', json_decode($upload_image_multiples));
                         }
-                        $record->{$data_row->field} = $upload_image_multiples ;
-                        }
-                    }elseif($data_row->type == 'upload_image'){
-                        if(isset($record->{$data_row->field})){
+                        $record->{$data_row->field} = $upload_image_multiples;
+                    }
+                } elseif ($data_row->type == 'upload_image') {
+                    if (isset($record->{$data_row->field})) {
                         $upload_image = $record->{$data_row->field};
-                        if(isset($upload_image)){
-                                $put_thumbs = "thumbs" ;
-                                $upload_image = explode("/", $upload_image);
-                                $file_name = $upload_image[count($upload_image) -1];
-                                $upload_image[count($upload_image) -1] = $put_thumbs ;
-                                $upload_image[] = $file_name ;
-                                $upload_image = join("/", $upload_image);
+                        if (isset($upload_image)) {
+                            $put_thumbs = 'thumbs';
+                            $upload_image = explode('/', $upload_image);
+                            $file_name = $upload_image[count($upload_image) - 1];
+                            $upload_image[count($upload_image) - 1] = $put_thumbs;
+                            $upload_image[] = $file_name;
+                            $upload_image = join('/', $upload_image);
 
-                                $upload_image = asset("storage/".$upload_image);
-                                $record->{$data_row->field} = $upload_image;
-                            }
+                            $upload_image = asset('storage/'.$upload_image);
+                            $record->{$data_row->field} = $upload_image;
+                        }
                     }
-                    }
-                    
                 }
-                return $record;
+            }
+
+            return $record;
         });
-        
+
         $data = [];
 
         foreach ($records as $row) {
