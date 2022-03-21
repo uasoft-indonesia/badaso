@@ -24,7 +24,7 @@
   },
   "type": "library",
   "require": {
-    "masbug/flysystem-google-drive-ext": "^2.1",
+    "masbug/flysystem-google-drive-ext": "*",
     "google/apiclient": "^2.12",
     "arcanedev/log-viewer": "^8.1|^9.0",
     "darkaonline/l5-swagger": "^8.0|^8.3",
