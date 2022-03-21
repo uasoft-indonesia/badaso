@@ -24,8 +24,8 @@
   },
   "type": "library",
   "require": {
-    "nao-pon/flysystem-google-drive": "^1.1.13",
-    "google/apiclient": "^2.9",
+    "masbug/flysystem-google-drive-ext": "^2.1",
+    "google/apiclient": "^2.12",
     "arcanedev/log-viewer": "^8.1|^9.0",
     "darkaonline/l5-swagger": "^8.0|^8.3",
     "doctrine/dbal": "^2.5",
