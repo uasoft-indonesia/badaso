@@ -282,8 +282,7 @@ abstract class Controller extends BaseController
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (! is_null($data_row)) {
-                    if($data_row['type'] == "upload_image_multiple"){
-                        
+                    if ($data_row['type'] == 'upload_image_multiple') {
                         $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                     }
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
@@ -296,6 +295,7 @@ abstract class Controller extends BaseController
             $id = DB::table($data_type->name)->insertGetId($new_data);
             $model = DB::table($data_type->name)->where('id', $id)->first();
         }
+
         return $model;
     }
 
