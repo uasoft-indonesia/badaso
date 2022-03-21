@@ -195,7 +195,7 @@ class GetData
 
     public static function clientSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
-        $data_rows = collect($data_type->dataRows) ;
+        $data_rows = collect($data_type->dataRows);
         $fields = $data_rows->where('browse', 1)->pluck('field')->all();
         $ids = $data_rows->where('field', 'id')->pluck('field')->all();
         $fields = array_merge($fields, $ids);
@@ -219,7 +219,7 @@ class GetData
         }
         // end
 
-        $records = $records->get()->map(function($record) use ($data_rows){
+        $records = $records->get()->map(function ($record) use ($data_rows) {
             foreach ($data_rows as $index => $data_row) {
                     if($data_row->type == 'upload_image_multiple'){
                         if(isset($record->{$data_row->field})){
@@ -277,7 +277,6 @@ class GetData
         $relational_fields = collect($data_type->dataRows)->filter(function ($value, $key) {
             return $value->relation != null;
         })->all();
-        
 
         foreach ($relational_fields as $field) {
             $relation_detail = [];
