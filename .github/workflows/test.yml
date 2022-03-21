@@ -139,7 +139,6 @@ jobs:
       # Upload coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v1
-        if: matrix.coverage == 'xdebug'
         with:
           file: ./coverage.xml
 
