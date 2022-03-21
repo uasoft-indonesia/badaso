@@ -222,10 +222,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'upload_image_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => [
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                    ],
+                    'example' => "['https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png','https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png']",
                     'example_update' => [
                         'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
                         'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
@@ -534,7 +531,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $request_body = $data_table_crud_management_log['request_body'];
             $table = $request_body['name'];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
+             $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
                 'table' => $table,
             ]);
             $response->assertSuccessful();
@@ -581,6 +578,8 @@ class BadasoApiCrudManagementTest extends TestCase
                 $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/add"), [
                     'data' => $data,
                 ]);
+                
+                
                 $response->assertSuccessful();
 
                 // check value row table after create
@@ -677,7 +676,7 @@ class BadasoApiCrudManagementTest extends TestCase
     {
         $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));   
             $response->assertSuccessful();
         }
     }
