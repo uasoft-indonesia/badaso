@@ -21,7 +21,6 @@ class BadasoBaseController extends Controller
             $only_data_soft_delete = $request->showSoftDelete == 'true';
 
             $data = $this->getDataList($slug, $request->all(), $only_data_soft_delete);
-
             return ApiResponse::onlyEntity($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

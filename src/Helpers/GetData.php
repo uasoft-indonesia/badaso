@@ -222,6 +222,7 @@ class GetData
         $records = $records->get()->map(function ($record) use ($data_rows) {
             foreach ($data_rows as $index => $data_row) {
                     if($data_row->type == 'upload_image_multiple'){
+                        if(isset($record->{$data_row->field})){
                         $upload_image_multiples = json_decode($record->{$data_row->field}, true) ;
                         if(isset($upload_image_multiples)){
                             $upload_image_multiples = collect($upload_image_multiples)->map(function($upload_image_multiple){
@@ -239,8 +240,9 @@ class GetData
                             $upload_image_multiples = implode(",",json_decode($upload_image_multiples));
                         }
                         $record->{$data_row->field} = $upload_image_multiples ;
-
+                        }
                     }elseif($data_row->type == 'upload_image'){
+                        if(isset($record->{$data_row->field})){
                         $upload_image = $record->{$data_row->field};
                         if(isset($upload_image)){
                                 $put_thumbs = "thumbs" ;
@@ -253,6 +255,7 @@ class GetData
                                 $upload_image = asset("storage/".$upload_image);
                                 $record->{$data_row->field} = $upload_image;
                         }
+                    }
                     }
                 }
                 return $record ;
