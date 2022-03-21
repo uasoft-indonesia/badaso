@@ -1040,7 +1040,7 @@ export default {
         crud:
           "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
 
-        fieldAttUnsigned: "Atribut field relasi harus 'Unsigned'",
+        fieldAttUnsigned: "Batasan kunci asing salah dibentuk.",
       },
       error: {
         fieldName: "Field name dibutuhkan.",

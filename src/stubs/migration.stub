@@ -18,6 +18,7 @@ class {{class}} extends Migration
             {{schema_up}}
 
         } catch (PDOException $ex) {
+            $this->down();
             throw $ex;
         }
     }

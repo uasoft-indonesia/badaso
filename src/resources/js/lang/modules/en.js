@@ -1043,7 +1043,7 @@ export default {
         crud:
           "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
         notAllowed: "You're not allowed to edit.",
-        fieldAttUnsigned: "Attribute field relation must 'Unsigned'.",
+        fieldAttUnsigned: "Foreign key constraint is incorrectly formed.",
       },
       error: {
         fieldName: "Field name is required.",
