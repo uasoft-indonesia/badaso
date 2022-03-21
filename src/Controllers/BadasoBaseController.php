@@ -33,7 +33,7 @@ class BadasoBaseController extends Controller
         try {
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
-
+            
             $builder_params = [
                 'order_field' => isset($request['order_field']) ? $request['order_field'] : $data_type->order_column,
                 'order_direction' => isset($request['order_direction']) ? $request['order_direction'] : $data_type->order_direction,
