@@ -721,6 +721,7 @@ export default {
     maintenanceDialog: false,
     isMaintenance: false,
     showMaintenancePage: false,
+    isShowDataRecycle: false,
   }),
   watch: {
     $route: function (to, from) {
