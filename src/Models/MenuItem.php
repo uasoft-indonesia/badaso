@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class MenuItem extends Model
@@ -46,7 +47,7 @@ class MenuItem extends Model
         }
 
         $item = $item->orderBy('order', 'DESC')
-            ->first();
+        ->first();
 
         if (! is_null($item)) {
             $order = intval($item->order) + 1;
@@ -70,5 +71,10 @@ class MenuItem extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

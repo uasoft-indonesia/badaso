@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class DataRow extends Model
@@ -43,5 +44,10 @@ class DataRow extends Model
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }
