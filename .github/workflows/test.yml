@@ -88,6 +88,16 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
+          
+      # Running Coverage
+      - name: Runiing Coverage
+        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage' && ls && cat reports/coverage/coverage.xml
+      
+      # Upload coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: laravel/reports/coverage/coverage.xml
 
       # Mysql | Badaso core test
       - name: Mysql | Badaso core test
@@ -135,13 +145,4 @@ jobs:
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
         run: cd laravel && php artisan test
-        
-      # Running Coverage
-      - name: Runiing Coverage
-        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage' && cat reports/coverage/coverage.xml
-      
-      # Upload coverage
-      - name: Upload coverage
-        uses: codecov/codecov-action@v1
-        with:
-          file: laravel/reports/coverage/coverage.xml
+  
