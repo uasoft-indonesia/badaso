@@ -86,7 +86,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Role::class, config('badaso.database.prefix').'user_roles');
     }
 
-    public function getActivitylogOptions(): LogOptions {
+    public function getActivitylogOptions(): LogOptions
+    {
         return LogOptions::defaults();
     }
 
