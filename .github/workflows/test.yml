@@ -42,6 +42,11 @@ jobs:
         laravel: ["8.*"]
         laravel-require: [8.0]
         mysql-version: [8.0]
+        coverage: [none]
+        include:
+          - php: 8.1
+            laravel: "8.*"
+            coverage: xdebug
 
     name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
@@ -89,13 +94,14 @@ jobs:
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
           
-      # Running Coverage
-      - name: Runiing Coverage
-        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage' && ls && cat reports/coverage/coverage.xml
+      # Running Test
+      - name: Running Test
+        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage'
       
       # Upload coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v2
+        if: matrix.coverage == 'xdebug'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: laravel/reports/coverage/coverage.xml
