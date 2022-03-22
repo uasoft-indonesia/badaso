@@ -99,7 +99,7 @@ jobs:
       # Running Test
       - name: Running Test
         if: matrix.coverage == 'xdebug'
-        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage'
+        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-text --coverage-clover='reports/coverage/coverage.xml'
       
       # Upload coverage
       - name: Upload coverage
