@@ -1041,6 +1041,10 @@ export default {
           "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
 
         fieldAttUnsigned: "Batasan kunci asing salah dibentuk. {0} untuk mengunjungi dokumentasi",
+<<<<<<< HEAD
+=======
+        fieldAttUnsigned: "Foreign key constraint is incorrectly formed. {0} to visit docs.",
+>>>>>>> a1a682b8a68046ebfeefbace1e9846355b266667
         visitDocs: "Klik Disini",
       },
       error: {
