@@ -91,7 +91,6 @@ class Permission extends Model
         return $this->belongsTo(RolePermission::class);
     }
 
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
