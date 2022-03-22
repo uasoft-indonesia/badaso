@@ -95,7 +95,7 @@ jobs:
       
       # Upload coverage
       - name: Upload coverage
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: laravel/reports/coverage/coverage.xml
