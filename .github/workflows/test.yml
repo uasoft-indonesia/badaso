@@ -138,10 +138,10 @@ jobs:
         
       # Running Coverage
       - name: Runiing Coverage
-        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='coverage.xml'
+        run: cd laravel && php -dxdebug.mode=coverage vendor/bin/phpunit --coverage-clover='reports/coverage/coverage.xml' --coverage-html='reports/coverage' && cat reports/coverage/coverage.xml
       
       # Upload coverage
       - name: Upload coverage
         uses: codecov/codecov-action@v1
         with:
-          file: ./laravel/coverage.xml
+          file: laravel/reports/coverage/coverage.xml
