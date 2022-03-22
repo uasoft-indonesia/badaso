@@ -45,7 +45,6 @@ jobs:
         coverage: [none]
         include:
           - php: 8.1
-            laravel: "8.*"
             coverage: xdebug
 
     name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
