@@ -1040,7 +1040,8 @@ export default {
         crud:
           "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
 
-        fieldAttUnsigned: "Batasan kunci asing salah dibentuk.",
+        fieldAttUnsigned: "Batasan kunci asing salah dibentuk. {0} untuk mengunjungi dokumentasi",
+        visitDocs: "Klik Disini",
       },
       error: {
         fieldName: "Field name dibutuhkan.",

@@ -468,12 +468,14 @@
 </template>
 
 <script>
+import { Link } from "@inertiajs/inertia-vue";
 import {
   required,
   requiredIf,
   maxLength,
   helpers,
 } from "vuelidate/lib/validators";
+import { hrefToUrl } from "@inertiajs/inertia";
 const alphaNumAndUnderscoreValidator = helpers.regex(
   "alphaNumAndDot",
   /^[a-zA-Z\d_]*$/i
@@ -704,18 +706,26 @@ export default {
             if (error.errors["rows.0.fieldType"]) {
               message = error.errors["rows.0.fieldType"][0];
             }
-             if(error.errors.code.indexOf("HY000") == 0){
+            if (error.errors.code.indexOf("HY000") == 0) {
               this.$vs.notify({
-              title: this.$t("alert.danger"),
-              text : this.$t('database.edit.warning.fieldAttUnsigned'),
-              color: "danger",
-            });
-            }else{
-            this.$vs.notify({
-              title: this.$t("alert.danger"),
-              text : message ? message : this.$t('database.warning.errorOnRequest'),
-              color: "danger",
-            });
+                title: this.$t("alert.danger"),
+                // text : this.$t('database.edit.warning.fieldAttUnsigned', {0: 'click here to visit docs.'}),
+                // text : this.$t('database.edit.warning.fieldAttUnsigned', {0: hrefToUrl('KLIK','https://laracasts.com/discuss')}),
+                text: this.$t("database.edit.warning.fieldAttUnsigned", {
+                  0: `<a href="https://badaso-docs.uatech.co.id/core-concept/database-management#create-relationship-table" target="_blank"><b>${this.$t(
+                    "database.edit.warning.visitDocs"
+                  )}<b></a>`,
+                }),
+                color: "danger",
+              });
+            } else {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: message
+                  ? message
+                  : this.$t("database.warning.errorOnRequest"),
+                color: "danger",
+              });
             }
           });
       } else {
