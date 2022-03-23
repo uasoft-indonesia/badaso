@@ -175,8 +175,7 @@ abstract class Controller extends BaseController
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'upload_image_multiple':
-                $uploaded_path = $this->handleUploadFiles($value, $data_type);
-                $return_value = implode(',', $uploaded_path);
+                $return_value = $value;
                 break;
             case 'upload_file':
                 $uploaded_path = $this->handleUploadFiles([$value], $data_type);
@@ -287,6 +286,9 @@ abstract class Controller extends BaseController
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (! is_null($data_row)) {
+                    if ($data_row['type'] == 'upload_image_multiple') {
+                        $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
+                    }
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                 } else {
                     if (in_array($key, ['created_at', 'updated_at'])) {
