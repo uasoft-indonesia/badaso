@@ -24,11 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      # Require badaso core
-      - name: Require badaso core
-        run: git branch &&
-          composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
-          composer update --no-interaction
+      # Run composer badaso core
+      - name: Composer update
+        run: composer update --no-interaction
 
       # Badaso Core Test PHPStan
       - name: Badaso core test PHPStan
