@@ -72,7 +72,7 @@ jobs:
 
       # Install legacy factories for Laravel 8/9
       - name: Install legacy factories for Laravel
-        run: composer create-project laravel/laravel:${{matrix.laravel-require}} laravel
+        run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel
 
       # Display installed laravel version
       - name: Show laravel version
