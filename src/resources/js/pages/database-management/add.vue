@@ -704,11 +704,25 @@ export default {
             if (error.errors["rows.0.fieldType"]) {
               message = error.errors["rows.0.fieldType"][0];
             }
-            this.$vs.notify({
-              title: this.$t("alert.danger"),
-              text: message,
-              color: "danger",
-            });
+            if (error.errors.code.indexOf("HY000") == 0) {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: this.$t("database.edit.warning.fieldAttUnsigned", {
+                  0: `<a href="https://badaso-docs.uatech.co.id/core-concept/database-management#create-relationship-table" target="_blank"><b>${this.$t(
+                    "database.edit.warning.visitDocs"
+                  )}<b></a>`,
+                }),
+                color: "danger",
+              });
+            } else {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: message
+                  ? message
+                  : this.$t("database.warning.errorOnRequest"),
+                color: "danger",
+              });
+            }
           });
       } else {
         if (this.$v.databaseData.rows.$invalid) {
