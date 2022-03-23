@@ -40,10 +40,10 @@
     "php-open-source-saver/jwt-auth": "^1.4",
     "phpstan/phpstan": "^1.4",
     "predis/predis": "^1.1",
+    "symfony/var-exporter": "^5.2.0|^6.0",
     "spatie/flysystem-dropbox": "^1.2.2|^2.0",
     "spatie/laravel-activitylog": "^3.17|^4.4",
     "spatie/laravel-backup": "^6.16|^8.1.0",
-    "symfony/var-exporter": "^6.0",
     "unisharp/laravel-filemanager": "^2.4",
     "webpatser/laravel-uuid": "^4.0",
     "zircote/swagger-php": "^4.2"
