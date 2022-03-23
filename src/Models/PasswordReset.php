@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 
 class PasswordReset extends Model
 {
@@ -19,4 +20,9 @@ class PasswordReset extends Model
     }
 
     protected $guarded = [];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
 }

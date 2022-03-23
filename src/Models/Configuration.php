@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Configuration extends Model
@@ -44,5 +45,10 @@ class Configuration extends Model
     public function getCanDeleteAttribute($value)
     {
         return $value == 1;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

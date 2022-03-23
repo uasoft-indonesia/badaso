@@ -9,6 +9,7 @@ use Uasoft\Badaso\Database\Types\Type;
 class EnumType extends Type
 {
     const NAME = 'enum';
+    private static $tableName;
 
     public function getSQLDeclaration(array $field, AbstractPlatform $platform)
     {

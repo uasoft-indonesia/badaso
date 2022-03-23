@@ -9,6 +9,8 @@
 <br />
 
 <p align="center">
+<a href="https://github.com/uasoft-indonesia/badaso/actions/workflows/phpunit.yml"><img src="https://github.com/uasoft-indonesia/badaso/actions/workflows/phpunit.yml/badge.svg" alt="Badaso PHP Unit test"></a>
+<a href="https://github.com/uasoft-indonesia/badaso/actions/workflows/phpstan.yml"><img src="https://github.com/uasoft-indonesia/badaso/actions/workflows/phpstan.yml/badge.svg" alt="Badaso PHP Stan test"></a>
 <a href="https://github.styleci.io/repos/347838630"><img src="https://github.styleci.io/repos/347838630/shield" alt="Badaso StyleCI"></a>
 <a href="https://packagist.org/packages/badaso/core"><img src="https://img.shields.io/packagist/dt/badaso/core" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/badaso/core"><img src="https://img.shields.io/packagist/v/badaso/core" alt="Latest Stable Version"></a>
