@@ -74,6 +74,9 @@ class BadasoTestSetup extends Command
                     <directory suffix=".php">./vendor/badaso/core/src/Badaso.php</directory>
                 </include>
             </coverage>
+            <logging>
+                <log type="coverage-clover" target="clover.xml"/>
+            </logging>
             <php>
                 <server name="APP_ENV" value="testing"/>
                 <server name="BCRYPT_ROUNDS" value="4"/>
