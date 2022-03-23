@@ -39,13 +39,13 @@ jobs:
       fail-fast: false
       matrix:
         php: [8.0, 8.1]
-        laravel: [8.*,9.*]
+        laravel: ["8.*","9.*"]
         laravel-require: [8.0]
         mysql-version: [8.0]
         coverage: [none]
         include:
           - php: 8.1
-            laravel: 9.*
+            laravel: "9.*"
             laravel-require: 8.0
             mysql-version: 8.0
             coverage: xdebug
