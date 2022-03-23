@@ -1,4 +1,11 @@
 parameters: 
+    excludePaths:
+    - src/Controllers/BadasoMenuController.php
+    - src/Controllers/BadasoAuthController.php
+    - src/Controllers/BadasoDataController.php
+    - src/Controllers/BadasoTableController.php
+    - src/Controllers/BadasoConfigurationsController.php
+
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\Role::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\User::[a-zA-Z0-9-()\_]+.#'
@@ -21,11 +28,9 @@ parameters:
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class Route.#'
     - '#Class Spatie\\Backup\\Notifications\\Notifications\\[a-zA-Z0-9-()\_]+ not found.#'
     - '#Class App\\Http\\Middleware\\[a-zA-Z0-9-()\_]+ not found.#'
-    - '#Class App\\Http\\Controllers\\Controller not found.#'
     - '#Parameter \$test_case of method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
     - '#Method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid return type Tests\\TestCase.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
-    - '#Class Tests\\TestCase not found.#'
     - '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing.#'
     - '#Call to sprintf contains 1 placeholder, 0 values given.#'
     - '#Call to static method debug[()]+ on an unknown class Log.#'
