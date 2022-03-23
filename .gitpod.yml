@@ -21,12 +21,11 @@ tasks:
     command: php artisan badaso:setup --force &&
       php artisan migrate &&
       php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
+      php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create &&
       php artisan storage:link &&
-      php artisan migrate &&
-      npm install &&
-      php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create && 
-      npm run dev &&
       php artisan l5-swagger:generate &&
+      npm install &&
+      npm run dev &&
       php artisan serve --host=0.0.0.0
 ports:
   - port: 8000
