@@ -253,7 +253,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
-            if (!Schema::hasTable($table_name)) {
+            if (! Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -291,8 +291,6 @@ class BadasoApiCrudManagementTest extends TestCase
         CallHelperTest::clearCache();
     }
 
-
-
     public function testStartInit()
     {
         // init user login
@@ -301,7 +299,6 @@ class BadasoApiCrudManagementTest extends TestCase
         // init create all tables testing
         $this->createTestTables(10);
     }
-
 
     public function testBrowseCrudManagement()
     {
@@ -449,7 +446,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -470,7 +467,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -479,7 +476,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -793,7 +790,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -814,7 +811,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -823,7 +820,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -843,8 +840,8 @@ class BadasoApiCrudManagementTest extends TestCase
             $request_body = [
                 'name' =>  $table_name,
                 'slug' =>  $table_name,
-                'displayNameSingular' =>  $table_label . '(update)',
-                'displayNamePlural' =>  $table_label . '(update)',
+                'displayNameSingular' =>  $table_label.'(update)',
+                'displayNamePlural' =>  $table_label.'(update)',
                 'icon' =>  'add',
                 'modelName' =>  $model,
                 'policyName' =>  '',
@@ -928,14 +925,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
             // delete controller
             $controller_name = "{$name}Controller.php";
-            $controller_path = app_path('Http/Controllers/' . $controller_name);
+            $controller_path = app_path('Http/Controllers/'.$controller_name);
             if (file_exists($controller_path)) {
                 unlink($controller_path);
             }
 
             // delete models
             $model_name = "{$name}.php";
-            $model_path = app_path('Models/' . $model_name);
+            $model_path = app_path('Models/'.$model_name);
             if (file_exists($model_path)) {
                 unlink($model_path);
             }
@@ -948,118 +945,118 @@ class BadasoApiCrudManagementTest extends TestCase
     {
         //Define table 1
         $table_1 = [
-            "table" => "tests_table_12",
-            "rows" => [
+            'table' => 'tests_table_12',
+            'rows' => [
                 [
-                    "id" => "id",
-                    "fieldName" => "id",
-                    "fieldType" => "bigint",
-                    "fieldLength" => null,
-                    "fieldNull" => false,
-                    "fieldAttribute" => true,
-                    "fieldIncrement" => true,
-                    "fieldIndex" => "primary",
-                    "fieldDefault" => null,
-                    "undeletable" => true
+                    'id' => 'id',
+                    'fieldName' => 'id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => true,
+                    'fieldIndex' => 'primary',
+                    'fieldDefault' => null,
+                    'undeletable' => true,
                 ],
                 [
-                    "fieldName" => "created_at",
-                    "fieldType" => "timestamp",
-                    "fieldLength" => null,
-                    "fieldNull" => true,
-                    "fieldAttribute" => false,
-                    "fieldIncrement" => false,
-                    "fieldIndex" => null,
-                    "fieldDefault" => null,
-                    "undeletable" => true,
-                    "indexes" => true
+                    'fieldName' => 'created_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                    'indexes' => true,
                 ],
                 [
-                    "fieldName" => "updated_at",
-                    "fieldType" => "timestamp",
-                    "fieldLength" => null,
-                    "fieldNull" => true,
-                    "fieldAttribute" => false,
-                    "fieldIncrement" => false,
-                    "fieldIndex" => null,
-                    "fieldDefault" => null,
-                    "undeletable" => true
-                ]
+                    'fieldName' => 'updated_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
             ],
-            "relations" => []
+            'relations' => [],
         ];
 
         //define table 2 for relation with table 1
         $table_2 = [
-            "table" => "tests_table_13",
-            "rows" => [
+            'table' => 'tests_table_13',
+            'rows' => [
                 [
-                    "id" => "id",
-                    "fieldName" => "id",
-                    "fieldType" => "bigint",
-                    "fieldLength" => null,
-                    "fieldNull" => false,
-                    "fieldAttribute" => true,
-                    "fieldIncrement" => true,
-                    "fieldIndex" => "primary",
-                    "fieldDefault" => null,
-                    "undeletable" => true
+                    'id' => 'id',
+                    'fieldName' => 'id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => true,
+                    'fieldIndex' => 'primary',
+                    'fieldDefault' => null,
+                    'undeletable' => true,
                 ],
                 [
-                    "id" => "f8fe0661-d861-41e7-83df-65c09b5d2e7a",
-                    "fieldName" => "table_12_id",
-                    "fieldType" => "bigint",
-                    "fieldLength" => null,
-                    "fieldNull" => false,
-                    "fieldAttribute" => true,
-                    "fieldIncrement" => false,
-                    "fieldIndex" => "foreign",
-                    "fieldDefault" => ""
+                    'id' => 'f8fe0661-d861-41e7-83df-65c09b5d2e7a',
+                    'fieldName' => 'table_12_id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => 'foreign',
+                    'fieldDefault' => '',
                 ],
                 [
-                    "id" => "f769fad7-d192-44d2-9845-86ce55596551",
-                    "fieldName" => "f2",
-                    "fieldType" => "varchar",
-                    "fieldLength" => "255",
-                    "fieldNull" => false,
-                    "fieldAttribute" => false,
-                    "fieldIncrement" => false,
-                    "fieldIndex" => null,
-                    "fieldDefault" => ""
+                    'id' => 'f769fad7-d192-44d2-9845-86ce55596551',
+                    'fieldName' => 'f2',
+                    'fieldType' => 'varchar',
+                    'fieldLength' => '255',
+                    'fieldNull' => false,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => '',
                 ],
                 [
-                    "fieldName" => "created_at",
-                    "fieldType" => "timestamp",
-                    "fieldLength" => null,
-                    "fieldNull" => true,
-                    "fieldAttribute" => false,
-                    "fieldIncrement" => false,
-                    "fieldIndex" => null,
-                    "fieldDefault" => null,
-                    "undeletable" => true,
-                    "indexes" => true
+                    'fieldName' => 'created_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                    'indexes' => true,
                 ],
                 [
-                    "fieldName" => "updated_at",
-                    "fieldType" => "timestamp",
-                    "fieldLength" => null,
-                    "fieldNull" => true,
-                    "fieldAttribute" => false,
-                    "fieldIncrement" => false,
-                    "fieldIndex" => null,
-                    "fieldDefault" => null,
-                    "undeletable" => true
-                ]
+                    'fieldName' => 'updated_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
             ],
-            "relations" => [
-                "f8fe0661-d861-41e7-83df-65c09b5d2e7a" => [
-                    "sourceField" => "table_12_id",
-                    "targetTable" => "tests_table_12",
-                    "targetField" => "id",
-                    "onDelete" => "cascade",
-                    "onUpdate" => "restrict"
-                ]
-            ]
+            'relations' => [
+                'f8fe0661-d861-41e7-83df-65c09b5d2e7a' => [
+                    'sourceField' => 'table_12_id',
+                    'targetTable' => 'tests_table_12',
+                    'targetField' => 'id',
+                    'onDelete' => 'cascade',
+                    'onUpdate' => 'restrict',
+                ],
+            ],
         ];
         //array have value two table above
         $list_table = [$table_1, $table_2];
@@ -1090,7 +1087,7 @@ class BadasoApiCrudManagementTest extends TestCase
         //delete file migration
         $response = CallHelperTest::withAuthorizeBearer($this)
             ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/migration/delete'), [
-                'file_name' => $migration_name
+                'file_name' => $migration_name,
             ]);
         $response->assertSuccessful();
     }
