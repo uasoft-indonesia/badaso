@@ -39,5 +39,6 @@ parameters:
     - '#Call to static method disk[()]+ on an unknown class Storage.#'
     - '#Variable \$altered_current_fields might not be defined.#'
     - '#Variable \$altered_modified_fields might not be defined.#'
+    - '#Variable \$[a-zA-Z0-9-()\_]+ in isset[()]+ always exists and is not nullable.#'
 
    
