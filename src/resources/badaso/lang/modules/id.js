@@ -1039,7 +1039,8 @@ export default {
           'Hanya jenis kolom berikut yang dapat "diubah": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text dan Time.',
         crud:
           "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
-        fieldAttUnsigned: "Batasan kunci asing salah dibentuk. Klik disini untuk mengunjungi dokumentasi",
+        fieldAttUnsigned: "Batasan kunci asing salah dibentuk. {0} untuk mengunjungi dokumentasi",
+        visitDocs: "Klik Disini",
       },
       error: {
         fieldName: "Field name dibutuhkan.",

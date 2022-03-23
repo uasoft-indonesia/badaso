@@ -1043,7 +1043,8 @@ export default {
         crud:
           "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
         notAllowed: "You're not allowed to edit.",
-        fieldAttUnsigned: "Foreign key constraint is incorrectly formed. {0}",
+        fieldAttUnsigned: "Foreign key constraint is incorrectly formed. {0} to visit docs.",
+        visitDocs: "Click here",
       },
       error: {
         fieldName: "Field name is required.",
