@@ -1,4 +1,4 @@
-name: PHP Unit
+name: Tests
 
 on:
   push:
@@ -42,6 +42,13 @@ jobs:
         laravel: ["8.*"]
         laravel-require: [8.0]
         mysql-version: [8.0]
+        coverage: [none]
+        include:
+          - php: 8.1
+            laravel: 8.*
+            laravel-require: 8.0
+            mysql-version: 8.0
+            coverage: xdebug
 
     name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
@@ -60,8 +67,8 @@ jobs:
         uses: shivammathur/setup-php@master
         with:
           php-version: "${{ matrix.php }}"
-          extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql
-          coverage: none
+          extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql, json, openssl, php_pcov
+          coverage: xdebug
 
       # Install legacy factories for Laravel 8/9
       - name: Install legacy factories for Laravel
@@ -135,4 +142,17 @@ jobs:
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
         run: cd laravel && php artisan test
+
+      # Running Test
+      - name: Running Test
+        if: matrix.coverage == 'xdebug'
+        run: cd laravel && ./vendor/bin/phpunit --coverage-text --coverage-clover='reports/coverage/coverage.xml'
+
+      # Upload coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        if: matrix.coverage == 'xdebug'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: laravel/reports/coverage/coverage.xml
 
