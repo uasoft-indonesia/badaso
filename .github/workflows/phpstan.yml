@@ -22,6 +22,8 @@ jobs:
     name: "PHPStan Badaso Core"
 
     steps:
+      - uses: actions/checkout@master
+
       # Run composer badaso core
       - name: Composer update
         run: composer update --no-interaction
