@@ -223,10 +223,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'upload_image_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => [
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                    ],
+                    'example' => "['https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png','https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png']",
                     'example_update' => [
                         'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
                         'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
@@ -582,6 +579,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/add"), [
                     'data' => $data,
                 ]);
+
                 $response->assertSuccessful();
 
                 // check value row table after create

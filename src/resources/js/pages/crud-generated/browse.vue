@@ -164,7 +164,7 @@
                         :src="`${
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
                         }`"
-                        width="100%"
+                        width="20%"
                         alt=""
                       />
                       <div
@@ -179,7 +179,7 @@
                           )"
                           :key="indexImage"
                           :src="`${image}`"
-                          width="100%"
+                          width="20%"
                           alt=""
                           class="crud-generated__item--image"
                         />
@@ -423,7 +423,7 @@
                               $caseConvert.stringSnakeToCamel(dataRow.field)
                             ]
                           "
-                          width="100%"
+                          width="20%"
                           alt=""
                         />
                         <div
@@ -438,7 +438,7 @@
                             )"
                             :key="indexImage"
                             :src="`${image}`"
-                            width="100%"
+                            width="20%"
                             alt=""
                             class="crud-generated__item--image"
                           />
