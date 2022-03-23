@@ -235,7 +235,7 @@ class GetData
                                     $upload_image_multiple[] = $file_name;
                                     $upload_image_multiple = join('/', $upload_image_multiple);
                                 }
-                                $asset = asset($upload_image_multiple);
+                                $asset = asset('storage/' .$upload_image_multiple);
 
                                 return $asset;
                             });
