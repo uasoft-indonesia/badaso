@@ -1,4 +1,4 @@
-name: Php Unit
+name: PHP Unit
 
 on:
   push:
