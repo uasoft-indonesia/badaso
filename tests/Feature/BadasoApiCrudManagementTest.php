@@ -291,8 +291,6 @@ class BadasoApiCrudManagementTest extends TestCase
         CallHelperTest::clearCache();
     }
 
-
-
     public function testStartInit()
     {
         // init user login
@@ -302,7 +300,6 @@ class BadasoApiCrudManagementTest extends TestCase
         $this->createTestTables(10);
     }
 
- 
     public function testBrowseCrudManagement()
     {
         $response = CallHelperTest::withAuthorizeBearer($this)
@@ -943,132 +940,132 @@ class BadasoApiCrudManagementTest extends TestCase
         $data_types = DataType::whereIn('name', $tables)->get();
         $this->assertEmpty($data_types);
     }
-    
+
     public function testRollbackMigration()
     {
         //Define table 1
-         $table_1 = [
-            "table" => "tests_table_12", 
-            "rows" => [
-                    [
-                        "id" => "id", 
-                        "fieldName" => "id", 
-                        "fieldType" => "bigint", 
-                        "fieldLength" => null, 
-                        "fieldNull" => false, 
-                        "fieldAttribute" => true, 
-                        "fieldIncrement" => true, 
-                        "fieldIndex" => "primary", 
-                        "fieldDefault" => null, 
-                        "undeletable" => true 
-                    ], 
-                    [
-                        "fieldName" => "created_at", 
-                        "fieldType" => "timestamp", 
-                        "fieldLength" => null, 
-                        "fieldNull" => true, 
-                        "fieldAttribute" => false, 
-                        "fieldIncrement" => false, 
-                        "fieldIndex" => null, 
-                        "fieldDefault" => null, 
-                        "undeletable" => true, 
-                        "indexes" => true 
-                    ], 
-                    [
-                        "fieldName" => "updated_at", 
-                        "fieldType" => "timestamp", 
-                        "fieldLength" => null, 
-                        "fieldNull" => true, 
-                        "fieldAttribute" => false, 
-                        "fieldIncrement" => false, 
-                        "fieldIndex" => null, 
-                        "fieldDefault" => null, 
-                        "undeletable" => true 
-                        ] 
-                ], 
-            "relations" => [] 
-            ]; 
+        $table_1 = [
+            'table' => 'tests_table_12',
+            'rows' => [
+                [
+                    'id' => 'id',
+                    'fieldName' => 'id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => true,
+                    'fieldIndex' => 'primary',
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+                [
+                    'fieldName' => 'created_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                    'indexes' => true,
+                ],
+                [
+                    'fieldName' => 'updated_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+            ],
+            'relations' => [],
+        ];
 
         //define table 2 for relation with table 1
         $table_2 = [
-            "table" => "tests_table_13", 
-            "rows" => [
-                    [
-                        "id" => "id", 
-                        "fieldName" => "id", 
-                        "fieldType" => "bigint", 
-                        "fieldLength" => null, 
-                        "fieldNull" => false, 
-                        "fieldAttribute" => true, 
-                        "fieldIncrement" => true, 
-                        "fieldIndex" => "primary", 
-                        "fieldDefault" => null, 
-                        "undeletable" => true 
-                    ], 
-                    [
-                        "id" => "f8fe0661-d861-41e7-83df-65c09b5d2e7a", 
-                        "fieldName" => "table_12_id", 
-                        "fieldType" => "bigint", 
-                        "fieldLength" => null, 
-                        "fieldNull" => false, 
-                        "fieldAttribute" => true, 
-                        "fieldIncrement" => false, 
-                        "fieldIndex" => "foreign", 
-                        "fieldDefault" => "" 
-                        ], 
-                    [
-                        "id" => "f769fad7-d192-44d2-9845-86ce55596551", 
-                        "fieldName" => "f2", 
-                        "fieldType" => "varchar", 
-                        "fieldLength" => "255", 
-                        "fieldNull" => false, 
-                        "fieldAttribute" => false, 
-                        "fieldIncrement" => false, 
-                        "fieldIndex" => null, 
-                        "fieldDefault" => "" 
-                        ], 
-                        [
-                        "fieldName" => "created_at", 
-                        "fieldType" => "timestamp", 
-                        "fieldLength" => null, 
-                        "fieldNull" => true, 
-                        "fieldAttribute" => false, 
-                        "fieldIncrement" => false, 
-                        "fieldIndex" => null, 
-                        "fieldDefault" => null, 
-                        "undeletable" => true, 
-                        "indexes" => true 
-                        ], 
-                        [
-                        "fieldName" => "updated_at", 
-                        "fieldType" => "timestamp", 
-                        "fieldLength" => null, 
-                        "fieldNull" => true, 
-                        "fieldAttribute" => false, 
-                        "fieldIncrement" => false, 
-                        "fieldIndex" => null, 
-                        "fieldDefault" => null, 
-                        "undeletable" => true 
-                        ] 
-                    ], 
-            "relations" => [
-                           "f8fe0661-d861-41e7-83df-65c09b5d2e7a" => [
-                              "sourceField" => "table_12_id", 
-                              "targetTable" => "tests_table_12", 
-                              "targetField" => "id", 
-                              "onDelete" => "cascade", 
-                              "onUpdate" => "restrict" 
-                           ] 
-                        ] 
-            ];
+            'table' => 'tests_table_13',
+            'rows' => [
+                [
+                    'id' => 'id',
+                    'fieldName' => 'id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => true,
+                    'fieldIndex' => 'primary',
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+                [
+                    'id' => 'f8fe0661-d861-41e7-83df-65c09b5d2e7a',
+                    'fieldName' => 'table_12_id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => 'foreign',
+                    'fieldDefault' => '',
+                ],
+                [
+                    'id' => 'f769fad7-d192-44d2-9845-86ce55596551',
+                    'fieldName' => 'f2',
+                    'fieldType' => 'varchar',
+                    'fieldLength' => '255',
+                    'fieldNull' => false,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => '',
+                ],
+                [
+                    'fieldName' => 'created_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                    'indexes' => true,
+                ],
+                [
+                    'fieldName' => 'updated_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+            ],
+            'relations' => [
+                'f8fe0661-d861-41e7-83df-65c09b5d2e7a' => [
+                    'sourceField' => 'table_12_id',
+                    'targetTable' => 'tests_table_12',
+                    'targetField' => 'id',
+                    'onDelete' => 'cascade',
+                    'onUpdate' => 'restrict',
+                ],
+            ],
+        ];
         //array have value two table above
         $list_table = [$table_1, $table_2];
 
         //add table
         foreach ($list_table as $key => $value) {
-        $response = CallHelperTest::withAuthorizeBearer($this)
+            $response = CallHelperTest::withAuthorizeBearer($this)
             ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/add'), $value);
-        $response->assertSuccessful();
+            $response->assertSuccessful();
         }
 
         //browse table to get file name migration
@@ -1076,12 +1073,12 @@ class BadasoApiCrudManagementTest extends TestCase
             ->json('GET', CallHelperTest::getUrlApiV1Prefix('/database/migration/browse'));
         $response = $response->json('data');
         $migration_name = [];
-        for ($i=count($response)-2; $i < count($response); $i++) { 
+        for ($i = count($response) - 2; $i < count($response); $i++) {
             $migration_name[] = $response[$i]['migration'];
         }
 
         //rollback migration
-         $response = CallHelperTest::withAuthorizeBearer($this)
+        $response = CallHelperTest::withAuthorizeBearer($this)
             ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/rollback'), [
                 'step' => 2,
             ]);
@@ -1090,11 +1087,11 @@ class BadasoApiCrudManagementTest extends TestCase
         //delete file migration
         $response = CallHelperTest::withAuthorizeBearer($this)
             ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/migration/delete'), [
-                'file_name' => $migration_name
+                'file_name' => $migration_name,
             ]);
-        $response->assertSuccessful();        
+        $response->assertSuccessful();
     }
-   
+
     public function testFinish()
     {
         // clear table and cache table
@@ -1102,7 +1099,4 @@ class BadasoApiCrudManagementTest extends TestCase
 
         $this->assertTrue(true);
     }
-
-    
-
 }
