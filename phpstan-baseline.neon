@@ -21,7 +21,7 @@ parameters:
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class Route.#'
     - '#Class Spatie\\Backup\\Notifications\\Notifications\\[a-zA-Z0-9-()\_]+ not found.#'
     - '#Class App\\Http\\Middleware\\[a-zA-Z0-9-()\_]+ not found.#'
-    - '#Class App\\Http\\Controllers\\[a-zA-Z0-9-()\_]+ not found.#'
+    - '#Class App\\Http\\Controllers\\Controller not found.#'
     - '#Parameter \$test_case of method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
     - '#Method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid return type Tests\\TestCase.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
