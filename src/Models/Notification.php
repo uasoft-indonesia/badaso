@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
 
 class Notification extends Model
 {
@@ -35,5 +36,10 @@ class Notification extends Model
     public function receiver_users()
     {
         return $this->belongsTo(User::class, 'receiver_user_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

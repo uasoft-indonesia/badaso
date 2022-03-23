@@ -4,6 +4,7 @@ namespace Uasoft\Badaso\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class FirebaseCloudMessages extends Model
@@ -43,5 +44,10 @@ class FirebaseCloudMessages extends Model
         static::creating(function (Model $model) {
             $model->setAttribute($model->getKeyName(), Str::uuid());
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

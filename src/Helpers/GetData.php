@@ -194,6 +194,9 @@ class GetData
 
     public static function clientSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
+        $data_rows = collect($data_type->dataRows);
+        $fields = $data_rows->where('browse', 1)->pluck('field')->all();
+        $ids = $data_rows->where('field', 'id')->pluck('field')->all();
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $fields = array_merge($fields, $ids);
@@ -217,8 +220,51 @@ class GetData
         }
         // end
 
-        $records = $records->get();
+        $records = $records->get()->map(function ($record) use ($data_rows) {
+            foreach ($data_rows as $index => $data_row) {
+                if ($data_row->type == 'upload_image_multiple') {
+                    if (isset($record->{$data_row->field})) {
+                        $upload_image_multiples = json_decode($record->{$data_row->field}, true);
+                        if (isset($upload_image_multiples)) {
+                            $upload_image_multiples = collect($upload_image_multiples)->map(function ($upload_image_multiple) {
+                                if (config('lfm.should_create_thumbnails') == true) {
+                                    $put_thumbs = config('lfm.thumb_folder_name');
+                                    $upload_image_multiple = explode('/', $upload_image_multiple);
+                                    $file_name = $upload_image_multiple[count($upload_image_multiple) - 1];
+                                    $upload_image_multiple[count($upload_image_multiple) - 1] = $put_thumbs;
+                                    $upload_image_multiple[] = $file_name;
+                                    $upload_image_multiple = join('/', $upload_image_multiple);
+                                }
+                                $asset = asset($upload_image_multiple);
 
+                                return $asset;
+                            });
+                            $upload_image_multiples = implode(',', json_decode($upload_image_multiples));
+                        }
+                        $record->{$data_row->field} = $upload_image_multiples;
+                    }
+                } elseif ($data_row->type == 'upload_image') {
+                    if (isset($record->{$data_row->field})) {
+                        $upload_image = $record->{$data_row->field};
+                        if (isset($upload_image)) {
+                            if (config('lfm.should_create_thumbnails') == true) {
+                                $put_thumbs = config('lfm.thumb_folder_name');
+                                $upload_image = explode('/', $upload_image);
+                                $file_name = $upload_image[count($upload_image) - 1];
+                                $upload_image[count($upload_image) - 1] = $put_thumbs;
+                                $upload_image[] = $file_name;
+                                $upload_image = join('/', $upload_image);
+                            }
+                            $upload_image = asset('storage/' . $upload_image);
+                            $record->{$data_row->field} = $upload_image;
+                        }
+                    }
+                }
+            }
+
+            return $record;
+        });
+        
         $data = [];
 
         foreach ($records as $row) {
