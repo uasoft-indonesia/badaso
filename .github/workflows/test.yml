@@ -95,19 +95,6 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder"
-          
-      # Running Test
-      - name: Running Test
-        if: matrix.coverage == 'xdebug'
-        run: cd laravel && ./vendor/bin/phpunit --coverage-text --coverage-clover='reports/coverage/coverage.xml'
-      
-      # Upload coverage
-      - name: Upload coverage
-        uses: codecov/codecov-action@v2
-        if: matrix.coverage == 'xdebug'
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: laravel/reports/coverage/coverage.xml
 
       # Mysql | Badaso core test
       - name: Mysql | Badaso core test
@@ -155,4 +142,17 @@ jobs:
       # Pgsql | Badaso core test
       - name: Pgsql | Badaso core test
         run: cd laravel && php artisan test
+        
+      # Running Test
+      - name: Running Test
+        if: matrix.coverage == 'xdebug'
+        run: cd laravel && ./vendor/bin/phpunit --coverage-text --coverage-clover='reports/coverage/coverage.xml'
+      
+      # Upload coverage
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        if: matrix.coverage == 'xdebug'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: laravel/reports/coverage/coverage.xml
   
