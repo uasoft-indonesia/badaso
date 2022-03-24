@@ -4,6 +4,5 @@ includes:
 parameters:
     paths: 
         - src
-        - tests
-    
+            
     level: 1    

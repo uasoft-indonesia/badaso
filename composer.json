@@ -38,7 +38,6 @@
     "league/flysystem": "~1.1|~2.0|~3.0",
     "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
     "php-open-source-saver/jwt-auth": "^1.4",
-    "phpstan/phpstan": "^1.4",
     "predis/predis": "^1.1",
     "symfony/var-exporter": "^5.2.0|^6.0",
     "spatie/flysystem-dropbox": "^1.2.2|^2.0",
@@ -50,7 +49,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
-    "orchestra/testbench": "^6.24"
+    "orchestra/testbench": "^6.24",
+    "phpstan/phpstan": "^1.4"
   },
   "authors": [
     {
