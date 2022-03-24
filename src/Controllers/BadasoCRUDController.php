@@ -182,7 +182,7 @@ class BadasoCRUDController extends Controller
                     'old' => $data_type,
                     'new' => $request->input(),
                 ])
-                ->log('Table '.$data_type->slug.' has been edited');
+                ->log('CRUD table'.$data_type->slug.' has been edited');
 
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
@@ -392,7 +392,7 @@ class BadasoCRUDController extends Controller
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $new_data_type])
-                ->log('Table '.$new_data_type->slug.' has been created');
+                ->log('CRUD table '.$new_data_type->slug.' has been created');
 
             DB::commit();
 
@@ -407,12 +407,12 @@ class BadasoCRUDController extends Controller
     public function delete(Request $request)
     {
         DB::beginTransaction();
-
+        
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Models\DataType,id',
             ]);
-
+            
             $data_type = DataType::find($request->id);
 
             $this->deleteAPIDocs($data_type->name);
@@ -428,7 +428,7 @@ class BadasoCRUDController extends Controller
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties($data_type)
-                ->log('Table '.$data_type->slug.' has been deleted');
+                ->log('CRUD table '.$data_type->slug.' has been deleted');
 
             DB::commit();
 

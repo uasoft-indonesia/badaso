@@ -12,6 +12,7 @@ use Uasoft\Badaso\ContentManager\FileGenerator;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Facades\Badaso;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
 
 class BadasoDatabaseController extends Controller
@@ -59,7 +60,7 @@ class BadasoDatabaseController extends Controller
                     },
                 ],
             ]);
-
+            
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->relations);
 
             $exitCode = Artisan::call('migrate', [
@@ -70,8 +71,14 @@ class BadasoDatabaseController extends Controller
             switch ($exitCode) {
                 case 0:
                     $msg = __('badaso::validation.database.migration_success');
-
+                    
+                    activity('Database')
+                        ->causedBy(auth()->user() ?? null)
+                        ->withProperties(['attributes' => $request->all()])
+                        ->log('Add table ' . $request->table . ' has been created');
+                    
                     return ApiResponse::success($msg);
+                
                     break;
                 default:
                     if (isset($this->file_name)) {
@@ -143,12 +150,11 @@ class BadasoDatabaseController extends Controller
                 'fields.current_fields' => 'required|array',
                 'fields.modified_fields' => 'required|array',
             ]);
-
+            
             $data = $request->all();
             $fields = $data['fields'];
             $table = $data['table'];
             $relations = $data['relations'];
-
             if (count($fields['modified_fields']) > 0) {
                 $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter', $relations);
             }
@@ -164,8 +170,16 @@ class BadasoDatabaseController extends Controller
 
             switch ($exitCode) {
                 case 0:
+                    activity('Database')
+                    ->causedBy(auth()->user() ?? null)
+                    ->withProperties([
+                        'old' => [$table['current_name'], $fields['current_fields'], $relations['current_relations']],
+                        'new' => [$table['modified_name'], $fields['modified_fields'], $relations['modified_relations']],
+                    ])
+                    ->log('Edit table ' . $table['current_name'] . ' has been edited');
                     return ApiResponse::success(__('badaso::validation.database.alter_migration_created', ['table' => $table['modified_name']]));
                     break;
+
                 default:
                     foreach ($this->file_name as $name) {
                         $this->file_generator->deleteMigrationFiles($name);
@@ -200,7 +214,7 @@ class BadasoDatabaseController extends Controller
             ]);
 
             $columns = SchemaManager::describeTable($request->table)->all();
-
+            
             $rows = array_map(function ($column) {
                 return [
                     'field_name' => $column['name'],
@@ -215,6 +229,7 @@ class BadasoDatabaseController extends Controller
                 ];
             }, $columns);
 
+
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'drop', $rows);
 
             $exitCode = Artisan::call('migrate', [
@@ -224,6 +239,10 @@ class BadasoDatabaseController extends Controller
 
             switch ($exitCode) {
                 case 0:
+                    activity('Database')
+                    ->causedBy(auth()->user() ?? null)
+                    ->withProperties($rows)
+                    ->log('Delete table ' . $request->table. ' has been deleted');
                     return ApiResponse::success(__('badaso::validation.database.migration_dropped', ['table' => $request->table]));
                     break;
                 default:

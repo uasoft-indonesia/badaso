@@ -75,7 +75,7 @@ class BadasoConfigurationsController extends Controller
                 'key' => 'sometimes|required',
                 'group' => 'sometimes|required',
             ]);
-
+            
             $configuration = Configuration::when($request->key, function ($query, $key) {
                 foreach (explode(',', $key) as $index => $value) {
                     $query->orWhere('key', $value);
@@ -94,6 +94,7 @@ class BadasoConfigurationsController extends Controller
                 ->toArray();
 
             $data['configuration'] = $configuration;
+           
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -141,6 +142,7 @@ class BadasoConfigurationsController extends Controller
 
             DB::commit();
 
+
             return ApiResponse::success($configuration);
         } catch (Exception $e) {
             DB::rollback();
@@ -177,6 +179,14 @@ class BadasoConfigurationsController extends Controller
 
             // save all configuration to redis
             ConfigurationRedis::save();
+
+            activity('Configurations')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties([
+                    'old' => $request->configurations,
+                    'new' => $updated_configuration
+                ])
+                ->log('Configurations has been edited');
 
             DB::commit();
 
