@@ -25,9 +25,8 @@ parameters:
     - '#Call to an undefined static method Uasoft\\Badaso\\Database\\Schema\\SchemaManager::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\Redis::[a-zA-Z0-9-()\_]+.#'
+    - '#Call to static method user[()]+ on an unknown class JWTAuth.#'
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class Route.#'
-    - '#Class Spatie\\Backup\\Notifications\\Notifications\\[a-zA-Z0-9-()\_]+ not found.#'
-    - '#Class App\\Http\\Middleware\\[a-zA-Z0-9-()\_]+ not found.#'
     - '#Parameter \$test_case of method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
     - '#Method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid return type Tests\\TestCase.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
@@ -45,5 +44,6 @@ parameters:
     - '#Call to static method disk[()]+ on an unknown class Storage.#'
     - '#Variable \$altered_current_fields might not be defined.#'
     - '#Variable \$altered_modified_fields might not be defined.#'
+    - '#Variable \$upload_image in isset[()]+ always exists and is not nullable.#'
 
    
