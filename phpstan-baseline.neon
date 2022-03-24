@@ -1,11 +1,15 @@
 parameters: 
+    excludePaths:
+    - src/Controllers/BadasoMenuController.php
+    - src/Controllers/BadasoAuthController.php
+    - src/Controllers/BadasoDataController.php
+    - src/Controllers/BadasoTableController.php
+    - src/Controllers/BadasoConfigurationsController.php
+
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\Role::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\User::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Spatie\\Activitylog\\Models\\Activity::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\UserVerification::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\PasswordReset::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\EmailReset::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\DataType::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Facades\\Badaso::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\DataRow::[a-zA-Z0-9-()\_]+.#'
@@ -22,13 +26,15 @@ parameters:
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Illuminate\\Support\\Facades\\Redis::[a-zA-Z0-9-()\_]+.#'
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class Route.#'
+    - '#Class Spatie\\Backup\\Notifications\\Notifications\\[a-zA-Z0-9-()\_]+ not found.#'
+    - '#Class App\\Http\\Middleware\\[a-zA-Z0-9-()\_]+ not found.#'
+    - '#Parameter \$test_case of method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
+    - '#Method Uasoft\\Badaso\\Helpers\\CallHelperTest::[a-zA-Z0-9-()\_]+ has invalid return type Tests\\TestCase.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
     - '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing.#'
     - '#Call to sprintf contains 1 placeholder, 0 values given.#'
-    - '#Variable \$custom_permissions might not be defined.#'
     - '#Call to static method debug[()]+ on an unknown class Log.#'
     - '#Call to static method first[()]+ on an unknown class Uasoft\\Badaso\\Models\\FirebaseServices.#'
-    - '#Call to static method user[()]+ on an unknown class JWTAuth.#'
     - '#Function call_protected_method not found.#'
     - '#Function get_protected_property not found.#'
     - '#Variable \$data in isset[()]+ always exists and is not nullable.#'
@@ -39,6 +45,5 @@ parameters:
     - '#Call to static method disk[()]+ on an unknown class Storage.#'
     - '#Variable \$altered_current_fields might not be defined.#'
     - '#Variable \$altered_modified_fields might not be defined.#'
-    - '#Variable \$[a-zA-Z0-9-()\_]+ in isset[()]+ always exists and is not nullable.#'
 
    
