@@ -11,7 +11,6 @@
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
         "laravel/framework": "^8.75",
-        "nao-pon/flysystem-google-drive": "^1.1.13",
         "masbug/flysystem-google-drive-ext": "*",
         "google/apiclient": "^2.12",
         "arcanedev/log-viewer": "^8.1|^9.0",
@@ -34,7 +33,7 @@
         "spatie/laravel-backup": "^6.16|^8.1.0",
         "unisharp/laravel-filemanager": "^2.4",
         "webpatser/laravel-uuid": "^4.0",
-        "zircote/swagger-php": "^4.2"
+        "zircote/swagger-php": "^3.2"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
