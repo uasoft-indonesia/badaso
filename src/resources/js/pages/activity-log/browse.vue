@@ -39,8 +39,8 @@
                 <badaso-th sort-key="logName">
                   {{ $t("activityLog.header.logName") }}
                 </badaso-th>
-                <badaso-th sort-key="causerId">
-                  {{ $t("activityLog.header.causerId") }}
+                <badaso-th sort-key="causerName">
+                  {{ $t("activityLog.header.causerName") }}
                 </badaso-th>
                 <badaso-th sort-key="description">
                   {{ $t("activityLog.header.description") }}
@@ -171,8 +171,7 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.data = response.data;
-          this.activitylogs = response.data.activitylog;
-          console.log(this.activitylogs);
+          this.activitylogs = response.data.data;
           this.totalItem =
             response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)
