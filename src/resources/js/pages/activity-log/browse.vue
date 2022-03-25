@@ -60,8 +60,8 @@
                   <vs-td :data="record.logName">
                     {{ record.logName ? record.logName : "-" }}
                   </vs-td>
-                  <vs-td :data="record.causerId">
-                    {{ record.causerId ? record.causerId : "-" }}
+                  <vs-td :data="record.causerName">
+                    {{ record.causerName ? record.causerName : "-" }}
                   </vs-td>
                   <vs-td :data="record.description">
                     {{ record.description }}
@@ -172,6 +172,7 @@ export default {
           this.selected = [];
           this.data = response.data;
           this.activitylogs = response.data.activitylog;
+          console.log(this.activitylogs);
           this.totalItem =
             response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)

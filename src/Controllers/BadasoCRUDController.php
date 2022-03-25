@@ -176,13 +176,7 @@ class BadasoCRUDController extends Controller
 
             $data_type = DataType::find($request->input('id'));
 
-            activity('CRUD')
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties([
-                    'old' => $data_type,
-                    'new' => $request->input(),
-                ])
-                ->log('CRUD table'.$data_type->slug.' has been edited');
+            
 
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
@@ -261,6 +255,16 @@ class BadasoCRUDController extends Controller
 
             $this->generateAPIDocs($table_name, $data_rows, $data_type);
             DB::commit();
+
+            activity('CRUD')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties([
+                    'old' => $data_type,
+                    'new' => $request->input(),
+                ])
+                ->performedOn($data_type)
+                ->event('updated')
+                ->log('CRUD table ' . $data_type->slug . ' has been updated');
 
             return ApiResponse::success($data_type);
         } catch (Exception $e) {
@@ -389,13 +393,14 @@ class BadasoCRUDController extends Controller
 
             $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
 
+            DB::commit();
+            
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $new_data_type])
-                ->log('CRUD table '.$new_data_type->slug.' has been created');
-
-            DB::commit();
-
+                ->performedOn($new_data_type)
+                ->event('created')
+                ->log('CRUD table ' . $new_data_type->slug . ' has been created');
             return ApiResponse::success($new_data_type);
         } catch (Exception $e) {
             DB::rollBack();
@@ -425,12 +430,14 @@ class BadasoCRUDController extends Controller
 
             event(new CRUDDataDeleted($data_type));
 
-            activity('CRUD')
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties($data_type)
-                ->log('CRUD table '.$data_type->slug.' has been deleted');
-
             DB::commit();
+
+            activity('CRUD')
+            ->causedBy(auth()->user() ?? null)
+            ->withProperties(['attributes' => $data_type])
+            ->performedOn($data_type)
+            ->event('deleted')
+            ->log('CRUD table ' . $data_type->slug . ' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {

@@ -88,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()->dontSubmitEmptyLogs();
     }
 
     /**

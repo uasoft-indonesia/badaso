@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Models\Activity;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\User;
 
 class BadasoActivityLogController extends Controller
 {
@@ -14,7 +15,7 @@ class BadasoActivityLogController extends Controller
     {
         try {
             $limit = $request->get('limit', 10);
-            $filter = '%'.$request->get('filter', '').'%';
+            $filter = '%' . $request->get('filter', '') . '%';
             $order_field = $request->get('order_field');
             $order_direction = $request->get('order_direction');
 
@@ -26,6 +27,7 @@ class BadasoActivityLogController extends Controller
                 ->orWhere('causer_id', 'LIKE', $filter)
                 ->orWhere('causer_type', 'LIKE', $filter)
                 ->orWhere('properties', 'LIKE', $filter);
+
 
             if ($order_field) {
                 $order_field = Str::snake($order_field);
@@ -39,6 +41,15 @@ class BadasoActivityLogController extends Controller
 
             $data = json_decode(json_encode($activitylog));
             $data->activitylog = $activitylog->getCollection();
+
+            foreach ($data->data as $index => $value) {
+                $user = User::find($value->causer_id);
+                $causer_name = "";
+                if (isset($user)) {
+                    $causer_name = $user->name;
+                }
+                $data->data[$index]->causer_name = $causer_name;
+            }
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {

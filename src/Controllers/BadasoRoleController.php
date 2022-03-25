@@ -56,12 +56,24 @@ class BadasoRoleController extends Controller
             ]);
 
             $role = Role::find($request->id);
+            $old_role = $role;
+
             $role->name = $request->name;
             $role->display_name = $request->display_name;
             $role->description = $request->description;
             $role->save();
 
             DB::commit();
+
+            activity('Role Controllers')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'old' => $old_role,
+                    'new' => $role
+                ]])
+                ->performedOn($role)
+                ->event('updated')
+                ->log('Role ' . $role->name . ' has been updated');
 
             return ApiResponse::success($role);
         } catch (Exception $e) {
@@ -89,7 +101,12 @@ class BadasoRoleController extends Controller
             $role->save();
 
             DB::commit();
-
+            activity('Role Controllers')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $role])
+                ->performedOn($role)
+                ->event('created')
+                ->log('Role ' . $role->name . ' has been created');
             return ApiResponse::success($role);
         } catch (Exception $e) {
             DB::rollBack();
@@ -110,10 +127,17 @@ class BadasoRoleController extends Controller
                 ],
             ]);
 
-            Role::find($request->id)->delete();
+            $role = Role::find($request->id);
+            $role->delete();
 
             DB::commit();
 
+            activity('Role Controllers')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($role)
+                ->event('deleted')
+                ->log('Role ' . $role->name . ' has been deleted');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -135,12 +159,21 @@ class BadasoRoleController extends Controller
 
             $id_list = explode(',', $request->ids);
 
+            $role_name = [];
             foreach ($id_list as $key => $id) {
-                Role::find($id)->delete();
+                $role = Role::find($id);
+                $role_name[] = $role->name; 
+                $role->delete();
             }
-
+            $role_name = join("," , $role_name);
             DB::commit();
 
+            activity('Role Controllers')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($role)
+                ->event('deleted')
+                ->log('Role ' . $role->name . ' has been deleted');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

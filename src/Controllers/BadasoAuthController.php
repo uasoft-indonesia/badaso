@@ -46,7 +46,7 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (! $token = auth()->attempt($credentials)) {
+                        if (!$token = auth()->attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
@@ -65,6 +65,11 @@ class BadasoAuthController extends Controller
             $ttl = $this->getTTL($remember);
             $token = auth()->setTTL($ttl)->attempt($credentials);
 
+            activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => auth()->user()])
+                ->log('Login has been success');
+
             return $this->createNewToken($token, auth()->user(), $remember);
         } catch (JWTException $e) {
             return ApiResponse::failed($e);
@@ -78,7 +83,9 @@ class BadasoAuthController extends Controller
         try {
             auth()->logout();
             // auth()->invalidate();
-
+            activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                ->log('Logout has been success');
             return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -111,11 +118,21 @@ class BadasoAuthController extends Controller
             $user_role->save();
 
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
-            if (! $should_verify_email) {
+            if (!$should_verify_email) {
                 $ttl = $this->getTTL();
                 $token = auth()->setTTL($ttl)->login($user);
 
                 DB::commit();
+
+                activity('Authentication')
+                    ->causedBy(auth()->user() ?? null)
+                    ->withProperties(['attributes' => [
+                        'user' => $user,
+                        'role' => $user_role
+                    ]])
+                    ->performedOn($user)
+                    ->event('created')
+                    ->log('Register has been created');
 
                 return $this->createNewToken($token, auth()->user());
             } else {
@@ -163,7 +180,7 @@ class BadasoAuthController extends Controller
     public function getAuthenticatedUser()
     {
         try {
-            if (! $user = AuthenticatedUser::getUser()) {
+            if (!$user = AuthenticatedUser::getUser()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -229,7 +246,7 @@ class BadasoAuthController extends Controller
     public function changePassword(Request $request)
     {
         try {
-            if (! $user = auth()->user()) {
+            if (!$user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -237,7 +254,7 @@ class BadasoAuthController extends Controller
                 'old_password' => [
                     'required',
                     function ($attribute, $value, $fail) use ($user) {
-                        if (! Hash::check($value, $user->password)) {
+                        if (!Hash::check($value, $user->password)) {
                             $fail(__('badaso::validation.auth.wrong_old_password'));
                         }
                     },
@@ -258,6 +275,13 @@ class BadasoAuthController extends Controller
             $user = User::find($user->id);
             $user->password = Hash::make($request->new_password);
             $user->save();
+
+            activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($user)
+                ->event('updated')
+                ->log('Change password has been updated');
 
             return ApiResponse::success($user);
         } catch (Exception $e) {
@@ -371,7 +395,7 @@ class BadasoAuthController extends Controller
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
 
-            if (! $user_verification) {
+            if (!$user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
 
@@ -416,7 +440,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (! $user = auth()->user()) {
+            if (!$user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -436,8 +460,17 @@ class BadasoAuthController extends Controller
             $user->additional_info = $request->additional_info;
             $user->save();
 
-            DB::commit();
 
+            DB::commit();
+            activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'old' => auth()->user(),
+                    'new' => $user,
+                ]])
+                ->performedOn($user)
+                ->event('updated')
+                ->log('Update profile has been updated');
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -451,7 +484,7 @@ class BadasoAuthController extends Controller
         DB::beginTransaction();
 
         try {
-            if (! $user = auth()->user()) {
+            if (!$user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 
@@ -480,6 +513,7 @@ class BadasoAuthController extends Controller
 
                 $this->sendVerificationToken(['user' => $user, 'token' => $token]);
 
+
                 DB::commit();
 
                 return ApiResponse::success([
@@ -491,7 +525,18 @@ class BadasoAuthController extends Controller
                 $user->save();
             }
 
+
             DB::commit();
+
+            activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'old' => auth()->user()->email,
+                    'new' => $user->email,
+                ]])
+                ->performedOn($user)
+                ->event('updated')
+                ->log('Update email has been updated');
 
             return ApiResponse::success([
                 'should_verify_email' => false,
@@ -507,7 +552,7 @@ class BadasoAuthController extends Controller
     public function verifyEmail(Request $request)
     {
         try {
-            if (! $user = auth()->user()) {
+            if (!$user = auth()->user()) {
                 throw new SingleException(__('badaso::validation.auth.user_not_found'));
             }
 

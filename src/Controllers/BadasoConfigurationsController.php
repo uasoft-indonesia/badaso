@@ -75,7 +75,7 @@ class BadasoConfigurationsController extends Controller
                 'key' => 'sometimes|required',
                 'group' => 'sometimes|required',
             ]);
-            
+
             $configuration = Configuration::when($request->key, function ($query, $key) {
                 foreach (explode(',', $key) as $index => $value) {
                     $query->orWhere('key', $value);
@@ -94,7 +94,7 @@ class BadasoConfigurationsController extends Controller
                 ->toArray();
 
             $data['configuration'] = $configuration;
-           
+
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -129,7 +129,7 @@ class BadasoConfigurationsController extends Controller
             ]);
             $configuration = Configuration::find($request->id);
 
-            if (! is_null($configuration)) {
+            if (!is_null($configuration)) {
                 $configuration->key = $request->key;
                 $configuration->display_name = $request->display_name;
                 $configuration->value = $request->value;
@@ -165,7 +165,7 @@ class BadasoConfigurationsController extends Controller
                     'id' => ['required'],
                 ])->validate();
                 $updated_configuration = Configuration::find($configuration['id']);
-                if (! is_null($configuration)) {
+                if (!is_null($configuration)) {
                     $updated_configuration->key = $configuration['key'];
                     $updated_configuration->display_name = $configuration['display_name'];
                     $updated_configuration->value = $configuration['value'];
@@ -180,16 +180,14 @@ class BadasoConfigurationsController extends Controller
             // save all configuration to redis
             ConfigurationRedis::save();
 
-            activity('Configurations')
-                ->causedBy(auth()->user() ?? null)
-                ->withProperties([
-                    'old' => $request->configurations,
-                    'new' => $updated_configuration
-                ])
-                ->log('Configurations has been edited');
-
             DB::commit();
 
+            activity('Configurations')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->configurations])
+                ->performedOn($updated_configuration)
+                ->event('updated')
+                ->log('Configuration has been updated');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -213,14 +211,14 @@ class BadasoConfigurationsController extends Controller
                         if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
                             json_decode($value);
                             $is_json = (json_last_error() == JSON_ERROR_NONE);
-                            if (! $is_json) {
+                            if (!$is_json) {
                                 $fail('The details must be a valid JSON string.');
                             }
                         }
                     },
                     function ($attribute, $value, $fail) use ($request) {
                         if (in_array($request->type, ['checkbox', 'radio', 'select', 'select_multiple'])) {
-                            if (! isset($value) || is_null($value)) {
+                            if (!isset($value) || is_null($value)) {
                                 $fail('Options is required for  Checkbox, Radio, Select, Select-multiple');
                             }
                         }
