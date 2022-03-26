@@ -186,6 +186,7 @@ export default {
       logName: "Log Name",
       causerType: "Causer Type",
       causerId: "Causer Id",
+      causerName: "Causer Name",
       subjectType: "Subject Type",
       subjectId: "Subject Id",
       description: "Description",

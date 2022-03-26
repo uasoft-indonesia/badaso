@@ -36,7 +36,7 @@ class BadasoUserController extends Controller
 
             $user = User::find($request->id);
 
-            $user->email_verified = ! is_null($user->email_verified_at);
+            $user->email_verified = !is_null($user->email_verified_at);
 
             $data['user'] = $user;
 
@@ -60,6 +60,8 @@ class BadasoUserController extends Controller
             ]);
 
             $user = User::find($request->id);
+            $old_user = $user->toArray();
+
             $user->name = $request->name;
             $user->email = $request->email;
             $user->avatar = $request->avatar;
@@ -74,7 +76,15 @@ class BadasoUserController extends Controller
             $user->save();
 
             DB::commit();
-
+            activity('User')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'old' => $old_user,
+                    'new' => $user
+                ]])
+                ->performedOn($user)
+                ->event('updated')
+                ->log('User ' . $user->name . ' has been updated');
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -108,7 +118,12 @@ class BadasoUserController extends Controller
             $user->save();
 
             DB::commit();
-
+            activity('User')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $user])
+                ->performedOn($user)
+                ->event('created')
+                ->log('User ' . $user->name . ' has been created');
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -134,7 +149,11 @@ class BadasoUserController extends Controller
             $user->delete();
 
             DB::commit();
-
+            activity('User')
+                ->causedBy(auth()->user() ?? null)
+                ->performedOn($user)
+                ->event('deleted')
+                ->log('User ' . $user->name . ' has been deleted');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -156,14 +175,20 @@ class BadasoUserController extends Controller
 
             $id_list = explode(',', $request->ids);
 
+            $user_name = [];
             foreach ($id_list as $key => $id) {
                 $user = User::find($id);
                 $this->handleDeleteFile($user->avatar);
+                $user_name[] = $user->name;
                 $user->delete();
             }
-
+            $user_name = join(",",$user_name);
             DB::commit();
-
+            activity('User')
+                ->causedBy(auth()->user() ?? null)
+                ->performedOn($user)
+                ->event('deleted')
+                ->log('User ' . $user_name . ' has been deleted');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

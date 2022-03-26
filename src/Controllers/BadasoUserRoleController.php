@@ -63,8 +63,8 @@ class BadasoUserRoleController extends Controller
                         WHEN B.user_id is not null then 1
                         else 0
                     END as selected
-                FROM '.$prefix.'roles A
-                LEFT JOIN '.$prefix.'user_roles B ON A.id = B.role_id AND B.user_id = :user_id
+                FROM ' . $prefix . 'roles A
+                LEFT JOIN ' . $prefix . 'user_roles B ON A.id = B.role_id AND B.user_id = :user_id
             ';
             $user_roles = DB::select($query, [
                 'user_id' => $request->user_id,
@@ -87,11 +87,11 @@ class BadasoUserRoleController extends Controller
             $roles = $request->get('roles', []);
 
             $user = User::find($request->user_id);
-            if (! is_null($user)) {
+            if (!is_null($user)) {
                 $stored_roles = [];
                 foreach ($roles as $key => $value) {
                     $role = Role::find($value);
-                    if (! is_null($role)) {
+                    if (!is_null($role)) {
                         $user_role = [
                             'user_id' => $user->id,
                             'role_id' => $role->id,
@@ -109,7 +109,11 @@ class BadasoUserRoleController extends Controller
             }
 
             $data = [];
-
+            activity('User')
+                ->causedBy(auth()->user() ?? null)
+                ->performedOn($user)
+                ->event('created or updated')
+                ->log('User ' . $user->name . ' has been created or updated');
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
