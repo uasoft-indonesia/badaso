@@ -75,6 +75,6 @@ class MenuItem extends Model
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()->dontSubmitEmptyLogs();
     }
 }

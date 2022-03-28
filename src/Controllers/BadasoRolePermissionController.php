@@ -108,7 +108,11 @@ class BadasoRolePermissionController extends Controller
             }
 
             $data = [];
-
+            activity('Role Permissions')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->event('created or updated')
+                ->log('Role ' . $role->name . ' has been created or updated');
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

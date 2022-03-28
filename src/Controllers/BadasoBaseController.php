@@ -103,6 +103,8 @@ class BadasoBaseController extends Controller
             $guard = config('badaso.authenticate.guard');
             $user_auth = Auth::guard($guard)->user();
 
+            DB::commit();
+            
             activity($data_type->display_name_singular)
                 ->causedBy($user_auth ?? null)
                 ->withProperties([
@@ -111,7 +113,7 @@ class BadasoBaseController extends Controller
                 ])
                 ->log($data_type->display_name_singular.' has been updated');
 
-            DB::commit();
+           
 
             // add event notification handle
             $table_name = $data_type->name;

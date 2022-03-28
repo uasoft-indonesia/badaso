@@ -61,7 +61,10 @@ class BadasoAuthController extends Controller
                     return ApiResponse::success([]);
                 }
             }
-
+            activity('Authentication')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => auth()->user()])
+                ->log('Login has been success');
             return TokenManagement::fromUser($user)->createToken($remember)->response();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -72,7 +75,10 @@ class BadasoAuthController extends Controller
     {
         try {
             TokenManagement::fromAuth()->deleteToken();
-
+            activity('Authentication')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => auth()->user()])
+                ->log('Logout has been success');
             return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -110,6 +116,16 @@ class BadasoAuthController extends Controller
 
                 DB::commit();
 
+                activity('Authentication')
+                    ->causedBy(auth()->user() ?? null)
+                    ->withProperties(['attributes' => [
+                        'user' => $user,
+                        'role' => $user_role,
+                    ]])
+                    ->performedOn($user)
+                    ->event('created')
+                    ->log('Register has been created');
+
                 return TokenManagement::fromUser($user)->createToken()->response();
             } else {
                 $token = rand(111111, 999999);
@@ -127,7 +143,15 @@ class BadasoAuthController extends Controller
                 // $this->sendVerificationToken(['user' => $user, 'token' => $token]);
 
                 DB::commit();
-
+                activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                    ->withProperties(['attributes' => [
+                        'user' => $user,
+                        'role' => $user_role,
+                    ]])
+                    ->performedOn($user)
+                    ->event('created')
+                    ->log('Register has been created');
                 return ApiResponse::success([
                     'message' => __('badaso::validation.verification.email_sended'),
                 ]);
@@ -234,7 +258,12 @@ class BadasoAuthController extends Controller
             $user = User::find($user->id);
             $user->password = Hash::make($request->new_password);
             $user->save();
-
+            activity('Authentication')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($user)
+                ->event('updated')
+                ->log('Change password has been updated');
             return ApiResponse::success($user);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -415,7 +444,15 @@ class BadasoAuthController extends Controller
             $user->save();
 
             DB::commit();
-
+            activity('Authentication')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'old' => auth()->user(),
+                    'new' => $user,
+                ]])
+                ->performedOn($user)
+                ->event('updated')
+                ->log('Update profile has been updated');
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -459,7 +496,15 @@ class BadasoAuthController extends Controller
                 $this->sendVerificationToken(['user' => $user, 'token' => $token]);
 
                 DB::commit();
-
+                activity('Authentication')
+                ->causedBy(auth()->user() ?? null)
+                    ->withProperties(['attributes' => [
+                        'old' => auth()->user()->email,
+                        'new' => $user->email,
+                    ]])
+                    ->performedOn($user)
+                    ->event('updated')
+                    ->log('Update email has been updated');
                 return ApiResponse::success([
                     'should_verify_email' => true,
                     'message'             => __('badaso::validation.verification.email_sended'),

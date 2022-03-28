@@ -87,6 +87,6 @@ class User extends Authenticatable
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()->dontSubmitEmptyLogs();
     }
 }
