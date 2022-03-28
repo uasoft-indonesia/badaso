@@ -37,7 +37,6 @@
     "laravel/ui": "^3.4",
     "league/flysystem": "~1.1|~2.0|~3.0",
     "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
-    "phpstan/phpstan": "^1.4",
     "predis/predis": "^1.1",
     "spatie/flysystem-dropbox": "^1.2.2|^2.0",
     "spatie/laravel-activitylog": "^3.17|^4.4",
@@ -48,7 +47,9 @@
     "zircote/swagger-php": "^4.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.5"
+    "phpunit/phpunit": "^9.5",
+    "orchestra/testbench": "^6.24",
+    "phpstan/phpstan": "^1.4"
   },
   "authors": [
     {
