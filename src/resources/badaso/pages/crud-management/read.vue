@@ -327,7 +327,7 @@ export default {
           });
           this.$closeLoader();
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
         });
     },

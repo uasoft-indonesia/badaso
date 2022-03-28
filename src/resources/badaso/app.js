@@ -28,6 +28,7 @@ Vue.config.devtools = true;
 Vue.use(Vuesax);
 Vue.use(VueI18n);
 Vue.use(Datetime);
+// eslint-disable-next-line vue/multi-word-component-names
 Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
 

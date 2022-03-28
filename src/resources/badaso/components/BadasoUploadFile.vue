@@ -176,7 +176,7 @@ export default {
   name: "BadasoUploadFile",
   props: {
     size: {
-      type: String | Number,
+      type: String || Number,
       default: "12",
     },
     label: {
@@ -195,7 +195,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
     sharesOnly: {

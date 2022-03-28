@@ -5,37 +5,37 @@ const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
 
-const entity_prefix = apiPrefix + "/v1/entities";
+const entityPrefix = apiPrefix + "/v1/entities";
 
 export default {
   browse(data = {}) {
-    const ep = entity_prefix + "/" + data.slug;
+    const ep = entityPrefix + "/" + data.slug;
     const qs = QueryString(data);
     const url = ep + qs;
     return resource.get(url);
   },
 
   all(data = {}) {
-    const ep = entity_prefix + "/" + data.slug + "/all";
+    const ep = entityPrefix + "/" + data.slug + "/all";
     const url = ep;
     return resource.get(url);
   },
 
   read(data) {
-    const ep = entity_prefix + "/" + data.slug + "/read";
+    const ep = entityPrefix + "/" + data.slug + "/read";
     const qs = QueryString(data);
     const url = ep + qs;
     return resource.get(url);
   },
 
   edit(data) {
-    return resource.put(entity_prefix + "/" + data.slug + "/edit", {
+    return resource.put(entityPrefix + "/" + data.slug + "/edit", {
       data: data.data,
     });
   },
 
   add(data) {
-    return resource.post(entity_prefix + "/" + data.slug + "/add", {
+    return resource.post(entityPrefix + "/" + data.slug + "/add", {
       data: data.data,
     });
   },
@@ -45,7 +45,7 @@ export default {
       data: data,
     };
     return resource.delete(
-      entity_prefix + "/" + data.slug + "/restore",
+      entityPrefix + "/" + data.slug + "/restore",
       paramData
     );
   },
@@ -55,7 +55,7 @@ export default {
       data: data,
     };
     return resource.delete(
-      entity_prefix + "/" + data.slug + "/delete",
+      entityPrefix + "/" + data.slug + "/delete",
       paramData
     );
   },
@@ -65,7 +65,7 @@ export default {
       data: data,
     };
     return resource.delete(
-      entity_prefix + "/" + data.slug + "/delete-multiple",
+      entityPrefix + "/" + data.slug + "/delete-multiple",
       paramData
     );
   },
@@ -75,18 +75,15 @@ export default {
       data: data,
     };
     return resource.delete(
-      entity_prefix + "/" + data.slug + "/restore-multiple",
+      entityPrefix + "/" + data.slug + "/restore-multiple",
       paramData
     );
   },
 
   sort(data) {
-    return resource.put(entity_prefix + "/" + data.slug + "/sort", data);
+    return resource.put(entityPrefix + "/" + data.slug + "/sort", data);
   },
   maintenance(data = {}) {
-    return resource.post(
-      entity_prefix + "/" + data.slug + "/maintenance",
-      data
-    );
+    return resource.post(entityPrefix + "/" + data.slug + "/maintenance", data);
   },
 };

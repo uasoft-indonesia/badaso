@@ -40,13 +40,14 @@ export default (error) => {
   }
 
   if (!navigator.onLine) {
+    // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject({
       message:
         "Data cannot load because internet of you not connected. Please to you connect internet again!",
       errors: [],
     });
-    return Promise.reject(data);
   }
 
+  // eslint-disable-next-line prefer-promise-reject-errors
   return Promise.reject({});
 };

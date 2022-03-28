@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import resource from "../resource";
 import QueryString from "../query-string";
 

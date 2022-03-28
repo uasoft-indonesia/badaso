@@ -144,7 +144,7 @@ export default {
     },
     currentPage: {
       default: 1,
-      type: Number | String,
+      type: Number || String,
     },
     sst: {
       default: false,
@@ -191,6 +191,7 @@ export default {
       return queriedResults;
     },
     isNoData() {
+      // eslint-disable-next-line valid-typeof
       if (typeof this.datax == Object) {
         return this.datax
           ? Object.keys(this.datax).length == 0

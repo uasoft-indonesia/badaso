@@ -98,17 +98,15 @@
               </th>
               <td v-if="typeof item == 'object'">
                 <table class="badaso-table">
-                  <tr
-                    v-for="(value, index) in item"
-                    :key="index"
-                    v-if="index !== 'password'"
-                  >
-                    <th>
-                      <span class="activity-log__text--capitalize">{{
-                        index | replaceTitle
-                      }}</span>
-                    </th>
-                    <td>{{ value == null ? "null" : value }}</td>
+                  <tr v-for="(value, index) in item" :key="index">
+                    <template v-if="index !== 'password'">
+                      <th>
+                        <span class="activity-log__text--capitalize">{{
+                          index | replaceTitle
+                        }}</span>
+                      </th>
+                      <td>{{ value == null ? "null" : value }}</td>
+                    </template>
                   </tr>
                 </table>
               </td>

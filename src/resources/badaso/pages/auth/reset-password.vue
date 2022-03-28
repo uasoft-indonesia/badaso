@@ -81,7 +81,7 @@ export default {
             this.$router.push({ name: "AuthLogin" });
           }, 5000);
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
           this.res = {
             status: "danger",
