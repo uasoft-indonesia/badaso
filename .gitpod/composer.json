@@ -1,83 +1,80 @@
 {
-    "name": "laravel/laravel",
-    "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
+  "name": "laravel/laravel",
+  "type": "project",
+  "description": "The Laravel Framework.",
+  "keywords": ["framework", "laravel"],
+  "license": "MIT",
+  "require": {
+    "php": "^7.3|^8.0",
+    "fruitcake/laravel-cors": "^2.0",
+    "masbug/flysystem-google-drive-ext": "*",
+    "google/apiclient": "^2.12",
+    "arcanedev/log-viewer": "^8.1|^9.0",
+    "darkaonline/l5-swagger": "^8.0|^8.3",
+    "doctrine/dbal": "^2.5",
+    "guzzlehttp/guzzle": "^7.2",
+    "larapack/doctrine-support": "^0.1.9",
+    "laravel/octane": "^1.2",
+    "laravel/sanctum": "^2.14.1",
+    "laravel/tinker": "^2.7",
+    "laravel/ui": "^3.4",
+    "league/flysystem": "~1.1|~2.0|~3.0",
+    "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
+    "phpstan/phpstan": "^1.4",
+    "predis/predis": "^1.1",
+    "spatie/flysystem-dropbox": "^1.2.2|^2.0",
+    "spatie/laravel-activitylog": "^3.17|^4.4",
+    "spatie/laravel-backup": "^6.16|^8.1.0",
+    "symfony/var-exporter": "^5.2.0|^6.0",
+    "unisharp/laravel-filemanager": "^2.4",
+    "webpatser/laravel-uuid": "^4.0",
+    "zircote/swagger-php": "^3.2"
+  },
+  "require-dev": {
+    "facade/ignition": "^2.5",
+    "fakerphp/faker": "^1.9.1",
+    "laravel/sail": "^1.0.1",
+    "mockery/mockery": "^1.4.4",
+    "nunomaduro/collision": "^5.10",
+    "phpunit/phpunit": "^9.5.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Database\\Factories\\": "database/factories/",
+      "Database\\Seeders\\": "database/seeders/",
+      "Uasoft\\Badaso\\": "packages/badaso/core/src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+      "@php artisan package:discover --ansi"
     ],
-    "license": "MIT",
-    "require": {
-        "php": "^7.3|^8.0",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^8.75",
-        "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5",
-        "webpatser/laravel-uuid": "^4.0",
-        "doctrine/dbal": "^2.12",
-        "larapack/doctrine-support": "^0.1.9",
-        "arcanedev/log-viewer": "^8.1",
-        "spatie/laravel-activitylog": "^3.17",
-        "spatie/laravel-backup": "^6.16",
-        "spatie/flysystem-dropbox": "^1.2.2",
-        "nao-pon/flysystem-google-drive": "^1.1.13",
-        "league/flysystem-aws-s3-v3": "^1.0.28",
-        "unisharp/laravel-filemanager": "^2.2",
-        "darkaonline/l5-swagger": "^8.0",
-        "zircote/swagger-php": "^3.2",
-        "symfony/var-exporter": "^5.2.0",
-        "google/apiclient": "^2.9",
-        "laravel/ui": "^3.3",
-        "laravel/octane": "^1.0",
-        "predis/predis": "^1.1"
-    },
-    "require-dev": {
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/sail": "^1.0.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/",
-            "Uasoft\\Badaso\\": "packages/badaso/core/src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
-        ]
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "post-update-cmd": [
+      "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+    ],
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": ["@php artisan key:generate --ansi"]
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": []
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
+

@@ -307,7 +307,6 @@ class FileGenerator
         $schema_up .= $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
         if (! empty($relations)) {
             $schema_up .= PHP_EOL.PHP_EOL.$this->migration_parser->getMigrationRelationshipSchemaUp($table_name, $relations);
-            $schema_down .= $this->migration_parser->getMigrationRelationshipSchemaDown($table_name, $relations).PHP_EOL.PHP_EOL;
         }
         $schema_down .= $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
 

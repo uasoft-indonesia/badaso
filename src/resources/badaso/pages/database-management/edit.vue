@@ -740,12 +740,23 @@ export default {
             if (error.errors.table) {
               message = error.errors.table[0];
             }
-
+            if (error.errors.code.indexOf("HY000") == 0) {
+              this.$vs.notify({
+                title: this.$t("alert.danger"),
+                text: this.$t("database.edit.warning.fieldAttUnsigned", {
+                  0: `<b><a href="https://badaso-docs.uatech.co.id/core-concept/database-management#create-relationship-table" target="_blank">${this.$t(
+                    "database.edit.warning.visitDocs"
+                  )}</a></b>`,
+                }),
+                color: "danger",
+              }); 
+            }else{
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: message ? message : this.$t('database.warning.errorOnRequest'),
               color: "danger",
             });
+            }
           });
       } else {
         if (this.$v.databaseData.fields.modifiedFields.$invalid) {

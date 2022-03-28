@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\DataType;
+use Uasoft\Badaso\Models\Migration;
 
 class BadasoApiCrudManagementTest extends TestCase
 {
@@ -222,10 +223,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'upload_image_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => [
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                    ],
+                    'example' => "['https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png','https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png']",
                     'example_update' => [
                         'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
                         'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
@@ -417,11 +415,11 @@ class BadasoApiCrudManagementTest extends TestCase
                     $destination_field['badaso_type'] = 'id';
 
                     $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
+                    $row['relationType'] = true;
                     $row['destinationTable'] = $table_names[0];
                     $row['destinationTableColumn'] = $destination_field['badaso_type'];
                     $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
                     $row['required'] = false;
-                    $row['setRelation'] = true;
                 }
 
                 $rows[] = $row;
@@ -669,7 +667,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 'page' => 1,
                 'limit' => 10,
             ]);
-
             $response->assertSuccessful();
         }
     }
@@ -689,7 +686,6 @@ class BadasoApiCrudManagementTest extends TestCase
 
         foreach ($data_add_entities as $table => $data_add_entity) {
             $id = $data_add_entity[0]['id'];
-
             $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete"), [
                 'slug' => $table,
                 'data' => [
@@ -699,7 +695,6 @@ class BadasoApiCrudManagementTest extends TestCase
                     ],
                 ],
             ]);
-
             $response->assertSuccessful();
 
             // cek data from database
@@ -941,6 +936,157 @@ class BadasoApiCrudManagementTest extends TestCase
         }
         $data_types = DataType::whereIn('name', $tables)->get();
         $this->assertEmpty($data_types);
+    }
+
+    public function testRollbackMigration()
+    {
+        //Define table 1
+        $table_1 = [
+            'table' => 'tests_table_12',
+            'rows' => [
+                [
+                    'id' => 'id',
+                    'fieldName' => 'id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => true,
+                    'fieldIndex' => 'primary',
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+                [
+                    'fieldName' => 'created_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                    'indexes' => true,
+                ],
+                [
+                    'fieldName' => 'updated_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+            ],
+            'relations' => [],
+        ];
+
+        //define table 2 for relation with table 1
+        $table_2 = [
+            'table' => 'tests_table_13',
+            'rows' => [
+                [
+                    'id' => 'id',
+                    'fieldName' => 'id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => true,
+                    'fieldIndex' => 'primary',
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+                [
+                    'id' => 'f8fe0661-d861-41e7-83df-65c09b5d2e7a',
+                    'fieldName' => 'table_12_id',
+                    'fieldType' => 'bigint',
+                    'fieldLength' => null,
+                    'fieldNull' => false,
+                    'fieldAttribute' => true,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => 'foreign',
+                    'fieldDefault' => '',
+                ],
+                [
+                    'id' => 'f769fad7-d192-44d2-9845-86ce55596551',
+                    'fieldName' => 'f2',
+                    'fieldType' => 'varchar',
+                    'fieldLength' => '255',
+                    'fieldNull' => false,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => '',
+                ],
+                [
+                    'fieldName' => 'created_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                    'indexes' => true,
+                ],
+                [
+                    'fieldName' => 'updated_at',
+                    'fieldType' => 'timestamp',
+                    'fieldLength' => null,
+                    'fieldNull' => true,
+                    'fieldAttribute' => false,
+                    'fieldIncrement' => false,
+                    'fieldIndex' => null,
+                    'fieldDefault' => null,
+                    'undeletable' => true,
+                ],
+            ],
+            'relations' => [
+                'f8fe0661-d861-41e7-83df-65c09b5d2e7a' => [
+                    'sourceField' => 'table_12_id',
+                    'targetTable' => 'tests_table_12',
+                    'targetField' => 'id',
+                    'onDelete' => 'cascade',
+                    'onUpdate' => 'restrict',
+                ],
+            ],
+        ];
+        //array have value two table above
+        $list_table = [$table_1, $table_2];
+
+        //add table
+        foreach ($list_table as $key => $value) {
+            $response = CallHelperTest::withAuthorizeBearer($this)
+                ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/add'), $value);
+            $response->assertSuccessful();
+        }
+
+        //browse table to get file name migration
+        $response = CallHelperTest::withAuthorizeBearer($this)
+            ->json('GET', CallHelperTest::getUrlApiV1Prefix('/database/migration/browse'));
+        $response = $response->json('data');
+        $migration_name = [];
+        for ($i = count($response) - 2; $i < count($response); $i++) {
+            $migration_name[] = $response[$i]['migration'];
+        }
+
+        //rollback migration
+        $response = CallHelperTest::withAuthorizeBearer($this)
+            ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/rollback'), [
+                'step' => 2,
+            ]);
+        $response->assertSuccessful();
+
+        //delete file migration
+        $response = CallHelperTest::withAuthorizeBearer($this)
+            ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/migration/delete'), [
+                'file_name' => $migration_name,
+            ]);
+        $response->assertSuccessful();
     }
 
     public function testFinish()

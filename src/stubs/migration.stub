@@ -15,9 +15,10 @@ class {{class}} extends Migration
     {
         try {
 
-{{schema_up}}
+        {{schema_up}}
 
         } catch (PDOException $ex) {
+            $this->down();
             throw $ex;
         }
     }
