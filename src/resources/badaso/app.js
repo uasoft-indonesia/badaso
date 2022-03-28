@@ -32,7 +32,7 @@ Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
-let broadcastChannelName = "sw-badaso-messages";
+const broadcastChannelName = "sw-badaso-messages";
 let broadcastChannel = null;
 try {
   broadcastChannel = new BroadcastChannel(broadcastChannelName);
@@ -55,7 +55,7 @@ try {
     const plugins = process.env.MIX_BADASO_MODULES.split(",");
     if (plugins && plugins.length > 0) {
       plugins.forEach((plugin) => {
-        let router = require("../../../../" +
+        const router = require("../../../../" +
           plugin +
           "/src/resources/js/router/excludeRouter.js").default;
         excluded.push(...router);
@@ -126,7 +126,7 @@ try {
 try {
   const requireUtils = require.context("./utils", false, /\.js$/);
   requireUtils.keys().forEach((fileName) => {
-    let utilName = fileName
+    const utilName = fileName
       .replace("./", "")
       .replace(".js", "")
       .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
@@ -156,7 +156,7 @@ try {
     /\.js$/
   );
   requireCustomUtils.keys().forEach((fileName) => {
-    let utilName = fileName
+    const utilName = fileName
       .replace("./", "")
       .replace(".js", "")
       .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
@@ -213,7 +213,7 @@ try {
     const plugins = process.env.MIX_BADASO_MODULES.split(",");
     if (plugins && plugins.length > 0) {
       plugins.forEach((plugin) => {
-        let fileName = require("../../../../" +
+        const fileName = require("../../../../" +
           plugin +
           "/src/resources/js/components/index.js").default;
         Object.values(fileName).forEach((value, index) => {
@@ -246,12 +246,12 @@ Vue.prototype.$loadingConfig = {
   color: "#06bbd3",
 };
 
-let baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-dashboard";
 Vue.prototype.$baseUrl = "/" + baseUrl;
 
-Vue.prototype.$openLoader = function(payload) {
+Vue.prototype.$openLoader = function (payload) {
   try {
     this.$root.$children[0].openLoader(payload);
   } catch (error) {
@@ -259,7 +259,7 @@ Vue.prototype.$openLoader = function(payload) {
   }
 };
 
-Vue.prototype.$closeLoader = function() {
+Vue.prototype.$closeLoader = function () {
   try {
     this.$root.$children[0].closeLoader();
   } catch (error) {
@@ -267,7 +267,7 @@ Vue.prototype.$closeLoader = function() {
   }
 };
 
-Vue.prototype.$syncLoader = function(statusSyncLoader) {
+Vue.prototype.$syncLoader = function (statusSyncLoader) {
   try {
     this.$root.$children[0].syncLoader(statusSyncLoader);
   } catch (error) {
@@ -276,7 +276,7 @@ Vue.prototype.$syncLoader = function(statusSyncLoader) {
 };
 
 // ADD FIREBASE MESSAGE
-let firebaseConfig = {
+const firebaseConfig = {
   apiKey: process.env.MIX_FIREBASE_API_KEY,
   authDomain: process.env.MIX_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.MIX_FIREBASE_PROJECT_ID,
@@ -287,7 +287,7 @@ let firebaseConfig = {
 };
 
 let statusActiveFeatureFirebase = true;
-for (let key in firebaseConfig)
+for (const key in firebaseConfig)
   statusActiveFeatureFirebase =
     statusActiveFeatureFirebase &&
     firebaseConfig[key] != undefined &&
@@ -330,19 +330,19 @@ Vue.prototype.$broadcastChannel = broadcastChannel;
 // START G-TAG
 
 Vue.use(
-    VueGtag,
-    {
-        pageTrackerExcludedRoutes: excluded,
-        config: {
-            id: process.env.MIX_ANALYTICS_TRACKING_ID
-                ? process.env.MIX_ANALYTICS_TRACKING_ID
-                : null,
-            params: {
-                send_page_view: true,
-            },
-        },
+  VueGtag,
+  {
+    pageTrackerExcludedRoutes: excluded,
+    config: {
+      id: process.env.MIX_ANALYTICS_TRACKING_ID
+        ? process.env.MIX_ANALYTICS_TRACKING_ID
+        : null,
+      params: {
+        send_page_view: true,
+      },
     },
-    router
+  },
+  router
 );
 
 // END G-TAG

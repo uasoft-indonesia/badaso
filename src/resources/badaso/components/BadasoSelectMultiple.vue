@@ -19,12 +19,19 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-select-multiple__input--error" v-for="(info, index) in alert" :key="index" >
+        <span
+          class="badaso-select-multiple__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+        >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-select-multiple__input--error" v-html="alert"></span>
+        <span
+          class="badaso-select-multiple__input--error"
+          v-html="alert"
+        ></span>
       </div>
     </div>
   </vs-col>

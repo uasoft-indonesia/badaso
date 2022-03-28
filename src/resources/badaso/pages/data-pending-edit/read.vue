@@ -54,7 +54,7 @@ export default {
         .then((store) => {
           if (store.result) {
             let data = store.result.data.filter((item, index) => {
-              let { requestData } = item;
+              const { requestData } = item;
               return requestData.slug != undefined;
             });
 
@@ -73,7 +73,7 @@ export default {
   computed: {
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },

@@ -116,10 +116,7 @@
 
         <div
           v-if="getActiveTab === 'url'"
-          class="
-            badaso-upload-image__popup--right-bar
-            badaso-upload-image__popup--url-bar
-          "
+          class="badaso-upload-image__popup--right-bar badaso-upload-image__popup--url-bar"
         >
           <vs-input
             label="Paste an image URL here"
@@ -355,7 +352,7 @@ export default {
       this.$refs.image.tabindex = -1;
       const files = e.target.files;
       if (files[0] !== undefined) {
-        if (files[0].size > (this.availableMimetypes.image.maxSize * 100)) {
+        if (files[0].size > this.availableMimetypes.image.maxSize * 100) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: "Size too large (Max. 5MB)",
@@ -377,7 +374,7 @@ export default {
             page: this.page,
           })
           .then((res) => {
-            let error = _.get(res, "data.original.error", null);
+            const error = _.get(res, "data.original.error", null);
             if (error) {
               this.$vs.notify({
                 title: this.$t("alert.danger"),
@@ -405,7 +402,7 @@ export default {
       this.$api.badasoFile
         .uploadUsingLfm(files)
         .then((res) => {
-          let error = _.get(res, "data.original.error", null);
+          const error = _.get(res, "data.original.error", null);
           if (error) {
             this.$vs.notify({
               title: this.$t("alert.danger"),
@@ -440,7 +437,7 @@ export default {
           "items[]": _.find(this.images, { url: this.model }).name,
         })
         .then((res) => {
-          let error = _.get(res, "data.original.error", null);
+          const error = _.get(res, "data.original.error", null);
           if (error) {
             this.$vs.notify({
               title: this.$t("alert.danger"),

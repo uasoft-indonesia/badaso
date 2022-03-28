@@ -211,12 +211,12 @@ export default {
       this.goTo(pageNum);
     },
     pageSize(val) {
-      let index = this.descriptionItems.indexOf(val);
+      const index = this.descriptionItems.indexOf(val);
       this.changeRowMaxItems(index);
     },
     sizeArray() {
-      this.calculateMinMax(this.current)
-    }
+      this.calculateMinMax(this.current);
+    },
   },
 
   async mounted() {
@@ -261,7 +261,7 @@ export default {
     },
     getPages() {
       if (this.total <= this.max) {
-        let pages = this.setPages(1, this.total);
+        const pages = this.setPages(1, this.total);
         this.pages = pages;
       }
       const even = this.max % 2 === 0 ? 1 : 0;

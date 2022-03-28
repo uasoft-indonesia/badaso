@@ -1,17 +1,17 @@
 .badaso-collapse-item {
   &__container {
-    border-bottom: 1px solid rgba(0,0,0,.04);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
     cursor: pointer;
-    -webkit-transition: all .25s ease;
-    transition: all .25s ease;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
 
     &:last-child {
-      border-bottom: 0 solid transparent!important;
+      border-bottom: 0 solid transparent !important;
     }
   }
 
   &--disabled {
-    opacity: .5;
+    opacity: 0.5;
     cursor: default;
     pointer-events: none;
     z-index: 999;
@@ -23,14 +23,15 @@
     }
 
     & .badaso-collapse-item__header-icon {
-      -webkit-transform: translate(-50%,-50%) rotate(180deg);
-      transform: translate(-50%,-50%) rotate(180deg);
+      -webkit-transform: translate(-50%, -50%) rotate(180deg);
+      transform: translate(-50%, -50%) rotate(180deg);
     }
   }
 
-  &__header, &__header-icon {
-    -webkit-transition: all .25s ease;
-    transition: all .25s ease;
+  &__header,
+  &__header-icon {
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
   }
 
   &__header {
@@ -41,8 +42,8 @@
   }
 
   &__header-icon {
-    -webkit-transform: translate(-50%,-50%);
-    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     right: 0;
     position: absolute;
     top: 50%;
@@ -62,16 +63,16 @@
   &__content-container {
     cursor: default !important;
     overflow: hidden;
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
   }
 
   &__content {
     padding: 4px;
     padding-top: 0;
-    font-size: .85rem;
-    opacity: .2;
-    -webkit-transition: all .25s ease;
-    transition: all .25s ease;
+    font-size: 0.85rem;
+    opacity: 0.2;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
   }
 }

@@ -7,26 +7,24 @@
       active-text-color="rgba(255,255,255,1)"
       :style="{ color: topbarFontColor }"
     >
-      <div 
+      <div
         slot="logo"
         class="top-navbar__logo-wrapper"
         v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
       >
-        <img 
-          :src="logo" 
-          v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'" 
-          alt="Dashboard" 
+        <img
+          :src="logo"
+          v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
+          alt="Dashboard"
         />
-        <span 
-          class="top-navbar__logo-text" 
-          v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'">
-            {{ title }}
+        <span
+          class="top-navbar__logo-text"
+          v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'"
+        >
+          {{ title }}
         </span>
         &nbsp;
-        <kbd
-          v-if="!isOnline">
-          offline
-        </kbd>
+        <kbd v-if="!isOnline"> offline </kbd>
       </div>
       <div slot="navigation">
         <div
@@ -106,7 +104,7 @@ export default {
   computed: {
     user: {
       get() {
-        let user = this.$store.getters["badaso/getUser"];
+        const user = this.$store.getters["badaso/getUser"];
         return user;
       },
     },
@@ -132,13 +130,13 @@ export default {
     },
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },
   },
   methods: {
-    //This is for sidebar trigger in mobile
+    // This is for sidebar trigger in mobile
     reduceSidebar() {
       this.$store.commit("badaso/REDUCE_SIDEBAR", !this.isReduceSidebar);
     },

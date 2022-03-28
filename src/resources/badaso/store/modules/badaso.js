@@ -36,7 +36,7 @@ export default {
     },
   },
   mutations: {
-    //This is for Sidbar trigger in mobile
+    // This is for Sidbar trigger in mobile
     IS_SIDEBAR_ACTIVE(state, value) {
       state.isSidebarActive = value;
     },
@@ -70,7 +70,7 @@ export default {
       api.badasoMenu
         .browseItemByKeys({})
         .then((res) => {
-          let { data } = res;
+          const { data } = res;
 
           state.menu = data.map((menu) => {
             menu.menuItems = menuItemAddPrefix(
@@ -92,7 +92,7 @@ export default {
           menu_key: "core",
         })
         .then((res) => {
-          let menuItems = res.data.menuItems;
+          const menuItems = res.data.menuItems;
           menuItems.map((item) => {
             if (helpers.isValidHttpUrl(item.url)) {
               item.url = item.url;

@@ -37,11 +37,15 @@
               >
                 <table class="badaso-table">
                   <tr>
-                    <td class="badaso-table__label">{{ dataRow.displayName }}</td>
+                    <td class="badaso-table__label">
+                      {{ dataRow.displayName }}
+                    </td>
                     <td class="badaso-table__value">
                       <img
                         v-if="dataRow.type == 'upload_image'"
-                        :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
+                        :src="
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        "
                         width="100%"
                         alt=""
                       />
@@ -51,7 +55,9 @@
                       >
                         <img
                           v-for="(image, indexImage) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           )"
                           :key="indexImage"
                           :src="image"
@@ -78,12 +84,16 @@
                       >
                       <a
                         v-else-if="dataRow.type == 'upload_file'"
-                        :href="
-                          `${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
-                        "
+                        :href="`${
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }`"
                         target="_blank"
                         >{{
-                          getDownloadUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
+                          getDownloadUrl(
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          )
                         }}</a
                       >
                       <div
@@ -92,15 +102,15 @@
                       >
                         <p
                           v-for="(file, indexFile) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           )"
                           :key="indexFile"
                         >
-                          <a
-                            :href="`${file}`"
-                            target="_blank"
-                            >{{ getDownloadUrl(file) }}</a
-                          >
+                          <a :href="`${file}`" target="_blank">{{
+                            getDownloadUrl(file)
+                          }}</a>
                         </p>
                       </div>
                       <p
@@ -111,20 +121,24 @@
                         {{
                           bindSelection(
                             dataRow.details.items,
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           )
                         }}
                       </p>
                       <div
                         v-else-if="
                           dataRow.type == 'select_multiple' ||
-                            dataRow.type == 'checkbox'
+                          dataRow.type == 'checkbox'
                         "
                         class="crud-generated__item--select-multiple"
                       >
                         <p
                           v-for="(selected, indexSelected) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           )"
                           :key="indexSelected"
                         >
@@ -134,13 +148,11 @@
                       <div v-else-if="dataRow.type == 'color_picker'">
                         <div
                           class="crud-generated__item--color-picker"
-                          :style="
-                            `background-color: ${
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            }`
-                          "
+                          :style="`background-color: ${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`"
                         ></div>
                         {{
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -179,14 +191,15 @@
       </vs-row>
     </template>
     <template v-if="isMaintenance">
-      <badaso-breadcrumb-row full>
-      </badaso-breadcrumb-row>
+      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
-            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
+            <h1 class="badaso-maintenance__text">
+              We are under <br />maintenance
+            </h1>
           </div>
         </vs-col>
       </vs-row>
@@ -203,33 +216,33 @@ export default {
   data: () => ({
     dataType: {},
     record: {},
-    isMaintenance: false
+    isMaintenance: false,
   }),
   mounted() {
     this.getDetailEntity();
   },
   computed: {
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
-    }
+    },
   },
   methods: {
     getDownloadUrl(item) {
-      if (item == null || item == undefined) return
+      if (item == null || item == undefined) return;
 
-      return item.split('storage').pop()
+      return item.split("storage").pop();
     },
     async getDetailEntity() {
       this.$openLoader();
 
       try {
-        let response = await this.$api.badasoEntity.read({
+        const response = await this.$api.badasoEntity.read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         });
 
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
@@ -240,7 +253,7 @@ export default {
         this.dataType = dataType;
         this.record = response.data;
 
-        let dataRows = this.dataType.dataRows.map((data) => {
+        const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.add = data.add == 1;
             data.edit = data.edit == 1;
@@ -278,18 +291,18 @@ export default {
       }
     },
     displayRelationData(record, dataRow) {
-      let table = this.$caseConvert.stringSnakeToCamel(
+      const table = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTable
       );
-      let column = this.$caseConvert.stringSnakeToCamel(
+      const column = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTableColumn
       );
-      let displayColumn = this.$caseConvert.stringSnakeToCamel(
+      const displayColumn = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTableDisplayColumn
       );
       if (dataRow.relation.relationType == "has_many") {
-        let list = record[table];
-        let flatList = list.map((ls) => {
+        const list = record[table];
+        const flatList = list.map((ls) => {
           return ls[displayColumn];
         });
         return flatList.join(", ");

@@ -48,11 +48,11 @@ export default {
   },
   computed: {
     urlApiDocs() {
-      let apidocs_route = process.env.MIX_API_DOCS_ROUTE
+      const apidocs_route = process.env.MIX_API_DOCS_ROUTE
         ? process.env.MIX_API_DOCS_ROUTE
         : "api-docs";
-      let host = window.location.origin;
-      let token = localStorage.getItem("token");
+      const host = window.location.origin;
+      const token = localStorage.getItem("token");
 
       return `${host}/${apidocs_route}?token=${token}`;
     },
@@ -68,7 +68,7 @@ export default {
           this.isShow = true;
         })
         .catch((error) => {
-          let { message } = error;
+          const { message } = error;
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: message,

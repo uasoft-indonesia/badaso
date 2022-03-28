@@ -105,7 +105,7 @@ export default {
   },
   computed: {
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
   },
@@ -114,11 +114,11 @@ export default {
       this.$openLoader();
 
       try {
-        let response = await this.$api.badasoEntity.all({
+        const response = await this.$api.badasoEntity.all({
           slug: this.$route.params.slug,
         });
 
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,

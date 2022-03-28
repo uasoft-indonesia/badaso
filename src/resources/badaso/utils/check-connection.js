@@ -9,7 +9,7 @@ export const checkConnection = (app) => {
   let isOnlineConnectionStatus = navigator.onLine;
   let onlineHistory = isOnlineConnectionStatus;
 
-  let store = app.$store;
+  const store = app.$store;
   setInterval(async () => {
     isOnlineConnectionStatus = navigator.onLine;
     store.commit("badaso/SET_GLOBAL_STATE", {
@@ -21,21 +21,17 @@ export const checkConnection = (app) => {
       if (isOnlineConnectionStatus != onlineHistory) app.$syncLoader(true);
 
       try {
-        let keys = await getAllKeysObjectStore();
+        const keys = await getAllKeysObjectStore();
 
-        for (let index in keys) {
-          let keyStore = keys[index];
+        for (const index in keys) {
+          const keyStore = keys[index];
 
-          let store = await readObjectStore(keyStore);
-          let data = store.result.data;
-          for (let indexItemData in data) {
-            let itemData = data[indexItemData];
-            let {
-              requestData,
-              requestMethod,
-              requestUrl,
-              requestHeaders,
-            } = itemData;
+          const store = await readObjectStore(keyStore);
+          const data = store.result.data;
+          for (const indexItemData in data) {
+            const itemData = data[indexItemData];
+            const { requestData, requestMethod, requestUrl, requestHeaders } =
+              itemData;
 
             try {
               await http({

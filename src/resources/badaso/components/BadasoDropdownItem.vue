@@ -1,6 +1,23 @@
 <template>
-  <li :class="{ divider: divider }" :style="{ color: hoverx ? giveColor() + ' !important' : null, background: hoverx ? giveColor(0.01) + ' !important' : null, }" class="badaso-dropdown-item__container" @click="closeParent" @mouseover="hoverx = true" @mouseout="hoverx = false">
-    <router-link v-if="to" :to="to" v-bind="$attrs" :class="{ disabled: disabled }" class="badaso-dropdown-item__item--link" v-on="$listeners" >
+  <li
+    :class="{ divider: divider }"
+    :style="{
+      color: hoverx ? giveColor() + ' !important' : null,
+      background: hoverx ? giveColor(0.01) + ' !important' : null,
+    }"
+    class="badaso-dropdown-item__container"
+    @click="closeParent"
+    @mouseover="hoverx = true"
+    @mouseout="hoverx = false"
+  >
+    <router-link
+      v-if="to"
+      :to="to"
+      v-bind="$attrs"
+      :class="{ disabled: disabled }"
+      class="badaso-dropdown-item__item--link"
+      v-on="$listeners"
+    >
       {{ $attrs.disabled }}
       <div class="badaso-dropdown-item__item">
         <div>
@@ -17,7 +34,13 @@
       </div>
     </router-link>
 
-    <a v-else v-bind="$attrs" :class="{ disabled: disabled }" class="badaso-dropdown-item__item--link" v-on="$listeners">
+    <a
+      v-else
+      v-bind="$attrs"
+      :class="{ disabled: disabled }"
+      class="badaso-dropdown-item__item--link"
+      v-on="$listeners"
+    >
       <div class="badaso-dropdown-item__item">
         <div>
           <vs-icon
@@ -91,12 +114,12 @@ export default {
       if (this.disabled) return;
       searchParent(this);
       function searchParent(_this) {
-        let parent = _this.$parent;
+        const parent = _this.$parent;
         if (!parent.$el.className) return;
         if (parent.$el.className.indexOf("parent-dropdown") == -1) {
           searchParent(parent);
         } else {
-          let [dropdownMenu] = parent.$children.filter((item) => {
+          const [dropdownMenu] = parent.$children.filter((item) => {
             return item.hasOwnProperty("dropdownVisible");
           });
           dropdownMenu.dropdownVisible = parent.vsDropdownVisible = false;
@@ -104,10 +127,10 @@ export default {
       }
     },
     changeColor() {
-      let _self = this;
+      const _self = this;
       searchParent(this);
       function searchParent(_this) {
-        let parent = _this.$parent;
+        const parent = _this.$parent;
         if (!parent.$el.className) {
           return;
         }

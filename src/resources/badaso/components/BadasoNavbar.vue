@@ -1,5 +1,13 @@
 <template>
-  <header :style="[styleNavbar]" :class="[ `vs-navbar-${type}`, `vs-navbar-color-${color}`, { collapse: collapse }, ]" class="vs-navbar">
+  <header
+    :style="[styleNavbar]"
+    :class="[
+      `vs-navbar-${type}`,
+      `vs-navbar-color-${color}`,
+      { collapse: collapse },
+    ]"
+    class="vs-navbar"
+  >
     <div v-if="viewType == $constants.DESKTOP" class="top-navbar__header">
       <div class="top-navbar__logo">
         <slot name="logo"> </slot>

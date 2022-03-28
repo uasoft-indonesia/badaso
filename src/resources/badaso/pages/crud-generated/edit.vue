@@ -403,8 +403,8 @@ export default {
   methods: {
     submitForm() {
       // init data row
-      let dataRows = {};
-      for (let row of this.dataType.dataRows) {
+      const dataRows = {};
+      for (const row of this.dataType.dataRows) {
         if (row && row.value) {
           dataRows[row.field] = row.value;
         }
@@ -445,12 +445,12 @@ export default {
       this.$openLoader();
 
       try {
-        let response = await this.$api.badasoEntity.read({
+        const response = await this.$api.badasoEntity.read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         });
 
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
@@ -460,7 +460,7 @@ export default {
 
         this.dataType = dataType;
         this.record = response.data;
-        let dataRows = this.dataType.dataRows.map((data) => {
+        const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.add = data.add == 1;
             data.edit = data.edit == 1;
@@ -473,7 +473,7 @@ export default {
               data.type == "checkbox" ||
               data.type == "select_multiple"
             ) {
-              let val =
+              const val =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
               if (val) {
                 data.value = val.split(",");
@@ -563,7 +563,7 @@ export default {
   computed: {
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },
@@ -571,7 +571,7 @@ export default {
       return window.btoa(location.pathname);
     },
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
   },

@@ -145,7 +145,7 @@ export default {
   },
   methods: {
     saveMenuOrder() {
-      let order = this.menus
+      const order = this.menus
         .map((item) => item.id)
         .filter((item) => item != undefined);
       if (JSON.stringify(order) != JSON.stringify(this.saveOrder)) {
@@ -165,7 +165,7 @@ export default {
       }
     },
     saveCheckMenuExpand(menuId) {
-      let { id: menu_id, isExpand: is_expand } = menu;
+      const { id: menu_id, isExpand: is_expand } = menu;
 
       this.$api.badasoMenu
         .menuOptions({ menu_id, is_expand: !is_expand, type: "menu" })

@@ -1,7 +1,14 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-editor__container">
-    <label v-if="label != ''" for="" class="badaso-editor__label">{{ label }}</label>
-    <editor id="tinymce" :value="value" @input="handleInput($event)" :init="init" ></editor>
+    <label v-if="label != ''" for="" class="badaso-editor__label">{{
+      label
+    }}</label>
+    <editor
+      id="tinymce"
+      :value="value"
+      @input="handleInput($event)"
+      :init="init"
+    ></editor>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
@@ -20,7 +27,7 @@
 </template>
 
 <script>
-import tinymce from "tinymce"
+import tinymce from "tinymce";
 import TinyMCE from "@tinymce/tinymce-vue";
 
 import "tinymce/themes/silver/theme";

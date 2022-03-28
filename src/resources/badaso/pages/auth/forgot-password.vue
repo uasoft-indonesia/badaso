@@ -1,6 +1,11 @@
 <template>
   <vs-col vs-lg="12" class="main-container__box--auth">
-    <vs-alert :active="res.active" :color="res.status" :icon="res.icon" class="main-container__alert--auth">
+    <vs-alert
+      :active="res.active"
+      :color="res.status"
+      :icon="res.icon"
+      class="main-container__alert--auth"
+    >
       <span>{{ res.message }}</span>
     </vs-alert>
 
@@ -20,17 +25,27 @@
         />
         <div v-if="errors.email" class="forgot-password__error-container">
           <div v-if="$helper.isArray(errors.email)">
-            <span class="forgot-password__input--error" v-for="(info, index) in errors.email" :key="index" >
+            <span
+              class="forgot-password__input--error"
+              v-for="(info, index) in errors.email"
+              :key="index"
+            >
               {{ info }}
             </span>
           </div>
           <div v-else>
-            <span class="forgot-password__input--error" v-html="errors.email"></span>
+            <span
+              class="forgot-password__input--error"
+              v-html="errors.email"
+            ></span>
           </div>
         </div>
-        <vs-button type="relief" class="forgot-password__button" @click="forgotPassword()">{{
-          $t("forgotPassword.button")
-        }}</vs-button>
+        <vs-button
+          type="relief"
+          class="forgot-password__button"
+          @click="forgotPassword()"
+          >{{ $t("forgotPassword.button") }}</vs-button
+        >
       </div>
     </vs-card>
 
@@ -50,17 +65,27 @@
         />
         <div v-if="errors.token" class="forgot-password__error-container">
           <div v-if="$helper.isArray(errors.token)">
-            <span class="forgot-password__input--error" v-for="(info, index) in errors.token" :key="index">
+            <span
+              class="forgot-password__input--error"
+              v-for="(info, index) in errors.token"
+              :key="index"
+            >
               {{ info }}
             </span>
           </div>
           <div v-else>
-            <span class="forgot-password__input--error" v-html="errors.token"></span>
+            <span
+              class="forgot-password__input--error"
+              v-html="errors.token"
+            ></span>
           </div>
         </div>
-        <vs-button type="relief" class="forgot-password__button" @click="verify()">{{
-          $t("verifyEmail.button")
-        }}</vs-button>
+        <vs-button
+          type="relief"
+          class="forgot-password__button"
+          @click="verify()"
+          >{{ $t("verifyEmail.button") }}</vs-button
+        >
       </div>
     </vs-card>
   </vs-col>

@@ -1,15 +1,15 @@
 export default {
   snake(obj) {
     if (typeof obj == "string") {
-      return obj.replace(/([A-Z])/g, function($1) {
+      return obj.replace(/([A-Z])/g, function ($1) {
         return "_" + $1.toLowerCase();
       });
     }
     if (typeof obj != "object") return obj;
 
-    for (var oldName in obj) {
+    for (const oldName in obj) {
       // Camel to underscore
-      let newName = oldName.replace(/([A-Z])/g, function($1) {
+      const newName = oldName.replace(/([A-Z])/g, function ($1) {
         return "_" + $1.toLowerCase();
       });
 
@@ -39,15 +39,15 @@ export default {
     return obj;
   },
   stringSnakeToCamel(str) {
-    let strings = str.split("_");
-    let newStrings = strings.map((string, index) => {
+    const strings = str.split("_");
+    const newStrings = strings.map((string, index) => {
       if (index > 0) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       } else {
         return string;
       }
     });
-    let string = newStrings.join("");
+    const string = newStrings.join("");
     return string;
   },
   kebab(string) {

@@ -1,36 +1,36 @@
 import resource from "../resource";
 import QueryString from "../query-string";
 
-let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
 
 export default {
   getDataType(data) {
-    let ep = apiPrefix + "/v1/table/data-type";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/table/data-type";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   read(data) {
-    let ep = apiPrefix + "/v1/table/read";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/table/read";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   browse(data = {}) {
-    let ep = apiPrefix + "/v1/table";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/table";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   relationDataBySlug(data = {}) {
-    let ep = apiPrefix + "/v1/table/relation-data-by-slug";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/table/relation-data-by-slug";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 };
