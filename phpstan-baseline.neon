@@ -5,8 +5,6 @@ parameters:
     ignoreErrors:
     - '#Call to an undefined static method [a-zA-Z0-9-()\\_]+::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined method [a-zA-Z0-9-()\\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Parameter \$test_case of method [a-zA-Z0-9-()\\_]+::[a-zA-Z0-9-()\_]+ has invalid type Tests\\TestCase.#'
-    - '#Method [a-zA-Z0-9-()\\_]+::[a-zA-Z0-9-()\_]+ has invalid return type Tests\\TestCase.#'
     - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class [a-zA-Z0-9-()\_]+.#'
     - '#Result of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
     - '#Result of static method [a-zA-Z0-9\\_]+::[a-zA-Z0-9-()\_]+ [a-zA-Z0-9-()\_]+ is used.#'
