@@ -36,7 +36,7 @@ class BadasoUserController extends Controller
 
             $user = User::find($request->id);
 
-            $user->email_verified = !is_null($user->email_verified_at);
+            $user->email_verified = ! is_null($user->email_verified_at);
 
             $data['user'] = $user;
 
@@ -80,11 +80,12 @@ class BadasoUserController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => [
                     'old' => $old_user,
-                    'new' => $user
+                    'new' => $user,
                 ]])
                 ->performedOn($user)
                 ->event('updated')
-                ->log('User ' . $user->name . ' has been updated');
+                ->log('User '.$user->name.' has been updated');
+
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -123,7 +124,8 @@ class BadasoUserController extends Controller
                 ->withProperties(['attributes' => $user])
                 ->performedOn($user)
                 ->event('created')
-                ->log('User ' . $user->name . ' has been created');
+                ->log('User '.$user->name.' has been created');
+
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -153,7 +155,8 @@ class BadasoUserController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->performedOn($user)
                 ->event('deleted')
-                ->log('User ' . $user->name . ' has been deleted');
+                ->log('User '.$user->name.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -182,13 +185,14 @@ class BadasoUserController extends Controller
                 $user_name[] = $user->name;
                 $user->delete();
             }
-            $user_name = join(",",$user_name);
+            $user_name = join(',', $user_name);
             DB::commit();
             activity('User')
                 ->causedBy(auth()->user() ?? null)
                 ->performedOn($user)
                 ->event('deleted')
-                ->log('User ' . $user_name . ' has been deleted');
+                ->log('User '.$user_name.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
