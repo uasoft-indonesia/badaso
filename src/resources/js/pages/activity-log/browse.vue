@@ -171,7 +171,8 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.data = response.data;
-          this.activitylogs = response.data.data;
+          this.activitylogs = response.data.activitylog;
+          console.log(this.activitylogs);
           this.totalItem =
             response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)

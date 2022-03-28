@@ -176,6 +176,8 @@ class BadasoCRUDController extends Controller
 
             $data_type = DataType::find($request->input('id'));
 
+            
+
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
             $data_type->display_name_singular = $request->input('display_name_singular');
@@ -262,7 +264,7 @@ class BadasoCRUDController extends Controller
                 ])
                 ->performedOn($data_type)
                 ->event('updated')
-                ->log('CRUD table '.$data_type->slug.' has been updated');
+                ->log('CRUD table ' . $data_type->slug . ' has been updated');
 
             return ApiResponse::success($data_type);
         } catch (Exception $e) {
@@ -392,14 +394,13 @@ class BadasoCRUDController extends Controller
             $this->generateAPIDocs($table_name, $data_rows, $new_data_type);
 
             DB::commit();
-
+            
             activity('CRUD')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $new_data_type])
                 ->performedOn($new_data_type)
                 ->event('created')
-                ->log('CRUD table '.$new_data_type->slug.' has been created');
-
+                ->log('CRUD table ' . $new_data_type->slug . ' has been created');
             return ApiResponse::success($new_data_type);
         } catch (Exception $e) {
             DB::rollBack();
@@ -436,7 +437,7 @@ class BadasoCRUDController extends Controller
             ->withProperties(['attributes' => $data_type])
             ->performedOn($data_type)
             ->event('deleted')
-            ->log('CRUD table '.$data_type->slug.' has been deleted');
+            ->log('CRUD table ' . $data_type->slug . ' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {

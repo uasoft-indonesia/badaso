@@ -59,7 +59,7 @@ class BadasoDatabaseController extends Controller
                     },
                 ],
             ]);
-
+            
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->relations);
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/',
@@ -74,8 +74,8 @@ class BadasoDatabaseController extends Controller
                         ->causedBy(auth()->user() ?? null)
                         ->withProperties(['attributes' => $request->all()])
                         ->event('created')
-                        ->log('Add table '.$request->table.' has been created');
-
+                        ->log('Add table ' . $request->table . ' has been created');
+                    
                     return ApiResponse::success($msg);
 
                     break;
@@ -176,8 +176,7 @@ class BadasoDatabaseController extends Controller
                         'new' => [$table['modified_name'], $fields['modified_fields'], $relations['modified_relations']],
                     ])
                     ->event('updated')
-                    ->log('Edit table '.$table['current_name'].' has been updated');
-
+                    ->log('Edit table ' . $table['current_name'] . ' has been updated');
                     return ApiResponse::success(__('badaso::validation.database.alter_migration_created', ['table' => $table['modified_name']]));
                     break;
 
@@ -242,8 +241,8 @@ class BadasoDatabaseController extends Controller
                     activity('Database')
                     ->causedBy(auth()->user() ?? null)
                     ->event('deleted')
-                    ->log('Delete table '.$request->table.' has been deleted');
-
+                    ->log('Delete table ' . $request->table. ' has been deleted');
+                    
                     return ApiResponse::success(__('badaso::validation.database.migration_dropped', ['table' => $request->table]));
                     break;
                 default:
@@ -284,7 +283,6 @@ class BadasoDatabaseController extends Controller
                         ->causedBy(auth()->user() ?? null)
                         ->event('rollback')
                         ->log('Rollback table has been success');
-
                     return ApiResponse::success(__('badaso::validation.database.rollback_success'));
                     break;
                 default:
@@ -367,11 +365,11 @@ class BadasoDatabaseController extends Controller
                 }
             }
 
-            $file_name = join(', ', $request->file_name);
+            $file_name = join(", ", $request->file_name);
             activity('Database')
                 ->causedBy(auth()->user() ?? null)
                 ->event('deleted')
-                ->log('Migration '.$file_name.' has been deleted');
+                ->log('Migration ' . $file_name . ' has been deleted');
 
             return ApiResponse::success(__('badaso::validation.database.migration_deleted'));
         } catch (Exception $e) {

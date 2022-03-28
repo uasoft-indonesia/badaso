@@ -15,7 +15,7 @@ class BadasoActivityLogController extends Controller
     {
         try {
             $limit = $request->get('limit', 10);
-            $filter = '%'.$request->get('filter', '').'%';
+            $filter = '%' . $request->get('filter', '') . '%';
             $order_field = $request->get('order_field');
             $order_direction = $request->get('order_direction');
 
@@ -27,6 +27,7 @@ class BadasoActivityLogController extends Controller
                 ->orWhere('causer_id', 'LIKE', $filter)
                 ->orWhere('causer_type', 'LIKE', $filter)
                 ->orWhere('properties', 'LIKE', $filter);
+
 
             if ($order_field) {
                 $order_field = Str::snake($order_field);

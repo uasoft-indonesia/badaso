@@ -69,11 +69,11 @@ class BadasoRoleController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => [
                     'old' => $old_role,
-                    'new' => $role,
+                    'new' => $role
                 ]])
                 ->performedOn($role)
                 ->event('updated')
-                ->log('Role '.$role->name.' has been updated');
+                ->log('Role ' . $role->name . ' has been updated');
 
             return ApiResponse::success($role);
         } catch (Exception $e) {
@@ -106,8 +106,7 @@ class BadasoRoleController extends Controller
                 ->withProperties(['attributes' => $role])
                 ->performedOn($role)
                 ->event('created')
-                ->log('Role '.$role->name.' has been created');
-
+                ->log('Role ' . $role->name . ' has been created');
             return ApiResponse::success($role);
         } catch (Exception $e) {
             DB::rollBack();
@@ -138,8 +137,7 @@ class BadasoRoleController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($role)
                 ->event('deleted')
-                ->log('Role '.$role->name.' has been deleted');
-
+                ->log('Role ' . $role->name . ' has been deleted');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -164,10 +162,10 @@ class BadasoRoleController extends Controller
             $role_name = [];
             foreach ($id_list as $key => $id) {
                 $role = Role::find($id);
-                $role_name[] = $role->name;
+                $role_name[] = $role->name; 
                 $role->delete();
             }
-            $role_name = join(',', $role_name);
+            $role_name = join("," , $role_name);
             DB::commit();
 
             activity('Role Controllers')
@@ -175,8 +173,7 @@ class BadasoRoleController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($role)
                 ->event('deleted')
-                ->log('Role '.$role->name.' has been deleted');
-
+                ->log('Role ' . $role->name . ' has been deleted');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

@@ -77,7 +77,7 @@ class BadasoTableController extends Controller
             $request->validate([
                 'table' => 'required',
             ]);
-
+            
             $columns = SchemaManager::describeTable($request->table);
 
             $new_data_type = new DataType();
@@ -110,12 +110,11 @@ class BadasoTableController extends Controller
             activity('Generate Table')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => [
-                    'data_type' => $new_data_type,
-                    'data_rows' => $new_data_row,
+                        'data_type' => $new_data_type,
+                        'data_rows' => $new_data_row
                 ]])
                 ->event('created')
-                ->log('Table '.$new_data_type->display_name_singular.' has been created');
-
+                ->log('Table ' . $new_data_type->display_name_singular . ' has been created');
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -131,7 +130,7 @@ class BadasoTableController extends Controller
                 'table' => [
                     'required',
                     function ($attribute, $value, $fail) {
-                        if (! Schema::hasTable($value)) {
+                        if (!Schema::hasTable($value)) {
                             $fail(__('badaso::validation.crud.table_not_found', ['table' => $value]));
                         }
                     },
