@@ -52,7 +52,7 @@ class BadasoMenuController extends Controller
                         $menu_item_id = $request->menu_item_id;
                         $menu_item = MenuItem::find($menu_item_id);
 
-                        $is_expand = $request->get('is_expand', !$menu_item->is_expand);
+                        $is_expand = $request->get('is_expand', ! $menu_item->is_expand);
                         $menu_item->is_expand = $is_expand;
                         $menu_item->save();
                         break;
@@ -65,7 +65,7 @@ class BadasoMenuController extends Controller
                         $menu_id = $request->menu_id;
                         $menu = Menu::find($menu_id);
 
-                        $is_expand = $request->get('is_expand', !$menu->is_expand);
+                        $is_expand = $request->get('is_expand', ! $menu->is_expand);
                         $menu->is_expand = $is_expand;
                         $menu->save();
                         break;
@@ -76,7 +76,7 @@ class BadasoMenuController extends Controller
                 ]);
 
                 $menu = Menu::find($request->menu_id);
-                $menu->is_show_header = !$menu->is_show_header;
+                $menu->is_show_header = ! $menu->is_show_header;
                 $menu->save();
             }
 
@@ -96,7 +96,7 @@ class BadasoMenuController extends Controller
 
             $menu_items = MenuItem::where('menu_id', $request->menu_id)
                 ->orderBy('order', 'asc')
-                ->whereNull($prefix . 'menu_items.parent_id')
+                ->whereNull($prefix.'menu_items.parent_id')
                 ->get();
 
             $menu_items = $this->getChildMenuItems($menu_items);
@@ -152,11 +152,11 @@ class BadasoMenuController extends Controller
             $prefix = config('badaso.database.prefix');
             $menu = Menu::where('key', $request->menu_key)->first();
 
-            $all_menu_items = MenuItem::join($prefix . 'menus', $prefix . 'menus.id', $prefix . 'menu_items.menu_id')
-                ->where($prefix . 'menus.key', $request->menu_key)
-                ->whereNull($prefix . 'menu_items.parent_id')
-                ->select($prefix . 'menu_items.*')
-                ->orderBy($prefix . 'menu_items.order', 'asc')
+            $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
+                ->where($prefix.'menus.key', $request->menu_key)
+                ->whereNull($prefix.'menu_items.parent_id')
+                ->select($prefix.'menu_items.*')
+                ->orderBy($prefix.'menu_items.order', 'asc')
                 ->get();
             $menu_items = [];
             foreach ($all_menu_items as $menu_item) {
@@ -188,11 +188,11 @@ class BadasoMenuController extends Controller
                 foreach ($menu_keys as $key => $menu_key) {
                     $menu = Menu::where('key', $menu_key)->first();
 
-                    $all_menu_items = MenuItem::join($prefix . 'menus', $prefix . 'menus.id', $prefix . 'menu_items.menu_id')
-                        ->where($prefix . 'menus.key', $menu_key)
-                        ->whereNull($prefix . 'menu_items.parent_id')
-                        ->select($prefix . 'menu_items.*')
-                        ->orderBy($prefix . 'menu_items.order', 'asc')
+                    $all_menu_items = MenuItem::join($prefix.'menus', $prefix.'menus.id', $prefix.'menu_items.menu_id')
+                        ->where($prefix.'menus.key', $menu_key)
+                        ->whereNull($prefix.'menu_items.parent_id')
+                        ->select($prefix.'menu_items.*')
+                        ->orderBy($prefix.'menu_items.order', 'asc')
                         ->get();
                     $menu_items = [];
                     foreach ($all_menu_items as $menu_item) {
@@ -208,7 +208,7 @@ class BadasoMenuController extends Controller
 
                 $data = collect($data)->toArray();
             } else {
-                $all_menu_items = MenuItem::orderBy($prefix . 'menu_items.order', 'asc')
+                $all_menu_items = MenuItem::orderBy($prefix.'menu_items.order', 'asc')
                     ->get();
                 $menus = Menu::orderBy('order')->get();
 
@@ -297,7 +297,8 @@ class BadasoMenuController extends Controller
                 ->withProperties(['attributes' => $new_menu])
                 ->performedOn($new_menu)
                 ->event('created')
-                ->log('Menu ' . $new_menu->display_name . ' has been created');
+                ->log('Menu '.$new_menu->display_name.' has been created');
+
             return ApiResponse::success($new_menu);
         } catch (Exception $e) {
             DB::rollBack();
@@ -320,7 +321,7 @@ class BadasoMenuController extends Controller
 
             $url = $request->get('url');
             if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-                $url = substr($request->get('url'), 0, 1) != '/' ? '/' . $request->get('url') : $request->get('url');
+                $url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
             }
 
             $new_menu_item = new MenuItem();
@@ -340,7 +341,8 @@ class BadasoMenuController extends Controller
                 ->withProperties(['attributes' => $new_menu_item])
                 ->performedOn($new_menu_item)
                 ->event('created')
-                ->log('Menu ' . $new_menu_item->title . ' has been created');
+                ->log('Menu '.$new_menu_item->title.' has been created');
+
             return ApiResponse::success($new_menu_item);
         } catch (Exception $e) {
             DB::rollBack();
@@ -378,7 +380,8 @@ class BadasoMenuController extends Controller
                 ])
                 ->performedOn($menu)
                 ->event('updated')
-                ->log('Menu ' . $menu->display_name . ' has been updated');
+                ->log('Menu '.$menu->display_name.' has been updated');
+
             return ApiResponse::success($menu);
         } catch (Exception $e) {
             DB::rollBack();
@@ -402,7 +405,7 @@ class BadasoMenuController extends Controller
 
             $url = $request->get('url');
             if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-                $url = substr($request->get('url'), 0, 1) != '/' ? '/' . $request->get('url') : $request->get('url');
+                $url = substr($request->get('url'), 0, 1) != '/' ? '/'.$request->get('url') : $request->get('url');
             }
 
             $menu_item = MenuItem::find($request->menu_item_id);
@@ -480,7 +483,8 @@ class BadasoMenuController extends Controller
                 ])
                 ->performedOn($menu_item)
                 ->event('updated')
-                ->log('Menu item ' . $menu_item->title . ' has been updated');
+                ->log('Menu item '.$menu_item->title.' has been updated');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -506,6 +510,7 @@ class BadasoMenuController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->event('updated')
                 ->log('Menu item order  has been updated');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -544,7 +549,8 @@ class BadasoMenuController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($menus)
                 ->event('deleted')
-                ->log('Menu ' . $menus->display_name . ' has been deleted');
+                ->log('Menu '.$menus->display_name.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -572,7 +578,8 @@ class BadasoMenuController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($menu_items)
                 ->event('deleted')
-                ->log('Menu item' . $menu_items->title . ' has been deleted');
+                ->log('Menu item'.$menu_items->title.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

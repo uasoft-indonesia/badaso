@@ -114,7 +114,8 @@ class BadasoTableController extends Controller
                     'data_rows' => $new_data_row,
                 ]])
                 ->event('created')
-                ->log('Table ' . $new_data_type->display_name_singular . ' has been created');
+                ->log('Table '.$new_data_type->display_name_singular.' has been created');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

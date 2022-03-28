@@ -114,7 +114,8 @@ class BadasoUserRoleController extends Controller
             ->causedBy(auth()->user() ?? null)
                 ->performedOn($user)
                 ->event('created or updated')
-                ->log('User ' . $user->name . ' has been created or updated');
+                ->log('User '.$user->name.' has been created or updated');
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

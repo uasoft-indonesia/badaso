@@ -71,7 +71,8 @@ class BadasoRoleController extends Controller
                 ]])
                 ->performedOn($role)
                 ->event('updated')
-                ->log('Role ' . $role->name . ' has been updated');
+                ->log('Role '.$role->name.' has been updated');
+
             return ApiResponse::success($role);
         } catch (Exception $e) {
             DB::rollBack();
@@ -103,7 +104,8 @@ class BadasoRoleController extends Controller
                 ->withProperties(['attributes' => $role])
                 ->performedOn($role)
                 ->event('created')
-                ->log('Role ' . $role->name . ' has been created');
+                ->log('Role '.$role->name.' has been created');
+
             return ApiResponse::success($role);
         } catch (Exception $e) {
             DB::rollBack();
@@ -133,7 +135,8 @@ class BadasoRoleController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($role)
                 ->event('deleted')
-                ->log('Role ' . $role->name . ' has been deleted');
+                ->log('Role '.$role->name.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -169,7 +172,7 @@ class BadasoRoleController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($role)
                 ->event('deleted')
-                ->log('Role ' . $role->name . ' has been deleted');
+                ->log('Role '.$role->name.' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {
