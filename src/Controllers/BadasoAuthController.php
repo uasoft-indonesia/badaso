@@ -65,6 +65,7 @@ class BadasoAuthController extends Controller
             ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => auth()->user()])
                 ->log('Login has been success');
+
             return TokenManagement::fromUser($user)->createToken($remember)->response();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -79,6 +80,7 @@ class BadasoAuthController extends Controller
             ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => auth()->user()])
                 ->log('Logout has been success');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -152,6 +154,7 @@ class BadasoAuthController extends Controller
                     ->performedOn($user)
                     ->event('created')
                     ->log('Register has been created');
+
                 return ApiResponse::success([
                     'message' => __('badaso::validation.verification.email_sended'),
                 ]);
@@ -264,6 +267,7 @@ class BadasoAuthController extends Controller
                 ->performedOn($user)
                 ->event('updated')
                 ->log('Change password has been updated');
+
             return ApiResponse::success($user);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -453,6 +457,7 @@ class BadasoAuthController extends Controller
                 ->performedOn($user)
                 ->event('updated')
                 ->log('Update profile has been updated');
+
             return ApiResponse::success($user);
         } catch (Exception $e) {
             DB::rollBack();
@@ -505,6 +510,7 @@ class BadasoAuthController extends Controller
                     ->performedOn($user)
                     ->event('updated')
                     ->log('Update email has been updated');
+
                 return ApiResponse::success([
                     'should_verify_email' => true,
                     'message'             => __('badaso::validation.verification.email_sended'),

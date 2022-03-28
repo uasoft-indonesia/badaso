@@ -74,7 +74,8 @@ class BadasoPermissionController extends Controller
                 ]])
                 ->performedOn($permission)
                 ->event('edited')
-                ->log('Permission ' . $permission->key . ' has been edited');
+                ->log('Permission '.$permission->key.' has been edited');
+
             return ApiResponse::success($permission);
         } catch (Exception $e) {
             DB::rollBack();
@@ -108,7 +109,8 @@ class BadasoPermissionController extends Controller
                 ->withProperties(['attributes' => $permission])
                 ->performedOn($permission)
                 ->event('created')
-                ->log('Permission ' . $permission->key . ' has been created');
+                ->log('Permission '.$permission->key.' has been created');
+
             return ApiResponse::success($permission);
         } catch (Exception $e) {
             DB::rollBack();
@@ -138,7 +140,8 @@ class BadasoPermissionController extends Controller
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($permission)
                 ->event('deleted')
-                ->log('Permission ' . $permission->key . ' has been deleted');
+                ->log('Permission '.$permission->key.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();
@@ -168,13 +171,14 @@ class BadasoPermissionController extends Controller
             $permission_keys = join(',', $permission_keys);
 
             DB::commit();
-            
+
             activity('Permissions')
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $request->all()])
                 ->performedOn($permission)
                 ->event('deleted')
-                ->log('Permission ' . $permission_keys . ' has been deleted');
+                ->log('Permission '.$permission_keys.' has been deleted');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

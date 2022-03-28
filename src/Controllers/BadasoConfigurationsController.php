@@ -184,6 +184,7 @@ class BadasoConfigurationsController extends Controller
                 ->performedOn($updated_configuration)
                 ->event('updated')
                 ->log('Configuration has been updated');
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollBack();

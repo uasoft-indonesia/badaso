@@ -40,7 +40,7 @@ class BadasoActivityLogController extends Controller
 
             $data = json_decode(json_encode($activitylog));
             $data->activitylog = $activitylog->getCollection();
-            
+
             foreach ($data->data as $index => $value) {
                 $user = User::find($value->causer_id);
                 $causer_name = '';
@@ -49,6 +49,7 @@ class BadasoActivityLogController extends Controller
                 }
                 $data->data[$index]->causer_name = $causer_name;
             }
+
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {
             return ApiResponse::failed($e);
