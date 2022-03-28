@@ -96,6 +96,7 @@ class BadasoBaseController extends Controller
             $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
 
+            DB::commit();
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties([
@@ -103,9 +104,6 @@ class BadasoBaseController extends Controller
                     'attributes' => $updated['updated_data'],
                 ])
                 ->log($data_type->display_name_singular.' has been updated');
-
-            DB::commit();
-
             // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_UPDATE, $table_name);

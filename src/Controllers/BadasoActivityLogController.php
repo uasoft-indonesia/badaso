@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Models\Activity;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\User;
 
 class BadasoActivityLogController extends Controller
 {
@@ -39,6 +40,15 @@ class BadasoActivityLogController extends Controller
 
             $data = json_decode(json_encode($activitylog));
             $data->activitylog = $activitylog->getCollection();
+
+            foreach ($data->data as $index => $value) {
+                $user = User::find($value->causer_id);
+                $causer_name = '';
+                if (isset($user)) {
+                    $causer_name = $user->name;
+                }
+                $data->data[$index]->causer_name = $causer_name;
+            }
 
             return ApiResponse::success(collect($data)->toArray());
         } catch (Exception $e) {

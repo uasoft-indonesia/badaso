@@ -39,17 +39,8 @@
                 <badaso-th sort-key="logName">
                   {{ $t("activityLog.header.logName") }}
                 </badaso-th>
-                <badaso-th sort-key="causerType">
-                  {{ $t("activityLog.header.causerType") }}
-                </badaso-th>
-                <badaso-th sort-key="causerId">
-                  {{ $t("activityLog.header.causerId") }}
-                </badaso-th>
-                <badaso-th sort-key="subjectType">
-                  {{ $t("activityLog.header.subjectType") }}
-                </badaso-th>
-                <badaso-th sort-key="subjectId">
-                  {{ $t("activityLog.header.subjectId") }}
+                <badaso-th sort-key="causerName">
+                  {{ $t("activityLog.header.causerName") }}
                 </badaso-th>
                 <badaso-th sort-key="description">
                   {{ $t("activityLog.header.description") }}
@@ -69,17 +60,8 @@
                   <vs-td :data="record.logName">
                     {{ record.logName ? record.logName : "-" }}
                   </vs-td>
-                  <vs-td :data="record.causerType">
-                    {{ record.causerType ? record.causerType : "-" }}
-                  </vs-td>
-                  <vs-td :data="record.causerId">
-                    {{ record.causerId ? record.causerId : "-" }}
-                  </vs-td>
-                  <vs-td :data="record.subjectType">
-                    {{ record.subjectType ? record.subjectType : "-" }}
-                  </vs-td>
-                  <vs-td :data="record.subjectId">
-                    {{ record.subjectId ? record.subjectId : "-" }}
+                  <vs-td :data="record.causerName">
+                    {{ record.causerName ? record.causerName : "-" }}
                   </vs-td>
                   <vs-td :data="record.description">
                     {{ record.description }}
@@ -189,7 +171,7 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.data = response.data;
-          this.activitylogs = response.data.activitylog;
+          this.activitylogs = response.data.data;
           this.totalItem =
             response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)
