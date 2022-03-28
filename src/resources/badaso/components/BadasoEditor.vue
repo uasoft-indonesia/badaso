@@ -27,6 +27,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import tinymce from "tinymce";
 import TinyMCE from "@tinymce/tinymce-vue";
 

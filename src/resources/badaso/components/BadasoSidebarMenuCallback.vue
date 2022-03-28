@@ -92,6 +92,7 @@ export default {
     },
     children: {
       type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: [],
     },
   },
@@ -115,8 +116,8 @@ export default {
       // loop for add isParentMenu to props children menu item
       children = children.map((menuItem, index) => {
         menuItem.isParentMenu = false;
-        if (menuItem?.children) {
-          if (menuItem?.children?.length > 0) {
+        if (menuItem.children) {
+          if (menuItem.children.length > 0) {
             menuItem.isParentMenu = true;
           }
         }
@@ -125,9 +126,9 @@ export default {
       return children;
     },
     getItemActive() {
-      let active = false;
-      let vsSideBarItemActive = active ? "vs-sidebar-item-active" : "";
-      let vsALinkItemActive = active
+      const active = false;
+      const vsSideBarItemActive = active ? "vs-sidebar-item-active" : "";
+      const vsALinkItemActive = active
         ? "router-link-exact-active router-link-active"
         : "";
       return {

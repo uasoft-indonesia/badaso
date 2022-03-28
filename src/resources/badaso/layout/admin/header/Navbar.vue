@@ -92,7 +92,7 @@ export default {
     logoConfig: {
       type: String,
     },
-    view: {ß
+    view: {
       type: String,
     },
   },
