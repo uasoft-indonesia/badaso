@@ -18,7 +18,7 @@ export const indexedDatabase = () => {
       };
       requestdb.onupgradeneeded = (event) => {
         const db = event.target.result;
-        const objectStore = db.createObjectStore(objectName);
+        db.createObjectStore(objectName);
       };
     });
   }
@@ -71,12 +71,8 @@ export const removeObjectStore = async (keyStore) => {
   const deleteObjectStore = dbObjectStore.delete(keyStore);
 
   return new Promise((resolve, reject) => {
-    deleteObjectStore.onsuccess = () => {
-      resolve();
-    };
+    deleteObjectStore.onsuccess = resolve();
 
-    deleteObjectStore.onerror = () => {
-      reject();
-    };
+    deleteObjectStore.onerror = reject;
   });
 };

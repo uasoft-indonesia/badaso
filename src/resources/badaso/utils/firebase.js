@@ -1,5 +1,4 @@
 // add firebase import
-import firebase from "firebase/app";
 import "firebase/firebase-messaging";
 // end firebase import
 
@@ -14,7 +13,6 @@ export const notificationMessageReceiveHandle = async (app) => {
 
     const handleMessage = (isReadMessage) => (messageData) => {
       const {
-        data: { user_name, fcm_message_id },
         notification: { title, body },
       } = messageData;
 
