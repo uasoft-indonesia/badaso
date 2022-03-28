@@ -907,7 +907,7 @@ export default {
           this.$closeLoader();
           this.isCanEdit = false;
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
           this.isCanEdit = true;
         });

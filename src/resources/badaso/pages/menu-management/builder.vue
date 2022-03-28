@@ -527,12 +527,12 @@ export default {
         });
     },
     async saveCheckMenuItemExpand(menuItem) {
-      const { id: menu_item_id, isExpand: is_expand } = menuItem;
+      const { id, isExpand } = menuItem;
       try {
         // request api from menu
-        const responseMenu = await this.$api.badasoMenu.menuOptions({
-          menu_item_id,
-          is_expand: !is_expand,
+        await this.$api.badasoMenu.menuOptions({
+          menu_item_id: id,
+          is_expand: !isExpand,
           type: "menu_item",
         });
         // request api from menu item

@@ -126,6 +126,7 @@
 
 <script>
 import { DraggableTree } from "vue-draggable-nested-tree";
+// eslint-disable-next-line no-unused-vars
 import _ from "lodash";
 
 export default {
@@ -155,7 +156,7 @@ export default {
           .then((res) => {
             this.$store.commit("badaso/FETCH_MENU");
           })
-          .catch((err) => {
+          .catch((error) => {
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: error.message,
@@ -164,15 +165,15 @@ export default {
           });
       }
     },
-    saveCheckMenuExpand(menuId) {
-      const { id: menu_id, isExpand: is_expand } = menu;
+    saveCheckMenuExpand(menu) {
+      const { id, isExpand } = menu;
 
       this.$api.badasoMenu
-        .menuOptions({ menu_id, is_expand: !is_expand, type: "menu" })
+        .menuOptions({ menu_id: id, is_expand: !isExpand, type: "menu" })
         .then((res) => {
           this.$store.commit("badaso/FETCH_MENU");
         })
-        .catch((err) => {
+        .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
@@ -186,7 +187,7 @@ export default {
         .then((res) => {
           this.$store.commit("badaso/FETCH_MENU");
         })
-        .catch((err) => {
+        .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: error.message,
