@@ -292,6 +292,12 @@ class BadasoMenuController extends Controller
             $new_menu->save();
 
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $new_menu])
+                ->performedOn($new_menu)
+                ->event('created')
+                ->log('Menu '.$new_menu->display_name.' has been created');
 
             return ApiResponse::success($new_menu);
         } catch (Exception $e) {
@@ -330,6 +336,12 @@ class BadasoMenuController extends Controller
             $new_menu_item->save();
 
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $new_menu_item])
+                ->performedOn($new_menu_item)
+                ->event('created')
+                ->log('Menu '.$new_menu_item->title.' has been created');
 
             return ApiResponse::success($new_menu_item);
         } catch (Exception $e) {
@@ -351,12 +363,24 @@ class BadasoMenuController extends Controller
             ]);
 
             $menu = Menu::find($request->menu_id);
+            $old_menu = $menu;
             $menu->key = $request->get('key');
             $menu->display_name = $request->get('display_name');
             $menu->icon = $request->get('icon');
             $menu->save();
 
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties([
+                    'attributes' => [
+                        'old' => $old_menu,
+                        'new' => $menu,
+                    ],
+                ])
+                ->performedOn($menu)
+                ->event('updated')
+                ->log('Menu '.$menu->display_name.' has been updated');
 
             return ApiResponse::success($menu);
         } catch (Exception $e) {
@@ -413,6 +437,7 @@ class BadasoMenuController extends Controller
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
             $menu_item = MenuItem::find($request->menu_item_id);
+            $old_menu_item = $menu_item->toArray();
             $order = $request->get('order');
 
             $old_order = $menu_item->order;
@@ -448,6 +473,17 @@ class BadasoMenuController extends Controller
             $menu_item->save();
 
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties([
+                    'attributes' => [
+                        'old' => $old_menu_item,
+                        'new' => $menu_item,
+                    ],
+                ])
+                ->performedOn($menu_item)
+                ->event('updated')
+                ->log('Menu item '.$menu_item->title.' has been updated');
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -470,6 +506,10 @@ class BadasoMenuController extends Controller
             $this->updateMenuItems($request->menu_items);
 
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->event('updated')
+                ->log('Menu item order  has been updated');
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -501,9 +541,15 @@ class BadasoMenuController extends Controller
                 'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
             ]);
 
-            Menu::find($request->menu_id)->delete();
-
+            $menus = Menu::find($request->menu_id);
+            $menus->delete();
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($menus)
+                ->event('deleted')
+                ->log('Menu '.$menus->display_name.' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -523,9 +569,16 @@ class BadasoMenuController extends Controller
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
 
-            MenuItem::find($request->menu_item_id)->delete();
+            $menu_items = MenuItem::find($request->menu_item_id);
+            $menu_items->delete();
 
             DB::commit();
+            activity('Menu')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($menu_items)
+                ->event('deleted')
+                ->log('Menu item'.$menu_items->title.' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {

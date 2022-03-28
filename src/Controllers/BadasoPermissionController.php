@@ -58,6 +58,7 @@ class BadasoPermissionController extends Controller
             ]);
 
             $permission = Permission::find($request->id);
+            $permission_old = $permission->toArray();
             $permission->key = $request->key;
             $permission->description = $request->description;
             $permission->always_allow = $request->always_allow;
@@ -65,6 +66,15 @@ class BadasoPermissionController extends Controller
             $permission->save();
 
             DB::commit();
+            activity('Permissions')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'old' => $permission_old,
+                    'new' => $permission,
+                ]])
+                ->performedOn($permission)
+                ->event('edited')
+                ->log('Permission '.$permission->key.' has been edited');
 
             return ApiResponse::success($permission);
         } catch (Exception $e) {
@@ -94,6 +104,12 @@ class BadasoPermissionController extends Controller
             $permission->save();
 
             DB::commit();
+            activity('Permissions')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $permission])
+                ->performedOn($permission)
+                ->event('created')
+                ->log('Permission '.$permission->key.' has been created');
 
             return ApiResponse::success($permission);
         } catch (Exception $e) {
@@ -115,9 +131,16 @@ class BadasoPermissionController extends Controller
                 ],
             ]);
 
-            Permission::find($request->id)->delete();
+            $permission = Permission::find($request->id);
+            $permission->delete();
 
             DB::commit();
+            activity('Permissions')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($permission)
+                ->event('deleted')
+                ->log('Permission '.$permission->key.' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {
@@ -137,14 +160,24 @@ class BadasoPermissionController extends Controller
                     'required',
                 ],
             ]);
-
             $id_list = explode(',', $request->ids);
 
+            $permission_keys = [];
             foreach ($id_list as $key => $id) {
-                Permission::find($id)->delete();
+                $permission = Permission::find($id);
+                $permission_keys[] = $permission->key;
+                $permission->delete();
             }
+            $permission_keys = join(',', $permission_keys);
 
             DB::commit();
+
+            activity('Permissions')
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->all()])
+                ->performedOn($permission)
+                ->event('deleted')
+                ->log('Permission '.$permission_keys.' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {

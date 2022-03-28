@@ -178,6 +178,12 @@ class BadasoConfigurationsController extends Controller
             ConfigurationRedis::save();
 
             DB::commit();
+            activity('Configurations')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $request->configurations])
+                ->performedOn($updated_configuration)
+                ->event('updated')
+                ->log('Configuration has been updated');
 
             return ApiResponse::success();
         } catch (Exception $e) {

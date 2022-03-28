@@ -65,6 +65,7 @@ class BadasoApiRoleTest extends TestCase
             'display_name' => 'Example Display Name',
             'description' => 'Example Description',
         ];
+
         $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/roles/edit'), $request_data);
         $response->assertSuccessful();
 

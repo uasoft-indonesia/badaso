@@ -107,6 +107,14 @@ class BadasoTableController extends Controller
             }
 
             DB::commit();
+            activity('Generate Table')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => [
+                    'data_type' => $new_data_type,
+                    'data_rows' => $new_data_row,
+                ]])
+                ->event('created')
+                ->log('Table '.$new_data_type->display_name_singular.' has been created');
 
             return ApiResponse::success();
         } catch (Exception $e) {
