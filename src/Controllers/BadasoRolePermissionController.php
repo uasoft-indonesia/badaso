@@ -61,8 +61,8 @@ class BadasoRolePermissionController extends Controller
                         WHEN B.role_id is not null then 1
                         else 0
                     END as selected
-                FROM ' . $prefix . 'permissions A
-                LEFT JOIN ' . $prefix . 'role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
+                FROM '.$prefix.'permissions A
+                LEFT JOIN '.$prefix.'role_permissions B ON A.id = B.permission_id AND B.role_id = :role_id
             ';
             $role_permissions = DB::select($query, [
                 'role_id' => $request->role_id,
@@ -86,11 +86,11 @@ class BadasoRolePermissionController extends Controller
             $permissions = $request->permissions;
 
             $role = Role::find($request->role_id);
-            if (!is_null($role)) {
+            if (! is_null($role)) {
                 $stored_permissions = [];
                 foreach ($permissions as $key => $value) {
                     $permission = Permission::find($value);
-                    if (!is_null($permission)) {
+                    if (! is_null($permission)) {
                         $role_permission = [
                             'role_id'       => $role->id,
                             'permission_id' => $permission->id,
@@ -113,7 +113,8 @@ class BadasoRolePermissionController extends Controller
                 ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => $request->all()])
                 ->event('created or updated')
-                ->log('Role ' . $role->name . ' has been created or updated');
+                ->log('Role '.$role->name.' has been created or updated');
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
