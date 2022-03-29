@@ -37,8 +37,7 @@ jobs:
         run: npm run lint
       - name: Run Prettier
         run: npm run format
-      - name: Auto Merge
-        uses: ahmadnassri/action-dependabot-auto-merge@v2
+      - name: Auto Commit
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          target: minor
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: Apply eslit and prettier changes
