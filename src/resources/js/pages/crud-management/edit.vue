@@ -136,7 +136,9 @@
               <badaso-hidden
                 v-model="crudData.defaultServerSideSearchField"
                 size="3"
-                :label="$t('crud.edit.field.defaultServerSideSearchField.title')"
+                :label="
+                  $t('crud.edit.field.defaultServerSideSearchField.title')
+                "
                 :placeholder="
                   $t('crud.edit.field.defaultServerSideSearchField.placeholder')
                 "
@@ -144,9 +146,16 @@
                 :alert="errors.defaultServerSideSearchField"
               ></badaso-hidden>
               <vs-col class="crud-management__notification-title">
-                <label class="crud-management__label">{{ $t("crud.edit.field.activeEventNotification.title") }}
-                  <vs-tooltip :text="$t('crud.help.activeEventNotificationTitle')">
-                    <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
+                <label class="crud-management__label"
+                  >{{ $t("crud.edit.field.activeEventNotification.title") }}
+                  <vs-tooltip
+                    :text="$t('crud.help.activeEventNotificationTitle')"
+                  >
+                    <vs-icon
+                      icon="help_outline"
+                      size="16px"
+                      color="#A5A5A5"
+                    ></vs-icon>
                   </vs-tooltip>
                 </label>
               </vs-col>
@@ -158,7 +167,9 @@
                     @change="onCheckBoxNotificationOnEvent"
                     v-model="onCreate"
                     >{{
-                      $t("crud.edit.field.activeEventNotification.label.onCreate")
+                      $t(
+                        "crud.edit.field.activeEventNotification.label.onCreate"
+                      )
                     }}</vs-checkbox
                   >
                 </vs-col>
@@ -248,7 +259,9 @@
                     @change="onCheckBoxNotificationOnEvent"
                     v-model="onUpdate"
                     >{{
-                      $t("crud.edit.field.activeEventNotification.label.onUpdate")
+                      $t(
+                        "crud.edit.field.activeEventNotification.label.onUpdate"
+                      )
                     }}</vs-checkbox
                   >
                 </vs-col>
@@ -293,7 +306,9 @@
                     @change="onCheckBoxNotificationOnEvent"
                     v-model="onDelete"
                     >{{
-                      $t("crud.edit.field.activeEventNotification.label.onDelete")
+                      $t(
+                        "crud.edit.field.activeEventNotification.label.onDelete"
+                      )
                     }}</vs-checkbox
                   >
                 </vs-col>
@@ -376,10 +391,7 @@
                   </th>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
-                  <tr
-                    :key="index"
-                    v-for="(field, index) in crudData.rows"
-                  >
+                  <tr :key="index" v-for="(field, index) in crudData.rows">
                     <td>
                       <vs-icon
                         icon="drag_indicator"
@@ -406,6 +418,7 @@
                       <span
                         class="is-error"
                         v-for="err in errors[`rows.${index}.field`]"
+                        :key="err"
                         >{{ err }}</span
                       >
                     </td>
@@ -476,7 +489,10 @@
                             :items="relationTypes"
                             :label="$t('crud.edit.body.relationType')"
                           ></badaso-select>
-                          <vs-col vs-lg="12" class="crud-management__relation-destination">
+                          <vs-col
+                            vs-lg="12"
+                            class="crud-management__relation-destination"
+                          >
                             <vs-select
                               :label="$t('crud.edit.body.destinationTable')"
                               width="100%"
@@ -573,6 +589,7 @@
                           <span
                             class="is-error"
                             v-for="err in errors[`rows.${index}.field`]"
+                            :key="err"
                             >{{ err }}</span
                           >
                         </td>
@@ -656,7 +673,10 @@
                                 :items="relationTypes"
                                 :label="$t('crud.add.body.relationType')"
                               ></badaso-select>
-                              <vs-col vs-lg="12" class="crud-management__relation-destination">
+                              <vs-col
+                                vs-lg="12"
+                                class="crud-management__relation-destination"
+                              >
                                 <vs-select
                                   :label="$t('crud.add.body.destinationTable')"
                                   width="100%"
@@ -822,7 +842,7 @@ export default {
     },
   },
   mounted() {
-    (this.orderDirections = [
+    this.orderDirections = [
       {
         label: this.$t("crud.edit.field.orderDirection.value.ascending"),
         value: "ASC",
@@ -831,8 +851,9 @@ export default {
         label: this.$t("crud.edit.field.orderDirection.value.descending"),
         value: "DESC",
       },
-    ]),
-      (this.crudData.name = this.$route.params.tableName);
+    ];
+    this.crudData.name = this.$route.params.tableName;
+
     this.crudData.displayNameSingular = this.$helper.generateDisplayName(
       this.$route.params.tableName
     );
@@ -873,7 +894,8 @@ export default {
       field.relationType = this.relation.relationType;
       field.destinationTable = this.relation.destinationTable;
       field.destinationTableColumn = this.relation.destinationTableColumn;
-      field.destinationTableDisplayColumn = this.relation.destinationTableDisplayColumn;
+      field.destinationTableDisplayColumn =
+        this.relation.destinationTableDisplayColumn;
       this.relation = {};
       field.setRelation = false;
     },
@@ -882,18 +904,18 @@ export default {
 
       this.crudData.notification = this.crudData.notification.map(
         (item, index) => {
-          let { event } = item;
-          let notificationMessageTitle = this[`${event}Title`];
-          let notificationMessage = this[`${event}Message`];
+          const { event } = item;
+          const notificationMessageTitle = this[`${event}Title`];
+          const notificationMessage = this[`${event}Message`];
 
           if (
             notificationMessageTitle != null &&
             notificationMessageTitle != ""
           ) {
-            item["notificationMessageTitle"] = notificationMessageTitle;
+            item.notificationMessageTitle = notificationMessageTitle;
           }
           if (notificationMessage != null && notificationMessage != "") {
-            item["notificationMessage"] = notificationMessage;
+            item.notificationMessage = notificationMessage;
           }
 
           return item;
@@ -929,8 +951,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let crudData = { ...response.data.crud };
-          crudData = crudData;
+          const crudData = { ...response.data.crud };
           crudData.icon = crudData.icon ? crudData.icon : "";
           crudData.modelName = crudData.modelName ? crudData.modelName : "";
           crudData.policyName = crudData.policyName ? crudData.policyName : "";
@@ -952,7 +973,7 @@ export default {
           crudData.createSoftDelete = crudData.isSoftDelete
             ? crudData.isSoftDelete
             : false;
-          let dataRows = [...crudData.dataRows];
+          const dataRows = [...crudData.dataRows];
           crudData.rows = dataRows.map((field) => {
             return {
               label: field.field,
@@ -982,25 +1003,25 @@ export default {
             };
           });
 
-          let notification = JSON.parse(crudData.notification);
-          for (let key in notification) {
-            let {
+          const notification = JSON.parse(crudData.notification);
+          for (const key in notification) {
+            const {
               event,
-              notification_message_title,
-              notification_message,
+              notification_message_title: notificationMessageTitle,
+              notification_message: notificationMessage,
             } = notification[key];
             this[event] = true;
-            if (notification_message_title)
-              this[event + "Title"] = notification_message_title;
-            if (notification_message)
-              this[event + "Message"] = notification_message;
+            if (notificationMessageTitle)
+              this[event + "Title"] = notificationMessageTitle;
+            if (notificationMessage)
+              this[event + "Message"] = notificationMessage;
           }
 
-          this.crudData = { ...crudData }
-          this.crudData.notification = notification
+          this.crudData = { ...crudData };
+          this.crudData.notification = notification;
           this.$closeLoader();
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
         });
     },
@@ -1058,7 +1079,7 @@ export default {
         });
     },
     onCheckBoxNotificationOnEvent() {
-      let notification = [];
+      const notification = [];
 
       if (this.onCreate)
         notification.push({

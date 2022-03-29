@@ -37,10 +37,7 @@
                   <vs-td :data="data[index].tableName">
                     {{ data[index].tableName }}
                   </vs-td>
-                  <vs-td
-                    class="badaso-table__td"
-                    v-if="data[index].crudData"
-                  >
+                  <vs-td class="badaso-table__td" v-if="data[index].crudData">
                     <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"

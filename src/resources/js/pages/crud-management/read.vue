@@ -132,9 +132,7 @@
                     <td :data="field.field">
                       <strong>{{ field.field }}</strong>
                       <br />
-                      <span>
-                        Type: {{ field.type }}
-                      </span>
+                      <span> Type: {{ field.type }} </span>
                       <br />
                       <span>
                         Required: <span v-if="field.required">Yes</span
@@ -304,7 +302,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let fieldList = response.data;
+          const fieldList = response.data;
           this.tableColumns = fieldList;
           this.fieldList = fieldList.map((field) => {
             return {
@@ -329,7 +327,7 @@ export default {
           });
           this.$closeLoader();
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
         });
     },

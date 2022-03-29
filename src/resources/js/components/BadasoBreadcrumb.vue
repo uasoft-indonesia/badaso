@@ -1,6 +1,10 @@
 <template>
   <div>
-    <vs-icon icon="arrow_back_ios" class="badaso-breadcrumb__icon" @click="goBack()" />
+    <vs-icon
+      icon="arrow_back_ios"
+      class="badaso-breadcrumb__icon"
+      @click="goBack()"
+    />
     <vs-breadcrumb>
       <li v-for="(item, index) in items" :key="index">
         <router-link :to="item.url">{{ item.title }}</router-link>
@@ -12,6 +16,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import _ from "lodash";
 
 export default {
@@ -31,13 +36,13 @@ export default {
   mounted() {
     let path = this.$route.path;
     if (!this.full) {
-      let params = this.$route.params;
-      let keys = Object.keys(params);
+      const params = this.$route.params;
+      const keys = Object.keys(params);
       for (let i = 0; i < keys.length; i++) {
         path = path.replace("/" + params[keys[i]], "");
       }
     }
-    let part = path.split("/");
+    const part = path.split("/");
     let url = "";
     for (let index = 1; index < part.length; index++) {
       url = url + "/" + part[index];

@@ -2,22 +2,22 @@ import store from "./../store/store";
 
 export default (error) => {
   if (error.response) {
-    let status = error.response.status;
+    const status = error.response.status;
     if (status === 400) {
-      let data = error.response.data;
+      const data = error.response.data;
       data.status = status;
       return Promise.reject(data);
     } else if (status === 401) {
       store.commit("badaso/SET_AUTH_ISSUE", {
         unauthorized: true,
       });
-      let data = error.response.data;
-      let message = error.response.data.message;
+      const data = error.response.data;
+      const message = error.response.data.message;
       data.status = status;
       data.message = message;
       return Promise.reject(data);
     } else if (status === 402 || status === 412) {
-      let data = error.response.data;
+      const data = error.response.data;
       data.status = status;
       store.commit("badaso/SET_KEY_ISSUE", {
         invalid: true,
@@ -25,14 +25,14 @@ export default (error) => {
       });
       return Promise.reject(data);
     } else if (status === 500) {
-      let data = error.response.data;
-      let message = error.response.data.message;
+      const data = error.response.data;
+      const message = error.response.data.message;
       data.status = status;
       data.message = message;
       return Promise.reject(data);
     } else if (status === 503) {
-      let data = error.response.data;
-      let message = error.response.data.message;
+      const data = error.response.data;
+      const message = error.response.data.message;
       data.status = status;
       data.message = message;
       return Promise.reject(data);
@@ -40,13 +40,14 @@ export default (error) => {
   }
 
   if (!navigator.onLine) {
+    // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject({
       message:
         "Data cannot load because internet of you not connected. Please to you connect internet again!",
       errors: [],
     });
-    return Promise.reject(data);
-  } 
+  }
 
+  // eslint-disable-next-line prefer-promise-reject-errors
   return Promise.reject({});
 };

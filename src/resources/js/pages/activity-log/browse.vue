@@ -30,10 +30,10 @@
               @changeLimit="handleLimitChange"
               @sort="handleSort"
               :description-items="descriptionItems"
-                :description-title="$t('crudGenerated.footer.descriptionTitle')"
-                :description-connector="
-                  $t('crudGenerated.footer.descriptionConnector')
-                "
+              :description-title="$t('crudGenerated.footer.descriptionTitle')"
+              :description-connector="
+                $t('crudGenerated.footer.descriptionConnector')
+              "
             >
               <template slot="thead">
                 <badaso-th sort-key="logName">
@@ -110,6 +110,7 @@
   </div>
 </template>
 <script>
+// eslint-disable-next-line no-unused-vars
 import moment from "moment";
 
 export default {
@@ -132,10 +133,10 @@ export default {
     this.getActivityLogList();
   },
   watch: {
-    page: function(to, from) {
+    page: function (to, from) {
       this.getActivityLogList();
     },
-    limit: function(to, from) {
+    limit: function (to, from) {
       this.page = 1;
       this.getActivityLogList();
     },
@@ -153,8 +154,8 @@ export default {
       this.limit = e;
     },
     handleSort(key, type) {
-      this.orderField = key
-      this.orderDirection = type
+      this.orderField = key;
+      this.orderDirection = type;
       this.getActivityLogList();
     },
     getActivityLogList() {
@@ -165,7 +166,7 @@ export default {
           limit: this.limit,
           page: this.page,
           orderField: this.orderField,
-          orderDirection: this.orderDirection
+          orderDirection: this.orderDirection,
         })
         .then((response) => {
           this.$closeLoader();

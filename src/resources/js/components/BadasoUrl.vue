@@ -12,7 +12,12 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-url__input--error" v-for="(info, index) in alert" :key="index" >{{ info }}</span>
+        <span
+          class="badaso-url__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+          >{{ info }}</span
+        >
       </div>
       <div v-else>
         <span class="badaso-url__input--error" v-html="alert"></span>
@@ -49,7 +54,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },

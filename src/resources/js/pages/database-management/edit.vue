@@ -20,15 +20,30 @@
             </vs-col>
             <vs-col vs-lg="12">
               <div v-if="$v.databaseData.table.modifiedName.$dirty">
-                <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.table.modifiedName.required" >
+                <i18n
+                  path="vuelidate.required"
+                  class="is-error"
+                  v-if="!$v.databaseData.table.modifiedName.required"
+                >
                   {{ $t("database.edit.row.field.tableName") }} <br />
                 </i18n>
 
-                <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.table.modifiedName .alphaNumAndUnderscoreValidator " >
+                <i18n
+                  path="vuelidate.alphaNumAndUnderscoreValidator"
+                  class="is-error"
+                  v-if="
+                    !$v.databaseData.table.modifiedName
+                      .alphaNumAndUnderscoreValidator
+                  "
+                >
                   {{ $t("database.edit.row.field.tableName") }} <br />
                 </i18n>
 
-                <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.table.modifiedName.maxLength" >
+                <i18n
+                  path="vuelidate.maxLength"
+                  class="is-error"
+                  v-if="!$v.databaseData.table.modifiedName.maxLength"
+                >
                   <template v-slot:field>
                     {{ $t("database.edit.row.field.tableName") }}
                   </template>
@@ -49,8 +64,12 @@
             <h3>{{ $t("database.edit.row.title") }}</h3>
           </div>
           <badaso-alert-block>
-            <template slot="title">{{ $t('database.edit.warning.title') }}</template>
-            <template slot="desc">{{ $t('database.edit.warning.content') }}</template>
+            <template slot="title">{{
+              $t("database.edit.warning.title")
+            }}</template>
+            <template slot="desc">{{
+              $t("database.edit.warning.content")
+            }}</template>
           </badaso-alert-block>
           <vs-row vs-justify="center" vs-align="center">
             <vs-col col-lg="12">
@@ -91,7 +110,16 @@
                           required
                           :value="tr.fieldName"
                           class="inputx"
-                          @change="alterFieldProperty(tr, $event, 'RENAME', 'fieldName', indextr); renameForeignkey(tr)"
+                          @change="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'RENAME',
+                              'fieldName',
+                              indextr
+                            );
+                            renameForeignkey(tr);
+                          "
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
@@ -100,7 +128,15 @@
                         <vs-select
                           class="database-management__field-type"
                           :value="tr.fieldType"
-                          @input="alterFieldProperty(tr, $event, 'UPDATE_TYPE', 'fieldType', indextr)"
+                          @input="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_TYPE',
+                              'fieldType',
+                              indextr
+                            )
+                          "
                           :disabled="tr.undeletable"
                         >
                           <div
@@ -127,33 +163,83 @@
                           type="text"
                           required
                           :value="tr.fieldLength"
-                          @change="alterFieldProperty(tr, $event, 'UPDATE_LENGTH', 'fieldLength', indextr)"
+                          @change="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_LENGTH',
+                              'fieldLength',
+                              indextr
+                            )
+                          "
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldNull">
-                        <vs-checkbox :value="tr.fieldNull" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_NULL', 'fieldNull', indextr)"></vs-checkbox>
+                        <vs-checkbox
+                          :value="tr.fieldNull"
+                          :disabled="tr.undeletable"
+                          @change="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_NULL',
+                              'fieldNull',
+                              indextr
+                            )
+                          "
+                        ></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldAttribute">
-                        <vs-checkbox :value="tr.fieldAttribute" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_ATTRIBUTE', 'fieldAttribute', indextr)"></vs-checkbox>
+                        <vs-checkbox
+                          :value="tr.fieldAttribute"
+                          :disabled="tr.undeletable"
+                          @change="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_ATTRIBUTE',
+                              'fieldAttribute',
+                              indextr
+                            )
+                          "
+                        ></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIncrement">
-                        <vs-checkbox :value="tr.fieldIncrement" :disabled="tr.undeletable" @change="alterFieldProperty(tr, $event, 'UPDATE_INCREMENT', 'fieldIncrement', indextr)"></vs-checkbox>
+                        <vs-checkbox
+                          :value="tr.fieldIncrement"
+                          :disabled="tr.undeletable"
+                          @change="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_INCREMENT',
+                              'fieldIncrement',
+                              indextr
+                            )
+                          "
+                        ></vs-checkbox>
                       </vs-td>
 
                       <vs-td :data="tr.fieldIndex">
                         <vs-select
                           class="database-management__field-index"
                           :value="tr.fieldIndex"
-                          @input="alterFieldProperty(tr, $event, 'UPDATE_INDEX', 'fieldIndex', indextr)"
+                          @input="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_INDEX',
+                              'fieldIndex',
+                              indextr
+                            )
+                          "
                           :disabled="tr.undeletable"
                         >
-                          <vs-select-item
-                            text="-"
-                          />
+                          <vs-select-item text="-" />
                           <vs-select-item
                             :key="index"
                             :value="item.value"
@@ -167,7 +253,15 @@
                         <vs-input
                           type="text"
                           :value="tr.fieldDefault"
-                          @change="alterFieldProperty(tr, $event, 'UPDATE_DEFAULT', 'fieldDefault', indextr)"
+                          @change="
+                            alterFieldProperty(
+                              tr,
+                              $event,
+                              'UPDATE_DEFAULT',
+                              'fieldDefault',
+                              indextr
+                            )
+                          "
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
@@ -196,16 +290,31 @@
 
                     <!-- VALIDATION MESSAGE SECTION -->
                     <vs-tr :key="'validation-' + indextr">
-
                       <!-- FIELD NAME -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.required" >
+                        <i18n
+                          path="vuelidate.required"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldName.required
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- maxLength -->
-                        <i18n path="vuelidate.maxLength" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.maxLength" >
+                        <i18n
+                          path="vuelidate.maxLength"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldName.maxLength
+                          "
+                        >
                           <template v-slot:field>
                             {{ $t("database.add.row.field.fieldName") }}
                           </template>
@@ -215,12 +324,28 @@
                         </i18n>
 
                         <!-- alphaNumAndUnderscoreValidator -->
-                        <i18n path="vuelidate.alphaNumAndUnderscoreValidator" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.alphaNumAndUnderscoreValidator" >
+                        <i18n
+                          path="vuelidate.alphaNumAndUnderscoreValidator"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldName.alphaNumAndUnderscoreValidator
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- unique -->
-                        <i18n path="vuelidate.unique" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldName.unique" >
+                        <i18n
+                          path="vuelidate.unique"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldName.unique
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
                       </vs-td>
@@ -228,7 +353,15 @@
                       <!-- FIELD TYPE -->
                       <vs-td>
                         <!-- required -->
-                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldType.required" >
+                        <i18n
+                          path="vuelidate.required"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldType.required
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldType") }}
                         </i18n>
                       </vs-td>
@@ -236,7 +369,15 @@
                       <!-- FIELD LENGTH -->
                       <vs-td>
                         <!-- requiredIf -->
-                        <i18n path="vuelidate.required" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldLength.required" >
+                        <i18n
+                          path="vuelidate.required"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldLength.required
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldLength") }}
                         </i18n>
                       </vs-td>
@@ -250,7 +391,15 @@
                       <!-- FIELD INCREMENT -->
                       <vs-td>
                         <!-- distinct -->
-                        <i18n path="vuelidate.distinct" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIncrement.distinct" >
+                        <i18n
+                          path="vuelidate.distinct"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldIncrement.distinct
+                          "
+                        >
                           {{ $t("database.add.row.field.fieldIncrement") }}
                         </i18n>
                       </vs-td>
@@ -258,13 +407,29 @@
                       <!-- FIELD INDEX -->
                       <vs-td>
                         <!-- distinct -->
-                        <i18n path="vuelidate.distinct" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIndex.distinct" >
-                          {{ 'primary' }}
+                        <i18n
+                          path="vuelidate.distinct"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldIndex.distinct
+                          "
+                        >
+                          {{ "primary" }}
                         </i18n>
 
                         <!-- required -->
-                        <i18n path="vuelidate.requiredPrimary" class="is-error" v-if="!$v.databaseData.fields.modifiedFields.$each[indextr].fieldIndex.required" >
-                          {{ 'primary' }}
+                        <i18n
+                          path="vuelidate.requiredPrimary"
+                          class="is-error"
+                          v-if="
+                            !$v.databaseData.fields.modifiedFields.$each[
+                              indextr
+                            ].fieldIndex.required
+                          "
+                        >
+                          {{ "primary" }}
                         </i18n>
                       </vs-td>
 
@@ -274,38 +439,111 @@
                   </template>
                 </template>
               </vs-table>
-              <vs-prompt type="confirm" @accept="setRelation" @cancel="cancelRelationDialog" :active.sync="relationDialog" title="Relationship" class="database-management__relationship-prompt">
-                <vs-row vs-type="grid" class="database-management__relationship-dialog">
+              <vs-prompt
+                type="confirm"
+                @accept="setRelation"
+                @cancel="cancelRelationDialog"
+                :active.sync="relationDialog"
+                title="Relationship"
+                class="database-management__relationship-prompt"
+              >
+                <vs-row
+                  vs-type="grid"
+                  class="database-management__relationship-dialog"
+                >
                   <vs-col vs-w="12">
                     <h3>Source Table</h3>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-input v-if="selectedField" disabled label="Field" placeholder="Field" v-model="databaseData.relations.modifiedRelations[selectedField].sourceField"/>
+                    <vs-input
+                      v-if="selectedField"
+                      disabled
+                      label="Field"
+                      placeholder="Field"
+                      v-model="
+                        databaseData.relations.modifiedRelations[selectedField]
+                          .sourceField
+                      "
+                    />
                   </vs-col>
                   <vs-col vs-w="12">
                     <h3>Target Table</h3>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="Table" v-if="selectedField" @change="fetchTableFields" width="100%" v-model="databaseData.relations.modifiedRelations[selectedField].targetTable">
-                      <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in tables" />
+                    <vs-select
+                      label="Table"
+                      v-if="selectedField"
+                      @change="fetchTableFields"
+                      width="100%"
+                      v-model="
+                        databaseData.relations.modifiedRelations[selectedField]
+                          .targetTable
+                      "
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.value"
+                        v-for="(item, index) in tables"
+                      />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="Field" v-if="selectedField" :disabled="fields.length == 0" width="100%" v-model="databaseData.relations.modifiedRelations[selectedField].targetField">
-                      <vs-select-item :key="index" :value="item.value" :text="item.value" v-for="item,index in fields" />
+                    <vs-select
+                      label="Field"
+                      v-if="selectedField"
+                      :disabled="fields.length == 0"
+                      width="100%"
+                      v-model="
+                        databaseData.relations.modifiedRelations[selectedField]
+                          .targetField
+                      "
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.value"
+                        v-for="(item, index) in fields"
+                      />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
                     <h3>Type</h3>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="On Delete" v-if="selectedField" width="100%" v-model="databaseData.relations.modifiedRelations[selectedField].onDelete">
-                      <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in relationType" />
+                    <vs-select
+                      label="On Delete"
+                      v-if="selectedField"
+                      width="100%"
+                      v-model="
+                        databaseData.relations.modifiedRelations[selectedField]
+                          .onDelete
+                      "
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.label"
+                        v-for="(item, index) in relationType"
+                      />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
-                    <vs-select label="On Update" v-if="selectedField" width="100%" v-model="databaseData.relations.modifiedRelations[selectedField].onUpdate">
-                      <vs-select-item :key="index" :value="item.value" :text="item.label" v-for="item,index in relationType" />
+                    <vs-select
+                      label="On Update"
+                      v-if="selectedField"
+                      width="100%"
+                      v-model="
+                        databaseData.relations.modifiedRelations[selectedField]
+                          .onUpdate
+                      "
+                    >
+                      <vs-select-item
+                        :key="index"
+                        :value="item.value"
+                        :text="item.label"
+                        v-for="(item, index) in relationType"
+                      />
                     </vs-select>
                   </vs-col>
                 </vs-row>
@@ -323,7 +561,11 @@
               </vs-button>
 
               <!-- TODO for future development -->
-              <vs-button type="relief" color="primary" @click="addSoftDeletes()" >
+              <vs-button
+                type="relief"
+                color="primary"
+                @click="addSoftDeletes()"
+              >
                 <vs-icon icon="add"></vs-icon>
                 Add soft deletes
               </vs-button>
@@ -377,7 +619,7 @@ import {
   helpers,
 } from "vuelidate/lib/validators";
 
-import _ from 'lodash';
+import _ from "lodash";
 
 const alphaNumAndUnderscoreValidator = helpers.regex(
   "alphaNumAndDot",
@@ -386,12 +628,12 @@ const alphaNumAndUnderscoreValidator = helpers.regex(
 
 const unique = (group, key, keyValue) => {
   return (value) => {
-    if (value == '') return true
+    if (value == "") return true;
 
     const found = group.filter((item) => {
       if (key) {
         if (keyValue) {
-          return item[key] == keyValue
+          return item[key] == keyValue;
         }
 
         return item[key] == value;
@@ -419,15 +661,15 @@ export default {
       },
       relations: {
         currentRelations: {},
-        modifiedRelations: {}
-      }
+        modifiedRelations: {},
+      },
     },
     isCanEdit: false,
     fieldTypeList: [],
     relationDialog: false,
     tables: [],
     fields: [],
-    selectedField: ""
+    selectedField: "",
   }),
   validations() {
     return {
@@ -437,7 +679,7 @@ export default {
             required,
             maxLength: maxLength(64),
             alphaNumAndUnderscoreValidator,
-          }
+          },
         },
         fields: {
           modifiedFields: {
@@ -447,59 +689,78 @@ export default {
                 required,
                 maxLength: maxLength(64),
                 alphaNumAndUnderscoreValidator,
-                unique: unique(this.databaseData.fields.modifiedFields, "fieldName"),
+                unique: unique(
+                  this.databaseData.fields.modifiedFields,
+                  "fieldName"
+                ),
               },
               fieldType: {
                 required,
               },
               fieldLength: {
-                required: requiredIf (function (value) {
-                  return value.fieldType == "double" || value.fieldType == "decimal" || value.fieldType == "float" || value.fieldType == "varchar" || value.fieldType == "char" || value.fieldType == "set" || value.fieldType == "enum"
-                })
+                required: requiredIf(function (value) {
+                  return (
+                    value.fieldType == "double" ||
+                    value.fieldType == "decimal" ||
+                    value.fieldType == "float" ||
+                    value.fieldType == "varchar" ||
+                    value.fieldType == "char" ||
+                    value.fieldType == "set" ||
+                    value.fieldType == "enum"
+                  );
+                }),
               },
               fieldIncrement: {
-                distinct: unique(this.databaseData.fields.modifiedFields, "fieldIncrement", true)
+                distinct: unique(
+                  this.databaseData.fields.modifiedFields,
+                  "fieldIncrement",
+                  true
+                ),
               },
               fieldIndex: {
-                distinct: unique(this.databaseData.fields.modifiedFields, "fieldIndex", "primary"),
-                required: requiredIf (function (value) {
-                  return value.fieldIncrement == true
+                distinct: unique(
+                  this.databaseData.fields.modifiedFields,
+                  "fieldIndex",
+                  "primary"
+                ),
+                required: requiredIf(function (value) {
+                  return value.fieldIncrement == true;
                 }),
               },
             },
           },
           currentFields: {
-            required
-          }
+            required,
+          },
         },
         relations: {
           currentRelations: {
             $each: {
               sourceField: {
-                required
+                required,
               },
               targetTable: {
-                required
+                required,
               },
               targetField: {
-                required
+                required,
               },
-            }
+            },
           },
           modifiedRelations: {
             $each: {
               sourceField: {
-                required
+                required,
               },
               targetTable: {
-                required
+                required,
               },
               targetField: {
-                required
+                required,
               },
-            }
-          }
-        }
+            },
+          },
+        },
       },
     };
   },
@@ -511,7 +772,7 @@ export default {
     },
     relationType() {
       return this.$databaseHelper.getForeignConstraint();
-    }
+    },
   },
   mounted() {
     this.getInfoTable();
@@ -521,23 +782,38 @@ export default {
   methods: {
     renameForeignkey(item) {
       if (this.databaseData.relations.modifiedRelations[item.id]) {
-        let newVal = item.fieldName
-        let oldVal = this.databaseData.relations.modifiedRelations[item.id].sourceField || null
+        const newVal = item.fieldName;
+        const oldVal =
+          this.databaseData.relations.modifiedRelations[item.id].sourceField ||
+          null;
         if (newVal !== oldVal) {
-          this.databaseData.relations.modifiedRelations[item.id].sourceField = newVal
+          this.databaseData.relations.modifiedRelations[item.id].sourceField =
+            newVal;
         }
       }
     },
     setRelation() {
-      let modified = Object.values(this.databaseData.relations.modifiedRelations[this.selectedField]);
-      let current = Object.values(this.databaseData.relations.currentRelations[this.selectedField]);
+      const modified = Object.values(
+        this.databaseData.relations.modifiedRelations[this.selectedField]
+      );
+      const current = Object.values(
+        this.databaseData.relations.currentRelations[this.selectedField]
+      );
       this.$v.databaseData.relations.$touch();
       if (!this.$v.databaseData.relations.$invalid) {
-        this.relationDialog = false
+        this.relationDialog = false;
         if (modified.length !== current.length) {
-          this.$set(this.databaseData.relations.modifiedRelations[this.selectedField], 'modifyType', 'ADD_FOREIGN_KEY')
+          this.$set(
+            this.databaseData.relations.modifiedRelations[this.selectedField],
+            "modifyType",
+            "ADD_FOREIGN_KEY"
+          );
         } else {
-          this.$set(this.databaseData.relations.modifiedRelations[this.selectedField], 'modifyType', 'CHANGE_FOREIGN_KEY')
+          this.$set(
+            this.databaseData.relations.modifiedRelations[this.selectedField],
+            "modifyType",
+            "CHANGE_FOREIGN_KEY"
+          );
         }
       }
     },
@@ -545,7 +821,9 @@ export default {
       this.$openLoader();
       this.$api.badasoTable
         .read({
-          table: this.databaseData.relations.modifiedRelations[this.selectedField].targetTable,
+          table:
+            this.databaseData.relations.modifiedRelations[this.selectedField]
+              .targetTable,
         })
         .then((response) => {
           this.$closeLoader();
@@ -561,20 +839,27 @@ export default {
         });
     },
     openRelationDialog(item) {
-      this.selectedField = item.id
-      this.relationDialog = true
-      this.getTableList()
+      this.selectedField = item.id;
+      this.relationDialog = true;
+      this.getTableList();
 
-      if (this.databaseData.relations.modifiedRelations[this.selectedField].targetTable) {
-        this.fetchTableFields()
+      if (
+        this.databaseData.relations.modifiedRelations[this.selectedField]
+          .targetTable
+      ) {
+        this.fetchTableFields();
       }
     },
     cancelRelationDialog() {
-      this.relationDialog = false
-      if (this.databaseData.relations.currentRelations.hasOwnProperty(this.selectedField)) {
+      this.relationDialog = false;
+      if (
+        this.databaseData.relations.currentRelations.hasOwnProperty(
+          this.selectedField
+        )
+      ) {
         this.databaseData.relations.modifiedRelations[this.selectedField] = {
-          ...this.databaseData.relations.currentRelations[this.selectedField]
-        }
+          ...this.databaseData.relations.currentRelations[this.selectedField],
+        };
       }
     },
     getTableList() {
@@ -583,17 +868,17 @@ export default {
         .browse()
         .then((response) => {
           this.$closeLoader();
-          this.tables = response.data.tablesWithCrudData.map(table => {
+          this.tables = response.data.tablesWithCrudData.map((table) => {
             return {
-              value: table.tableName
-            }
+              value: table.tableName,
+            };
           });
         })
         .catch((error) => {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text : error.message,
+            text: error.message,
             color: "danger",
           });
         });
@@ -607,7 +892,7 @@ export default {
         .catch((error) => {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text : error.message,
+            text: error.message,
             color: "danger",
           });
         });
@@ -622,7 +907,7 @@ export default {
           this.$closeLoader();
           this.isCanEdit = false;
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
           this.isCanEdit = true;
         });
@@ -637,7 +922,11 @@ export default {
         return column.precision + "," + column.scale;
       } else if (column.type == "enum" || column.type == "set") {
         return column.options.join();
-      } else if (column.type == "date" || column.type == "timestamp" || column.type == "longblob") {
+      } else if (
+        column.type == "date" ||
+        column.type == "timestamp" ||
+        column.type == "longblob"
+      ) {
         return null;
       } else {
         return column.length;
@@ -651,40 +940,52 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let data = response.data.columns;
-          let dataFK = response.data.columnsFK;
+          const data = response.data.columns;
+          const dataFK = response.data.columnsFK;
           for (const [key, column] of Object.entries(data)) {
-            let id = this.$helper.uuid();
+            const id = this.$helper.uuid();
             this.databaseData.fields.modifiedFields.push({
               id: id,
               fieldName: column.name,
-              fieldType: column.type == 'longblob' ? 'blob' : column.type,
+              fieldType: column.type == "longblob" ? "blob" : column.type,
               fieldLength: this.getFieldLength(column),
-              fieldNull: column.notnull ? false : true,
+              fieldNull: !column.notnull,
               fieldAttribute: column.unsigned,
               fieldIncrement: column.autoincrement,
               fieldIndex: this.getFieldIndexes(column.indexes),
               fieldDefault: column.default,
               modifyType: [],
-              undeletable: column.name == 'id' || column.name == 'created_at' || column.name == 'updated_at' ? true : false,
-              indexes : column.name == 'created_at' ? true : false
+              undeletable: !!(
+                column.name == "id" ||
+                column.name == "created_at" ||
+                column.name == "updated_at"
+              ),
+              indexes: column.name == "created_at",
             });
 
             this.databaseData.fields.currentFields.push({
               id: id,
               fieldName: column.name,
-              fieldType: column.type == 'longblob' ? 'blob' : column.type,
+              fieldType: column.type == "longblob" ? "blob" : column.type,
               fieldLength: this.getFieldLength(column),
-              fieldNull: column.notnull ? false : true,
+              fieldNull: !column.notnull,
               fieldAttribute: column.unsigned,
               fieldIncrement: column.autoincrement,
               fieldIndex: this.getFieldIndexes(column.indexes),
-              fieldDefault: column.default
+              fieldDefault: column.default,
             });
 
             if (dataFK.hasOwnProperty(key)) {
-              this.$set(this.databaseData.relations.currentRelations, id, JSON.parse(JSON.stringify(dataFK[key])))
-              this.$set(this.databaseData.relations.modifiedRelations, id, JSON.parse(JSON.stringify(dataFK[key])))
+              this.$set(
+                this.databaseData.relations.currentRelations,
+                id,
+                JSON.parse(JSON.stringify(dataFK[key]))
+              );
+              this.$set(
+                this.databaseData.relations.modifiedRelations,
+                id,
+                JSON.parse(JSON.stringify(dataFK[key]))
+              );
             }
           }
 
@@ -698,7 +999,7 @@ export default {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text : error.message,
+            text: error.message,
             color: "danger",
           });
         });
@@ -706,12 +1007,12 @@ export default {
 
     getFieldIndexes(indexes) {
       if (!_.isEmpty(indexes)) {
-        if (Object.values(indexes)[0].name.includes('foreign')) {
-          return 'foreign'
+        if (Object.values(indexes)[0].name.includes("foreign")) {
+          return "foreign";
         }
-        return Object.values(indexes)[0].type.toString().toLowerCase()
+        return Object.values(indexes)[0].type.toString().toLowerCase();
       }
-      return null
+      return null;
     },
 
     submitForm() {
@@ -725,7 +1026,7 @@ export default {
             this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.success"),
-              text : response.message,
+              text: response.message,
               color: "success",
             });
             this.$store.commit("badaso/FETCH_MENU");
@@ -740,7 +1041,7 @@ export default {
             if (error.errors.table) {
               message = error.errors.table[0];
             }
-             if (error.errors.code.indexOf("HY000") == 0) {
+            if (error.errors.code.indexOf("HY000") == 0) {
               this.$vs.notify({
                 title: this.$t("alert.danger"),
                 text: this.$t("database.edit.warning.fieldAttUnsigned", {
@@ -753,9 +1054,7 @@ export default {
             } else {
               this.$vs.notify({
                 title: this.$t("alert.danger"),
-                text: message
-                  ? message
-                  : this.$t("database.warning.errorOnRequest"),
+                text: message || this.$t("database.warning.errorOnRequest"),
                 color: "danger",
               });
             }
@@ -764,13 +1063,13 @@ export default {
         if (this.$v.databaseData.fields.modifiedFields.$invalid) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text : this.$t("database.warning.empty"),
+            text: this.$t("database.warning.empty"),
             color: "danger",
           });
         } else if (this.$v.databaseData.$invalid) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
-            text : this.$t("database.warning.invalid"),
+            text: this.$t("database.warning.invalid"),
             color: "danger",
           });
         }
@@ -778,7 +1077,9 @@ export default {
     },
 
     addField() {
-      let index = this.databaseData.fields.modifiedFields.map(row => row.indexes).indexOf(true)
+      const index = this.databaseData.fields.modifiedFields
+        .map((row) => row.indexes)
+        .indexOf(true);
       this.databaseData.fields.modifiedFields.splice(index, 0, {
         id: this.$helper.uuid(),
         fieldName: "",
@@ -789,16 +1090,18 @@ export default {
         fieldIncrement: false,
         fieldIndex: null,
         fieldDefault: "",
-        modifyType: [
-          'CREATE'
-        ]
+        modifyType: ["CREATE"],
       });
     },
 
     findFieldOnRows(fieldName) {
       let found = false;
 
-      for (let index = 0; index < this.databaseData.fields.modifiedFields.length; index++) {
+      for (
+        let index = 0;
+        index < this.databaseData.fields.modifiedFields.length;
+        index++
+      ) {
         const element = this.databaseData.fields.modifiedFields[index];
         if (element.fieldName == fieldName) {
           found = true;
@@ -813,7 +1116,7 @@ export default {
       if (this.findFieldOnRows("deleted_at")) {
         this.$vs.notify({
           title: this.$t("alert.danger"),
-          text : this.$t("database.warning.exists", { 0: "deleted_at" }),
+          text: this.$t("database.warning.exists", { 0: "deleted_at" }),
           color: "danger",
         });
       } else {
@@ -827,9 +1130,7 @@ export default {
           fieldIncrement: false,
           fieldIndex: null,
           fieldDefault: "",
-          modifyType: [
-            'CREATE'
-          ]
+          modifyType: ["CREATE"],
         });
       }
     },
@@ -847,24 +1148,30 @@ export default {
     },
 
     saveDrop(item, index) {
-      this.databaseData.fields.modifiedFields.splice(index, 1)
-      if (item.fieldIndex == 'foreign') {
-        this.databaseData.relations.modifiedRelations[item.id].modifyType = 'DROP_FOREIGN_KEY'
+      this.databaseData.fields.modifiedFields.splice(index, 1);
+      if (item.fieldIndex == "foreign") {
+        this.databaseData.relations.modifiedRelations[item.id].modifyType =
+          "DROP_FOREIGN_KEY";
 
-        if (this.databaseData.relations.modifiedRelations[item.id].hasOwnProperty('new')) {
-          this.$delete(this.databaseData.relations.modifiedRelations, item.id)
+        if (
+          this.databaseData.relations.modifiedRelations[item.id].hasOwnProperty(
+            "new"
+          )
+        ) {
+          this.$delete(this.databaseData.relations.modifiedRelations, item.id);
         }
       }
     },
 
     alterFieldProperty(item, event, eventType, field, indexRow) {
-      let oldValue = item[field]
-      let newValue = null
-      let modifiedRelation = this.databaseData.relations.modifiedRelations[item.id] || null
+      const oldValue = item[field];
+      let newValue = null;
+      const modifiedRelation =
+        this.databaseData.relations.modifiedRelations[item.id] || null;
 
-      if (field == 'fieldIndex') {
+      if (field == "fieldIndex") {
         if (modifiedRelation == null) {
-          if (event == 'foreign') {
+          if (event == "foreign") {
             this.$set(this.databaseData.relations.modifiedRelations, item.id, {
               modifyType: "ADD_FOREIGN_KEY",
               sourceField: item.fieldName,
@@ -872,42 +1179,63 @@ export default {
               targetField: "",
               onDelete: null,
               onUpdate: null,
-              new: true
-            })
-            eventType = null
+              new: true,
+            });
+            eventType = null;
           }
         } else {
-          if (this.databaseData.relations.modifiedRelations[item.id].hasOwnProperty('new')) {
-            if (newValue !== 'foreign' && oldValue == 'foreign') {
-              this.$delete(this.databaseData.relations.modifiedRelations, item.id)
+          if (
+            this.databaseData.relations.modifiedRelations[
+              item.id
+            ].hasOwnProperty("new")
+          ) {
+            if (newValue !== "foreign" && oldValue == "foreign") {
+              this.$delete(
+                this.databaseData.relations.modifiedRelations,
+                item.id
+              );
             }
           } else {
-            if (newValue == 'foreign' && oldValue == null) {
-              this.$delete(this.databaseData.relations.modifiedRelations[item.id], 'modifyType')
+            if (newValue == "foreign" && oldValue == null) {
+              this.$delete(
+                this.databaseData.relations.modifiedRelations[item.id],
+                "modifyType"
+              );
             } else if (newValue == null && oldValue == null) {
-              this.$delete(this.databaseData.relations.modifiedRelations[item.id], 'modifyType')
+              this.$delete(
+                this.databaseData.relations.modifiedRelations[item.id],
+                "modifyType"
+              );
             } else {
-              this.$set(this.databaseData.relations.modifiedRelations[item.id], 'modifyType', 'DROP_FOREIGN_KEY')
+              this.$set(
+                this.databaseData.relations.modifiedRelations[item.id],
+                "modifyType",
+                "DROP_FOREIGN_KEY"
+              );
             }
           }
         }
       }
 
-      if (field == 'fieldType' || field == 'fieldIndex') {
-        newValue = event
-      } else if (field == 'fieldNull' || field == 'fieldIncrement' || field == 'fieldAttribute') {
-        newValue = event.target.checked
+      if (field == "fieldType" || field == "fieldIndex") {
+        newValue = event;
+      } else if (
+        field == "fieldNull" ||
+        field == "fieldIncrement" ||
+        field == "fieldAttribute"
+      ) {
+        newValue = event.target.checked;
       } else {
-        newValue = event.target.value
+        newValue = event.target.value;
       }
 
-      if (item.modifyType.includes('CREATE')) {
+      if (item.modifyType.includes("CREATE")) {
         item[field] = newValue;
       } else {
-        var isNew = true
+        let isNew = true;
 
         if (item.modifyType.includes(eventType)) {
-          isNew = false
+          isNew = false;
         }
 
         if (isNew && eventType) {
@@ -917,7 +1245,7 @@ export default {
         for (const value of this.databaseData.fields.currentFields) {
           if (item.id == value.id) {
             if (newValue == value[field]) {
-              let itemIndex = item.modifyType.indexOf(eventType);
+              const itemIndex = item.modifyType.indexOf(eventType);
 
               if (itemIndex > -1) {
                 item.modifyType.splice(itemIndex, 1);
@@ -927,7 +1255,7 @@ export default {
         }
 
         if (newValue == "") {
-          newValue = null
+          newValue = null;
         }
 
         item[field] = newValue;

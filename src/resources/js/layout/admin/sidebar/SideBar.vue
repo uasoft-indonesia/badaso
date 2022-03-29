@@ -34,7 +34,7 @@
         <vs-select
           v-model="selectedLang"
           width="100%"
-          style="padding: 10px;"
+          style="padding: 10px"
           v-if="view == $constants.MOBILE"
         >
           <vs-select-item
@@ -55,8 +55,8 @@
           :key="indexMenu"
           v-if="
             displayMenu.menuItems &&
-              displayMenu.menuItems.length > 0 &&
-              displayMenu.menu.isShowHeader
+            displayMenu.menuItems.length > 0 &&
+            displayMenu.menu.isShowHeader
           "
         >
           <template v-for="(menu, index) in displayMenu.menuItems">
@@ -120,7 +120,7 @@ export default {
       : "badaso-dashboard",
   }),
   computed: {
-    //This is for mobile trigger
+    // This is for mobile trigger
     isSidebarActive: {
       get() {
         return this.$store.state.badaso.isSidebarActive;
@@ -146,7 +146,7 @@ export default {
     },
     user: {
       get() {
-        let user = this.$store.getters["badaso/getUser"];
+        const user = this.$store.getters["badaso/getUser"];
         return user;
       },
     },
@@ -168,13 +168,13 @@ export default {
       },
     },
     adminPanelHeaderColor() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.adminPanelHeaderColor
         ? config.adminPanelHeaderColor
         : "#ffffff";
     },
     getAvatar() {
-      let user = this.$store.getters["badaso/getUser"];
+      const user = this.$store.getters["badaso/getUser"];
       return user.avatar;
     },
   },

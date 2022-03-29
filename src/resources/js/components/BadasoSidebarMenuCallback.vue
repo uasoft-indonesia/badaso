@@ -2,11 +2,9 @@
   <div :class="handleStyleClass().vsSideBarGroupClass">
     <!-- vs-sidebar--item -->
     <div
-      :class="
-        `${handleStyleClass().vsSideBarParentItem} ${
-          getItemActive().vsSideBarItemActive
-        }`
-      "
+      :class="`${handleStyleClass().vsSideBarParentItem} ${
+        getItemActive().vsSideBarItemActive
+      }`"
     >
       <!-- for dropdown -->
       <a
@@ -23,7 +21,7 @@
         <vs-icon
           v-if="isParentMenu"
           :icon="handleStyleClass().vsSideBarIcon"
-          style="margin-right:0px;"
+          style="margin-right: 0px"
         />
       </a>
       <!-- for route link -->
@@ -94,6 +92,7 @@ export default {
     },
     children: {
       type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: [],
     },
   },
@@ -119,8 +118,8 @@ export default {
       children = children.map((menuItem, index) => {
         menuItem.isParentMenu = false;
 
-        if (menuItem?.children) {
-          if (menuItem?.children?.length > 0) {
+        if (menuItem.children) {
+          if (menuItem.children.length > 0) {
             menuItem.isParentMenu = true;
           }
         }
@@ -131,10 +130,10 @@ export default {
       return children;
     },
     getItemActive() {
-      let active = false;
+      const active = false;
 
-      let vsSideBarItemActive = active ? "vs-sidebar-item-active" : "";
-      let vsALinkItemActive = active
+      const vsSideBarItemActive = active ? "vs-sidebar-item-active" : "";
+      const vsALinkItemActive = active
         ? "router-link-exact-active router-link-active"
         : "";
 

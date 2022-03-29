@@ -1,16 +1,16 @@
 .badaso-dropdown-item {
   &__container {
     text-align: left;
-    -webkit-transition: all .2s ease;
-    transition: all .2s ease;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
     position: relative;
     z-index: 100;
     border-radius: 5px;
     width: calc(100% - 6px);
     margin: 0 3px;
     list-style: none;
-    font-weight: 400!important;
-    font-size: .9375em;
+    font-weight: 400 !important;
+    font-size: 0.9375em;
   }
 
   &__item {
@@ -22,24 +22,24 @@
       display: block;
       position: relative;
       font-size: 1.125em;
-      -webkit-transition: all .2s ease;
-      transition: all .2s ease;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     &--link {
       padding: 10px;
-      background: inherit!important;
-      color: inherit!important;
+      background: inherit !important;
+      color: inherit !important;
       cursor: pointer;
-      -webkit-transition: all .2s ease;
-      transition: all .2s ease;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
       padding: 5px;
       padding-left: 10px;
       padding-right: 10px;
       width: 100%;
       position: relative;
       display: block;
-      color: rgba(0,0,0,.7);
+      color: rgba(0, 0, 0, 0.7);
     }
 
     &--text {

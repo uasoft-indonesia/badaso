@@ -1,6 +1,11 @@
 <template>
   <vs-col vs-lg="12" class="main-container__box--auth">
-    <vs-alert :active="res.active" :color="res.status" :icon="res.icon" class="main-container__alert--auth">
+    <vs-alert
+      :active="res.active"
+      :color="res.status"
+      :icon="res.icon"
+      class="main-container__alert--auth"
+    >
       <span>{{ res.message }}</span>
     </vs-alert>
 
@@ -19,7 +24,11 @@
         />
         <div v-if="errors.token" class="verify__error-container">
           <div v-if="$helper.isArray(errors.token)">
-            <span class="verify__input--error" v-for="(info, index) in errors.token" :key="index">
+            <span
+              class="verify__input--error"
+              v-for="(info, index) in errors.token"
+              :key="index"
+            >
               {{ info }}
             </span>
           </div>

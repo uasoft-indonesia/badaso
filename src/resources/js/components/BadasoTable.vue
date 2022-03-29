@@ -1,5 +1,8 @@
 <template>
-  <div :class="[{ stripe: stripe, hoverFlat: hoverFlat }, `vs-table-${color}`]" class="vs-component vs-con-table">
+  <div
+    :class="[{ stripe: stripe, hoverFlat: hoverFlat }, `vs-table-${color}`]"
+    class="vs-component vs-con-table"
+  >
     <!-- header -->
     <header class="header-table vs-table--header">
       <vs-row class="badaso-table__table-header">
@@ -30,7 +33,7 @@
       </vs-row>
     </header>
     <div class="con-tablex vs-table--content">
-      <div :style="styleConTbody" class="vs-con-tbody vs-table--tbody ">
+      <div :style="styleConTbody" class="vs-con-tbody vs-table--tbody">
         <table ref="table" class="vs-table vs-table--tbody-table">
           <thead ref="thead" class="vs-table--thead">
             <tr>
@@ -141,7 +144,7 @@ export default {
     },
     currentPage: {
       default: 1,
-      type: Number | String,
+      type: Number || String,
     },
     sst: {
       default: false,
@@ -179,17 +182,16 @@ export default {
     queriedResults() {
       let queriedResults = this.data;
       if (this.searchx && this.search) {
-        let dataBase = this.data;
+        const dataBase = this.data;
         queriedResults = dataBase.filter((tr) => {
-          let values = this.getValues(tr)
-            .toString()
-            .toLowerCase();
+          const values = this.getValues(tr).toString().toLowerCase();
           return values.indexOf(this.searchx.toLowerCase()) != -1;
         });
       }
       return queriedResults;
     },
     isNoData() {
+      // eslint-disable-next-line valid-typeof
       if (typeof this.datax == Object) {
         return this.datax
           ? Object.keys(this.datax).length == 0
@@ -199,8 +201,8 @@ export default {
       }
     },
     isCheckedLine() {
-      let lengthx = this.data.length;
-      let lengthSelected = this.value.length;
+      const lengthx = this.data.length;
+      const lengthSelected = this.value.length;
       return lengthx !== lengthSelected;
     },
     isCheckedMultiple() {
@@ -213,7 +215,7 @@ export default {
       };
     },
     getThs() {
-      let ths = this.$slots.thead.filter((item) => item.tag);
+      const ths = this.$slots.thead.filter((item) => item.tag);
       return ths.length;
     },
     tableHeaderStyle() {
@@ -273,8 +275,8 @@ export default {
   },
   methods: {
     loadData() {
-      let max = Math.ceil(this.currentx * this.maxItemsx);
-      let min = max - this.maxItemsx;
+      const max = Math.ceil(this.currentx * this.maxItemsx);
+      const min = max - this.maxItemsx;
 
       if (!this.searchx || this.sst) {
         this.datax = this.pagination
@@ -287,9 +289,9 @@ export default {
       }
     },
     getItems(min, max) {
-      let dataBase = this.sortItems(this.data);
+      const dataBase = this.sortItems(this.data);
 
-      let items = [];
+      const items = [];
       dataBase.forEach((item, index) => {
         if (index >= min && index < max) {
           items.push(item);
@@ -347,14 +349,14 @@ export default {
         );
       }
 
-      return flattenDeep(obj).filter(function(item) {
+      return flattenDeep(obj).filter(function (item) {
         return typeof item === "string" || typeof item === "number";
       });
     },
     changeCheckedMultiple() {
-      let lengthx = this.data.length;
-      let lengthSelected = this.value.length;
-      let selectedx = lengthx - lengthSelected;
+      const lengthx = this.data.length;
+      const lengthSelected = this.value.length;
+      const selectedx = lengthx - lengthSelected;
       if (selectedx == 0) {
         this.$emit("input", []);
       } else {
@@ -363,7 +365,7 @@ export default {
     },
     handleCheckbox(tr) {
       if (this.multiple && this.onlyClickCheckbox) {
-        let val = this.value.slice(0);
+        const val = this.value.slice(0);
         if (val.includes(tr)) {
           val.splice(val.indexOf(tr), 1);
         } else {
@@ -376,7 +378,7 @@ export default {
     },
     clicktr(tr, isTr) {
       if (this.multiple && isTr && !this.onlyClickCheckbox) {
-        let val = this.value.slice(0);
+        const val = this.value.slice(0);
         if (val.includes(tr)) {
           val.splice(val.indexOf(tr), 1);
         } else {
@@ -402,23 +404,23 @@ export default {
     changeTdsWidth() {
       if (!this.value) return;
 
-      let tbody = this.$refs.table.querySelector("tbody");
+      const tbody = this.$refs.table.querySelector("tbody");
 
       // Adding condition removes querySelector none error - if tbody isnot present
       if (tbody) {
-        let trvs = tbody.querySelector(".tr-values");
+        const trvs = tbody.querySelector(".tr-values");
         if (trvs === undefined || trvs === null) return;
-        let tds = trvs.querySelectorAll(".td");
+        const tds = trvs.querySelectorAll(".td");
 
-        let tdsx = [];
+        const tdsx = [];
 
         tds.forEach((td, index) => {
           tdsx.push({ index: index, widthx: td.offsetWidth });
         });
 
-        let colgrouptable = this.$refs.colgrouptable;
+        const colgrouptable = this.$refs.colgrouptable;
         if (colgrouptable !== undefined && colgrouptable !== null) {
-          let colsTable = colgrouptable.querySelectorAll(".col");
+          const colsTable = colgrouptable.querySelectorAll(".col");
           colsTable.forEach((col, index) => {
             col.setAttribute("width", tdsx[index].widthx);
           });

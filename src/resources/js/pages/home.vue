@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   components: {},
   data: () => ({
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     getPercent(value, max = 100) {
-      let percentage = 100 / max;
+      const percentage = 100 / max;
       return value * percentage;
     },
     getProgressBarColor(value, max = 100) {
@@ -67,14 +68,14 @@ export default {
             this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.error"),
-              text : error.message,
+              text: error.message,
               color: "danger",
             });
           } else {
             this.$closeLoader();
             this.$vs.notify({
               title: this.$t("alert.danger"),
-              text : error.message,
+              text: error.message,
               color: "danger",
             });
           }

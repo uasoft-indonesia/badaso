@@ -14,8 +14,8 @@ function createResource() {
     (config) => {
       const token = localStorage.getItem("token");
       if (token) config.headers.Authorization = "Bearer " + token;
-      beforeRequest(config)
-      
+      beforeRequest(config);
+
       return config;
     },
     (error) => {

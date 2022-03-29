@@ -2,13 +2,12 @@ import store from "./../store/store";
 import * as _ from "lodash";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-import api from "./../api";
 
 export default {
   generateDisplayName(fieldName) {
     let displayName = "";
-    let words = fieldName.split("_");
-    let displayNameWord = words.map((word) => {
+    const words = fieldName.split("_");
+    const displayNameWord = words.map((word) => {
       return word.charAt(0).toUpperCase() + word.slice(1);
     });
     displayName = displayNameWord.join(" ");
@@ -20,8 +19,8 @@ export default {
   },
 
   generateDisplayNamePlural(fieldName) {
-    let displayName = this.generateDisplayName(fieldName);
-    var lastChar = displayName.substr(displayName.length - 1);
+    const displayName = this.generateDisplayName(fieldName);
+    const lastChar = displayName.substr(displayName.length - 1);
     if (lastChar) {
       return displayName;
     } else {
@@ -36,11 +35,11 @@ export default {
     str = str.toLowerCase();
 
     // Remove accents, swap ñ for n, etc
-    var from =
+    const from =
       "ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;";
-    var to =
+    const to =
       "AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------";
-    for (var i = 0, l = from.length; i < l; i++) {
+    for (let i = 0, l = from.length; i < l; i++) {
       str = str.replace(new RegExp(from.charAt(i), "g"), to.charAt(i));
     }
 
@@ -60,8 +59,8 @@ export default {
   },
 
   isAllowed(permission) {
-    let userPermissions = store.getters["badaso/getUser"].permissions;
-    let result = _.find(userPermissions, function(o) {
+    const userPermissions = store.getters["badaso/getUser"].permissions;
+    const result = _.find(userPermissions, function (o) {
       return o.key == permission;
     });
     if (result) return true;
@@ -73,8 +72,8 @@ export default {
       dataType.generatePermissions === true ||
       dataType.generatePermissions === 1
     ) {
-      let userPermissions = store.getters["badaso/getUser"].permissions;
-      let result = _.find(userPermissions, function(o) {
+      const userPermissions = store.getters["badaso/getUser"].permissions;
+      const result = _.find(userPermissions, function (o) {
         return o.key == action + "_" + dataType.name;
       });
       if (result) return true;
@@ -85,10 +84,10 @@ export default {
   },
 
   formatDate(value) {
-    let date = process.env.MIX_DATE_FORMAT
+    const date = process.env.MIX_DATE_FORMAT
       ? process.env.MIX_DATE_FORMAT
       : "MMMM Do YYYY";
-    let time = process.env.MIX_TIME_FORMAT
+    const time = process.env.MIX_TIME_FORMAT
       ? process.env.MIX_TIME_FORMAT
       : "h:mm:ss a";
     return moment(value).format(`${date}, ${time}`);
@@ -120,9 +119,9 @@ export default {
     return uuidv4();
   },
   hexToVsPrimary(colorHex) {
-    var str = colorHex.substring(1);
-    var aRgbHex = str.match(/.{1,2}/g);
-    var aRgb = [
+    const str = colorHex.substring(1);
+    const aRgbHex = str.match(/.{1,2}/g);
+    const aRgb = [
       parseInt(aRgbHex[0], 16),
       parseInt(aRgbHex[1], 16),
       parseInt(aRgbHex[2], 16),
@@ -130,7 +129,7 @@ export default {
     return aRgb.join(",");
   },
   rgbToVsPrimary(colorRgb) {
-    let aRgb = colorRgb
+    const aRgb = colorRgb
       .substring(5, colorRgb.length - 1)
       .split(",")
       .filter((rgb, index) => index != 3)

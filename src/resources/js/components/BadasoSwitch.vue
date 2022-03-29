@@ -1,6 +1,7 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-switch__container">
-    <label v-if="label != ''" for="" class="badaso-switch__label">{{ label }}
+    <label v-if="label != ''" for="" class="badaso-switch__label"
+      >{{ label }}
       <vs-tooltip :text="tooltip" v-if="tooltip">
         <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
       </vs-tooltip>
@@ -12,7 +13,11 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-switch__input--error" v-for="(info, index) in alert" :key="index">
+        <span
+          class="badaso-switch__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+        >
           {{ info }}
         </span>
       </div>
@@ -59,19 +64,17 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
     onChange: {
       type: Function,
-      default: (event) => {
-        
-      },
+      default: (event) => {},
     },
     tooltip: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   methods: {
     handleInput(val) {

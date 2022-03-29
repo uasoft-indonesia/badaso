@@ -1,6 +1,8 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-color-picker__container">
-    <label v-if="label != ''" for="" class="badaso-color-picker__label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="badaso-color-picker__label">{{
+      label
+    }}</label>
     <div class="badaso-color-picker__input-group" ref="colorpicker">
       <input
         type="text"
@@ -10,7 +12,10 @@
         @input="updateFromInput"
       />
       <span>
-        <span :style="'background-color: ' + colorValue" @click="togglePicker()" ></span>
+        <span
+          :style="'background-color: ' + colorValue"
+          @click="togglePicker()"
+        ></span>
       </span>
       <color-picker
         :value="colorValue"
@@ -75,7 +80,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },
@@ -90,17 +95,17 @@ export default {
           hex: color,
         };
       } else if (color.slice(0, 4) == "rgba") {
-        var rgba = color.replace(/^rgba?\(|\s+|\)$/g, "").split(","),
-          hex =
-            "#" +
-            (
-              (1 << 24) +
-              (parseInt(rgba[0]) << 16) +
-              (parseInt(rgba[1]) << 8) +
-              parseInt(rgba[2])
-            )
-              .toString(16)
-              .slice(1);
+        const rgba = color.replace(/^rgba?\(|\s+|\)$/g, "").split(",");
+        const hex =
+          "#" +
+          (
+            (1 << 24) +
+            (parseInt(rgba[0]) << 16) +
+            (parseInt(rgba[1]) << 8) +
+            parseInt(rgba[2])
+          )
+            .toString(16)
+            .slice(1);
         this.colors = {
           hex: hex,
           a: rgba[3],
@@ -139,8 +144,8 @@ export default {
       }
     },
     documentClick(e) {
-      var el = this.$refs.colorpicker,
-        target = e.target;
+      const el = this.$refs.colorpicker;
+      const target = e.target;
       if (el !== target && !el.contains(target)) {
         this.hidePicker();
       }

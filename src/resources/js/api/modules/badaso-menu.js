@@ -1,36 +1,36 @@
 import resource from "../resource";
 import QueryString from "../query-string";
 
-let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
 
 export default {
   browseItemByKey(data) {
-    let ep = apiPrefix + "/v1/menus/item-by-key";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus/item-by-key";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   browseItemByKeys(data) {
-    let ep = apiPrefix + "/v1/menus/item-by-keys";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus/item-by-keys";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   browse(data = {}) {
-    let ep = apiPrefix + "/v1/menus";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   read(data) {
-    let ep = apiPrefix + "/v1/menus/read";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus/read";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
@@ -43,16 +43,16 @@ export default {
   },
 
   delete(data) {
-    let paramData = {
+    const paramData = {
       data: data,
     };
     return resource.delete(apiPrefix + "/v1/menus/delete", paramData);
   },
 
   browseItem(data) {
-    let ep = apiPrefix + "/v1/menus/item";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus/item";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
@@ -61,9 +61,9 @@ export default {
   },
 
   readItem(data) {
-    let ep = apiPrefix + "/v1/menus/item/read";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus/item/read";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
@@ -80,16 +80,16 @@ export default {
   },
 
   deleteItem(data) {
-    let paramData = {
+    const paramData = {
       data: data,
     };
     return resource.delete(apiPrefix + "/v1/menus/item/delete", paramData);
   },
 
   getItemPermissions(data = {}) {
-    let ep = apiPrefix + "/v1/menus/item/permissions";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/menus/item/permissions";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 

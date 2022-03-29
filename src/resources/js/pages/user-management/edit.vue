@@ -99,7 +99,7 @@ export default {
   computed: {
     loggedInUser: {
       get() {
-        let user = this.$store.getters["badaso/getUser"];
+        const user = this.$store.getters["badaso/getUser"];
         return user;
       },
     },
