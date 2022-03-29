@@ -1,4 +1,4 @@
-name: PHP Unit
+name: Eslint
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: '14.x'
       - name: Npm Install
-        run: npm run install
+        run: npm install
       - name: Run Eslint
         run: npm run lint
       - name: Run Prettier
