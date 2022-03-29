@@ -38,13 +38,7 @@ jobs:
       - name: Run Prettier
         run: npm run format
       - name: Auto Merge
-        uses: reitermarkus/automerge@v2
+        uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: rebase
-          do-not-merge-labels: never-merge
-          required-labels: automerge
-          pull-request: ${{ github.event.inputs.pull-request }}
-          dry-run: true
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          target: minor
+          github-token: ${{ secrets.GITHUB_TOKEN }}
