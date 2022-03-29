@@ -25,12 +25,14 @@ import { readObjectStore, setObjectStore } from "./utils/indexed-db";
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
-Vue.use(Vuesax);
-Vue.use(VueI18n);
-Vue.use(Datetime);
-// eslint-disable-next-line vue/multi-word-component-names
-Vue.component("datetime", Datetime);
-Vue.use(Vuelidate);
+                                Vue.use(Vuesax);
+                                Vue.use(VueI18n);
+                                Vue.use(Datetime);
+                                // eslint-disable-next-line vue/multi-word-component-names
+                                Vue.component("datetime", Datetime);
+                                Vue.use(Vuelidate);
+
+
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
 const broadcastChannelName = "sw-badaso-messages";
