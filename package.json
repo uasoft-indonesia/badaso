@@ -2,19 +2,19 @@
   "name": "badaso",
   "version": "1.0.0",
   "description": "<p align=\"center\">   <a href=\"https://badaso-docs.uatech.co.id/\">     <img src=\"https://i.ibb.co/tx2NJvD/LOGO-BADASO-5.png\" width=\"318px\" alt=\"Badaso logo\" />   </a> </p> <h3 align=\"center\">The API & platform builder, build your apps 10x faster, even more.</h3> <p align=\"center\">It's open source & 100% free !</p> <p align=\"center\"><a href=\"#live-demo\">Try live demo</a></p> <br />",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "dependencies": {
-    "acorn": "^8.7.0",
-    "acorn-jsx": "^5.3.2",
-    "ajv": "^6.12.6",
-    "ansi-regex": "^5.0.1",
-    "ansi-styles": "^4.3.0",
-    "argparse": "^2.0.1",
-    "balanced-match": "^1.0.2",
-    "brace-expansion": "^1.1.11",
+        "main": "index.js",
+        "directories": {
+          "test": "tests"
+        },
+        "dependencies": {
+          "acorn": "^8.7.0",
+          "acorn-jsx": "^5.3.2",
+          "ajv": "^6.12.6",
+          "ansi-regex": "^5.0.1",
+          "ansi-styles": "^4.3.0",
+          "argparse": "^2.0.1",
+          "balanced-match": "^1.0.2",
+          "brace-expansion": "^1.1.11",
     "callsites": "^3.1.0",
     "chalk": "^4.1.2",
     "color-convert": "^2.0.1",
@@ -53,22 +53,22 @@
     "is-extglob": "^2.1.1",
     "is-glob": "^4.0.3",
     "isexe": "^2.0.0",
-    "js-yaml": "^4.1.0",
-    "json-schema-traverse": "^0.4.1",
-    "json-stable-stringify-without-jsonify": "^1.0.1",
-    "levn": "^0.4.1",
-    "lodash": "^4.17.21",
-    "lodash.merge": "^4.6.2",
-    "lru-cache": "^6.0.0",
-    "minimatch": "^3.1.2",
-    "ms": "^2.1.2",
-    "natural-compare": "^1.4.0",
-    "once": "^1.4.0",
-    "optionator": "^0.9.1",
-    "parent-module": "^1.0.1",
-    "path-is-absolute": "^1.0.1",
-    "path-key": "^3.1.1",
-    "prelude-ls": "^1.2.1",
+              "js-yaml": "^4.1.0",
+              "json-schema-traverse": "^0.4.1",
+              "json-stable-stringify-without-jsonify": "^1.0.1",
+              "levn": "^0.4.1",
+              "lodash": "^4.17.21",
+              "lodash.merge": "^4.6.2",
+              "lru-cache": "^6.0.0",
+              "minimatch": "^3.1.2",
+              "ms": "^2.1.2",
+              "natural-compare": "^1.4.0",
+              "once": "^1.4.0",
+              "optionator": "^0.9.1",
+              "parent-module": "^1.0.1",
+              "path-is-absolute": "^1.0.1",
+              "path-key": "^3.1.1",
+              "prelude-ls": "^1.2.1",
     "punycode": "^2.1.1",
     "regexpp": "^3.2.0",
     "resolve-from": "^4.0.0",
@@ -82,42 +82,42 @@
     "text-table": "^0.2.0",
     "type-check": "^0.4.0",
     "type-fest": "^0.20.2",
-    "uri-js": "^4.4.1",
-    "v8-compile-cache": "^2.3.0",
-    "vue-eslint-parser": "^8.3.0",
-    "which": "^2.0.2",
-    "word-wrap": "^1.2.3",
-    "wrappy": "^1.0.2",
-    "yallist": "^4.0.0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-flowtype": "^8.0.3",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^5.2.0",
-    "eslint-plugin-vue": "^8.5.0",
-    "prettier": "^2.4.1"
-  },
+              "uri-js": "^4.4.1",
+              "v8-compile-cache": "^2.3.0",
+              "vue-eslint-parser": "^8.3.0",
+              "which": "^2.0.2",
+              "word-wrap": "^1.2.3",
+              "wrappy": "^1.0.2",
+              "yallist": "^4.0.0"
+            },
+            "devDependencies": {
+              "@vue/cli-plugin-eslint": "~5.0.0",
+              "eslint": "^7.32.0",
+              "eslint-config-prettier": "^8.3.0",
+              "eslint-config-standard": "^16.0.3",
+              "eslint-plugin-flowtype": "^8.0.3",
+              "eslint-plugin-import": "^2.25.4",
+              "eslint-plugin-node": "^11.1.0",
+              "eslint-plugin-prettier": "^4.0.0",
+              "eslint-plugin-promise": "^5.2.0",
+              "eslint-plugin-vue": "^8.5.0",
+              "prettier": "^2.4.1"
+            },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix ./src/resources/badaso",
     "format": "prettier ./src/resources/badaso  --write",
-    "lint--fix": "npm run lint && npm run format"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/uasoft-indonesia/badaso.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/uasoft-indonesia/badaso/issues"
-  },
-  "homepage": "https://github.com/uasoft-indonesia/badaso#readme"
+                "lint--fix": "npm run lint && npm run format"
+              },
+              "repository": {
+                "type": "git",
+                "url": "git+https://github.com/uasoft-indonesia/badaso.git"
+              },
+              "keywords": [],
+              "author": "",
+              "license": "ISC",
+              "bugs": {
+                "url": "https://github.com/uasoft-indonesia/badaso/issues"
+              },
+              "homepage": "https://github.com/uasoft-indonesia/badaso#readme"
 }
