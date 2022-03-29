@@ -1,0 +1,43 @@
+name: Eslint
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - name: Npm Install
+        run: npm install
+      - name: Run Eslint
+        run: npm run lint
+      - name: Run Prettier
+        run: npm run format
+      - name: Commit changed files
+        uses: EndBug/add-and-commit@v9
