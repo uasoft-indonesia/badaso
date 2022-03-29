@@ -1,7 +1,7 @@
 {
   "name": "badaso",
   "version": "1.0.0",
-  "description": "<p align=\"center\">   <a href=\"https://badaso-docs.uatech.co.id/\">     <img src=\"https://i.ibb.co/tx2NJvD/LOGO-BADASO-5.png\" width=\"318px\" alt=\"Badaso logo\" />   </a> </p> <h3 align=\"center\">The API & platform builder, build your apps 10x faster, even more.</h3> <p align=\"center\">It's open source & 100% free !</p> <p align=\"center\"><a href=\"#live-demo\">Try live demo</a></p> <br />",
+  "description": "The API & platform builder, build your apps 10x faster even more, it's open source & 100% free !",
   "main": "index.js",
   "directories": {
     "test": "tests"
