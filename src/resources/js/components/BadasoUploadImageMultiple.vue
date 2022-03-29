@@ -130,10 +130,7 @@
 
         <div
           v-if="getActiveTab === 'url'"
-          class="
-            badaso-upload-image-multiple__popup--right-bar
-            badaso-upload-image-multiple__popup--url-bar
-          "
+          class="badaso-upload-image-multiple__popup--right-bar badaso-upload-image-multiple__popup--url-bar"
         >
           <vs-input
             label="Paste an image URL here"
@@ -320,13 +317,13 @@ export default {
   },
   methods: {
     deleteSelectedImage(url) {
-      let index = this.getImageModels.indexOf(url);
+      const index = this.getImageModels.indexOf(url);
       this.getImageModels.splice(index, 1);
       this.$emit("input", JSON.stringify(this.getImageModels));
     },
     selectImage(url) {
       if (this.model.includes(url)) {
-        let idx = this.model.indexOf(url);
+        const idx = this.model.indexOf(url);
         this.model.splice(idx, 1);
       } else {
         this.model.push(url);
@@ -390,7 +387,7 @@ export default {
       const files = e.target.files;
       for (const file of files) {
         if (file !== undefined) {
-          if (file.size > (this.availableMimetypes.image.maxSize * 100)) {
+          if (file.size > this.availableMimetypes.image.maxSize * 100) {
             this.$vs.notify({
               title: this.$t("alert.danger"),
               text: "Size too large (Max. 5MB)",
@@ -413,7 +410,7 @@ export default {
             page: this.page,
           })
           .then((res) => {
-            let error = _.get(res, "data.original.error", null);
+            const error = _.get(res, "data.original.error", null);
             if (error) {
               this.$vs.notify({
                 title: this.$t("alert.danger"),
@@ -441,7 +438,7 @@ export default {
       this.$api.badasoFile
         .uploadUsingLfm(files)
         .then((res) => {
-          let error = _.get(res, "data.original.error", null);
+          const error = _.get(res, "data.original.error", null);
           if (error) {
             this.$vs.notify({
               title: this.$t("alert.danger"),
@@ -481,7 +478,7 @@ export default {
             "items[]": currentModel[0].name,
           })
           .then((res) => {
-            let error = _.get(res, "data.original.error", null);
+            const error = _.get(res, "data.original.error", null);
             if (error) {
               this.$vs.notify({
                 title: this.$t("alert.danger"),

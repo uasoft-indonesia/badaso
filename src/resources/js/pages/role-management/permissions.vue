@@ -29,10 +29,7 @@
                 >
                   <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
-                <vs-td
-                  :data="data[indextr].key"
-                  class="badaso-table__td"
-                >
+                <vs-td :data="data[indextr].key" class="badaso-table__td">
                   {{ data[indextr].key }}
                 </vs-td>
                 <vs-td :data="data[indextr].description">
@@ -103,7 +100,7 @@ export default {
         });
     },
     submitForm() {
-      let selectedPermissions = this.rolePermissions.filter(function(
+      let selectedPermissions = this.rolePermissions.filter(function (
         permission
       ) {
         return permission.selected == 1 || permission.selected == true;

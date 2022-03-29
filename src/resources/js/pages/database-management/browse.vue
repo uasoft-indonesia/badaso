@@ -352,16 +352,8 @@ export default {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
           this.tables.map((value, index) => {
-            this.$set(
-              value,
-              "isCanEdit",
-              value.crudData == null ? true : false
-            );
-            this.$set(
-              value,
-              "isCanDrop",
-              value.crudData == null ? true : false
-            );
+            this.$set(value, "isCanEdit", value.crudData == null);
+            this.$set(value, "isCanDrop", value.crudData == null);
           });
         })
         .catch((error) => {
@@ -388,9 +380,9 @@ export default {
           this.$closeLoader();
           this.getTableList();
           this.$vs.notify({
-            title : this.$t("alert.success"),
-            text  : response.data,
-            color : "success"
+            title: this.$t("alert.success"),
+            text: response.data,
+            color: "success",
           });
         })
         .catch((error) => {
@@ -489,11 +481,11 @@ export default {
       }
     },
     setRollbackIndex(data) {
-      let flag = this.willRollbackIndex;
-      let total = this.migration.length;
-      let diff = total - Math.min(...flag);
-      let rollbackFileName = [];
-      let items = [];
+      const flag = this.willRollbackIndex;
+      const total = this.migration.length;
+      const diff = total - Math.min(...flag);
+      const rollbackFileName = [];
+      const items = [];
 
       if (this.rollbackIndex == null) {
         for (let index = total; index > flag; index--) {

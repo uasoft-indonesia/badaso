@@ -290,7 +290,7 @@
                 <badaso-select
                   v-if="
                     dataRow.type == 'relation' &&
-                      dataRow.relation.relationType == 'belongs_to'
+                    dataRow.relation.relationType == 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -310,7 +310,7 @@
                 <badaso-text
                   v-if="
                     dataRow.type == 'relation' &&
-                      dataRow.relation.relationType !== 'belongs_to'
+                    dataRow.relation.relationType !== 'belongs_to'
                   "
                   :label="dataRow.displayName"
                   :placeholder="dataRow.displayName"
@@ -412,8 +412,8 @@ export default {
       this.isValid = true;
 
       // init data rows
-      let dataRows = {};
-      for (let row of this.dataType.dataRows) {
+      const dataRows = {};
+      for (const row of this.dataType.dataRows) {
         if (row && row.value) {
           dataRows[row.field] = row.value;
         }
@@ -456,13 +456,13 @@ export default {
       this.$openLoader();
 
       try {
-        let response = await this.$api.badasoCrud.readBySlug({
+        const response = await this.$api.badasoCrud.readBySlug({
           slug: this.$route.params.slug,
         });
 
         this.$closeLoader();
         this.dataType = response.data.crudData;
-        let dataRows = response.data.crudData.dataRows.map((data) => {
+        const dataRows = response.data.crudData.dataRows.map((data) => {
           if (
             data.value == undefined &&
             (data.type == "upload_image" || data.type == "upload_file")
@@ -540,7 +540,7 @@ export default {
   computed: {
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },
@@ -548,7 +548,7 @@ export default {
       return window.btoa(location.pathname);
     },
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
   },

@@ -1,14 +1,14 @@
 import Pages from "./../../pages/index.vue";
 
-let prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
 
-let log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
+const log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
   ? process.env.MIX_LOG_VIEWER_ROUTE
   : "log-viewer";
 
-let api_docs = process.env.MIX_API_DOCS_ROUTE
+const api_docs = process.env.MIX_API_DOCS_ROUTE
   ? process.env.MIX_API_DOCS_ROUTE
   : "api-docs";
 

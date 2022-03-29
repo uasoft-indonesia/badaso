@@ -8,7 +8,7 @@
             :to="{ name: 'CrudGeneratedSort' }"
             v-if="
               isCanSort &&
-                $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
+              $helper.isAllowedToModifyGeneratedCRUD('edit', dataType)
             "
           >
             {{ $t("action.sort") }}
@@ -17,7 +17,7 @@
             icon="delete_sweep"
             v-if="
               selected.length > 0 &&
-                $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
+              $helper.isAllowedToModifyGeneratedCRUD('delete', dataType)
             "
             @click.stop
             @click="confirmDeleteMultiple"
@@ -41,7 +41,7 @@
             :active="Object.keys(errors).length > 0"
             color="danger"
             icon="new_releases"
-            style="margin-bottom: 20px;"
+            style="margin-bottom: 20px"
           >
             <span v-for="key in Object.keys(errors)">
               <span v-for="err in errors[key]">
@@ -66,9 +66,9 @@
                 stripe
                 description
                 :description-items="descriptionItems"
-                :description-title="
-                  `${$t('crudGenerated.footer.descriptionTitle')} Permanent`
-                "
+                :description-title="`${$t(
+                  'crudGenerated.footer.descriptionTitle'
+                )} Permanent`"
                 :description-connector="
                   $t('crudGenerated.footer.descriptionConnector')
                 "
@@ -91,7 +91,7 @@
                   <vs-tr
                     v-if="
                       !idsOfflineDeleteRecord.includes(record.id.toString()) ||
-                        !isOnline
+                      !isOnline
                     "
                     :data="record"
                     :key="index"
@@ -114,19 +114,15 @@
                     >
                       <img
                         v-if="dataRow.type == 'upload_image'"
-                        :src="
-                          `${
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          }`
-                        "
+                        :src="`${
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        }`"
                         width="100%"
                         alt=""
                       />
                       <div
                         v-else-if="dataRow.type == 'upload_image_multiple'"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <img
                           v-for="(image, indexImage) in stringToArray(
@@ -138,7 +134,7 @@
                           :src="`${image}`"
                           width="100%"
                           alt=""
-                          style="margin-bottom: 10px;"
+                          style="margin-bottom: 10px"
                         />
                       </div>
                       <span
@@ -159,13 +155,9 @@
                       >
                       <a
                         v-else-if="dataRow.type == 'upload_file'"
-                        :href="
-                          `${$api.badasoFile.download(
-                            record[
-                              $caseConvert.stringSnakeToCamel(dataRow.field)
-                            ]
-                          )}`
-                        "
+                        :href="`${$api.badasoFile.download(
+                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                        )}`"
                         target="_blank"
                         >{{
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -173,7 +165,7 @@
                       >
                       <div
                         v-else-if="dataRow.type == 'upload_file_multiple'"
-                        style="width: 100%;"
+                        style="width: 100%"
                       >
                         <p
                           v-for="(file, indexFile) in stringToArray(
@@ -207,7 +199,7 @@
                       <div
                         v-else-if="
                           dataRow.type == 'select_multiple' ||
-                            dataRow.type == 'checkbox'
+                          dataRow.type == 'checkbox'
                         "
                         style="width: 100%"
                       >
@@ -224,13 +216,11 @@
                       </div>
                       <div v-else-if="dataRow.type == 'color_picker'">
                         <div
-                          :style="
-                            `width: 100%; height: 14px; background-color: ${
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
-                            }`
-                          "
+                          :style="`width: 100%; height: 14px; background-color: ${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`"
                         ></div>
                         {{
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -261,11 +251,11 @@
                             }"
                             v-if="
                               isCanRead &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'read',
-                                  dataType.name
-                                ) &&
-                                !isShowDataRecycle
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'read',
+                                dataType.name
+                              ) &&
+                              !isShowDataRecycle
                             "
                             icon="visibility"
                           >
@@ -281,11 +271,11 @@
                             }"
                             v-if="
                               isCanEdit &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'edit',
-                                  dataType
-                                ) &&
-                                !isShowDataRecycle
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'edit',
+                                dataType
+                              ) &&
+                              !isShowDataRecycle
                             "
                             icon="edit"
                           >
@@ -298,10 +288,10 @@
                               !idsOfflineDeleteRecord.includes(
                                 record.id.toString()
                               ) &&
-                                $helper.isAllowedToModifyGeneratedCRUD(
-                                  'delete',
-                                  dataType
-                                )
+                              $helper.isAllowedToModifyGeneratedCRUD(
+                                'delete',
+                                dataType
+                              )
                             "
                           >
                             Delete Permanent
@@ -403,7 +393,7 @@
                         />
                         <div
                           v-else-if="dataRow.type == 'upload_image_multiple'"
-                          style="width: 100%;"
+                          style="width: 100%"
                         >
                           <img
                             v-for="(image, indexImage) in stringToArray(
@@ -415,7 +405,7 @@
                             :src="`${image}`"
                             width="100%"
                             alt=""
-                            style="margin-bottom: 10px;"
+                            style="margin-bottom: 10px"
                           />
                         </div>
                         <span
@@ -442,15 +432,13 @@
                         >
                         <a
                           v-else-if="dataRow.type == 'upload_file'"
-                          :href="
-                            `${$api.badasoFile.download(
-                              getDownloadUrl(
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              )
-                            )}`
-                          "
+                          :href="`${$api.badasoFile.download(
+                            getDownloadUrl(
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            )
+                          )}`"
                           target="_blank"
                           >{{
                             getDownloadUrl(
@@ -462,7 +450,7 @@
                         >
                         <div
                           v-else-if="dataRow.type == 'upload_file_multiple'"
-                          style="width: 100%;"
+                          style="width: 100%"
                         >
                           <p
                             v-for="(file, indexFile) in stringToArray(
@@ -473,11 +461,9 @@
                             :key="indexFile"
                           >
                             <a
-                              :href="
-                                `${$api.badasoFile.download(
-                                  getDownloadUrl(file)
-                                )}`
-                              "
+                              :href="`${$api.badasoFile.download(
+                                getDownloadUrl(file)
+                              )}`"
                               target="_blank"
                               >{{ getDownloadUrl(file) }}</a
                             >
@@ -485,8 +471,7 @@
                         </div>
                         <p
                           v-else-if="
-                            dataRow.type == 'radio' ||
-                              dataRow.type == 'select'
+                            dataRow.type == 'radio' || dataRow.type == 'select'
                           "
                         >
                           {{
@@ -501,7 +486,7 @@
                         <div
                           v-else-if="
                             dataRow.type == 'select_multiple' ||
-                              dataRow.type == 'checkbox'
+                            dataRow.type == 'checkbox'
                           "
                           style="width: 100%"
                         >
@@ -518,13 +503,11 @@
                         </div>
                         <div v-else-if="dataRow.type == 'color_picker'">
                           <div
-                            :style="
-                              `width: 100%; height: 14px; background-color: ${
-                                record[
-                                  $caseConvert.stringSnakeToCamel(dataRow.field)
-                                ]
-                              }`
-                            "
+                            :style="`width: 100%; height: 14px; background-color: ${
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            }`"
                           ></div>
                           {{
                             record[
@@ -557,10 +540,10 @@
                               }"
                               v-if="
                                 isCanRead &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'read',
-                                    dataType
-                                  )
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'read',
+                                  dataType
+                                )
                               "
                               icon="visibility"
                             >
@@ -576,10 +559,10 @@
                               }"
                               v-if="
                                 isCanEdit &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'edit',
-                                    dataType
-                                  )
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'edit',
+                                  dataType
+                                )
                               "
                               icon="edit"
                             >
@@ -592,10 +575,10 @@
                                 !idsOfflineDeleteRecord.includes(
                                   record.id.toString()
                                 ) &&
-                                  $helper.isAllowedToModifyGeneratedCRUD(
-                                    'delete',
-                                    dataType
-                                  )
+                                $helper.isAllowedToModifyGeneratedCRUD(
+                                  'delete',
+                                  dataType
+                                )
                               "
                             >
                               Delete
@@ -713,7 +696,7 @@ export default {
     isShowDataRecycle: true,
   }),
   watch: {
-    $route: function(to, from) {
+    $route: function (to, from) {
       this.getEntity();
     },
     // page: function(to, from) {
@@ -805,7 +788,7 @@ export default {
     async getEntity() {
       this.$openLoader();
       try {
-        let response = await this.$api.badasoEntity.browse({
+        const response = await this.$api.badasoEntity.browse({
           slug: this.$route.params.slug,
           limit: this.limit,
           page: this.page,
@@ -814,7 +797,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
         });
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
@@ -827,17 +810,17 @@ export default {
             ? Math.ceil(response.data.total / this.limit)
             : 1;
         this.dataType = dataType;
-        this.isMaintenance = this.dataType.isMaintenance == 1 ? true : false;
-        let dataRows = this.dataType.dataRows.map((data) => {
+        this.isMaintenance = this.dataType.isMaintenance == 1;
+        const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.details = JSON.parse(data.details);
           } catch (error) {}
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        let addFields = _.filter(dataRows, ["add", 1]);
-        let editFields = _.filter(dataRows, ["edit", 1]);
-        let readFields = _.filter(dataRows, ["read", 1]);
+        const addFields = _.filter(dataRows, ["add", 1]);
+        const editFields = _.filter(dataRows, ["edit", 1]);
+        const readFields = _.filter(dataRows, ["read", 1]);
         this.isCanAdd = addFields.length > 0;
         this.isCanEdit = editFields.length > 0;
         this.isCanRead = readFields.length > 0;
@@ -859,28 +842,27 @@ export default {
     },
     deleteRecordDataPending(id) {
       try {
-        let keyStore = window.location.pathname;
+        const keyStore = window.location.pathname;
         this.$readObjectStore(keyStore).then((store) => {
           if (store.result) {
-            let data = store.result.data;
-            let newData = [];
+            const data = store.result.data;
+            const newData = [];
 
-            for (let indexData in data) {
-              let itemData = data[indexData].requestData.data;
-              for (let indexItem in itemData) {
-                let fieldData = itemData[indexItem];
+            for (const indexData in data) {
+              const itemData = data[indexData].requestData.data;
+              for (const indexItem in itemData) {
+                const fieldData = itemData[indexItem];
                 if (fieldData.field == "ids") {
                   let valueIds = fieldData.value.split(",");
                   valueIds = valueIds.filter((valueId, index) => valueId != id);
                   if (valueIds.length != 0) {
-                    data[indexData].requestData.data[
-                      indexItem
-                    ].value = valueIds.join(",");
+                    data[indexData].requestData.data[indexItem].value =
+                      valueIds.join(",");
 
                     newData[newData.length] = data[indexData];
                   }
                 } else {
-                  let valueId = fieldData.value;
+                  const valueId = fieldData.value;
                   if (valueId.toString() != id.toString()) {
                     newData[newData.length] = data[indexData];
                   }
@@ -1056,19 +1038,19 @@ export default {
     },
     displayRelationData(record, dataRow) {
       if (dataRow.relation) {
-        let relationType = dataRow.relation.relationType;
-        let table = this.$caseConvert.stringSnakeToCamel(
+        const relationType = dataRow.relation.relationType;
+        const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
         );
-        let column = this.$caseConvert.stringSnakeToCamel(
+        const column = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableColumn
         );
-        let displayColumn = this.$caseConvert.stringSnakeToCamel(
+        const displayColumn = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableDisplayColumn
         );
         if (relationType == "has_many") {
-          let list = record[table];
-          let flatList = list.map((ls) => {
+          const list = record[table];
+          const flatList = list.map((ls) => {
             return ls[displayColumn];
           });
           return flatList.join(", ");
@@ -1081,13 +1063,12 @@ export default {
     },
     prepareExcelExporter() {
       for (const iterator of this.dataType.dataRows) {
-        this.fieldsForExcel[
-          iterator.displayName
-        ] = this.$caseConvert.stringSnakeToCamel(iterator.field);
+        this.fieldsForExcel[iterator.displayName] =
+          this.$caseConvert.stringSnakeToCamel(iterator.field);
       }
 
       for (const iterator of this.dataType.dataRows) {
-        let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
+        const string = this.$caseConvert.stringSnakeToCamel(iterator.field);
         if (iterator.browse == 1) {
           this.fieldsForPdf.push(
             string.charAt(0).toUpperCase() + string.slice(1)
@@ -1135,7 +1116,7 @@ export default {
         columnStyles: { text: { cellWidth: "wrap" } },
       });
 
-      let output = doc.output("blob");
+      const output = doc.output("blob");
 
       if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         window.navigator.msSaveOrOpenBlob(output);
@@ -1143,39 +1124,39 @@ export default {
       }
 
       var data = window.URL.createObjectURL(output);
-      var link = document.createElement("a");
+      const link = document.createElement("a");
       link.href = data;
       link.download = this.dataType.displayNameSingular + ".pdf";
       link.click();
-      setTimeout(function() {
+      setTimeout(function () {
         // For Firefox it is necessary to delay revoking the ObjectURL
         window.URL.revokeObjectURL(data);
       }, 100);
     },
     loadIdsOfflineDelete() {
       try {
-        let keyStore = window.location.pathname;
-        let dataObject = this.$readObjectStore(keyStore).then((store) => {
+        const keyStore = window.location.pathname;
+        const dataObject = this.$readObjectStore(keyStore).then((store) => {
           let dataResult = store.result;
           if (dataResult) {
             dataResult = dataResult.data;
-            let newDataResult = [];
-            for (let index in dataResult) {
-              let { requestMethod, requestData } = dataResult[index];
+            const newDataResult = [];
+            for (const index in dataResult) {
+              const { requestMethod, requestData } = dataResult[index];
               if (requestMethod == "delete" && requestData.slug != undefined) {
                 newDataResult[newDataResult.length] = dataResult[index];
               }
             }
 
             let ids = [];
-            for (let index in newDataResult) {
-              let dataRequest = newDataResult[index].requestData.data;
-              for (let indexDataRequest in dataRequest) {
+            for (const index in newDataResult) {
+              const dataRequest = newDataResult[index].requestData.data;
+              for (const indexDataRequest in dataRequest) {
                 if (
                   dataRequest[indexDataRequest].field == "id" ||
                   dataRequest[indexDataRequest].field == "ids"
                 ) {
-                  let valueIds = dataRequest[indexDataRequest].value
+                  const valueIds = dataRequest[indexDataRequest].value
                     .toString()
                     .split(",");
                   ids.push(...valueIds);
@@ -1197,7 +1178,7 @@ export default {
   computed: {
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },

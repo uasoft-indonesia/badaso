@@ -789,7 +789,7 @@ export default {
     async getEntity() {
       this.$openLoader();
       try {
-        let response = await this.$api.badasoEntity.browse({
+        const response = await this.$api.badasoEntity.browse({
           slug: this.$route.params.slug,
           limit: this.limit,
           page: this.page,
@@ -798,7 +798,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
         });
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
@@ -811,17 +811,17 @@ export default {
             ? Math.ceil(response.data.total / this.limit)
             : 1;
         this.dataType = dataType;
-        this.isMaintenance = this.dataType.isMaintenance == 1 ? true : false;
-        let dataRows = this.dataType.dataRows.map((data) => {
+        this.isMaintenance = this.dataType.isMaintenance == 1;
+        const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.details = JSON.parse(data.details);
           } catch (error) {}
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        let addFields = dataRows.filter((row) => row.add == 1);
-        let editFields = dataRows.filter((row) => row.edit == 1);
-        let readFields = dataRows.filter((row) => row.read == 1);
+        const addFields = dataRows.filter((row) => row.add == 1);
+        const editFields = dataRows.filter((row) => row.edit == 1);
+        const readFields = dataRows.filter((row) => row.read == 1);
         this.isCanAdd = addFields.length > 0;
         this.isCanEdit = editFields.length > 0;
         this.isCanRead = readFields.length > 0;
@@ -843,16 +843,16 @@ export default {
     },
     deleteRecordDataPending(id) {
       try {
-        let keyStore = window.location.pathname;
+        const keyStore = window.location.pathname;
         this.$readObjectStore(keyStore).then((store) => {
           if (store.result) {
-            let data = store.result.data;
-            let newData = [];
+            const data = store.result.data;
+            const newData = [];
 
-            for (let indexData in data) {
-              let itemData = data[indexData].requestData.data;
-              for (let indexItem in itemData) {
-                let fieldData = itemData[indexItem];
+            for (const indexData in data) {
+              const itemData = data[indexData].requestData.data;
+              for (const indexItem in itemData) {
+                const fieldData = itemData[indexItem];
                 if (fieldData.field == "ids") {
                   let valueIds = fieldData.value.split(",");
                   valueIds = valueIds.filter((valueId, index) => valueId != id);
@@ -863,7 +863,7 @@ export default {
                     newData[newData.length] = data[indexData];
                   }
                 } else {
-                  let valueId = fieldData.value;
+                  const valueId = fieldData.value;
                   if (valueId.toString() != id.toString()) {
                     newData[newData.length] = data[indexData];
                   }
@@ -979,19 +979,19 @@ export default {
     },
     displayRelationData(record, dataRow) {
       if (dataRow.relation) {
-        let relationType = dataRow.relation.relationType;
-        let table = this.$caseConvert.stringSnakeToCamel(
+        const relationType = dataRow.relation.relationType;
+        const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
         );
-        let column = this.$caseConvert.stringSnakeToCamel(
+        const column = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableColumn
         );
-        let displayColumn = this.$caseConvert.stringSnakeToCamel(
+        const displayColumn = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableDisplayColumn
         );
         if (relationType == "has_many") {
-          let list = record[table];
-          let flatList = list.map((ls) => {
+          const list = record[table];
+          const flatList = list.map((ls) => {
             return ls[displayColumn];
           });
           return flatList.join(", ");
@@ -1009,7 +1009,7 @@ export default {
       }
 
       for (const iterator of this.dataType.dataRows) {
-        let string = this.$caseConvert.stringSnakeToCamel(iterator.field);
+        const string = this.$caseConvert.stringSnakeToCamel(iterator.field);
         if (iterator.browse == 1) {
           this.fieldsForPdf.push(
             string.charAt(0).toUpperCase() + string.slice(1)
@@ -1051,7 +1051,7 @@ export default {
       doc.setFontSize(28);
       doc.text(this.dataType.displayNameSingular, 149, 20, "center");
 
-      //Data table
+      // Data table
       doc.autoTable({
         head: [this.fieldsForPdf],
         body: result,
@@ -1063,8 +1063,8 @@ export default {
         columnStyles: { text: { cellWidth: "wrap" } },
       });
 
-      //Output Table title and data table in new tab
-      let output = doc.output("blob");
+      // Output Table title and data table in new tab
+      const output = doc.output("blob");
       var data = window.URL.createObjectURL(output);
       window.open(data, "_blank");
 
@@ -1075,28 +1075,28 @@ export default {
     },
     loadIdsOfflineDelete() {
       try {
-        let keyStore = window.location.pathname;
-        let dataObject = this.$readObjectStore(keyStore).then((store) => {
+        const keyStore = window.location.pathname;
+        const dataObject = this.$readObjectStore(keyStore).then((store) => {
           let dataResult = store.result;
           if (dataResult) {
             dataResult = dataResult.data;
-            let newDataResult = [];
-            for (let index in dataResult) {
-              let { requestMethod, requestData } = dataResult[index];
+            const newDataResult = [];
+            for (const index in dataResult) {
+              const { requestMethod, requestData } = dataResult[index];
               if (requestMethod == "delete" && requestData.slug != undefined) {
                 newDataResult[newDataResult.length] = dataResult[index];
               }
             }
 
             let ids = [];
-            for (let index in newDataResult) {
-              let dataRequest = newDataResult[index].requestData.data;
-              for (let indexDataRequest in dataRequest) {
+            for (const index in newDataResult) {
+              const dataRequest = newDataResult[index].requestData.data;
+              for (const indexDataRequest in dataRequest) {
                 if (
                   dataRequest[indexDataRequest].field == "id" ||
                   dataRequest[indexDataRequest].field == "ids"
                 ) {
-                  let valueIds = dataRequest[indexDataRequest].value
+                  const valueIds = dataRequest[indexDataRequest].value
                     .toString()
                     .split(",");
                   ids.push(...valueIds);
@@ -1121,12 +1121,12 @@ export default {
   computed: {
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
   },

@@ -95,9 +95,7 @@
                         <b v-if="data.children && data.children.length"
                           >{{ data.open ? "-" : "+" }}&nbsp;
                         </b>
-                        <b v-else>
-                          &nbsp;&nbsp;
-                        </b>
+                        <b v-else> &nbsp;&nbsp; </b>
                         <span>{{ data.title }}</span>
                       </div>
                     </div>
@@ -252,7 +250,7 @@ export default {
     menuItem: {
       color: "",
     },
-    tempMenuItemDataEdit : {},
+    tempMenuItemDataEdit: {},
     savedItems: [],
     flatSavedItems: [],
     arrangeItems: false,
@@ -271,7 +269,7 @@ export default {
     ],
   }),
   watch: {
-    arrangeItems: function(val) {
+    arrangeItems: function (val) {
       if (val) {
         this.startArrangeItems();
       }
@@ -438,8 +436,8 @@ export default {
         });
     },
     editMenuItem(menuItem) {
-      this.tempMenuItemDataEdit = menuItem
-      this.editMenuItemPopUp = true ;
+      this.tempMenuItemDataEdit = menuItem;
+      this.editMenuItemPopUp = true;
     },
     addMenuItem(menuItem) {
       this.menuItem = {
@@ -458,12 +456,11 @@ export default {
       this.$api.badasoMenu
         .addItem({ ...this.menuItem, menuId: this.$route.params.id })
         .then((response) => {
-            this.$closeLoader();
+          this.$closeLoader();
           this.getMenuItems();
           this.addMenuItemPopUp = false;
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-
         })
         .catch((error) => {
           this.errors = error.errors;
@@ -519,7 +516,7 @@ export default {
           this.$store.commit("badaso/FETCH_MENU");
           this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
           this.$closeLoader();
-          this.tempMenuItemDataEdit = {}
+          this.tempMenuItemDataEdit = {};
         })
         .catch((error) => {
           this.errors = error.errors;

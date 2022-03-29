@@ -16,7 +16,11 @@
           />
           <div v-if="errors.name" class="register__error-container">
             <div v-if="$helper.isArray(errors.name)">
-              <span class="register__input--error" v-for="(info, index) in errors.name" :key="index" >
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.name"
+                :key="index"
+              >
                 {{ info }}
               </span>
             </div>
@@ -34,12 +38,19 @@
           />
           <div v-if="errors.username" class="register__error-container">
             <div v-if="$helper.isArray(errors.username)">
-              <span class="register__input--error" v-for="(info, index) in errors.username" :key="index" >
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.username"
+                :key="index"
+              >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.username"></span>
+              <span
+                class="register__input--error"
+                v-html="errors.username"
+              ></span>
             </div>
           </div>
           <vs-input
@@ -52,7 +63,11 @@
           />
           <div v-if="errors.email" class="register__error-container">
             <div v-if="$helper.isArray(errors.email)">
-              <span class="register__input--error" v-for="(info, index) in errors.email" :key="index">
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.email"
+                :key="index"
+              >
                 {{ info }}
               </span>
             </div>
@@ -71,12 +86,19 @@
           />
           <div v-if="errors.password" class="register__error-container">
             <div v-if="$helper.isArray(errors.password)">
-              <span class="register__input--error" v-for="(info, index) in errors.password" :key="index" >
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.password"
+                :key="index"
+              >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.password"></span>
+              <span
+                class="register__input--error"
+                v-html="errors.password"
+              ></span>
             </div>
           </div>
           <vs-input
@@ -88,9 +110,12 @@
             v-model="passwordConfirmation"
             class="register__input"
           />
-          <vs-button type="relief" class="register__button" @click="register()">{{
-            $t("register.button")
-          }}</vs-button>
+          <vs-button
+            type="relief"
+            class="register__button"
+            @click="register()"
+            >{{ $t("register.button") }}</vs-button
+          >
         </form>
 
         <div class="register__login-link">

@@ -63,10 +63,10 @@
                 v-model="rememberMe"
               /><span
                 class="checkbox_x vs-checkbox"
-                style="border: 2px solid rgb(180, 180, 180);"
+                style="border: 2px solid rgb(180, 180, 180)"
                 ><span class="vs-checkbox--check"
                   ><i
-                    class="vs-icon notranslate icon-scale vs-checkbox--icon  material-icons null"
+                    class="vs-icon notranslate icon-scale vs-checkbox--icon material-icons null"
                     >check</i
                   ></span
                 ></span

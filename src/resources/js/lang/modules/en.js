@@ -134,7 +134,7 @@ export default {
     },
   },
 
-  "404": {
+  404: {
     title: "Opps, Sorry",
     subtitle: "The page you were looking for was not found.",
     button: "Go Home",
@@ -509,8 +509,7 @@ export default {
       notAllowedToEdit: "You're not allowed to edit Menu",
     },
     help: {
-      key:
-        "You can set this key to be default menu in .env file. Also, you can register new menu on .env by input value.",
+      key: "You can set this key to be default menu in .env file. Also, you can register new menu on .env by input value.",
     },
     header: {
       key: "Key",
@@ -971,9 +970,9 @@ export default {
         text: "There's unsupported data type in table, please see the supported data type in badaso documentation",
         tableList: "List of unsupported tables :",
         button: {
-          visitDocs: "Visit Documentation"
-        }
-      }
+          visitDocs: "Visit Documentation",
+        },
+      },
     },
     add: {
       title: "Add Table",
@@ -1040,10 +1039,10 @@ export default {
         title: "IMPORTANT",
         content:
           'Only the following column types can be "changed": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text and Time. Also, every field that you change, it\'ll be recorded when you submit the alter table. If you make some mistakes, you can refresh this page to reset your changes.',
-        crud:
-          "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
+        crud: "Make sure the table has not been generated with CRUD Management if you want to edit or drop it.",
         notAllowed: "You're not allowed to edit.",
-        fieldAttUnsigned: "Foreign key constraint is incorrectly formed. {0} to visit docs.",
+        fieldAttUnsigned:
+          "Foreign key constraint is incorrectly formed. {0} to visit docs.",
         visitDocs: "Click here",
       },
       error: {

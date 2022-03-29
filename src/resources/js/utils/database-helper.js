@@ -20,27 +20,27 @@ export default {
         label: "Foreign",
         value: "foreign",
         default: false,
-      }
+      },
     ];
   },
   getForeignConstraint() {
     return [
       {
         label: "CASCADE",
-        value: "cascade"
+        value: "cascade",
       },
       {
         label: "SET NULL",
-        value: "set null"
+        value: "set null",
       },
       {
         label: "NO ACTION",
-        value: "no action"
+        value: "no action",
       },
       {
         label: "RESTRICT",
-        value: "restrict"
+        value: "restrict",
       },
-    ]
-  }
+    ];
+  },
 };

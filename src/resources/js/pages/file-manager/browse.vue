@@ -9,11 +9,7 @@
           <div slot="header">
             <h3>{{ $t("fileManager.title") }}</h3>
           </div>
-          <iframe
-            v-if="isShow"
-            :src="urlIframe"
-            class="file-manager__iframe"
-          />
+          <iframe v-if="isShow" :src="urlIframe" class="file-manager__iframe" />
           <div v-else>
             {{ message }}
           </div>
@@ -59,7 +55,7 @@ export default {
           this.isShow = true;
         })
         .catch((error) => {
-          let { message } = error;
+          const { message } = error;
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: message,
@@ -74,9 +70,9 @@ export default {
   },
   computed: {
     urlFileManager() {
-      let host = window.location.origin;
-      let token = localStorage.getItem("token");
-      let url = `${host}/filemanager?type=Files&token=${token}`;
+      const host = window.location.origin;
+      const token = localStorage.getItem("token");
+      const url = `${host}/filemanager?type=Files&token=${token}`;
       return url;
     },
   },

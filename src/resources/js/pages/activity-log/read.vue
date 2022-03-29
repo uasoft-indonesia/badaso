@@ -56,11 +56,7 @@
                 }}</span>
               </th>
               <td v-if="index === 'avatar'">
-                <img
-                  :src="item"
-                  width="100%"
-                  alt=""
-                />
+                <img :src="item" width="100%" alt="" />
               </td>
               <td v-else>{{ item === null ? "null" : item }}</td>
             </tr>
@@ -80,11 +76,7 @@
                 }}</span>
               </th>
               <td v-if="index === 'avatar'">
-                <img
-                  :src="item"
-                  width="100%"
-                  alt=""
-                />
+                <img :src="item" width="100%" alt="" />
               </td>
               <td v-else>{{ item === null ? "null" : item }}</td>
             </tr>
@@ -134,7 +126,7 @@ export default {
   name: "ActivityLogRead",
   components: {},
   filters: {
-    replaceTitle: function(title) {
+    replaceTitle: function (title) {
       return title.replace(/([A-Z])/g, " $1").trim();
     },
   },
@@ -145,8 +137,8 @@ export default {
     properties: {},
   }),
   computed: {
-    filteredSubject: function() {
-      let data = this.subject;
+    filteredSubject: function () {
+      const data = this.subject;
       data.createdAt = this.$helper.formatDate(this.subject.createdAt);
       data.updatedAt = this.$helper.formatDate(this.subject.updatedAt);
       delete data.password;
@@ -154,8 +146,8 @@ export default {
       delete data.rememberToken;
       return data;
     },
-    filteredCauser: function() {
-      let data = this.causer;
+    filteredCauser: function () {
+      const data = this.causer;
       delete data.password;
       delete data.emailVerifiedAt;
       delete data.rememberToken;

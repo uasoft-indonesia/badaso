@@ -2,11 +2,9 @@
   <div :class="handleStyleClass().vsSideBarGroupClass">
     <!-- vs-sidebar--item -->
     <div
-      :class="
-        `${handleStyleClass().vsSideBarParentItem} ${
-          getItemActive().vsSideBarItemActive
-        }`
-      "
+      :class="`${handleStyleClass().vsSideBarParentItem} ${
+        getItemActive().vsSideBarItemActive
+      }`"
     >
       <!-- for dropdown -->
       <a
@@ -23,7 +21,7 @@
         <vs-icon
           v-if="isParentMenu"
           :icon="handleStyleClass().vsSideBarIcon"
-          style="margin-right:0px;"
+          style="margin-right: 0px"
         />
       </a>
       <!-- for route link -->

@@ -1,14 +1,30 @@
 <template>
   <div class="top-navbar__notification">
-    <a v-on:click="openOrCloseSideBarNotification()" href="#" :style="{ color: topbarFontColor }">
+    <a
+      v-on:click="openOrCloseSideBarNotification()"
+      href="#"
+      :style="{ color: topbarFontColor }"
+    >
       <vs-icon icon="notifications"></vs-icon>
       <sup>{{ countUnreadMessage }}</sup>
     </a>
 
     <!-- list notification -->
-    <vs-sidebar position-right parent="body" default-index="1" color="primary" class="sidebarx" spacer v-model="sideBarNotification">
+    <vs-sidebar
+      position-right
+      parent="body"
+      default-index="1"
+      color="primary"
+      class="sidebarx"
+      spacer
+      v-model="sideBarNotification"
+    >
       <div index="1" icon="notifications" slot="header">
-        <vs-sidebar-item index="0" class="top-navbar__notification-item" icon="notifications">
+        <vs-sidebar-item
+          index="0"
+          class="top-navbar__notification-item"
+          icon="notifications"
+        >
           <strong>{{ $t("notification.notification") }}</strong>
         </vs-sidebar-item>
       </div>
@@ -120,7 +136,7 @@ export default {
         this.messages[index].isRead = 1;
         this.messages[index].style = { backgroundColor: "#ffffff" };
         this.readMessage(message.id);
-        this.loadUnreadMessage()
+        this.loadUnreadMessage();
       }
     },
     closeSideBarDetailMessage() {
@@ -130,7 +146,7 @@ export default {
     loadUnreadMessage() {
       this.$store.commit("badaso/SET_GLOBAL_STATE", {
         key: "countUnreadMessage",
-        value: this.messages.filter(message => message.isRead != 1).length,
+        value: this.messages.filter((message) => message.isRead != 1).length,
       });
     },
     getMessages() {
@@ -144,8 +160,8 @@ export default {
             return item;
           });
 
-          let countUnreadMessage = this.messages.length;
-          this.loadUnreadMessage()
+          const countUnreadMessage = this.messages.length;
+          this.loadUnreadMessage();
         })
         .catch((error) => {
           this.$vs.notify({
@@ -171,8 +187,8 @@ export default {
   },
   computed: {
     countUnreadMessage() {
-      let countUnreadMessage = this.$store.getters["badaso/getGlobalState"]
-        .countUnreadMessage;
+      const countUnreadMessage =
+        this.$store.getters["badaso/getGlobalState"].countUnreadMessage;
       return countUnreadMessage;
     },
   },

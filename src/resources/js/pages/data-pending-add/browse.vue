@@ -97,9 +97,9 @@ export default {
     dbReadDataObject() {
       readObjectStore(this.keyStore)
         .then((store) => {
-          let data = store.result.data.filter((item, index) => {
-            let {requestData} = item
-            return requestData.slug != undefined
+          const data = store.result.data.filter((item, index) => {
+            const { requestData } = item;
+            return requestData.slug != undefined;
           });
 
           if (data.length == 0) return;
@@ -125,9 +125,9 @@ export default {
     deleteDataPending(indexItem) {
       readObjectStore(this.keyStore)
         .then((store) => {
-          let dataObject = store.result.data;
-          let newDataObject = [];
-          for (let index in dataObject) {
+          const dataObject = store.result.data;
+          const newDataObject = [];
+          for (const index in dataObject) {
             if (indexItem != index) {
               newDataObject[newDataObject.length] = dataObject[index];
             }

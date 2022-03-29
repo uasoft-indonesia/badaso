@@ -3,12 +3,12 @@ import { indexedDatabase, objectName } from "../utils/indexed-db";
 export default async (config) => {
   if (config.method.toLowerCase() == "get") return;
   if (config.data) {
-    let { origin, pathname, host } = window.location;
-    let { data, headers, url, method } = config;
+    const { origin, pathname, host } = window.location;
+    const { data, headers, url, method } = config;
 
-    let keyStore = pathname;
+    const keyStore = pathname;
 
-    let value = {
+    const value = {
       origin,
       pathname,
       host,
@@ -20,26 +20,26 @@ export default async (config) => {
 
     if (JSON.stringify(config.data) != "{}") {
       if (!navigator.onLine) {
-        let db = await indexedDatabase();
+        const db = await indexedDatabase();
 
         const readObject = () => {
-          let dbTransaction = db.transaction([objectName], "readonly");
-          let dbObjectStore = dbTransaction.objectStore(objectName);
+          const dbTransaction = db.transaction([objectName], "readonly");
+          const dbObjectStore = dbTransaction.objectStore(objectName);
           return dbObjectStore.get(keyStore);
         };
 
         const setObject = (key, value) => {
-          let dbTransaction = db.transaction([objectName], "readwrite");
-          let dbObjectStore = dbTransaction.objectStore(objectName);
+          const dbTransaction = db.transaction([objectName], "readwrite");
+          const dbObjectStore = dbTransaction.objectStore(objectName);
           dbObjectStore.put(value, key);
         };
 
-        let dataObject = readObject();
+        const dataObject = readObject();
 
         dataObject.onsuccess = (event) => {
-          let result = event.target.result;
+          const result = event.target.result;
           if (result) {
-            let indexAdd = result.data.length;
+            const indexAdd = result.data.length;
             if (
               config.method.toLowerCase() == "post" ||
               config.method.toLowerCase() == "delete"
@@ -47,7 +47,7 @@ export default async (config) => {
               result.data[indexAdd] = value;
               setObject(keyStore, result);
             } else {
-              let { requestUrl } = result.data[indexAdd - 1];
+              const { requestUrl } = result.data[indexAdd - 1];
               if (requestUrl != value.requestUrl) {
                 setObject(keyStore, {
                   data: [value],

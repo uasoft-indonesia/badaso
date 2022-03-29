@@ -111,7 +111,7 @@ export default {
     },
     clickGroup() {
       if (!this.openHover) {
-        let scrollHeight = this.$refs.items.scrollHeight;
+        const scrollHeight = this.$refs.items.scrollHeight;
         if (this.maxHeight == "0px") {
           this.maxHeight = `${scrollHeight}px`;
           setTimeout(() => {
@@ -127,13 +127,13 @@ export default {
     },
     mouseover() {
       if (this.openHover) {
-        let scrollHeight = this.$refs.items.scrollHeight;
+        const scrollHeight = this.$refs.items.scrollHeight;
         this.maxHeight = `${scrollHeight}px`;
       }
     },
     mouseout() {
       if (this.openHover) {
-        let scrollHeight = 0;
+        const scrollHeight = 0;
         this.maxHeight = `${scrollHeight}px`;
       }
     },

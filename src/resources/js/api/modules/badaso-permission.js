@@ -1,22 +1,22 @@
 import resource from "../resource";
 import QueryString from "../query-string";
 
-let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
 
 export default {
   browse(data = {}) {
-    let ep = apiPrefix + "/v1/permissions";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/permissions";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   read(data) {
-    let ep = apiPrefix + "/v1/permissions/read";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/permissions/read";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
@@ -29,14 +29,14 @@ export default {
   },
 
   delete(data) {
-    let paramData = {
+    const paramData = {
       data: data,
     };
     return resource.delete(apiPrefix + "/v1/permissions/delete", paramData);
   },
 
   deleteMultiple(data) {
-    let paramData = {
+    const paramData = {
       data: data,
     };
     return resource.delete(

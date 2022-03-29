@@ -1,4 +1,4 @@
-let exported = {};
+const exported = {};
 
 const pluginsEnv = process.env.MIX_BADASO_MODULES
   ? process.env.MIX_BADASO_MODULES
@@ -8,7 +8,7 @@ const pluginsEnv = process.env.MIX_BADASO_MODULES
 try {
   const modules = require.context("./modules", false, /\.js$/); //
   modules.keys().forEach((fileName) => {
-    let property = fileName
+    const property = fileName
       .replace("./", "")
       .replace(".js", "")
       .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
@@ -38,7 +38,7 @@ try {
     /\.js$/
   ); //
   modules.keys().forEach((fileName) => {
-    let property = fileName
+    const property = fileName
       .replace("./", "")
       .replace(".js", "")
       .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
@@ -63,13 +63,15 @@ try {
 // DYNAMIC IMPORT CUSTOM PLUGINS API HELPER
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(',');
+    const plugins = process.env.MIX_BADASO_MODULES.split(",");
     if (plugins && plugins.length > 0) {
-      plugins.forEach(plugin => {
-        const modules = require("../../../../../" + plugin + "/src/resources/js/api/").default
+      plugins.forEach((plugin) => {
+        const modules = require("../../../../../" +
+          plugin +
+          "/src/resources/js/api/").default;
         Object.keys(modules).forEach((module, index) => {
           exported[module] = modules[module];
-        })
+        });
       });
     }
   }

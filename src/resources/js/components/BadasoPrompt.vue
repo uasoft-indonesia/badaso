@@ -166,8 +166,8 @@ export default {
   },
   beforeDestroy() {
     // close the left open prompt
-    let elx = this.$refs.con;
-    let parentx = this.parent ? this.parent : document.body;
+    const elx = this.$refs.con;
+    const parentx = this.parent ? this.parent : document.body;
     if (elx) {
       parentx.removeChild(elx);
     }
@@ -230,8 +230,8 @@ export default {
       this.cancel ? this.cancel(this.parameters) : null;
     },
     insertBody() {
-      let elx = this.$refs.con;
-      let parentx = this.parent ? this.parent : document.body;
+      const elx = this.$refs.con;
+      const parentx = this.parent ? this.parent : document.body;
       parentx.insertBefore(elx, parentx.firstChild);
     },
   },

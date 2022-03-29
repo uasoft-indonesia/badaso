@@ -1,6 +1,8 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-time__container">
-    <label v-if="label != ''"  for="" class="badaso-time__label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="badaso-time__label">{{
+      label
+    }}</label>
     <div class="badaso-time__time-container">
       <datetime
         :label="label"
@@ -12,12 +14,16 @@
       ></datetime>
       <div class="badaso-time__item-icon-box">
         <vs-icon icon="schedule" class="badaso-time__item-icon"></vs-icon>
-        </diV>
+      </div>
     </div>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-time__input--error" v-for="(info, index) in alert" :key="index">
+        <span
+          class="badaso-time__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+        >
           {{ info }}
         </span>
       </div>
