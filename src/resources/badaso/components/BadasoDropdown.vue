@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     clickx(evt) {
-      let [dropdownMenu] = this.$children.filter((item) =>
+      const [dropdownMenu] = this.$children.filter((item) =>
         item.hasOwnProperty("dropdownVisible")
       );
       dropdownMenu.vsCustomContent = this.vsCustomContent;
@@ -104,7 +104,7 @@ export default {
       }
     },
     changeColor() {
-      let child = this.$children;
+      const child = this.$children;
       child.forEach((item) => {
         if (item.$vnode.tag.indexOf("dropdown") != -1) {
           item.color = this.color;
@@ -112,10 +112,11 @@ export default {
       });
     },
     changePositionMenu() {
-      let [dropdownMenu] = this.$children.filter((item) =>
+      const [dropdownMenu] = this.$children.filter((item) =>
         item.hasOwnProperty("dropdownVisible")
       );
-      let scrollTopx = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTopx =
+        window.pageYOffset || document.documentElement.scrollTop;
       if (
         this.$refs.dropdown.getBoundingClientRect().top + 300 >=
         window.innerHeight
@@ -138,7 +139,7 @@ export default {
       }
 
       this.$nextTick(() => {
-        var w =
+        const w =
           window.innerWidth ||
           document.documentElement.clientWidth ||
           document.body.clientWidth;
@@ -172,7 +173,7 @@ export default {
       if (evt.type == "contextmenu") {
         evt.preventDefault();
       }
-      let [dropdownMenu] = this.$children.filter((item) =>
+      const [dropdownMenu] = this.$children.filter((item) =>
         item.hasOwnProperty("dropdownVisible")
       );
       if (this.vsTriggerClick || this.vsTriggerContextmenu) {
@@ -197,7 +198,7 @@ export default {
       this.$emit("click");
     },
     toggleMenu(typex, evt) {
-      let [dropdownMenu] = this.$children.filter((item) =>
+      const [dropdownMenu] = this.$children.filter((item) =>
         item.hasOwnProperty("dropdownVisible")
       );
       if (!this.vsTriggerClick && !this.vsTriggerContextmenu) {

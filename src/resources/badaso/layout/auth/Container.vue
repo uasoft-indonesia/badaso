@@ -1,6 +1,9 @@
 <template>
   <div>
-    <vs-row class="main-container__background--auth"  :style="`background-image: url('${authBackgroundImage}')`">
+    <vs-row
+      class="main-container__background--auth"
+      :style="`background-image: url('${authBackgroundImage}')`"
+    >
       <router-view :key="$route.path"></router-view>
     </vs-row>
   </div>
@@ -12,9 +15,9 @@ export default {
   components: {},
   computed: {
     authBackgroundImage() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.authBackgroundImage;
-    }
-  }
+    },
+  },
 };
 </script>

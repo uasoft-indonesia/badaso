@@ -577,8 +577,8 @@ export default {
   methods: {
     renameForeignkey(item) {
       if (this.databaseData.relations[item.id]) {
-        let newVal = item.fieldName;
-        let oldVal = this.databaseData.relations[item.id].sourceField || null;
+        const newVal = item.fieldName;
+        const oldVal = this.databaseData.relations[item.id].sourceField || null;
         if (newVal !== oldVal) {
           this.databaseData.relations[item.id].sourceField = newVal;
         }
@@ -719,9 +719,7 @@ export default {
             } else {
               this.$vs.notify({
                 title: this.$t("alert.danger"),
-                text: message
-                  ? message
-                  : this.$t("database.warning.errorOnRequest"),
+                text: message || this.$t("database.warning.errorOnRequest"),
                 color: "danger",
               });
             }
@@ -743,7 +741,7 @@ export default {
       }
     },
     addField() {
-      let index = this.databaseData.rows
+      const index = this.databaseData.rows
         .map((row) => row.indexes)
         .indexOf(true);
       this.databaseData.rows.splice(index, 0, {

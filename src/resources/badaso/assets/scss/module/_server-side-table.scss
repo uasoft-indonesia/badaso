@@ -21,8 +21,8 @@
     & > .vs-icon {
       left: 10px;
       position: absolute;
-      -webkit-transition: all .25s ease;
-      transition: all .25s ease;
+      -webkit-transition: all 0.25s ease;
+      transition: all 0.25s ease;
       font-size: 1rem;
     }
   }
@@ -37,19 +37,19 @@
     border: 1px solid rgba(0, 0, 0, 0.1);
     padding: 5px 10px 5px 30px;
     border-radius: 20px;
-    border: 1px solid rgba(0,0,0,.04);
-    font-size: .7rem;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    font-size: 0.7rem;
     width: 200px;
-    color: rgba(0,0,0,.7);
-    -webkit-transition: all .25s ease;
-    transition: all .25s ease;
+    color: rgba(0, 0, 0, 0.7);
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
 
     &:focus {
-      &+.vs-icon {
+      & + .vs-icon {
         color: $primary;
       }
-      -webkit-box-shadow: 0 4px 10px 0 rgba(0,0,0,.03);
-      box-shadow: 0 4px 10px 0 rgba(0,0,0,.03);
+      -webkit-box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.03);
     }
   }
 

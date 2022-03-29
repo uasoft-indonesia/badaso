@@ -33,128 +33,153 @@
                 v-for="(dataRow, rowIndex) in dataType.dataRows"
                 :key="rowIndex"
                 :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
-                v-if="dataRow.read"
               >
-                <table class="badaso-table">
-                  <tr>
-                    <td class="badaso-table__label">{{ dataRow.displayName }}</td>
-                    <td class="badaso-table__value">
-                      <img
-                        v-if="dataRow.type == 'upload_image'"
-                        :src="record[$caseConvert.stringSnakeToCamel(dataRow.field)]"
-                        width="100%"
-                        alt=""
-                      />
-                      <div
-                        v-else-if="dataRow.type == 'upload_image_multiple'"
-                        class="crud-generated__item--upload-image-multiple"
-                      >
+                <template v-if="dataRow.read">
+                  <table class="badaso-table">
+                    <tr>
+                      <td class="badaso-table__label">
+                        {{ dataRow.displayName }}
+                      </td>
+                      <td class="badaso-table__value">
                         <img
-                          v-for="(image, indexImage) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )"
-                          :key="indexImage"
-                          :src="image"
+                          v-if="dataRow.type == 'upload_image'"
+                          :src="
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          "
                           width="100%"
                           alt=""
-                          class="crud-generated__item--image"
                         />
-                      </div>
-                      <span
-                        v-else-if="dataRow.type == 'editor'"
-                        v-html="
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        "
-                      ></span>
-                      <a
-                        v-else-if="dataRow.type == 'url'"
-                        :href="
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        "
-                        target="_blank"
-                        >{{
-                          record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        }}</a
-                      >
-                      <a
-                        v-else-if="dataRow.type == 'upload_file'"
-                        :href="
-                          `${record[$caseConvert.stringSnakeToCamel(dataRow.field)]}`
-                        "
-                        target="_blank"
-                        >{{
-                          getDownloadUrl(record[$caseConvert.stringSnakeToCamel(dataRow.field)])
-                        }}</a
-                      >
-                      <div
-                        v-else-if="dataRow.type == 'upload_file_multiple'"
-                        class="crud-generated__item--upload-file-multiple"
-                      >
-                        <p
-                          v-for="(file, indexFile) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )"
-                          :key="indexFile"
-                        >
-                          <a
-                            :href="`${file}`"
-                            target="_blank"
-                            >{{ getDownloadUrl(file) }}</a
-                          >
-                        </p>
-                      </div>
-                      <p
-                        v-else-if="
-                          dataRow.type == 'radio' || dataRow.type == 'select'
-                        "
-                      >
-                        {{
-                          bindSelection(
-                            dataRow.details.items,
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )
-                        }}
-                      </p>
-                      <div
-                        v-else-if="
-                          dataRow.type == 'select_multiple' ||
-                            dataRow.type == 'checkbox'
-                        "
-                        class="crud-generated__item--select-multiple"
-                      >
-                        <p
-                          v-for="(selected, indexSelected) in stringToArray(
-                            record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                          )"
-                          :key="indexSelected"
-                        >
-                          {{ bindSelection(dataRow.details.items, selected) }}
-                        </p>
-                      </div>
-                      <div v-else-if="dataRow.type == 'color_picker'">
                         <div
-                          class="crud-generated__item--color-picker"
-                          :style="
-                            `background-color: ${
+                          v-else-if="dataRow.type == 'upload_image_multiple'"
+                          class="crud-generated__item--upload-image-multiple"
+                        >
+                          <img
+                            v-for="(image, indexImage) in stringToArray(
                               record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
-                            }`
+                            )"
+                            :key="indexImage"
+                            :src="image"
+                            width="100%"
+                            alt=""
+                            class="crud-generated__item--image"
+                          />
+                        </div>
+                        <span
+                          v-else-if="dataRow.type == 'editor'"
+                          v-html="
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
                           "
-                        ></div>
-                        {{
+                        ></span>
+                        <a
+                          v-else-if="dataRow.type == 'url'"
+                          :href="
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          "
+                          target="_blank"
+                          >{{
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }}</a
+                        >
+                        <a
+                          v-else-if="dataRow.type == 'upload_file'"
+                          :href="`${
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }`"
+                          target="_blank"
+                          >{{
+                            getDownloadUrl(
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            )
+                          }}</a
+                        >
+                        <div
+                          v-else-if="dataRow.type == 'upload_file_multiple'"
+                          class="crud-generated__item--upload-file-multiple"
+                        >
+                          <p
+                            v-for="(file, indexFile) in stringToArray(
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            )"
+                            :key="indexFile"
+                          >
+                            <a :href="`${file}`" target="_blank">{{
+                              getDownloadUrl(file)
+                            }}</a>
+                          </p>
+                        </div>
+                        <p
+                          v-else-if="
+                            dataRow.type == 'radio' || dataRow.type == 'select'
+                          "
+                        >
+                          {{
+                            bindSelection(
+                              dataRow.details.items,
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            )
+                          }}
+                        </p>
+                        <div
+                          v-else-if="
+                            dataRow.type == 'select_multiple' ||
+                            dataRow.type == 'checkbox'
+                          "
+                          class="crud-generated__item--select-multiple"
+                        >
+                          <p
+                            v-for="(selected, indexSelected) in stringToArray(
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            )"
+                            :key="indexSelected"
+                          >
+                            {{ bindSelection(dataRow.details.items, selected) }}
+                          </p>
+                        </div>
+                        <div v-else-if="dataRow.type == 'color_picker'">
+                          <div
+                            class="crud-generated__item--color-picker"
+                            :style="`background-color: ${
+                              record[
+                                $caseConvert.stringSnakeToCamel(dataRow.field)
+                              ]
+                            }`"
+                          ></div>
+                          {{
+                            record[
+                              $caseConvert.stringSnakeToCamel(dataRow.field)
+                            ]
+                          }}
+                        </div>
+                        <span v-else-if="dataRow.type == 'relation'">{{
+                          displayRelationData(record, dataRow)
+                        }}</span>
+                        <span v-else>{{
                           record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                        }}
-                      </div>
-                      <span v-else-if="dataRow.type == 'relation'">{{
-                        displayRelationData(record, dataRow)
-                      }}</span>
-                      <span v-else>{{
-                        record[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                      }}</span>
-                    </td>
-                  </tr>
-                </table>
+                        }}</span>
+                      </td>
+                    </tr>
+                  </table>
+                </template>
               </vs-col>
             </vs-row>
           </vs-card>
@@ -179,14 +204,15 @@
       </vs-row>
     </template>
     <template v-if="isMaintenance">
-      <badaso-breadcrumb-row full>
-      </badaso-breadcrumb-row>
+      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
           <div class="badaso-maintenance__container">
-            <img :src="`${maintenanceImg}`" alt="Maintenance Icon">
-            <h1 class="badaso-maintenance__text">We are under <br>maintenance</h1>
+            <img :src="`${maintenanceImg}`" alt="Maintenance Icon" />
+            <h1 class="badaso-maintenance__text">
+              We are under <br />maintenance
+            </h1>
           </div>
         </vs-col>
       </vs-row>
@@ -203,33 +229,33 @@ export default {
   data: () => ({
     dataType: {},
     record: {},
-    isMaintenance: false
+    isMaintenance: false,
   }),
   mounted() {
     this.getDetailEntity();
   },
   computed: {
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
-    }
+    },
   },
   methods: {
     getDownloadUrl(item) {
-      if (item == null || item == undefined) return
+      if (item == null || item == undefined) return;
 
-      return item.split('storage').pop()
+      return item.split("storage").pop();
     },
     async getDetailEntity() {
       this.$openLoader();
 
       try {
-        let response = await this.$api.badasoEntity.read({
+        const response = await this.$api.badasoEntity.read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         });
 
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
@@ -240,7 +266,7 @@ export default {
         this.dataType = dataType;
         this.record = response.data;
 
-        let dataRows = this.dataType.dataRows.map((data) => {
+        const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.add = data.add == 1;
             data.edit = data.edit == 1;
@@ -278,18 +304,20 @@ export default {
       }
     },
     displayRelationData(record, dataRow) {
-      let table = this.$caseConvert.stringSnakeToCamel(
+      const table = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTable
       );
-      let column = this.$caseConvert.stringSnakeToCamel(
+
+      this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTableColumn
       );
-      let displayColumn = this.$caseConvert.stringSnakeToCamel(
+
+      const displayColumn = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTableDisplayColumn
       );
       if (dataRow.relation.relationType == "has_many") {
-        let list = record[table];
-        let flatList = list.map((ls) => {
+        const list = record[table];
+        const flatList = list.map((ls) => {
           return ls[displayColumn];
         });
         return flatList.join(", ");

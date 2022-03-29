@@ -32,11 +32,7 @@
             <tr>
               <th>{{ $t("user.detail.avatar") }}</th>
               <td>
-                <img
-                  :src="`${user.avatar}`"
-                  width="100%"
-                  alt=""
-                />
+                <img :src="`${user.avatar}`" width="100%" alt="" />
               </td>
             </tr>
             <tr>

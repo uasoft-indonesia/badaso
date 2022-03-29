@@ -1,6 +1,8 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-date__container">
-    <label v-if="label != ''" for="" class="badaso-date__label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="badaso-date__label">{{
+      label
+    }}</label>
     <div class="badaso-date__date-container">
       <datetime
         :label="label"
@@ -10,13 +12,17 @@
         @input="handleInput($event)"
       ></datetime>
       <div class="badaso-date__date-icon-box">
-      <vs-icon icon="calendar_today" class="badaso-date__date-icon"></vs-icon>
+        <vs-icon icon="calendar_today" class="badaso-date__date-icon"></vs-icon>
       </div>
     </div>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-date__input--error" v-for="(info, index) in alert" :key="index" >
+        <span
+          class="badaso-date__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+        >
           {{ info }}
         </span>
       </div>
@@ -55,7 +61,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },

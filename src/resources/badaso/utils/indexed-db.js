@@ -7,7 +7,7 @@ export const indexedDatabase = () => {
     );
 
   async function getDB() {
-    var requestdb = indexedDB.open("badaso-indexed-db", 1);
+    const requestdb = indexedDB.open("badaso-indexed-db", 1);
 
     return await new Promise((resolve, reject) => {
       requestdb.onerror = () => {
@@ -17,8 +17,8 @@ export const indexedDatabase = () => {
         resolve(event.target.result);
       };
       requestdb.onupgradeneeded = (event) => {
-        var db = event.target.result;
-        var objectStore = db.createObjectStore(objectName);
+        const db = event.target.result;
+        db.createObjectStore(objectName);
       };
     });
   }
@@ -27,8 +27,8 @@ export const indexedDatabase = () => {
 };
 
 export const readObjectStore = async (keyStore) => {
-  let db = await indexedDatabase();
-  let dbTransaction = db.transaction([objectName], "readonly");
+  const db = await indexedDatabase();
+  const dbTransaction = db.transaction([objectName], "readonly");
   let dbObjectStore = dbTransaction.objectStore(objectName);
   dbObjectStore = dbObjectStore.get(keyStore);
 
@@ -43,11 +43,11 @@ export const readObjectStore = async (keyStore) => {
 };
 
 export const getAllKeysObjectStore = async () => {
-  let db = await indexedDatabase();
-  let dbTransaction = db.transaction([objectName], "readonly");
-  let dbObjectStore = dbTransaction.objectStore(objectName);
+  const db = await indexedDatabase();
+  const dbTransaction = db.transaction([objectName], "readonly");
+  const dbObjectStore = dbTransaction.objectStore(objectName);
 
-  let getAllKeysRequest = dbObjectStore.getAllKeys();
+  const getAllKeysRequest = dbObjectStore.getAllKeys();
 
   return new Promise((resolve, reject) => {
     getAllKeysRequest.onsuccess = () => {
@@ -57,26 +57,22 @@ export const getAllKeysObjectStore = async () => {
 };
 
 export const setObjectStore = async (key, value) => {
-  let db = await indexedDatabase();
-  let dbTransaction = db.transaction([objectName], "readwrite");
-  let dbObjectStore = dbTransaction.objectStore(objectName);
+  const db = await indexedDatabase();
+  const dbTransaction = db.transaction([objectName], "readwrite");
+  const dbObjectStore = dbTransaction.objectStore(objectName);
   dbObjectStore.put(value, key);
 };
 
 export const removeObjectStore = async (keyStore) => {
-  let db = await indexedDatabase();
-  let dbTransaction = db.transaction([objectName], "readwrite");
-  let dbObjectStore = dbTransaction.objectStore(objectName);
+  const db = await indexedDatabase();
+  const dbTransaction = db.transaction([objectName], "readwrite");
+  const dbObjectStore = dbTransaction.objectStore(objectName);
 
-  let deleteObjectStore = dbObjectStore.delete(keyStore);
+  const deleteObjectStore = dbObjectStore.delete(keyStore);
 
   return new Promise((resolve, reject) => {
-    deleteObjectStore.onsuccess = () => {
-      resolve();
-    };
+    deleteObjectStore.onsuccess = resolve();
 
-    deleteObjectStore.onerror = () => {
-      reject();
-    };
+    deleteObjectStore.onerror = reject;
   });
 };

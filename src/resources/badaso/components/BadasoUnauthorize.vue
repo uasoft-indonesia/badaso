@@ -9,20 +9,20 @@
         <p class="badaso-unauthorize__title">
           {{ $t("authorizationIssue.subtitle") }}
         </p>
-				<div>
+        <div>
           <h3 class="badaso-unauthorize__message">
             {{ $t("authorizationIssue.message") }}
           </h3>
-				</div>
+        </div>
       </vs-col>
     </vs-row>
-		<vs-row>
-			<vs-col class="badaso-unauthorize__button">
-				<vs-button type="relief" @click="login()">{{
-            $t("login.button")
-          }}</vs-button>
-			</vs-col>
-		</vs-row>
+    <vs-row>
+      <vs-col class="badaso-unauthorize__button">
+        <vs-button type="relief" @click="login()">{{
+          $t("login.button")
+        }}</vs-button>
+      </vs-col>
+    </vs-row>
   </vs-popup>
 </template>
 
@@ -45,7 +45,7 @@ export default {
       },
       set(val) {
         if (val === false) {
-          this.$store.commit("badaso/LOGOUT"); 
+          this.$store.commit("badaso/LOGOUT");
         }
       },
     },
@@ -55,10 +55,10 @@ export default {
       },
     },
   },
-	methods: {
-		login() {
-			this.$store.commit("badaso/LOGOUT");
-		}
-	}
+  methods: {
+    login() {
+      this.$store.commit("badaso/LOGOUT");
+    },
+  },
 };
 </script>

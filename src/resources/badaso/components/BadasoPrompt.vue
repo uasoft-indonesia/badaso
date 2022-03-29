@@ -166,8 +166,8 @@ export default {
   },
   beforeDestroy() {
     // close the left open prompt
-    let elx = this.$refs.con;
-    let parentx = this.parent ? this.parent : document.body;
+    const elx = this.$refs.con;
+    const parentx = this.parent ? this.parent : document.body;
     if (elx) {
       parentx.removeChild(elx);
     }
@@ -178,13 +178,18 @@ export default {
     },
     acceptDialog() {
       if (!this.isPrompt) {
-        this.accept ? this.accept(this.parameters) : null;
+        if (this.accept) {
+          this.accept(this.parameters);
+        }
+
         this.fActive = false;
         this.$emit("update:active", false);
         this.$emit("accept", this.parameters);
       } else {
         if (this.isValid || this.isValid == "none") {
-          this.accept ? this.accept() : null;
+          if (this.accept) {
+            this.accept();
+          }
           this.fActive = false;
           this.$emit("update:active", false);
           this.$emit("accept", this.parameters);
@@ -227,11 +232,13 @@ export default {
       this.$emit("update:active", false);
       this.$emit("cancel");
       // this.$emit('cancel')
-      this.cancel ? this.cancel(this.parameters) : null;
+      if (this.cancel) {
+        this.cancel(this.parameters);
+      }
     },
     insertBody() {
-      let elx = this.$refs.con;
-      let parentx = this.parent ? this.parent : document.body;
+      const elx = this.$refs.con;
+      const parentx = this.parent ? this.parent : document.body;
       parentx.insertBefore(elx, parentx.firstChild);
     },
   },

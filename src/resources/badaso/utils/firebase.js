@@ -1,5 +1,4 @@
 // add firebase import
-import firebase from "firebase/app";
 import "firebase/firebase-messaging";
 // end firebase import
 
@@ -9,12 +8,11 @@ export const keyFCMTokenMessage = "FCMTokenMessage";
 export const notificationMessageReceiveHandle = async (app) => {
   try {
     //   initial firebase
-    let firebaseMessages = app.$messaging;
-    let store = app.$store;
+    const firebaseMessages = app.$messaging;
+    const store = app.$store;
 
     const handleMessage = (isReadMessage) => (messageData) => {
-      let {
-        data: { user_name, fcm_message_id },
+      const {
         notification: { title, body },
       } = messageData;
 

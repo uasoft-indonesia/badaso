@@ -48,13 +48,13 @@ export default {
   },
   computed: {
     urlLogViewer() {
-      let log_viewer_route = process.env.MIX_LOG_VIEWER_ROUTE
+      const logViewerRoute = process.env.MIX_LOG_VIEWER_ROUTE
         ? process.env.MIX_LOG_VIEWER_ROUTE
         : "log-viewer";
-      let host = window.location.origin;
-      let token = localStorage.getItem("token");
+      const host = window.location.origin;
+      const token = localStorage.getItem("token");
 
-      return `${host}/${log_viewer_route}?token=${token}`;
+      return `${host}/${logViewerRoute}?token=${token}`;
     },
   },
   methods: {
@@ -68,7 +68,7 @@ export default {
           this.isShow = true;
         })
         .catch((error) => {
-          let { message } = error;
+          const { message } = error;
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: message,

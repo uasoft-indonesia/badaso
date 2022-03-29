@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view ></router-view>
+    <router-view></router-view>
     <badaso-prompt
       :active.sync="loader"
       buttons-hidden
@@ -75,8 +75,6 @@ export default {
     this.$store.commit("badaso/FETCH_CONFIGURATION");
     this.$store.commit("badaso/FETCH_FILE_CONFIGURATION");
   },
-  beforeMount() {
-
-  },
+  beforeMount() {},
 };
 </script>

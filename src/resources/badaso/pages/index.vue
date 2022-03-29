@@ -54,11 +54,11 @@ import UserManagementAdd from "./user-management/add";
 import UserManagementRoles from "./user-management/roles";
 import FileManagerBrowse from "./file-manager/browse";
 import ImageManagerBrowse from "./image-manager/browse";
-import LogViewerBrowse from './log-viewer/browse';
-import NotificationBrowse from './notification/browse';
-import DataPendingAddBrowse from './data-pending-add/browse';
-import DataPendingEditRead from './data-pending-edit/read';
-import ApiDocsBrowse from './api-documentation/browse';
+import LogViewerBrowse from "./log-viewer/browse";
+import NotificationBrowse from "./notification/browse";
+import DataPendingAddBrowse from "./data-pending-add/browse";
+import DataPendingEditRead from "./data-pending-edit/read";
+import ApiDocsBrowse from "./api-documentation/browse";
 
 export default {
   components: {

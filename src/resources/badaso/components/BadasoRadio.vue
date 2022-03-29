@@ -1,9 +1,19 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-radio__container">
-    <label v-if="label != ''" for="" class="badaso-radio__label">{{ label }}</label>
+    <label v-if="label != ''" for="" class="badaso-radio__label">{{
+      label
+    }}</label>
     <ul class="badaso-radio__list">
-      <li class="badaso-radio__list-item" v-for="item in items" :key="item.value">
-        <vs-radio :value="value" @input="handleInput($event)" :vs-value="item.value" >
+      <li
+        class="badaso-radio__list-item"
+        v-for="item in items"
+        :key="item.value"
+      >
+        <vs-radio
+          :value="value"
+          @input="handleInput($event)"
+          :vs-value="item.value"
+        >
           {{ item.label }}
         </vs-radio>
       </li>
@@ -11,7 +21,11 @@
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
-        <span class="badaso-radio__input--error" v-for="(info, index) in alert" :key="index">
+        <span
+          class="badaso-radio__input--error"
+          v-for="(info, index) in alert"
+          :key="index"
+        >
           {{ info }}
         </span>
       </div>
@@ -53,7 +67,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },

@@ -1,41 +1,41 @@
 import resource from "../resource";
 import QueryString from "../query-string";
 
-let apiPrefix = process.env.MIX_API_ROUTE_PREFIX
+const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
 
 export default {
   view(file) {
-    let data = {
+    const data = {
       file,
     };
-    let ep = apiPrefix + "/v1/file/view";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/file/view";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return url;
   },
 
   upload(files) {
     return resource.post(apiPrefix + "/v1/file/upload", {
-      files: files
+      files: files,
     });
   },
 
   download(file) {
-    let data = {
+    const data = {
       file,
     };
-    let ep = apiPrefix + "/v1/file/download";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/file/download";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return url;
   },
 
   browseUsingLfm(data = {}) {
-    let ep = apiPrefix + "/v1/file/browse/lfm";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/file/browse/lfm";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
@@ -44,16 +44,16 @@ export default {
   },
 
   deleteUsingLfm(data) {
-    let ep = apiPrefix + "/v1/file/delete/lfm";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/file/delete/lfm";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 
   browseConfiguration(data = {}) {
-    let ep = apiPrefix + "/v1/file/mimetypes";
-    let qs = QueryString(data);
-    let url = ep + qs;
+    const ep = apiPrefix + "/v1/file/mimetypes";
+    const qs = QueryString(data);
+    const url = ep + qs;
     return resource.get(url);
   },
 };

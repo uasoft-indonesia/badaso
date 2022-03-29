@@ -95,9 +95,7 @@
                         <b v-if="data.children && data.children.length"
                           >{{ data.open ? "-" : "+" }}&nbsp;
                         </b>
-                        <b v-else>
-                          &nbsp;&nbsp;
-                        </b>
+                        <b v-else> &nbsp;&nbsp; </b>
                         <span>{{ data.title }}</span>
                       </div>
                     </div>
@@ -271,7 +269,7 @@ export default {
     ],
   }),
   watch: {
-    arrangeItems: function(val) {
+    arrangeItems: function (val) {
       if (val) {
         this.startArrangeItems();
       }
@@ -315,7 +313,7 @@ export default {
         })
         .then((response) => {
           this.menuItems = response.data.menuItems.map((item) => {
-            let _item = item;
+            const _item = item;
             _item.editItem = false;
             _item.title = item.title ? item.title : "";
             _item.iconClass = item.iconClass ? item.iconClass : "";
@@ -346,11 +344,11 @@ export default {
     },
     checkArray(items) {
       for (let i = 0; i < items.length; i++) {
-        let idx = _.findIndex(this.flatSavedItems, (o) => {
+        const idx = _.findIndex(this.flatSavedItems, (o) => {
           return o.id == items[i].id;
         });
         if (items[i].children && items[i].children.length > 0) {
-          let stat = this.checkArray(items[i].children);
+          const stat = this.checkArray(items[i].children);
           if (!stat) {
             return false;
           }
@@ -366,7 +364,7 @@ export default {
       let flatten = [];
       for (let i = 0; i < items.length; i++) {
         if (items[i].children && items[i].children.length > 0) {
-          let flattenChildren = this.flattenItems(items[i].children);
+          const flattenChildren = this.flattenItems(items[i].children);
           flatten.push(items[i]);
           flatten = flatten.concat(flattenChildren);
         } else {
@@ -376,10 +374,10 @@ export default {
       return flatten;
     },
     buildArrangeItems(items) {
-      let ls = [];
+      const ls = [];
       for (let i = 0; i < items.length; i++) {
         if (items[i].children && items[i].children.length > 0) {
-          let format = {
+          const format = {
             id: items[i].id,
             menuId: items[i].menuId,
             title: items[i].title,
@@ -394,7 +392,7 @@ export default {
           };
           ls.push(format);
         } else {
-          let format = {
+          const format = {
             id: items[i].id,
             menuId: items[i].menuId,
             title: items[i].title,
@@ -415,7 +413,7 @@ export default {
     },
     startArrangeItems() {
       this.$openLoader();
-      let menuItems = this.buildArrangeItems(this.menuItems);
+      const menuItems = this.buildArrangeItems(this.menuItems);
       this.$api.badasoMenu
         .arrangeItems({
           menuId: this.$route.params.id,
@@ -529,20 +527,20 @@ export default {
         });
     },
     async saveCheckMenuItemExpand(menuItem) {
-      let { id: menu_item_id, isExpand: is_expand } = menuItem;
+      const { id, isExpand } = menuItem;
       try {
         // request api from menu
-        let responseMenu = await this.$api.badasoMenu.menuOptions({
-          menu_item_id,
-          is_expand: !is_expand,
+        await this.$api.badasoMenu.menuOptions({
+          menu_item_id: id,
+          is_expand: !isExpand,
           type: "menu_item",
         });
         // request api from menu item
-        let responseMenuItem = await this.$api.badasoMenu.browseItem({
+        const responseMenuItem = await this.$api.badasoMenu.browseItem({
           menuId: this.$route.params.id,
         });
         this.menuItems = responseMenuItem.data.menuItems.map((item) => {
-          let _item = item;
+          const _item = item;
           _item.editItem = false;
           _item.title = item.title ? item.title : "";
           _item.iconClass = item.iconClass ? item.iconClass : "";

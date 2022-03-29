@@ -22,298 +22,299 @@
                 v-for="(dataRow, rowIndex) in dataType.dataRows"
                 :key="rowIndex"
                 :vs-lg="dataRow.details.size ? dataRow.details.size : '12'"
-                v-if="dataRow.edit && dataRow.type !== 'hidden'"
               >
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-                <badaso-text
-                  v-if="dataRow.type == 'text'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-text>
-                <badaso-email
-                  v-if="dataRow.type == 'email'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-email>
-                <badaso-password
-                  v-if="dataRow.type == 'password'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-password>
-                <badaso-textarea
-                  v-if="dataRow.type == 'textarea'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-textarea>
-                <badaso-search
-                  v-if="dataRow.type == 'search'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-search>
-                <badaso-number
-                  v-if="dataRow.type == 'number'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-number>
-                <badaso-url
-                  v-if="dataRow.type == 'url'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-url>
-                <badaso-time
-                  v-if="dataRow.type == 'time'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-time>
-                <badaso-date
-                  v-if="dataRow.type == 'date'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-date>
-                <badaso-datetime
-                  v-if="dataRow.type == 'datetime'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-datetime>
-                <badaso-upload-image
-                  v-if="dataRow.type == 'upload_image'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :private-only="dataRow.details.type == 'private-only'"
-                  :shares-only="dataRow.details.type == 'shares-only'"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-upload-image>
-                <badaso-upload-image-multiple
-                  v-if="dataRow.type == 'upload_image_multiple'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :private-only="dataRow.details.type == 'private-only'"
-                  :shares-only="dataRow.details.type == 'shares-only'"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-upload-image-multiple>
-                <badaso-upload-file
-                  v-if="dataRow.type == 'upload_file'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :private-only="dataRow.details.type == 'private-only'"
-                  :shares-only="dataRow.details.type == 'shares-only'"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-upload-file>
-                <badaso-upload-file-multiple
-                  v-if="dataRow.type == 'upload_file_multiple'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :private-only="dataRow.details.type == 'private-only'"
-                  :shares-only="dataRow.details.type == 'shares-only'"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-upload-file-multiple>
-                <badaso-switch
-                  v-if="dataRow.type == 'switch'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-switch>
-                <badaso-slider
-                  v-if="dataRow.type == 'slider'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-slider>
-                <badaso-editor
-                  v-if="dataRow.type == 'editor'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-editor>
-                <badaso-tags
-                  v-if="dataRow.type == 'tags'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-tags>
-                <badaso-color-picker
-                  v-if="dataRow.type == 'color_picker'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-color-picker>
-                <badaso-hidden
-                  v-if="dataRow.type == 'hidden'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-hidden>
-                <badaso-checkbox
-                  v-if="dataRow.type == 'checkbox'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                  :items="dataRow.details.items ? dataRow.details.items : []"
-                ></badaso-checkbox>
-                <badaso-select
-                  v-if="dataRow.type == 'select'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                  :items="dataRow.details.items ? dataRow.details.items : []"
-                ></badaso-select>
-                <badaso-select-multiple
-                  v-if="dataRow.type == 'select_multiple'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                  :items="dataRow.details.items ? dataRow.details.items : []"
-                ></badaso-select-multiple>
-                <badaso-radio
-                  v-if="dataRow.type == 'radio'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                  :items="dataRow.details.items ? dataRow.details.items : []"
-                ></badaso-radio>
-                <badaso-code-editor
-                  v-if="dataRow.type == 'code'"
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :alert="
-                    errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                  "
-                ></badaso-code-editor>
-                <badaso-select
-                  v-if="
-                    dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to'
-                  "
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                  :items="
-                    relationData[
-                      $caseConvert.stringSnakeToCamel(
-                        dataRow.relation.destinationTable
-                      )
-                    ]
-                  "
-                ></badaso-select>
-                <badaso-text
-                  v-if="
-                    dataRow.type == 'relation' &&
-                    dataRow.relation.relationType !== 'belongs_to'
-                  "
-                  :label="dataRow.displayName"
-                  :placeholder="dataRow.displayName"
-                  v-model="dataRow.value"
-                  size="12"
-                ></badaso-text>
+                <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
+                  <badaso-text
+                    v-if="dataRow.type == 'text'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-text>
+                  <badaso-email
+                    v-if="dataRow.type == 'email'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-email>
+                  <badaso-password
+                    v-if="dataRow.type == 'password'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-password>
+                  <badaso-textarea
+                    v-if="dataRow.type == 'textarea'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-textarea>
+                  <badaso-search
+                    v-if="dataRow.type == 'search'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-search>
+                  <badaso-number
+                    v-if="dataRow.type == 'number'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-number>
+                  <badaso-url
+                    v-if="dataRow.type == 'url'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-url>
+                  <badaso-time
+                    v-if="dataRow.type == 'time'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-time>
+                  <badaso-date
+                    v-if="dataRow.type == 'date'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-date>
+                  <badaso-datetime
+                    v-if="dataRow.type == 'datetime'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-datetime>
+                  <badaso-upload-image
+                    v-if="dataRow.type == 'upload_image'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-image>
+                  <badaso-upload-image-multiple
+                    v-if="dataRow.type == 'upload_image_multiple'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-image-multiple>
+                  <badaso-upload-file
+                    v-if="dataRow.type == 'upload_file'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-file>
+                  <badaso-upload-file-multiple
+                    v-if="dataRow.type == 'upload_file_multiple'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :private-only="dataRow.details.type == 'private-only'"
+                    :shares-only="dataRow.details.type == 'shares-only'"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-upload-file-multiple>
+                  <badaso-switch
+                    v-if="dataRow.type == 'switch'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-switch>
+                  <badaso-slider
+                    v-if="dataRow.type == 'slider'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-slider>
+                  <badaso-editor
+                    v-if="dataRow.type == 'editor'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-editor>
+                  <badaso-tags
+                    v-if="dataRow.type == 'tags'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-tags>
+                  <badaso-color-picker
+                    v-if="dataRow.type == 'color_picker'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-color-picker>
+                  <badaso-hidden
+                    v-if="dataRow.type == 'hidden'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-hidden>
+                  <badaso-checkbox
+                    v-if="dataRow.type == 'checkbox'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-checkbox>
+                  <badaso-select
+                    v-if="dataRow.type == 'select'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-select>
+                  <badaso-select-multiple
+                    v-if="dataRow.type == 'select_multiple'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-select-multiple>
+                  <badaso-radio
+                    v-if="dataRow.type == 'radio'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                    :items="dataRow.details.items ? dataRow.details.items : []"
+                  ></badaso-radio>
+                  <badaso-code-editor
+                    v-if="dataRow.type == 'code'"
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :alert="
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
+                  ></badaso-code-editor>
+                  <badaso-select
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to'
+                    "
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                    :items="
+                      relationData[
+                        $caseConvert.stringSnakeToCamel(
+                          dataRow.relation.destinationTable
+                        )
+                      ]
+                    "
+                  ></badaso-select>
+                  <badaso-text
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType !== 'belongs_to'
+                    "
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                  ></badaso-text>
+                </template>
               </vs-col>
             </vs-row>
           </vs-card>
@@ -381,6 +382,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import * as _ from "lodash";
 
 export default {
@@ -403,8 +405,8 @@ export default {
   methods: {
     submitForm() {
       // init data row
-      let dataRows = {};
-      for (let row of this.dataType.dataRows) {
+      const dataRows = {};
+      for (const row of this.dataType.dataRows) {
         if (row && row.value) {
           dataRows[row.field] = row.value;
         }
@@ -445,12 +447,12 @@ export default {
       this.$openLoader();
 
       try {
-        let response = await this.$api.badasoEntity.read({
+        const response = await this.$api.badasoEntity.read({
           slug: this.$route.params.slug,
           id: this.$route.params.id,
         });
 
-        let {
+        const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
           slug: this.$route.params.slug,
@@ -460,7 +462,7 @@ export default {
 
         this.dataType = dataType;
         this.record = response.data;
-        let dataRows = this.dataType.dataRows.map((data) => {
+        const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.add = data.add == 1;
             data.edit = data.edit == 1;
@@ -473,7 +475,7 @@ export default {
               data.type == "checkbox" ||
               data.type == "select_multiple"
             ) {
-              let val =
+              const val =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
               if (val) {
                 data.value = val.split(",");
@@ -563,7 +565,7 @@ export default {
   computed: {
     isOnline: {
       get() {
-        let isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
         return isOnline;
       },
     },
@@ -571,7 +573,7 @@ export default {
       return window.btoa(location.pathname);
     },
     maintenanceImg() {
-      let config = this.$store.getters["badaso/getConfig"];
+      const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
   },

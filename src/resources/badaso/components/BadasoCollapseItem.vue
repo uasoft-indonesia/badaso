@@ -1,135 +1,144 @@
 <template>
-  <div :class="{'badaso-collapse-item--open': maxHeight != '0px', 'badaso-collapse-item--disabled': disabled}" class="badaso-collapse-item__container" @mouseover="mouseover" @mouseout="mouseout">
+  <div
+    :class="{
+      'badaso-collapse-item--open': maxHeight != '0px',
+      'badaso-collapse-item--disabled': disabled,
+    }"
+    class="badaso-collapse-item__container"
+    @mouseover="mouseover"
+    @mouseout="mouseout"
+  >
     <header class="badaso-collapse-item__header" @click="toggleContent">
       <slot name="header"></slot>
       <span v-if="!notArrow" class="badaso-collapse-item__header-icon">
         <vs-icon :icon-pack="iconPack" :icon="iconArrow" />
       </span>
     </header>
-    <div ref="content" :style="styleContent" class="badaso-collapse-item__content-container">
+    <div
+      ref="content"
+      :style="styleContent"
+      class="badaso-collapse-item__content-container"
+    >
       <div class="badaso-collapse-item__content">
-        <slot/>
+        <slot />
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name:'BadasoCollapseItem',
+  name: "BadasoCollapseItem",
   components: {},
-  props:{
+  props: {
     open: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    disabled:{
-      default:false,
-      type: Boolean
-    },
-    notArrow:{
+    disabled: {
       default: false,
-      type: Boolean
+      type: Boolean,
     },
-    iconArrow:{
-      default: 'keyboard_arrow_down',
-      type: String
+    notArrow: {
+      default: false,
+      type: Boolean,
     },
-    iconPack:{
-      default: 'material-icons',
-      type: String
+    iconArrow: {
+      default: "keyboard_arrow_down",
+      type: String,
+    },
+    iconPack: {
+      default: "material-icons",
+      type: String,
     },
     sst: {
       default: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
-  data:() => ({
-    maxHeight: '0px',
+  data: () => ({
+    maxHeight: "0px",
     // only used for sst
     dataReady: false,
-    padding: '0'
+    padding: "0",
   }),
-  computed:{
+  computed: {
     accordion() {
-      return this.$parent.accordion
+      return this.$parent.accordion;
     },
     openHover() {
-      return this.$parent.openHover
+      return this.$parent.openHover;
     },
     styleContent() {
       return {
         maxHeight: this.maxHeight,
-        paddingTop: this.paddingTop
-      }
-    }
+        paddingTop: this.paddingTop,
+      };
+    },
   },
-  watch:{
-    maxHeight(newVal, oldVal) {
-      this.$parent.emitChange()
-      if (newVal === 'unset') {
-        this.paddingTop = '15px'
+  watch: {
+    maxHeight(newVal) {
+      this.$parent.emitChange();
+      if (newVal === "unset") {
+        this.paddingTop = "15px";
       } else {
-        this.paddingTop = '0'
+        this.paddingTop = "0";
       }
     },
     ready(newVal, oldVal) {
       if (oldVal != newVal && newVal) {
-        this.initMaxHeight()
+        this.initMaxHeight();
       }
-    }
+    },
   },
-  mounted () {
-    window.addEventListener('resize', this.changeHeight)
-    const maxHeightx = this.$refs.content.scrollHeight
-    if(this.open) {
-      this.maxHeight = `unset`
+  mounted() {
+    window.addEventListener("resize", this.changeHeight);
+    if (this.open) {
+      this.maxHeight = `unset`;
     }
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.changeHeight);
+    window.removeEventListener("resize", this.changeHeight);
   },
-  methods:{
-    changeHeight () {
-      const maxHeightx = this.$refs.content.scrollHeight
-      if(this.maxHeight != '0px') {
-        this.maxHeight = `unset`
+  methods: {
+    changeHeight() {
+      if (this.maxHeight != "0px") {
+        this.maxHeight = `unset`;
       }
     },
     toggleContent() {
-      if(this.openHover || this.disabled) return
-      if(this.accordion) {
-        this.$parent.closeAllItems(this.$el)
+      if (this.openHover || this.disabled) return;
+      if (this.accordion) {
+        this.$parent.closeAllItems(this.$el);
       }
       if (this.sst && !this.dataReady) {
-        this.$emit('fetch', {
+        this.$emit("fetch", {
           done: () => {
             this.initMaxHeight();
-            this.dataReady = true
-          }
-        })
+            this.dataReady = true;
+          },
+        });
       } else {
-        this.initMaxHeight()
+        this.initMaxHeight();
       }
     },
     initMaxHeight() {
-      if(this.maxHeight == '0px') {
-        this.maxHeight = `unset`
+      if (this.maxHeight == "0px") {
+        this.maxHeight = `unset`;
       } else {
-        this.maxHeight = `0px`
+        this.maxHeight = `0px`;
       }
     },
     mouseover() {
-      if(this.disabled) return
-      let maxHeightx = this.$refs.content.scrollHeight
-      if(this.openHover) {
-        this.maxHeight = `unset`
+      if (this.disabled) return;
+      if (this.openHover) {
+        this.maxHeight = `unset`;
       }
     },
     mouseout() {
-      if(this.openHover) {
-        this.maxHeight = `0px`
+      if (this.openHover) {
+        this.maxHeight = `0px`;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

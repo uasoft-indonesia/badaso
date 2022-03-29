@@ -2,22 +2,22 @@
 // Custom Variables
 /*******************************/
 
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800');
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800");
 
 //
 // Sidebar
 //
-$full-sidebar:260px;
-$mini-sidebar:60px;
+$full-sidebar: 260px;
+$mini-sidebar: 60px;
 
 //topbar
 $topbar-height: 60px;
-$logo-padding:0 12px;
+$logo-padding: 0 12px;
 //
 // Color system
 //
 $body-color: #2b2b2b;
-$body-bg:#f0f5f9;
+$body-bg: #f0f5f9;
 $sidebar-bg: #fff;
 $footer-bg: #fff;
 $card-bg: #fff;
@@ -36,14 +36,13 @@ $black: #2b2b2b;
 //
 
 $font-size-base: 0.875rem;
-$font-family-sans-serif: 'Nunito Sans', sans-serif !default;
+$font-family-sans-serif: "Nunito Sans", sans-serif !default;
 $font-family-base: $font-family-sans-serif !default;
 
 $font-weight-light: 300 !default;
 $font-weight-normal: 400 !default;
 $font-weight-medium: 600 !default;
 $font-weight-bold: 800 !default;
-
 
 $h1-font-size: 36px !default;
 $h2-font-size: 30px !default;
@@ -70,7 +69,6 @@ $content-color: #626262;
 // Tables
 $table-cell-padding: 1rem !default;
 
-
 // Style anchor elements.
 
 $link-color: $primary !default;
@@ -78,38 +76,36 @@ $link-decoration: none !default;
 $link-hover-color: darken($link-color, 15%) !default;
 $link-hover-decoration: underline !default;
 
-
 // Grid breakpoints
 //
 // Define the minimum dimensions at which your layout will change,
 // adapting to different screen sizes, for use in media queries.
 
-$grid-breakpoints: (xs: 0,
+$grid-breakpoints: (
+  xs: 0,
   sm: 576px,
   md: 768px,
   lg: 1169px,
-  xl: 1600px) !default;
-
-
+  xl: 1600px,
+) !default;
 
 // Grid containers
 //
 // Define the maximum width of `.container` for different screen sizes.
 
-$container-max-widths: (sm: 540px,
+$container-max-widths: (
+  sm: 540px,
   md: 720px,
   lg: 960px,
-  xl: 1140px) !default;
-
-
-
+  xl: 1140px,
+) !default;
 
 // Vuesax column
 
-$vs-column-bottom-margin:30px;
+$vs-column-bottom-margin: 30px;
 $vs-column-padding: 0 15px;
-$border-radius:0;
-$theme-radius:4px;
+$border-radius: 0;
+$theme-radius: 4px;
 
 // S Comments
 $border-color: rgba(0, 0, 0, 0.1);
@@ -118,5 +114,5 @@ $scoll-color: rgba(var(--vs-primary), 0.2);
 $scoll-hover-color: #2962ff;
 
 :root {
-  --vs-primary: 6,187,211 !important;
+  --vs-primary: 6, 187, 211 !important;
 }

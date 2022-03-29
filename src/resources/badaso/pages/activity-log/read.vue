@@ -56,11 +56,7 @@
                 }}</span>
               </th>
               <td v-if="index == 'avatar'">
-                <img
-                  :src="item"
-                  width="100%"
-                  alt=""
-                />
+                <img :src="item" width="100%" alt="" />
               </td>
               <td v-else>{{ item == null ? "null" : item }}</td>
             </tr>
@@ -80,11 +76,7 @@
                 }}</span>
               </th>
               <td v-if="index == 'avatar'">
-                <img
-                  :src="item"
-                  width="100%"
-                  alt=""
-                />
+                <img :src="item" width="100%" alt="" />
               </td>
               <td v-else>{{ item == null ? "null" : item }}</td>
             </tr>
@@ -106,17 +98,15 @@
               </th>
               <td v-if="typeof item == 'object'">
                 <table class="badaso-table">
-                  <tr
-                    v-for="(value, index) in item"
-                    :key="index"
-                    v-if="index !== 'password'"
-                  >
-                    <th>
-                      <span class="activity-log__text--capitalize">{{
-                        index | replaceTitle
-                      }}</span>
-                    </th>
-                    <td>{{ value == null ? "null" : value }}</td>
+                  <tr v-for="(value, index) in item" :key="index">
+                    <template v-if="index !== 'password'">
+                      <th>
+                        <span class="activity-log__text--capitalize">{{
+                          index | replaceTitle
+                        }}</span>
+                      </th>
+                      <td>{{ value == null ? "null" : value }}</td>
+                    </template>
                   </tr>
                 </table>
               </td>
@@ -134,7 +124,7 @@ export default {
   name: "ActivityLogRead",
   components: {},
   filters: {
-    replaceTitle: function(title) {
+    replaceTitle: function (title) {
       return title.replace(/([A-Z])/g, " $1").trim();
     },
   },
@@ -145,8 +135,8 @@ export default {
     properties: {},
   }),
   computed: {
-    filteredSubject: function() {
-      let data = this.subject;
+    filteredSubject: function () {
+      const data = this.subject;
       data.createdAt = this.$helper.formatDate(this.subject.createdAt);
       data.updatedAt = this.$helper.formatDate(this.subject.updatedAt);
       delete data.password;
@@ -154,8 +144,8 @@ export default {
       delete data.rememberToken;
       return data;
     },
-    filteredCauser: function() {
-      let data = this.causer;
+    filteredCauser: function () {
+      const data = this.causer;
       delete data.password;
       delete data.emailVerifiedAt;
       delete data.rememberToken;

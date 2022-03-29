@@ -137,36 +137,32 @@
       <vs-row>
         <vs-col>
           <p>
-            {{ $t('database.browse.fieldNotSupport.text') }}
+            {{ $t("database.browse.fieldNotSupport.text") }}
           </p>
-          <br/>
+          <br />
           <p>
-            {{ $t('database.browse.fieldNotSupport.tableList') }}
+            {{ $t("database.browse.fieldNotSupport.tableList") }}
           </p>
           <p>
-             {{errorTable}}
-          </P >
+            {{ errorTable }}
+          </p>
         </vs-col>
       </vs-row>
       <vs-row vs-align="center" class="database-management__popup-footer">
         <vs-col vs-lg="12" vs-sm="12" vs-align="center">
           <vs-row vs-align="center">
-            <vs-spacer></vs-spacer> 
-         <div class="database-management__popup-sync">
-           <vs-button
-              color="warning"
-              type="relief"
-              @click="goBack()"
-            >
-              {{ $t("database.browse.goBackButton") }}
-            </vs-button>
-            <vs-button
-              color="success"
-              type="relief"
-              href= "https://badaso-docs.uatech.co.id/crud-generator/datatype"
-            >
-              {{ $t("database.browse.fieldNotSupport.button.visitDocs") }}
-            </vs-button>
+            <vs-spacer></vs-spacer>
+            <div class="database-management__popup-sync">
+              <vs-button color="warning" type="relief" @click="goBack()">
+                {{ $t("database.browse.goBackButton") }}
+              </vs-button>
+              <vs-button
+                color="success"
+                type="relief"
+                href="https://badaso-docs.uatech.co.id/crud-generator/datatype"
+              >
+                {{ $t("database.browse.fieldNotSupport.button.visitDocs") }}
+              </vs-button>
             </div>
           </vs-row>
         </vs-col>
@@ -180,8 +176,12 @@
             <h3>{{ $t("database.browse.title") }}</h3>
           </div>
           <badaso-alert-block>
-            <template slot="title">{{ $t('database.edit.warning.title') }}</template>
-            <template slot="desc">{{ $t('database.edit.warning.crud') }}</template>
+            <template slot="title">{{
+              $t("database.edit.warning.title")
+            }}</template>
+            <template slot="desc">{{
+              $t("database.edit.warning.crud")
+            }}</template>
           </badaso-alert-block>
           <div>
             <badaso-table
@@ -225,7 +225,10 @@
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="edit"
-                          v-if="$helper.isAllowed('edit_database') && data[index].isCanEdit"
+                          v-if="
+                            $helper.isAllowed('edit_database') &&
+                            data[index].isCanEdit
+                          "
                           :to="{
                             name: 'DatabaseManagementAlter',
                             params: { tableName: data[index].tableName },
@@ -236,11 +239,14 @@
                         <badaso-dropdown-item
                           icon="delete"
                           @click="openConfirm(data[index].tableName)"
-                          v-if="$helper.isAllowed('delete_database') && data[index].isCanDrop"
+                          v-if="
+                            $helper.isAllowed('delete_database') &&
+                            data[index].isCanDrop
+                          "
                         >
                           {{ $t("database.browse.dropButton") }}
                         </badaso-dropdown-item>
-                        <badaso-dropdown-item v-else >
+                        <badaso-dropdown-item v-else>
                           {{ $t("database.browse.warning.empty") }}
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
@@ -288,8 +294,8 @@ export default {
     isNotMigrated: false,
     notMigratedFile: [],
     isDeleteFile: false,
-    errorDatabase:false,
-    errorTable:"",
+    errorDatabase: false,
+    errorTable: "",
   }),
   validations: {
     willRollbackFile: {
@@ -347,23 +353,25 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-          this.tables.map((value, index) => {
-            this.$set(value, 'isCanEdit', value.crudData == null ? true : false);
-            this.$set(value, 'isCanDrop', value.crudData == null ? true : false);
-          })
+          this.tables.map((value) => {
+            this.$set(value, "isCanEdit", value.crudData == null);
+            this.$set(value, "isCanDrop", value.crudData == null);
+
+            return value;
+          });
         })
         .catch((error) => {
           this.$closeLoader();
-         if(error.message.indexOf("Unknown database") == 0){
-           console.log(error.errors[2].args[0]);
-            this.errorTable = "- "+error.errors[2].args[0];
-            this.errorDatabase = true;  
-          }else{
+          if (error.message.indexOf("Unknown database") == 0) {
+            console.log(error.errors[2].args[0]);
+            this.errorTable = "- " + error.errors[2].args[0];
+            this.errorDatabase = true;
+          } else {
             this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
           }
         });
     },
@@ -473,11 +481,11 @@ export default {
       }
     },
     setRollbackIndex(data) {
-      let flag = this.willRollbackIndex;
-      let total = this.migration.length;
-      let diff = total - Math.min(...flag);
-      let rollbackFileName = [];
-      let items = [];
+      const flag = this.willRollbackIndex;
+      const total = this.migration.length;
+      const diff = total - Math.min(...flag);
+      const rollbackFileName = [];
+      const items = [];
 
       if (this.rollbackIndex == null) {
         for (let index = total; index > flag; index--) {
@@ -574,5 +582,5 @@ export default {
       this.getStatusMigration();
     },
   },
-};    
+};
 </script>

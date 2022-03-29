@@ -1,7 +1,14 @@
 <template>
   <div>
-    <vs-col v-if="size !== ''" :vs-lg="size" vs-xs="12" class="badaso-code-editor__container">
-      <label v-if="label != ''" for="" class="badaso-code-editor__label">{{ label }}</label>
+    <vs-col
+      v-if="size !== ''"
+      :vs-lg="size"
+      vs-xs="12"
+      class="badaso-code-editor__container"
+    >
+      <label v-if="label != ''" for="" class="badaso-code-editor__label">{{
+        label
+      }}</label>
       <prism-editor
         class="badaso-code-editor__editor"
         :value="value"
@@ -12,7 +19,12 @@
       <div v-if="additionalInfo" v-html="additionalInfo"></div>
       <div v-if="alert">
         <div v-if="$helper.isArray(alert)">
-          <span class="badaso-code-editor__editor--error" v-for="(info, index) in alert" :key="index">{{ info }}</span>
+          <span
+            class="badaso-code-editor__editor--error"
+            v-for="(info, index) in alert"
+            :key="index"
+            >{{ info }}</span
+          >
         </div>
         <div v-else>
           <span class="badaso-code-editor__editor--error" v-html="alert"></span>
@@ -20,7 +32,9 @@
       </div>
     </vs-col>
     <div v-else>
-      <label v-if="label != ''" for="" class="badaso-code-editor__label">{{ label }}</label>
+      <label v-if="label != ''" for="" class="badaso-code-editor__label">{{
+        label
+      }}</label>
       <prism-editor
         class="badaso-code-editor__editor"
         :value="value"
@@ -31,7 +45,11 @@
       <div v-if="additionalInfo" v-html="additionalInfo"></div>
       <div v-if="alert">
         <div v-if="$helper.isArray(alert)">
-          <span class="badaso-code-editor__editor--error" v-for="(info, index) in alert" :key="index">
+          <span
+            class="badaso-code-editor__editor--error"
+            v-for="(info, index) in alert"
+            :key="index"
+          >
             {{ info }}
           </span>
         </div>
@@ -76,7 +94,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },

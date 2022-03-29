@@ -134,7 +134,7 @@ export default {
     },
   },
 
-  "404": {
+  404: {
     title: "Opps, Maaf",
     subtitle: "Halaman yang Anda cari tidak ditemukan.",
     button: "Kembali ke Home",
@@ -508,8 +508,7 @@ export default {
       notAllowedToEdit: "Anda tidak diizinkan untuk mengubah Menu",
     },
     help: {
-      key:
-        "Anda dapat mengatur key ini menjadi menu default di file .env. Juga, Anda dapat mendaftarkan menu baru di .env dengan nilai input.",
+      key: "Anda dapat mengatur key ini menjadi menu default di file .env. Juga, Anda dapat mendaftarkan menu baru di .env dengan nilai input.",
     },
     header: {
       key: "Kunci",
@@ -969,9 +968,9 @@ export default {
         tableList: "Daftar Tabel Bermasalah :",
         button: {
           tableList: "Table list yang tidak mendukung :",
-          visitDocs: "Kunjungi Dokumentasi"
-        }
-      }
+          visitDocs: "Kunjungi Dokumentasi",
+        },
+      },
     },
     add: {
       title: "Tambah Tabel",
@@ -1038,9 +1037,9 @@ export default {
         title: "PENTING",
         content:
           'Hanya jenis kolom berikut yang dapat "diubah": Big Integer, BLOB, Boolean, Date, Datetime, Decimal, Float, Integer, JSON, Long Text, Medium Text, Set, Small Integer, Varchar, Text dan Time.',
-        crud:
-          "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
-        fieldAttUnsigned: "Batasan kunci asing salah dibentuk. {0} untuk mengunjungi dokumentasi",
+        crud: "Pastikan tabel belum dibuat dengan CRUD Management jika ingin mengedit atau menghapus tabel.",
+        fieldAttUnsigned:
+          "Batasan kunci asing salah dibentuk. {0} untuk mengunjungi dokumentasi",
         visitDocs: "Klik Disini",
       },
       error: {

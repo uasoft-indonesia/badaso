@@ -1,7 +1,15 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-slider__container">
-    <label v-if="label != ''" for="" class="badaso-slider__label">{{ label }}</label>
-    <vs-slider class="badaso-slider__input" :min="min" :max="max" :value="value" @input="handleInput($event)" />
+    <label v-if="label != ''" for="" class="badaso-slider__label">{{
+      label
+    }}</label>
+    <vs-slider
+      class="badaso-slider__input"
+      :min="min"
+      :max="max"
+      :value="value"
+      @input="handleInput($event)"
+    />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
@@ -54,7 +62,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },

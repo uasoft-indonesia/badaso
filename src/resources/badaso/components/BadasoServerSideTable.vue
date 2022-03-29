@@ -19,24 +19,52 @@
           </vs-col>
           <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12">
             <div class="badaso-server-side-table__header-search">
-              <input type="text" class="badaso-server-side-table__input-search" v-on:keyup.enter="handleSearch"/>
+              <input
+                type="text"
+                class="badaso-server-side-table__input-search"
+                v-on:keyup.enter="handleSearch"
+              />
               <vs-icon icon="search"></vs-icon>
             </div>
           </vs-col>
         </vs-row>
       </template>
-      <template slot="thead"><slot name="thead"/></template>
+      <template slot="thead"><slot name="thead" /></template>
       <slot name="tbody" />
     </vs-table>
     <div class="badaso-server-side-table__pagination">
-      <vs-row class="badaso-server-side-table__pagination-container" vs-justify="space-between" vs-type="flex" vs-w="12">
-        <vs-col class="badaso-server-side-table__pagination-item" vs-type="flex" vs-justify="flex-start" vs-align="center" vs-lg="6" vs-md="12" vs-sm="12" vs-xs="12">
+      <vs-row
+        class="badaso-server-side-table__pagination-container"
+        vs-justify="space-between"
+        vs-type="flex"
+        vs-w="12"
+      >
+        <vs-col
+          class="badaso-server-side-table__pagination-item"
+          vs-type="flex"
+          vs-justify="flex-start"
+          vs-align="center"
+          vs-lg="6"
+          vs-md="12"
+          vs-sm="12"
+          vs-xs="12"
+        >
           <span class="vs-pagination-desc">
-            {{ descriptionTitle }}: {{ paginationData.from }} - {{ paginationData.to }}
-          {{ descriptionConnector }} {{ paginationData.total }}
+            {{ descriptionTitle }}: {{ paginationData.from }} -
+            {{ paginationData.to }} {{ descriptionConnector }}
+            {{ paginationData.total }}
           </span>
         </vs-col>
-        <vs-col class="badaso-server-side-table__pagination-item" vs-type="flex" vs-justify="flex-end" vs-align="center" vs-lg="6" vs-md="12" vs-sm="12" vs-xs="12">
+        <vs-col
+          class="badaso-server-side-table__pagination-item"
+          vs-type="flex"
+          vs-justify="flex-end"
+          vs-align="center"
+          vs-lg="6"
+          vs-md="12"
+          vs-sm="12"
+          vs-xs="12"
+        >
           <vs-pagination :total="totalItem" v-model="page"></vs-pagination>
         </vs-col>
       </vs-row>
@@ -51,6 +79,7 @@ export default {
     paginationData: {},
     data: {
       type: Array,
+      // eslint-disable-next-line vue/require-valid-default-prop
       default: [],
     },
     description: {
@@ -88,15 +117,15 @@ export default {
     },
   },
   watch: {
-    page: function(to, from) {
+    page: function (to, from) {
       this.$emit("changePage", to);
     },
-    limit: function(to, from) {
+    limit: function (to, from) {
       this.$emit("changeLimit", to);
     },
-    selected: function(to, from) {
-      this.$emit("select", to)
-    }
+    selected: function (to, from) {
+      this.$emit("select", to);
+    },
   },
   mounted() {},
   destroyed() {},
@@ -107,7 +136,7 @@ export default {
     handleSort(key, sortType) {
       this.currentSortKey = key;
       this.currentSortType = sortType;
-      this.$emit('sort', key, sortType)
+      this.$emit("sort", key, sortType);
     },
   },
 };

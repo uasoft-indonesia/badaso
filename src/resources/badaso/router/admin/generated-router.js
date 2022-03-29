@@ -1,12 +1,12 @@
 import Pages from "./../../pages/index.vue";
 
-let adminPanelRoutePrefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const adminPanelRoutePrefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
-let defaultMenuPrefix = process.env.MIX_DEFAULT_MENU
+const defaultMenuPrefix = process.env.MIX_DEFAULT_MENU
   ? "/" + process.env.MIX_DEFAULT_MENU
   : "/general";
-let prefix = `${adminPanelRoutePrefix}${defaultMenuPrefix}`;
+const prefix = `${adminPanelRoutePrefix}${defaultMenuPrefix}`;
 
 export default [
   {
