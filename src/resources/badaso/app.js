@@ -32,13 +32,13 @@ Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
-let broadcastChannelName = "sw-badaso-messages";
-let broadcastChannel = null;
-try {
-  broadcastChannel = new BroadcastChannel(broadcastChannelName);
-} catch (error) {
-  console.error("Broadcast Channel Error ", error);
-}
+                                  let broadcastChannelName = "sw-badaso-messages";
+                                  let broadcastChannel = null;
+                                  try {
+                                    broadcastChannel = new BroadcastChannel(broadcastChannelName);
+                                  } catch (error) {
+                                    console.error("Broadcast Channel Error ", error);
+                                  }
 // END IDENTIFIED VARIABLE BROADCAST CHANNEL
 
 const pluginsEnv = process.env.MIX_BADASO_MODULES
