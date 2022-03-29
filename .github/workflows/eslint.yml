@@ -26,7 +26,9 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Use Node.js 14.x
         uses: actions/setup-node@v2
         with:
@@ -37,9 +39,5 @@ jobs:
         run: npm run lint
       - name: Run Prettier
         run: npm run format
-      - name: Auto Merge
-        uses: "pascalgn/automerge-action@v0.15.2"
-        run: echo "hello ${{ secrets.GITHUB_TOKEN }}"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          MERGE_LABELS: "automerge"
+      - name: Commit changed files
+        uses: EndBug/add-and-commit@v9
