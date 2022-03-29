@@ -41,15 +41,19 @@ jobs:
         run: npm run format
       - name: Commit changed files
         uses: stefanzweifel/git-auto-commit-action@v4
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
         with:
           # Optional. Commit message for the created commit.
           # Defaults to "Apply automatic changes"
           commit_message: Automated Change
+          
+          # Optional. Create given branch name in local and remote repository.
+          create_branch: true
 
           # Optional. Local and remote branch name where commit is going to be pushed
           #  to. Defaults to the current branch.
           #  You might need to set `create_branch: true` if the branch does not exist.
-          branch: feature-123
+          branch: "${{ github.head_ref }}-merge"
 
           # Optional. Options used by `git-commit`.
           # See https://git-scm.com/docs/git-commit#_options
@@ -79,6 +83,3 @@ jobs:
           # Optional. Prevents the shell from expanding filenames. 
           # Details: https://www.gnu.org/software/bash/manual/html_node/Filename-Expansion.html
           disable_globbing: true
-
-          # Optional. Create given branch name in local and remote repository.
-          create_branch: true
