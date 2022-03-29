@@ -26,7 +26,9 @@ jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: Use Node.js 14.x
         uses: actions/setup-node@v2
         with:
@@ -38,7 +40,7 @@ jobs:
       - name: Run Prettier
         run: npm run format
       - name: Commit changed files
-        uses: stefanzweifel/git-auto-commit-action@v2.3.0
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Apply eslint + prettier
           branch: ${{ github.head_ref }}
