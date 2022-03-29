@@ -178,13 +178,18 @@ export default {
     },
     acceptDialog() {
       if (!this.isPrompt) {
-        this.accept ? this.accept(this.parameters) : null;
+        if (this.accept) {
+          this.accept(this.parameters);
+        }
         this.fActive = false;
         this.$emit("update:active", false);
         this.$emit("accept", this.parameters);
       } else {
         if (this.isValid || this.isValid == "none") {
-          this.accept ? this.accept() : null;
+          if (this.accept) {
+            this.accept();
+          }
+
           this.fActive = false;
           this.$emit("update:active", false);
           this.$emit("accept", this.parameters);
@@ -227,7 +232,9 @@ export default {
       this.$emit("update:active", false);
       this.$emit("cancel");
       // this.$emit('cancel')
-      this.cancel ? this.cancel(this.parameters) : null;
+      if (this.cancel) {
+        this.cancel(this.parameters);
+      }
     },
     insertBody() {
       const elx = this.$refs.con;

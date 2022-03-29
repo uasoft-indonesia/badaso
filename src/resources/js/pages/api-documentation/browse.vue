@@ -48,13 +48,13 @@ export default {
   },
   computed: {
     urlApiDocs() {
-      const apidocs_route = process.env.MIX_API_DOCS_ROUTE
+      const apidocsRoute = process.env.MIX_API_DOCS_ROUTE
         ? process.env.MIX_API_DOCS_ROUTE
         : "api-docs";
       const host = window.location.origin;
       const token = localStorage.getItem("token");
 
-      return `${host}/${apidocs_route}?token=${token}`;
+      return `${host}/${apidocsRoute}?token=${token}`;
     },
   },
   methods: {

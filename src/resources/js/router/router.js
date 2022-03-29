@@ -209,8 +209,7 @@ router.beforeEach((to, from, next) => {
         if (res.data.maintenance) {
           next({ name: "Maintenance" });
         }
-      })
-      .catch((err) => {});
+      });
 
     if (to.matched.some((record) => record.meta.authenticatedUser)) {
       if (localStorage.getItem("token") == null) {

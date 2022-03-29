@@ -48,13 +48,13 @@ export default {
   },
   computed: {
     urlLogViewer() {
-      const log_viewer_route = process.env.MIX_LOG_VIEWER_ROUTE
+      const logViewerRoute = process.env.MIX_LOG_VIEWER_ROUTE
         ? process.env.MIX_LOG_VIEWER_ROUTE
         : "log-viewer";
       const host = window.location.origin;
       const token = localStorage.getItem("token");
 
-      return `${host}/${log_viewer_route}?token=${token}`;
+      return `${host}/${logViewerRoute}?token=${token}`;
     },
   },
   methods: {

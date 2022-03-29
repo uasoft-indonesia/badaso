@@ -13,6 +13,8 @@
 import composer from "../../../../../../composer.json";
 
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Footer",
   computed: {
     version() {
       return composer.version;

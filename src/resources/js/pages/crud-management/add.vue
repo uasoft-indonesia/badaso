@@ -413,6 +413,7 @@
                       <span
                         class="is-error"
                         v-for="err in errors[`rows.${index}.field`]"
+                        :key="err"
                         >{{ err }}</span
                       >
                     </td>
@@ -581,6 +582,7 @@
                           <span
                             class="is-error"
                             v-for="err in errors[`rows.${index}.field`]"
+                            :key="err"
                             >{{ err }}</span
                           >
                         </td>
@@ -776,7 +778,6 @@ export default {
   data: () => ({
     errors: {},
     breadcrumb: [],
-    errors: {},
     fieldList: [],
     tableColumns: [],
     orderDirections: [
@@ -839,7 +840,7 @@ export default {
     },
   },
   mounted() {
-    (this.orderDirections = [
+    this.orderDirections = [
       {
         label: this.$t("crud.edit.field.orderDirection.value.ascending"),
         value: "asc",
@@ -848,8 +849,9 @@ export default {
         label: this.$t("crud.edit.field.orderDirection.value.descending"),
         value: "desc",
       },
-    ]),
-      (this.crudData.name = this.$route.params.tableName);
+    ];
+    this.crudData.name = this.$route.params.tableName;
+
     this.crudData.displayNameSingular = this.$helper.generateDisplayName(
       this.$route.params.tableName
     );
@@ -993,7 +995,7 @@ export default {
           });
           this.$closeLoader();
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
         });
     },

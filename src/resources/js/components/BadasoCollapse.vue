@@ -33,6 +33,8 @@ export default {
         if (item.$el !== el) {
           item.maxHeight = "0px";
         }
+
+        return item;
       });
     },
   },

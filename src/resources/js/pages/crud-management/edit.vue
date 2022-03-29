@@ -418,6 +418,7 @@
                       <span
                         class="is-error"
                         v-for="err in errors[`rows.${index}.field`]"
+                        :key="err"
                         >{{ err }}</span
                       >
                     </td>
@@ -588,6 +589,7 @@
                           <span
                             class="is-error"
                             v-for="err in errors[`rows.${index}.field`]"
+                            :key="err"
                             >{{ err }}</span
                           >
                         </td>
@@ -840,7 +842,7 @@ export default {
     },
   },
   mounted() {
-    (this.orderDirections = [
+    this.orderDirections = [
       {
         label: this.$t("crud.edit.field.orderDirection.value.ascending"),
         value: "ASC",
@@ -849,8 +851,9 @@ export default {
         label: this.$t("crud.edit.field.orderDirection.value.descending"),
         value: "DESC",
       },
-    ]),
-      (this.crudData.name = this.$route.params.tableName);
+    ];
+    this.crudData.name = this.$route.params.tableName;
+
     this.crudData.displayNameSingular = this.$helper.generateDisplayName(
       this.$route.params.tableName
     );
@@ -948,8 +951,7 @@ export default {
           table: this.$route.params.tableName,
         })
         .then((response) => {
-          let crudData = { ...response.data.crud };
-          crudData = crudData;
+          const crudData = { ...response.data.crud };
           crudData.icon = crudData.icon ? crudData.icon : "";
           crudData.modelName = crudData.modelName ? crudData.modelName : "";
           crudData.policyName = crudData.policyName ? crudData.policyName : "";
@@ -1003,20 +1005,23 @@ export default {
 
           const notification = JSON.parse(crudData.notification);
           for (const key in notification) {
-            const { event, notification_message_title, notification_message } =
-              notification[key];
+            const {
+              event,
+              notification_message_title: notificationMessageTitle,
+              notification_message: notificationMessage,
+            } = notification[key];
             this[event] = true;
-            if (notification_message_title)
-              this[event + "Title"] = notification_message_title;
-            if (notification_message)
-              this[event + "Message"] = notification_message;
+            if (notificationMessageTitle)
+              this[event + "Title"] = notificationMessageTitle;
+            if (notificationMessage)
+              this[event + "Message"] = notificationMessage;
           }
 
           this.crudData = { ...crudData };
           this.crudData.notification = notification;
           this.$closeLoader();
         })
-        .catch((error) => {
+        .catch(() => {
           this.$closeLoader();
         });
     },

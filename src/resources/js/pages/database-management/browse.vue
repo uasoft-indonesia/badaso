@@ -351,9 +351,11 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-          this.tables.map((value, index) => {
+          this.tables.map((value) => {
             this.$set(value, "isCanEdit", value.crudData == null);
             this.$set(value, "isCanDrop", value.crudData == null);
+
+            return value;
           });
         })
         .catch((error) => {

@@ -92,7 +92,7 @@ export default {
   },
   mounted() {
     window.addEventListener("resize", this.changeHeight);
-    const maxHeightx = this.$refs.content.scrollHeight;
+
     if (this.open) {
       this.maxHeight = `unset`;
     }
@@ -102,7 +102,6 @@ export default {
   },
   methods: {
     changeHeight() {
-      const maxHeightx = this.$refs.content.scrollHeight;
       if (this.maxHeight != "0px") {
         this.maxHeight = `unset`;
       }
@@ -132,7 +131,7 @@ export default {
     },
     mouseover() {
       if (this.disabled) return;
-      const maxHeightx = this.$refs.content.scrollHeight;
+
       if (this.openHover) {
         this.maxHeight = `unset`;
       }

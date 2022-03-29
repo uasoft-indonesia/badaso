@@ -67,21 +67,15 @@ export default {
         return arrayMenuChild;
       };
 
-      api.badasoMenu
-        .browseItemByKeys({})
-        .then((res) => {
-          const { data } = res;
+      api.badasoMenu.browseItemByKeys({}).then((res) => {
+        const { data } = res;
 
-          state.menu = data.map((menu) => {
-            menu.menuItems = menuItemAddPrefix(
-              menu.menuItems,
-              menuItemAddPrefix
-            );
+        state.menu = data.map((menu) => {
+          menu.menuItems = menuItemAddPrefix(menu.menuItems, menuItemAddPrefix);
 
-            return menu;
-          });
-        })
-        .catch((err) => {});
+          return menu;
+        });
+      });
     },
     FETCH_CONFIGURATION_MENU(state) {
       const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
@@ -94,17 +88,12 @@ export default {
         .then((res) => {
           const menuItems = res.data.menuItems;
           menuItems.map((item) => {
-            if (helpers.isValidHttpUrl(item.url)) {
-              item.url = item.url;
-            } else {
+            if (!helpers.isValidHttpUrl(item.url)) {
               item.url = "/" + prefix + "" + item.url;
             }
-
             if (item.children && item.children.length > 0) {
               item.children.map((subItem) => {
-                if (helpers.isValidHttpUrl(subItem.url)) {
-                  subItem.url = subItem.url;
-                } else {
+                if (!helpers.isValidHttpUrl(subItem.url)) {
                   subItem.url = "/" + prefix + "" + subItem.url;
                 }
                 return subItem;
@@ -116,40 +105,27 @@ export default {
             menu: res.data.menu,
             menuItems: menuItems,
           };
-        })
-        .catch((err) => {});
+        });
     },
     FETCH_COMPONENT(state) {
-      api.badasoData
-        .component()
-        .then((res) => {
-          state.componentList = res.data.components;
-        })
-        .catch((err) => {});
+      api.badasoData.component().then((res) => {
+        state.componentList = res.data.components;
+      });
     },
     FETCH_CONFIGURATION_GROUPS(state) {
-      api.badasoData
-        .configurationGroups()
-        .then((res) => {
-          state.groupList = res.data.groups;
-        })
-        .catch((err) => {});
+      api.badasoData.configurationGroups().then((res) => {
+        state.groupList = res.data.groups;
+      });
     },
     FETCH_CONFIGURATION(state) {
-      api.badasoConfiguration
-        .applyable()
-        .then((res) => {
-          state.config = res.data.configuration;
-        })
-        .catch((err) => {});
+      api.badasoConfiguration.applyable().then((res) => {
+        state.config = res.data.configuration;
+      });
     },
     FETCH_USER(state) {
-      api.badasoAuthUser
-        .user()
-        .then((res) => {
-          state.user = res.data.user;
-        })
-        .catch((err) => {});
+      api.badasoAuthUser.user().then((res) => {
+        state.user = res.data.user;
+      });
     },
     SET_LOCALE(state, value) {
       state.selectedLocale = value;

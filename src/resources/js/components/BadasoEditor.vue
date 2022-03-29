@@ -27,6 +27,7 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import tinymce from "tinymce";
 import TinyMCE from "@tinymce/tinymce-vue";
 
@@ -164,7 +165,7 @@ export default {
       default: "",
     },
     alert: {
-      type: String | Array,
+      type: String || Array,
       default: "",
     },
   },

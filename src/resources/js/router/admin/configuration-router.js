@@ -4,11 +4,11 @@ const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
 
-const log_viewer = process.env.MIX_LOG_VIEWER_ROUTE
+const logViewer = process.env.MIX_LOG_VIEWER_ROUTE
   ? process.env.MIX_LOG_VIEWER_ROUTE
   : "log-viewer";
 
-const api_docs = process.env.MIX_API_DOCS_ROUTE
+const apiDocs = process.env.MIX_API_DOCS_ROUTE
   ? process.env.MIX_API_DOCS_ROUTE
   : "api-docs";
 
@@ -259,10 +259,10 @@ export default [
     },
   },
   {
-    path: prefix + "/" + log_viewer,
+    path: prefix + "/" + logViewer,
     name: "LogViewerBrowse",
     // beforeEnter() {
-    //   location.href = "/" + log_viewer;
+    //   location.href = "/" + logViewer;
     // },
     component: Pages,
     meta: {
@@ -310,7 +310,7 @@ export default [
     },
   },
   {
-    path: prefix + "/" + api_docs,
+    path: prefix + "/" + apiDocs,
     name: "ApiDocsBrowse",
     component: Pages,
     meta: {

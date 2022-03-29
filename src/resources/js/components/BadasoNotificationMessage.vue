@@ -160,7 +160,6 @@ export default {
             return item;
           });
 
-          const countUnreadMessage = this.messages.length;
           this.loadUnreadMessage();
         })
         .catch((error) => {
