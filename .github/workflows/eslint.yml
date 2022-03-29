@@ -44,7 +44,7 @@ jobs:
         with:
           commit_message: Apply eslint + prettier
           push_options: '--force'
-          branch: "${GITHUB_HEAD_REF}"
+          branch: ${{ GITHUB_HEAD_REF }}
           commit_options: '--no-verify --signoff'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
