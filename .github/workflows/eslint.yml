@@ -37,7 +37,10 @@ jobs:
         run: npm run lint
       - name: Run Prettier
         run: npm run format
-      - name: Auto Commit
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit changed files
+        uses: stefanzweifel/git-auto-commit-action@v2.3.0
         with:
-          commit_message: Apply eslit and prettier changes
+          commit_message: Apply eslint + prettier
+          branch: ${{ github.head_ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
