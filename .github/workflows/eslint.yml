@@ -39,6 +39,7 @@ jobs:
         run: npm run format
       - name: Auto Merge
         uses: "pascalgn/automerge-action@v0.15.2"
+        run: echo "hello ${{ secrets.GITHUB_TOKEN }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           MERGE_LABELS: "automerge"
