@@ -40,4 +40,7 @@ jobs:
       - name: Run Prettier
         run: npm run format
       - name: Commit changed files
-        uses: EndBug/add-and-commit@v9
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: src/resources/badaso/*.js
+          commit_message: Apply lint + prettier changes
