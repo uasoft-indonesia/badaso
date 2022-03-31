@@ -15,6 +15,7 @@ import excludedRouter from "./router/excludeRouter";
 
 import App from "./apps/App.vue";
 
+// import firebase
 import firebase from "firebase/app";
 import "firebase/firebase-messaging";
 import { notificationMessageReceiveHandle } from "./utils/firebase";
