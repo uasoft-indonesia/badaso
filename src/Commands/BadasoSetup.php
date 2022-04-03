@@ -293,7 +293,7 @@ class BadasoSetup extends Command
             'WORKSPACE_PUID' => '1000',
             'WORKSPACE_PGID' => '1000',
             'WWWGROUP' => '1000',
-            'WWWUSER' => '1000'
+            'WWWUSER' => '1000',
         ];
     }
 
