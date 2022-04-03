@@ -290,6 +290,10 @@ class BadasoSetup extends Command
             'BADASO_TABLE_PREFIX' => 'badaso_',
             'OCTANE_SERVER' => 'swoole',
             'REDIS_CLIENT' => 'predis',
+            'WORKSPACE_PUID' => '1000',
+            'WORKSPACE_PGID' => '1000',
+            'WWWGROUP' => '1000',
+            'WWWUSER' => '1000',
         ];
     }
 
