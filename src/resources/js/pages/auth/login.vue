@@ -119,7 +119,7 @@ export default {
         })
         .then((response) => {
           this.$closeLoader();
-          if (response.data.accessToken) {
+          if (response.hasOwnProperty('data')) {
             this.$router.push({ name: "Home" });
           } else {
             this.$router.push({
