@@ -58,7 +58,7 @@ class BadasoAuthController extends Controller
             if ($should_verify_email) {
                 $user = auth()->user();
                 if (is_null($user->email_verified_at)) {
-                    return ApiResponse::failed([]);
+                    return ApiResponse::failed();
                 }
             }
 
