@@ -71,6 +71,7 @@ class BadasoAuthController extends Controller
                     UserVerification::firstOrCreate($data);
 
                     $this->sendVerificationToken(['user' => $user, 'token' => $token]);
+
                     return ApiResponse::success();
                 }
             }
