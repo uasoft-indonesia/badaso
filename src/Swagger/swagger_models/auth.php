@@ -272,7 +272,7 @@
  *      tags={"auth"},
  *      summary="Get User",
  *      description="Get the current user information",
- * 
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
