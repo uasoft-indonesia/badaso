@@ -264,3 +264,20 @@
  *      security={{"bearerAuth" : {}}}
  * )
  */
+
+/**
+ * @OA\Get(
+ *      path="/v1/auth/user",
+ *      operationId="User",
+ *      tags={"auth"},
+ *      summary="Get User",
+ *      description="Get the current user information",
+ *
+ *      @OA\Response(response=200, description="Successful operation"),
+ *      @OA\Response(response=400, description="Bad request"),
+ *      @OA\Response(response=401, description="Unauthorized"),
+ *      @OA\Response(response=402, description="Payment Required"),
+ *
+ *      security={{"bearerAuth" : {}}}
+ * )
+ */
