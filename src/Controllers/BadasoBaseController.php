@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Firebase\FCMNotification;
 use Uasoft\Badaso\Helpers\GetData;
@@ -85,14 +84,14 @@ class BadasoBaseController extends Controller
             $request->validate([
                 'data' => [
                     'required',
-                    function($attribute, $value, $fail) use ($request) {
+                    function ($attribute, $value, $fail) use ($request) {
                         $slug = $this->getSlug($request);
                         $data_type = $this->getDataType($slug);
                         $table_entity = DB::table($data_type->name)->where('id', $request->data['id'])->first();
-                        if(is_null($table_entity)){
+                        if (is_null($table_entity)) {
                             $fail(__('badaso::validation.crud.id_not_exist'));
                         }
-                    }
+                    },
                 ],
             ]);
 
@@ -175,15 +174,15 @@ class BadasoBaseController extends Controller
                 'slug' => 'required',
                 'data' => [
                     'required',
-                    function($attribute, $value, $fail) use ($request) {
+                    function ($attribute, $value, $fail) use ($request) {
                         $slug = $this->getSlug($request);
                         $data_type = $this->getDataType($slug);
                         $table_entity = DB::table($data_type->name)->where('id', $request->data[0]['value'])->first();
-                        
-                        if(is_null($table_entity)){
+
+                        if (is_null($table_entity)) {
                             $fail(__('badaso::validation.crud.id_not_exist'));
                         }
-                    }
+                    },
                 ],
                 'data.*.field' => ['required'],
                 'data.*.value' => ['required'],
@@ -260,7 +259,7 @@ class BadasoBaseController extends Controller
                 'slug' => 'required',
                 'data' => [
                     'required',
-                    function($attribute, $value, $fail) use ($request) {
+                    function ($attribute, $value, $fail) use ($request) {
                         $slug = $this->getSlug($request);
                         $data_type = $this->getDataType($slug);
 
@@ -269,11 +268,11 @@ class BadasoBaseController extends Controller
                         $id_list = explode(',', $ids);
                         foreach ($id_list as $id) {
                             $table_entity = DB::table($data_type->name)->where('id', $id)->first();
-                            if(is_null($table_entity)){
-                                    $fail(__('badaso::validation.crud.id_not_exist'));
-                                }
+                            if (is_null($table_entity)) {
+                                $fail(__('badaso::validation.crud.id_not_exist'));
+                            }
                         }
-                    }
+                    },
                 ],
                 'data.*.field' => ['required'],
                 'data.*.value' => ['required'],
