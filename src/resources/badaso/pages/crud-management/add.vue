@@ -956,8 +956,24 @@ export default {
             };
           });
           this.crudData.rows = fieldList.map((field) => {
+            if (["id"].includes(field.name)) {
+              return {
+                field: field.name,
+                type: field.type,
+                displayName: this.$helper.generateDisplayName(field.name),
+                required: field.isNotNull,
+                browse: true,
+                read: true,
+                edit: true,
+                add: true,
+                delete: true,
+                details: "{}",
+                order: 1,
+                setRelation: false,
+              };
+            }
             if (
-              ["id", "created_at", "updated_at", "deleted_at"].includes(
+              ["created_at", "updated_at", "deleted_at"].includes(
                 field.name
               )
             ) {
