@@ -380,7 +380,7 @@ class ApiDocs
             $data_type->display_name_singular,
             $data_type->display_name_singular,
             $data_type->slug,
-            $id_column['field'],
+            $id_column['field'] = 'ids',
             self::getColumnExample($id_column['type']).','.self::getColumnExample($id_column['type']),
             self::getAuthorize('delete_multiple', $table_name_data_type, $permission),
         );

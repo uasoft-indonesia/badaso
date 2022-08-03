@@ -12,7 +12,8 @@ return [
         'table_column_not_found'              => 'Invalid rows, Field :table_column does not exists',
         'table_column_not_have_default_value' => 'Invalid rows, Field :table_column has no default value, please tick the checkbox Add',
         'table_deleted_at_not_exists'         => 'Invalidate columns deleted_at, please created new columns delete_at in your table :table_name',
-        'id_table_wrong'                      => 'Primary key should be named only"id"',
+        'id_table_wrong'                      => 'Primary key should be named only "id"',
+        'id_not_exist'                      => '"id" doesn\'t exist',
     ],
     'base64' => [
         'length_invalid'   => 'Base64 format is invalid',
