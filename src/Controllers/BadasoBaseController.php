@@ -88,6 +88,14 @@ class BadasoBaseController extends Controller
             $request->validate([
                 'data' => [
                     'required',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $slug = $this->getSlug($request);
+                        $data_type = $this->getDataType($slug);
+                        $table_entity = DB::table($data_type->name)->where('id', $request->data['id'])->first();
+                        if (is_null($table_entity)) {
+                            $fail(__('badaso::validation.crud.id_not_exist'));
+                        }
+                    },
                 ],
             ]);
 
@@ -177,6 +185,15 @@ class BadasoBaseController extends Controller
                 'slug' => 'required',
                 'data' => [
                     'required',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $slug = $this->getSlug($request);
+                        $data_type = $this->getDataType($slug);
+                        $table_entity = DB::table($data_type->name)->where('id', $request->data[0]['value'])->first();
+
+                        if (is_null($table_entity)) {
+                            $fail(__('badaso::validation.crud.id_not_exist'));
+                        }
+                    },
                 ],
                 'data.*.field' => ['required'],
                 'data.*.value' => ['required'],
@@ -260,6 +277,20 @@ class BadasoBaseController extends Controller
                 'slug' => 'required',
                 'data' => [
                     'required',
+                    function ($attribute, $value, $fail) use ($request) {
+                        $slug = $this->getSlug($request);
+                        $data_type = $this->getDataType($slug);
+
+                        $data = $this->createDataFromRaw($request->input('data') ?? [], $data_type);
+                        $ids = $data['ids'];
+                        $id_list = explode(',', $ids);
+                        foreach ($id_list as $id) {
+                            $table_entity = DB::table($data_type->name)->where('id', $id)->first();
+                            if (is_null($table_entity)) {
+                                $fail(__('badaso::validation.crud.id_not_exist'));
+                            }
+                        }
+                    },
                 ],
                 'data.*.field' => ['required'],
                 'data.*.value' => ['required'],
