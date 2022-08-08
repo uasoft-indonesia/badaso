@@ -42,8 +42,8 @@ try {
 }
 // END IDENTIFIED VARIABLE BROADCAST CHANNEL
 
-const pluginsEnv = process.env.MIX_BADASO_MODULES
-  ? process.env.MIX_BADASO_MODULES
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
   : null;
 
 // EXCLUDED ROUTES
@@ -53,7 +53,7 @@ excluded = excludedRouter;
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(",");
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(",");
     if (plugins && plugins.length > 0) {
       plugins.forEach((plugin) => {
         const router = require("../../../../" +
@@ -211,7 +211,7 @@ try {
 // DYNAMIC IMPORT PLUGINS FOR COMPONENTS
 try {
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(",");
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(",");
     if (plugins && plugins.length > 0) {
       plugins.forEach((plugin) => {
         const fileName = require("../../../../" +

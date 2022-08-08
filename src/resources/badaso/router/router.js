@@ -14,8 +14,8 @@ const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
 
-const pluginsEnv = process.env.MIX_BADASO_MODULES
-  ? process.env.MIX_BADASO_MODULES
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
   : null;
 
 let _authRouters = [];
@@ -52,7 +52,7 @@ try {
 
   // DYNAMIC IMPORT BADASO PLUGINS ROUTERS
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_MODULES.split(",");
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(",");
     if (plugins && plugins.length > 0) {
       for (const index in plugins) {
         const plugin = plugins[index];
