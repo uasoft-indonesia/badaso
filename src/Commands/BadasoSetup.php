@@ -253,6 +253,7 @@ class BadasoSetup extends Command
             'BADASO_AUTH_TOKEN_LIFETIME' => '',
             'BADASO_LICENSE_KEY' => '',
             'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
+            'MIX_BADASO_PLUGINS' => '',
             'MIX_DEFAULT_MENU' => 'general',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
