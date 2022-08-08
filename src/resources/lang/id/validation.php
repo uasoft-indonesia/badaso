@@ -12,6 +12,7 @@ return [
         'table_column_not_found'              => 'Row tidak valid, Field :table_column tidak ditemukan',
         'table_column_not_have_default_value' => 'Row tidak valid, Field :table_column tidak punya nilai default, tolong centang checkbox Add',
         'id_table_wrong'                      => 'Primary Key harus diganti dengan "id"',
+        'id_not_exist'                      => '"id" tidak ditemukan',
     ],
     'base64' => [
         'length_invalid'   => 'Format base64 tidak valid',
