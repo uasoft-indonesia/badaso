@@ -10,9 +10,28 @@
     "require": {
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "9.11",
+        "laravel/framework": "^9.11",
+        "laravel/octane": "^1.2",
         "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "laravel/ui": "^3.4",
+        "masbug/flysystem-google-drive-ext": "*",
+        "google/apiclient": "^2.12",
+        "arcanedev/log-viewer": "^8.1|^9.0",
+        "darkaonline/l5-swagger": "^8.0|^8.3",
+        "doctrine/dbal": "^2.5",
+        "larapack/doctrine-support": "^0.1.9",
+        "league/flysystem": "~1.1|~2.0|~3.0",
+        "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
+        "php-open-source-saver/jwt-auth": "^1.4",
+        "predis/predis": "^1.1",
+        "symfony/var-exporter": "^5.2.0|^6.0",
+        "spatie/flysystem-dropbox": "^1.2.2|^2.0",
+        "spatie/laravel-activitylog": "^3.17|^4.4",
+        "spatie/laravel-backup": "^6.16|^8.1.0",
+        "unisharp/laravel-filemanager": "^2.4",
+        "webpatser/laravel-uuid": "^4.0",
+        "zircote/swagger-php": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -21,6 +40,8 @@
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"
+        "phpstan/phpstan": "^1.4",
+        "orchestra/testbench": "^6.24"
     },
     "autoload": {
         "psr-4": {
