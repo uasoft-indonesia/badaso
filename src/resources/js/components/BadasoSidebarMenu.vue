@@ -25,6 +25,15 @@
         />
       </a>
       <!-- for route link -->
+      <template v-else>
+        <a v-if="url.substring(0, 4) == 'http'"
+        :href="url"
+        aria-current="page"
+        :class="getItemActive().vsAlinkActive"
+        >
+       <vs-icon :icon="icon ? icon : 'remove'" />
+        <span class="hide-in-minisidebar"> {{ title }}</span>
+        </a>
       <router-link
         :to="url"
         aria-current="page"
@@ -34,6 +43,7 @@
         <vs-icon :icon="icon ? icon : 'remove'" />
         <span class="hide-in-minisidebar"> {{ title }}</span>
       </router-link>
+      </template>
     </div>
     <!-- vs-sidebar--group-items -->
     <ul
