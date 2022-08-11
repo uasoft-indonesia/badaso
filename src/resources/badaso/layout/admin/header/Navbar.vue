@@ -10,7 +10,7 @@
       <div
         slot="logo"
         class="top-navbar__logo-wrapper"
-        v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
+        v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text' || logoConfig === 'text_only'"
       >
         <img
           :src="logo"
