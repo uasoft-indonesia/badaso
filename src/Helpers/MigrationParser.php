@@ -227,6 +227,7 @@ class MigrationParser
                 $name['current_name'],
                 $name['modified_name'],
             );
+
         } else {
             if (isset($rows)) {
                 /**
@@ -250,6 +251,7 @@ class MigrationParser
                             $fk[] = $relation;
                         }
                     }
+
                 }
 
                 foreach ($rows['current_fields'] as $key => $value) {
@@ -291,6 +293,7 @@ class MigrationParser
 
                     if (in_array('UPDATE_INDEX', $value['modify_type'])) {
                         $altered_field++;
+
                     }
 
                     if (in_array('UPDATE_DEFAULT', $value['modify_type'])) {
@@ -302,8 +305,10 @@ class MigrationParser
                     $fk_fields = [];
                     foreach ($fk as $key => $value) {
                         $fk_fields[] = sprintf(self::DROP_FOREIGN_KEY, "'".$value['source_field']."'");
+
                     }
                     $dropped_fk_field = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fk_fields));
+
                 }
 
                 if ($altered_field > 0) {
@@ -316,6 +321,7 @@ class MigrationParser
                      */
                     if (isset($fields['indexes']) && count($fields['indexes']) > 0) {
                         $alter[] = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $fields['indexes']));
+
                     }
 
                     if (isset($fields['change']) && count($fields['change']) > 0) {
@@ -331,6 +337,7 @@ class MigrationParser
                     } elseif (count($alter) > 0) {
                         $stub = $alter[0];
                     }
+
                 }
 
                 if ($dropped_field > 0) {
@@ -373,10 +380,12 @@ class MigrationParser
                 if ($dropped_field > 0 || $added_field > 0) {
                     $stub = sprintf(self::ALTER_WRAPPER, $name['current_name'], implode(PHP_EOL.chr(9).chr(9).chr(9), $modified)).PHP_EOL.PHP_EOL.$stub;
                 }
+
             }
         }
 
         return ($dropped_fk_field ? $dropped_fk_field.PHP_EOL.PHP_EOL : null).$stub;
+
     }
 
     public static function getAlterMigrationSchemaDown($name, $rows = null, $prefix = null, $relations = [])
