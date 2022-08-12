@@ -350,7 +350,7 @@ class FileGenerator
         $schema_down = '';
 
         $schema_up .= $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix, $relations);
-        // dd($schema_up);
+
         if (array_key_exists('current_relations', $relations) && count($relations['current_relations']) > 0) {
             $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
             $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
