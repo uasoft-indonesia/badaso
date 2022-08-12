@@ -159,7 +159,6 @@ class BadasoDatabaseController extends Controller
                 $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter', $relations);
             }
 
-
             if ($table['current_name'] !== $table['modified_name']) {
                 $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, null, 'rename');
             }
