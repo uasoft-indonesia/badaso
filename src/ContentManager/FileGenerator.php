@@ -339,7 +339,6 @@ class FileGenerator
             $this->file_system->getStubPath().'../stubs/migration.stub'
         );
 
-
         $migration_file_name = $this->file_system->getAlterMigrationFileName($table, $migration_class_name);
 
         $migration_folder_path = $this->file_system->getMigrationFolderPath();
@@ -357,7 +356,7 @@ class FileGenerator
         }
         if (array_key_exists('modified_relations', $relations) && count($relations['modified_relations']) > 0) {
             $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
-            $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations) . PHP_EOL;
+            $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
         }
 
         $schema_down .= $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix, $relations);
