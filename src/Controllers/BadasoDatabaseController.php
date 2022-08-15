@@ -190,7 +190,6 @@ class BadasoDatabaseController extends Controller
                     return ApiResponse::failed(__('badaso::validation.database.migration_failed'));
             }
             dd($exitCode);
-
         } catch (Exception $e) {
             if (isset($this->file_name)) {
                 foreach ($this->file_name as $name) {

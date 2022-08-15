@@ -417,7 +417,6 @@ class MigrationParser
                         $rows['modified_fields'][$key] = $value;
                         $rows['modified_fields'][$key]['modify_type'] = ['DROP_FIELD'];
                     }
-
                 }
 
                 foreach ($rows['modified_fields'] as $key => $value) {
@@ -431,7 +430,6 @@ class MigrationParser
 
                     if (in_array('UPDATE_TYPE', $value['modify_type'])) {
                         $altered_field++;
-
                     }
 
                     if (in_array('UPDATE_LENGTH', $value['modify_type'])) {
