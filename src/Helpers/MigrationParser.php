@@ -960,6 +960,9 @@ class MigrationParser
             case 'varchar':
                 $type = 'string';
                 break;
+            case 'character varying':
+                $type = 'string';
+                break;
             case 'char':
                 break;
             case 'tinyint':
