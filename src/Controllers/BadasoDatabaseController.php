@@ -154,6 +154,7 @@ class BadasoDatabaseController extends Controller
             $fields = $data['fields'];
             $table = $data['table'];
             $relations = $data['relations'];
+
             if (count($fields['modified_fields']) > 0) {
                 $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter', $relations);
             }
@@ -188,6 +189,8 @@ class BadasoDatabaseController extends Controller
 
                     return ApiResponse::failed(__('badaso::validation.database.migration_failed'));
             }
+            dd($exitCode);
+
         } catch (Exception $e) {
             if (isset($this->file_name)) {
                 foreach ($this->file_name as $name) {
