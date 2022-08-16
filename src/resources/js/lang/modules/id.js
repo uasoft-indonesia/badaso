@@ -379,6 +379,8 @@ export default {
         destinationTable: "Tabel Tujuan",
         destinationTableColumn: "Kolom Tujuan",
         destinationTableDisplayColumn: "Kolom Tujuan Untuk Ditampilkan",
+        destinationTableDisplayMoreColumn:
+          "Kolom Tujuan Lain Untuk Ditampilkan",
         saveRelation: "Simpan",
         cancelRelation: "Batal",
       },
@@ -489,6 +491,7 @@ export default {
         destinationTable: "Tabel Tujuan",
         destinationTableColumn: "Kolom Tujuan",
         destinationTableDisplayColumn: "Kolom Tujuan Untuk Ditampilkan",
+        destinationTableDisplayMoreColumn: "Kolom Tujuan Lain Untuk Ditampilkan",
         saveRelation: "Simpan",
         cancelRelation: "Batal",
       },
