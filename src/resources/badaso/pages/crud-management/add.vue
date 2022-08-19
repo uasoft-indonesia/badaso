@@ -516,6 +516,12 @@
                               $t('crud.add.body.destinationTableDisplayColumn')
                             "
                           ></badaso-select>
+                          <badaso-select-multiple
+                            v-model="relation.destinationTableDisplayMoreColumn"
+                            size="12"
+                            :label="$t('crud.add.body.destinationTableDisplayMoreColumn')"
+                            :items="destinationTableColumns"
+                          ></badaso-select-multiple>
                         </vs-row>
                         <vs-row vs-type="flex" vs-justify="space-between">
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
@@ -701,6 +707,16 @@
                                   )
                                 "
                               ></badaso-select>
+                               <badaso-select
+                                size="12"
+                                v-model="relation.destinationTableDisplayMoreColumn"
+                                :items="destinationTableColumns"
+                                :label="
+                                  $t(
+                                    'crud.add.body.destinationTableDisplayMoreColumn'
+                                  )
+                                "
+                              ></badaso-select>
                             </vs-row>
                             <vs-row vs-type="flex" vs-justify="space-between">
                               <vs-col
@@ -818,6 +834,7 @@ export default {
       destinationTable: "",
       destinationTableColumn: "",
       destinationTableDisplayColumn: "",
+      destinationTableDisplayMoreColumn: [],
     },
     onCreate: false,
     onCreateTitle: "",
@@ -876,6 +893,9 @@ export default {
         destinationTableDisplayColumn: field.destinationTableDisplayColumn
           ? field.destinationTableDisplayColumn
           : "",
+           destinationTableDisplayMoreColumn: field.destinationTableDisplayMoreColumn
+          ? field.destinationTableDisplayMoreColumn
+          : "",
       };
       if (field.destinationTable !== "") {
         this.getDestinationTableColumns(field.destinationTable);
@@ -894,6 +914,8 @@ export default {
       field.destinationTableColumn = this.relation.destinationTableColumn;
       field.destinationTableDisplayColumn =
         this.relation.destinationTableDisplayColumn;
+         field.destinationTableDisplayMoreColumn =
+        this.relation.destinationTableDisplayMoreColumn;
       this.relation = {};
       field.setRelation = false;
     },
