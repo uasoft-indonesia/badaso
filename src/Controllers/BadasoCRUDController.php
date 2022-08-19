@@ -94,6 +94,7 @@ class BadasoCRUDController extends Controller
 
             $data_type->data_rows = $data_rows;
 
+
             $data['crud'] = collect($data_type)->toArray();
 
             return ApiResponse::success($data);
