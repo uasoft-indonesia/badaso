@@ -177,23 +177,21 @@ class BadasoTableController extends Controller
                 $destination_table_display_column = array_key_exists('destination_table_display_column', $relation_detail) ? $relation_detail['destination_table_display_column'] : null;
                 $destination_table_display_more_column = array_key_exists('destination_table_display_more_column', $relation_detail) ? $relation_detail['destination_table_display_more_column'] : null;
 
-
                 if (
                     $relation_type
                     && $destination_table
                     && $destination_table_column
-                    && ($destination_table_display_column ||$destination_table_display_more_column)
+                    && ($destination_table_display_column || $destination_table_display_more_column)
                 ) {
                     $arr_query_select = [
                         $destination_table_column,
                         $destination_table_display_column,
                     ];
 
-                    if(count($destination_table_display_more_column) > 0){
-                        foreach ($destination_table_display_more_column as $index =>
-                        $item_destination_table_display_more_column) {
-                            if(!in_array($item_destination_table_display_more_column  ,$arr_query_select)){
-                                 $arr_query_select[] = $item_destination_table_display_more_column;
+                    if (count($destination_table_display_more_column) > 0) {
+                        foreach ($destination_table_display_more_column as $index => $item_destination_table_display_more_column) {
+                            if (! in_array($item_destination_table_display_more_column, $arr_query_select)) {
+                                $arr_query_select[] = $item_destination_table_display_more_column;
                             }
                         }
                     }
