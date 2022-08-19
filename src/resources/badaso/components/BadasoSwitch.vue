@@ -57,7 +57,9 @@ export default {
     value: {
       type: Boolean,
       required: true,
-      default: false,
+      default: () => {
+        false
+      },
     },
     additionalInfo: {
       type: String,
