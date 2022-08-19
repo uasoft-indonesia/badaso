@@ -707,6 +707,12 @@
                                   )
                                 "
                               ></badaso-select>
+                               <badaso-select-multiple
+                                size="12"
+                                v-model="relation.destinationTableDisplayMoreColumn"
+                                :items="destinationTableColumns"
+                                :label="$t('crud.add.body.destinationTableDisplayMoreColumn')"
+                          ></badaso-select-multiple>
                             </vs-row>
                             <vs-row vs-type="flex" vs-justify="space-between">
                               <vs-col
@@ -885,9 +891,10 @@ export default {
         destinationTableDisplayColumn: field.destinationTableDisplayColumn
           ? field.destinationTableDisplayColumn
           : "",
-           destinationTableDisplayMoreColumn: field.destinationTableDisplayMoreColumn
+        destinationTableDisplayMoreColumn: field.destinationTableDisplayMoreColumn
           ? field.destinationTableDisplayMoreColumn
           : "",
+
       };
       if (field.destinationTable !== "") {
         this.getDestinationTableColumns(field.destinationTable);
@@ -907,9 +914,11 @@ export default {
       field.destinationTableColumn = this.relation.destinationTableColumn;
       field.destinationTableDisplayColumn =
         this.relation.destinationTableDisplayColumn;
-      field.destinationTableDisplayMoreColumn = this.relation.destinationTableDisplayMoreColumn;
+    field.destinationTableDisplayMoreColumn =
+        this.relation.destinationTableDisplayMoreColumn;
       this.relation = {};
       field.setRelation = false;
+
     },
     dataNotificationEventHandle() {
       this.crudData.notification = this.crudData.notification.map(
@@ -937,6 +946,7 @@ export default {
       this.errors = {};
       this.$openLoader();
       this.$api.badasoCrud
+
         .add(this.crudData)
         .then((response) => {
           this.$closeLoader();
