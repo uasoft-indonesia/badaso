@@ -154,6 +154,7 @@ class BadasoDatabaseController extends Controller
             $fields = $data['fields'];
             $table = $data['table'];
             $relations = $data['relations'];
+
             if (count($fields['modified_fields']) > 0) {
                 $this->file_name[] = $this->file_generator->generateBDOAlterMigrationFile($table, $fields, 'alter', $relations);
             }

@@ -305,6 +305,7 @@ class FileGenerator
         $schema_down = '';
 
         $schema_up .= $this->migration_parser->getMigrationSchemaUp($table_name, $rows, $prefix);
+
         if (! empty($relations)) {
             $schema_up .= PHP_EOL.PHP_EOL.$this->migration_parser->getMigrationRelationshipSchemaUp($table_name, $relations);
         }
@@ -348,14 +349,16 @@ class FileGenerator
         $schema_down = '';
 
         $schema_up .= $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix, $relations);
+
         if (array_key_exists('current_relations', $relations) && count($relations['current_relations']) > 0) {
             $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
             $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
         }
         if (array_key_exists('modified_relations', $relations) && count($relations['modified_relations']) > 0) {
             $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
-            $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations) . PHP_EOL;
+            $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
         }
+
         $schema_down .= $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix, $relations);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
