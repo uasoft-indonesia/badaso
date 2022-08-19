@@ -190,7 +190,7 @@ class BadasoTableController extends Controller
 
                     if (count($destination_table_display_more_column) > 0) {
                         foreach ($destination_table_display_more_column as $index => $item_destination_table_display_more_column) {
-                            if (!in_array($item_destination_table_display_more_column, $arr_query_select)) {
+                            if (! in_array($item_destination_table_display_more_column, $arr_query_select)) {
                                 $arr_query_select[] = $item_destination_table_display_more_column;
                             }
                         }
