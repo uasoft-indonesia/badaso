@@ -491,7 +491,7 @@ export default {
         destinationTableColumn: "Kolom Tujuan",
         destinationTableDisplayColumn: "Kolom Tujuan Untuk Ditampilkan",
         destinationTableDisplayMoreColumn:
-          "Kolom Tujuan Lain Untuk Ditampilkan",
+          "Data Lain API",
         saveRelation: "Simpan",
         cancelRelation: "Batal",
       },
