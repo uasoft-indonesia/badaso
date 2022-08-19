@@ -415,7 +415,6 @@ export default {
       // init data rows
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-        console.log(row, row && row.value)
         if (row && row.value || row.type == 'switch' ||  row.type == 'slider') {
           dataRows[row.field] = row.value;
         }
