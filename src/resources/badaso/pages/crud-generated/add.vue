@@ -415,7 +415,7 @@ export default {
       // init data rows
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-        if (row && row.value) {
+        if (row && row.value || row.type == 'switch' ||  row.type == 'slider') {
           dataRows[row.field] = row.value;
         }
       }
@@ -425,7 +425,7 @@ export default {
         this.isValid = false;
         return;
       }
-
+      
       // start request
       this.$openLoader();
       this.$api.badasoEntity
@@ -480,7 +480,7 @@ export default {
           } else if (data.value == undefined && data.type == "slider") {
             data.value = 0;
           } else if (data.value == undefined && data.type == "switch") {
-            data.value = false;
+            data.value = 0;
           } else if (data.value == undefined && data.type == "tags") {
             data.value = "";
           } else if (data.value == undefined) {
