@@ -1032,12 +1032,12 @@ export default {
     handleSelect(data) {
       this.selected = data;
     },
-    displayRelationData(record, dataRow) { 
+    displayRelationData(record, dataRow) {  
       if (dataRow.relation) {
         const relationType = dataRow.relation.relationType;
         const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
-          );
+            );
         this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableColumn
         );
@@ -1047,7 +1047,7 @@ export default {
         if (relationType == "has_many") {
           const list = record[table];
           const flatList = list.map((ls) => {
-              return ls[displayColumn];
+                return ls[displayColumn];
           });
           return flatList.join(", ");
         } else if(relationType == "belongs_to"){
