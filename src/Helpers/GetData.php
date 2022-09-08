@@ -207,7 +207,7 @@ class GetData
         } else {
             $records = DB::table($data_type->name)->select($fields);
         }
-
+        
         // soft delete implement
         $is_soft_delete = $data_type->is_soft_delete;
         if ($is_soft_delete) {
@@ -218,7 +218,7 @@ class GetData
             }
         }
         // end
-
+        
         $records = $records->get()->map(function ($record) use ($data_rows) {
             foreach ($data_rows as $index => $data_row) {
                 if ($data_row->type == 'upload_image_multiple') {
@@ -235,7 +235,7 @@ class GetData
                                     $upload_image_multiple = join('/', $upload_image_multiple);
                                 }
                                 $asset = asset('storage/'.$upload_image_multiple);
-
+                                
                                 return $asset;
                             });
                             $upload_image_multiples = implode(',', json_decode($upload_image_multiples));
@@ -260,7 +260,7 @@ class GetData
                     }
                 }
             }
-
+            
             return $record;
         });
 
@@ -281,38 +281,41 @@ class GetData
         $relational_fields = collect($data_type->dataRows)->filter(function ($value, $key) {
             return $value->relation != null;
         })->all();
-
         foreach ($relational_fields as $field) {
             $relation_detail = [];
-
+            
             try {
                 $relation_detail = is_string($field->relation) ? json_decode($field->relation) : $field->relation;
                 $relation_detail = CaseConvert::snake($relation_detail);
             } catch (\Exception $e) {
             }
-
+            
             $relation_type = array_key_exists('relation_type', $relation_detail) ? $relation_detail['relation_type'] : null;
             $destination_table = array_key_exists('destination_table', $relation_detail) ? $relation_detail['destination_table'] : null;
             $destination_table_column = array_key_exists('destination_table_column', $relation_detail) ? $relation_detail['destination_table_column'] : null;
             $destination_table_display_column = array_key_exists('destination_table_display_column', $relation_detail) ? $relation_detail['destination_table_display_column'] : null;
-
+            
             if (
                 $relation_type
                 && $destination_table
                 && $destination_table_column
                 && $destination_table_display_column
-            ) {
+                ) {
                 if (isset($row->{$field->field})) {
                     $relation_data = DB::table($destination_table)->select([
                         $destination_table_column,
                         $destination_table_display_column,
-                    ])
+                        ])
                         ->where($destination_table_column, $row->{$field->field})
                         ->get();
 
                     switch ($relation_type) {
                         case 'belongs_to':
-                            $row->{$destination_table} = collect($relation_data)->first();
+                            if (isset($row->{$destination_table})) {
+                                array_push($row->{$destination_table}, collect($relation_data)->first());
+                            } else {
+                                $row->{$destination_table} = collect($relation_data)->toArray();
+                            }
                             break;
 
                         case 'has_many':
