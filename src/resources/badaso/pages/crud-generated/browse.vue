@@ -1032,13 +1032,17 @@ export default {
     handleSelect(data) {
       this.selected = data;
     },
-    displayRelationData(record, dataRow) {
+    displayRelationData(record, dataRow) { 
       if (dataRow.relation) {
         const relationType = dataRow.relation.relationType;
         const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
+<<<<<<< HEAD:src/resources/badaso/pages/crud-generated/browse.vue
         );
 
+=======
+          );
+>>>>>>> 88a97411... bugfix multiple relation same table:src/resources/js/pages/crud-generated/browse.vue
         this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableColumn
         );
@@ -1049,9 +1053,19 @@ export default {
         if (relationType == "has_many") {
           const list = record[table];
           const flatList = list.map((ls) => {
-            return ls[displayColumn];
+              return ls[displayColumn];
           });
           return flatList.join(", ");
+        } else if(relationType == "belongs_to"){
+          const list = record[table];
+          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
+          const flatList = list.map((ls) => {
+            if(ls.id == record[field]){
+              return ls[displayColumn];
+            }
+          });
+          console.log(flatList)
+          return flatList.join(",").replace(",", "");
         } else {
           return record[table] ? record[table][displayColumn] : null;
         }
