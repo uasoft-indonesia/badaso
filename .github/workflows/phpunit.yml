@@ -132,6 +132,7 @@ jobs:
           sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres/g' .env &&
           sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env 
           
+
       # Pgsql | Laravel setup
       - name: Pgsql | Laravel setup
         run: cd laravel &&
