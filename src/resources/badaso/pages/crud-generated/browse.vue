@@ -1058,8 +1058,8 @@ export default {
             if(ls.id == record[field]){
               return ls[displayColumn];
             }
+            return null
           });
-          console.log(flatList)
           return flatList.join(",").replace(",", "");
         } else {
           return record[table] ? record[table][displayColumn] : null;
