@@ -1054,9 +1054,10 @@ export default {
           const list = record[table];
           let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
           const flatList = list.map((ls) => {
-            if(ls.id == record[field])
+            if(ls.id == record[field]){
               return ls[displayColumn];
-            
+            }
+            return null
           });
           return flatList.join(",").replace(",", "");
         } else {
