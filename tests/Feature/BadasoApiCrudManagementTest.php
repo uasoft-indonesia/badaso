@@ -413,16 +413,20 @@ class BadasoApiCrudManagementTest extends TestCase
 
                 if ($badaso_type == 'relation') {
                     $destination_field['badaso_type'] = 'id';
+                    $destination_more_field['badaso_type'] = ['select_multiple'];
 
                     $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
                     $row['relationType'] = true;
                     $row['destinationTable'] = $table_names[0];
                     $row['destinationTableColumn'] = $destination_field['badaso_type'];
                     $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
+                    $row['destinationTableDisplayMoreColumn'] = $destination_more_field['badaso_type'];
                     $row['required'] = false;
+
                 }
 
                 $rows[] = $row;
+
             }
             $data_table_crud_management_log[$index_table_name]['rows'] = $rows;
 
@@ -751,14 +755,17 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testRelationDataBySlugEntityResultCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
-        foreach ($tables as $key => $slug) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
-                'slug' => $slug,
-            ]);
 
-            $response->assertSuccessful();
-        }
+
+            $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+            foreach ($tables as $key => $slug) {
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
+                    'slug' => $slug,
+                ]);
+
+                $response->assertSuccessful();
+            }
+
     }
 
     public function testEditCrudManagement()
