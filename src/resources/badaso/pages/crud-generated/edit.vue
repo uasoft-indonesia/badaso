@@ -406,6 +406,7 @@ export default {
     submitForm() {
       // init data row
       const dataRows = {};
+      console.log(this.dataType.dataRows);
       for (const row of this.dataType.dataRows) {
         if (row && row.value || row && row.type == 'textarea') {
           dataRows[row.field] = row.value;
