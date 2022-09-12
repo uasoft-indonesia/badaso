@@ -425,7 +425,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
 
                 $rows[] = $row;
-
             }
             $data_table_crud_management_log[$index_table_name]['rows'] = $rows;
 
@@ -754,17 +753,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testRelationDataBySlugEntityResultCrudManagement()
     {
+        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        foreach ($tables as $key => $slug) {
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
+                'slug' => $slug,
+            ]);
 
-
-            $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
-            foreach ($tables as $key => $slug) {
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
-                    'slug' => $slug,
-                ]);
-
-                $response->assertSuccessful();
-            }
-
+            $response->assertSuccessful();
+        }
     }
 
     public function testEditCrudManagement()
