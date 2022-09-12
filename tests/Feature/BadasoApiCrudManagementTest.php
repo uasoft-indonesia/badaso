@@ -422,7 +422,6 @@ class BadasoApiCrudManagementTest extends TestCase
                     $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
                     $row['destinationTableDisplayMoreColumn'] = $destination_more_field['badaso_type'];
                     $row['required'] = false;
-
                 }
 
                 $rows[] = $row;
