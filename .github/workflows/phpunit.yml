@@ -96,7 +96,7 @@ jobs:
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           key=$(eval "php artisan jwt:secret -s") &&
-          sed -i 's/JWT_SECRET=/JWT_SECRET="'${key}'"/g' .env
+          sed -i 's/JWT_SECRET=/JWT_SECRET='${key}'/g' .env
 
       # Mysql | Badaso core test
       - name: Mysql | Badaso core test
