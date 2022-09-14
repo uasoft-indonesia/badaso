@@ -1052,7 +1052,17 @@ export default {
             return ls[displayColumn];
           });
           return flatList.join(", ");
-        } else {
+        }else if(relationType == "belongs_to"){
+          const list = record[table];
+          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
+          const flatList = list.map((ls) => {
+            if(ls.id == record[field]){
+              return ls[displayColumn];
+            }
+            return null
+          });
+          return flatList.join(",").replace(",", "");
+         } else {
           return record[table] ? record[table][displayColumn] : null;
         }
       } else {
