@@ -1037,12 +1037,7 @@ export default {
         const relationType = dataRow.relation.relationType;
         const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
-<<<<<<< HEAD:src/resources/badaso/pages/crud-generated/browse.vue
-        );
-
-=======
           );
->>>>>>> 88a97411... bugfix multiple relation same table:src/resources/js/pages/crud-generated/browse.vue
         this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableColumn
         );
