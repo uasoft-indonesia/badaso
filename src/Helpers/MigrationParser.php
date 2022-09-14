@@ -228,7 +228,6 @@ class MigrationParser
                 $name['modified_name'],
 
             );
-
         } else {
             if (isset($rows)) {
                 /**
@@ -246,7 +245,6 @@ class MigrationParser
 
                 $rows = self::formatRows($rows);
 
-
                 if (! empty($relations)) {
                     foreach ($relations['modified_relations'] as $key => $relation) {
                         if (array_key_exists('modify_type', $relation) && $relation['modify_type'] === 'DROP_FOREIGN_KEY') {
@@ -262,7 +260,6 @@ class MigrationParser
                         $rows['modified_fields'][$key] = $value;
                         $rows['modified_fields'][$key]['modify_type'] = ['DROP_FIELD'];
                     }
-
                 }
 
                 foreach ($rows['modified_fields'] as $key => $value) {
@@ -300,7 +297,6 @@ class MigrationParser
 
                     if (in_array('UPDATE_DEFAULT', $value['modify_type'])) {
                         $altered_field++;
-
                     }
                 }
 
@@ -356,15 +352,9 @@ class MigrationParser
                                 $value['field_name'],
 
                             );
-
                         }
-
                     }
-
-
                 }
-
-
 
                 if ($added_field > 0) {
                     foreach ($rows['modified_fields'] as $key => $value) {
@@ -380,7 +370,6 @@ class MigrationParser
                                 self::getMigrationAttributeField($value['field_attribute']),
                                 self::getMigrationIncrementField($value['field_increment'])
                             );
-
                         }
                     }
                 }
@@ -694,7 +683,6 @@ class MigrationParser
         }
         $fields = array_unique($fields);
 
-
         return $fields;
     }
 
@@ -721,7 +709,6 @@ class MigrationParser
                     $current_fields['field_name'],
                     self::getMigrationLengthField($row['field_length'], $row['field_type'])
                 );
-
             }
 
             if (in_array('UPDATE_NULL', $row['modify_type'])) {
@@ -831,7 +818,6 @@ class MigrationParser
         $stub = array_unique($stub);
         $rename = array_unique($rename);
         $indexes = array_unique($indexes);
-
 
         return ['change' => $stub, 'rename' => $rename, 'indexes' => $indexes];
     }

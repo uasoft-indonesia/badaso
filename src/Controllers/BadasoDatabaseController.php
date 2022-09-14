@@ -93,7 +93,6 @@ class BadasoDatabaseController extends Controller
             }
 
             return ApiResponse::failed($e);
-
         }
     }
 
@@ -170,7 +169,6 @@ class BadasoDatabaseController extends Controller
                 '--force' => true,
             ]);
 
-
             switch ($exitCode) {
                 case 0:
                     activity('Database')
@@ -200,7 +198,6 @@ class BadasoDatabaseController extends Controller
             }
 
             return ApiResponse::failed($e);
-
         }
     }
 
