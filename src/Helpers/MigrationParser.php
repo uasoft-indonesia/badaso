@@ -226,7 +226,9 @@ class MigrationParser
                 self::RENAME_TABLE_WRAPPER,
                 $name['current_name'],
                 $name['modified_name'],
+
             );
+
         } else {
             if (isset($rows)) {
                 /**
@@ -236,12 +238,14 @@ class MigrationParser
                 $altered_field = 0;
                 $added_field = 0;
                 $dropped_fk = 0;
+                $dropped_default = 0;
                 $fields = [];
                 $modified = [];
                 $alter = [];
                 $fk = [];
 
                 $rows = self::formatRows($rows);
+
 
                 if (! empty($relations)) {
                     foreach ($relations['modified_relations'] as $key => $relation) {
@@ -258,6 +262,7 @@ class MigrationParser
                         $rows['modified_fields'][$key] = $value;
                         $rows['modified_fields'][$key]['modify_type'] = ['DROP_FIELD'];
                     }
+
                 }
 
                 foreach ($rows['modified_fields'] as $key => $value) {
@@ -295,6 +300,7 @@ class MigrationParser
 
                     if (in_array('UPDATE_DEFAULT', $value['modify_type'])) {
                         $altered_field++;
+
                     }
                 }
 
@@ -308,6 +314,7 @@ class MigrationParser
 
                 if ($altered_field > 0) {
                     $fields = self::getAlterMigrationUpFields($rows, $name);
+
                     /**
                      * Positioning schema in migration app
                      * 1. Indexes (Dropping / Adding)
@@ -346,11 +353,18 @@ class MigrationParser
                         if (in_array('DROP_FIELD', $value['modify_type'])) {
                             $modified[] = sprintf(
                                 self::DROP_FIELD,
-                                $value['field_name']
+                                $value['field_name'],
+
                             );
+
                         }
+
                     }
+
+
                 }
+
+
 
                 if ($added_field > 0) {
                     foreach ($rows['modified_fields'] as $key => $value) {
@@ -360,12 +374,13 @@ class MigrationParser
                                 self::getMigrationTypeField($value['field_type']),
                                 $value['field_name'],
                                 self::getMigrationLengthField($value['field_length'], $value['field_type']),
-                                $value['field_default'],
+                                self::getMigrationDefaultField($value['field_type'], $value['field_default']),
                                 self::getMigrationNullField($value['field_null']),
                                 self::getMigrationIndexField($value['field_index'], null, $value['field_name']),
                                 self::getMigrationAttributeField($value['field_attribute']),
                                 self::getMigrationIncrementField($value['field_increment'])
                             );
+
                         }
                     }
                 }
@@ -679,6 +694,7 @@ class MigrationParser
         }
         $fields = array_unique($fields);
 
+
         return $fields;
     }
 
@@ -705,6 +721,7 @@ class MigrationParser
                     $current_fields['field_name'],
                     self::getMigrationLengthField($row['field_length'], $row['field_type'])
                 );
+
             }
 
             if (in_array('UPDATE_NULL', $row['modify_type'])) {
@@ -814,6 +831,7 @@ class MigrationParser
         $stub = array_unique($stub);
         $rename = array_unique($rename);
         $indexes = array_unique($indexes);
+
 
         return ['change' => $stub, 'rename' => $rename, 'indexes' => $indexes];
     }

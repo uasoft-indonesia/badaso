@@ -61,6 +61,7 @@ class BadasoDatabaseController extends Controller
             ]);
 
             $this->file_name = $this->file_generator->generateBDOMigrationFile($request->table, 'create', $request->rows, $request->relations);
+
             $exitCode = Artisan::call('migrate', [
                 '--path' => 'database/migrations/badaso/',
                 '--force' => true,
@@ -92,6 +93,7 @@ class BadasoDatabaseController extends Controller
             }
 
             return ApiResponse::failed($e);
+
         }
     }
 
@@ -168,6 +170,7 @@ class BadasoDatabaseController extends Controller
                 '--force' => true,
             ]);
 
+
             switch ($exitCode) {
                 case 0:
                     activity('Database')
@@ -197,6 +200,7 @@ class BadasoDatabaseController extends Controller
             }
 
             return ApiResponse::failed($e);
+
         }
     }
 

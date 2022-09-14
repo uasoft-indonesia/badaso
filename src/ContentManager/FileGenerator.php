@@ -290,7 +290,6 @@ class FileGenerator
     public function generateBDOMigrationFile(string $table_name, string $prefix, array $rows, array $relations = []): string
     {
         $migration_class_name = $this->file_system->generateMigrationClassName($table_name, $prefix);
-
         $stub = $this->file_system->getFileContent(
             $this->file_system->getStubPath().'../stubs/migration.stub'
         );
@@ -309,6 +308,8 @@ class FileGenerator
         if (! empty($relations)) {
             $schema_up .= PHP_EOL.PHP_EOL.$this->migration_parser->getMigrationRelationshipSchemaUp($table_name, $relations);
         }
+        // dd($schema_up);
+
         $schema_down .= $this->migration_parser->getMigrationSchemaDown($table_name, $rows, $prefix);
 
         $stub = $this->content_manager->replaceString('{{class}}', $migration_class_name, $stub);
@@ -334,6 +335,7 @@ class FileGenerator
     public function generateBDOAlterMigrationFile(array $table, array $rows = null, string $prefix, array $relations = []): string
     {
         $migration_class_name = $this->file_system->generateAlterMigrationClassName($table, $prefix);
+        // dd($migration_class_name);
 
         $stub = $this->file_system->getFileContent(
             $this->file_system->getStubPath().'../stubs/migration.stub'
@@ -349,6 +351,7 @@ class FileGenerator
         $schema_down = '';
 
         $schema_up .= $this->migration_parser->getAlterMigrationSchemaUp($table, $rows, $prefix, $relations);
+        // dd($prefix);
 
         if (array_key_exists('current_relations', $relations) && count($relations['current_relations']) > 0) {
             $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
@@ -357,6 +360,7 @@ class FileGenerator
         if (array_key_exists('modified_relations', $relations) && count($relations['modified_relations']) > 0) {
             $schema_up .= $this->migration_parser->getAlterMigrationRelationshipSchemaUp($table, $relations);
             $schema_down .= $this->migration_parser->getAlterMigrationRelationshipSchemaDown($table, $relations).PHP_EOL;
+
         }
 
         $schema_down .= $this->migration_parser->getAlterMigrationSchemaDown($table, $rows, $prefix, $relations);
