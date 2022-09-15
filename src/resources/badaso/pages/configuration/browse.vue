@@ -277,6 +277,7 @@ export default {
   components: {},
   data: () => ({
     configurations: [],
+    role: [],
     willDeleteConfigurationId: null,
   }),
   computed: {
@@ -319,15 +320,34 @@ export default {
     },
     getConfigurationList() {
       this.$openLoader();
+      this.$api.badasoRole
+      .browse()
+      .then((response) => {
+        response.data.roles.map((data) => {
+           const temp = {'label': data.displayName, 'value': data.name}
+            this.role.push(temp)
+        });
+      }) 
+      .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        }); 
       this.$api.badasoConfiguration
         .browse()
         .then((response) => {
           this.$closeLoader();
           const configurations = response.data.configurations.map((data) => {
             try {
-              data.details = JSON.parse(data.details);
+              data.details = JSON.parse(data.details);  
               if (data.type === "hidden") {
                 data.value = data.details.value ? data.details.value : "";
+              }
+              if(data.details.key === 'defaultRoleRegistration' ){
+                 data.details.items = this.role
               }
               if (data.type === "switch") {
                 data.value = data.value == "1";
