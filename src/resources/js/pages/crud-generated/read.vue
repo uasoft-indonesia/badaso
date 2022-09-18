@@ -313,6 +313,7 @@ export default {
       const displayColumn = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTableDisplayColumn
       );
+
       if (dataRow.relation.relationType == "has_many") {
         const list = record[table];
         const flatList = list.map((ls) => {

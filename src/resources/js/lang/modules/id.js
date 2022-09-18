@@ -379,6 +379,7 @@ export default {
         destinationTable: "Tabel Tujuan",
         destinationTableColumn: "Kolom Tujuan",
         destinationTableDisplayColumn: "Kolom Tujuan Untuk Ditampilkan",
+        destinationTableDisplayMoreColumn: "Data Lain API",
         saveRelation: "Simpan",
         cancelRelation: "Batal",
       },
@@ -489,6 +490,8 @@ export default {
         destinationTable: "Tabel Tujuan",
         destinationTableColumn: "Kolom Tujuan",
         destinationTableDisplayColumn: "Kolom Tujuan Untuk Ditampilkan",
+        destinationTableDisplayMoreColumn:
+          "Data Lain API",
         saveRelation: "Simpan",
         cancelRelation: "Batal",
       },
