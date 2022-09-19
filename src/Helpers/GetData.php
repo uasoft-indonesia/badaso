@@ -281,7 +281,6 @@ class GetData
         $relational_fields = collect($data_type->dataRows)->filter(function ($value, $key) {
             return $value->relation != null;
         })->all();
-
         foreach ($relational_fields as $field) {
             $relation_detail = [];
 
@@ -323,7 +322,11 @@ class GetData
 
                     switch ($relation_type) {
                         case 'belongs_to':
-                            $row->{$destination_table} = collect($relation_data)->first();
+                            if (isset($row->{$destination_table})) {
+                                array_push($row->{$destination_table}, collect($relation_data)->first());
+                            } else {
+                                $row->{$destination_table} = collect($relation_data)->toArray();
+                            }
                             break;
 
                         case 'has_many':
