@@ -17,6 +17,7 @@ use Uasoft\Badaso\Helpers\Config;
 use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
+use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Models\EmailReset;
 use Uasoft\Badaso\Models\PasswordReset;
 use Uasoft\Badaso\Models\Role;
@@ -438,7 +439,8 @@ class BadasoAuthController extends Controller
 
     protected function getCustomerRole()
     {
-        $role = Role::where('name', 'customer')->first();
+        $name_role = Configuration::where('key', 'defaultRoleRegistration')->select('value')->first();
+        $role = Role::where('name', $name_role->value)->first();
 
         if (is_null($role)) {
             $role = new Role();
