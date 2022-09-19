@@ -360,7 +360,7 @@ class MigrationParser
                                 self::getMigrationTypeField($value['field_type']),
                                 $value['field_name'],
                                 self::getMigrationLengthField($value['field_length'], $value['field_type']),
-                                $value['field_default'],
+                                self::getMigrationDefaultField($value['field_type'], $value['field_default']),
                                 self::getMigrationNullField($value['field_null']),
                                 self::getMigrationIndexField($value['field_index'], null, $value['field_name']),
                                 self::getMigrationAttributeField($value['field_attribute']),
