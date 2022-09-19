@@ -516,6 +516,12 @@
                               $t('crud.add.body.destinationTableDisplayColumn')
                             "
                           ></badaso-select>
+                          <badaso-select-multiple
+                            v-model="relation.destinationTableDisplayMoreColumn"
+                            size="12"
+                            :label="$t('crud.add.body.destinationTableDisplayMoreColumn')"
+                            :items="destinationTableColumns"
+                          ></badaso-select-multiple>
                         </vs-row>
                         <vs-row vs-type="flex" vs-justify="space-between">
                           <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
@@ -701,6 +707,12 @@
                                   )
                                 "
                               ></badaso-select>
+                               <badaso-select-multiple
+                                size="12"
+                                v-model="relation.destinationTableDisplayMoreColumn"
+                                :items="destinationTableColumns"
+                                :label="$t('crud.add.body.destinationTableDisplayMoreColumn')"
+                          ></badaso-select-multiple>
                             </vs-row>
                             <vs-row vs-type="flex" vs-justify="space-between">
                               <vs-col
@@ -813,11 +825,13 @@ export default {
     relationTypes: [],
     destinationTables: [],
     destinationTableColumns: [],
+
     relation: {
       relationType: "",
       destinationTable: "",
       destinationTableColumn: "",
       destinationTableDisplayColumn: "",
+      destinationTableDisplayMoreColumn: [],
     },
     onCreate: false,
     onCreateTitle: "",
@@ -877,6 +891,10 @@ export default {
         destinationTableDisplayColumn: field.destinationTableDisplayColumn
           ? field.destinationTableDisplayColumn
           : "",
+        destinationTableDisplayMoreColumn: field.destinationTableDisplayMoreColumn
+          ? field.destinationTableDisplayMoreColumn
+          : "",
+
       };
       if (field.destinationTable !== "") {
         this.getDestinationTableColumns(field.destinationTable);
@@ -886,6 +904,7 @@ export default {
       if (table) {
         this.relation.destinationTableColumn = "";
         this.relation.destinationTableDisplayColumn = "";
+        this.relation.destinationTableDisplayMoreColumn = "";
         this.getDestinationTableColumns(table);
       }
     },
@@ -895,8 +914,11 @@ export default {
       field.destinationTableColumn = this.relation.destinationTableColumn;
       field.destinationTableDisplayColumn =
         this.relation.destinationTableDisplayColumn;
+    field.destinationTableDisplayMoreColumn =
+        this.relation.destinationTableDisplayMoreColumn;
       this.relation = {};
       field.setRelation = false;
+
     },
     dataNotificationEventHandle() {
       this.crudData.notification = this.crudData.notification.map(
@@ -924,6 +946,7 @@ export default {
       this.errors = {};
       this.$openLoader();
       this.$api.badasoCrud
+
         .add(this.crudData)
         .then((response) => {
           this.$closeLoader();
@@ -974,9 +997,7 @@ export default {
               };
             }
             if (
-              ["created_at", "updated_at", "deleted_at"].includes(
-                field.name
-              )
+              ["created_at", "updated_at", "deleted_at"].includes(field.name)
             ) {
               return {
                 field: field.name,

@@ -338,6 +338,12 @@ export default {
           description:
             "<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>",
         },
+        orderDisplayMoreColumn: {
+          title: "More Data For API",
+          placeholder: "More Data For API",
+          description:
+            "<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>",
+        },
         orderDirection: {
           title: "Order Direction",
           value: {
@@ -380,6 +386,7 @@ export default {
         destinationTable: "Destination Table",
         destinationTableColumn: "Destination Column",
         destinationTableDisplayColumn: "Destination Column To Display",
+        destinationTableDisplayMoreColumn: "More Data For API",
         saveRelation: "Save",
         cancelRelation: "Cancel",
       },
@@ -429,6 +436,12 @@ export default {
         orderDisplayColumn: {
           title: "Order Display Column",
           placeholder: "Order Display Column",
+          description:
+            "<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>",
+        },
+        orderDisplayMoreColumn: {
+          title: "More Data For API",
+          placeholder: "More Data For API",
           description:
             "<p class='text-muted'>Order Column will be filled with numbers to sort data if this field is set</p>",
         },
@@ -491,6 +504,7 @@ export default {
         destinationTable: "Destination Table",
         destinationTableColumn: "Destination Column",
         destinationTableDisplayColumn: "Destination Column To Display",
+        destinationTableDisplayMoreColumn: "More Data For API",
         saveRelation: "Save",
         cancelRelation: "Cancel",
       },

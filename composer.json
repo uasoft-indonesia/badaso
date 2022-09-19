@@ -1,5 +1,5 @@
 {
-  "version": "2.5.2",
+  "version": "2.5.3",
   "name": "badaso/core",
   "description": "The API & platform builder, build your apps 10x faster even more, it's open source & 100% free !",
   "keywords": [
@@ -37,7 +37,7 @@
     "laravel/ui": "^3.4",
     "league/flysystem": "~1.1|~2.0|~3.0",
     "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
-    "php-open-source-saver/jwt-auth": "^1.4",
+    "php-open-source-saver/jwt-auth": "^2.0",
     "phpstan/phpstan": "^1.4",
     "predis/predis": "^1.1",
     "symfony/var-exporter": "^5.2.0|^6.0",

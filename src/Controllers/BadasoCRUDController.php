@@ -228,7 +228,10 @@ class BadasoCRUDController extends Controller
                     if (isset($data_row['destination_table_display_column'])) {
                         $relation['destination_table_display_column'] = $data_row['destination_table_display_column'];
                     }
-                    if (count($relation) == 4) {
+                    if (isset($data_row['destination_table_display_more_column'])) {
+                        $relation['destination_table_display_more_column'] = $data_row['destination_table_display_more_column'];
+                    }
+                    if (count($relation) == 5) {
                         $new_data_row->relation = json_encode($relation);
                     }
                 }
@@ -370,7 +373,11 @@ class BadasoCRUDController extends Controller
                 if (isset($data_row['destination_table_display_column'])) {
                     $relation['destination_table_display_column'] = $data_row['destination_table_display_column'];
                 }
-                if (count($relation) == 4 && $data_row['type'] == 'relation') {
+                if (isset($data_row['destination_table_display_more_column'])) {
+                    $relation['destination_table_display_more_column'] = $data_row['destination_table_display_more_column'];
+                }
+
+                if (count($relation) == 5 && $data_row['type'] == 'relation') {
                     $new_data_row->relation = json_encode($relation);
                 }
                 $new_data_row->order = $index + 1;
@@ -378,7 +385,6 @@ class BadasoCRUDController extends Controller
 
                 $new_data_rows[] = $new_data_row;
             }
-
             $new_data_type->data_rows = $new_data_rows;
 
             if ($new_data_type->generate_permissions) {
