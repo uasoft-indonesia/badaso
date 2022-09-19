@@ -369,7 +369,7 @@ abstract class Controller extends BaseController
                             }
                         }
                     }
-                    $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
+                    $new_data[$key] = $this->getContentByType($data_type, $data_row, $value) != null ? $this->getContentByType($data_type, $data_row, $value) : '';
                 }
             }
             DB::table($data_type->name)->where('id', $id)->update($new_data);
