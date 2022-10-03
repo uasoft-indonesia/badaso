@@ -54,6 +54,14 @@
         <div class="badaso-upload-image__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
+          <badaso-select 
+          v-model="sortTypeValue" 
+          size="2" 
+          style="margin-bottom: 0px !important; margin-right: 1rem;"
+          placeholder="Sort Type" 
+          :items="sortTypeList"
+          @input="sortImages" >
+          </badaso-select>
           <vs-button
             color="danger"
             type="relief"
@@ -247,6 +255,18 @@ export default {
       },
       isValidImageUrl: undefined,
       model: null,
+      sortTypeValue: '',
+      sortTypeList: [
+        {
+          label : "Time",
+          value : 'time',
+        },
+        {
+          label : "Alphabet",
+          value : 'alphabet',
+        }
+
+      ],
     };
   },
   watch: {
@@ -364,13 +384,17 @@ export default {
         this.uploadImage(files[0]);
       }
     },
-    getImages() {
+    sortImages(event) {
+      this.getImages(event)
+    },
+    getImages(sortType) {
       if (this.getActiveFolder) {
         this.$openLoader();
         this.$api.badasoFile
           .browseUsingLfm({
             workingDir: this.getActiveFolder,
             type: "image",
+            sort_type: sortType ? sortType : 'time',
             page: this.page,
           })
           .then((res) => {
