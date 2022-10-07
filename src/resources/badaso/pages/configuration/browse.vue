@@ -347,7 +347,7 @@ export default {
               if (data.type === "hidden") {
                 data.value = data.details.value ? data.details.value : "";
               }
-              if(data.details.key === 'defaultRoleRegistration' ){
+              if(data.key === 'defaultRoleRegistration' ){
                  data.details.items = this.role
               }
               if (data.type === "switch") {
