@@ -367,7 +367,14 @@ export default {
             });
             return;
           }
-
+          if (!this.availableMimetypes.file.validMime.includes(file.type)) {
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: "File type not allowed",
+              color: "danger",
+            });
+            return;
+          }
           this.uploadFile(file);
         }
       }
