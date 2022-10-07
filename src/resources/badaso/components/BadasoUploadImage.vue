@@ -360,7 +360,14 @@ export default {
           });
           return;
         }
-
+        if (!this.availableMimetypes.image.validMime.includes(files[0].type)){
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: "File type not allowed",
+            color: "danger",
+          });
+          return;
+        }
         this.uploadImage(files[0]);
       }
     },
@@ -397,7 +404,7 @@ export default {
     uploadImage(file) {
       const files = new FormData();
       files.append("upload", file);
-      files.append("type", "image");
+      files.append("type", file.type);
       files.append("working_dir", this.getActiveFolder);
       this.$api.badasoFile
         .uploadUsingLfm(files)
