@@ -21,7 +21,7 @@
     @if ($is_exists && $disk != 'public' && $disk != 'local')
         <link rel="shortcut icon" href="{{ Storage::disk($disk)->url($favicon) }}" type="image/png">
     @else
-        <link rel="shortcut icon" href="{{ asset('storage' . $favicon) }}" type="image/png">
+        <link rel="shortcut icon" href="{{ asset('storage'. '/' . $favicon) }}" type="image/png">
     @endif
 
     <link rel="stylesheet" href="{{ mix('css/badaso.css') }}">
