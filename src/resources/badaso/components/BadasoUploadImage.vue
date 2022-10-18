@@ -428,7 +428,7 @@ export default {
     uploadImage(file) {
       const files = new FormData();
       files.append("upload", file);
-      files.append("type", file.type);
+      files.append("type", "image");
       files.append("working_dir", this.getActiveFolder);
       this.$api.badasoFile
         .uploadUsingLfm(files)
