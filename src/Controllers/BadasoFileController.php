@@ -54,14 +54,14 @@ class BadasoFileController extends Controller
 
     public function uploadFileUsingLfm(Request $request)
     {
-            $upload = new UploadController();
-            $file = $upload->upload();
-            
-            if(key_exists('error', $file->original)){
-                return ApiResponse::failed($file);
-            }
+        $upload = new UploadController();
+        $file = $upload->upload();
 
-            return ApiResponse::success(json_decode(json_encode($file)));
+        if (key_exists('error', $file->original)) {
+            return ApiResponse::failed($file);
+        }
+
+        return ApiResponse::success(json_decode(json_encode($file)));
     }
 
     public function deleteFileUsingLfm(Request $request)
