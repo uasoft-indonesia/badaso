@@ -446,7 +446,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -467,7 +467,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -476,7 +476,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -1179,7 +1179,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -1200,7 +1200,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -1209,7 +1209,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -1229,8 +1229,8 @@ class BadasoApiCrudManagementTest extends TestCase
             $request_body = [
                 'name' =>  $table_name,
                 'slug' =>  $table_name,
-                'displayNameSingular' =>  $table_label . '(update)',
-                'displayNamePlural' =>  $table_label . '(update)',
+                'displayNameSingular' =>  $table_label.'(update)',
+                'displayNamePlural' =>  $table_label.'(update)',
                 'icon' =>  'add',
                 'modelName' =>  $model,
                 'policyName' =>  '',
@@ -1314,14 +1314,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
             // delete controller
             $controller_name = "{$name}Controller.php";
-            $controller_path = app_path('Http/Controllers/' . $controller_name);
+            $controller_path = app_path('Http/Controllers/'.$controller_name);
             if (file_exists($controller_path)) {
                 unlink($controller_path);
             }
 
             // delete models
             $model_name = "{$name}.php";
-            $model_path = app_path('Models/' . $model_name);
+            $model_path = app_path('Models/'.$model_name);
             if (file_exists($model_path)) {
                 unlink($model_path);
             }
@@ -1495,8 +1495,8 @@ class BadasoApiCrudManagementTest extends TestCase
         $file_php = UploadedFile::fake()->create('document.php', 20);
         $file =
             [
-                "type" => 'file',
-                "upload" => $file_php
+                'type' => 'file',
+                'upload' => $file_php,
             ];
         $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $file);
         $message = json_decode($response['message'], true);
@@ -1505,8 +1505,8 @@ class BadasoApiCrudManagementTest extends TestCase
         // Upload file valid mimeType
         $file_pdf = UploadedFile::fake()->create('document.pdf', 200);
         $file = [
-            "type" => 'file',
-            "upload" => $file_pdf
+            'type' => 'file',
+            'upload' => $file_pdf,
         ];
         $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $file);
         $message = $response['data'];
@@ -1516,8 +1516,8 @@ class BadasoApiCrudManagementTest extends TestCase
         // Upload image valid mimeType
         $image_file = UploadedFile::fake()->image('image.jpg');
         $image = [
-            "type" => 'image',
-            "upload" => $image_file
+            'type' => 'image',
+            'upload' => $image_file,
         ];
         $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $image);
         $message = $response['data'];
