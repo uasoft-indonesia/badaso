@@ -81,9 +81,9 @@ class BadasoMaintenanceController extends Controller
 
     private function isUnderMaintenance()
     {
-        if(env('MIX_BADASO_MAINTENANCE')){
+        if (env('MIX_BADASO_MAINTENANCE')) {
             return true;
-        }else{
+        } else {
             $configuration_model = ConfigurationRedis::get();
             $maintenance = $configuration_model->where('key', 'maintenance')->firstOrFail();
 
