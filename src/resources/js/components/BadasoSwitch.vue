@@ -6,10 +6,18 @@
         <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
       </vs-tooltip>
     </label>
-    <vs-switch :value="value" @change="onChange" @input="handleInput($event)">
-      <span slot="on">{{ onLabel }}</span>
-      <span slot="off">{{ offLabel }}</span>
-    </vs-switch>
+    <div v-if="label == 'Maintenance for all pages.' && status === 'true'">
+      <vs-switch :value="value" @change="onChange" :disabled="status === 'true'" @input="handleInput($event)">
+        <span slot="on">{{ onLabel }}</span>
+        <span slot="off">{{ offLabel }}</span>
+      </vs-switch>
+    </div>
+    <div v-else>
+      <vs-switch :value="value" @change="onChange" @input="handleInput($event)">
+        <span slot="on">{{ onLabel }}</span>
+        <span slot="off">{{ offLabel }}</span>
+      </vs-switch>
+    </div>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
@@ -75,6 +83,10 @@ export default {
       type: String,
       default: null,
     },
+    status: {
+      type: String,
+      default: 'false',
+    }
   },
   methods: {
     handleInput(val) {
