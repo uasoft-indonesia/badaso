@@ -125,6 +125,7 @@
                   v-if="config.type === 'switch'"
                   :label="config.displayName"
                   size="10"
+                  :status="statusMaintenance"
                   v-model="config.value"
                 ></badaso-switch>
                 <badaso-slider
@@ -279,6 +280,7 @@ export default {
     configurations: [],
     role: [],
     willDeleteConfigurationId: null,
+    statusMaintenance: process.env.MIX_BADASO_MAINTENANCE
   }),
   computed: {
     groupList: {
@@ -374,6 +376,7 @@ export default {
             return data;
           });
           this.configurations = JSON.parse(JSON.stringify(configurations));
+
         })
         .catch((error) => {
           this.$closeLoader();
