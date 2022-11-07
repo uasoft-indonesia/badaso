@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Tests\Feature;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
@@ -1486,5 +1487,41 @@ class BadasoApiCrudManagementTest extends TestCase
         $this->deleteAllTestTables();
 
         $this->assertTrue(true);
+    }
+
+    public function testUploadImageFile()
+    {
+        // Upload file not valid mimeType
+        $file_php = UploadedFile::fake()->create('document.php', 20);
+        $file =
+            [
+                'type' => 'file',
+                'upload' => $file_php,
+            ];
+        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $file);
+        $message = json_decode($response['message'], true);
+        $this->assertArrayHasKey('error', $message['original']);
+
+        // Upload file valid mimeType
+        $file_pdf = UploadedFile::fake()->create('document.pdf', 200);
+        $file = [
+            'type' => 'file',
+            'upload' => $file_pdf,
+        ];
+        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $file);
+        $message = $response['data'];
+        $this->assertNull($response['errors']);
+        $this->assertArrayHasKey('uploaded', $message['original']);
+
+        // Upload image valid mimeType
+        $image_file = UploadedFile::fake()->image('image.jpg');
+        $image = [
+            'type' => 'image',
+            'upload' => $image_file,
+        ];
+        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $image);
+        $message = $response['data'];
+        $this->assertNull($response['errors']);
+        $this->assertArrayHasKey('uploaded', $message['original']);
     }
 }
