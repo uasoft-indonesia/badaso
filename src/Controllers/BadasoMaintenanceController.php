@@ -91,19 +91,19 @@ class BadasoMaintenanceController extends Controller
 
     private function checkMaintenanceConfiguration()
     {
-        if(isset($this->badaso_maintenance)){
-            if($this->badaso_maintenance == true){
+        if (isset($this->badaso_maintenance)) {
+            if ($this->badaso_maintenance == true) {
                 return true;
-            }else{  
+            } else {
                 return false;
             }
-        } else{
-            try{
+        } else {
+            try {
                 $configuration_model = ConfigurationRedis::get();
                 $maintenance = $configuration_model->where('key', 'maintenance')->firstOrFail();
-    
+
                 return $maintenance->value == '1' ? true : false;
-            } catch(Exception $e){
+            } catch (Exception $e) {
                 $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
 
                 return $maintenance->value == '1' ? true : false;
