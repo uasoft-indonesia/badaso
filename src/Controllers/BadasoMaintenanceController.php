@@ -34,6 +34,13 @@ class BadasoMaintenanceController extends Controller
     private $prefix = null;
 
     /**
+     * Maintenance key status.
+     *
+     * @var string
+     */
+    private $badaso_maintenance = null;
+
+    /**
      * Create a new controller instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
