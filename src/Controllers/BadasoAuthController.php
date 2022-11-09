@@ -46,7 +46,7 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (!$token = Auth::attempt($credentials)) {
+                        if (! $token = Auth::attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
