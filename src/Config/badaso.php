@@ -53,12 +53,12 @@ return [
         'web' => [],
         'badaso' => [
             '/maintenance',
-            '/' . env('MIX_BADASO_SECRET_LOGIN_PREFIX')
+            '/'.env('MIX_BADASO_SECRET_LOGIN_PREFIX'),
         ],
         'api' => [
             '/v1/configurations/applyable',
             '/v1/maintenance',
-            '/v1/auth/'. env('MIX_BADASO_SECRET_LOGIN_PREFIX'),
+            '/v1/auth/'.env('MIX_BADASO_SECRET_LOGIN_PREFIX'),
             '/v1/file/*',
         ],
     ],
