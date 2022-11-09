@@ -250,6 +250,7 @@ export default {
     edit: {
       multiple: "Simpan Konfigurasi",
     },
+    maintenanceMode: "Pengaturan maintenance hanya readonly."
   },
 
   crud: {

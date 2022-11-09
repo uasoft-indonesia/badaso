@@ -9,6 +9,7 @@
 <script>
 import AuthForgotPassword from "./auth/forgot-password";
 import AuthLogin from "./auth/login";
+import SecretLogin from "./auth/secret-login";
 import AuthRegister from "./auth/register";
 import AuthResetPassword from "./auth/reset-password";
 import AuthVerify from "./auth/verify";
@@ -64,6 +65,7 @@ export default {
   components: {
     AuthForgotPassword,
     AuthLogin,
+    SecretLogin,
     AuthRegister,
     AuthResetPassword,
     AuthVerify,

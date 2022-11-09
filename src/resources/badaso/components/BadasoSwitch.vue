@@ -1,13 +1,29 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-switch__container">
-    <label v-if="label != ''" for="" class="badaso-switch__label"
-      >{{ label }}
-      <vs-tooltip :text="tooltip" v-if="tooltip">
-        <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
-      </vs-tooltip>
-    </label>
+    <div v-if="label == 'Maintenance for all pages.' && status">
+      <label v-if="label != ''" for="" class="badaso-switch__label"
+        >{{ label }} <span style="color: red;">({{ $t("site.maintenanceMode")}} <a href="https://badaso-docs.uatech.co.id/getting-started/configuration">{{ $t("database.browse.fieldNotSupport.button.visitDocs")}}</a>)</span>
+        <vs-tooltip :text="tooltip" v-if="tooltip">
+          <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
+        </vs-tooltip>
+      </label>
+    </div>
+    <div v-else>
+      <label v-if="label != ''" for="" class="badaso-switch__label"
+        >{{ label }}
+        <vs-tooltip :text="tooltip" v-if="tooltip">
+          <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
+        </vs-tooltip>
+      </label>
+    </div>
     <div v-if="label == 'Maintenance for all pages.' && status === 'true'">
-      <vs-switch :value="value" @change="onChange" :disabled="status === 'true'" @input="handleInput($event)">
+      <vs-switch :value="true" @change="onChange" :disabled="status === 'true'" @input="handleInput($event)">
+        <span slot="on">{{ onLabel }}</span>
+        <span slot="off">{{ offLabel }}</span>
+      </vs-switch>
+    </div>
+    <div v-else-if="label == 'Maintenance for all pages.' && status === 'false'">
+      <vs-switch :value="false" @change="onChange" @input="handleInput($event)">
         <span slot="on">{{ onLabel }}</span>
         <span slot="off">{{ offLabel }}</span>
       </vs-switch>
@@ -84,8 +100,8 @@ export default {
       default: null,
     },
     status: {
-      type: String,
-      default: 'false',
+      type: Boolean,
+      default: false,
     }
   },
   methods: {

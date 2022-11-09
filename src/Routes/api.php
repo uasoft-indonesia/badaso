@@ -33,6 +33,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::post('/refresh-token', 'BadasoAuthController@refreshToken');
             Route::post('/verify', 'BadasoAuthController@verify');
             Route::post('/re-request-verification', 'BadasoAuthController@reRequestVerification');
+            Route::post('/'.env('MIX_BADASO_SECRET_LOGIN_PREFIX'), 'BadasoAuthController@secretLogin');
         });
 
         Route::group(['prefix' => 'auth/user'], function () {
