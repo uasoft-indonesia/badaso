@@ -3,10 +3,12 @@
 namespace Uasoft\Badaso\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\CaseConvert;
 use Uasoft\Badaso\Helpers\HandleFile;
+use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Models\DataType;
 
@@ -44,6 +46,7 @@ class ApiRequest
         $this->app = $app;
         $this->except = config('badaso.whitelist');
         $this->prefix = config('badaso.api_route_prefix');
+        $this->badaso_maintenance = config('badaso.badaso_maintenance');
     }
 
     public function handle($request, Closure $next)
@@ -72,9 +75,24 @@ class ApiRequest
 
     protected function isUnderMaintenance()
     {
-        $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+        if (isset($this->badaso_maintenance)) {
+            if ($this->badaso_maintenance == true) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            try {
+                $configuration_model = ConfigurationRedis::get();
+                $maintenance = $configuration_model->where('key', 'maintenance')->firstOrFail();
 
-        return $maintenance->value === '1' ? true : false;
+                return $maintenance->value == '1' ? true : false;
+            } catch (Exception $e) {
+                $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+
+                return $maintenance->value == '1' ? true : false;
+            }
+        }
     }
 
     protected function isAdministrator()

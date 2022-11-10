@@ -258,6 +258,7 @@ class BadasoSetup extends Command
             'MIX_DEFAULT_MENU' => 'general',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
+            "MIX_BADASO_SECRET_LOGIN_PREFIX" =>'badaso-secret-login',
             'MIX_API_ROUTE_PREFIX' => 'badaso-api',
             'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
             'MIX_FIREBASE_API_KEY' => '',
