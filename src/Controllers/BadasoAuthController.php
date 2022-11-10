@@ -17,7 +17,6 @@ use Uasoft\Badaso\Helpers\AuthenticatedUser;
 use Uasoft\Badaso\Helpers\Config;
 use Uasoft\Badaso\Mail\ForgotPassword;
 use Uasoft\Badaso\Mail\SendUserVerification;
-use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Models\Configuration;
 use Uasoft\Badaso\Models\EmailReset;
 use Uasoft\Badaso\Models\PasswordReset;
@@ -48,7 +47,7 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (!$token = auth()->attempt($credentials)) {
+                        if (! $token = auth()->attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
