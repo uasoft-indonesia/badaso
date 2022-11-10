@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use PHPOpenSourceSaver\JWTAuth\Contracts\Providers\Auth;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
@@ -47,18 +48,17 @@ class BadasoAuthController extends Controller
                 'email' => [
                     'required',
                     function ($attribute, $value, $fail) use ($credentials) {
-                        if (!$token = Auth::attempt($credentials)) {
+                        if (!$token = auth()->attempt($credentials)) {
                             $fail(__('badaso::validation.auth.invalid_credentials'));
                         }
                     },
                 ],
                 'password' => ['required'],
             ]);
-            $user = Auth::guard(config('badaso.authenticate.guard'))->user();
 
-            // verify email verified at
             $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
             if ($should_verify_email) {
+                $user = auth()->user();
                 if (is_null($user->email_verified_at)) {
                     $token = rand(111111, 999999);
                     $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
@@ -77,12 +77,18 @@ class BadasoAuthController extends Controller
                     return ApiResponse::success();
                 }
             }
+
+            $ttl = $this->getTTL($remember);
+            $token = auth()->setTTL($ttl)->attempt($credentials);
+
             activity('Authentication')
             ->causedBy(auth()->user() ?? null)
                 ->withProperties(['attributes' => auth()->user()])
                 ->log('Login has been success');
 
-            return TokenManagement::fromUser($user)->createToken($remember)->response();
+            return $this->createNewToken($token, auth()->user(), $remember);
+        } catch (JWTException $e) {
+            return ApiResponse::failed($e);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

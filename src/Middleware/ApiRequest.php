@@ -36,6 +36,13 @@ class ApiRequest
     protected $prefix = null;
 
     /**
+     * Maintenance key status.
+     *
+     * @var string
+     */
+    private $badaso_maintenance = null;
+    
+    /**
      * Create a new middleware instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
