@@ -42,7 +42,7 @@ class ApiRequest
      * @var string
      */
     private $badaso_maintenance = null;
-    
+
     /**
      * Create a new middleware instance.
      *
