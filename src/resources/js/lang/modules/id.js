@@ -40,6 +40,7 @@ export default {
     field: {
       name: "Nama",
       username: "Username",
+      phone: "Phone",
       email: "Email",
       password: "Kata sandi",
       passwordConfirmation: "Konfirmasi kata sandi",
@@ -490,8 +491,7 @@ export default {
         destinationTable: "Tabel Tujuan",
         destinationTableColumn: "Kolom Tujuan",
         destinationTableDisplayColumn: "Kolom Tujuan Untuk Ditampilkan",
-        destinationTableDisplayMoreColumn:
-          "Data Lain API",
+        destinationTableDisplayMoreColumn: "Data Lain API",
         saveRelation: "Simpan",
         cancelRelation: "Batal",
       },
