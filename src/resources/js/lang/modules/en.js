@@ -250,6 +250,7 @@ export default {
     edit: {
       multiple: "Update Configurations",
     },
+    maintenanceMode: "Maintenance setting is readonly."
   },
 
   crud: {
