@@ -3,8 +3,23 @@ import resource from "../resource";
 const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
   ? "/" + process.env.MIX_API_ROUTE_PREFIX
   : "/badaso-api";
+const secretLoginPrefix = process.env.MIX_BADASO_SECRET_LOGIN_PREFIX
+  ? "/" + process.env.MIX_BADASO_SECRET_LOGIN_PREFIX
+  : "/badaso-secret-login";
 
 export default {
+  secretLogin(data) {
+    const ep = apiPrefix + "/v1/auth" + secretLoginPrefix;
+    const response = resource.post(ep, data);
+    response.then((res) => {
+      if (res.data.accessToken) {
+        const token = res.data.accessToken;
+        localStorage.setItem("token", token);
+      }
+    });
+    return response;
+  },
+
   login(data) {
     const ep = apiPrefix + "/v1/auth/login";
     const response = resource.post(ep, data);

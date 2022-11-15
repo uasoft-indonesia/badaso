@@ -31,7 +31,60 @@ class BadasoAuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware(config('badaso.middleware.authenticate'), ['except' => ['login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification', 'validateTokenForgetPassword']]);
+        $this->middleware(config('badaso.middleware.authenticate'), ['except' => ['secretLogin', 'login', 'register', 'forgetPassword', 'resetPassword', 'verify', 'reRequestVerification', 'validateTokenForgetPassword']]);
+    }
+
+    public function secretLogin(Request $request)
+    {
+        try {
+            $remember = $request->get('remember', false);
+            $credentials = [
+                'email'    => $request->email,
+                'password' => $request->password,
+            ];
+            $request->validate([
+                'email' => [
+                    'required',
+                    function ($attribute, $value, $fail) use ($credentials) {
+                        if (! $token = Auth::attempt($credentials)) {
+                            $fail(__('badaso::validation.auth.invalid_credentials'));
+                        }
+                    },
+                ],
+                'password' => ['required'],
+            ]);
+            $user = Auth::guard(config('badaso.authenticate.guard'))->user();
+
+            // verify email verified at
+            $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
+            if ($should_verify_email) {
+                if (is_null($user->email_verified_at)) {
+                    $token = rand(111111, 999999);
+                    $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
+                    $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
+                    $data = [
+                        'user_id'            => $user->id,
+                        'verification_token' => $token,
+                        'expired_at'         => $expired_token,
+                        'count_incorrect'    => 0,
+                    ];
+
+                    UserVerification::firstOrCreate($data);
+
+                    $this->sendVerificationToken(['user' => $user, 'token' => $token]);
+
+                    return ApiResponse::success();
+                }
+            }
+            activity('Authentication')
+            ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => auth()->user()])
+                ->log('Login has been success');
+
+            return TokenManagement::fromUser($user)->createToken($remember)->response();
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
     }
 
     public function login(Request $request)

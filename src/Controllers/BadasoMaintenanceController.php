@@ -2,11 +2,13 @@
 
 namespace Uasoft\Badaso\Controllers;
 
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Redis\ConfigurationRedis;
+use Uasoft\Badaso\Models\Configuration;
 
 class BadasoMaintenanceController extends Controller
 {
@@ -32,6 +34,13 @@ class BadasoMaintenanceController extends Controller
     private $prefix = null;
 
     /**
+     * Maintenance key status.
+     *
+     * @var string
+     */
+    private $badaso_maintenance = null;
+
+    /**
      * Create a new controller instance.
      *
      * @param  \Illuminate\Contracts\Foundation\Application  $app
@@ -42,11 +51,12 @@ class BadasoMaintenanceController extends Controller
         $this->app = $app;
         $this->excepts = config('badaso.whitelist.badaso');
         $this->prefix = config('badaso.admin_panel_route_prefix');
+        $this->badaso_maintenance = config('badaso.badaso_maintenance');
     }
 
     public function isMaintenance(Request $request)
     {
-        if ($this->isUnderMaintenance() || $this->app->isDownForMaintenance()) {
+        if ($this->checkMaintenanceConfiguration() || $this->app->isDownForMaintenance()) {
             if ($this->isAdministrator()) {
                 return ApiResponse::success(['maintenance' => false]);
             }
@@ -79,12 +89,26 @@ class BadasoMaintenanceController extends Controller
         return false;
     }
 
-    private function isUnderMaintenance()
+    private function checkMaintenanceConfiguration()
     {
-        $model_configuration = ConfigurationRedis::get();
-        $maintenance = $model_configuration->where('key', 'maintenance')->firstOrFail();
+        if (isset($this->badaso_maintenance)) {
+            if ($this->badaso_maintenance == true) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            try {
+                $configuration_model = ConfigurationRedis::get();
+                $maintenance = $configuration_model->where('key', 'maintenance')->firstOrFail();
 
-        return $maintenance->value === '1' ? true : false;
+                return $maintenance->value == '1' ? true : false;
+            } catch (Exception $e) {
+                $maintenance = Configuration::where('key', 'maintenance')->firstOrFail();
+
+                return $maintenance->value == '1' ? true : false;
+            }
+        }
     }
 
     private function isAdministrator()
