@@ -158,6 +158,7 @@ export default {
     errors: {},
     name: "",
     username: "",
+    phone: "",
     email: "",
     password: "",
     passwordConfirmation: "",
@@ -172,6 +173,7 @@ export default {
         .register({
           name: this.name,
           username: this.username,
+          phone: this.phone,
           email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation,
