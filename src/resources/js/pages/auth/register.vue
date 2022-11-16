@@ -53,7 +53,7 @@
               ></span>
             </div>
           </div>
-          <!-- phone number -->
+
           <vs-input
             icon="phone"
             icon-after
