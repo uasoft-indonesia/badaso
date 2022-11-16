@@ -351,7 +351,7 @@ export default {
                  data.details.items = this.role
               }
               if (data.type === "switch") {
-                data.value = data.value == "0";
+                data.value = data.value == "1";
               }
               const typeRequiredItems = [
                 "checkbox",
