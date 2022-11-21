@@ -14,7 +14,7 @@ class AddPhoneNumberToBadasoUsersTable extends Migration
     public function up()
     {
         Schema::table('badaso_users', function (Blueprint $table) {
-            $table->string('phone', 255)->nullable()->after('avatar');
+            $table->string('phone', 20)->nullable()->after('avatar');
         });
     }
 
