@@ -53,6 +53,29 @@
               ></span>
             </div>
           </div>
+
+          <vs-input
+            icon="phone"
+            icon-after
+            size="default"
+            :placeholder="$t('register.field.phone')"
+            v-model="phone"
+            class="register__input"
+          />
+          <div v-if="errors.phone" class="register__error-container">
+            <div v-if="$helper.isArray(errors.phone)">
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.phone"
+                :key="index"
+              >
+                {{ info }}
+              </span>
+            </div>
+            <div v-else>
+              <span class="register__input--error" v-html="errors.phone"></span>
+            </div>
+          </div>
           <vs-input
             icon="email"
             icon-after
@@ -136,6 +159,7 @@ export default {
     errors: {},
     name: "",
     username: "",
+    phone:"",
     email: "",
     password: "",
     passwordConfirmation: "",
@@ -150,6 +174,7 @@ export default {
         .register({
           name: this.name,
           username: this.username,
+          phone:this.phone,
           email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation,

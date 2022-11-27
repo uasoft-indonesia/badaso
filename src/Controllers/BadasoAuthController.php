@@ -173,6 +173,7 @@ class BadasoAuthController extends Controller
             $request->validate([
                 'name'     => 'required|string|max:255',
                 'username' => 'required|string|max:255|alpha_num',
+                'phone'    => 'required|numeric|min:6',
                 'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
                 'password' => 'required|string|min:6|confirmed',
             ]);
@@ -180,6 +181,7 @@ class BadasoAuthController extends Controller
             $user = User::create([
                 'name'     => $request->get('name'),
                 'username' => $request->get('username'),
+                'phone' => $request->get('phone'),
                 'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);

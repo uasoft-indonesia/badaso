@@ -40,6 +40,7 @@ export default {
     field: {
       name: "Name",
       username: "Username",
+      phone:"Phone",
       email: "Email",
       password: "Password",
       passwordConfirmation: "Password Confirmation",

@@ -330,7 +330,7 @@ export default {
             this.role.push(temp)
             return data
         });
-      }) 
+      })
       .catch((error) => {
           this.$closeLoader();
           this.$vs.notify({
@@ -338,14 +338,14 @@ export default {
             text: error.message,
             color: "danger",
           });
-        }); 
+        });
       this.$api.badasoConfiguration
         .browse()
         .then((response) => {
           this.$closeLoader();
           const configurations = response.data.configurations.map((data) => {
             try {
-              data.details = JSON.parse(data.details);  
+              data.details = JSON.parse(data.details);
               if (data.type === "hidden") {
                 data.value = data.details.value ? data.details.value : "";
               }
