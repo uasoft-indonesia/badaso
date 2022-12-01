@@ -514,7 +514,6 @@ export default {
           return data;
         });
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        console.log(this.dataType.dataRows);
       } catch (error) {
         if (error.status == 503) {
           this.isMaintenance = true;
