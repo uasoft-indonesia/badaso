@@ -72,10 +72,19 @@ class GetData
 
     public static function clientSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
+        $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
-        $fields = array_merge($fields, $ids);
+        $field_manytomany = [];
 
+        foreach ($data_rows as $key => $data_row) {
+            if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
+                $field_manytomany[] = $data_row['field'];
+            }
+        }
+
+        $fields = array_diff(array_merge($fields, $ids), $field_manytomany);
+        
         $model = app($data_type->model_name);
         $order_field = $builder_params['order_field'];
         $order_direction = $builder_params['order_direction'];
@@ -113,13 +122,29 @@ class GetData
                     }
                 }
             }
-
             $records[] = self::getRelationData($data_type, $record);
         }
 
-        $entities['data'] = $records;
-        $entities['total'] = count($records);
+        // add field data form table polymoriphims
+        $records = collect($records)->map(function ($record) use ($data_rows) {
+            foreach ($data_rows as $index => $data_row) {
+                 if (isset($data_row->relation) && $data_row->relation['relation_type'] == 'belongs_to_many') {
+                    $table_manytomany = $data_row['field'];
+                    $data_relation = DB::table($table_manytomany)
+                        ->get();
+                    $record->$table_manytomany = $data_relation;
+                 }; 
+                }
+                return $record;
+        });
 
+        $data = [];
+        foreach ($records as $row) {
+            $data[] = self::getRelationData($data_type, $row);
+        }
+        
+        $entities['data'] = $data;
+        $entities['total'] = count($data);
         return $entities;
     }
 
@@ -198,12 +223,20 @@ class GetData
         $data_rows = collect($data_type->dataRows);
         $fields = $data_rows->where('browse', 1)->pluck('field')->all();
         $ids = $data_rows->where('field', 'id')->pluck('field')->all();
-        $fields = array_merge($fields, $ids);
+        $field_manytomany = [];
+
+        foreach ($data_rows as $key => $data_row) {
+            if(isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many'){
+                $field_manytomany[] = $data_row['field'];
+            }
+        }
+        
+        $fields = array_diff(array_merge($fields, $ids), $field_manytomany) ;
         $order_field = $builder_params['order_field'];
         $order_direction = $builder_params['order_direction'];
 
         if ($order_field) {
-            $records = DB::table($data_type->name)->select($fields)->orderBy($order_field, $order_direction);
+            $records = DB::table($data_type->name)->select( $fields)->orderBy($order_field, $order_direction);
         } else {
             $records = DB::table($data_type->name)->select($fields);
         }
@@ -242,7 +275,7 @@ class GetData
                         }
                         $record->{$data_row->field} = $upload_image_multiples;
                     }
-                } elseif ($data_row->type == 'upload_image') {
+                } else if ($data_row->type == 'upload_image') {
                     if (isset($record->{$data_row->field})) {
                         $upload_image = $record->{$data_row->field};
                         if (isset($upload_image)) {
@@ -258,6 +291,11 @@ class GetData
                             $record->{$data_row->field} = $upload_image;
                         }
                     }
+                } 
+                else if (isset($data_row->relation) && $data_row->relation['relation_type'] == 'belongs_to_many') {
+                    $table_manytomany = $data_row['field'];
+                    $data_relation = DB::table($table_manytomany)->get();
+                    $record->$table_manytomany = $data_relation;
                 }
             }
 
@@ -307,7 +345,7 @@ class GetData
                     $destination_table_display_column,
                 ];
 
-                if (count($destination_table_display_more_column) > 0) {
+                if (isset($destination_table_display_more_column)) {
                     foreach ($destination_table_display_more_column as $index => $item_destination_table_display_more_column) {
                         if (! in_array($item_destination_table_display_more_column, $arr_query_select)) {
                             $arr_query_select[] = $item_destination_table_display_more_column;
@@ -316,35 +354,50 @@ class GetData
                 }
 
                 if (isset($row->{$field->field})) {
-                    $relation_data = DB::table($destination_table)->select($arr_query_select)
-                        ->where($destination_table_column, $row->{$field->field})
-                        ->get();
-
-                    switch ($relation_type) {
-                        case 'belongs_to':
-                            if (isset($row->{$destination_table})) {
-                                array_push($row->{$destination_table}, collect($relation_data)->first());
-                            } else {
-                                $row->{$destination_table} = collect($relation_data)->toArray();
+                    if($field->relation['relation_type'] == 'belongs_to_many'){
+                        $data_table_destination = DB::table($destination_table)->get();
+                        $table_primary_id = $data_type['name'] . '_id';
+                        $row->{$field->field}->filter(function ($fields, $key) use ($data_table_destination, $destination_table, $destination_table_display_column) {
+                            foreach ($data_table_destination as $key => $value) {
+                                if($fields->{$destination_table.'_id'} == $value->id){
+                                    $fields->{$destination_table_display_column} = $value->{$destination_table_display_column};
+                                }
                             }
-                            break;
-
-                        case 'has_many':
-                            $row->{$destination_table} = collect($relation_data)->toArray();
-                            break;
-
-                        case 'has_many':
-                            $row->{$destination_table} = collect($relation_data)->first();
-                            break;
-
-                        default:
-                            // code...
-                            break;
-                    }
+                        });
+                        $row->{$field->field} = $row->{$field->field}->filter(function ($field, $key) use ($row,$table_primary_id) {
+                            if($field->{$table_primary_id} == $row->id){
+                                return $field;
+                            };
+                        });
+                    }else{
+                        $relation_data = DB::table($destination_table)->select($arr_query_select)
+                            ->where($destination_table_column, $row->{$field->field})
+                            ->get();
+                            switch ($relation_type) {
+                                case 'belongs_to':
+                                    if (isset($row->{$destination_table})) {
+                                        array_push($row->{$destination_table}, collect($relation_data)->first());
+                                    } else {
+                                        $row->{$destination_table} = collect($relation_data)->toArray();
+                                    }
+                                    break;
+        
+                                case 'has_many':
+                                    $row->{$destination_table} = collect($relation_data)->toArray();
+                                    break;
+        
+                                case 'has_one':
+                                    $row->{$destination_table} = collect($relation_data)->first();
+                                    break;
+        
+                                default:
+                                    // code...
+                                    break;
+                            }
+                    }   
                 }
             }
         }
-
         return $row;
     }
 }
