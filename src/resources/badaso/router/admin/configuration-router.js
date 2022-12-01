@@ -10,8 +10,7 @@ const logViewer = process.env.MIX_LOG_VIEWER_ROUTE
 
 const apiDocs = process.env.MIX_API_DOCS_ROUTE
   ? process.env.MIX_API_DOCS_ROUTE
-  : "api-docs";
-
+  : "api-docs"
 export default [
   {
     path: prefix + "/permission",

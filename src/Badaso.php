@@ -67,6 +67,7 @@ class Badaso
         'belongs_to',
         'has_one',
         'has_many',
+        'belongs_to_many',
     ];
 
     protected $protected_tables = [
