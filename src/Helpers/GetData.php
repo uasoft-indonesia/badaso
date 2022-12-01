@@ -332,6 +332,7 @@ class GetData
             $destination_table = array_key_exists('destination_table', $relation_detail) ? $relation_detail['destination_table'] : null;
             $destination_table_column = array_key_exists('destination_table_column', $relation_detail) ? $relation_detail['destination_table_column'] : null;
             $destination_table_display_column = array_key_exists('destination_table_display_column', $relation_detail) ? $relation_detail['destination_table_display_column'] : null;
+            $destination_table_display_more_column = array_key_exists('destination_table_display_more_column', $relation_detail) ? $relation_detail['destination_table_display_more_column'] : null;
 
             if (
                 $relation_type

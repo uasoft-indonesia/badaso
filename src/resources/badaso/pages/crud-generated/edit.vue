@@ -536,7 +536,7 @@ export default {
                   let destinationTableId = data.relation.destinationTable + 'Id'
                   data.value = [] 
                   Object.entries(record).filter(function (item,key) {
-                    data.value[key] = item[1][destinationTableId];
+                    return data.value[key] = item[1][destinationTableId];
               });
             } else {
               data.value =
