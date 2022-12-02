@@ -157,11 +157,10 @@ class BadasoCRUDController extends Controller
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
                         if (! Schema::hasColumn($request->name, $value)) {
-                            
                             $split_attribute = explode('.', $attribute);
                             $split_attribute[2] = 'relation_type';
                             $field_to_relation = join('.', $split_attribute);
-                            if (!$field_to_relation == 'belongs_to_many') {
+                            if (! $field_to_relation == 'belongs_to_many') {
                                 $request->{$attribute} == $value ? $value : $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                             }
                         } else {
@@ -192,9 +191,9 @@ class BadasoCRUDController extends Controller
             ]);
 
             $table_name = $request->input('name');
-            
+
             $data_type = DataType::find($request->input('id'));
-            
+
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
             $data_type->display_name_singular = $request->input('display_name_singular');
@@ -213,9 +212,9 @@ class BadasoCRUDController extends Controller
             $data_type->notification = json_encode($request->input('notification'));
             $data_type->is_soft_delete = $request->input('create_soft_delete');
             $data_type->save();
-            
+
             DataRow::where('data_type_id', $data_type->id)->delete();
-            
+
             $data_rows = $request->input('rows') ?? [];
             $new_data_rows = [];
             foreach ($data_rows as $index => $data_row) {
@@ -319,7 +318,7 @@ class BadasoCRUDController extends Controller
                             $split_attribute = explode('.', $attribute);
                             $split_attribute[2] = 'relation_type';
                             $field_to_relation = join('.', $split_attribute);
-                            if(!$field_to_relation == 'belongs_to_many'){
+                            if (! $field_to_relation == 'belongs_to_many') {
                                 $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
                             }
                         } else {
@@ -348,7 +347,7 @@ class BadasoCRUDController extends Controller
                     }
                 }],
             ]);
-            
+
             $table_name = $request->input('name');
             $new_data_type = new DataType();
             $new_data_type->name = $table_name;
@@ -401,7 +400,7 @@ class BadasoCRUDController extends Controller
                 if (isset($data_row['destination_table_display_more_column'])) {
                     $relation['destination_table_display_more_column'] = $data_row['destination_table_display_more_column'];
                 }
-                if (in_array(count($relation), range(4,5)) && $data_row['type'] == 'relation') {
+                if (in_array(count($relation), range(4, 5)) && $data_row['type'] == 'relation') {
                     $new_data_row->relation = json_encode($relation);
                 }
                 $new_data_row->order = $index + 1;
@@ -548,88 +547,88 @@ class BadasoCRUDController extends Controller
         return false;
     }
 
-    private function addTablePolymorphism($request){
+    private function addTablePolymorphism($request)
+    {
         foreach ($request['rows'] as $key => $value) {
             if (isset($value['relation_type']) && $value['relation_type'] == 'belongs_to_many') {
-              
                 $table = $value['field'];
                 $rows = [
                     0 => [
-                        "id" => "id",
-                        "field_name" => "id",
-                        "field_type" => "bigint",
-                        "field_length" => null,
-                        "field_null" => false,
-                        "field_attribute" => true,
-                        "field_increment" => true,
-                        "field_index" => "primary",
-                        "field_default" => null,
-                        "undeletable" => true,
+                        'id' => 'id',
+                        'field_name' => 'id',
+                        'field_type' => 'bigint',
+                        'field_length' => null,
+                        'field_null' => false,
+                        'field_attribute' => true,
+                        'field_increment' => true,
+                        'field_index' => 'primary',
+                        'field_default' => null,
+                        'undeletable' => true,
                     ],
                     1 => [
-                        "id" => $request['name'] . "_id",
-                        "field_name" => $request['name'] . "_id",
-                        "field_type" => "bigint",
-                        "field_length" => null,
-                        "field_null" => false,
-                        "field_attribute" => true,
-                        "field_increment" => false,
-                        "field_index" => "foreign",
-                        "field_default" => null,
+                        'id' => $request['name'].'_id',
+                        'field_name' => $request['name'].'_id',
+                        'field_type' => 'bigint',
+                        'field_length' => null,
+                        'field_null' => false,
+                        'field_attribute' => true,
+                        'field_increment' => false,
+                        'field_index' => 'foreign',
+                        'field_default' => null,
                     ],
                     2 => [
-                        "id" => $value['destination_table'] . "_id",
-                        "field_name" => $value['destination_table'] . "_id",
-                        "field_type" => "bigint",
-                        "field_length" => null,
-                        "field_null" => false,
-                        "field_attribute" => true,
-                        "field_increment" => false,
-                        "field_index" => "foreign",
-                        "field_default" => null,
+                        'id' => $value['destination_table'].'_id',
+                        'field_name' => $value['destination_table'].'_id',
+                        'field_type' => 'bigint',
+                        'field_length' => null,
+                        'field_null' => false,
+                        'field_attribute' => true,
+                        'field_increment' => false,
+                        'field_index' => 'foreign',
+                        'field_default' => null,
                     ],
                     3 => [
-                        "field_name" => "created_at",
-                        "field_type" => "timestamp",
-                        "field_length" => null,
-                        "field_null" => true,
-                        "field_attribute" => false,
-                        "field_increment" => false,
-                        "field_index" => null,
-                        "field_default" => null,
-                        "undeletable" => true,
-                        "indexes" => true,
+                        'field_name' => 'created_at',
+                        'field_type' => 'timestamp',
+                        'field_length' => null,
+                        'field_null' => true,
+                        'field_attribute' => false,
+                        'field_increment' => false,
+                        'field_index' => null,
+                        'field_default' => null,
+                        'undeletable' => true,
+                        'indexes' => true,
                     ],
                     4 => [
-                        "field_name" => "updated_at",
-                        "field_type" => "timestamp",
-                        "field_length" => null,
-                        "field_null" => true,
-                        "field_attribute" => false,
-                        "field_increment" => false,
-                        "field_index" => null,
-                        "field_default" => null,
-                        "undeletable" => true,
-                    ]
+                        'field_name' => 'updated_at',
+                        'field_type' => 'timestamp',
+                        'field_length' => null,
+                        'field_null' => true,
+                        'field_attribute' => false,
+                        'field_increment' => false,
+                        'field_index' => null,
+                        'field_default' => null,
+                        'undeletable' => true,
+                    ],
                 ];
 
                 $relations = [
-                    $request['name'] . "_id" => [
-                        "source_field" => $request['name'] . "_id",
-                        "target_table" => $request['name'],
-                        "target_field" => "id",
-                        "on_delete" => "cascade",
-                        "on_update" => "restrict",
+                    $request['name'].'_id' => [
+                        'source_field' => $request['name'].'_id',
+                        'target_table' => $request['name'],
+                        'target_field' => 'id',
+                        'on_delete' => 'cascade',
+                        'on_update' => 'restrict',
                     ],
-                    $value['destination_table'] . "_id" => [
-                        "source_field" => $value['destination_table'] . "_id",
-                        "target_table" => $value['destination_table'],
-                        "target_field" => "id",
-                        "on_delete" => "cascade",
-                        "on_update" => "restrict",
-                    ]
+                    $value['destination_table'].'_id' => [
+                        'source_field' => $value['destination_table'].'_id',
+                        'target_table' => $value['destination_table'],
+                        'target_field' => 'id',
+                        'on_delete' => 'cascade',
+                        'on_update' => 'restrict',
+                    ],
                 ];
-                if(!Schema::hasTable($table)){
+                if (! Schema::hasTable($table)) {
                     $this->file_name = $this->file_generator->generateBDOMigrationFile($table, 'create', $rows, $relations);
                     $exitCode = Artisan::call('migrate', [
                         '--path' => 'database/migrations/badaso/',
@@ -640,4 +639,3 @@ class BadasoCRUDController extends Controller
         }
     }
 }
-
