@@ -1061,9 +1061,15 @@ export default {
             return null
           });
           return flatList.join(",").replace(",", "");
-        } else {
-          return record[table] ? record[table][displayColumn] : null;
-        }
+        }  else if (relationType == "belongs_to_many") {
+          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
+          const lists = record[field]
+          let flatList = []
+          Object.keys(lists).forEach(function (ls, key) {
+            flatList.push(lists[ls][displayColumn]);
+          });
+          return flatList.join(",").replace(",", ", ");
+        } 
       } else {
         return null;
       }

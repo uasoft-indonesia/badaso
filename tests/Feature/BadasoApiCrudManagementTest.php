@@ -415,9 +415,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 if ($badaso_type == 'relation') {
                     $destination_field['badaso_type'] = 'id';
                     $destination_more_field['badaso_type'] = ['select_multiple'];
-
-                    $row['relationType'] = ['belongs_to', 'has_one', 'has_many'][rand(0, 2)];
-                    $row['relationType'] = true;
+                    $row['relationType'] = ['has_one', 'has_many'][rand(0, 1)];
                     $row['destinationTable'] = $table_names[0];
                     $row['destinationTableColumn'] = $destination_field['badaso_type'];
                     $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
@@ -856,7 +854,289 @@ class BadasoApiCrudManagementTest extends TestCase
         // add crud management
         foreach ($add_crud_table as $key => $request_data_crud_table) {
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_data_crud_table);
+            // $response->assertSuccessful();
+        }
+    }
+
+    public function testAddTableManyToMany()
+    {
+        $name_table = ['table_primary', 'table_destination', 'table_relation'];
+        foreach ($name_table as $key => $table) {
+            $table = [
+                'table' => $table,
+                'rows' => [
+                    0 => [
+                        'id' => 'id',
+                        'fieldName' => 'id',
+                        'fieldType' => 'bigint',
+                        'fieldLength' => null,
+                        'fieldNull' => false,
+                        'fieldAttribute' => true,
+                        'fieldIncrement' => true,
+                        'fieldIndex' => 'primary',
+                        'fieldDefault' => null,
+                        'undeletable' => true,
+                    ],
+                    1 => [
+                        'id' => '8b01b738-377b-4782-898f-c4c46722bf23',
+                        'fieldName' => 'name',
+                        'fieldType' => 'text',
+                        'fieldLength' => null,
+                        'fieldNull' => false,
+                        'fieldAttribute' => false,
+                        'fieldIncrement' => false,
+                        'fieldIndex' => null,
+                        'fieldDefault' => '',
+                    ],
+                    2 => [
+                        'fieldName' => 'created_at',
+                        'fieldType' => 'timestamp',
+                        'fieldLength' => null,
+                        'fieldNull' => true,
+                        'fieldAttribute' => false,
+                        'fieldIncrement' => false,
+                        'fieldIndex' => null,
+                        'fieldDefault' => null,
+                        'undeletable' => true,
+                        'indexes' => true,
+                    ],
+                    3 => [
+                        'fieldName' => 'updated_at',
+                        'fieldType' => 'timestamp',
+                        'fieldLength' => null,
+                        'fieldNull' => true,
+                        'fieldAttribute' => false,
+                        'fieldIncrement' => false,
+                        'fieldIndex' => null,
+                        'fieldDefault' => null,
+                        'undeletable' => true,
+                    ],
+                ],
+                'relations' => [],
+            ];
+            if ($table['table'] == 'table_relation') {
+                for ($i = 0; $i < 2; $i++) {
+                    $field[$i] = [
+                        'id' => $name_table[$i].'_id',
+                        'fieldName' => $name_table[$i].'_id',
+                        'fieldType' => 'bigint',
+                        'fieldLength' => null,
+                        'fieldNull' => false,
+                        'fieldAttribute' => true,
+                        'fieldIncrement' => false,
+                        'fieldIndex' => 'foreign',
+                        'fieldDefault' => null,
+                    ];
+                    unset($table['rows'][1]);
+                    array_push($table['rows'], $field[$i]);
+                }
+                $table['relations'] = [
+                    $name_table[1].'_id' => [
+                        'source_field' => $name_table[1].'_id',
+                        'target_table' => $name_table[1],
+                        'target_field' => 'id',
+                        'on_delete' => 'cascade',
+                        'on_update' => 'restrict',
+                    ],
+                    $name_table[0].'_id' => [
+                        'source_field' => $name_table[0].'_id',
+                        'target_table' => $name_table[0],
+                        'target_field' => 'id',
+                        'on_delete' => 'cascade',
+                        'on_update' => 'restrict',
+                    ],
+                ];
+            }
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/add'), $table);
             $response->assertSuccessful();
+        }
+        foreach ($name_table as $key => $crud_table) {
+            $crud_table = [
+                'name' => $crud_table,
+                'slug' => 'table-'.$key + 1,
+                'displayNameSingular' => $crud_table,
+                'displayNamePlural' => $crud_table,
+                'icon' => '',
+                'modelName' => '',
+                'policyName' => '',
+                'description' => '',
+                'generatePermissions' => true,
+                'createSoftDelete' => false,
+                'serverSide' => false,
+                'details' => '',
+                'controller' => '',
+                'orderColumn' => '',
+                'orderDisplayColumn' => '',
+                'orderDirection' => '',
+                'notification' => [],
+                'rows' => [
+                    0 => [
+                        'field' => 'id',
+                        'type' => 'number',
+                        'displayName' => 'Id',
+                        'required' => true,
+                        'browse' => false,
+                        'read' => false,
+                        'edit' => false,
+                        'add' => false,
+                        'delete' => false,
+                        'details' => '{}',
+                        'order' => 1,
+                        'setRelation' => false,
+                    ],
+                    1 => [
+                        'field' => 'name',
+                        'type' => 'text',
+                        'displayName' => 'name',
+                        'required' => true,
+                        'browse' => true,
+                        'read' => true,
+                        'edit' => true,
+                        'add' => true,
+                        'delete' => true,
+                        'details' => '{}',
+                        'order' => 1,
+                        'setRelation' => false,
+                        'relationType' => 'null',
+                        'destinationTable' => 'null',
+                        'destinationTableColumn' => 'null',
+                        'destinationTableDisplayColumn' => 'null',
+                    ],
+                    2 => [
+                        'field' => 'created_at',
+                        'type' => 'datetime',
+                        'displayName' => 'Created At',
+                        'required' => false,
+                        'browse' => true,
+                        'read' => true,
+                        'edit' => false,
+                        'add' => false,
+                        'delete' => false,
+                        'details' => '{}',
+                        'order' => 1,
+                        'setRelation' => false,
+                    ],
+                    3 => [
+                        'field' => 'updated_at',
+                        'type' => 'datetime',
+                        'displayName' => 'Updated At',
+                        'required' => false,
+                        'browse' => true,
+                        'read' => true,
+                        'edit' => false,
+                        'add' => false,
+                        'delete' => false,
+                        'details' => '{}',
+                        'order' => 1,
+                        'setRelation' => false,
+                    ],
+                ],
+            ];
+            $relation_field = [
+                'field' => 'table_relation',
+                'type' => 'relation',
+                'displayName' => 'table 1 table 2 relation',
+                'required' => true,
+                'browse' => true,
+                'read' => true,
+                'edit' => true,
+                'add' => true,
+                'delete' => true,
+                'details' => '{}',
+                'order' => 1,
+                'setRelation' => false,
+                'relationType' => 'belongs_to_many',
+                'destinationTable' => $name_table[1],
+                'destinationTableColumn' => 'id',
+                'destinationTableDisplayColumn' => 'name',
+            ];
+            if ($crud_table['name'] == $name_table[0]) {
+                array_push($crud_table['rows'], $relation_field);
+            }
+
+            if ($crud_table['name'] != 'table_relation') {
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $crud_table);
+                $response->assertSuccessful();
+            }
+        }
+    }
+
+    public function testEntityManytoMany()
+    {
+        $table_lists = ['table_relation', 'table_destination', 'table_primary'];
+        $name_table = ['table-2', 'table-1'];
+        $data_table_destination = [
+            'data' => [
+                'name' => 'option 1',
+            ],
+        ];
+        $data_table_primary = [
+            'data' => [
+                'name' => 'lorem ipsum',
+                'table_relation' => [2, 3],
+            ],
+        ];
+
+        foreach ($name_table as $key => $table) {
+            if ($table == 'table-2') {
+                for ($i = 1; $i < 4; $i++) {
+                    $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/add'), [
+                        'data' => [
+                            'name' => 'option '.$i,
+                        ],
+                    ]);
+                }
+            } else {
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/add'), $data_table_primary);
+                $response->assertSuccessful();
+            }
+        }
+
+        // browse
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table));
+        $response->assertSuccessful();
+        $data_browse = $response['data']['data'][0];
+
+        // edit
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/edit'), [
+            'data' => [
+                'id' => $data_browse['id'],
+                'name' => 'lorem ipsum',
+                'table_relation' => [1, 2],
+            ],
+        ]);
+        $response->assertSuccessful();
+
+        // delete
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/delete'), [
+            'slug' => $table,
+            'data' => [
+                [
+                    'field' => 'id',
+                    'value' => $data_browse['id'],
+                ],
+            ],
+        ]);
+
+        $response_crud_table = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud?'));
+        $response_crud_table = $response_crud_table['data'];
+        foreach ($response_crud_table['tablesWithCrudData'] as $key => $value_response_crud_table) {
+            if (in_array($value_response_crud_table['tableName'], $table_lists)) {
+                if ($value_response_crud_table['tableName'] != $table_lists[0]) {
+                    $ids_list_table[$key] = [
+                        'id' => $value_response_crud_table['crudData']['id'],
+                    ];
+                }
+            }
+        }
+        // Delete table
+        foreach ($table_lists as $key => $table) {
+            if ($table != $table_lists[0]) {
+                foreach ($ids_list_table as $key => $id) {
+                    $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), $id);
+                }
+            }
+            $deleted = Schema::dropIfExists($table);
         }
     }
 
@@ -933,6 +1213,21 @@ class BadasoApiCrudManagementTest extends TestCase
             $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/database/delete'), ['table' => $request_data_table]);
             $response->assertSuccessful();
         }
+
+        // Delete Migration
+        $response = CallHelperTest::withAuthorizeBearer($this)
+            ->json('GET', CallHelperTest::getUrlApiV1Prefix('/database/migration/browse'));
+
+        $response = $response->json('data');
+        $migration_name = [];
+        for ($i = count($response) - 8; $i < count($response); $i++) {
+            $migration_name[] = $response[$i]['migration'];
+        }
+        $response = CallHelperTest::withAuthorizeBearer($this)
+            ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/migration/delete'), [
+                'file_name' => $migration_name,
+            ]);
+        $response->assertSuccessful();
     }
 
     public function testAddEditEntityCrudManagement()
@@ -1460,6 +1755,7 @@ class BadasoApiCrudManagementTest extends TestCase
         //browse table to get file name migration
         $response = CallHelperTest::withAuthorizeBearer($this)
             ->json('GET', CallHelperTest::getUrlApiV1Prefix('/database/migration/browse'));
+
         $response = $response->json('data');
         $migration_name = [];
         for ($i = count($response) - 2; $i < count($response); $i++) {
