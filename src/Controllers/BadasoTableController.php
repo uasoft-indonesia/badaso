@@ -185,8 +185,7 @@ class BadasoTableController extends Controller
                     $relation_data = DB::table($destination_table)->select([
                         $destination_table_column,
                         $destination_table_display_column,
-                    ])
-                        ->get();
+                    ])->get();
                     $result = collect($relation_data);
                     $data[$destination_table] = $result->map(function ($res) use ($destination_table_column, $destination_table_display_column) {
                         $item = $res;

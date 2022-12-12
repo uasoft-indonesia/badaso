@@ -5,11 +5,13 @@ namespace Uasoft\Badaso\Controllers;
 use Exception;
 use Illuminate\Filesystem\Filesystem as LaravelFileSystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Uasoft\Badaso\ContentManager\FileGenerator;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
 use Uasoft\Badaso\Events\CRUDDataAdded;
 use Uasoft\Badaso\Events\CRUDDataDeleted;
@@ -27,6 +29,16 @@ use Uasoft\Badaso\Models\Permission;
 
 class BadasoCRUDController extends Controller
 {
+    /** @var FileGenerator */
+    private $file_generator;
+
+    private $file_name;
+
+    public function __construct(FileGenerator $file_generator)
+    {
+        $this->file_generator = $file_generator;
+    }
+
     public function browse(Request $request)
     {
         try {
@@ -126,6 +138,7 @@ class BadasoCRUDController extends Controller
 
     public function edit(Request $request)
     {
+        $this->addTablePolymorphism($request);
         DB::beginTransaction();
 
         try {
@@ -145,7 +158,12 @@ class BadasoCRUDController extends Controller
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
                         if (! Schema::hasColumn($request->name, $value)) {
-                            $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
+                            $split_attribute = explode('.', $attribute);
+                            $split_attribute[2] = 'relation_type';
+                            $field_to_relation = join('.', $split_attribute);
+                            if (! $field_to_relation == 'belongs_to_many') {
+                                $request->{$attribute} == $value ? $value : $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
+                            }
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
@@ -176,17 +194,6 @@ class BadasoCRUDController extends Controller
             $table_name = $request->input('name');
 
             $data_type = DataType::find($request->input('id'));
-
-            $guard = config('badaso.authenticate.guard');
-            $user_auth = Auth::guard($guard)->user();
-
-            activity('CRUD')
-                ->causedBy($user_auth ?? null)
-                ->withProperties([
-                    'old' => $data_type,
-                    'new' => $request->input(),
-                ])
-                ->log('Table '.$data_type->slug.' has been edited');
 
             $data_type->name = $table_name;
             $data_type->slug = $request->input('slug') ?? Str::slug($table_name);
@@ -240,11 +247,13 @@ class BadasoCRUDController extends Controller
                     if (isset($data_row['destination_table_display_column'])) {
                         $relation['destination_table_display_column'] = $data_row['destination_table_display_column'];
                     }
-                    if (count($relation) == 4) {
+                    if (isset($data_row['destination_table_display_more_column'])) {
+                        $relation['destination_table_display_more_column'] = $data_row['destination_table_display_more_column'];
+                    }
+                    if (in_array(count($relation), range(4, 5))) {
                         $new_data_row->relation = json_encode($relation);
                     }
                 }
-
                 $new_data_row->order = $index + 1;
                 $new_data_row->save();
 
@@ -276,6 +285,8 @@ class BadasoCRUDController extends Controller
 
     public function add(Request $request)
     {
+        $this->addTablePolymorphism($request);
+
         DB::beginTransaction();
 
         try {
@@ -295,7 +306,12 @@ class BadasoCRUDController extends Controller
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
                         if (! Schema::hasColumn($request->name, $value)) {
-                            $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
+                            $split_attribute = explode('.', $attribute);
+                            $split_attribute[2] = 'relation_type';
+                            $field_to_relation = join('.', $split_attribute);
+                            if (! $field_to_relation == 'belongs_to_many') {
+                                $fail(__('badaso::validation.crud.table_column_not_found', ['table_column' => "$request->name.{$value}"]));
+                            }
                         } else {
                             $table_fields = SchemaManager::describeTable($request->name);
                             $field = collect($table_fields)->where('field', $value)->first();
@@ -372,7 +388,10 @@ class BadasoCRUDController extends Controller
                 if (isset($data_row['destination_table_display_column'])) {
                     $relation['destination_table_display_column'] = $data_row['destination_table_display_column'];
                 }
-                if (count($relation) == 4 && $data_row['type'] == 'relation') {
+                if (isset($data_row['destination_table_display_more_column'])) {
+                    $relation['destination_table_display_more_column'] = $data_row['destination_table_display_more_column'];
+                }
+                if (in_array(count($relation), range(4, 5)) && $data_row['type'] == 'relation') {
                     $new_data_row->relation = json_encode($relation);
                 }
                 $new_data_row->order = $index + 1;
@@ -520,5 +539,97 @@ class BadasoCRUDController extends Controller
         }
 
         return false;
+    }
+
+    private function addTablePolymorphism($request)
+    {
+        foreach ($request['rows'] as $key => $value) {
+            if (isset($value['relation_type']) && $value['relation_type'] == 'belongs_to_many') {
+                $table = $value['field'];
+                $rows = [
+                    0 => [
+                        'id' => 'id',
+                        'field_name' => 'id',
+                        'field_type' => 'bigint',
+                        'field_length' => null,
+                        'field_null' => false,
+                        'field_attribute' => true,
+                        'field_increment' => true,
+                        'field_index' => 'primary',
+                        'field_default' => null,
+                        'undeletable' => true,
+                    ],
+                    1 => [
+                        'id' => $request['name'].'_id',
+                        'field_name' => $request['name'].'_id',
+                        'field_type' => 'bigint',
+                        'field_length' => null,
+                        'field_null' => false,
+                        'field_attribute' => true,
+                        'field_increment' => false,
+                        'field_index' => 'foreign',
+                        'field_default' => null,
+                    ],
+                    2 => [
+                        'id' => $value['destination_table'].'_id',
+                        'field_name' => $value['destination_table'].'_id',
+                        'field_type' => 'bigint',
+                        'field_length' => null,
+                        'field_null' => false,
+                        'field_attribute' => true,
+                        'field_increment' => false,
+                        'field_index' => 'foreign',
+                        'field_default' => null,
+                    ],
+                    3 => [
+                        'field_name' => 'created_at',
+                        'field_type' => 'timestamp',
+                        'field_length' => null,
+                        'field_null' => true,
+                        'field_attribute' => false,
+                        'field_increment' => false,
+                        'field_index' => null,
+                        'field_default' => null,
+                        'undeletable' => true,
+                        'indexes' => true,
+                    ],
+                    4 => [
+                        'field_name' => 'updated_at',
+                        'field_type' => 'timestamp',
+                        'field_length' => null,
+                        'field_null' => true,
+                        'field_attribute' => false,
+                        'field_increment' => false,
+                        'field_index' => null,
+                        'field_default' => null,
+                        'undeletable' => true,
+                    ],
+                ];
+
+                $relations = [
+                    $request['name'].'_id' => [
+                        'source_field' => $request['name'].'_id',
+                        'target_table' => $request['name'],
+                        'target_field' => 'id',
+                        'on_delete' => 'cascade',
+                        'on_update' => 'restrict',
+                    ],
+                    $value['destination_table'].'_id' => [
+                        'source_field' => $value['destination_table'].'_id',
+                        'target_table' => $value['destination_table'],
+                        'target_field' => 'id',
+                        'on_delete' => 'cascade',
+                        'on_update' => 'restrict',
+                    ],
+                ];
+                if (! Schema::hasTable($table)) {
+                    $this->file_name = $this->file_generator->generateBDOMigrationFile($table, 'create', $rows, $relations);
+                    $exitCode = Artisan::call('migrate', [
+                        '--path' => 'database/migrations/badaso/',
+                        '--force' => true,
+                    ]);
+                }
+            }
+        }
     }
 }

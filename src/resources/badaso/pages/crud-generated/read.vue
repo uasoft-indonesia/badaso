@@ -321,6 +321,26 @@ export default {
           return ls[displayColumn];
         });
         return flatList.join(", ");
+        
+      } else if (dataRow.relation.relationType == "belongs_to") {
+        const list = record[table];
+        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
+        const flatList = list.map((ls) => {
+          if (ls.id == record[field]) {
+            return ls[displayColumn];
+          }
+          return null
+        });
+        return flatList.join(",").replace(",", "");
+      } else if (dataRow.relation.relationType == "belongs_to_many") {
+        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
+        const lists = record[field]
+        let flatList = []
+        Object.keys(lists).forEach(function (ls, key) {
+          flatList.push(lists[ls][displayColumn]);
+        });
+        console.log(record);
+        return flatList.join(",").replace(",", ", ");
       } else {
         return record[table] ? record[table][displayColumn] : null;
       }
