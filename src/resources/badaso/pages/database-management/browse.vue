@@ -36,27 +36,6 @@
           </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
-    <!-- <badaso-breadcrumb-row>
-      <template slot="action">
-        <vs-button
-          color="primary"
-          type="relief"
-          :to="{ name: 'DatabaseManagementAdd' }"
-          v-if="$helper.isAllowed('add_database')"
-          ><vs-icon icon="add"></vs-icon>
-          {{ $t("database.browse.addButton") }}</vs-button
-        >
-        <vs-button
-          color="success"
-          type="relief"
-          @click="openRollbackDialog()"
-          v-if="$helper.isAllowed('rollback_database')"
-          ><vs-icon icon="refresh"></vs-icon>
-          {{ $t("database.browse.rollbackButton") }}</vs-button
-        >
-      </template>
-    </badaso-breadcrumb-row> -->
-
     <vs-popup
       :title="$t('database.browse.warning.title')"
       :active.sync="isNotMigrated"
