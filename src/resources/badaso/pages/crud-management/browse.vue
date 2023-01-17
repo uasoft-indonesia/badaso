@@ -139,7 +139,6 @@
 </template>
 
 <script>
-import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -216,7 +215,7 @@ export default {
     },
     prepareExcelExporter() {
       for (const iterator of this.dataType.fields) {
-        const field = iterator;
+        let field = iterator;
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
@@ -227,7 +226,7 @@ export default {
         this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
-      for (const iterator of this.dataType.fields) {
+      for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
