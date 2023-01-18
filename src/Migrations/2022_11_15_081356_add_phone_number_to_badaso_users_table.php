@@ -13,7 +13,7 @@ class AddPhoneNumberToBadasoUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('badaso_users', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->string('phone', 20)->nullable()->after('avatar');
         });
     }
@@ -25,7 +25,7 @@ class AddPhoneNumberToBadasoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('badaso_users', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->dropColumn('phone');
         });
     }
