@@ -27,7 +27,7 @@
     "masbug/flysystem-google-drive-ext": "*",
     "google/apiclient": "^2.12",
     "arcanedev/log-viewer": "^8.1|^9.0",
-    "darkaonline/l5-swagger": "^8.3.3",
+    "darkaonline/l5-swagger": "^8.3",
     "doctrine/dbal": "^2.5",
     "guzzlehttp/guzzle": "^7.2",
     "larapack/doctrine-support": "^0.1.9",
