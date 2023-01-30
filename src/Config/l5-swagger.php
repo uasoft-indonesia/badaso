@@ -224,21 +224,4 @@ return [
         'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', null),
 
         /*
-         * Pass the validatorUrl parameter to SwaggerUi init on the JS side.
-         * A null value here disables validation.
-        */
-        'validator_url' => null,
-
-        /*
-         * Persist authorization login after refresh browser
-         */
-        'persist_authorization' => true,
-
-        /*
-         * Uncomment to add constants which can be used in annotations
-         */
-        'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('APP_URL').'/'.env('MIX_API_ROUTE_PREFIX'),
-        ],
-    ],
-];
+         * Pass the validato
