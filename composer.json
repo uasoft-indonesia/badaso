@@ -27,7 +27,7 @@
     "masbug/flysystem-google-drive-ext": "*",
     "google/apiclient": "^2.12",
     "arcanedev/log-viewer": "^8.1|^9.0",
-    "darkaonline/l5-swagger": "8.2",
+    "darkaonline/l5-swagger": "^8.2",
     "doctrine/dbal": "^2.5",
     "guzzlehttp/guzzle": "^7.2",
     "larapack/doctrine-support": "^0.1.9",
@@ -46,7 +46,7 @@
     "spatie/laravel-backup": "^6.16|^8.1.0",
     "unisharp/laravel-filemanager": "^2.4",
     "webpatser/laravel-uuid": "^4.0",
-    "swagger-api/swagger-ui": "3.2"
+    "swagger-api/swagger-ui": "^4.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
