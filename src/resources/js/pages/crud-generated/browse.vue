@@ -1025,7 +1025,9 @@ export default {
           show: this.limit
         } 
       })
-      .catch(err=>{});
+      .catch(err=>{
+        console.log(err);
+      });
       this.getEntity();
     },
     handleChangePage(page) {
@@ -1037,7 +1039,9 @@ export default {
           show: this.limit
         }
       })
-      .catch(err => { });;
+      .catch(err => { 
+        console.log(err);
+      });;
       this.getEntity();
     },
     handleChangeLimit(limit) {
@@ -1050,7 +1054,9 @@ export default {
           show: this.limit
         }
       })
-      .catch(err => { });
+      .catch(err => { 
+        console.log(err);
+      });
       this.getEntity();
     },
     handleSort(field, direction) {
