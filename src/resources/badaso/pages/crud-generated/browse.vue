@@ -790,6 +790,11 @@ export default {
     // },
   },
   mounted() {
+    if (this.$route.query.search || this.$route.query.page) {
+      this.filter = this.$route.query.search;
+      this.page = this.$route.query.page;
+      this.show = this.$route.query.show;
+    }
     this.getEntity();
     this.loadIdsOfflineDelete();
   },
@@ -1013,15 +1018,45 @@ export default {
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
+      this.$router.replace({ 
+        query: { 
+          search: this.filter,
+          page: this.page,
+          show: this.limit
+        } 
+      })
+      .catch(err=>{
+        console.log(err);
+      });
       this.getEntity();
     },
     handleChangePage(page) {
       this.page = page;
+      this.$router.replace({
+        query: {
+          search: this.filter,
+          page: this.page,
+          show: this.limit
+        }
+      })
+      .catch(err => { 
+        console.log(err);
+       });;
       this.getEntity();
     },
     handleChangeLimit(limit) {
       this.page = 1;
       this.limit = limit;
+      this.$router.replace({
+        query: {
+          search: this.filter,
+          page: this.page,
+          show: this.limit
+        }
+      })
+      .catch(err => { 
+        console.log(err);
+      });
       this.getEntity();
     },
     handleSort(field, direction) {
