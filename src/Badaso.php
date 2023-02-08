@@ -56,6 +56,7 @@ class Badaso
         'hidden',
         'code',
         'relation',
+        'data_identifier',
     ];
 
     protected $supported_filter_operator = [
