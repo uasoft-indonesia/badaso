@@ -19,6 +19,7 @@
       <div class="top-navbar__menu--right">
         <slot name="right_menu"> </slot>
       </div>
+
     </div>
     <div v-if="viewType == $constants.MOBILE" class="vs-navbar--header">
       <slot name="navigation"> </slot>
@@ -29,6 +30,7 @@
       </div>
       <slot name="right_menu"></slot>
     </div>
+
   </header>
 </template>
 

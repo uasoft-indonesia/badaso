@@ -52,6 +52,7 @@ export default {
         .get(this.urlFileManager)
         .then((result) => {
           this.urlIframe = this.urlFileManager;
+          console.log(this.urlIframe,'u');
           this.isShow = true;
         })
         .catch((error) => {
