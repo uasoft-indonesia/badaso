@@ -40,6 +40,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'avatar',
         'additional_info',
+        'last_sent_token_at',
     ];
 
     /**
@@ -59,6 +60,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_sent_token_at' => 'datetime',
     ];
 
     protected static $logAttributes = [
