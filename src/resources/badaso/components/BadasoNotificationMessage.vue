@@ -40,18 +40,19 @@
           class="notification-item"
         >
           <h5>{{ message.title }}</h5>
-          <p>
-            {{
-              message.content.lenght > 100
-                ? message.content.substring(0, 100) + "..."
+          <span
+            v-html="
+              message.content.length > 20
+                ? message.content.substring(0, 20) + '...'
                 : message.content
-            }}
-          </p>
+            "
+          >
+          </span>
 
           <vs-row>
             <vs-icon icon="schedule" :color="topbarFontColor"></vs-icon>
-            <p>{{ message.createdAt }}</p>
           </vs-row>
+          <span>{{ getDate(message.createdAt) }}</span>
         </div>
       </vs-sidebar-item>
     </vs-sidebar>
@@ -78,8 +79,8 @@
       <vs-row>
         <div class="m-3">
           <h5>{{ detailMessage.title }}</h5>
-          <p class="mt-2">{{ detailMessage.content }}</p>
-
+          <!-- <p class="mt-2">{{ detailMessage.content }}</p> -->
+          <span v-html="detailMessage.content" class="mt-2"></span>
           <vs-divider></vs-divider>
 
           <div>
@@ -100,7 +101,7 @@
                 icon="schedule"
                 :color="topbarFontColor"
               ></vs-icon>
-              <span>{{ detailMessage.createdAt }}</span>
+              <span>{{ getDate(detailMessage.createdAt) }}</span>
             </vs-row>
           </div>
         </div>
@@ -110,6 +111,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   data() {
     return {
@@ -127,6 +130,9 @@ export default {
     },
   },
   methods: {
+    getDate(date) {
+      return moment(date).format("DD MMMM YYYY");
+    },
     openSideBarDetailMessage(message, index) {
       this.sideBarDetailMessage = true;
       this.sideBarNotification = false;
