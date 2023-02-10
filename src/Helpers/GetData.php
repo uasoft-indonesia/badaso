@@ -28,11 +28,11 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->get();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
-        $field_identify_related_user = $permissions[0]['field_identify_related_user'] ? $permissions[0]['field_identify_related_user'] : null;
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
-        $roles_can_see_all_data = json_decode($permissions[0]['roles_can_see_all_data']) ? json_decode($permissions[0]['roles_can_see_all_data']) : [];
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
         $user_roles = auth()->user()->roles;
 
         foreach ($user_roles as $key => $user_role) {
@@ -107,11 +107,11 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->get();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
-        $field_identify_related_user = $permissions[0]['field_identify_related_user'] ? $permissions[0]['field_identify_related_user'] : null;
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
-        $roles_can_see_all_data = json_decode($permissions[0]['roles_can_see_all_data']) ? json_decode($permissions[0]['roles_can_see_all_data']) : [];
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
         $user_roles = auth()->user()->roles;
 
         foreach ($user_roles as $key => $user_role) {
@@ -222,11 +222,11 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->get();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
-        $field_identify_related_user = $permissions[0]['field_identify_related_user'] ? $permissions[0]['field_identify_related_user'] : null;
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
-        $roles_can_see_all_data = json_decode($permissions[0]['roles_can_see_all_data']) ? json_decode($permissions[0]['roles_can_see_all_data']) : [];
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
         $user_roles = auth()->user()->roles;
 
         foreach ($user_roles as $key => $user_role) {
@@ -307,11 +307,11 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->get();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
-        $field_identify_related_user = $permissions[0]['field_identify_related_user'] ? $permissions[0]['field_identify_related_user'] : null;
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
-        $roles_can_see_all_data = json_decode($permissions[0]['roles_can_see_all_data']) ? json_decode($permissions[0]['roles_can_see_all_data']) : [];
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
         $user_roles = auth()->user()->roles;
 
         foreach ($user_roles as $key => $user_role) {
