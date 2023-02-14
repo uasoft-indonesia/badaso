@@ -33,10 +33,10 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        
-        if(!empty(auth()->user())){
+
+        if (! empty(auth()->user())) {
             $user_roles = auth()->user()->roles;
-    
+
             foreach ($user_roles as $key => $user_role) {
                 $is_roles = in_array($user_role->name, $roles_can_see_all_data);
             }
@@ -116,7 +116,7 @@ class GetData
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
 
-        if (!empty(auth()->user())) {
+        if (! empty(auth()->user())) {
             $user_roles = auth()->user()->roles;
 
             foreach ($user_roles as $key => $user_role) {
@@ -234,7 +234,7 @@ class GetData
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
 
-        if (!empty(auth()->user())) {
+        if (! empty(auth()->user())) {
             $user_roles = auth()->user()->roles;
 
             foreach ($user_roles as $key => $user_role) {
@@ -322,7 +322,7 @@ class GetData
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
 
-        if (!empty(auth()->user())) {
+        if (! empty(auth()->user())) {
             $user_roles = auth()->user()->roles;
 
             foreach ($user_roles as $key => $user_role) {
