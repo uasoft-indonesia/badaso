@@ -33,7 +33,7 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        dd(auth()->user());
+        dd(empty(auth()->user()), auth()->user());
         $user_roles = auth()->user()->roles;
 
         foreach ($user_roles as $key => $user_role) {
