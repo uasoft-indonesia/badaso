@@ -835,6 +835,8 @@ export default {
       alwaysAllow: "Always Allow",
       isPublic: "Is Public",
       action: "Action",
+      rolesCanSeeAllData: "Roles Can See All Data",
+      fieldIdentifyRelatedUser: "Field Identify Related User"
     },
     footer: {
       descriptionTitle: "Registries",
@@ -878,6 +880,14 @@ export default {
           title: "Table Name",
           placeholder: "Table Name",
         },
+        rolesCanSeeAllData: {
+          title: "Role can see all data",
+          placeholder: "Role can see all data",
+        },
+        fieldIdentifyRelatedUser: {
+          title: "Column for identify user related data",
+          placeholder: "Column for identify user related data",
+        }
       },
       button: "Save",
     },
@@ -897,6 +907,8 @@ export default {
         no: "No",
       },
       button: "Edit",
+      rolesCanSeeAllData: "Roles Can See All Data",
+      fieldIdentifyRelatedUser: "Field Identify Related User"
     },
   },
 

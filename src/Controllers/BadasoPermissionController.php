@@ -55,6 +55,8 @@ class BadasoPermissionController extends Controller
                 'always_allow' => 'required',
                 'is_public'    => 'required',
                 'table_name'   => 'nullable',
+                'roles_can_see_all_data'   => 'nullable',
+                'field_identify_related_user'   => 'nullable',
             ]);
 
             $permission = Permission::find($request->id);
@@ -63,6 +65,8 @@ class BadasoPermissionController extends Controller
             $permission->description = $request->description;
             $permission->always_allow = $request->always_allow;
             $permission->is_public = $request->is_public;
+            $permission->roles_can_see_all_data = $request->roles_can_see_all_data;
+            $permission->field_identify_related_user = $request->field_identify_related_user;
             $permission->save();
 
             DB::commit();
