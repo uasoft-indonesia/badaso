@@ -33,11 +33,13 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        dd(empty(auth()->user()), auth()->user());
-        $user_roles = auth()->user()->roles;
-
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+        
+        if(!empty(auth()->user())){
+            $user_roles = auth()->user()->roles;
+    
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -113,10 +115,13 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        $user_roles = auth()->user()->roles;
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+        if (!empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -228,10 +233,13 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        $user_roles = auth()->user()->roles;
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+        if (!empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -313,12 +321,14 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        $user_roles = auth()->user()->roles;
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+        if (!empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
-
         foreach ($data_rows as $key => $data_row) {
             if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
                 $field_manytomany[] = $data_row['field'];
