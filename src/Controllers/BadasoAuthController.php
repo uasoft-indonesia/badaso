@@ -164,9 +164,9 @@ class BadasoAuthController extends Controller
                 'username' => 'required|string|max:255|alpha_num',
                 'phone'    => 'required|numeric|min:6',
                 'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
-                'password' => 'required|string|min:6|confirmed'
+                'password' => 'required|string|min:6|confirmed',
             ]);
-            
+
             $user = User::create([
                 'name'     => $request->get('name'),
                 'username' => $request->get('username'),
@@ -174,7 +174,7 @@ class BadasoAuthController extends Controller
                 'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
             ]);
-            
+
             $role = $this->getCustomerRole();
 
             $user_role = new UserRole();
@@ -201,7 +201,7 @@ class BadasoAuthController extends Controller
                 return TokenManagement::fromUser($user)->createToken()->response();
             } else {
                 User::where('email', $request->get('email'))->update([
-                    'last_sent_token_at' => date('Y-m-d H:i:s')
+                    'last_sent_token_at' => date('Y-m-d H:i:s'),
                 ]);
                 $token = rand(111111, 999999);
                 $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
@@ -448,22 +448,22 @@ class BadasoAuthController extends Controller
             $request->validate([
                 'email' => 'required|string|email|max:255',
             ]);
-            
+
             $user = User::where('email', $request->email)->first();
             $time_wait_to_resend_token = Configuration::where('key', 'timeWaitEmailVerify')->first();
             $date_now = date('Y-m-d H:i:s');
-            $time_out_token = date('Y-m-d H:i:s', strtotime($user->last_sent_token_at . ' +  '. $time_wait_to_resend_token->value .' second'));
+            $time_out_token = date('Y-m-d H:i:s', strtotime($user->last_sent_token_at.' +  '.$time_wait_to_resend_token->value.' second'));
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
-            
+
             if ($date_now < $time_out_token) {
                 throw new SingleException(__('badaso::validation.verification.time_wait_loading'));
             }
 
             User::where('email', $request->get('email'))->update([
-                'last_sent_token_at' => date('Y-m-d H:i:s')
+                'last_sent_token_at' => date('Y-m-d H:i:s'),
             ]);
-            
+
             if (! $user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
             }
