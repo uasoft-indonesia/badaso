@@ -14,7 +14,7 @@ class AlterTableBadasoPermissionsTables extends Migration
     public function up()
     {
         try {
-            Schema::table(config('badaso.database.prefix') . 'permissions', function (Blueprint $table) {
+            Schema::table(config('badaso.database.prefix').'permissions', function (Blueprint $table) {
                 $table->string('roles_can_see_all_data')->after('is_public')->nullable();
                 $table->string('field_identify_related_user')->after('roles_can_see_all_data')->nullable();
             });
