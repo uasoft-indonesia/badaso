@@ -11,7 +11,7 @@ class GetData
 {
     public static function serverSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
-        $fields_data_identifier = collect($data_type->dataRows)->where('type', "data_identifier")->pluck('field')->all();
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $fields = array_merge($fields, $ids, $fields_data_identifier);
@@ -38,14 +38,14 @@ class GetData
 
         foreach ($user_roles as $key => $user_role) {
             $is_roles = in_array($user_role->name, $roles_can_see_all_data);
-        };
+        }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
-        
+
         $records = [];
         $query = $model::query()->select($fields);
-        
-        if (!$is_roles) {
+
+        if (! $is_roles) {
             if ($is_field) {
                 $query = $model::query()->select($fields)->where($field_identify_related_user, auth()->user()->id);
             }
@@ -98,7 +98,7 @@ class GetData
 
     public static function clientSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
-        $fields_data_identifier = collect($data_type->dataRows)->where('type', "data_identifier")->pluck('field')->all();
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
@@ -117,7 +117,7 @@ class GetData
 
         foreach ($user_roles as $key => $user_role) {
             $is_roles = in_array($user_role->name, $roles_can_see_all_data);
-        };
+        }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
 
@@ -137,14 +137,14 @@ class GetData
 
         if ($order_field) {
             $data = $model::query()->select($fields)->orderBy($order_field, $order_direction);
-            if (!$is_roles) {
+            if (! $is_roles) {
                 if ($is_field) {
                     $data = $model::query()->select($fields)->orderBy($order_field, $order_direction)->where($field_identify_related_user, auth()->user()->id);
                 }
             }
         } else {
             $data = $model::query()->select($fields);
-            if (!$is_roles) {
+            if (! $is_roles) {
                 if ($is_field) {
                     $data = $model::query()->select($fields)->where($field_identify_related_user, auth()->user()->id);
                 }
@@ -206,7 +206,7 @@ class GetData
 
     public static function serverSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
-        $fields_data_identifier = collect($data_type->dataRows)->where('type', "data_identifier")->pluck('field')->all();
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $fields = array_merge($fields, $ids, $fields_data_identifier);
@@ -232,17 +232,17 @@ class GetData
 
         foreach ($user_roles as $key => $user_role) {
             $is_roles = in_array($user_role->name, $roles_can_see_all_data);
-        };
-        
+        }
+
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
         $query = DB::table($data_type->name)->select($fields);
 
-        if (!$is_roles) {
+        if (! $is_roles) {
             if ($is_field) {
                 $query = DB::table($data_type->name)->select($fields)->where($field_identify_related_user, auth()->user()->id);
             }
         }
-        
+
         // soft delete implement
         $is_soft_delete = $data_type->is_soft_delete;
         if ($is_soft_delete) {
@@ -299,7 +299,7 @@ class GetData
 
     public static function clientSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
-        $fields_data_identifier = collect($data_type->dataRows)->where('type', "data_identifier")->pluck('field')->all();
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $data_rows = collect($data_type->dataRows);
         $fields = $data_rows->where('browse', 1)->pluck('field')->all();
         $ids = $data_rows->where('field', 'id')->pluck('field')->all();
@@ -314,11 +314,11 @@ class GetData
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
         $user_roles = auth()->user()->roles;
-        
+
         foreach ($user_roles as $key => $user_role) {
             $is_roles = in_array($user_role->name, $roles_can_see_all_data);
-        };
-        
+        }
+
         foreach ($data_rows as $key => $data_row) {
             if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
                 $field_manytomany[] = $data_row['field'];
@@ -395,18 +395,18 @@ class GetData
 
             return $record;
         });
-        
-        if (!$is_roles) {
-            if($is_field){
+
+        if (! $is_roles) {
+            if ($is_field) {
                 foreach ($records as $key => $record) {
                     if (isset($record->{$field_identify_related_user}) &&
                         $record->{$field_identify_related_user} != auth()->user()->id) {
                         unset($records[$key]);
-                    } 
+                    }
                 }
             }
         }
-        
+
         $data = [];
 
         foreach ($records as $row) {
