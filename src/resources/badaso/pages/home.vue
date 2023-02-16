@@ -13,7 +13,45 @@
             class="widget__icon"
             :icon="data.icon"
           ></vs-icon>
-          <h4 class="mb-1">{{ data.value }}</h4>
+          <template v-if="data.delimiter == ','">
+            <vs-row v-if="!data.prefixValue">
+              <h4 class="mb-1">
+                {{ setDelimiterComa(data.value) }}
+              </h4>
+            </vs-row>
+            <vs-row v-else>
+              <h4>{{ data.prefixValue }}</h4>
+              <h4 class="mb-1">
+                {{ setDelimiterComa(data.value) }}
+              </h4>
+            </vs-row>
+          </template>
+
+          <template v-else-if="data.delimiter == '.'">
+            <vs-row v-if="!data.prefixValue">
+              <h4 class="mb-1">
+                {{ setDelimiterPoint(data.value) }}
+              </h4>
+            </vs-row>
+            <vs-row v-else>
+              <h4>{{ data.prefixValue }}</h4>
+              <h4 class="mb-1">
+                {{ setDelimiterPoint(data.value) }}
+              </h4>
+            </vs-row>
+          </template>
+
+          <template v-else>
+            <vs-row v-if="!data.prefixValue">
+              <h4 class="mb-1">{{ data.value }}</h4>
+            </vs-row>
+            <vs-row v-else>
+              <h4>{{ data.prefixValue }}</h4>
+              <h4 class="mb-1">
+                {{ data.value }}
+              </h4>
+            </vs-row>
+          </template>
           <span>{{ data.label }}</span>
         </div>
         <vs-progress
@@ -91,6 +129,23 @@ export default {
           }
         });
       }
+    },
+    setDelimiterComa(price) {
+      const pieces = parseFloat(price).toFixed(2).split("");
+      let ii = pieces.length - 3;
+      while ((ii -= 3) > 0) {
+        pieces.splice(ii, 0, ",");
+      }
+      return pieces.join("").replace(/\.00/g, "");
+    },
+
+    setDelimiterPoint(price) {
+      const pieces = parseFloat(price).toFixed(2).split("");
+      let ii = pieces.length - 3;
+      while ((ii -= 3) > 0) {
+        pieces.splice(ii, 0, ",");
+      }
+      return pieces.join("").replace(/\.00/g, "").replace(/,/g, ".");
     },
   },
 };
