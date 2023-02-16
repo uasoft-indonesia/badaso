@@ -81,7 +81,7 @@
         </vs-sidebar-item>
       </div>
       <vs-row>
-        <div class="m-3">
+        <div class="m-3" style="margin-left:14px; margin-right:14px">
           <h5>{{ detailMessage.title }}</h5>
           <span v-html="detailMessage.content"></span>
 
