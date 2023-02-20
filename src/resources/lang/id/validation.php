@@ -23,6 +23,7 @@ return [
         'email_sended'               => 'Email verifikasi telah dikirim ke alamat email yang dimasukkan',
         'invalid_verification_token' => 'Token verifikasi tidak valid',
         'verification_not_found'     => 'Verifikasi tidak ditemukan',
+        'time_wait_loading'          => 'Tunggu sampai loading selesai',
     ],
     'database' => [
         'table_already_exists'      => 'Tabel :table sudah ada.',
