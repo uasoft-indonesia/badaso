@@ -225,7 +225,7 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden'"
+                    v-if="dataRow.type == 'hidden' || dataRow.type == 'data_identifier'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
