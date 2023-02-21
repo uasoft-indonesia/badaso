@@ -26,6 +26,7 @@
                 <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
                   <!-- <input type="text" v-model="dataRow.value"> -->
                   <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
+                  {{ dataRow.value }}
                   <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
@@ -304,16 +305,16 @@
                       ]
                     "
                   ></badaso-select>
-                  <badaso-select-multiple 
+                  <badaso-select-multiple
                     v-if="dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to_many'" 
+                    dataRow.relation.relationType == 'belongs_to_many'"
                     :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName" 
-                    v-model="dataRow.value" 
-                    size="12" 
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
                     :alert="
                         errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                      " 
+                      "
                     :items="
                       relationData[
                         $caseConvert.stringSnakeToCamel(
@@ -481,6 +482,7 @@ export default {
 
         this.dataType = dataType;
         this.record = response.data;
+
         const dataRows = this.dataType.dataRows.map((data) => {
           try {
             data.add = data.add == 1;
@@ -534,18 +536,24 @@ export default {
               } else if (data.type == "relation" && data.relation.relationType == 'belongs_to_many'){
                   let record = this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                   let destinationTableId = data.relation.destinationTable + 'Id'
-                  data.value = [] 
+                  data.value = []
                   Object.entries(record).filter(function (item,key) {
                     return data.value[key] = item[1][destinationTableId];
               });
             } else {
               data.value =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+
             }
           } catch (error) {}
           return data;
         });
+        console.log(dataRows,'data');
+
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+        //  this.dataType.dataRows = dataRows;
+        console.log(this.dataType.dataRows,'result');
+
       } catch (error) {
         if (error.status == 503) {
           this.isMaintenance = true;

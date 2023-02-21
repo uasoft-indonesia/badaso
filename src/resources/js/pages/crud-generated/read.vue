@@ -320,7 +320,7 @@ export default {
           return ls[displayColumn];
         });
         return flatList.join(", ");
-        
+
       } else if (dataRow.relation.relationType == "belongs_to") {
         const list = record[table];
         let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
