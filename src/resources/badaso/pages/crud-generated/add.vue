@@ -225,7 +225,7 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden'"
+                    v-if="dataRow.type == 'hidden' || dataRow.type == 'data_identifier'" 
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -233,15 +233,6 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-hidden>
-                  <badaso-data-identifier
-                    v-if="dataRow.type == 'data_identifier'"
-                    :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName"
-                    v-model="dataRow.value"
-                    :alert="
-                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    "
-                  ></badaso-data-identifier>
                   <badaso-checkbox
                     v-if="dataRow.type == 'checkbox'"
                     :label="dataRow.displayName"
