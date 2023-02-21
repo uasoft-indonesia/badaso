@@ -212,6 +212,9 @@ class BadasoAuthController extends Controller
 
                 return $this->createNewToken($token, auth()->user());
             } else {
+                User::where('email', $request->get('email'))->update([
+                    'last_sent_token_at' => date('Y-m-d H:i:s'),
+                ]);
                 $token = rand(111111, 999999);
                 $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
                 $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
@@ -468,8 +471,19 @@ class BadasoAuthController extends Controller
             ]);
 
             $user = User::where('email', $request->email)->first();
+            $time_wait_to_resend_token = Configuration::where('key', 'timeWaitEmailVerify')->first();
+            $date_now = date('Y-m-d H:i:s');
+            $time_out_token = date('Y-m-d H:i:s', strtotime($user->last_sent_token_at.' +  '.$time_wait_to_resend_token->value.' second'));
             $user_verification = UserVerification::where('user_id', $user->id)
                 ->first();
+
+            if ($date_now < $time_out_token) {
+                throw new SingleException(__('badaso::validation.verification.time_wait_loading'));
+            }
+
+            User::where('email', $request->get('email'))->update([
+                'last_sent_token_at' => date('Y-m-d H:i:s'),
+            ]);
 
             if (! $user_verification) {
                 throw new SingleException(__('badaso::validation.verification.verification_not_found'));
