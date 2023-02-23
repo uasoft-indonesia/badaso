@@ -26,7 +26,6 @@
                 <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
                   <!-- <input type="text" v-model="dataRow.value"> -->
                   <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-                  {{ dataRow.value }}
                   <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
@@ -522,9 +521,6 @@ export default {
                     this.$caseConvert.stringSnakeToCamel(data.field)
                   ].replace(" ", "T")
                 : null;
-            } else if (data.type == "date") {
-              var date = new Date(data.value); // M-D-YYYY
-              data.value = date.getTime();
             } else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
             } else if (
@@ -557,18 +553,7 @@ export default {
           } catch (error) {}
           return data;
         });
-        console.log(dataRows, "data");
-
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-
-        console.log(this.dataType.dataRows, "result");
-
-        const millis = new Date();
-
-        console.log(millis, "tes");
-
-        // same output as input
-        console.log(JSON.parse(JSON.stringify(millis)), "hasil tes");
       } catch (error) {
         if (error.status == 503) {
           this.isMaintenance = true;
