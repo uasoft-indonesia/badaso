@@ -748,6 +748,7 @@ import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import moment from "moment";
 export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowse",
@@ -866,6 +867,13 @@ export default {
         this.$closeLoader();
         this.data = response.data;
         this.records = response.data.data;
+        this.records.map((record) => {
+          if (record.createdAt || record.updatedAt){
+            record.createdAt = moment(record.createdAt).format('YYYY-MM-DD hh:mm:ss');
+            record.updatedAt = moment(record.updatedAt).format('YYYY-MM-DD hh:mm:ss');
+          }
+          return record;
+        })
         this.totalItem =
           response.data.total > 0
             ? Math.ceil(response.data.total / this.limit)

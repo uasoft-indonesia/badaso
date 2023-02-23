@@ -24,6 +24,7 @@ return [
         'email_sended'               => 'An verification mail has been send to your email',
         'invalid_verification_token' => 'Invalid verification token',
         'verification_not_found'     => 'Verification not found',
+        'time_wait_loading'          => 'Wait until loaded finish',
     ],
     'database' => [
         'table_already_exists'      => 'Table :table already exists.',
