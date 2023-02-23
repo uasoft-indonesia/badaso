@@ -2,7 +2,7 @@
   <vs-col class="badaso-widget__container">
     <vs-row>
       <vs-col
-        v-for="(data, index) in dashboardData"
+        v-for="(data, index) in widgets"
         :key="index"
         :vs-lg="col"
         vs-xs="12"
@@ -14,41 +14,7 @@
               class="widget__icon"
               :icon="data.icon"
             ></vs-icon>
-            <template v-if="data.delimiter == ','">
-              <vs-row v-if="!data.prefixValue">
-                <h4 class="mb-1">{{ setDelimiterComa(data.value) }}</h4>
-              </vs-row>
-              <vs-row v-else>
-                <h4>{{ data.prefixValue }}</h4>
-                <h4 class="mb-1">
-                  {{ setDelimiterComa(data.value) }}
-                </h4>
-              </vs-row>
-            </template>
-
-            <template v-else-if="data.delimiter == '.'">
-              <vs-row v-if="!data.prefixValue">
-                <h4 class="mb-1">{{ setDelimiterPoint(data.value) }}</h4>
-              </vs-row>
-              <vs-row v-else>
-                <h4>{{ data.prefixValue }}</h4>
-                <h4 class="mb-1">
-                  {{ setDelimiterPoint(data.value) }}
-                </h4>
-              </vs-row>
-            </template>
-
-            <template v-else>
-              <vs-row v-if="!data.prefixValue">
-                <h4 class="mb-1">{{ data.value }}</h4>
-              </vs-row>
-              <vs-row v-else>
-                <h4>{{ data.prefixValue }}</h4>
-                <h4 class="mb-1">
-                  {{ data.value }}
-                </h4>
-              </vs-row>
-            </template>
+            <h4>{{ data.value }}</h4>
             <span>{{ data.label }}</span>
           </div>
           <vs-progress
@@ -67,27 +33,38 @@
 export default {
   name: "BadasoWidget",
   components: {},
-  data: () => ({}),
+  data() {
+    return {};
+  },
   props: {
-    icon: {
-      type: String,
-      default: "",
+    // icon: {
+    //   type: String,
+    //   default: "",
+    // },
+    // value: {
+    //   type: String,
+    //   default: "",
+    // },
+    // label: {
+    //   type: String,
+    //   default: "",
+    // },
+    widgets: {
+      type: Array,
+      default: [],
     },
-    value: {
-      type: String,
-      default: "",
+    col: {
+      type: Number,
+      default: 12,
     },
-    label: {
-      type: String,
-      default: "",
+  },
+  methods: {
+    getPercent(value, max = 100) {
+      const percentage = 100 / max;
+      return value * percentage;
     },
-    delimiter: {
-      type: String,
-      default: "",
-    },
-    prefixValue: {
-      type: String,
-      default: "",
+    getProgressBarColor(value, max = 100) {
+      return value > max ? "danger" : "primary";
     },
   },
 };

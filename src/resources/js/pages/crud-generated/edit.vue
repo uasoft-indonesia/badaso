@@ -306,22 +306,25 @@
                     "
                   ></badaso-select>
                   <badaso-select-multiple
-                    v-if="dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to_many'"
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to_many'
+                    "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
                     size="12"
                     :alert="
-                        errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                      "
+                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
+                    "
                     :items="
                       relationData[
                         $caseConvert.stringSnakeToCamel(
                           dataRow.relation.destinationTable
                         )
                       ]
-                    ">
+                    "
+                  >
                   </badaso-select-multiple>
                   <badaso-text
                     v-if="
@@ -427,7 +430,7 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-        if (row && row.value || row && row.type == 'textarea') {
+        if ((row && row.value) || (row && row.type == "textarea")) {
           dataRows[row.field] = row.value;
         }
       }
@@ -498,62 +501,74 @@ export default {
             ) {
               const val =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
-                if (val) {
-                  data.value = val.split(",");
-                }
-              } else if (data.type == "switch") {
-                data.value = this.record[
-                  this.$caseConvert.stringSnakeToCamel(data.field)
+              if (val) {
+                data.value = val.split(",");
+              }
+            } else if (data.type == "switch") {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
               ]
                 ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                 : false;
             } else if (data.type == "slider") {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
-                );
-              } else if (data.type == "datetime") {
-                data.value = this.record[
-                  this.$caseConvert.stringSnakeToCamel(data.field)
-                ]
+              );
+            } else if (data.type == "datetime") {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
                 ? this.record[
-                  this.$caseConvert.stringSnakeToCamel(data.field)
-                ].replace(" ", "T")
-                : null;
-              } else if (data.value == undefined && data.type == "hidden") {
-                data.value = data.details.value ? data.details.value : "";
-              } else if (
-                data.type == "text" ||
-                data.type == "hidden" ||
-                data.type == "url" ||
-                data.type == "search" ||
-                data.type == "password"
-                ) {
-                  data.value = this.record[
                     this.$caseConvert.stringSnakeToCamel(data.field)
-                  ]
-                  ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
-                  : "";
-              } else if (data.type == "relation" && data.relation.relationType == 'belongs_to_many'){
-                  let record = this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
-                  let destinationTableId = data.relation.destinationTable + 'Id'
-                  data.value = []
-                  Object.entries(record).filter(function (item,key) {
-                    return data.value[key] = item[1][destinationTableId];
+                  ].replace(" ", "T")
+                : null;
+            } else if (data.type == "date") {
+              var date = new Date(data.value); // M-D-YYYY
+              data.value = date.getTime();
+            } else if (data.value == undefined && data.type == "hidden") {
+              data.value = data.details.value ? data.details.value : "";
+            } else if (
+              data.type == "text" ||
+              data.type == "hidden" ||
+              data.type == "url" ||
+              data.type == "search" ||
+              data.type == "password"
+            ) {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+                : "";
+            } else if (
+              data.type == "relation" &&
+              data.relation.relationType == "belongs_to_many"
+            ) {
+              let record =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              let destinationTableId = data.relation.destinationTable + "Id";
+              data.value = [];
+              Object.entries(record).filter(function (item, key) {
+                return (data.value[key] = item[1][destinationTableId]);
               });
             } else {
               data.value =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
-
             }
           } catch (error) {}
           return data;
         });
-        console.log(dataRows,'data');
+        console.log(dataRows, "data");
 
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
-        //  this.dataType.dataRows = dataRows;
-        console.log(this.dataType.dataRows,'result');
 
+        console.log(this.dataType.dataRows, "result");
+
+        const millis = new Date();
+
+        console.log(millis, "tes");
+
+        // same output as input
+        console.log(JSON.parse(JSON.stringify(millis)), "hasil tes");
       } catch (error) {
         if (error.status == 503) {
           this.isMaintenance = true;
