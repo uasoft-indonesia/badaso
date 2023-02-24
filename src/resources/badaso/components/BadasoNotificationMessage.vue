@@ -48,12 +48,11 @@
             "
           >
           </span>
-
-
           <vs-row style="align-items: center;">
             <vs-icon icon="schedule" :color="topbarFontColor" style="margin-right: 5px;"></vs-icon>
             <p>{{ message.createdAt }}</p>
           </vs-row>
+
         </div>
       </vs-sidebar-item>
     </vs-sidebar>
@@ -78,9 +77,8 @@
         </vs-sidebar-item>
       </div>
       <vs-row>
-        <div class="m-3">
+        <div class="m-3" style="margin-left:14px; margin-right:14px">
           <h5>{{ detailMessage.title }}</h5>
-          <!-- <p class="mt-2">{{ detailMessage.content }}</p> -->
           <span v-html="detailMessage.content" class="mt-2"></span>
           <vs-divider></vs-divider>
 

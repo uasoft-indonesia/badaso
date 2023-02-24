@@ -5,14 +5,16 @@ namespace Uasoft\Badaso\Helpers;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use ReflectionClass;
+use Uasoft\Badaso\Models\Permission;
 
 class GetData
 {
     public static function serverSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
-        $fields = array_merge($fields, $ids);
+        $fields = array_merge($fields, $ids, $fields_data_identifier);
 
         $model = app($data_type->model_name);
         $limit = $builder_params['limit'];
@@ -22,8 +24,34 @@ class GetData
         $filter_operator = $builder_params['filter_operator'];
         $filter_value = $builder_params['filter_value'];
 
+        $is_roles = false;
+        $field_identify_related_user = null;
+        $roles_can_see_all_data = [];
+
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
+
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
+
+        if (! empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
+        }
+
+        $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
+
         $records = [];
         $query = $model::query()->select($fields);
+
+        if (! $is_roles) {
+            if ($is_field) {
+                $query = $model::query()->select($fields)->where($field_identify_related_user, auth()->user()->id);
+            }
+        }
 
         // soft delete implement
         $is_soft_delete = $data_type->is_soft_delete;
@@ -72,10 +100,31 @@ class GetData
 
     public static function clientSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $field_manytomany = [];
+
+        $is_roles = false;
+        $field_identify_related_user = null;
+        $roles_can_see_all_data = [];
+
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
+
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
+
+        if (! empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
+        }
+
+        $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
 
         foreach ($data_rows as $key => $data_row) {
             if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
@@ -83,7 +132,7 @@ class GetData
             }
         }
 
-        $fields = array_diff(array_merge($fields, $ids), $field_manytomany);
+        $fields = array_diff(array_merge($fields, $ids, $fields_data_identifier), $field_manytomany);
 
         $model = app($data_type->model_name);
         $order_field = $builder_params['order_field'];
@@ -93,8 +142,18 @@ class GetData
 
         if ($order_field) {
             $data = $model::query()->select($fields)->orderBy($order_field, $order_direction);
+            if (! $is_roles) {
+                if ($is_field) {
+                    $data = $model::query()->select($fields)->orderBy($order_field, $order_direction)->where($field_identify_related_user, auth()->user()->id);
+                }
+            }
         } else {
             $data = $model::query()->select($fields);
+            if (! $is_roles) {
+                if ($is_field) {
+                    $data = $model::query()->select($fields)->where($field_identify_related_user, auth()->user()->id);
+                }
+            }
         }
         // soft delete implement
         $is_soft_delete = $data_type->is_soft_delete;
@@ -152,9 +211,10 @@ class GetData
 
     public static function serverSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
-        $fields = array_merge($fields, $ids);
+        $fields = array_merge($fields, $ids, $fields_data_identifier);
 
         $limit = $builder_params['limit'];
         $page = $builder_params['page'];
@@ -164,7 +224,32 @@ class GetData
         $filter_operator = $builder_params['filter_operator'];
         $filter_value = $builder_params['filter_value'];
 
+        $is_roles = false;
+        $field_identify_related_user = null;
+        $roles_can_see_all_data = [];
+
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
+
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
+
+        if (! empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
+        }
+
+        $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
         $query = DB::table($data_type->name)->select($fields);
+
+        if (! $is_roles) {
+            if ($is_field) {
+                $query = DB::table($data_type->name)->select($fields)->where($field_identify_related_user, auth()->user()->id);
+            }
+        }
 
         // soft delete implement
         $is_soft_delete = $data_type->is_soft_delete;
@@ -222,18 +307,36 @@ class GetData
 
     public static function clientSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
+        $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
         $data_rows = collect($data_type->dataRows);
         $fields = $data_rows->where('browse', 1)->pluck('field')->all();
         $ids = $data_rows->where('field', 'id')->pluck('field')->all();
         $field_manytomany = [];
+        $is_roles = false;
+        $field_identify_related_user = null;
+        $roles_can_see_all_data = [];
 
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+
+        $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
+
+        $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
+
+        if (! empty(auth()->user())) {
+            $user_roles = auth()->user()->roles;
+
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
+        }
         foreach ($data_rows as $key => $data_row) {
             if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
                 $field_manytomany[] = $data_row['field'];
             }
         }
 
-        $fields = array_diff(array_merge($fields, $ids), $field_manytomany);
+        $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
+        $fields = array_diff(array_merge($fields, $ids, $fields_data_identifier), $field_manytomany);
         $order_field = $builder_params['order_field'];
         $order_direction = $builder_params['order_direction'];
 
@@ -302,6 +405,17 @@ class GetData
 
             return $record;
         });
+
+        if (! $is_roles) {
+            if ($is_field) {
+                foreach ($records as $key => $record) {
+                    if (isset($record->{$field_identify_related_user}) &&
+                        $record->{$field_identify_related_user} != auth()->user()->id) {
+                        unset($records[$key]);
+                    }
+                }
+            }
+        }
 
         $data = [];
 
