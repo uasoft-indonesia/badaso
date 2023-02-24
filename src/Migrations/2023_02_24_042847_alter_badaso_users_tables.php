@@ -13,7 +13,7 @@ class AlterBadasoUsersTables extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->timestamp('last_sent_token_at')->nullable()->after('remember_token');
         });
     }
@@ -25,6 +25,6 @@ class AlterBadasoUsersTables extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'users');
+        Schema::dropIfExists(config('badaso.database.prefix').'users');
     }
 }
