@@ -37,7 +37,9 @@ export default {
   props: {
     widgets: {
       type: Array,
-      default: [],
+      default: () => {
+        return [];
+      },
     },
     col: {
       type: Number,
