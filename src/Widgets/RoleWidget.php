@@ -24,7 +24,7 @@ class RoleWidget implements WidgetInterface
             'icon' => 'accessibility',
             'value' => Role::count(),
             'prefix_value' => '',
-            'delimiter' => '.'
+            'delimiter' => '.',
         ];
     }
 }
