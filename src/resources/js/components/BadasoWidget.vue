@@ -2,7 +2,7 @@
   <vs-col class="badaso-widget__container">
     <vs-row>
       <vs-col
-        v-for="(data, index) in datas"
+        v-for="(data, index) in widgets"
         :key="index"
         :vs-lg="col"
         vs-xs="12"
@@ -37,7 +37,7 @@ export default {
     return {};
   },
   props: {
-    datas: {
+    widgets: {
       type: Array,
       default: [],
     },
