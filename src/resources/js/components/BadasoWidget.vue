@@ -33,25 +33,13 @@
 export default {
   name: "BadasoWidget",
   components: {},
-  data() {
-    return {};
-  },
+  data: () => ({}),
   props: {
-    // icon: {
-    //   type: String,
-    //   default: "",
-    // },
-    // value: {
-    //   type: String,
-    //   default: "",
-    // },
-    // label: {
-    //   type: String,
-    //   default: "",
-    // },
     widgets: {
       type: Array,
-      default: [],
+      default: () => {
+        return [];
+      },
     },
     col: {
       type: Number,
