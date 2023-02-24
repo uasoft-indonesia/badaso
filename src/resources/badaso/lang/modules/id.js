@@ -820,6 +820,8 @@ export default {
       alwaysAllow: "Selalu diizinkan",
       isPublic: "Publik",
       action: "Aksi",
+      rolesCanSeeAllData: "Role yang dapat melihat semua data",
+      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user"
     },
     help: {
       alwaysAllow:
@@ -868,6 +870,14 @@ export default {
           title: "Nama Tabel",
           placeholder: "Nama Tabel",
         },
+        rolesCanSeeAllData: {
+          title: "Role dapat melihat semua data",
+          placeholder: "Role dapat melihat semua data",
+        },
+        fieldIdentifyRelatedUser: {
+          title: "Kolom relasi untuk identifikasi data user",
+          placeholder: "Kolom relasi untuk identifikasi data user",
+        }
       },
       button: "Simpan",
     },
@@ -887,6 +897,8 @@ export default {
         no: "Tidak",
       },
       button: "Ubah",
+      rolesCanSeeAllData: "Role yang dapat melihat semua data",
+      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user"
     },
   },
 

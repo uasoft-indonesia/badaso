@@ -225,7 +225,7 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden'"
+                    v-if="dataRow.type == 'hidden' || dataRow.type == 'data_identifier'" 
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -420,11 +420,13 @@ export default {
     isMaintenance: false,
     dataLength: 0,
     pathname: location.pathname,
+    userId: "",
   }),
   mounted() {
     this.getDataType();
     this.getRelationDataBySlug();
     this.requestObjectStoreData();
+    this.getUser();
   },
   methods: {
     submitForm() {
@@ -436,6 +438,9 @@ export default {
       for (const row of this.dataType.dataRows) {
         if (row && row.value || row.type == 'switch' ||  row.type == 'slider') {
           dataRows[row.field] = row.value;
+        }
+        if (row.type == 'data_identifier'){
+          dataRows[row.field] = this.userId;
         }
       }
 
@@ -555,6 +560,25 @@ export default {
         }
       });
     },
+    getUser() {
+      this.errors = {};
+      this.$openLoader();
+      this.$api.badasoAuthUser
+        .user({})
+        .then((response) => {
+          this.$closeLoader();
+          this.userId = response.data.user.id;
+        })
+        .catch((error) => {
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    }
   },
   computed: {
     isOnline: {
