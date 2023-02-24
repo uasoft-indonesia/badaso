@@ -24,7 +24,7 @@ class PermissionWidget implements WidgetInterface
             'icon' => 'lock',
             'value' => Permission::count(),
             'prefix_value' => '',
-            'delimiter' => '.'
+            'delimiter' => '.',
         ];
     }
 }
