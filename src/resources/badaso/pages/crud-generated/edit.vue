@@ -304,16 +304,16 @@
                       ]
                     "
                   ></badaso-select>
-                  <badaso-select-multiple 
+                  <badaso-select-multiple
                     v-if="dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to_many'" 
+                    dataRow.relation.relationType == 'belongs_to_many'"
                     :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName" 
-                    v-model="dataRow.value" 
-                    size="12" 
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
                     :alert="
                         errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                      " 
+                      "
                     :items="
                       relationData[
                         $caseConvert.stringSnakeToCamel(
@@ -509,15 +509,16 @@ export default {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                 );
-              } else if (data.type == "datetime") {
-                data.value = this.record[
-                  this.$caseConvert.stringSnakeToCamel(data.field)
-                ]
+              } else if (data.type == "datetime" || data.type == "date") {
+              var dateValue = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
                 ? this.record[
-                  this.$caseConvert.stringSnakeToCamel(data.field)
-                ].replace(" ", "T")
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+                  ].replace(" ", "T")
                 : null;
-              } else if (data.value == undefined && data.type == "hidden") {
+              data.value = new Date(dateValue);
+            } else if (data.value == undefined && data.type == "hidden") {
                 data.value = data.details.value ? data.details.value : "";
               } else if (
                 data.type == "text" ||
@@ -534,7 +535,7 @@ export default {
               } else if (data.type == "relation" && data.relation.relationType == 'belongs_to_many'){
                   let record = this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                   let destinationTableId = data.relation.destinationTable + 'Id'
-                  data.value = [] 
+                  data.value = []
                   Object.entries(record).filter(function (item,key) {
                     return data.value[key] = item[1][destinationTableId];
               });
