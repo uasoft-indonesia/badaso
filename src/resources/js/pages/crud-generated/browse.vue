@@ -1075,7 +1075,7 @@ export default {
     handleSelect(data) {
       this.selected = data;
     },
-    displayRelationData(record, dataRow) {  
+    displayRelationData(record, dataRow) {
       if (dataRow.relation) {
         const relationType = dataRow.relation.relationType;
         const table = this.$caseConvert.stringSnakeToCamel(
@@ -1112,7 +1112,7 @@ export default {
             flatList.push(lists[ls][displayColumn]);
           });
           return flatList.join(",").replace(",", ", ");
-        } 
+        }
       } else {
         return null;
       }

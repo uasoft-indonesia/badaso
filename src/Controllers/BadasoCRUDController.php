@@ -76,6 +76,7 @@ class BadasoCRUDController extends Controller
             $request->validate([
                 'table' => 'required|exists:Uasoft\Badaso\Models\DataType,name',
             ]);
+
             $table = $request->input('table', '');
             $data_type = Badaso::model('DataType')::where('name', $table)->first();
             $data_rows = $this->dataRowsTypeReplace($data_type->dataRows);
@@ -120,6 +121,7 @@ class BadasoCRUDController extends Controller
             $request->validate([
                 'slug' => 'required|exists:Uasoft\Badaso\Models\DataType,slug',
             ]);
+
             $slug = $request->input('slug', '');
             $data_type = Badaso::model('DataType')::where('slug', $slug)->first();
             $data_rows = $this->dataRowsTypeReplace($data_type->dataRows);
@@ -461,11 +463,11 @@ class BadasoCRUDController extends Controller
             DB::commit();
 
             activity('CRUD')
-            ->causedBy(auth()->user() ?? null)
-            ->withProperties(['attributes' => $data_type])
-            ->performedOn($data_type)
-            ->event('deleted')
-            ->log('CRUD table '.$data_type->slug.' has been deleted');
+                ->causedBy(auth()->user() ?? null)
+                ->withProperties(['attributes' => $data_type])
+                ->performedOn($data_type)
+                ->event('deleted')
+                ->log('CRUD table '.$data_type->slug.' has been deleted');
 
             return ApiResponse::success();
         } catch (Exception $e) {

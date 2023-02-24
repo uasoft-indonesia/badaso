@@ -57,7 +57,6 @@ class BadasoBaseController extends Controller
             $request->validate([
                 'id' => 'required',
             ]);
-
             $slug = $this->getSlug($request);
             $data_type = $this->getDataType($slug);
             $request->validate([

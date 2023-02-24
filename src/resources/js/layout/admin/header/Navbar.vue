@@ -58,7 +58,12 @@
               <span v-else>{{ item.key }}</span>
             </vs-dropdown-item>
           </vs-dropdown-menu>
+
+
         </vs-dropdown>
+
+
+
       </div>
       <div slot="right_menu">
         <badaso-notification-message

@@ -321,16 +321,16 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
-                  <badaso-select-multiple 
+                  <badaso-select-multiple
                     v-if="dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to_many'" 
+                    dataRow.relation.relationType == 'belongs_to_many'"
                     :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName" 
-                    v-model="dataRow.value" 
-                    size="12" 
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    " 
+                    "
                     :items="
                       relationData[
                         $caseConvert.stringSnakeToCamel(
@@ -449,7 +449,7 @@ export default {
         this.isValid = false;
         return;
       }
-      
+
       // start request
       this.$openLoader();
       this.$api.badasoEntity
