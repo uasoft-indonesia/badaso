@@ -27,14 +27,14 @@ class Permission extends Model
     public static function generateFor($table_name, $is_maintenance = false)
     {
         $permissions = [];
-        $permissions[] = self::firstOrCreate(['key' => 'browse_'.$table_name, 'description' => 'Browse '.$table_name, 'table_name' => $table_name]);
-        $permissions[] = self::firstOrCreate(['key' => 'read_'.$table_name, 'description' => 'Read '.$table_name, 'table_name' => $table_name]);
-        $permissions[] = self::firstOrCreate(['key' => 'edit_'.$table_name, 'description' => 'Edit '.$table_name, 'table_name' => $table_name]);
-        $permissions[] = self::firstOrCreate(['key' => 'add_'.$table_name, 'description' => 'Add '.$table_name, 'table_name' => $table_name]);
-        $permissions[] = self::firstOrCreate(['key' => 'delete_'.$table_name, 'description' => 'Delete '.$table_name, 'table_name' => $table_name]);
+        $permissions[] = self::firstOrCreate(['key' => 'browse_'.$table_name, 'description' => 'Browse '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+        $permissions[] = self::firstOrCreate(['key' => 'read_'.$table_name, 'description' => 'Read '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+        $permissions[] = self::firstOrCreate(['key' => 'edit_'.$table_name, 'description' => 'Edit '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+        $permissions[] = self::firstOrCreate(['key' => 'add_'.$table_name, 'description' => 'Add '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+        $permissions[] = self::firstOrCreate(['key' => 'delete_'.$table_name, 'description' => 'Delete '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
 
         if ($is_maintenance) {
-            $permissions[] = self::firstOrCreate(['key' => 'maintenance_'.$table_name, 'description' => 'Maintenance '.$table_name, 'table_name' => $table_name]);
+            $permissions[] = self::firstOrCreate(['key' => 'maintenance_'.$table_name, 'description' => 'Maintenance '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
         }
 
         $administrator = Role::where('name', 'administrator')->firstOrFail();

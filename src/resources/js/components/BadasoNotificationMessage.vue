@@ -49,8 +49,6 @@
             "
           >
           </span>
-
-
           <vs-row style="align-items: center;">
             <vs-icon icon="schedule" :color="topbarFontColor" style="margin-right: 5px;"></vs-icon>
             <p>{{ message.createdAt }}</p>
@@ -80,7 +78,7 @@
         </vs-sidebar-item>
       </div>
       <vs-row>
-        <div class="m-3">
+        <div class="m-3" style="margin-left:14px; margin-right:14px">
           <h5>{{ detailMessage.title }}</h5>
           <span v-html="detailMessage.content"></span>
 
@@ -114,8 +112,8 @@
 </template>
 
 <script>
-
 import moment from 'moment';
+
 export default {
   data() {
     return {
