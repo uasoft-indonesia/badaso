@@ -32,6 +32,14 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.dashboardData = response.data;
+          this.dashboardData.map((data) => {
+            data.value =
+              data.prefixValue +
+              data.value
+                .toString()
+                .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, data.delimiter);
+            return data;
+          });
           if (this.dashboardData.length >= 4) {
             this.col = 3;
           } else if (this.dashboardData.length == 3) {
