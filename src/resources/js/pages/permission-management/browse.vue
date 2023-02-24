@@ -53,6 +53,12 @@
                 <vs-th sort-key="tableName">
                   {{ $t("permission.header.tableName") }}
                 </vs-th>
+                <vs-th sort-key="rolesCanSeeAllData">
+                  {{ $t("permission.header.rolesCanSeeAllData") }}
+                </vs-th>
+                <vs-th sort-key="fieldIdentifyRelatedUser">
+                  {{ $t("permission.header.fieldIdentifyRelatedUser") }}
+                </vs-th>
                 <vs-th sort-key="alwaysAllow">
                   {{ $t("permission.header.alwaysAllow") }}
                 </vs-th>
@@ -75,11 +81,20 @@
                   <vs-td :data="data[indextr].tableName">
                     {{ data[indextr].tableName }}
                   </vs-td>
+                  
+                  <vs-td :data="data[indextr].rolesCanSeeAllData">
+                    {{ data[indextr].rolesCanSeeAllData }}
+                  </vs-td>
+                  
+                  <vs-td :data="data[indextr].fieldIdentifyRelatedUser">
+                    {{ data[indextr].fieldIdentifyRelatedUser }}
+                  </vs-td>
 
                   <vs-td :data="data[indextr].alwaysAllow">
                     <span v-if="data[indextr].alwaysAllow == 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
+
                   <vs-td :data="data[indextr].isPublic">
                     <span v-if="data[indextr].isPublic == 1">Yes</span>
                     <span v-else>No</span>
@@ -189,6 +204,13 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.permissions = response.data.permissions;
+          this.permissions.map((value) => {
+            if (value.rolesCanSeeAllData){
+              let rolesAllData = JSON.parse(value.rolesCanSeeAllData)
+              value.rolesCanSeeAllData = rolesAllData.toString()
+            }
+            return value;
+          })
         })
         .catch((error) => {
           this.$closeLoader();

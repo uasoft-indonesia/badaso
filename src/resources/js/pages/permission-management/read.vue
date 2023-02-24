@@ -35,6 +35,14 @@
               <td>{{ permission.tableName }}</td>
             </tr>
             <tr>
+              <th>{{ $t("permission.detail.rolesCanSeeAllData") }}</th>
+              <td>{{ permission.rolesCanSeeAllData }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("permission.detail.fieldIdentifyRelatedUser") }}</th>
+              <td>{{ permission.fieldIdentifyRelatedUser }}</td>
+            </tr>
+            <tr>
               <th>{{ $t("permission.detail.alwaysAllow.title") }}</th>
               <td>
                 <span v-if="permission.alwaysAllow == 1">{{
@@ -90,6 +98,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.permission = response.data.permission;
+          this.permission.rolesCanSeeAllData = JSON.parse(this.permission.rolesCanSeeAllData).toString()
         })
         .catch((error) => {
           this.$closeLoader();

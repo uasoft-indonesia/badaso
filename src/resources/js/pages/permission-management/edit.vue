@@ -46,6 +46,20 @@
               :placeholder="$t('permission.edit.field.tableName.placeholder')"
               :alert="errors.tableName"
             ></badaso-text>
+            <badaso-select-multiple
+              :label="$t('permission.edit.field.rolesCanSeeAllData.title')"
+              :placeholder="$t('permission.edit.field.rolesCanSeeAllData.placeholder')"
+              v-model="permission.rolesCanSeeAllData"
+              size="12"
+              :items="roleData ? roleData : []"
+            ></badaso-select-multiple>
+            <badaso-select
+              :label="$t('permission.edit.field.fieldIdentifyRelatedUser.title')"
+              :placeholder="$t('permission.edit.field.fieldIdentifyRelatedUser.placeholder')"
+              v-model="permission.fieldIdentifyRelatedUser"
+              size="12"
+              :items="fieldData ? fieldData : []"
+            ></badaso-select>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -86,9 +100,14 @@ export default {
       description: "",
       alwaysAllow: false,
     },
+    roleData: [],
+    selected: [],
+    fieldData: [],
+    table: "",
   }),
   mounted() {
     this.getPermissionDetail();
+    this.getRole();
   },
   methods: {
     getPermissionDetail() {
@@ -106,6 +125,60 @@ export default {
             this.permission.description == null
               ? ""
               : this.permission.description;
+          this.getFieldTable(this.permission.tableName);
+          this.permission.rolesCanSeeAllData = this.permission.rolesCanSeeAllData ? JSON.parse(this.permission.rolesCanSeeAllData) : [];
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getFieldTable(table) {
+      this.$api.badasoCrud
+        .read({
+          table: table,
+        })
+        .then((response) => {
+            this.fieldData = response.data.crud.dataRows;
+            for(let key in this.fieldData){
+              if (this.fieldData[key].displayName){
+                this.fieldData[key].label = this.fieldData[key].field
+                delete this.fieldData[key].displayName
+              }
+              if (this.fieldData[key].field){
+                this.fieldData[key].value = this.fieldData[key].field
+                delete this.fieldData[key].field
+              }
+            }
+            this.fieldData.push({
+              label: "user_id",
+              value: "user_id"
+            })
+        })
+        .catch(() => {
+          this.$closeLoader();
+        });
+    },
+    getRole() {
+      this.$api.badasoRole
+        .browse()
+        .then((response) => {
+          this.$closeLoader();
+          this.roleData = response.data.roles;
+          for(let key in this.roleData){
+            if (this.roleData[key].displayName){
+              this.roleData[key].label = this.roleData[key].displayName
+              delete this.roleData[key].displayName
+            }
+            if (this.roleData[key].name){
+              this.roleData[key].value = this.roleData[key].name
+              delete this.roleData[key].name
+            }
+          }
         })
         .catch((error) => {
           this.$closeLoader();
