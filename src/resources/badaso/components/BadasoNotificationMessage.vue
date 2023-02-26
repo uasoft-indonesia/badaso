@@ -48,7 +48,6 @@
             "
           >
           </span>
-
           <vs-row style="align-items: center;">
             <vs-icon icon="schedule" :color="topbarFontColor" style="margin-right: 5px;"></vs-icon>
             <p>{{ message.createdAt }}</p>
@@ -112,6 +111,7 @@
 
 <script>
 import moment from 'moment';
+
 export default {
   data() {
     return {
@@ -129,6 +129,7 @@ export default {
     },
   },
   methods: {
+   
     openSideBarDetailMessage(message, index) {
       this.sideBarDetailMessage = true;
       this.sideBarNotification = false;
