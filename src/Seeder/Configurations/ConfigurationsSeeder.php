@@ -141,7 +141,7 @@ class ConfigurationsSeeder extends Seeder
                     'can_delete' => 0,
                 ],
                 12 => [
-                    'key' => 'timeWaitEmailVerify',
+                    'key' => 'timeWaitResendToken',
                     'display_name' => 'Time wait to resend token',
                     'value' => '60',
                     'details' => '{"items":[]}',

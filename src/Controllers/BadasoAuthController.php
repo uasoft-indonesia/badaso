@@ -450,7 +450,7 @@ class BadasoAuthController extends Controller
             ]);
 
             $user = User::where('email', $request->email)->first();
-            $time_wait_to_resend_token = Configuration::where('key', 'timeWaitEmailVerify')->first();
+            $time_wait_to_resend_token = Configuration::where('key', 'timeWaitResendToken')->first();
             $date_now = date('Y-m-d H:i:s');
             $time_out_token = date('Y-m-d H:i:s', strtotime($user->last_sent_token_at.' +  '.$time_wait_to_resend_token->value.' second'));
             $user_verification = UserVerification::where('user_id', $user->id)

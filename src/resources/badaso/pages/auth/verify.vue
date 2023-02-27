@@ -91,7 +91,7 @@ export default {
     getConfigurationList(){
       this.$api.badasoConfiguration
         .fetch({
-          key : "timeWaitEmailVerify"
+          key : "timeWaitResendToken"
         })
         .then((response) => {
           this.timeWait = response.data.configuration[0].value
