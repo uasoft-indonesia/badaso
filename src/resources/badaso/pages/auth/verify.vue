@@ -163,7 +163,8 @@ export default {
           this.retry = false;
           this.timeWait = 60;
           this.startCounter();
-
+          this.getConfigurationList()
+          
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.success"),
