@@ -24,7 +24,7 @@ class UserWidget implements WidgetInterface
             'icon' => 'person',
             'value' => User::count(),
             'prefix_value' => '',
-            'delimiter' => '.'
+            'delimiter' => '.',
         ];
     }
 }
