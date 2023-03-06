@@ -9,6 +9,8 @@
         type="time"
         :title="label"
         :value="value"
+        :value-zone="valueZone"
+        :zone="zone"
         class="badaso-time__input"
         @input="handleInput($event)"
       ></datetime>
@@ -35,9 +37,13 @@
 </template>
 
 <script>
+import { Datetime } from "vue-datetime";
+
 export default {
   name: "BadasoTime",
-  components: {},
+  components: {
+    datetime: Datetime,
+  },
   data: () => ({}),
   props: {
     size: {
@@ -64,6 +70,14 @@ export default {
     alert: {
       type: String || Array,
       default: "",
+    },
+    valueZone: {
+      type: String,
+      default: "local",
+    },
+    zone: {
+      type: String,
+      default: "local",
     },
   },
   methods: {
