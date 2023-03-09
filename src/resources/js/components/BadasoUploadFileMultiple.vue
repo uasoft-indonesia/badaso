@@ -198,7 +198,7 @@ export default {
       default: "Upload File",
     },
     value: {
-      default: null,
+      default: "",
     },
     additionalInfo: {
       type: String,
@@ -214,6 +214,7 @@ export default {
     privateOnly: {
       type: Boolean,
     },
+
   },
   data() {
     return {
