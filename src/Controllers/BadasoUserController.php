@@ -148,7 +148,9 @@ class BadasoUserController extends Controller
             ]);
 
             $user = User::find($request->id);
-            $this->handleDeleteFile($user->avatar);
+            if (!is_null($user->avatar))  {
+                $this->handleDeleteFile($user->avatar);
+            }
             $user->delete();
 
             DB::commit();
@@ -183,7 +185,9 @@ class BadasoUserController extends Controller
             foreach ($id_list as $key => $id) {
                 $user = User::find($id);
                 $user_name[] = $user->name;
-                $this->handleDeleteFile($user->avatar);
+                if (!is_null($user->avatar))  {
+                    $this->handleDeleteFile($user->avatar);
+                }
                 $user->delete();
             }
             $user_name = join(',', $user_name);
