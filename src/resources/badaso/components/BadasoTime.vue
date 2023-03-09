@@ -9,6 +9,8 @@
         type="time"
         :title="label"
         :value="value"
+        :value-zone="valueZone"
+        :zone="zone"
         class="badaso-time__input"
         @input="handleInput($event)"
       ></datetime>
@@ -64,6 +66,14 @@ export default {
     alert: {
       type: String || Array,
       default: "",
+    },
+    valueZone: {
+      type: String,
+      default: "local",
+    },
+    zone: {
+      type: String,
+      default: "local",
     },
   },
   methods: {

@@ -101,6 +101,7 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -121,6 +122,7 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -321,16 +323,18 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-text>
-                  <badaso-select-multiple 
-                    v-if="dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to_many'" 
+                  <badaso-select-multiple
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to_many'
+                    "
                     :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName" 
-                    v-model="dataRow.value" 
-                    size="12" 
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    " 
+                    "
                     :items="
                       relationData[
                         $caseConvert.stringSnakeToCamel(
@@ -436,7 +440,11 @@ export default {
       // init data rows
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-        if (row && row.value || row.type == 'switch' ||  row.type == 'slider') {
+        if (
+          (row && row.value) ||
+          row.type == "switch" ||
+          row.type == "slider"
+        ) {
           dataRows[row.field] = row.value;
         }
         if (row.type == 'data_identifier'){
@@ -449,7 +457,7 @@ export default {
         this.isValid = false;
         return;
       }
-      
+
       // start request
       this.$openLoader();
       this.$api.badasoEntity
