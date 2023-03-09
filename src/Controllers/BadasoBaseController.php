@@ -136,6 +136,7 @@ class BadasoBaseController extends Controller
 
             // get slug by route name and get data type in table
             $slug = $this->getSlug($request);
+
             $data_type = $this->getDataType($slug);
 
             // get data from request
