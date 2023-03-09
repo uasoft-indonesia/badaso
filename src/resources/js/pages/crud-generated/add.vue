@@ -101,7 +101,6 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
-                    value-zone="Asia/Jakarta"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -122,7 +121,6 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
-                    value-zone="Asia/Jakarta"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
