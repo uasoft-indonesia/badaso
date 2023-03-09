@@ -185,7 +185,7 @@ abstract class Controller extends BaseController
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'upload_file_multiple':
-                $uploaded_path = $this->handleUploadFiles($value, $data_type);
+                $uploaded_path = $this->handleUploadFiles([$value], $data_type);
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'hidden':
