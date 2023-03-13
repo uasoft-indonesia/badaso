@@ -859,6 +859,7 @@ export default {
           orderDirection: this.$caseConvert.snake(this.orderDirection),
           showSoftDelete: this.isShowDataRecycle,
         });
+
         const {
           data: { dataType },
         } = await this.$api.badasoTable.getDataType({
@@ -938,7 +939,6 @@ export default {
                 }
               }
             }
-
             this.$setObjectStore(keyStore, { data: newData });
 
             this.idsOfflineDeleteRecord = this.idsOfflineDeleteRecord.filter(
@@ -1026,12 +1026,12 @@ export default {
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
-      this.$router.replace({ 
-        query: { 
+      this.$router.replace({
+        query: {
           search: this.filter,
           page: this.page,
           show: this.limit
-        } 
+        }
       })
       .catch(err=>{
         console.log(err);
@@ -1047,7 +1047,7 @@ export default {
           show: this.limit
         }
       })
-      .catch(err => { 
+      .catch(err => {
         console.log(err);
       });;
       this.getEntity();
@@ -1062,7 +1062,7 @@ export default {
           show: this.limit
         }
       })
-      .catch(err => { 
+      .catch(err => {
         console.log(err);
       });
       this.getEntity();

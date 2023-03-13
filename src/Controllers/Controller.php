@@ -236,7 +236,7 @@ abstract class Controller extends BaseController
         $fields = collect($data_type->dataRows)->where('read', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $field_other_relation = [];
-    
+
         foreach ($data_rows as $key => $data_row) {
             if (isset($data_row['relation']) && $data_row['relation']['relation_type'] != 'belongs_to') {
                 $field_other_relation[] = $data_row['field'];
@@ -482,7 +482,8 @@ abstract class Controller extends BaseController
                         $sync_data['parentKey'],
                         $sync_data['relatedKey']
                     )->sync($sync_data['content']);
-                } catch (Exception $e) {}
+                } catch (Exception $e) {
+                }
             }
         } else {
             $new_data = [];
@@ -536,13 +537,13 @@ abstract class Controller extends BaseController
                             }
                         }
                     }
-                }elseif(isset($data_row->relation) && $data_row->relation['relation_type'] == 'has_one'){
+                } elseif (isset($data_row->relation) && $data_row->relation['relation_type'] == 'has_one') {
                     $table_destination = $data_row->relation['destination_table'];
                     unset($data[$table_destination]);
-                }elseif (isset($data_row->relation) && $data_row->relation['relation_type'] == 'has_many') {
+                } elseif (isset($data_row->relation) && $data_row->relation['relation_type'] == 'has_many') {
                     $table_destination = $data_row->relation['destination_table'];
                     unset($data[$table_destination]);
-                }else {
+                } else {
                     if (in_array($data_row->type, [
                         'upload_image',
                         'upload_image_multiple',

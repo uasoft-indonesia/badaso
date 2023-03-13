@@ -101,6 +101,7 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -121,6 +122,7 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
+                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -228,6 +230,7 @@
                     v-if="dataRow.type == 'hidden' || 
                           dataRow.type == 'data_identifier' || 
                           dataRow.type == 'relation'"
+
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -310,8 +313,10 @@
                     "
                   ></badaso-select>
                   <badaso-select-multiple
-                    v-if="dataRow.type == 'relation' &&
-                    dataRow.relation.relationType == 'belongs_to_many'"
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType == 'belongs_to_many'
+                    "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -423,11 +428,16 @@ export default {
 
       // init data rows
       const dataRows = {};
+
       for (const row of this.dataType.dataRows) {
-        if (row && row.value || row.type == 'switch' ||  row.type == 'slider') {
+        if (
+          (row && row.value) ||
+          row.type == "switch" ||
+          row.type == "slider"
+        ) {
           dataRows[row.field] = row.value;
         }
-        if (row.type == 'data_identifier'){
+        if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;
         }
       }
@@ -506,6 +516,7 @@ export default {
           } catch (error) {}
           return data;
         });
+
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
       } catch (error) {
         if (error.status == 503) {
@@ -519,6 +530,7 @@ export default {
         });
       }
     },
+
     getRelationDataBySlug() {
       this.$openLoader();
       this.$api.badasoTable
@@ -566,7 +578,7 @@ export default {
             color: "danger",
           });
         });
-    }
+    },
   },
   computed: {
     isOnline: {

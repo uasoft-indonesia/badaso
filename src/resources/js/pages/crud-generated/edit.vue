@@ -228,6 +228,7 @@
                     v-if="dataRow.type == 'hidden' || 
                           dataRow.type == 'data_identifier' ||
                           dataRow.type == 'relation'"
+
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -513,7 +514,7 @@ export default {
                   ].replace(" ", "T")
                 : null;
               data.value = new Date(dateValue);
-            } else if (data.value == undefined && data.type == "hidden") {
+            }  else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
             } else if (
               data.type == "text" ||
