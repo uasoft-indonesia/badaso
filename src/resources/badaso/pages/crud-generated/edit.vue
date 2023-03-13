@@ -225,7 +225,9 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden'"
+                    v-if="dataRow.type == 'hidden' || 
+                          dataRow.type == 'data_identifier' ||
+                          dataRow.type == 'relation'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -322,17 +324,6 @@
                       ]
                     ">
                   </badaso-select-multiple>
-                  <badaso-text
-                    v-if="
-                      dataRow.type == 'relation' &&
-                      dataRow.relation.relationType !== 'belongs_to' &&
-                      dataRow.relation.relationType !== 'belongs_to_many'
-                    "
-                    :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName"
-                    v-model="dataRow.value"
-                    size="12"
-                  ></badaso-text>
                 </template>
               </vs-col>
             </vs-row>
