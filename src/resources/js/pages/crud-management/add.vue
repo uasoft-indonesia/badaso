@@ -558,11 +558,11 @@
                   </tr>
                   <tr>
                     <td></td>
-                    <vs-button 
-                      color="primary" 
-                      type="relief" 
-                      @click.stop 
-                      @click="openRelationSetupManytomany()" 
+                    <vs-button
+                      color="primary"
+                      type="relief"
+                      @click.stop
+                      @click="openRelationSetupManytomany()"
                       >
                       {{ $t("crud.add.body.setOtherRelation") }}
                     </vs-button>
@@ -573,19 +573,20 @@
                         <badaso-select size="12" 
                           v-model="otherRelation.relationType" 
                           :items="relationOtherTypes"
+
                           :label="$t('crud.add.body.relationType')"
                         ></badaso-select>
-                        <vs-col 
-                          vs-lg="12" 
+                        <vs-col
+                          vs-lg="12"
                           class="crud-management__relation-destination">
                           <vs-select 
                             :label="$t('crud.add.body.destinationTable')" 
                             width="100%" 
                             v-model="otherRelation.destinationTable"
                             @input="changeTableManytomany">
-                            <vs-select-item 
-                            :key="index" 
-                            :value="item.value ? item.value : item" 
+                            <vs-select-item
+                            :key="index"
+                            :value="item.value ? item.value : item"
                             :text="item.label ? item.label : item"
                               v-for="(item, index) in destinationTables" />
                           </vs-select>
@@ -608,17 +609,17 @@
                             <badaso-collapse-item>
                               <h3 slot="header">{{ $t("crud.add.title.advance") }}</h3>
                                 <vs-row>
-                                  <vs-col 
-                                    vs-lg="12" 
+                                  <vs-col
+                                    vs-lg="12"
                                     class="crud-management__relation-destination">
-                                    <vs-select 
-                                      :label="$t('crud.add.body.destinationTableManytomany')" 
-                                      width="100%" 
+                                    <vs-select
+                                      :label="$t('crud.add.body.destinationTableManytomany')"
+                                      width="100%"
                                       v-model="relationManytomanyAdvance.destinationTableManytomany"
                                       >
-                                      <vs-select-item 
-                                      :key="index" 
-                                      :value="item.value ? item.value : item" 
+                                      <vs-select-item
+                                      :key="index"
+                                      :value="item.value ? item.value : item"
                                       :text="item.label ? item.label : item"
                                         v-for="(item, index) in destinationTables" />
                                     </vs-select>
@@ -630,10 +631,10 @@
                       </vs-row>
                       <vs-row vs-type="flex" vs-justify="space-between">
                         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                          <vs-button 
-                            class="crud-management__button--block" 
-                            color="danger" 
-                            @click="cancelRelationManytomany" 
+                          <vs-button
+                            class="crud-management__button--block"
+                            color="danger"
+                            @click="cancelRelationManytomany"
                             type="relief">
                             {{
                             $t("crud.add.body.cancelRelation")
@@ -641,10 +642,10 @@
                           </vs-button>
                         </vs-col>
                         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                          <vs-button 
-                              class="crud-management__button--block" 
-                              color="primary" 
-                              @click="saveRelationManytomany()" 
+                          <vs-button
+                              class="crud-management__button--block"
+                              color="primary"
+                              @click="saveRelationManytomany()"
                               type="relief">{{
                               $t("crud.add.body.saveRelation") }}
                           </vs-button>
@@ -937,17 +938,17 @@
                       <badaso-collapse-item>
                         <h3 slot="header">{{ $t("crud.add.title.advance") }}</h3>
                           <vs-row>
-                            <vs-col 
-                              vs-lg="12" 
+                            <vs-col
+                              vs-lg="12"
                               class="crud-management__relation-destination">
-                              <vs-select 
-                                :label="$t('crud.add.body.destinationTableManytomany')" 
-                                width="100%" 
+                              <vs-select
+                                :label="$t('crud.add.body.destinationTableManytomany')"
+                                width="100%"
                                 v-model="relationManytomanyAdvance.destinationTableManytomany"
                                 >
-                                <vs-select-item 
-                                :key="index" 
-                                :value="item.value ? item.value : item" 
+                                <vs-select-item
+                                :key="index"
+                                :value="item.value ? item.value : item"
                                 :text="item.label ? item.label : item"
                                   v-for="(item, index) in destinationTables" />
                               </vs-select>
