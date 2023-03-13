@@ -476,7 +476,7 @@ class GetData
                         }
                     }
                 }
-                
+
                 if (isset($row->{$field->field}) && $field->relation['relation_type'] == 'belongs_to_many') {
                     $data_table_destination = DB::table($destination_table)->get();
                     $table_primary_id = $data_type['name'].'_id';
@@ -496,44 +496,45 @@ class GetData
                     $relation_datas = DB::table($destination_table)->select($arr_query_select)
                     ->get();
                     switch ($relation_type) {
-                            case 'belongs_to':
-                                if (isset($row->{$destination_table})) {
+                        case 'belongs_to':
+                            if (isset($row->{$destination_table})) {
+                                try {
+                                    array_push($row->{$destination_table}, collect($relation_datas)->first());
+                                } catch (\Throwable $th) {
+                                }
+                            } else {
+                                $row->{$destination_table} = collect($relation_datas)->toArray();
+                            }
+                            break;
+
+                        case 'has_many':
+                            $row->{$destination_table} = [];
+                            foreach ($relation_datas as $key => $relation_data) {
+                                if ($relation_data->{$destination_table_column} == $row->id) {
                                     try {
-                                        array_push($row->{$destination_table}, collect($relation_datas)->first());
-                                    } catch (\Throwable $th) {}
-                                } else {
-                                    $row->{$destination_table} = collect($relation_datas)->toArray();
-                                }
-                                break;
-
-                            case 'has_many':
-                                $row->{$destination_table} = [];
-                                foreach ($relation_datas as $key => $relation_data) {
-                                    if ($relation_data->{$destination_table_column} == $row->id) {
-                                        try {
-                                            array_push($row->{$destination_table}, $relation_data);
-                                        } catch (\Throwable $th) {
-                                            $model = DataType::where('slug', $destination_table)->pluck('model_name')->first();
-                                            $row->{$destination_table} = $model::where($destination_table_column, $row->id)->get();
-                                        }
+                                        array_push($row->{$destination_table}, $relation_data);
+                                    } catch (\Throwable $th) {
+                                        $model = DataType::where('slug', $destination_table)->pluck('model_name')->first();
+                                        $row->{$destination_table} = $model::where($destination_table_column, $row->id)->get();
                                     }
                                 }
-                                break;
+                            }
+                            break;
 
-                            case 'has_one':
-                                $row->{$destination_table} = collect();
-                                foreach ($relation_datas as $key => $relation_data) {
-                                    if($relation_data->{$destination_table_column} == $row->id){
-                                        $row->{$destination_table} = collect($relation_data);
-                                        break;
-                                    }
+                        case 'has_one':
+                            $row->{$destination_table} = collect();
+                            foreach ($relation_datas as $key => $relation_data) {
+                                if ($relation_data->{$destination_table_column} == $row->id) {
+                                    $row->{$destination_table} = collect($relation_data);
+                                    break;
                                 }
-                                break;
+                            }
+                            break;
 
-                            default:
-                                // code...
-                                break;
-                        }
+                        default:
+                            // code...
+                            break;
+                    }
                 }
             }
         }
