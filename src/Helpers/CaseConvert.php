@@ -49,36 +49,36 @@ class CaseConvert
     {
         $result = '';
         switch ($type) {
-      case 'SNAKE':
-        $strings = str_split($param, 1);
-        foreach ($strings as $key => $value) {
-            if ($key > 0) {
-                if (ctype_upper($value)) {
-                    $result = $result.'_'.strtolower($value);
-                } else {
-                    $result = $result.''.$value;
+            case 'SNAKE':
+                $strings = str_split($param, 1);
+                foreach ($strings as $key => $value) {
+                    if ($key > 0) {
+                        if (ctype_upper($value)) {
+                            $result = $result.'_'.strtolower($value);
+                        } else {
+                            $result = $result.''.$value;
+                        }
+                    } else {
+                        $result = $result.''.strtolower($value);
+                    }
                 }
-            } else {
-                $result = $result.''.strtolower($value);
-            }
+                break;
+            case 'PASCAL':
+                $strings = explode('_', $param);
+                foreach ($strings as $key => $value) {
+                    $result = $result.''.ucfirst($value);
+                }
+                break;
+            default:
+                $strings = explode('_', $param);
+                foreach ($strings as $key => $value) {
+                    if ($key > 0) {
+                        $result = $result.''.ucfirst($value);
+                    } else {
+                        $result = $result.''.$value;
+                    }
+                }
         }
-        break;
-      case 'PASCAL':
-        $strings = explode('_', $param);
-        foreach ($strings as $key => $value) {
-            $result = $result.''.ucfirst($value);
-        }
-        break;
-      default:
-        $strings = explode('_', $param);
-        foreach ($strings as $key => $value) {
-            if ($key > 0) {
-                $result = $result.''.ucfirst($value);
-            } else {
-                $result = $result.''.$value;
-            }
-        }
-    }
 
         return $result;
     }

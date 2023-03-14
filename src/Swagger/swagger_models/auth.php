@@ -7,10 +7,14 @@
  *      tags={"auth"},
  *      summary="Forgot Password",
  *      description="Send forgot password request",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="email",
  *                     type="string",
@@ -19,6 +23,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -33,10 +38,14 @@
  *      tags={"auth"},
  *      summary="Verify Forgot Password Token",
  *      description="Verify the forgot password token sent to the email",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="email",
  *                     type="string",
@@ -50,6 +59,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -64,10 +74,14 @@
  *      tags={"auth"},
  *      summary="Login Authentication",
  *      description="Log in the user",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="email",
  *                     type="string",
@@ -86,6 +100,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -100,6 +115,7 @@
  *      tags={"auth"},
  *      summary="Logout",
  *      description="Log out the current user",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -116,10 +132,14 @@
  *      tags={"auth"},
  *      summary="Resend the verification token",
  *      description="Request the server to resend the verification token",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="email",
  *                     type="string",
@@ -128,6 +148,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -144,6 +165,7 @@
  *      tags={"auth"},
  *      summary="Refresh Token for Authentication",
  *      description="Request the jwt refresh token",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -160,10 +182,14 @@
  *      tags={"auth"},
  *      summary="User Registration",
  *      description="Register the user",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="name",
  *                     type="string",
@@ -192,6 +218,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -206,10 +233,14 @@
  *      tags={"auth"},
  *      summary="User Reset Password",
  *      description="Send reset password request",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="email",
  *                     type="string",
@@ -223,6 +254,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -239,10 +271,14 @@
  *      tags={"auth"},
  *      summary="Get User Info",
  *      description="Get the current user information",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="email",
  *                     type="string",
@@ -256,6 +292,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

@@ -235,15 +235,15 @@ abstract class Controller extends BaseController
         $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('read', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
-        $field_manytomany = [];
+        $field_other_relation = [];
 
         foreach ($data_rows as $key => $data_row) {
-            if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
-                $field_manytomany[] = $data_row['field'];
+            if (isset($data_row['relation']) && $data_row['relation']['relation_type'] != 'belongs_to') {
+                $field_other_relation[] = $data_row['field'];
             }
         }
 
-        $fields = array_diff(array_merge($fields, $ids), $field_manytomany);
+        $fields = array_diff(array_merge($fields, $ids), $field_other_relation);
         $data = null;
         $record = null;
 
@@ -267,7 +267,7 @@ abstract class Controller extends BaseController
         } else {
             $record = DB::table($data_type->name)->select($fields)->where('id', $id)->first();
         }
-        if (count($field_manytomany) > 0) {
+        if (count($field_other_relation) > 0) {
             foreach ($data_rows as $key => $data_row) {
                 if (isset($data_row->relation) && $data_row->relation['relation_type'] == 'belongs_to_many') {
                     $table_name = $data_type['name'];
@@ -361,9 +361,9 @@ abstract class Controller extends BaseController
 
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                     if ($data_row['type'] == 'relation' && $data_row['relation']['relation_type'] == 'belongs_to_many') {
-                        $field_manytomany = $data_row['field'];
+                        $field_other_relation = $data_row['field'];
                         $table_relation = $data_row['relation']['destination_table'];
-                        unset($new_data[$field_manytomany]);
+                        unset($new_data[$field_other_relation]);
                     }
                 } else {
                     if (in_array($key, ['created_at', 'updated_at'])) {
@@ -377,13 +377,13 @@ abstract class Controller extends BaseController
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
                 if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'belongs_to_many') {
-                    $field_manytomany = $data_row['field'];
+                    $field_other_relation = $data_row['field'];
                     $table_relation = $data_row['relation']['destination_table'];
-                    $data_manytomany = $data[$field_manytomany];
+                    $data_manytomany = $data[$field_other_relation];
                     $table_primary = $data_type['name'];
                     foreach ($data_manytomany as $key => $value) {
                         try {
-                            DB::table($field_manytomany)->insert([
+                            DB::table($field_other_relation)->insert([
                                 $table_relation.'_id' => $value,
                                 $table_primary.'_id' => $id,
                             ]);
@@ -459,6 +459,15 @@ abstract class Controller extends BaseController
                             'relatedKey'      => 'id',
                         ];
                     }
+                    if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'has_one') {
+                        $table_destination = $data_row->relation
+                        ['destination_table'];
+                        unset($model[$table_destination]);
+                    }
+                    if (isset($data_row['relation']) && $data_row['relation']['relation_type'] == 'has_many') {
+                        $table_destination = $data_row->relation['destination_table'];
+                        unset($model[$table_destination]);
+                    }
                 }
             }
             $model->save();
@@ -474,7 +483,6 @@ abstract class Controller extends BaseController
                         $sync_data['relatedKey']
                     )->sync($sync_data['content']);
                 } catch (Exception $e) {
-                    dd($e);
                 }
             }
         } else {
@@ -529,6 +537,12 @@ abstract class Controller extends BaseController
                             }
                         }
                     }
+                } elseif (isset($data_row->relation) && $data_row->relation['relation_type'] == 'has_one') {
+                    $table_destination = $data_row->relation['destination_table'];
+                    unset($data[$table_destination]);
+                } elseif (isset($data_row->relation) && $data_row->relation['relation_type'] == 'has_many') {
+                    $table_destination = $data_row->relation['destination_table'];
+                    unset($data[$table_destination]);
                 } else {
                     if (in_array($data_row->type, [
                         'upload_image',
