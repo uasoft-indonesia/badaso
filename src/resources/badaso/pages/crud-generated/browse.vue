@@ -748,6 +748,7 @@ import * as _ from "lodash";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import moment from "moment";
 export default {
   components: { downloadExcel },
   name: "CrudGeneratedBrowse",
@@ -790,6 +791,11 @@ export default {
     // },
   },
   mounted() {
+    if (this.$route.query.search || this.$route.query.page) {
+      this.filter = this.$route.query.search;
+      this.page = this.$route.query.page;
+      this.show = this.$route.query.show;
+    }
     this.getEntity();
     this.loadIdsOfflineDelete();
   },
@@ -861,6 +867,13 @@ export default {
         this.$closeLoader();
         this.data = response.data;
         this.records = response.data.data;
+        this.records.map((record) => {
+          if (record.createdAt || record.updatedAt){
+            record.createdAt = moment(record.createdAt).format('YYYY-MM-DD hh:mm:ss');
+            record.updatedAt = moment(record.updatedAt).format('YYYY-MM-DD hh:mm:ss');
+          }
+          return record;
+        })
         this.totalItem =
           response.data.total > 0
             ? Math.ceil(response.data.total / this.limit)
@@ -1013,15 +1026,45 @@ export default {
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
+      this.$router.replace({ 
+        query: { 
+          search: this.filter,
+          page: this.page,
+          show: this.limit
+        } 
+      })
+      .catch(err=>{
+        console.log(err);
+      });
       this.getEntity();
     },
     handleChangePage(page) {
       this.page = page;
+      this.$router.replace({
+        query: {
+          search: this.filter,
+          page: this.page,
+          show: this.limit
+        }
+      })
+      .catch(err => { 
+        console.log(err);
+       });;
       this.getEntity();
     },
     handleChangeLimit(limit) {
       this.page = 1;
       this.limit = limit;
+      this.$router.replace({
+        query: {
+          search: this.filter,
+          page: this.page,
+          show: this.limit
+        }
+      })
+      .catch(err => { 
+        console.log(err);
+      });
       this.getEntity();
     },
     handleSort(field, direction) {
@@ -1046,22 +1089,23 @@ export default {
         const displayColumn = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableDisplayColumn
         );
-        if (relationType == "has_many") {
+        if (relationType == "has_one") {
+          const list = record[table];
+          return list[displayColumn] ? list[displayColumn] : null;
+        } else if (relationType == "has_many") {
           const list = record[table];
           const flatList = list.map((ls) => {
             return ls[displayColumn];
           });
           return flatList.join(", ");
-        }else if(relationType == "belongs_to"){
-          const list = record[table];
+        } else if(relationType == "belongs_to"){
+          const lists = record[table];
           let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-          const flatList = list.map((ls) => {
-            if(ls.id == record[field]){
-              return ls[displayColumn];
+          for(let list of lists){
+            if (list.id == record[field]){
+              return list[displayColumn];
             }
-            return null
-          });
-          return flatList.join(",").replace(",", "");
+          }
         }  else if (relationType == "belongs_to_many") {
           let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
           const lists = record[field]

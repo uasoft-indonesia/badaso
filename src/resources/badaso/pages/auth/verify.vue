@@ -81,13 +81,31 @@ export default {
       message: "",
     },
     retry: false,
-    timeWait: 60,
+    timeWait: 0,
   }),
   mounted() {
     this.email = this.$route.query.email;
-    this.startCounter();
+    this.getConfigurationList();
   },
   methods: {
+    getConfigurationList(){
+      this.$api.badasoConfiguration
+        .fetch({
+          key : "timeWaitResendToken"
+        })
+        .then((response) => {
+          this.timeWait = response.data.configuration[0].value
+          this.startCounter();
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
     startCounter() {
       if (this.timeWait > 0) {
         setTimeout(() => {
@@ -145,7 +163,8 @@ export default {
           this.retry = false;
           this.timeWait = 60;
           this.startCounter();
-
+          this.getConfigurationList()
+          
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.success"),

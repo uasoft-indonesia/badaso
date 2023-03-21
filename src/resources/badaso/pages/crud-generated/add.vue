@@ -101,7 +101,7 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
-                    value-zone="Asia/Jakarta"
+                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -122,7 +122,7 @@
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
-                    value-zone="Asia/Jakarta"
+                    value-zone="local"
                     size="12"
                     :alert="
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
@@ -227,7 +227,9 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden'"
+                    v-if="dataRow.type == 'hidden' || 
+                          dataRow.type == 'data_identifier' || 
+                          dataRow.type == 'relation'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -309,20 +311,6 @@
                       errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
                     "
                   ></badaso-select>
-                  <badaso-text
-                    v-if="
-                      dataRow.type == 'relation' &&
-                      dataRow.relation.relationType !== 'belongs_to' &&
-                      dataRow.relation.relationType !== 'belongs_to_many'
-                    "
-                    :label="dataRow.displayName"
-                    :placeholder="dataRow.displayName"
-                    v-model="dataRow.value"
-                    size="12"
-                    :alert="
-                      errors[$caseConvert.stringSnakeToCamel(dataRow.field)]
-                    "
-                  ></badaso-text>
                   <badaso-select-multiple
                     v-if="
                       dataRow.type == 'relation' &&
@@ -424,11 +412,13 @@ export default {
     isMaintenance: false,
     dataLength: 0,
     pathname: location.pathname,
+    userId: "",
   }),
   mounted() {
     this.getDataType();
     this.getRelationDataBySlug();
     this.requestObjectStoreData();
+    this.getUser();
   },
   methods: {
     submitForm() {
@@ -444,6 +434,9 @@ export default {
           row.type == "slider"
         ) {
           dataRows[row.field] = row.value;
+        }
+        if (row.type == 'data_identifier'){
+          dataRows[row.field] = this.userId;
         }
       }
 
@@ -563,6 +556,25 @@ export default {
         }
       });
     },
+    getUser() {
+      this.errors = {};
+      this.$openLoader();
+      this.$api.badasoAuthUser
+        .user({})
+        .then((response) => {
+          this.$closeLoader();
+          this.userId = response.data.user.id;
+        })
+        .catch((error) => {
+          this.errors = error.errors;
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    }
   },
   computed: {
     isOnline: {

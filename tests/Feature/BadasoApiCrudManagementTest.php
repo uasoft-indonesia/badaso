@@ -429,7 +429,7 @@ class BadasoApiCrudManagementTest extends TestCase
 
             $model = '';
             $model_data = [];
-            if (rand(0, 1)) {
+            if (rand(0, 1) || $table_names[0]) {
                 // create new model
                 $fillable = join(',', $const_fillable);
                 $model_name = str_replace([' ', '_'], '', ucwords($table_name));

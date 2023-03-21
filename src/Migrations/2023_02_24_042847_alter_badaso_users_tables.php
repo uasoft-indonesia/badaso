@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPhoneNumberToBadasoUsersTable extends Migration
+class AlterBadasoUsersTables extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddPhoneNumberToBadasoUsersTable extends Migration
     public function up()
     {
         Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
-            $table->string('phone', 20)->nullable()->after('avatar');
+            $table->timestamp('last_sent_token_at')->nullable()->after('remember_token');
         });
     }
 
@@ -25,8 +25,6 @@ class AddPhoneNumberToBadasoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
-            $table->dropColumn('phone');
-        });
+        Schema::dropIfExists(config('badaso.database.prefix').'users');
     }
 }

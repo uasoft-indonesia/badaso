@@ -7,6 +7,7 @@
  *      tags={"user"},
  *      summary="Browse Users",
  *      description="Browse Users",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -22,14 +23,17 @@
  *      tags={"user"},
  *      summary="Read User",
  *      description="Read User",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="path",
+ *
  *          @OA\Schema(
  *              type="integer",
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -45,10 +49,14 @@
  *      tags={"user"},
  *      summary="Add User",
  *      description="Add User",
+ *
  *      @OA\RequestBody(
+ *
  *          @OA\MediaType(
  *              mediaType="application/json",
+ *
  *              @OA\Schema(
+ *
  *                @OA\Property(
  *                    property="id",
  *                    type="integer",
@@ -82,6 +90,7 @@
  *              )
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -97,10 +106,14 @@
  *      tags={"user"},
  *      summary="Edit User",
  *      description="Edit User",
+ *
  *      @OA\RequestBody(
+ *
  *          @OA\MediaType(
  *              mediaType="multipart/form-data",
+ *
  *              @OA\Schema(
+ *
  *                @OA\Property(
  *                    property="id",
  *                    type="integer",
@@ -134,6 +147,7 @@
  *              )
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -149,10 +163,14 @@
  *      tags={"user"},
  *      summary="Delete User",
  *      description="Delete User",
+ *
  *      @OA\RequestBody(
+ *
  *          @OA\MediaType(
  *              mediaType="application/json",
+ *
  *              @OA\Schema(
+ *
  *                @OA\Property(
  *                    property="id",
  *                    type="integer",
@@ -161,6 +179,7 @@
  *              )
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -176,10 +195,14 @@
  *      tags={"user"},
  *      summary="Delete Multiple User",
  *      description="Delete Multiple User",
+ *
  *      @OA\RequestBody(
+ *
  *          @OA\MediaType(
  *              mediaType="application/json",
+ *
  *              @OA\Schema(
+ *
  *                @OA\Property(
  *                    property="ids",
  *                    type="integer",
@@ -188,6 +211,7 @@
  *              )
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
