@@ -40,16 +40,16 @@ abstract class Controller extends BaseController
         if ($user = auth()->user()) {
             $permissions = DB::SELECT('
                 SELECT *
-                FROM ' . $prefix . 'permissions p
-                JOIN ' . $prefix . 'role_permissions rp ON p.id = rp.permission_id
-                JOIN ' . $prefix . 'roles r ON rp.role_id  = r.id
-                JOIN ' . $prefix . 'user_roles ur ON r.id = ur.role_id
-                JOIN ' . $prefix . 'users u ON ur.user_id = u.id
+                FROM '.$prefix.'permissions p
+                JOIN '.$prefix.'role_permissions rp ON p.id = rp.permission_id
+                JOIN '.$prefix.'roles r ON rp.role_id  = r.id
+                JOIN '.$prefix.'user_roles ur ON r.id = ur.role_id
+                JOIN '.$prefix.'users u ON ur.user_id = u.id
                 WHERE u.id = :user_id
                 AND p.key = :permission
             ', [
                 'user_id'    => $user->id,
-                'permission' => $method . '_' . $data_type->name,
+                'permission' => $method.'_'.$data_type->name,
             ]);
 
             if (count($permissions) > 0) {
@@ -94,7 +94,7 @@ abstract class Controller extends BaseController
                     $destination_table_column = array_key_exists('destination_table_column', $relation_detail) ? $relation_detail['destination_table_column'] : null;
 
                     if ($relation_type == 'belongs_to') {
-                        $rules[$row->field][] = 'exists:' . $destination_table . ',' . $destination_table_column;
+                        $rules[$row->field][] = 'exists:'.$destination_table.','.$destination_table_column;
                     }
                 }
             }
@@ -276,8 +276,8 @@ abstract class Controller extends BaseController
                     $table_destination = $data_row->relation['destination_table'];
                     $table_manytomany = $data_row['field'];
                     $data_relation = DB::table($table_manytomany)
-                        ->leftjoin($table_name, $table_manytomany . '.id', '=', $table_name . '_id')
-                        ->select($table_name . '_id', $table_destination . '_id')
+                        ->leftjoin($table_name, $table_manytomany.'.id', '=', $table_name.'_id')
+                        ->select($table_name.'_id', $table_destination.'_id')
                         ->get();
                     $record->$table_manytomany = $data_relation;
                 }
@@ -298,7 +298,7 @@ abstract class Controller extends BaseController
             $model = app($data_type->model_name);
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
-                if (!is_null($data_row)) {
+                if (! is_null($data_row)) {
                     $model->{$key} = $this->getContentByType($data_type, $data_row, $value);
                 }
             }
@@ -322,8 +322,8 @@ abstract class Controller extends BaseController
                         'model'           => $model_manytomany['model_name'],
                         'content'         => $data_manytomany,
                         'table'           => $table_manytomany,
-                        'foreignPivotKey' => $table_primary . '_id' ? $table_primary . '_id' : null,
-                        'relatedPivotKey' => $table_relation . '_id' ? $table_relation . '_id' : null,
+                        'foreignPivotKey' => $table_primary.'_id' ? $table_primary.'_id' : null,
+                        'relatedPivotKey' => $table_relation.'_id' ? $table_relation.'_id' : null,
                         'parentKey'       => null,
                         'relatedKey'      => 'id',
                     ];
@@ -350,7 +350,7 @@ abstract class Controller extends BaseController
             $data['updated_at'] = $timestamp;
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
-                if (!is_null($data_row)) {
+                if (! is_null($data_row)) {
                     if ($data_row['type'] == 'upload_image_multiple') {
                         $new_data[$key] = $this->getContentByType($data_type, $data_row, $value);
                     }
@@ -424,7 +424,7 @@ abstract class Controller extends BaseController
                         $files = explode(',', $model->{$data_row->field});
                         foreach ($files as $file) {
                             if (is_array($value)) {
-                                if (!in_array($file, $value)) {
+                                if (! in_array($file, $value)) {
                                     $this->handleDeleteFile($file);
                                 }
                             } else {
@@ -455,8 +455,8 @@ abstract class Controller extends BaseController
                             'model'           => $model_manytomany['model_name'],
                             'content'         => $data_manytomany,
                             'table'           => $table_manytomany,
-                            'foreignPivotKey' => $table_primary . '_id' ? $table_primary . '_id' : null,
-                            'relatedPivotKey' => $table_relation . '_id' ? $table_relation . '_id' : null,
+                            'foreignPivotKey' => $table_primary.'_id' ? $table_primary.'_id' : null,
+                            'relatedPivotKey' => $table_relation.'_id' ? $table_relation.'_id' : null,
                             'parentKey'       => null,
                             'relatedKey'      => 'id',
                         ];
@@ -500,13 +500,13 @@ abstract class Controller extends BaseController
                     $table_manytomany = $data_row->field;
                     $table_relation = $data_row->relation['destination_table'];
                     $table_primary = $data_type['name'];
-                    $table_primary_id = $table_primary . '_id';
-                    $table_relation_id = $table_relation . '_id';
+                    $table_primary_id = $table_primary.'_id';
+                    $table_relation_id = $table_relation.'_id';
                     $data_manytomany = $data[$table_manytomany];
 
                     $data_table_manytomany = DB::table($table_manytomany)->where($table_primary_id, $id)->get();
                     foreach ($data_table_manytomany as $key => $value_table_manytomany) {
-                        if (!in_array($value_table_manytomany->{$table_relation_id}, $data_manytomany)) {
+                        if (! in_array($value_table_manytomany->{$table_relation_id}, $data_manytomany)) {
                             DB::table($table_manytomany)
                                 ->where($table_primary_id, $id)
                                 ->where($table_relation_id, $value_table_manytomany->{$table_relation_id})
@@ -555,7 +555,7 @@ abstract class Controller extends BaseController
                         $files = explode(',', $model->{$data_row->field});
                         foreach ($files as $file) {
                             if (is_array($value)) {
-                                if (!in_array($file, $value)) {
+                                if (! in_array($file, $value)) {
                                     $this->handleDeleteFile($file);
                                 }
                             } else {
@@ -586,7 +586,7 @@ abstract class Controller extends BaseController
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $model = $model::find($id);
-            if (!is_null($model)) {
+            if (! is_null($model)) {
                 foreach ($data_rows as $data_row) {
                     if (in_array($data_row->type, [
                         'upload_image',
@@ -614,7 +614,7 @@ abstract class Controller extends BaseController
             }
         } else {
             $model = DB::table($data_type->name)->where('id', $id)->first();
-            if (!is_null($model)) {
+            if (! is_null($model)) {
                 foreach ($data_rows as $data_row) {
                     if (in_array($data_row->type, [
                         'upload_image',
@@ -653,7 +653,7 @@ abstract class Controller extends BaseController
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $model = $model::find($id);
-            if (!is_null($model)) {
+            if (! is_null($model)) {
                 foreach ($data_rows as $data_row) {
                     if (in_array($data_row->type, [
                         'upload_image',
@@ -673,7 +673,7 @@ abstract class Controller extends BaseController
             }
         } else {
             $model = DB::table($data_type->name)->where('id', $id)->first();
-            if (!is_null($model)) {
+            if (! is_null($model)) {
                 foreach ($data_rows as $data_row) {
                     if (in_array($data_row->type, [
                         'upload_image',

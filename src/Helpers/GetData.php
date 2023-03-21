@@ -384,6 +384,7 @@ class GetData
                                     $upload_image_multiple = join('/', $upload_image_multiple);
                                 }
                                 $asset = asset('storage/'.$upload_image_multiple);
+
                                 return $asset;
                             });
                             $upload_image_multiples = implode(',', json_decode($upload_image_multiples));
@@ -412,6 +413,7 @@ class GetData
                     $record->$table_manytomany = $data_relation;
                 }
             }
+
             return $record;
         });
         if (! $is_roles) {
