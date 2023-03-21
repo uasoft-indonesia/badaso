@@ -111,7 +111,7 @@
                           class="crud-generated__item--upload-file-multiple"
                         >
                           <p
-                            v-for="(file, indexFile) in stringToArray(
+                            v-for="(file, indexFile) in arrayToString(
                               record[
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
@@ -303,6 +303,15 @@ export default {
         return [];
       }
     },
+    arrayToString(files) {
+      if (files) {
+        const mixArray = files;
+        const str = mixArray.replace(/\[|\]|"/g, "").split(",");
+        return str;
+      } else {
+        return [];
+      }
+    },
     displayRelationData(record, dataRow) {
       const table = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTable
@@ -319,13 +328,12 @@ export default {
       if (dataRow.relation.relationType == "has_one") {
         const list = record[table];
         return list[displayColumn];
-      } else if(dataRow.relation.relationType == "has_many") {
+      } else if (dataRow.relation.relationType == "has_many") {
         const list = record[table];
         const flatList = list.map((ls) => {
           return ls[displayColumn];
         });
         return flatList.join(", ");
-        
       } else if (dataRow.relation.relationType == "belongs_to") {
         const lists = record[table];
         let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
@@ -335,9 +343,9 @@ export default {
           }
         }
       } else if (dataRow.relation.relationType == "belongs_to_many") {
-        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-        const lists = record[field]
-        let flatList = []
+        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+        const lists = record[field];
+        let flatList = [];
         Object.keys(lists).forEach(function (ls, key) {
           flatList.push(lists[ls][displayColumn]);
         });
