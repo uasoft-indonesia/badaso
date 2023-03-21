@@ -329,22 +329,23 @@ export default {
         dataRow.relation.destinationTableDisplayColumn
       );
 
-      if (dataRow.relation.relationType == "has_many") {
+      if (dataRow.relation.relationType == "has_one") {
+        const list = record[table];
+        return list[displayColumn];
+      } else if(dataRow.relation.relationType == "has_many") {
         const list = record[table];
         const flatList = list.map((ls) => {
           return ls[displayColumn];
         });
         return flatList.join(", ");
       } else if (dataRow.relation.relationType == "belongs_to") {
-        const list = record[table];
+        const lists = record[table];
         let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
-        const flatList = list.map((ls) => {
-          if (ls.id == record[field]) {
-            return ls[displayColumn];
+        for (let list of lists) {
+          if (list.id == record[field]) {
+            return list[displayColumn];
           }
-          return null;
-        });
-        return flatList.join(",").replace(",", "");
+        }
       } else if (dataRow.relation.relationType == "belongs_to_many") {
         let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
         const lists = record[field];
