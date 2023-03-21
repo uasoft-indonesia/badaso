@@ -26,7 +26,6 @@
                 <!-- <input type="text" v-model="dataRow.value"> -->
                 <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
                 <template v-if="dataRow.add == 1">
-                  {{ dataRow.value }}
                   <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"

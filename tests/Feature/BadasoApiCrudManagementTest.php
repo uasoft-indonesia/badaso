@@ -1233,6 +1233,7 @@ class BadasoApiCrudManagementTest extends TestCase
     public function testAddEditEntityCrudManagement()
     {
         $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        dd($tables);
         $first_table = $tables[0];
 
         $response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_TABLE_ENTITY);
