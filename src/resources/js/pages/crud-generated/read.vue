@@ -111,10 +111,8 @@
                           class="crud-generated__item--upload-file-multiple"
                         >
                           <p
-                            v-for="(file, indexFile) in stringToArray(
-                              record[
-                                $caseConvert.stringSnakeToCamel(dataRow.field)
-                              ]
+                            v-for="(file, indexFile) in arrayToString(
+                              dataRow.value
                             )"
                             :key="indexFile"
                           >
@@ -262,7 +260,6 @@ export default {
         });
 
         this.$closeLoader();
-
         this.dataType = dataType;
         this.record = response.data;
 
@@ -272,9 +269,18 @@ export default {
             data.edit = data.edit == 1;
             data.read = data.read == 1;
             data.details = JSON.parse(data.details);
+            if (data.type == "upload_file_multiple") {
+              const val =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+
+              if (val) {
+                data.value = val.toString();
+              }
+            }
           } catch (error) {}
           return data;
         });
+
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
       } catch (error) {
         if (error.status == 503) {
@@ -303,6 +309,15 @@ export default {
         return [];
       }
     },
+   arrayToString(files) {
+      if (files) {
+        const mixArray = files;
+        const str = mixArray.replace(/\[|\]|"/g, "").split(",");
+        return str;
+      } else {
+        return [];
+      }
+    },
     displayRelationData(record, dataRow) {
       const table = this.$caseConvert.stringSnakeToCamel(
         dataRow.relation.destinationTable
@@ -323,7 +338,6 @@ export default {
           return ls[displayColumn];
         });
         return flatList.join(", ");
-
       } else if (dataRow.relation.relationType == "belongs_to") {
         const lists = record[table];
         let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
@@ -333,13 +347,13 @@ export default {
           }
         }
       } else if (dataRow.relation.relationType == "belongs_to_many") {
-        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field)
-        const lists = record[field]
-        let flatList = []
+        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+        const lists = record[field];
+        let flatList = [];
         Object.keys(lists).forEach(function (ls, key) {
           flatList.push(lists[ls][displayColumn]);
         });
-        console.log(record);
+
         return flatList.join(",").replace(",", ", ");
       } else {
         return record[table] ? record[table][displayColumn] : null;

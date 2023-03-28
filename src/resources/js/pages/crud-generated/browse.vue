@@ -231,7 +231,7 @@
                             class="crud-generated__item--upload-file-multiple"
                           >
                             <p
-                              v-for="(file, indexFile) in stringToArray(
+                              v-for="(file, indexFile) in arrayToString(
                                 record[
                                   $caseConvert.stringSnakeToCamel(dataRow.field)
                                 ]
@@ -524,7 +524,7 @@
                               class="crud-generated__item--upload-file-multiple"
                             >
                               <p
-                                v-for="(file, indexFile) in stringToArray(
+                                v-for="(file, indexFile) in arrayToString(
                                   record[
                                     $caseConvert.stringSnakeToCamel(
                                       dataRow.field
@@ -869,12 +869,16 @@ export default {
         this.data = response.data;
         this.records = response.data.data;
         this.records.map((record) => {
-          if (record.createdAt || record.updatedAt){
-            record.createdAt = moment(record.createdAt).format('YYYY-MM-DD hh:mm:ss');
-            record.updatedAt = moment(record.updatedAt).format('YYYY-MM-DD hh:mm:ss');
+          if (record.createdAt || record.updatedAt) {
+            record.createdAt = moment(record.createdAt).format(
+              "YYYY-MM-DD hh:mm:ss"
+            );
+            record.updatedAt = moment(record.updatedAt).format(
+              "YYYY-MM-DD hh:mm:ss"
+            );
           }
           return record;
-        })
+        });
         this.totalItem =
           response.data.total > 0
             ? Math.ceil(response.data.total / this.limit)
@@ -1023,48 +1027,60 @@ export default {
         return [];
       }
     },
+    arrayToString(files) {
+      if (files) {
+        const mixArray = files;
+        const str = mixArray.replace(/\[|\]|"/g, "").split(",");
+        return str;
+      } else {
+        return [];
+      }
+    },
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
-      this.$router.replace({
-        query: {
-          search: this.filter,
-          page: this.page,
-          show: this.limit
-        }
-      })
-      .catch(err=>{
-        console.log(err);
-      });
+      this.$router
+        .replace({
+          query: {
+            search: this.filter,
+            page: this.page,
+            show: this.limit,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.getEntity();
     },
     handleChangePage(page) {
       this.page = page;
-      this.$router.replace({
-        query: {
-          search: this.filter,
-          page: this.page,
-          show: this.limit
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });;
+      this.$router
+        .replace({
+          query: {
+            search: this.filter,
+            page: this.page,
+            show: this.limit,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.getEntity();
     },
     handleChangeLimit(limit) {
       this.page = 1;
       this.limit = limit;
-      this.$router.replace({
-        query: {
-          search: this.filter,
-          page: this.page,
-          show: this.limit
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      this.$router
+        .replace({
+          query: {
+            search: this.filter,
+            page: this.page,
+            show: this.limit,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.getEntity();
     },
     handleSort(field, direction) {
@@ -1080,7 +1096,7 @@ export default {
         const relationType = dataRow.relation.relationType;
         const table = this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTable
-            );
+        );
         this.$caseConvert.stringSnakeToCamel(
           dataRow.relation.destinationTableColumn
         );

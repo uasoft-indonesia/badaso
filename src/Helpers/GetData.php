@@ -13,6 +13,7 @@ class GetData
     public static function serverSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
+        $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $fields = array_merge($fields, $ids, $fields_data_identifier);
@@ -101,6 +102,7 @@ class GetData
             }
             $records[] = self::getRelationData($data_type, $record);
         }
+
         $data->setCollection(collect($records));
 
         return $data;
@@ -217,6 +219,7 @@ class GetData
     public static function serverSideWithQueryBuilder($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
+        $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
         $fields = array_merge($fields, $ids, $fields_data_identifier);
@@ -297,7 +300,6 @@ class GetData
         $data = $paginate->get();
 
         $collection = $data;
-
         $records = [];
         foreach ($collection as $row) {
             $records[] = self::getRelationData($data_type, $row);
@@ -414,7 +416,6 @@ class GetData
 
             return $record;
         });
-
         if (! $is_roles) {
             if ($is_field) {
                 foreach ($records as $key => $record) {
@@ -443,6 +444,7 @@ class GetData
         $relational_fields = collect($data_type->dataRows)->filter(function ($value, $key) {
             return $value->relation != null;
         })->all();
+
         foreach ($relational_fields as $field) {
             $relation_detail = [];
 

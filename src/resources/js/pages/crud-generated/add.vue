@@ -499,7 +499,8 @@ export default {
               data.type == "checkbox")
           ) {
             data.value = Array;
-          } else if (data.value == undefined && data.type == "slider") {
+          }
+           else if (data.value == undefined && data.type == "slider") {
             data.value = 0;
           } else if (data.value == undefined && data.type == "switch") {
             data.value = 0;
@@ -516,8 +517,8 @@ export default {
           } catch (error) {}
           return data;
         });
-
         this.dataType.dataRows = JSON.parse(JSON.stringify(dataRows));
+
       } catch (error) {
         if (error.status == 503) {
           this.isMaintenance = true;

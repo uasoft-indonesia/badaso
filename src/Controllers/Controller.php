@@ -180,7 +180,7 @@ abstract class Controller extends BaseController
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'upload_file_multiple':
-                $uploaded_path = $this->handleUploadFiles($value, $data_type);
+                $uploaded_path = $this->handleUploadFiles([$value], $data_type);
                 $return_value = implode(',', $uploaded_path);
                 break;
             case 'hidden':
@@ -250,10 +250,12 @@ abstract class Controller extends BaseController
         if ($data_type->model_name) {
             $model = app($data_type->model_name);
             $row = $model::query()->select($fields)->where('id', $id)->first();
+
             if ($row) {
                 $class = new ReflectionClass(get_class($row));
                 $class_methods = $class->getMethods();
                 $record = json_decode(json_encode($row));
+
                 foreach ($class_methods as $class_method) {
                     if ($class_method->class == $class->name) {
                         try {
@@ -506,16 +508,16 @@ abstract class Controller extends BaseController
                     foreach ($data_table_manytomany as $key => $value_table_manytomany) {
                         if (! in_array($value_table_manytomany->{$table_relation_id}, $data_manytomany)) {
                             DB::table($table_manytomany)
-                            ->where($table_primary_id, $id)
-                            ->where($table_relation_id, $value_table_manytomany->{$table_relation_id})
-                            ->delete();
+                                ->where($table_primary_id, $id)
+                                ->where($table_relation_id, $value_table_manytomany->{$table_relation_id})
+                                ->delete();
                         }
                     }
                     foreach ($data_manytomany as $key => $id_destination_table) {
                         $data_table_manytomany = DB::table($table_manytomany)
-                                                ->where($table_relation_id, $id_destination_table)
-                                                ->where($table_primary_id, $id)
-                                                ->first();
+                            ->where($table_relation_id, $id_destination_table)
+                            ->where($table_primary_id, $id)
+                            ->first();
                         if ($data_table_manytomany) {
                             try {
                                 DB::table($table_manytomany)
