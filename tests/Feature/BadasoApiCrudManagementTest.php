@@ -234,14 +234,8 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'upload_file_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => [
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                    ],
-                    'example_update' => [
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
-                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
-                    ],
+                    'example' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\']",
+                    'example_update' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png\']",
                 ],
             ];
     }
