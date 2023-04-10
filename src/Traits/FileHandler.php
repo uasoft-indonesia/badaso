@@ -29,7 +29,6 @@ trait FileHandler
                 if (! is_null($custom_path)) {
                     $filepath .= $custom_path.'/';
                 }
-
                 Storage::disk(config('badaso.storage.disk', 'public'))->put($filepath.$filename, $decoded_file);
 
                 $path_List[] = $filepath.$filename;

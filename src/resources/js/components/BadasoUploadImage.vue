@@ -54,11 +54,11 @@
         <div class="badaso-upload-image__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
-          <badaso-select 
-          v-model="sortTypeValue" 
-          size="2" 
+          <badaso-select
+          v-model="sortTypeValue"
+          size="2"
           style="margin-bottom: 0px !important; margin-right: 1rem;"
-          placeholder="Sort Type" 
+          placeholder="Sort Type"
           :items="sortTypeList"
           @input="sortImages" >
           </badaso-select>

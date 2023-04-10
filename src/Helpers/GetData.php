@@ -98,6 +98,7 @@ class GetData
     public static function clientSideWithModel($data_type, $builder_params, $only_data_soft_delete = false)
     {
         $fields_data_identifier = collect($data_type->dataRows)->where('type', 'data_identifier')->pluck('field')->all();
+
         $data_rows = collect($data_type->dataRows);
         $fields = collect($data_type->dataRows)->where('browse', 1)->pluck('field')->all();
         $ids = collect($data_type->dataRows)->where('field', 'id')->pluck('field')->all();
