@@ -494,6 +494,7 @@ abstract class Controller extends BaseController
             $old_data = json_decode(json_encode($model));
             foreach ($data as $key => $value) {
                 $data_row = collect($data_rows)->where('field', $key)->first();
+
                 if (is_null($data_row)) {
                     // $new_data[$key] = $value;
                 } elseif (isset($data_row->relation) && $data_row->relation['relation_type'] == 'belongs_to_many') {
@@ -565,10 +566,11 @@ abstract class Controller extends BaseController
                             }
                         }
                     }
-                    $new_data[$key] = $this->getContentByType($data_type, $data_row, $value) != null ? $this->getContentByType($data_type, $data_row, $value) : '';
+                    $new_data[$key] = $this->getContentByType($data_type, $data_row, $value) !== null ? $this->getContentByType($data_type, $data_row, $value) : '';
                 }
             }
-            DB::table($data_type->name)->where('id', $id)->update($new_data);
+
+           DB::table($data_type->name)->where('id', $id)->update($new_data);
             $model = DB::table($data_type->name)->where('id', $id)->first();
         }
 

@@ -227,8 +227,8 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' || 
-                          dataRow.type == 'data_identifier' || 
+                    v-if="dataRow.type == 'hidden' ||
+                          dataRow.type == 'data_identifier' ||
                           dataRow.type == 'relation'"
 
                     :label="dataRow.displayName"
@@ -430,12 +430,14 @@ export default {
       const dataRows = {};
 
       for (const row of this.dataType.dataRows) {
+         console.log(row,'rowadd')
         if (
           (row && row.value) ||
           row.type == "switch" ||
           row.type == "slider"
         ) {
           dataRows[row.field] = row.value;
+           console.log(dataRows[row.field],'hasiladd')
         }
         if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;

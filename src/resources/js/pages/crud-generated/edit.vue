@@ -225,10 +225,7 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' || 
-                          dataRow.type == 'data_identifier' ||
-                          dataRow.type == 'relation'"
-
+                    v-if="dataRow.type == 'hidden' || dataRow.type == 'data_identifier'"
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -328,6 +325,17 @@
                     "
                   >
                   </badaso-select-multiple>
+                  <badaso-text
+                    v-if="
+                      dataRow.type == 'relation' &&
+                      dataRow.relation.relationType !== 'belongs_to' &&
+                      dataRow.relation.relationType !== 'belongs_to_many'
+                    "
+                    :label="dataRow.displayName"
+                    :placeholder="dataRow.displayName"
+                    v-model="dataRow.value"
+                    size="12"
+                  ></badaso-text>
                 </template>
               </vs-col>
             </vs-row>
@@ -424,6 +432,9 @@ export default {
         if ((row && row.value) || (row && row.type == "textarea")) {
           dataRows[row.field] = row.value;
         }
+         if ((row && row.value) || (row && row.type == "switch")) {
+          dataRows[row.field] = row.value;
+        }
       }
 
       // validate values in data rows must not equals 0
@@ -514,7 +525,7 @@ export default {
                   ].replace(" ", "T")
                 : null;
               data.value = new Date(dateValue);
-            }  else if (data.value == undefined && data.type == "hidden") {
+            } else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
             } else if (
               data.type == "text" ||

@@ -100,7 +100,7 @@ class BadasoBaseController extends Controller
 
             // get data in request, validate, and update data
             $data = $request->input('data');
-            $this->validateData($data, $data_type);
+           $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
 
             DB::commit();
