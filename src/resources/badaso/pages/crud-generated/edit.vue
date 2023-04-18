@@ -225,7 +225,7 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' || 
+                    v-if="dataRow.type == 'hidden' ||
                           dataRow.type == 'data_identifier' ||
                           dataRow.type == 'relation'"
                     :label="dataRow.displayName"
@@ -418,6 +418,9 @@ export default {
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
         if (row && row.value || row && row.type == 'textarea') {
+          dataRows[row.field] = row.value;
+        }
+        if ((row && row.value) || (row && row.type == "switch")) {
           dataRows[row.field] = row.value;
         }
       }
