@@ -85,7 +85,7 @@ jobs:
         run: git branch &&
           cd laravel &&
           composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
-          composer update --ignore-platform-reqs
+          composer update --no-interaction
 
       # Mysql | Laravel setup
       - name: Mysql | Laravel setup
