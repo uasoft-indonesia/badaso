@@ -46,7 +46,8 @@
     "spatie/laravel-backup": "^6.16|^8.1.0",
     "unisharp/laravel-filemanager": "^2.4",
     "webpatser/laravel-uuid": "^4.0",
-    "zircote/swagger-php": "3.2"
+    "zircote/swagger-php": "3.2",
+    "psr/http-message": "^1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
