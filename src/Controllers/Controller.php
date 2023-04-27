@@ -570,7 +570,7 @@ abstract class Controller extends BaseController
                 }
             }
 
-           DB::table($data_type->name)->where('id', $id)->update($new_data);
+            DB::table($data_type->name)->where('id', $id)->update($new_data);
             $model = DB::table($data_type->name)->where('id', $id)->first();
         }
 
