@@ -50,8 +50,7 @@ jobs:
         run: git branch &&
           cd laravel &&
           composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
-          composer clearcache &&
-          composer selfupdate --no-interaction
+          composer update --no-interaction
 
       # Laravel setup
       - name: Laravel setup

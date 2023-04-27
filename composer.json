@@ -31,7 +31,7 @@
     "doctrine/dbal": "^2.5",
     "guzzlehttp/guzzle": "^7.2",
     "larapack/doctrine-support": "^0.1.9",
-    "laravel/octane": "1.5.3",
+    "laravel/octane": "1.3.0",
     "laravel/sanctum": "^2.14.1|^3.0",
     "laravel/tinker": "^2.7",
     "laravel/ui": "^3.4",
@@ -46,8 +46,7 @@
     "spatie/laravel-backup": "^6.16|^8.1.0",
     "unisharp/laravel-filemanager": "^2.4",
     "webpatser/laravel-uuid": "^4.0",
-    "zircote/swagger-php": "3.2",
-    "laminas/laminas-diactoros": "^2.5"
+    "zircote/swagger-php": "3.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
