@@ -225,10 +225,11 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' || 
-                          dataRow.type == 'data_identifier' ||
-                          dataRow.type == 'relation'"
-
+                    v-if="
+                      dataRow.type == 'hidden' ||
+                      dataRow.type == 'data_identifier' ||
+                      dataRow.type == 'relation'
+                    "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -424,6 +425,9 @@ export default {
         if ((row && row.value) || (row && row.type == "textarea")) {
           dataRows[row.field] = row.value;
         }
+        if ((row && row.value) || (row && row.type == "switch")) {
+          dataRows[row.field] = row.value;
+        }
       }
 
       // validate values in data rows must not equals 0
@@ -482,8 +486,6 @@ export default {
             data.add = data.add == 1;
             data.edit = data.edit == 1;
             data.read = data.read == 1;
-            data.details = JSON.parse(data.details);
-
             if (
               data.type == "upload_image_multiple" ||
               data.type == "upload_file_multiple" ||
@@ -495,12 +497,6 @@ export default {
               if (val) {
                 data.value = val.split(",");
               }
-            } else if (data.type == "switch") {
-              data.value = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
-              ]
-                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
-                : false;
             } else if (data.type == "slider") {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
@@ -514,7 +510,7 @@ export default {
                   ].replace(" ", "T")
                 : null;
               data.value = new Date(dateValue);
-            }  else if (data.value == undefined && data.type == "hidden") {
+            } else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
             } else if (
               data.type == "text" ||
@@ -539,9 +535,15 @@ export default {
               Object.entries(record).filter(function (item, key) {
                 return (data.value[key] = item[1][destinationTableId]);
               });
+            } else if (data.type == "switch") {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+                : false;
             } else {
-              data.value =
-                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+                data.value =
+                  this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
             }
           } catch (error) {}
           return data;
