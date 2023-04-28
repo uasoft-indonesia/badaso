@@ -47,8 +47,8 @@
     "unisharp/laravel-filemanager": "^2.4",
     "webpatser/laravel-uuid": "^4.0",
     "zircote/swagger-php": "3.2",
-    "laminas/laminas-diactoros": "*",
-    "psr/http-message": "*"
+   "laminas/laminas-diactoros": "*",
+   "psr/http-message": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
