@@ -43,11 +43,11 @@
     "webpatser/laravel-uuid": "^4.0",
     "zircote/swagger-php": "3.2",
     "psr/http-message": "^1.0|*",
-    "laminas/laminas-diactoros": "^2.25|*",
+    "laminas/laminas-diactoros": "^2.25",
     "laravel/octane": "^1.5",
     "guzzlehttp/guzzle": "^7.5",
     "google/apiclient": "^2.13",
-    "masbug/flysystem-google-drive-ext": "^2.2|*"
+    "masbug/flysystem-google-drive-ext": "^2.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
