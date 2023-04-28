@@ -42,7 +42,7 @@
     "unisharp/laravel-filemanager": "^2.4",
     "webpatser/laravel-uuid": "^4.0",
     "zircote/swagger-php": "3.2",
-    "psr/http-message": "^1.0",
+    "psr/http-message": "1.0|1.0.1|1.1|*",
     "laminas/laminas-diactoros": "^2.25|*",
     "laravel/octane": "^1.5",
     "guzzlehttp/guzzle": "^7.5",
