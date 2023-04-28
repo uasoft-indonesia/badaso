@@ -486,6 +486,8 @@ export default {
             data.add = data.add == 1;
             data.edit = data.edit == 1;
             data.read = data.read == 1;
+            data.details = JSON.parse(data.details);
+
             if (
               data.type == "upload_image_multiple" ||
               data.type == "upload_file_multiple" ||
@@ -497,6 +499,12 @@ export default {
               if (val) {
                 data.value = val.split(",");
               }
+            } else if (data.type == "switch") {
+              data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
+                : false;
             } else if (data.type == "slider") {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
@@ -535,15 +543,9 @@ export default {
               Object.entries(record).filter(function (item, key) {
                 return (data.value[key] = item[1][destinationTableId]);
               });
-            } else if (data.type == "switch") {
-              data.value = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
-              ]
-                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
-                : false;
             } else {
-                data.value =
-                  this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+              data.value =
+                this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
             }
           } catch (error) {}
           return data;
