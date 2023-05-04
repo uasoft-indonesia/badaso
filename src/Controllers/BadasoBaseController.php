@@ -64,7 +64,6 @@ class BadasoBaseController extends Controller
             ]);
 
             $data = $this->getDataDetail($slug, $request->id);
-
             // add event notification handle
             $table_name = $data_type->name;
             FCMNotification::notification(FCMNotification::$ACTIVE_EVENT_ON_READ, $table_name);
