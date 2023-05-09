@@ -32,7 +32,7 @@
     "laravel/tinker": "2.8",
     "laravel/ui": "3.4",
     "spatie/flysystem-dropbox": "1.2.3",
-    "league/flysystem": "1.1.10",
+    "league/flysystem": "1.1.10 | 2.1.1",
     "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
     "phpstan/phpstan": "1.10.14",
     "predis/predis": "1.1",
