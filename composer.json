@@ -45,7 +45,7 @@
     "google/apiclient": "^2.13",
     "larapack/doctrine-support": "^0.1.8",
     "laminas/laminas-diactoros": "^2.25.2",
-    "psr/http-message": "*",
+    "psr/http-message": "~1.0",
     "laravel/octane": "^1.5",
     "masbug/flysystem-google-drive-ext": "^2.2|^1.1.10",
     "php-open-source-saver/jwt-auth": "^2.1"
