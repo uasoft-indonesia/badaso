@@ -46,8 +46,7 @@
     "larapack/doctrine-support": "0.1.8",
     "masbug/flysystem-google-drive-ext": "2.2",
     "php-open-source-saver/jwt-auth": "2.1",
-    "laminas/laminas-diactoros": "3.0",
-    "laravel/octane": "1.5"
+    "laravel/octane": "1.5.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
