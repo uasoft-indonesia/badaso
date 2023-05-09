@@ -35,7 +35,7 @@
     "league/flysystem-aws-s3-v3": "3.0",
     "phpstan/phpstan": "1.10.14",
     "predis/predis": "1.1",
-    "spatie/flysystem-dropbox": "1.2.2",
+    "spatie/flysystem-dropbox": "2.0",
     "spatie/laravel-activitylog": "4.7",
     "spatie/laravel-backup": "6.16",
     "symfony/var-exporter": "^5.2.0|^6.0",
