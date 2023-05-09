@@ -33,7 +33,7 @@
     "league/flysystem": "1.1.10",
     "league/flysystem-aws-s3-v3": "1.0.30",
     "phpstan/phpstan": "^1.10.14",
-    "predis/predis": "^1.1.*",
+    "predis/predis": "^1.1",
     "spatie/flysystem-dropbox": "^1.2.2",
     "spatie/laravel-activitylog": "^4.7",
     "spatie/laravel-backup": "^6.16",
@@ -45,7 +45,7 @@
     "google/apiclient": "^2.13",
     "larapack/doctrine-support": "^0.1.8",
     "laminas/laminas-diactoros": "^2.25.2",
-    "psr/http-message": "~1.0",
+    "psr/http-message": "^1.0 || ^2.0",
     "laravel/octane": "^1.5",
     "masbug/flysystem-google-drive-ext": "^2.2|^1.1.10",
     "php-open-source-saver/jwt-auth": "^2.1"
