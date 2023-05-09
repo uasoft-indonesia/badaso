@@ -42,8 +42,9 @@
     "webpatser/laravel-uuid": "^4.0",
     "zircote/swagger-php": "3.2",
     "guzzlehttp/guzzle": "^7.5",
-    "google/apiclient": "^2.13"
-
+    "google/apiclient": "^2.13",
+    "larapack/doctrine-support": "^0.1.9",
+    "laminas/laminas-diactoros": "^2.25"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
