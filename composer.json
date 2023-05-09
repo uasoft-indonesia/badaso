@@ -27,7 +27,7 @@
     "psr/http-message": "~1.0",
     "arcanedev/log-viewer": "^8.1",
     "darkaonline/l5-swagger": "8.3.3",
-    "doctrine/dbal": "^3.2",
+    "doctrine/dbal": "^3.6",
     "laravel/sanctum": "^2.15.1",
     "laravel/tinker": "^2.8",
     "laravel/ui": "^3.4",
