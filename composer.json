@@ -27,7 +27,7 @@
     "arcanedev/log-viewer": "^8.1|^9.0",
     "darkaonline/l5-swagger": "8.3.3",
     "doctrine/dbal": "^2.5",
-    "laravel/sanctum": "^2.14.1|^3.0"
+    "laravel/tinker": "^2.7"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
