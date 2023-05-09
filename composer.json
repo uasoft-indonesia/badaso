@@ -24,6 +24,7 @@
   },
   "type": "library",
   "require": {
+
     "darkaonline/l5-swagger": "8.3.3",
     "doctrine/dbal": "^2.13",
     "laravel/sanctum": "^2.15.1",
@@ -45,7 +46,9 @@
     "larapack/doctrine-support": "^0.1.8",
     "masbug/flysystem-google-drive-ext": "^2.2|^1.1.10",
     "php-open-source-saver/jwt-auth": "^2.1",
-    "laravel/octane": "^1.5"
+    "laminas/laminas-diactoros": "2.25.2 | 3.0",
+    "laravel/octane": "^1.5",
+    "arcanedev/log-viewer": "8.1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
