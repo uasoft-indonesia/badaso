@@ -33,7 +33,9 @@
     "spatie/laravel-backup": "7.8",
     "unisharp/laravel-filemanager": "2.6",
     "spatie/laravel-activitylog": "4.7.1",
-    "php-open-source-saver/jwt-auth": "2.1.0"
+    "php-open-source-saver/jwt-auth": "2.1.0",
+    "google/apiclient": "2.13.2",
+    "spatie/flysystem-dropbox": "1.2.3"
 
   },
   "require-dev": {
