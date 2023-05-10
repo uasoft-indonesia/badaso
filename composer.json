@@ -24,10 +24,11 @@
   },
   "type": "library",
   "require": {
-    "psr/http-message": "1.1 | 2.0",
+    "psr/http-message": "1.1",
     "arcanedev/log-viewer": "8.1",
     "larapack/doctrine-support": "0.1.9",
-    "darkaonline/l5-swagger": "8.5"
+    "darkaonline/l5-swagger": "8.5",
+    "symfony/var-exporter": "5.4.21"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
