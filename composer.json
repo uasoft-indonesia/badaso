@@ -40,7 +40,8 @@
     "laravel/octane": "^1.5",
     "laravel/sanctum": "2.15.1",
     "laravel/tinker": "2.8.1",
-    "laravel/ui": "3.4.6"
+    "laravel/ui": "3.4.6",
+    "webpatser/laravel-uuid": "4.0.1"
 
   },
   "require-dev": {
