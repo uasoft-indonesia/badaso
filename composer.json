@@ -37,7 +37,7 @@
     "google/apiclient": "2.13.2",
     "spatie/flysystem-dropbox": "1.2.3",
     "masbug/flysystem-google-drive-ext": "1.3.2",
-    "laravel/octane": "^1.5",
+    "laravel/octane": "1.5.5",
     "laravel/sanctum": "2.15.1",
     "laravel/tinker": "2.8.1",
     "laravel/ui": "3.4.6",
