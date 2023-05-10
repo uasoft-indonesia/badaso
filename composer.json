@@ -25,7 +25,8 @@
   "type": "library",
   "require": {
     "psr/http-message": "1.1 | 2.0",
-    "arcanedev/log-viewer": "8.1"
+    "arcanedev/log-viewer": "8.1",
+    "larapack/doctrine-support": "0.1.9"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
