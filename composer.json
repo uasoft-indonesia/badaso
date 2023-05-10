@@ -46,7 +46,8 @@
     "guzzlehttp/guzzle": "7.5.1",
     "zircote/swagger-php": "4.7.10",
     "doctrine/dbal": "2.13.9",
-    "league/flysystem-aws-s3-v3": "1.0.29"
+    "league/flysystem-aws-s3-v3": "1.0.29",
+    "league/flysystem": "1.1.10"
 
   },
   "require-dev": {
