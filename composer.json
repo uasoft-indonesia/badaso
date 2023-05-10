@@ -25,8 +25,7 @@
   "type": "library",
   "require": {
     "psr/http-message": "1.0",
-    "arcanedev/log-viewer": "8.1",
-    "darkaonline/l5-swagger": "8.3.3"
+    "arcanedev/log-viewer": "8.1"
 
   },
   "require-dev": {
