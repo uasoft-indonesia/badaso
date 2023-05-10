@@ -28,7 +28,8 @@
     "arcanedev/log-viewer": "8.1",
     "larapack/doctrine-support": "0.1.9",
     "darkaonline/l5-swagger": "8.5",
-    "symfony/var-exporter": "5.4.21"
+    "symfony/var-exporter": "5.4.21",
+    "phpstan/phpstan": "1.10.15"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
