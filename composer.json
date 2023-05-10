@@ -32,7 +32,8 @@
     "laravel/sanctum": "2.15.1",
     "laravel/tinker": "2.8",
     "laravel/ui": "3.4",
-    "league/flysystem": "1.1.10",
+    "masbug/flysystem-google-drive-ext": "2.2",
+    "league/flysystem": "3.0",
     "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
     "phpstan/phpstan": "1.10.14",
     "predis/predis": "1.1",
@@ -46,9 +47,7 @@
     "guzzlehttp/guzzle": "7.5",
     "google/apiclient": "2.13",
     "larapack/doctrine-support": "0.1.8",
-    "masbug/flysystem-google-drive-ext": "2.2",
     "php-open-source-saver/jwt-auth": "2.1"
-
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
