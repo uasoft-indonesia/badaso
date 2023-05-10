@@ -31,7 +31,8 @@
     "symfony/var-exporter": "5.4.21",
     "phpstan/phpstan": "1.10.15",
     "spatie/laravel-backup": "7.8",
-    "unisharp/laravel-filemanager": "2.6"
+    "unisharp/laravel-filemanager": "2.6",
+    "spatie/laravel-activitylog": "4.7.1"
 
   },
   "require-dev": {
