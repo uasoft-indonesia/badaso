@@ -34,7 +34,7 @@
     "laravel/ui": "3.4",
     "masbug/flysystem-google-drive-ext": "2.2",
     "league/flysystem": "3.0",
-    "league/flysystem-aws-s3-v3": "^1.0.28|^3.0",
+    "league/flysystem-aws-s3-v3": "3.0.0",
     "spatie/flysystem-dropbox": "3.0.0",
     "spatie/laravel-activitylog": "4.7",
     "spatie/laravel-backup": "8.1.0",
