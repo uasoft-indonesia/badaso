@@ -24,7 +24,6 @@
   },
   "type": "library",
   "require": {
-    "guzzlehttp/guzzle": "6.5.8",
     "laravel/octane": "1.5.5"
   },
   "require-dev": {
