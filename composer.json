@@ -45,7 +45,7 @@
     "predis/predis": "2.1.2",
     "zircote/swagger-php": "4.7.10",
     "doctrine/dbal": "2.13.9",
-    "league/flysystem-aws-s3-v3": "1.0.29",
+    "league/flysystem-aws-s3-v3": "2.5.0",
     "league/flysystem": "2.1.1"
   },
   "require-dev": {
