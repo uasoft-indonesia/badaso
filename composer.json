@@ -25,7 +25,8 @@
   "type": "library",
   "require": {
     "guzzlehttp/guzzle": "7.5.1",
-    "arcanedev/log-viewer": "8.2.0"
+    "arcanedev/log-viewer": "8.2.0",
+    "laravel/sanctum": "2.15.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
