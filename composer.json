@@ -24,8 +24,7 @@
   },
   "type": "library",
   "require": {
-    "psr/http-message": "1.0.1",
-    "laravel/octane": "1.5.5"
+    "psr/http-message": "1.0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
