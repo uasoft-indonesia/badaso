@@ -37,7 +37,7 @@
     "spatie/laravel-activitylog": "4.7.1",
     "php-open-source-saver/jwt-auth": "2.1.0",
     "google/apiclient": "2.13.2",
-    "spatie/flysystem-dropbox": "1.2.3",
+    "spatie/flysystem-dropbox": "2.0.0",
     "masbug/flysystem-google-drive-ext": "2.0.2",
     "laravel/tinker": "2.8.1",
     "laravel/ui": "3.4.6",
