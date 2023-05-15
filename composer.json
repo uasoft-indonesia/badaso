@@ -24,7 +24,7 @@
   },
   "type": "library",
   "require": {
-    "arcanedev/log-viewer": "^8.1.0",
+    "arcanedev/log-viewer": "8.1.0",
     "darkaonline/l5-swagger": "8.5",
     "doctrine/dbal": "2.13.9",
     "larapack/doctrine-support": "0.1.9",
