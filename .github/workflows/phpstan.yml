@@ -49,8 +49,8 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-          composer require badaso/core:dev-${GITHUB_HEAD_REF} &&
-          composer update --no-interaction
+          composer require badaso/core:dev-${GITHUB_HEAD_REF} -W &&
+          composer update --no-interaction -W
 
       # Laravel setup
       - name: Laravel setup
@@ -59,7 +59,7 @@ jobs:
 
       # Badaso Core Test PHPStan
       - name: Badaso core test PHPStan
-        run: cd laravel && 
+        run: cd laravel &&
              ./vendor/bin/phpstan analyse -c vendor/badaso/core/phpstan.neon.dist
 
 
