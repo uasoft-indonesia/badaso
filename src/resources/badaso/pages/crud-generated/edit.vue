@@ -417,12 +417,7 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-        if (row && row.value || row && row.type == 'textarea') {
-          dataRows[row.field] = row.value;
-        }
-        if ((row && row.value) || (row && row.type == "switch")) {
-          dataRows[row.field] = row.value;
-        }
+        dataRows[row.field] = row.value;
       }
 
       // validate values in data rows must not equals 0
