@@ -227,8 +227,8 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' || 
-                          dataRow.type == 'data_identifier' || 
+                    v-if="dataRow.type == 'hidden' ||
+                          dataRow.type == 'data_identifier' ||
                           dataRow.type == 'relation'"
 
                     :label="dataRow.displayName"

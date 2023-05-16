@@ -26,7 +26,6 @@
                 <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
                   <!-- <input type="text" v-model="dataRow.value"> -->
                   <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-                  {{ dataRow.value }}
                   <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
@@ -423,16 +422,7 @@ export default {
       // init data row
       const dataRows = {};
       for (const row of this.dataType.dataRows) {
-        if ((row && row.value) || (row && row.type == "textarea")) {
-          dataRows[row.field] = row.value;
-        }
-        if ((row && row.value) || (row && row.type == "switch")) {
-          dataRows[row.field] = row.value;
-        }
-         if ((row && row.value) || (row && row.type == "upload_file")) {
-          dataRows[row.field] = row.value;
-          console.log(dataRows[row.field],'datarow')
-        }
+         dataRows[row.field] = row.value;
       }
 
       // validate values in data rows must not equals 0
@@ -484,7 +474,6 @@ export default {
         this.$closeLoader();
         this.dataType = dataType;
         this.record = response.data;
-        console.log(this.record,'record')
 
         const dataRows = this.dataType.dataRows.map((data) => {
           try {
@@ -548,10 +537,10 @@ export default {
               Object.entries(record).filter(function (item, key) {
                 return (data.value[key] = item[1][destinationTableId]);
               });
-            } else {
+            }
+             else {
               data.value =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
-                console.log(data.value,'testu')
             }
           } catch (error) {}
           return data;
