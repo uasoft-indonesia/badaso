@@ -867,7 +867,6 @@ export default {
         });
         this.$closeLoader();
         this.data = response.data;
-        console.log(this.data,'data')
         this.records = response.data.data;
         this.records.map((record) => {
           if (record.createdAt || record.updatedAt) {
