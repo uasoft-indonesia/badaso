@@ -554,7 +554,6 @@ abstract class Controller extends BaseController
                     ])) {
                         $files = explode(',', $model->{$data_row->field});
                         foreach ($files as $file) {
-
                             if (is_array($value)) {
                                 if (! in_array($file, $value)) {
                                     $this->handleDeleteFile($file);
