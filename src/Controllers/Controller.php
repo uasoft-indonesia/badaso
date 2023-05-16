@@ -554,6 +554,7 @@ abstract class Controller extends BaseController
                     ])) {
                         $files = explode(',', $model->{$data_row->field});
                         foreach ($files as $file) {
+                            dd($file);
                             if (is_array($value)) {
                                 if (! in_array($file, $value)) {
                                     $this->handleDeleteFile($file);
@@ -566,6 +567,7 @@ abstract class Controller extends BaseController
                         }
                     }
                     $new_data[$key] = $this->getContentByType($data_type, $data_row, $value) !== null ? $this->getContentByType($data_type, $data_row, $value) : '';
+                    dd($model);
                 }
             }
             DB::table($data_type->name)->where('id', $id)->update($new_data);
