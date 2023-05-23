@@ -102,6 +102,7 @@ class BadasoBaseController extends Controller
             $data = $request->input('data');
             $this->validateData($data, $data_type);
             $updated = $this->updateData($data, $data_type);
+
             DB::commit();
             activity($data_type->display_name_singular)
                 ->causedBy(auth()->user() ?? null)
