@@ -536,7 +536,7 @@ export default {
               data.value = [];
               Object.entries(record).filter(function (item, key) {
                 return (data.value[key] = item[1][destinationTableId]);
-              })
+              });
             } else {
               data.value =
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
