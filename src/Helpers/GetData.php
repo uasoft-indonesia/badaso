@@ -396,7 +396,7 @@ class GetData
                         $upload_image = $record->{$data_row->field};
 
                         if (isset($upload_image)) {
-                            if (str_contains($upload_image, 'https')) {
+                            if (str_contains($upload_image, 'http')) {
                                 $upload_image = $upload_image;
                             } else {
                                 if (config('lfm.should_create_thumbnails') == true) {
