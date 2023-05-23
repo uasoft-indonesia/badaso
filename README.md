@@ -86,6 +86,11 @@ Thanks to all backers & sponsors!
 ### Sponsors
 
 <div align="center">
+<h3>Exclusive Sponsor</h3>
+<a href="https://aws.amazon.com" target="_blank"><img style="border-radius:50%" height="200px" src="https://d2908q01vomqb2.cloudfront.net/ca3512f4dfa95a03169c5a670a4c91a19b3077b4/2019/01/10/open-source-logo-800x400.jpg"></a>
+</div>
+
+<div align="center">
 <h3>via <a href="https://github.com/sponsors/uasoft-indonesia">Github</a> & <a href="https://paypal.me/rizkiheryandi">Direct</a></h3>
 
 <a href="https://soft.uatech.co.id" target="_blank"><img style="border-radius:50%" height="100px" src="https://avatars.githubusercontent.com/u/32425950?s=400&u=6b3d016c70331eb0921b64366b06c658381e13ea&v=4"></a>
