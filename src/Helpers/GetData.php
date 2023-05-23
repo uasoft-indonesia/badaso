@@ -416,7 +416,7 @@ class GetData
                                     $upload_image[] = $file_name;
                                     $upload_image = join('/', $upload_image);
                                 }
-                                $upload_image = asset('storage/' . $upload_image);
+                                $upload_image = asset('storage/'.$upload_image);
                             }
                             $record->{$data_row->field} = $upload_image;
                         }
