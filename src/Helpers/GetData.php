@@ -32,7 +32,7 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
@@ -56,7 +56,7 @@ class GetData
         $records = [];
         $query = $model::query()->select($fields);
 
-        if (!$is_roles) {
+        if (! $is_roles) {
             if ($is_field) {
                 $query = $model::query()->select($fields)->where($field_identify_related_user, auth()->user()->id);
             }
@@ -120,7 +120,7 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
@@ -149,14 +149,14 @@ class GetData
 
         if ($order_field) {
             $data = $model::query()->select($fields)->orderBy($order_field, $order_direction);
-            if (!$is_roles) {
+            if (! $is_roles) {
                 if ($is_field) {
                     $data = $model::query()->select($fields)->orderBy($order_field, $order_direction)->where($field_identify_related_user, auth()->user()->id);
                 }
             }
         } else {
             $data = $model::query()->select($fields);
-            if (!$is_roles) {
+            if (! $is_roles) {
                 if ($is_field) {
                     $data = $model::query()->select($fields)->where($field_identify_related_user, auth()->user()->id);
                 }
@@ -238,7 +238,7 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
@@ -259,7 +259,7 @@ class GetData
         $fields = array_diff(array_merge($fields, $ids, $fields_data_identifier), $field_other_relation);
         $query = DB::table($data_type->name)->select($fields);
 
-        if (!$is_roles) {
+        if (! $is_roles) {
             if ($is_field) {
                 $query = DB::table($data_type->name)->select($fields)->where($field_identify_related_user, auth()->user()->id);
             }
@@ -329,7 +329,7 @@ class GetData
         $field_identify_related_user = null;
         $roles_can_see_all_data = [];
 
-        $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
+        $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user')->first();
 
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
@@ -383,7 +383,7 @@ class GetData
                                     $upload_image_multiple[] = $file_name;
                                     $upload_image_multiple = join('/', $upload_image_multiple);
                                 }
-                                $asset = asset('storage/' . $upload_image_multiple);
+                                $asset = asset('storage/'.$upload_image_multiple);
 
                                 return $asset;
                             });
@@ -407,7 +407,7 @@ class GetData
                                     $upload_image[] = $file_name;
                                     $upload_image = join('/', $upload_image);
                                 }
-                                $upload_image = asset('storage/' . $upload_image);
+                                $upload_image = asset('storage/'.$upload_image);
                             }
                             $record->{$data_row->field} = $upload_image;
                         }
@@ -418,9 +418,10 @@ class GetData
                     $record->$table_manytomany = $data_relation;
                 }
             }
+
             return $record;
         });
-        if (!$is_roles) {
+        if (! $is_roles) {
             if ($is_field) {
                 foreach ($records as $key => $record) {
                     if (
@@ -479,7 +480,7 @@ class GetData
 
                 if (isset($destination_table_display_more_column)) {
                     foreach ($destination_table_display_more_column as $index => $item_destination_table_display_more_column) {
-                        if (!in_array($item_destination_table_display_more_column, $arr_query_select)) {
+                        if (! in_array($item_destination_table_display_more_column, $arr_query_select)) {
                             $arr_query_select[] = $item_destination_table_display_more_column;
                         }
                     }
@@ -487,10 +488,10 @@ class GetData
 
                 if (isset($row->{$field->field}) && $field->relation['relation_type'] == 'belongs_to_many') {
                     $data_table_destination = DB::table($destination_table)->get();
-                    $table_primary_id = $data_type['name'] . '_id';
+                    $table_primary_id = $data_type['name'].'_id';
                     $row->{$field->field}->filter(function ($fields, $key) use ($data_table_destination, $destination_table, $destination_table_display_column) {
                         foreach ($data_table_destination as $key => $value) {
-                            if ($fields->{$destination_table . '_id'} == $value->id) {
+                            if ($fields->{$destination_table.'_id'} == $value->id) {
                                 $fields->{$destination_table_display_column} = $value->{$destination_table_display_column};
                             }
                         }
