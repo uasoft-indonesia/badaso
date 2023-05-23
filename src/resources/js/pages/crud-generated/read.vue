@@ -262,6 +262,7 @@ export default {
         this.$closeLoader();
         this.dataType = dataType;
         this.record = response.data;
+        console.log(this.record,'rec')
 
         const dataRows = this.dataType.dataRows.map((data) => {
           try {
