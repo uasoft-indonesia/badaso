@@ -403,16 +403,21 @@ class GetData
                 } elseif ($data_row->type == 'upload_image') {
                     if (isset($record->{$data_row->field})) {
                         $upload_image = $record->{$data_row->field};
+
                         if (isset($upload_image)) {
-                            if (config('lfm.should_create_thumbnails') == true) {
-                                $put_thumbs = config('lfm.thumb_folder_name');
-                                $upload_image = explode('/', $upload_image);
-                                $file_name = $upload_image[count($upload_image) - 1];
-                                $upload_image[count($upload_image) - 1] = $put_thumbs;
-                                $upload_image[] = $file_name;
-                                $upload_image = join('/', $upload_image);
+                            if (str_contains($upload_image, 'http')) {
+                                $upload_image = $upload_image;
+                            } else {
+                                if (config('lfm.should_create_thumbnails') == true) {
+                                    $put_thumbs = config('lfm.thumb_folder_name');
+                                    $upload_image = explode('/', $upload_image);
+                                    $file_name = $upload_image[count($upload_image) - 1];
+                                    $upload_image[count($upload_image) - 1] = $put_thumbs;
+                                    $upload_image[] = $file_name;
+                                    $upload_image = join('/', $upload_image);
+                                }
+                                $upload_image = asset('storage/'.$upload_image);
                             }
-                            $upload_image = asset('storage/'.$upload_image);
                             $record->{$data_row->field} = $upload_image;
                         }
                     }
