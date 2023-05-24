@@ -16,6 +16,7 @@ class BadasoBaseController extends Controller
     {
         try {
             $slug = $this->getSlug($request);
+
             $data_type = $this->getDataType($slug);
 
             $only_data_soft_delete = $request->showSoftDelete == 'true';
