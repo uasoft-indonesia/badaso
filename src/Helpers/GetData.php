@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Permission;
+use Uasoft\Badaso\Models\User;
 
 class GetData
 {
@@ -334,7 +335,7 @@ class GetData
         $field_identify_related_user = $permissions ? $permissions['field_identify_related_user'] : null;
 
         $roles_can_see_all_data = json_decode($permissions) ? json_decode($permissions['roles_can_see_all_data']) : [];
-        $user_roles = auth()->user()->roles;
+        $user_roles = User::with('roles')->get();
 
         foreach ($user_roles as $key => $user_role) {
             $is_roles = in_array($user_role->name, $roles_can_see_all_data);
@@ -442,7 +443,6 @@ class GetData
 
         $entities['data'] = $data;
         $entities['total'] = count($data);
-
         return $entities;
     }
 
