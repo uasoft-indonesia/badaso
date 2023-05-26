@@ -443,6 +443,7 @@ class GetData
 
         $entities['data'] = $data;
         $entities['total'] = count($data);
+
         return $entities;
     }
 
