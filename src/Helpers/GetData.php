@@ -44,13 +44,17 @@ class GetData
         if ($is_public !== 1) {
             if (!empty(auth()->user())) {
                 $user_roles = auth()->user()->roles;
+
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+                }
             }
         } else {
             $user_roles = User::with('roles')->get();
-        }
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -141,13 +145,17 @@ class GetData
         if ($is_public !== 1) {
             if (!empty(auth()->user())) {
                 $user_roles = auth()->user()->roles;
+
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+                }
             }
         } else {
             $user_roles = User::with('roles')->get();
-        }
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -268,13 +276,17 @@ class GetData
         if ($is_public !== 1) {
             if (!empty(auth()->user())) {
                 $user_roles = auth()->user()->roles;
+
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+                }
             }
         } else {
             $user_roles = User::with('roles')->get();
-        }
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         foreach ($data_rows as $key => $data_row) {
@@ -370,13 +382,17 @@ class GetData
         if ($is_public !== 1) {
             if (!empty(auth()->user())) {
                 $user_roles = auth()->user()->roles;
+
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+                }
             }
         } else {
             $user_roles = User::with('roles')->get();
-        }
 
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         }
 
         foreach ($data_rows as $key => $data_row) {
