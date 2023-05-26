@@ -31,6 +31,7 @@ class GetData
 
         $is_roles = false;
         $field_identify_related_user = null;
+        $is_public = 0;
         $roles_can_see_all_data = [];
 
         $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user', 'is_public')->first();
@@ -126,6 +127,7 @@ class GetData
 
         $is_roles = false;
         $field_identify_related_user = null;
+        $is_public = 0;
         $roles_can_see_all_data = [];
 
         $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user', 'is_public')->first();
@@ -251,6 +253,7 @@ class GetData
 
         $is_roles = false;
         $field_identify_related_user = null;
+        $is_public = 0;
         $roles_can_see_all_data = [];
 
         $permissions = Permission::where('key', 'browse_' . $data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user', 'is_public')->first();
@@ -349,6 +352,7 @@ class GetData
         $field_other_relation = [];
         $is_roles = false;
         $field_identify_related_user = null;
+        $is_public = 0;
         $roles_can_see_all_data = [];
 
         $permissions = Permission::where('key', 'browse_'.$data_type->name)->where('table_name', $data_type->name)->select('roles_can_see_all_data', 'field_identify_related_user','is_public')->first();
