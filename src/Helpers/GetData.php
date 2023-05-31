@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Permission;
-use Uasoft\Badaso\Models\User;
+use Uasoft\Badaso\Models\UserRole;
 
 class GetData
 {
@@ -50,10 +50,14 @@ class GetData
                 }
             }
         } else {
-            $user_roles = User::with('roles')->get();
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
 
-            foreach ($user_roles as $key => $user_role) {
-                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
             }
         }
 
@@ -151,10 +155,14 @@ class GetData
                 }
             }
         } else {
-            $user_roles = User::with('roles')->get();
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
 
-            foreach ($user_roles as $key => $user_role) {
-                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
             }
         }
 
@@ -282,10 +290,14 @@ class GetData
                 }
             }
         } else {
-            $user_roles = User::with('roles')->get();
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
 
-            foreach ($user_roles as $key => $user_role) {
-                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
             }
         }
 
@@ -388,10 +400,14 @@ class GetData
                 }
             }
         } else {
-            $user_roles = User::with('roles')->get();
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
 
-            foreach ($user_roles as $key => $user_role) {
-                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
             }
         }
 
