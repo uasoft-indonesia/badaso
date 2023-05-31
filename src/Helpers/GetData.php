@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Permission;
-use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 
 class GetData
@@ -388,7 +387,7 @@ class GetData
                 $is_roles = in_array($user_role->name, $roles_can_see_all_data);
             }
         } else {
-            $all_user_roles = UserRole::with(['user','role'])->get();
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
             $users = json_decode($all_user_roles);
             foreach ($users as $key => $user) {
                 $user_roles[] = $user->role;
