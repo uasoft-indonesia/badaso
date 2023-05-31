@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use ReflectionClass;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Permission;
-use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 
 class GetData
