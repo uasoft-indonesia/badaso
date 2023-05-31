@@ -8,6 +8,7 @@ use ReflectionClass;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\User;
+use Uasoft\Badaso\Models\UserRole;
 
 class GetData
 {
@@ -44,12 +45,18 @@ class GetData
 
         if ($is_public !== 1) {
             $user_roles = auth()->user()->roles;
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         } else {
-            $user_roles = User::with('roles')->get();
-        }
-
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -140,12 +147,18 @@ class GetData
 
         if ($is_public !== 1) {
             $user_roles = auth()->user()->roles;
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         } else {
-            $user_roles = User::with('roles')->get();
-        }
-
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
+            }
         }
 
         $is_field = in_array($field_identify_related_user, array_merge($fields, $fields_data_identifier));
@@ -266,12 +279,18 @@ class GetData
 
         if ($is_public !== 1) {
             $user_roles = auth()->user()->roles;
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         } else {
-            $user_roles = User::with('roles')->get();
-        }
-
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            $all_user_roles = UserRole::with(['user', 'role'])->get();
+            $users = json_decode($all_user_roles);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
+            }
         }
 
         foreach ($data_rows as $key => $data_row) {
@@ -365,12 +384,18 @@ class GetData
 
         if ($is_public !== 1) {
             $user_roles = auth()->user()->roles;
+            foreach ($user_roles as $key => $user_role) {
+                $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            }
         } else {
-            $user_roles = User::with('roles')->get();
-        }
-
-        foreach ($user_roles as $key => $user_role) {
-            $is_roles = in_array($user_role->name, $roles_can_see_all_data);
+            $all_user_roles = UserRole::with(['user','role'])->get();
+            $users = json_decode($all_user_roles);
+            foreach ($users as $key => $user) {
+                $user_roles[] = $user->role;
+                foreach ($user_roles as $key => $user_role) {
+                    $is_roles = isset($user_role->name, $roles_can_see_all_data);
+                }
+            }
         }
 
         foreach ($data_rows as $key => $data_row) {
