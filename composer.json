@@ -25,7 +25,7 @@
   "type": "library",
   "require": {
     "psr/http-message": "^1.1|^2.0",
-    "arcanedev/log-viewer": "8.1.0",
+    "arcanedev/log-viewer": "8.2.0",
     "larapack/doctrine-support": "0.1.9",
     "darkaonline/l5-swagger": "8.5",
     "symfony/var-exporter": "5.4.21",
