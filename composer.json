@@ -32,7 +32,7 @@
     "phpstan/phpstan": "1.10.15",
     "spatie/laravel-backup": "8.0.9",
     "unisharp/laravel-filemanager": "2.6",
-    "spatie/laravel-activitylog": "4.7.1",
+    "spatie/laravel-activitylog": "4.7.3",
     "php-open-source-saver/jwt-auth": "2.1.0",
     "google/apiclient": "2.13.2",
     "spatie/flysystem-dropbox": "3.0.0",
