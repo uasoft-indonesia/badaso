@@ -40,7 +40,7 @@
     "laravel/octane": "1.5.6",
     "laravel/sanctum": "3.2.5",
     "laravel/tinker": "2.8.1",
-    "laravel/ui": "3.4.6",
+    "laravel/ui": "4.2.2",
     "webpatser/laravel-uuid": "4.0.1",
     "predis/predis": "2.1.2",
     "guzzlehttp/guzzle": "7.7.0",
