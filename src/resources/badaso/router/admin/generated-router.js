@@ -1,10 +1,10 @@
 import Pages from "./../../pages/index.vue";
 
-const adminPanelRoutePrefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const adminPanelRoutePrefix = import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+  ? "/" + import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
-const defaultMenuPrefix = process.env.MIX_DEFAULT_MENU
-  ? "/" + process.env.MIX_DEFAULT_MENU
+const defaultMenuPrefix = import.meta.env.VITE_DEFAULT_MENU
+  ? "/" + import.meta.env.VITE_DEFAULT_MENU
   : "/general";
 const prefix = `${adminPanelRoutePrefix}${defaultMenuPrefix}`;
 

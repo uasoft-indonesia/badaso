@@ -104,8 +104,8 @@ export default {
       status: "",
       message: "",
     },
-    baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+    baseUrl: import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+      ? import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-dashboard",
     requestVerify: false,
     errors: {},

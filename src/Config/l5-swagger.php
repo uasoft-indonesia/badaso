@@ -12,7 +12,7 @@ return [
                 /*
                  * Route for accessing api documentation interface
                 */
-                'api' => env('MIX_API_DOCUMENTATION_ROUTE', 'api/documentation'),
+                'api' => env('VITE_API_DOCUMENTATION_ROUTE', 'api/documentation'),
             ],
             'paths' => [
                 /*
@@ -238,7 +238,7 @@ return [
          * Uncomment to add constants which can be used in annotations
          */
         'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('APP_URL').'/'.env('MIX_API_ROUTE_PREFIX'),
+            'L5_SWAGGER_CONST_HOST' => env('APP_URL').'/'.env('VITE_API_ROUTE_PREFIX'),
         ],
     ],
 ];

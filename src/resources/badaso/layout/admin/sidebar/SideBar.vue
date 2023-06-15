@@ -115,8 +115,8 @@ export default {
   data: () => ({
     sidebarModel: true,
     windowWidth: window.innerWidth,
-    prefix: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+    prefix: import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+      ? import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-dashboard",
   }),
   computed: {

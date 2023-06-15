@@ -84,11 +84,11 @@ export default {
   },
 
   formatDate(value) {
-    const date = process.env.MIX_DATE_FORMAT
-      ? process.env.MIX_DATE_FORMAT
+    const date = import.meta.env.VITE_DATE_FORMAT
+      ? import.meta.env.VITE_DATE_FORMAT
       : "MMMM Do YYYY";
-    const time = process.env.MIX_TIME_FORMAT
-      ? process.env.MIX_TIME_FORMAT
+    const time = import.meta.env.VITE_TIME_FORMAT
+      ? import.meta.env.VITE_TIME_FORMAT
       : "h:mm:ss a";
     return moment(value).format(`${date}, ${time}`);
   },

@@ -50,7 +50,7 @@ return [
         'enabled' => true,
 
         'attributes' => [
-            'prefix' => env('MIX_LOG_VIEWER_ROUTE', 'log-viewer'),
+            'prefix' => env('VITE_LOG_VIEWER_ROUTE', 'log-viewer'),
 
             'middleware' => env('ARCANEDEV_LOGVIEWER_MIDDLEWARE') ? explode(',', env('ARCANEDEV_LOGVIEWER_MIDDLEWARE')) : \Uasoft\Badaso\Middleware\BadasoAuthenticateIframe::class.':log-viewer',
         ],

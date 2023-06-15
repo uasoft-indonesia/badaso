@@ -623,7 +623,6 @@ export default {
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
           iterator = 'Table'
         }
-        
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -642,7 +641,6 @@ export default {
       //   }
       //   return value;
       // })
-      
       const result = data.map(Object.values);
 
       // eslint-disable-next-line new-cap

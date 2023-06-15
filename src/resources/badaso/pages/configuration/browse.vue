@@ -280,7 +280,7 @@ export default {
     configurations: [],
     role: [],
     willDeleteConfigurationId: null,
-    statusMaintenance: process.env.MIX_BADASO_MAINTENANCE
+    statusMaintenance: import.meta.env.VITE_BADASO_MAINTENANCE
   }),
   computed: {
     groupList: {

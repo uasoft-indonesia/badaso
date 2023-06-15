@@ -1,15 +1,15 @@
 import Pages from "./../../pages/index.vue";
 
-const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const prefix = import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+  ? "/" + import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
 
-const logViewer = process.env.MIX_LOG_VIEWER_ROUTE
-  ? process.env.MIX_LOG_VIEWER_ROUTE
+const logViewer = import.meta.env.VITE_LOG_VIEWER_ROUTE
+  ? import.meta.env.VITE_LOG_VIEWER_ROUTE
   : "log-viewer";
 
-const apiDocs = process.env.MIX_API_DOCS_ROUTE
-  ? process.env.MIX_API_DOCS_ROUTE
+const apiDocs = import.meta.env.VITE_API_DOCS_ROUTE
+  ? import.meta.env.VITE_API_DOCS_ROUTE
   : "api-docs"
 export default [
   {

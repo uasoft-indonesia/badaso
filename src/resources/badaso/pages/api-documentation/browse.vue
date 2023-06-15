@@ -48,8 +48,8 @@ export default {
   },
   computed: {
     urlApiDocs() {
-      const apidocsRoute = process.env.MIX_API_DOCS_ROUTE
-        ? process.env.MIX_API_DOCS_ROUTE
+      const apidocsRoute = import.meta.env.VITE_API_DOCS_ROUTE
+        ? import.meta.env.VITE_API_DOCS_ROUTE
         : "api-docs";
       const host = window.location.origin;
       const token = localStorage.getItem("token");
