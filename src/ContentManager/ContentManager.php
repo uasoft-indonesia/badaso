@@ -20,7 +20,7 @@ class ContentManager
     /**
      * Repack Content Data.
      *
-     * @param $data
+     * @param  $data
      */
     public function repackContentData($data): array
     {
@@ -247,7 +247,7 @@ class ContentManager
      *
      * @param  string  $search
      * @param  string  $replace
-     * @param $stub
+     * @param  $stub
      * @return mixed
      */
     public function replaceString($search, $replace, $stub)
