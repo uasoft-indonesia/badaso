@@ -301,7 +301,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'integer',
                     'details' => json_encode((object) []),
                     'example' => 1,
-                    'example_update' => NULL,
+                    'example_update' => null,
                 ],
                 [
                     'badaso_type' => 'url',
@@ -393,13 +393,13 @@ class BadasoApiCrudManagementTest extends TestCase
                     'example' => "['https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png','https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png']",
                     'example_update' => [],
                 ],
-            [
-                'badaso_type' => 'upload_file_multiple',
-                'schema_type' => 'string',
-                'details' => json_encode((object) []),
-                'example' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\']",
-                'example_update' => "[]",
-            ],
+                [
+                    'badaso_type' => 'upload_file_multiple',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\']",
+                    'example_update' => '[]',
+                ],
             ];
     }
 
@@ -439,7 +439,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_EMPTY_VALUE_PREFIX}{$index}";
-            if (!Schema::hasTable($table_name)) {
+            if (! Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -1653,7 +1653,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -1674,7 +1674,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -1683,7 +1683,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
