@@ -1750,64 +1750,64 @@ class BadasoApiCrudManagementTest extends TestCase
         CallHelperTest::setCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY, $response_read_table_entities);
 
         // add and edit data entity
-        // $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
-        // $first_table = $tables[0];
+        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $first_table = $tables[0];
 
-        // $response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
-        // $fields = [];
-        // foreach ($this->getEmptyValueFields() as $key => $value) {
-        //     $fields[$value['badaso_type']] = $value;
-        // }
+        $response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
+        $fields = [];
+        foreach ($this->getEmptyValueFields() as $key => $value) {
+            $fields[$value['badaso_type']] = $value;
+        }
 
-        // $data_add_entities = [];
-        // foreach ($response_read_table_entities as $table => $entities) {
-        //     $entities = collect($entities)->filter(function ($entity) {
-        //         return $entity['add'];
-        //     })->values();
+        $data_add_entities = [];
+        foreach ($response_read_table_entities as $table_empty => $entities) {
+            $entities = collect($entities)->filter(function ($entity) {
+                return $entity['add'];
+            })->values();
 
-        //     $data_add_entities[$table] = [];
-        //     for ($index = 1; $index <= $this->MAXIMAL_CREATE_ENTITY; $index++) {
-        //         // create
-        //         $data = [];
-        //         foreach ($entities as $key => $entity) {
-        //             $field = $entity['field'];
-        //             if (array_key_exists($field, $fields)) {
-        //                 if ($field == 'relation') {
-        //                     $relation_value = DB::table($first_table)->insertGetId([]);
-        //                     $data[$field] = $relation_value;
-        //                 } else {
-        //                     $data[$field] = $fields[$field]['example'];
-        //                 }
-        //             }
-        //         }
-        //         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/add"), [
-        //             'data' => $data,
-        //         ]);
+            $data_add_entities[$table_empty] = [];
+            for ($index = 1; $index <= $this->MAXIMAL_CREATE_ENTITY; $index++) {
+                // create
+                $data = [];
+                foreach ($entities as $key => $entity) {
+                    $field = $entity['field'];
+                    if (array_key_exists($field, $fields)) {
+                        if ($field == 'relation') {
+                            $relation_value = DB::table($first_table)->insertGetId([]);
+                            $data[$field] = $relation_value;
+                        } else {
+                            $data[$field] = $fields[$field]['example'];
+                        }
+                    }
+                }
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/add"), [
+                    'data' => $data,
+                ]);
 
-        //         $response->assertSuccessful();
+                $response->assertSuccessful();
 
-        //         // update
-        //         $id = $response->json('data.id');
-        //         $data = ['id' => $id];
-        //         foreach ($entities as $key => $entity) {
-        //             $field = $entity['field'];
-        //             if (array_key_exists($field, $fields)) {
-        //                 if ($field == 'relation') {
-        //                     $relation_value = DB::table($first_table)->insertGetId([]);
-        //                     $data[$field] = $relation_value;
-        //                 } else {
-        //                     $data[$field] = $fields[$field]['example_update'];
-        //                 }
-        //             }
-        //         }
-        //         $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/edit"), [
-        //             'data' => $data,
-        //         ]);
-        //         $response->assertSuccessful();
+                // update
+                // $id = $response->json('data.id');
+                // $data = ['id' => $id];
+                // foreach ($entities as $key => $entity) {
+                //     $field = $entity['field'];
+                //     if (array_key_exists($field, $fields)) {
+                //         if ($field == 'relation') {
+                //             $relation_value = DB::table($first_table)->insertGetId([]);
+                //             $data[$field] = $relation_value;
+                //         } else {
+                //             $data[$field] = $fields[$field]['example_update'];
+                //         }
+                //     }
+                // }
+                // $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/edit"), [
+                //     'data' => $data,
+                // ]);
+                // $response->assertSuccessful();
 
-        //         $data_add_entities[$table][] = $response->json('data');
-        //     }
-        // }
+                // $data_add_entities[$table_empty][] = $response->json('data');
+            }
+        }
 
         // CallHelperTest::setCache(
         //     $this->KEY_EMPTY_DATA_ADD_ENTITY,
