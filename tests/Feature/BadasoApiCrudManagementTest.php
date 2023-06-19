@@ -254,28 +254,28 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'text',
                     'details' => json_encode((object) []),
                     'example' => 'text',
-                    'example_update' => '',
+                    'example_update' => 'text.update',
                 ],
                 [
                     'badaso_type' => 'email',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'email@example.com',
-                    'example_update' => '',
+                    'example_update' => 'update.email@example.com',
                 ],
                 [
                     'badaso_type' => 'password',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'password',
-                    'example_update' => '',
+                    'example_update' => 'password.update',
                 ],
                 [
                     'badaso_type' => 'textarea',
                     'schema_type' => 'text',
                     'details' => json_encode((object) []),
                     'example' => 'textarea',
-                    'example_update' => '',
+                    'example_update' => 'textarea.update',
                 ],
                 [
                     'badaso_type' => 'checkbox',
@@ -287,14 +287,14 @@ class BadasoApiCrudManagementTest extends TestCase
                         ],
                     ]),
                     'example' => ['example_1'],
-                    'example_update' => [],
+                    'example_update' => ['example_2'],
                 ],
                 [
                     'badaso_type' => 'search',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'search',
-                    'example_update' => '',
+                    'example_update' => 'search.update',
                 ],
                 [
                     'badaso_type' => 'number',
@@ -308,7 +308,28 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'https://badaso-docs.uatech.co.id',
-                    'example_update' => '',
+                    'example_update' => 'https://badaso.uatech.co.id',
+                ],
+                [
+                    'badaso_type' => 'time',
+                    'schema_type' => 'time',
+                    'details' => json_encode((object) []),
+                    'example' => '2022-01-27T04:37:18.327Z',
+                    'example_update' => '2023-01-27T04:37:18.327Z',
+                ],
+                [
+                    'badaso_type' => 'date',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => '2022-01-27T04:37:18.327Z',
+                    'example_update' => '2023-01-27T04:37:18.327Z',
+                ],
+                [
+                    'badaso_type' => 'datetime',
+                    'schema_type' => 'datetime',
+                    'details' => json_encode((object) []),
+                    'example' => '2022-01-27T04:37:18.327Z',
+                    'example_update' => '2023-01-27T04:37:18.327Z',
                 ],
                 [
                     'badaso_type' => 'select',
@@ -319,29 +340,62 @@ class BadasoApiCrudManagementTest extends TestCase
                             ['label' => 'example_2', 'value' => 'example_2'],
                         ],
                     ]),
-                    'example' => '',
+                    'example' => 'example_1',
                     'example_update' => 'example_2',
+                ],
+                [
+                    'badaso_type' => 'radio',
+                    'schema_type' => 'string',
+                    'details' => json_encode([
+                        'items' => [
+                            ['label' => 'example_1', 'value' => 'example_1'],
+                            ['label' => 'example_2', 'value' => 'example_2'],
+                        ],
+                    ]),
+                    'example' => 'example_1',
+                    'example_update' => 'example_2',
+                ],
+                [
+                    'badaso_type' => 'switch',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => rand(0, 1),
+                    'example_update' => rand(0, 1),
+                ],
+                [
+                    'badaso_type' => 'slider',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => rand(1, 50),
+                    'example_update' => rand(50, 100),
                 ],
                 [
                     'badaso_type' => 'editor',
                     'schema_type' => 'text',
                     'details' => json_encode((object) []),
                     'example' => 'editor',
-                    'example_update' => '',
+                    'example_update' => 'editor.update',
+                ],
+                [
+                    'badaso_type' => 'tags',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => join(',', ['badaso', 'test', 'crud', 'management']),
+                    'example_update' => join(',', ['badaso', 'test', 'crud', 'management', 'update']),
                 ],
                 [
                     'badaso_type' => 'code',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'code',
-                    'example_update' => '',
+                    'example_update' => 'code.update',
                 ],
                 [
                     'badaso_type' => 'hidden',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'hidden',
-                    'example_update' => '',
+                    'example_update' => 'hidden.update',
                 ],
                 [
                     'badaso_type' => 'relation',
@@ -354,14 +408,14 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => '#000000',
-                    'example_update' => '',
+                    'example_update' => '#FFFFFF',
                 ],
                 [
                     'badaso_type' => 'upload_image',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
-                    'example_update' => '',
+                    'example_update' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
                 ],
                 [
                     'badaso_type' => 'select_multiple',
@@ -373,7 +427,10 @@ class BadasoApiCrudManagementTest extends TestCase
                             ['label' => 'example_3', 'value' => 'example_3'],
                         ],
                     ]),
-                    'example' => [],
+                    'example' => [
+                        'example_1',
+                        'example_2',
+                    ],
                     'example_update' => [
                         'example_2',
                         'example_3',
@@ -383,7 +440,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'badaso_type' => 'upload_file',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
-                    'example' => '',
+                    'example' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
                     'example_update' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
                 ],
                 [
@@ -391,14 +448,17 @@ class BadasoApiCrudManagementTest extends TestCase
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => "['https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png','https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png']",
-                    'example_update' => [],
+                    'example_update' => [
+                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
+                        'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
+                    ],
                 ],
                 [
                     'badaso_type' => 'upload_file_multiple',
                     'schema_type' => 'string',
                     'details' => json_encode((object) []),
                     'example' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\']",
-                    'example_update' => '[]',
+                    'example_update' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png\']",
                 ],
             ];
     }
@@ -1783,7 +1843,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/add"), [
                     'data' => $data,
                 ]);
-                dd($response);
 
                 $response->assertSuccessful();
 
