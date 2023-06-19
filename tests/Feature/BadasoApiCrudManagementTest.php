@@ -1812,10 +1812,10 @@ class BadasoApiCrudManagementTest extends TestCase
             }
         }
 
-        // CallHelperTest::setCache(
-        //     $this->KEY_EMPTY_DATA_ADD_ENTITY,
-        //     $data_add_entities
-        // );
+        CallHelperTest::setCache(
+            $this->KEY_EMPTY_DATA_ADD_ENTITY,
+            $data_add_entities
+        );
     }
 
     public function testReadDataEntityCrudManagement()
