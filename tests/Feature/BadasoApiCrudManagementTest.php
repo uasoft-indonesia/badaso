@@ -1750,6 +1750,10 @@ class BadasoApiCrudManagementTest extends TestCase
 
         CallHelperTest::setCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY, $response_read_table_entities);
 
+    }
+
+    public function testAddEmptyTableEntity()
+    {
         // add and edit data entity
         $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
         $first_table = $tables[0];
