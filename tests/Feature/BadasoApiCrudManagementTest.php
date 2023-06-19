@@ -1649,7 +1649,8 @@ class BadasoApiCrudManagementTest extends TestCase
                 use Illuminate\Database\Eloquent\Model;
                 class {$model_name} extends Model {
                     protected \$table = "{$table_name}" ;
-                    protected \$fillable = [$fillable] ;
+                    protected \$fill
+                    able = [$fillable] ;
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
@@ -1753,14 +1754,14 @@ class BadasoApiCrudManagementTest extends TestCase
         $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
         $first_table = $tables[0];
 
-        $response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
+        $get_response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
         $fields = [];
         foreach ($this->getEmptyValueFields() as $key => $value) {
             $fields[$value['badaso_type']] = $value;
         }
 
         $data_add_entities = [];
-        foreach ($response_read_table_entities as $table_empty => $entities) {
+        foreach ($get_response_read_table_entities as $table_empty => $entities) {
             $entities = collect($entities)->filter(function ($entity) {
                 return $entity['add'];
             })->values();
