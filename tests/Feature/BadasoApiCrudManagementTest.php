@@ -1790,25 +1790,25 @@ class BadasoApiCrudManagementTest extends TestCase
                 $response->assertSuccessful();
 
                 // update
-                // $id = $response->json('data.id');
-                // $data = ['id' => $id];
-                // foreach ($entities as $key => $entity) {
-                //     $field = $entity['field'];
-                //     if (array_key_exists($field, $fields)) {
-                //         if ($field == 'relation') {
-                //             $relation_value = DB::table($first_table)->insertGetId([]);
-                //             $data[$field] = $relation_value;
-                //         } else {
-                //             $data[$field] = $fields[$field]['example_update'];
-                //         }
-                //     }
-                // }
-                // $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/edit"), [
-                //     'data' => $data,
-                // ]);
-                // $response->assertSuccessful();
+                $id = $response->json('data.id');
+                $data = ['id' => $id];
+                foreach ($entities as $key => $entity) {
+                    $field = $entity['field'];
+                    if (array_key_exists($field, $fields)) {
+                        if ($field == 'relation') {
+                            $relation_value = DB::table($first_table)->insertGetId([]);
+                            $data[$field] = $relation_value;
+                        } else {
+                            $data[$field] = $fields[$field]['example_update'];
+                        }
+                    }
+                }
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/edit"), [
+                    'data' => $data,
+                ]);
+                $response->assertSuccessful();
 
-                // $data_add_entities[$table_empty][] = $response->json('data');
+                $data_add_entities[$table_empty][] = $response->json('data');
             }
         }
 
