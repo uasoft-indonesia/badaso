@@ -2,7 +2,6 @@
 
 namespace Uasoft\Badaso\Database;
 
-use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\TableDiff;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
