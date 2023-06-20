@@ -11,6 +11,8 @@ use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
+use Uasoft\Badaso\Models\Permission;
+use Illuminate\Support\Str;
 
 class BadasoApiCrudManagementTest extends TestCase
 {
