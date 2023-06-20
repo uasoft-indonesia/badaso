@@ -12,6 +12,7 @@ use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
 use Uasoft\Badaso\Models\Permission;
+use Illuminate\Support\Str;
 
 class BadasoApiCrudManagementTest extends TestCase
 {
@@ -518,184 +519,6 @@ class BadasoApiCrudManagementTest extends TestCase
 
         CallHelperTest::setCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
         CallHelperTest::setCache($this->KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT, $data_response_add_crud_management);
-    }
-
-    public function testAddIsPublicCrudManagement()
-    {
-        //  create table
-        $table_names = 'table_public';
-        Schema::dropIfExists($table_names);
-        if (!Schema::hasTable($table_names)) {
-            Schema::create($table_names, function (Blueprint $table) use ($table_names) {
-                $table->id();
-                $table->text('name')->nullable();
-                $table->bigInteger('user_id')->nullable()->unsigned();
-                $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix') . 'users')->onDelete('cascade');
-                $table->softDeletes();
-                $table->timestamps();
-            });
-        }
-
-        $table_name = $table_names;
-
-        // add crud management
-        $rows = [
-            [
-                'field' => 'id',
-                'type' => 'integer',
-                'displayName' => 'Id',
-                'required' => rand(0, 1),
-                'browse' => rand(0, 1),
-                'read' => rand(0, 1),
-                'edit' => 0,
-                'add' => 0,
-                'delete' => rand(0, 1),
-                'details' => json_encode((object) []),
-                'order' => 1,
-                'setRelation' => false,
-            ],
-            [
-                'field' => 'name',
-                'type' => 'text',
-                'displayName' => 'Name',
-                'required' => rand(0, 1),
-                'browse' => rand(0, 1),
-                'read' => rand(0, 1),
-                'edit' => 0,
-                'add' => 0,
-                'delete' => rand(0, 1),
-                'details' => json_encode((object) []),
-                'order' => 1,
-                'setRelation' => false,
-            ],
-            [
-                'field' => 'user_id',
-                'type' => 'data_identifier',
-                'displayName' => 'User Id',
-                'required' => rand(0, 1),
-                'browse' => rand(0, 1),
-                'read' => rand(0, 1),
-                'edit' => 0,
-                'add' => 0,
-                'delete' => rand(0, 1),
-                'details' => json_encode((object) []),
-                'order' => 1,
-                'setRelation' => false,
-            ],
-            [
-                'field' => 'created_at',
-                'type' => 'datetime',
-                'displayName' => 'Created At',
-                'required' => rand(0, 1),
-                'browse' => rand(0, 1),
-                'read' => rand(0, 1),
-                'edit' => 0,
-                'add' => 0,
-                'delete' => rand(0, 1),
-                'details' => json_encode((object) []),
-                'order' => 1,
-                'setRelation' => false,
-            ],
-            [
-                'field' => 'updated_at',
-                'type' => 'datetime',
-                'displayName' => 'Update At',
-                'required' => rand(0, 1),
-                'browse' => rand(0, 1),
-                'read' => rand(0, 1),
-                'edit' => 0,
-                'add' => 0,
-                'delete' => rand(0, 1),
-                'details' => json_encode((object) []),
-                'order' => 1,
-                'setRelation' => false,
-            ],
-            [
-                'field' => 'deleted_at',
-                'type' => 'datetime',
-                'displayName' => 'Deleted At',
-                'required' => rand(0, 1),
-                'browse' => rand(0, 1),
-                'read' => rand(0, 1),
-                'edit' => 0,
-                'add' => 0,
-                'delete' => rand(0, 1),
-                'details' => json_encode((object) []),
-                'order' => 1,
-                'setRelation' => false,
-            ],
-        ];
-        $table_label = ucwords(str_replace(['_'], ' ', $table_name));
-        $request_body = [
-            'name' =>  $table_name,
-            'slug' =>  $table_name,
-            'displayNameSingular' =>  $table_label,
-            'displayNamePlural' =>  $table_label,
-            'icon' =>  'add',
-            'modelName' =>  '',
-            'policyName' =>  '',
-            'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-            'generatePermissions' =>  1,
-            'createSoftDelete' =>  rand(0, 1),
-            'serverSide' =>  rand(0, 1),
-            'details' =>  json_encode((object) []),
-            'controller' =>  '',
-            'orderColumn' =>  '',
-            'orderDisplayColumn' =>  '',
-            'orderDirection' =>  '',
-            'notification' =>   array_slice(['onCreate', 'onDelete', 'onUpdate', 'onRead'], 0, rand(0, 3)),
-            'isMaintenance' => rand(0, 1),
-            'rows' => $rows,
-        ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
-        $response->assertSuccessful();
-
-        // edit permission IsPublic Permission
-        $permissions = Permission::where('key', 'browse_' . $table_name)->get();
-        foreach ($permissions as $key => $value) {
-            $permission_id = $value->id;
-        }
-        $request_data = [
-            'always_allow' =>  false,
-            'is_public' =>  true,
-            'key' =>  'browse_' . $table_name,
-            'id' => $permission_id,
-        ];
-        $response_permission = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
-        $response_permission->assertSuccessful();
-
-        // browse data entity IsPublic
-        $response_entity = $this->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/read'), [
-            'table' => $request_body['slug'],
-        ]);
-        $response_entity->assertSuccessful();
-
-        // delete crud management
-        $data_types = DataType::whereIn('name', $table_name)->get();
-        foreach ($data_types as $key => $data_type) {
-            $table_name = $data_type['name'];
-            $name = ucwords(str_replace('_', '', $table_name));
-
-            $id = $data_type->id;
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
-                'id' => $id,
-            ]);
-            $response->assertSuccessful();
-        }
-
-        // delete DataType
-        foreach ($data_types as $key => $data_type) {
-            $data_type->delete();
-        }
-
-        // delete permissions
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/permissions/delete'), [
-            'id' => $permission_id,
-        ]);
-        $response->assertSuccessful();
-
-        $permission = Permission::find($permission_id);
-        $this->assertEmpty($permission);
     }
 
     public function testReadCrudManagement()
@@ -1538,6 +1361,172 @@ class BadasoApiCrudManagementTest extends TestCase
             $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));
             $response->assertSuccessful();
         }
+    }
+
+    public function testBrowseIsPublicPermissionEntity()
+    {
+        //  create table
+        $table_name = 'table_public';
+        Schema::dropIfExists($table_name);
+        if (!Schema::hasTable($table_name)) {
+            Schema::create($table_name, function (Blueprint $table) use ($table_name) {
+                $table->id();
+                $table->text('name')->nullable();
+                $table->bigInteger('user_id')->nullable()->unsigned();
+                $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix') . 'users')->onDelete('cascade');
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
+
+        $table_names[] = $table_name;
+
+        // add crud management
+        $rows = [
+            [
+                'field' => 'id',
+                'type' => 'integer',
+                'displayName' => 'Id',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'name',
+                'type' => 'text',
+                'displayName' => 'Name',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'user_id',
+                'type' => 'data_identifier',
+                'displayName' => 'User Id',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'created_at',
+                'type' => 'datetime',
+                'displayName' => 'Created At',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'updated_at',
+                'type' => 'datetime',
+                'displayName' => 'Update At',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'deleted_at',
+                'type' => 'datetime',
+                'displayName' => 'Deleted At',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+        ];
+        $table_label = ucwords(str_replace(['_'], ' ', $table_name));
+        $request_body = [
+            'name' =>  $table_name,
+            'slug' =>  $table_name,
+            'displayNameSingular' =>  $table_label,
+            'displayNamePlural' =>  $table_label,
+            'icon' =>  'add',
+            'modelName' =>  '',
+            'policyName' =>  '',
+            'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            'generatePermissions' =>  1,
+            'createSoftDelete' =>  rand(0, 1),
+            'serverSide' =>  rand(0, 1),
+            'details' =>  json_encode((object) []),
+            'controller' =>  '',
+            'orderColumn' =>  '',
+            'orderDisplayColumn' =>  '',
+            'orderDirection' =>  '',
+            'notification' =>   array_slice(['onCreate', 'onDelete', 'onUpdate', 'onRead'], 0, rand(0, 3)),
+            'isMaintenance' => rand(0, 1),
+            'rows' => $rows,
+        ];
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+        $response->assertSuccessful();
+
+        // edit permission IsPublic Permission
+        $permissions = Permission::where('key', 'browse_' . $table_name)->get();
+        foreach ($permissions as $key => $value) {
+            $permission_id = $value->id;
+        }
+        $request_data = [
+            'always_allow' =>  false,
+            'description' =>  Str::uuid(),
+            'is_public' =>  true,
+            'key' => 'browse_' . $table_name,
+            'id' => $permission_id,
+        ];
+        $response_permission = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
+        $response_permission->assertSuccessful();
+
+        // browse data entity IsPublic
+        $response_entity = $this->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/read'), [
+            'table' => $request_body['slug'],
+        ]);
+        $response_entity->assertSuccessful();
+
+        // delete crud management and data type
+        $data_types = DataType::whereIn('name', $table_names)->get();
+        foreach ($data_types as $key => $data_type) {
+            $id = $data_type->id;
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
+                'id' => $id,
+            ]);
+            $response->assertSuccessful();
+            $data_type->delete();
+        }
+
+        // delete table public
+        Schema::dropIfExists($table_name);
     }
 
     public function testSingleMultipleDeleteEntityCrudManagement()
