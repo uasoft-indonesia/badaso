@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use PHPOpenSourceSaver\JWTAuth\Contracts\Providers\Auth;
 use stdClass;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Uasoft\Badaso\Exceptions\SingleException;
