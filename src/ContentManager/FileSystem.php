@@ -269,7 +269,7 @@ class FileSystem
     /**
      * Get File Content.
      *
-     * @param $file
+     * @param  $file
      *
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */

@@ -7,19 +7,26 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
+use Uasoft\Badaso\Models\Permission;
 
 class BadasoApiCrudManagementTest extends TestCase
 {
     private $KEY_LIST_CREATE_TABLES = 'LIST_CREATE_TABLES';
+    private $KEY_LIST_CREATE_EMPTY_TABLES = 'LIST_CREATE_EMPTY_TABLES';
     private $KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG = 'DATA_TABLE_CRUD_MANAGEMENT_LOG';
+    private $KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG = 'DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG';
     private $KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT = 'DATA_RESPONSE_ADD_CRUD_MANAGEMENT';
     private $KEY_DATA_RESPONSE_READ_TABLE_ENTITY = 'KEY_DATA_RESPONSE_READ_TABLE_ENTITY';
+    private $KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY = 'KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY';
     private $KEY_DATA_ADD_ENTITY = 'KEY_DATA_ADD_ENTITY';
+    private $KEY_EMPTY_DATA_ADD_ENTITY = 'KEY_EMPTY_DATA_ADD_ENTITY';
     private $TABLE_TEST_PREFIX = 'test_table_';
+    private $TABLE_TEST_EMPTY_VALUE_PREFIX = 'test_empty_table_';
     private $MAXIMAL_CREATE_ENTITY = 3;
 
     private function getFields(): array
@@ -240,6 +247,164 @@ class BadasoApiCrudManagementTest extends TestCase
             ];
     }
 
+    private function getEmptyValueFields(): array
+    {
+        return
+            $field_name = [
+                [
+                    'badaso_type' => 'text',
+                    'schema_type' => 'text',
+                    'details' => json_encode((object) []),
+                    'example' => 'text',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'email',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'email@example.com',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'password',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'password',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'textarea',
+                    'schema_type' => 'text',
+                    'details' => json_encode((object) []),
+                    'example' => 'textarea',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'checkbox',
+                    'schema_type' => 'string',
+                    'details' => json_encode([
+                        'items' => [
+                            ['label' => 'example_1', 'value' => 'example_1'],
+                            ['label' => 'example_2', 'value' => 'example_2'],
+                        ],
+                    ]),
+                    'example' => ['example_1'],
+                    'example_update' => [],
+                ],
+                [
+                    'badaso_type' => 'search',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'search',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'number',
+                    'schema_type' => 'integer',
+                    'details' => json_encode((object) []),
+                    'example' => 1,
+                    'example_update' => null,
+                ],
+                [
+                    'badaso_type' => 'url',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'https://badaso-docs.uatech.co.id',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'select',
+                    'schema_type' => 'string',
+                    'details' => json_encode([
+                        'items' => [
+                            ['label' => 'example_1', 'value' => 'example_1'],
+                            ['label' => 'example_2', 'value' => 'example_2'],
+                        ],
+                    ]),
+                    'example' => '',
+                    'example_update' => 'example_2',
+                ],
+                [
+                    'badaso_type' => 'editor',
+                    'schema_type' => 'text',
+                    'details' => json_encode((object) []),
+                    'example' => 'editor',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'code',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'code',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'hidden',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'hidden',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'relation',
+                    'schema_type' => 'bigInteger',
+                    'details' => json_encode((object) []),
+                    'example' => null,
+                ],
+                [
+                    'badaso_type' => 'color_picker',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => '#000000',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'upload_image',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png',
+                    'example_update' => '',
+                ],
+                [
+                    'badaso_type' => 'select_multiple',
+                    'schema_type' => 'string',
+                    'details' => json_encode([
+                        'items' => [
+                            ['label' => 'example_1', 'value' => 'example_1'],
+                            ['label' => 'example_2', 'value' => 'example_2'],
+                            ['label' => 'example_3', 'value' => 'example_3'],
+                        ],
+                    ]),
+                    'example' => [],
+                    'example_update' => [
+                        'example_2',
+                        'example_3',
+                    ],
+                ],
+                [
+                    'badaso_type' => 'upload_file',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => '',
+                    'example_update' => 'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619581504968_uasoft.png',
+                ],
+                [
+                    'badaso_type' => 'upload_image_multiple',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => "['https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png','https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png']",
+                    'example_update' => [],
+                ],
+                [
+                    'badaso_type' => 'upload_file_multiple',
+                    'schema_type' => 'string',
+                    'details' => json_encode((object) []),
+                    'example' => "[\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\',\'https://badaso-web.s3-ap-southeast-1.amazonaws.com/files/shares/1619582634819_badaso.png\']",
+                    'example_update' => '[]',
+                ],
+            ];
+    }
+
     private function createTestTables(int $max_count_table_generate)
     {
         $table_names = [];
@@ -267,9 +432,39 @@ class BadasoApiCrudManagementTest extends TestCase
             }
             $table_names[] = $table_name;
         }
-
         // save all tables name to cache
         CallHelperTest::setCache($this->KEY_LIST_CREATE_TABLES, $table_names);
+    }
+
+    private function createTestEmptyValueTables(int $max_count_table_generate)
+    {
+        $table_names = [];
+        for ($index = 1; $index <= $max_count_table_generate; $index++) {
+            $table_name = "{$this->TABLE_TEST_EMPTY_VALUE_PREFIX}{$index}";
+            if (! Schema::hasTable($table_name)) {
+                Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
+                    $table->id();
+
+                    foreach ($this->getEmptyValueFields() as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type]) {
+                        if ($badaso_type == 'relation') {
+                            if ($index >= 2) {
+                                $table_name_relation = $table_names[0];
+                                $table->{$schema_type}($badaso_type)->nullable()->unsigned();
+
+                                $table->foreign($badaso_type)->references('id')->on($table_name_relation)->onDelete('cascade');
+                            }
+                        } else {
+                            $table->{$schema_type}($badaso_type)->nullable();
+                        }
+                    }
+                    $table->softDeletes();
+                    $table->timestamps();
+                });
+            }
+            $table_names[] = $table_name;
+        }
+        // save all tables name to cache
+        CallHelperTest::setCache($this->KEY_LIST_CREATE_EMPTY_TABLES, $table_names);
     }
 
     private function deleteAllTestTables()
@@ -277,6 +472,11 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = collect(CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES))->reverse();
         foreach ($table_names as $key => $table_names) {
             Schema::dropIfExists($table_names);
+        }
+
+        $table_empty_names = collect(CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES))->reverse();
+        foreach ($table_empty_names as $key => $table_empty_names) {
+            Schema::dropIfExists($table_empty_names);
         }
 
         // clear cache
@@ -290,6 +490,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
         // init create all tables testing
         $this->createTestTables(10);
+
+        // init create all tables empty value testing
+        $this->createTestEmptyValueTables(10);
     }
 
     public function testBrowseCrudManagement()
@@ -374,7 +577,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'field' => 'deleted_at',
                     'type' => 'datetime',
                     'displayName' => 'Deleted At',
-                    'required' => rand(0, 1),
+                    'required' => 1,
                     'browse' => rand(0, 1),
                     'read' => rand(0, 1),
                     'edit' => 0,
@@ -395,7 +598,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     'field' => $badaso_type,
                     'type' => $badaso_type,
                     'displayName' => $field_name,
-                    'required' => rand(0, 1),
+                    'required' => 1,
                     'browse' => rand(0, 1),
                     'read' => rand(0, 1),
                     'edit' => rand(0, 1),
@@ -1320,6 +1523,303 @@ class BadasoApiCrudManagementTest extends TestCase
         CallHelperTest::setCache($this->KEY_DATA_ADD_ENTITY, $data_add_entities);
     }
 
+    public function testAddReadEmptyTableCrudManagement()
+    {
+        // create crud management empty value tables
+        $table_names = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $const_fields = $this->getEmptyValueFields();
+        $const_fillable = collect($const_fields)->map(function ($fillable) {
+            $field = $fillable['badaso_type'];
+
+            return "\"$field\"";
+        })->toArray();
+        $const_fillable[] = '"deleted_at"';
+
+        // delete  all data type
+        $data_types = DataType::whereIn('slug', $table_names)->get();
+        foreach ($data_types as $key => $data_type) {
+            $data_type->delete();
+        }
+
+        $data_table_crud_management_log = [];
+        $data_response_add_crud_management = [];
+        foreach ($table_names as $index_table_name => $table_name) {
+            $rows = [
+                [
+                    'field' => 'id',
+                    'type' => 'integer',
+                    'displayName' => 'Id',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
+                ],
+                [
+                    'field' => 'created_at',
+                    'type' => 'datetime',
+                    'displayName' => 'Created At',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
+                ],
+                [
+                    'field' => 'updated_at',
+                    'type' => 'datetime',
+                    'displayName' => 'Update At',
+                    'required' => rand(0, 1),
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
+                ],
+                [
+                    'field' => 'deleted_at',
+                    'type' => 'datetime',
+                    'displayName' => 'Deleted At',
+                    'required' => 1,
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => 0,
+                    'add' => 0,
+                    'delete' => rand(0, 1),
+                    'details' => json_encode((object) []),
+                    'order' => 1,
+                    'setRelation' => false,
+                ],
+            ];
+            foreach ($const_fields as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type, 'details' => $details]) {
+                if ($index_table_name == 0 && $badaso_type == 'relation') {
+                    continue;
+                }
+
+                $field_name = ucwords(str_replace(['_'], ' ', $badaso_type));
+                $row = [
+                    'field' => $badaso_type,
+                    'type' => $badaso_type,
+                    'displayName' => $field_name,
+                    'required' => 0,
+                    'browse' => rand(0, 1),
+                    'read' => rand(0, 1),
+                    'edit' => rand(0, 1),
+                    'add' => rand(0, 1),
+                    'delete' => rand(0, 1),
+                    'details' => $details,
+                    'order' => 1,
+                    'setRelation' => false,
+                ];
+
+                if ($badaso_type == 'relation') {
+                    $destination_field['badaso_type'] = 'id';
+                    $destination_more_field['badaso_type'] = ['select_multiple'];
+                    $row['relationType'] = ['has_one', 'has_many'][rand(0, 1)];
+                    $row['destinationTable'] = $table_names[0];
+                    $row['destinationTableColumn'] = $destination_field['badaso_type'];
+                    $row['destinationTableDisplayColumn'] = $destination_field['badaso_type'];
+                    $row['destinationTableDisplayMoreColumn'] = $destination_more_field['badaso_type'];
+                    $row['required'] = false;
+                }
+
+                $rows[] = $row;
+            }
+            $data_table_crud_management_log[$index_table_name]['rows'] = $rows;
+
+            $model = '';
+            $model_data = [];
+            if (rand(0, 1) || $table_names[0]) {
+                // create new model
+                $fillable = join(',', $const_fillable);
+                $model_name = str_replace([' ', '_'], '', ucwords($table_name));
+                $model_file_name = "{$model_name}.php";
+                $model_body = <<<PHP
+                <?php
+                namespace App\Models;
+                use Illuminate\Database\Eloquent\Model;
+                class {$model_name} extends Model {
+                    protected \$table = "{$table_name}" ;
+                    protected \$fillable = [$fillable] ;
+                }
+                PHP;
+                $model_path = app_path("Models/$model_file_name");
+                if (! file_exists($model_path)) {
+                    file_put_contents($model_path, $model_body);
+                }
+
+                // equals model namespace
+                $model = "App\Models\\$model_name";
+
+                $model_data = [
+                    'model_name' => $model_name,
+                    'model_file_name' => $model_file_name,
+                    'model_body' => $model_body,
+                    'model_path' => $model_path,
+                    'model' => $model,
+                ];
+            }
+            $data_table_crud_management_log[$index_table_name]['model'] = $model_data;
+
+            $controller = '';
+            $controller_data = [];
+            if (rand(0, 1)) {
+                // create new controller
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
+                $controller_file_name = "{$controller_name}.php";
+                $controller_body = <<<PHP
+                <?php
+                namespace App\Http\Controllers;
+                use Illuminate\Http\Request;
+                class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
+                PHP;
+                $controller_path = app_path("/Http/Controllers/$controller_file_name");
+                if (! file_exists($controller_path)) {
+                    file_put_contents($controller_path, $controller_body);
+                }
+
+                // equals controller namespace
+                $controller = "App\Http\Controllers\\$controller_name";
+
+                $controller_data = [
+                    'controller_name' => $controller_file_name,
+                    'controller_file_name' => $controller_file_name,
+                    'controller_body' => $controller_body,
+                    'controller_path' => $controller_path,
+                    'controller' => $controller,
+                ];
+            }
+            $data_table_crud_management_log[$index_table_name]['controller'] = $controller_data;
+
+            $table_label = ucwords(str_replace(['_'], ' ', $table_name));
+            $request_body = [
+                'name' =>  $table_name,
+                'slug' =>  $table_name,
+                'displayNameSingular' =>  $table_label,
+                'displayNamePlural' =>  $table_label,
+                'icon' =>  'add',
+                'modelName' =>  $model,
+                'policyName' =>  '',
+                'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                'generatePermissions' =>  rand(0, 1),
+                'createSoftDelete' =>  rand(0, 1),
+                'serverSide' =>  rand(0, 1),
+                'details' =>  json_encode((object) []),
+                'controller' =>  $controller,
+                'orderColumn' =>  '',
+                'orderDisplayColumn' =>  '',
+                'orderDirection' =>  '',
+                'notification' =>   array_slice(['onCreate', 'onDelete', 'onUpdate', 'onRead'], 0, rand(0, 3)),
+                'isMaintenance' => rand(0, 1),
+                'rows' => $rows,
+            ];
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+            $response->assertSuccessful();
+
+            // save logs
+            $data_table_crud_management_log[$index_table_name]['request_body'] = $request_body;
+            $data_response_add_crud_management[] = $response->json('data');
+        }
+
+        CallHelperTest::setCache($this->KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
+
+        // read data crud management
+        $data_table_crud_management_logs = CallHelperTest::getCache($this->KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG);
+        $response_read_table_entities = [];
+        foreach ($data_table_crud_management_logs as $key => $data_table_crud_management_log) {
+            $request_body = $data_table_crud_management_log['request_body'];
+            $table = $request_body['name'];
+
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
+                'table' => $table,
+            ]);
+            $response->assertSuccessful();
+
+            $response_read_table_entities[$table] = $response->json('data.crud.dataRows');
+        }
+
+        CallHelperTest::setCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY, $response_read_table_entities);
+    }
+
+    public function testAddEditEmptyTableEntity()
+    {
+        // add and edit data entity
+        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $first_table = $tables[0];
+
+        $get_response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
+        $fields = [];
+        foreach ($this->getEmptyValueFields() as $key => $value) {
+            $fields[$value['badaso_type']] = $value;
+        }
+
+        $data_add_entities = [];
+        foreach ($get_response_read_table_entities as $table_empty => $entities) {
+            $entities = collect($entities)->filter(function ($entity) {
+                return $entity['add'];
+            })->values();
+
+            $data_add_entities[$table_empty] = [];
+            for ($index = 1; $index <= $this->MAXIMAL_CREATE_ENTITY; $index++) {
+                // create
+                $data = [];
+                foreach ($entities as $key => $entity) {
+                    $field = $entity['field'];
+                    if (array_key_exists($field, $fields)) {
+                        if ($field == 'relation') {
+                            $relation_value = DB::table($first_table)->insertGetId([]);
+                            $data[$field] = $relation_value;
+                        } else {
+                            $data[$field] = $fields[$field]['example'];
+                        }
+                    }
+                }
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/add"), [
+                    'data' => $data,
+                ]);
+
+                $response->assertSuccessful();
+
+                // update
+                $id = $response->json('data.id');
+                $data = ['id' => $id];
+                foreach ($entities as $key => $entity) {
+                    $field = $entity['field'];
+                    if (array_key_exists($field, $fields)) {
+                        if ($field == 'relation') {
+                            $relation_value = DB::table($first_table)->insertGetId([]);
+                            $data[$field] = $relation_value;
+                        } else {
+                            $data[$field] = $fields[$field]['example_update'];
+                        }
+                    }
+                }
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/edit"), [
+                    'data' => $data,
+                ]);
+                $response->assertSuccessful();
+
+                $data_add_entities[$table_empty][] = $response->json('data');
+            }
+        }
+
+        CallHelperTest::setCache(
+            $this->KEY_EMPTY_DATA_ADD_ENTITY,
+            $data_add_entities
+        );
+    }
+
     public function testReadDataEntityCrudManagement()
     {
         $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
@@ -1359,6 +1859,172 @@ class BadasoApiCrudManagementTest extends TestCase
             $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));
             $response->assertSuccessful();
         }
+    }
+
+    public function testBrowseIsPublicPermissionEntity()
+    {
+        //  create table
+        $table_name = 'table_public';
+        Schema::dropIfExists($table_name);
+        if (! Schema::hasTable($table_name)) {
+            Schema::create($table_name, function (Blueprint $table) {
+                $table->id();
+                $table->text('name')->nullable();
+                $table->bigInteger('user_id')->nullable()->unsigned();
+                $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
+
+        $table_names[] = $table_name;
+
+        // add crud management
+        $rows = [
+            [
+                'field' => 'id',
+                'type' => 'integer',
+                'displayName' => 'Id',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'name',
+                'type' => 'text',
+                'displayName' => 'Name',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'user_id',
+                'type' => 'data_identifier',
+                'displayName' => 'User Id',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'created_at',
+                'type' => 'datetime',
+                'displayName' => 'Created At',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'updated_at',
+                'type' => 'datetime',
+                'displayName' => 'Update At',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+            [
+                'field' => 'deleted_at',
+                'type' => 'datetime',
+                'displayName' => 'Deleted At',
+                'required' => rand(0, 1),
+                'browse' => rand(0, 1),
+                'read' => rand(0, 1),
+                'edit' => 0,
+                'add' => 0,
+                'delete' => rand(0, 1),
+                'details' => json_encode((object) []),
+                'order' => 1,
+                'setRelation' => false,
+            ],
+        ];
+        $table_label = ucwords(str_replace(['_'], ' ', $table_name));
+        $request_body = [
+            'name' =>  $table_name,
+            'slug' =>  $table_name,
+            'displayNameSingular' =>  $table_label,
+            'displayNamePlural' =>  $table_label,
+            'icon' =>  'add',
+            'modelName' =>  '',
+            'policyName' =>  '',
+            'description' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+            'generatePermissions' =>  1,
+            'createSoftDelete' =>  rand(0, 1),
+            'serverSide' =>  rand(0, 1),
+            'details' =>  json_encode((object) []),
+            'controller' =>  '',
+            'orderColumn' =>  '',
+            'orderDisplayColumn' =>  '',
+            'orderDirection' =>  '',
+            'notification' =>   array_slice(['onCreate', 'onDelete', 'onUpdate', 'onRead'], 0, rand(0, 3)),
+            'isMaintenance' => rand(0, 1),
+            'rows' => $rows,
+        ];
+        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+        $response->assertSuccessful();
+
+        // edit permission IsPublic Permission
+        $permissions = Permission::where('key', 'browse_'.$table_name)->get();
+        foreach ($permissions as $key => $value) {
+            $permission_id = $value->id;
+        }
+        $request_data = [
+            'always_allow' =>  false,
+            'description' =>  Str::uuid(),
+            'is_public' =>  true,
+            'key' => 'browse_'.$table_name,
+            'id' => $permission_id,
+        ];
+        $response_permission = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
+        $response_permission->assertSuccessful();
+
+        // browse data entity IsPublic
+        $response_entity = $this->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/read'), [
+            'table' => $request_body['slug'],
+        ]);
+        $response_entity->assertSuccessful();
+
+        // delete crud management and data type
+        $data_types = DataType::whereIn('name', $table_names)->get();
+        foreach ($data_types as $key => $data_type) {
+            $id = $data_type->id;
+            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
+                'id' => $id,
+            ]);
+            $response->assertSuccessful();
+            $data_type->delete();
+        }
+
+        // delete table public
+        Schema::dropIfExists($table_name);
     }
 
     public function testSingleMultipleDeleteEntityCrudManagement()
@@ -1589,34 +2255,37 @@ class BadasoApiCrudManagementTest extends TestCase
     public function testDeleteCrudManagement()
     {
         $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $empty_tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $collect_tables = [$tables, $empty_tables];
+        foreach ($collect_tables as $key => $item_tables) {
+            $data_types = DataType::whereIn('name', $item_tables)->get();
+            foreach ($data_types as $key => $data_type) {
+                $table_name = $data_type['name'];
+                $name = ucwords(str_replace('_', '', $table_name));
 
-        $data_types = DataType::whereIn('name', $tables)->get();
-        foreach ($data_types as $key => $data_type) {
-            $table_name = $data_type['name'];
-            $name = ucwords(str_replace('_', '', $table_name));
+                $id = $data_type->id;
+                $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
+                    'id' => $id,
+                ]);
+                $response->assertSuccessful();
 
-            $id = $data_type->id;
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
-                'id' => $id,
-            ]);
-            $response->assertSuccessful();
+                // delete controller
+                $controller_name = "{$name}Controller.php";
+                $controller_path = app_path('Http/Controllers/'.$controller_name);
+                if (file_exists($controller_path)) {
+                    unlink($controller_path);
+                }
 
-            // delete controller
-            $controller_name = "{$name}Controller.php";
-            $controller_path = app_path('Http/Controllers/'.$controller_name);
-            if (file_exists($controller_path)) {
-                unlink($controller_path);
+                // delete models
+                $model_name = "{$name}.php";
+                $model_path = app_path('Models/'.$model_name);
+                if (file_exists($model_path)) {
+                    unlink($model_path);
+                }
             }
-
-            // delete models
-            $model_name = "{$name}.php";
-            $model_path = app_path('Models/'.$model_name);
-            if (file_exists($model_path)) {
-                unlink($model_path);
-            }
+            $data_types = DataType::whereIn('name', $item_tables)->get();
+            $this->assertEmpty($data_types);
         }
-        $data_types = DataType::whereIn('name', $tables)->get();
-        $this->assertEmpty($data_types);
     }
 
     public function testRollbackMigration()
