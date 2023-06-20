@@ -79,7 +79,7 @@ class ContentGenerator
     /**
      * Format Content.
      *
-     * @param $array
+     * @param  $array
      * @param  bool  $indexed
      * @return mixed|string|string[]|null
      */
@@ -129,7 +129,7 @@ class ContentGenerator
     /**
      * Get Delete Statement.
      *
-     * @param $data_type
+     * @param  $data_type
      */
     public function getDeleteStatement($data_type): string
     {
@@ -144,7 +144,7 @@ class ContentGenerator
     /**
      * Generate Menu Delete Statements.
      *
-     * @param $data_type
+     * @param  $data_type
      */
     public function generateMenuDeleteStatements($data_type): string
     {
@@ -157,7 +157,7 @@ class ContentGenerator
     /**
      * Get Permission Statements.
      *
-     * @param $data_type
+     * @param  $data_type
      * @param  null  $type
      */
     public function getPermissionStatement($data_type, $type = null): string
@@ -174,7 +174,7 @@ class ContentGenerator
     /**
      * Get Menu Insert Statements.
      *
-     * @param $data_type
+     * @param  $data_type
      */
     public function getMenuInsertStatements($data_type): string
     {
