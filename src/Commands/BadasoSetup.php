@@ -56,7 +56,7 @@ class BadasoSetup extends Command
 
         $this->addingBadasoEnv();
         $this->updatePackageJson();
-        // $this->updateVite();
+        $this->updateVite();
         $this->publishBadasoProvider();
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
@@ -65,6 +65,10 @@ class BadasoSetup extends Command
         $this->publicFileFirebaseServiceWorker();
         $this->addingBadasoAuthConfig();
         $this->generateSwagger();
+        $this->addPluginsLaravelInputVite();
+        $this->addPluginsVueVite();
+        $this->addResolveConfigVueVite();
+
     }
 
     protected function generateSwagger()
@@ -140,23 +144,118 @@ class BadasoSetup extends Command
         return $this->file->exists($file) && !Str::contains($this->file->get($file), $search);
     }
 
+    protected function checkExistStr($file, $search)
+    {
+        return $this->file->exists($file) && Str::contains($this->file->get($file), $search);
+    }
+
     protected function updateVite()
     {
         // vite
-        $vite_file = base_path('vite.config.js');
-        $search = 'Badaso';
+        $vite_path = base_path('vite.config.js');
+        $search_package_laravel = "Badaso";
 
-        if ($this->checkExist($vite_file, $search)) {
+        if ($this->checkExist($vite_path, $search_package_laravel)) {
             $data =
                 <<<'EOT'
-
+        //Badaso
+        import { viteStaticCopy } from "vite-plugin-static-copy";
+        import vue from "@vitejs/plugin-vue2";
+        import EnvironmentPlugin from "vite-plugin-environment";
         EOT;
-
-            $this->file->append($vite_file, $data);
+            $this->file->append($vite_path, $data);
         }
 
         $this->info('vite.config.js updated');
     }
+
+    protected function addPluginsLaravelInputVite()
+    {
+        $vite_path = base_path('vite.config.js');
+        $config = file_get_contents($vite_path);
+        $search_badaso_input = "Badaso Input";
+
+        if ($this->checkExist($vite_path, $search_badaso_input))
+        {
+            $pluginsIndex = strpos($config, 'plugins: [');
+
+            $resolveCode = "
+            // Badaso Input
+        'packages/badaso/core/src/resources/badaso/app.js',
+        'packages/badaso/core/src/resources/badaso/assets/scss/style.scss',";
+
+            $configArray = substr($config, $pluginsIndex + 10);
+            $configArrayCloseIndex = strpos($configArray, ']');
+
+            $configArrayCloseIndex += $pluginsIndex + 10;
+            $modifiedConfig = substr($config, 0, $configArrayCloseIndex) . "\n" . $resolveCode . substr($config, $configArrayCloseIndex);
+
+            file_put_contents($vite_path, $modifiedConfig);
+        }
+        $this->info('Laravel Input vite.config.js updated');
+
+    }
+
+    protected function addPluginsVueVite()
+    {
+        $vite_path = base_path('vite.config.js');
+        $config = file_get_contents($vite_path);
+        $search_vue = "vueScript";
+
+        if ($this->checkExist($vite_path, $search_vue)) {
+            $laravelPluginIndex = strpos($config, 'laravel({');
+            $endLaravelPluginIndex = strpos($config, '})', $laravelPluginIndex);
+
+            $vueScript = ",\n
+            // vueScript
+          vue(),
+          viteStaticCopy({
+            targets: [
+                {
+                    src: 'packages/badaso/core/src/resources/badaso/app.js',
+                    dest: 'js',
+                },
+            ],
+        }),
+          EnvironmentPlugin({
+            BUILD: 'web',
+        })";
+            $modifiedConfig = substr($config, 0, $endLaravelPluginIndex + 2) . $vueScript . substr($config, $endLaravelPluginIndex + 2);
+            file_put_contents($vite_path, $modifiedConfig);
+        }
+        $this->info('Vue vite.config.js updated');
+    }
+
+    protected function addResolveConfigVueVite()
+    {
+        $vite_path = base_path('vite.config.js');
+        $config = file_get_contents($vite_path);
+        $search_badaso_resolve = "resolve BadasoCss";
+
+        if ($this->checkExist($vite_path, $search_badaso_resolve))
+        {
+            $pluginsIndex = strpos($config, 'defineConfig({');
+            $resolveCode = "
+        // resolve BadasoCss
+        resolve: {
+        alias: [
+            {
+                find: /^~.+/,
+                replacement: (val) => {
+                    return val.replace(/^~/, '');
+                },
+            },
+        ],
+    },\n";
+
+
+            $modifiedConfig = substr($config, 0, $pluginsIndex + 15) . $resolveCode . substr($config, $pluginsIndex + 15);
+
+            file_put_contents($vite_path, $modifiedConfig);
+        }
+        $this->info('resolve vite.config.js updated');
+    }
+
 
     protected function publishBadasoProvider()
     {
