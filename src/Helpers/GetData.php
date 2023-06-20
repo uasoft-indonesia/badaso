@@ -496,8 +496,10 @@ class GetData
         if (! $is_roles) {
             if ($is_field) {
                 foreach ($records as $key => $record) {
-                    if (isset($record->{$field_identify_related_user}) &&
-                        $record->{$field_identify_related_user} != auth()->user()->id) {
+                    if (
+                        isset($record->{$field_identify_related_user}) &&
+                        $record->{$field_identify_related_user} != auth()->user()->id
+                    ) {
                         unset($records[$key]);
                     }
                 }
@@ -572,7 +574,7 @@ class GetData
                     });
                 } else {
                     $relation_datas = DB::table($destination_table)->select($arr_query_select)
-                    ->get();
+                        ->get();
                     switch ($relation_type) {
                         case 'belongs_to':
                             if (isset($row->{$destination_table})) {
