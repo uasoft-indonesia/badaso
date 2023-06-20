@@ -1368,12 +1368,12 @@ class BadasoApiCrudManagementTest extends TestCase
         //  create table
         $table_name = 'table_public';
         Schema::dropIfExists($table_name);
-        if (!Schema::hasTable($table_name)) {
-            Schema::create($table_name, function (Blueprint $table) use ($table_name) {
+        if (! Schema::hasTable($table_name)) {
+            Schema::create($table_name, function (Blueprint $table) {
                 $table->id();
                 $table->text('name')->nullable();
                 $table->bigInteger('user_id')->nullable()->unsigned();
-                $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix') . 'users')->onDelete('cascade');
+                $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users')->onDelete('cascade');
                 $table->softDeletes();
                 $table->timestamps();
             });
@@ -1494,7 +1494,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $response->assertSuccessful();
 
         // edit permission IsPublic Permission
-        $permissions = Permission::where('key', 'browse_' . $table_name)->get();
+        $permissions = Permission::where('key', 'browse_'.$table_name)->get();
         foreach ($permissions as $key => $value) {
             $permission_id = $value->id;
         }
@@ -1502,7 +1502,7 @@ class BadasoApiCrudManagementTest extends TestCase
             'always_allow' =>  false,
             'description' =>  Str::uuid(),
             'is_public' =>  true,
-            'key' => 'browse_' . $table_name,
+            'key' => 'browse_'.$table_name,
             'id' => $permission_id,
         ];
         $response_permission = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
