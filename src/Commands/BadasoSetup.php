@@ -180,7 +180,7 @@ class BadasoSetup extends Command
             $pluginsIndex = strpos($config, 'plugins: [');
 
             $resolveCode = "
-            // Badaso Input
+        // Badaso Input
         'packages/badaso/core/src/resources/badaso/app.js',
         'packages/badaso/core/src/resources/badaso/assets/scss/style.scss',";
 
