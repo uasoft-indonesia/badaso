@@ -31,7 +31,5 @@ module.exports = {
     "vue/no-mutating-props": "off",
     "no-prototype-builtins": "off",
     eqeqeq: "off",
-    semi: ["error", "always"],
-    quotes: ["error", "double"],
   },
 };

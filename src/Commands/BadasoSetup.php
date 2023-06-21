@@ -89,6 +89,7 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
         $decoded_json['devDependencies']['sass'] = '^1.63.3';
         $decoded_json['devDependencies']['vite-plugin-static-copy'] = '^0.16.0';
+        $decoded_json['devDependencies']['babel-eslint'] = '^10.1.0';
 
         $decoded_json['dependencies']['copy-files-from-to'] = '^3.2.0';
         $decoded_json['dependencies']['popper.js'] = '^1.12';
