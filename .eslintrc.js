@@ -30,14 +30,12 @@ module.exports = {
     WXEnvironment: true,
   },
   rules: {
-    "no-console": process.env.NODE_ENV !== "production" ? 0 : 2,
+    "no-console": import.meta.env.NODE_ENV !== "production" ? 0 : 2,
     "no-useless-escape": 0,
     "no-empty": 0,
     "vue/no-mutating-props": "off",
     "no-prototype-builtins": "off",
     "prettier/prettier": "error",
     eqeqeq: "off",
-    semi: ["error", "always"],
-    quotes: ["error", "double"],
   },
 };
