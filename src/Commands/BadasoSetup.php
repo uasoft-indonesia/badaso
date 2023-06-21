@@ -179,7 +179,7 @@ class BadasoSetup extends Command
 
             $resolveCode = "
         // Badaso Input
-        'vendor/badaso/core/src/resources/badaso/app.js',
+        ,'vendor/badaso/core/src/resources/badaso/app.js',
         'vendor/badaso/core/src/resources/badaso/assets/scss/style.scss',";
 
             $configArray = substr($config, $pluginsIndex + 10);
