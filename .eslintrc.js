@@ -3,6 +3,7 @@ module.exports = {
     es6: true,
     node: true,
     browser: true,
+    es2021: true,
   },
   extends: [
     "plugin:vue/essential",
@@ -11,7 +12,7 @@ module.exports = {
     "plugin:prettier/recommended",
   ],
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: "latest",
     sourceType: "module",
     allowImportExportEverywhere: true,
     ecmaFeatures: {
@@ -30,5 +31,7 @@ module.exports = {
     "vue/no-mutating-props": "off",
     "no-prototype-builtins": "off",
     eqeqeq: "off",
+    semi: ["error", "always"],
+    quotes: ["error", "double"],
   },
 };
