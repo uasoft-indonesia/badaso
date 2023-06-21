@@ -10,6 +10,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:vue/base",
+    "prettier",
   ],
   parser: "babel-eslint",
   parserOptions: {
@@ -18,6 +19,7 @@ module.exports = {
     allowImportExportEverywhere: true,
     ecmaFeatures: {
       jsx: true,
+      modules: true,
     },
   },
   plugins: ["vue", "flowtype", "prettier"],
@@ -31,6 +33,7 @@ module.exports = {
     "no-empty": 0,
     "vue/no-mutating-props": "off",
     "no-prototype-builtins": "off",
+    "prettier/prettier": "error",
     eqeqeq: "off",
     semi: ["error", "always"],
     quotes: ["error", "double"],
