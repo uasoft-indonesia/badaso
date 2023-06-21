@@ -9,10 +9,12 @@ module.exports = {
     "standard",
     "eslint:recommended",
     "plugin:prettier/recommended",
+    "plugin:vue/strongly-recommended",
     "plugin:vue/base",
+    "plugin:vue/recommended",
     "prettier",
   ],
-  parser: "babel-eslint",
+  parser: "vue-eslint-parser",
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: "module",
