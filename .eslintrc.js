@@ -12,7 +12,7 @@ module.exports = {
   ],
   parser: "babel-eslint",
   parserOptions: {
-    ecmaVersion: "latest",
+    ecmaVersion: 13,
     sourceType: "module",
     allowImportExportEverywhere: true,
     ecmaFeatures: {
