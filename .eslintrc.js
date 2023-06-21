@@ -9,6 +9,7 @@ module.exports = {
     "standard",
     "eslint:recommended",
     "plugin:prettier/recommended",
+    "plugin:vue/base",
   ],
   parserOptions: {
     ecmaVersion: 2018,
