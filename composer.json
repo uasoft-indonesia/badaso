@@ -38,7 +38,7 @@
     "spatie/flysystem-dropbox": "3.0.0",
     "spatie/laravel-activitylog": "4.7.3",
     "spatie/laravel-backup": "8.1.11",
-    "symfony/var-exporter": "6.3.0",
+    "symfony/var-exporter": "6.0.19",
     "unisharp/laravel-filemanager": "2.6.0",
     "webpatser/laravel-uuid": "4.0.1",
     "zircote/swagger-php": "4.7.10",
