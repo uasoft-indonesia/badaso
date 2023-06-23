@@ -3,24 +3,19 @@
     <badaso-breadcrumb-hover full>
       <template slot="action">
         <download-excel
-            :data="tables"
-            :fields="fieldsForExcel"
-            :worksheet="'CRUD Management'"
-            :name="'CRUD Management '+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+          :data="tables"
+          :fields="fieldsForExcel"
+          :worksheet="'CRUD Management'"
+          :name="'CRUD Management ' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
     <vs-row v-if="$helper.isAllowed('browse_crud_data')">
@@ -153,8 +148,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"]
-    }
+      fields: ["table_name"],
+    },
   }),
   mounted() {
     this.getTableList();
@@ -182,7 +177,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-          this.prepareExcelExporter()
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -219,20 +214,21 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = 'Name';
+          field = "Name";
         }
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = 'Name'
+          iterator = "Name";
         }
-        
+
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -240,7 +236,6 @@ export default {
       }
     },
     generatePdf() {
-
       let data = this.tables;
 
       // data.map((value) => {

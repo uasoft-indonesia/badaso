@@ -251,7 +251,7 @@ export default {
     edit: {
       multiple: "Simpan Konfigurasi",
     },
-    maintenanceMode: "Pengaturan maintenance hanya readonly."
+    maintenanceMode: "Pengaturan maintenance hanya readonly.",
   },
 
   crud: {
@@ -823,7 +823,7 @@ export default {
       isPublic: "Publik",
       action: "Aksi",
       rolesCanSeeAllData: "Role yang dapat melihat semua data",
-      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user"
+      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user",
     },
     help: {
       alwaysAllow:
@@ -879,7 +879,7 @@ export default {
         fieldIdentifyRelatedUser: {
           title: "Kolom relasi untuk identifikasi data user",
           placeholder: "Kolom relasi untuk identifikasi data user",
-        }
+        },
       },
       button: "Simpan",
     },
@@ -900,7 +900,7 @@ export default {
       },
       button: "Ubah",
       rolesCanSeeAllData: "Role yang dapat melihat semua data",
-      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user"
+      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user",
     },
   },
 

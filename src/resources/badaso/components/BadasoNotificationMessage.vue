@@ -48,11 +48,14 @@
             "
           >
           </span>
-          <vs-row style="align-items: center;">
-            <vs-icon icon="schedule" :color="topbarFontColor" style="margin-right: 5px;"></vs-icon>
+          <vs-row style="align-items: center">
+            <vs-icon
+              icon="schedule"
+              :color="topbarFontColor"
+              style="margin-right: 5px"
+            ></vs-icon>
             <p>{{ message.createdAt }}</p>
           </vs-row>
-
         </div>
       </vs-sidebar-item>
     </vs-sidebar>
@@ -77,7 +80,7 @@
         </vs-sidebar-item>
       </div>
       <vs-row>
-        <div class="m-3" style="margin-left:14px; margin-right:14px">
+        <div class="m-3" style="margin-left: 14px; margin-right: 14px">
           <h5>{{ detailMessage.title }}</h5>
           <span v-html="detailMessage.content" class="mt-2"></span>
           <vs-divider></vs-divider>
@@ -110,7 +113,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import moment from "moment";
 
 export default {
   data() {
@@ -129,7 +132,6 @@ export default {
     },
   },
   methods: {
-   
     openSideBarDetailMessage(message, index) {
       this.sideBarDetailMessage = true;
       this.sideBarNotification = false;
@@ -160,8 +162,10 @@ export default {
             item.style = {
               backgroundColor: !item.isRead ? "#f0f5f9" : "#ffffff",
             };
-            if(item.createdAt){
-              item.createdAt = moment(item.createdAt).utc().format('YYYY-MM-DD HH:mm:ss');
+            if (item.createdAt) {
+              item.createdAt = moment(item.createdAt)
+                .utc()
+                .format("YYYY-MM-DD HH:mm:ss");
             }
             return item;
           });

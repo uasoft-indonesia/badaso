@@ -81,11 +81,11 @@
                   <vs-td :data="data[indextr].tableName">
                     {{ data[indextr].tableName }}
                   </vs-td>
-                  
+
                   <vs-td :data="data[indextr].rolesCanSeeAllData">
                     {{ data[indextr].rolesCanSeeAllData }}
                   </vs-td>
-                  
+
                   <vs-td :data="data[indextr].fieldIdentifyRelatedUser">
                     {{ data[indextr].fieldIdentifyRelatedUser }}
                   </vs-td>
@@ -205,12 +205,12 @@ export default {
           this.selected = [];
           this.permissions = response.data.permissions;
           this.permissions.map((value) => {
-            if (value.rolesCanSeeAllData){
-              let rolesAllData = JSON.parse(value.rolesCanSeeAllData)
-              value.rolesCanSeeAllData = rolesAllData.toString()
+            if (value.rolesCanSeeAllData) {
+              const rolesAllData = JSON.parse(value.rolesCanSeeAllData);
+              value.rolesCanSeeAllData = rolesAllData.toString();
             }
             return value;
-          })
+          });
         })
         .catch((error) => {
           this.$closeLoader();

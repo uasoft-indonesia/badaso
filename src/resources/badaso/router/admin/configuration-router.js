@@ -10,7 +10,7 @@ const logViewer = import.meta.env.VITE_LOG_VIEWER_ROUTE
 
 const apiDocs = import.meta.env.VITE_API_DOCS_ROUTE
   ? import.meta.env.VITE_API_DOCS_ROUTE
-  : "api-docs"
+  : "api-docs";
 export default [
   {
     path: prefix + "/permission",

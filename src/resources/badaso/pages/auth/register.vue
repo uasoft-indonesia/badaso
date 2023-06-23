@@ -53,7 +53,7 @@
               ></span>
             </div>
           </div>
-           <vs-input
+          <vs-input
             icon="phone"
             icon-after
             size="default"

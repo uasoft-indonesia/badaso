@@ -1,42 +1,34 @@
 <template>
   <div>
     <badaso-breadcrumb-hover full>
-        <template slot="action">
-          <download-excel
-            :data="users"
-            :fields="fieldsForExcel"
-            :worksheet="'User Management'"
-            :name="'User Management'+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+      <template slot="action">
+        <download-excel
+          :data="users"
+          :fields="fieldsForExcel"
+          :worksheet="'User Management'"
+          :name="'User Management' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'UserManagementAdd' }"
-          >
-            {{ $t("action.add") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="delete_sweep"
-            v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
-            @click.stop
-            @click="confirmDeleteMultiple"
-          >
-            {{ $t("action.bulkDelete") }}
-          </badaso-dropdown-item>
-        </template>
-      </badaso-breadcrumb-hover>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item icon="add" :to="{ name: 'UserManagementAdd' }">
+          {{ $t("action.add") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item
+          icon="delete_sweep"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
+          @click.stop
+          @click="confirmDeleteMultiple"
+        >
+          {{ $t("action.bulkDelete") }}
+        </badaso-dropdown-item>
+      </template>
+    </badaso-breadcrumb-hover>
     <vs-row v-if="$helper.isAllowed('browse_users')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -145,7 +137,7 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ['name', 'email']
+      fields: ["name", "email"],
     },
   }),
   mounted() {
@@ -186,8 +178,8 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.selected = [];
-          this.users = response.data.users;      
-          this.prepareExcelExporter()
+          this.users = response.data.users;
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -242,19 +234,29 @@ export default {
         let field = iterator;
         if (field.includes("_")) {
           field = field.split("_");
-          field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
+          field =
+            field[0].charAt(0).toUpperCase() +
+            field[0].slice(1) +
+            " " +
+            field[1].charAt(0).toUpperCase() +
+            field[1].slice(1);
         }
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
-          iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
+          iterator =
+            iterator[0] +
+            " " +
+            iterator[1].charAt(0).toUpperCase() +
+            iterator[1].slice(1);
         }
-        
+
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -262,24 +264,25 @@ export default {
       }
     },
     generatePdf() {
-
       let data = this.users;
 
-      let fields = [];
+      const fields = [];
 
       for (const iterator in this.dataType.fields) {
-        const string = this.$caseConvert.stringSnakeToCamel(this.dataType.fields[iterator]);
+        const string = this.$caseConvert.stringSnakeToCamel(
+          this.dataType.fields[iterator]
+        );
         fields.push(string);
       }
 
       data.map((value) => {
         for (const iterator in value) {
           if (!fields.includes(iterator)) {
-            delete value[iterator]
+            delete value[iterator];
           }
         }
         return value;
-      })
+      });
 
       const result = data.map(Object.values);
 

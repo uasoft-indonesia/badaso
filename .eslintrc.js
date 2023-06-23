@@ -10,12 +10,8 @@ module.exports = {
     "eslint:recommended",
     "plugin:prettier/recommended",
   ],
-  ignorePatterns: [
-    "**/src/resources/badaso/**/**/*.vue",
-    "**/src/resources/badaso/**/*.js",
-  ],
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020,
     sourceType: "module",
     allowImportExportEverywhere: true,
     ecmaFeatures: {

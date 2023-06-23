@@ -119,7 +119,7 @@ export default {
         })
         .then((response) => {
           this.$closeLoader();
-          if (response.hasOwnProperty('data')) {
+          if (response.hasOwnProperty("data")) {
             this.$router.push({ name: "Home" });
           } else {
             this.$router.push({
