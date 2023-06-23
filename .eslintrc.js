@@ -17,6 +17,7 @@ module.exports = {
   ignorePatterns: [
     "**/src/resources/badaso/**/**/*.vue",
     "**/src/resources/badaso/*.js",
+    "**/src/resources/badaso/**/*.js",
   ],
   parser: "babel-eslint",
   parserOptions: {
