@@ -2,8 +2,8 @@
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-text__container">
     <label class="badaso-text__label"
       >{{ displayLabel }}
-      <vs-tooltip :text="tooltip" v-if="tooltip">
-        <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
+      <vs-tooltip v-if="tooltip" :text="tooltip">
+        <vs-icon icon="help_outline" size="16px" color="#A5A5A5" />
       </vs-tooltip>
     </label>
     <vs-input
@@ -15,19 +15,19 @@
       :value="value"
       @input="handleInput($event)"
     />
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-text__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-text__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-text__input--error" v-html="alert"></span>
+        <span class="badaso-text__input--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -37,7 +37,6 @@
 export default {
   name: "BadasoText",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -84,6 +83,7 @@ export default {
       default: null,
     },
   },
+  data: () => ({}),
   computed: {
     displayLabel: function () {
       if (this.required) {

@@ -3,25 +3,27 @@
     <badaso-breadcrumb-row>
       <template slot="action">
         <vs-button
+          v-if="$helper.isAllowed('edit_roles')"
           color="warning"
           type="relief"
           :to="{ name: 'RoleManagementEdit', params: { id: $route.params.id } }"
-          v-if="$helper.isAllowed('edit_roles')"
-          ><vs-icon icon="edit"></vs-icon>
-          {{ $t("role.detail.button.edit") }}</vs-button
         >
+          <vs-icon icon="edit" />
+          {{ $t("role.detail.button.edit") }}
+        </vs-button>
         <vs-button
+          v-if="$helper.isAllowed('browse_role_permission')"
           color="primary"
           type="relief"
-          @click.stop
           :to="{
             name: 'RoleManagementPermissions',
             params: { id: $route.params.id },
           }"
-          v-if="$helper.isAllowed('browse_role_permission')"
-          ><vs-icon icon="list"></vs-icon>
-          {{ $t("role.detail.button.permission") }}</vs-button
+          @click.stop
         >
+          <vs-icon icon="list" />
+          {{ $t("role.detail.button.permission") }}
+        </vs-button>
       </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('read_roles')">

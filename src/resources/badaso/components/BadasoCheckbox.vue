@@ -5,33 +5,33 @@
     }}</label>
     <ul class="badaso-checkbox__list">
       <li
-        class="badaso-checkbox__list-item"
         v-for="item in items"
         :key="item.value"
+        class="badaso-checkbox__list-item"
       >
         <vs-checkbox
           class="badaso-checkbox__checkbox"
           :value="value"
-          @input="handleInput($event)"
           :vs-value="item.value"
+          @input="handleInput($event)"
         >
           {{ item.label }}
         </vs-checkbox>
       </li>
     </ul>
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-checkbox__checkbox--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-checkbox__checkbox--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-checkbox__checkbox--error" v-html="alert"></span>
+        <span class="badaso-checkbox__checkbox--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -41,7 +41,6 @@
 export default {
   name: "BadasoCheckbox",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -57,7 +56,7 @@ export default {
     },
     value: {
       type: Array,
-       default: () => {
+      default: () => {
         return [];
       },
     },
@@ -74,6 +73,7 @@ export default {
       default: "",
     },
   },
+  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

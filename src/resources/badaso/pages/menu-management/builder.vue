@@ -11,14 +11,14 @@
           :label="$t('menu.builder.popup.add.field.title')"
           placeholder=""
           :alert="errors.title"
-        ></badaso-text>
+        />
         <badaso-text
           v-model="menuItem.url"
           size="12"
           :label="$t('menu.builder.popup.add.field.url')"
           placeholder=""
           :alert="errors.url"
-        ></badaso-text>
+        />
         <badaso-select
           v-model="menuItem.target"
           size="12"
@@ -26,47 +26,49 @@
           :items="menuItemTargets"
           placeholder=""
           :alert="errors.target"
-        ></badaso-select>
+        />
         <badaso-text
           v-model="menuItem.iconClass"
           size="12"
           :label="$t('menu.builder.popup.add.field.icon.title')"
           placeholder=""
-          :additionalInfo="$t('menu.builder.popup.add.field.icon.description')"
+          :additional-info="$t('menu.builder.popup.add.field.icon.description')"
           :alert="errors.icon"
-        ></badaso-text>
+        />
         <badaso-color-picker
-          size="12"
           v-model="menuItem.color"
+          size="12"
           :alert="errors.color"
-        ></badaso-color-picker>
+        />
       </vs-row>
       <vs-row vs-type="flex" vs-justify="space-between">
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
           <vs-button
             class="menu-management__button"
             color="danger"
-            @click="closeModal()"
             type="relief"
-            >{{ $t("menu.builder.popup.add.button.cancel") }}</vs-button
+            @click="closeModal()"
           >
+            {{ $t("menu.builder.popup.add.button.cancel") }}
+          </vs-button>
         </vs-col>
         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
           <vs-button
             class="menu-management__button"
             color="primary"
-            @click="saveMenuItem()"
             type="relief"
-            >{{ $t("menu.builder.popup.add.button.add") }}</vs-button
+            @click="saveMenuItem()"
           >
+            {{ $t("menu.builder.popup.add.button.add") }}
+          </vs-button>
         </vs-col>
       </vs-row>
     </vs-popup>
     <badaso-breadcrumb-row>
-      <template slot="action" v-if="$helper.isAllowed('add_menu_items')">
-        <vs-button color="primary" type="relief" @click="addMenuItem()"
-          ><vs-icon icon="add"></vs-icon> {{ $t("action.addItem") }}</vs-button
-        >
+      <template v-if="$helper.isAllowed('add_menu_items')" slot="action">
+        <vs-button color="primary" type="relief" @click="addMenuItem()">
+          <vs-icon icon="add" /> {{ $t("action.addItem") }}
+        </vs-button>
       </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('edit_menus')">
@@ -103,20 +105,17 @@
                       <vs-checkbox
                         :value="data.isExpand"
                         @change="saveCheckMenuItemExpand(data)"
-                        >{{ $t("menu.options.expand") }}</vs-checkbox
                       >
+                        {{ $t("menu.options.expand") }}
+                      </vs-checkbox>
                     </div>
                     <div class="menu-management__action">
                       <badaso-dropdown vs-trigger-click>
-                        <vs-button
-                          size="large"
-                          type="flat"
-                          icon="more_vert"
-                        ></vs-button>
+                        <vs-button size="large" type="flat" icon="more_vert" />
                         <vs-dropdown-menu>
                           <badaso-dropdown-item
-                            icon="list"
                             v-if="$helper.isAllowed('edit_menu_items')"
+                            icon="list"
                             :to="{
                               name: 'MenuManagementPermissions',
                               params: { id: $route.params.id, itemId: data.id },
@@ -125,16 +124,16 @@
                             Menu Permission
                           </badaso-dropdown-item>
                           <badaso-dropdown-item
+                            v-if="$helper.isAllowed('edit_menu_items')"
                             icon="edit"
                             @click="editMenuItem(data)"
-                            v-if="$helper.isAllowed('edit_menu_items')"
                           >
                             Edit
                           </badaso-dropdown-item>
                           <badaso-dropdown-item
+                            v-if="$helper.isAllowed('delete_menu_items')"
                             icon="delete"
                             @click="openConfirm(data.id)"
-                            v-if="$helper.isAllowed('delete_menu_items')"
                           >
                             Delete
                           </badaso-dropdown-item>
@@ -156,14 +155,14 @@
                     :label="$t('menu.builder.popup.edit.field.title')"
                     placeholder=""
                     :alert="errors.tile"
-                  ></badaso-text>
+                  />
                   <badaso-text
                     v-model="tempMenuItemDataEdit.url"
                     size="12"
                     :label="$t('menu.builder.popup.edit.field.url')"
                     placeholder=""
                     :alert="errors.url"
-                  ></badaso-text>
+                  />
 
                   <badaso-select
                     v-model="tempMenuItemDataEdit.target"
@@ -172,46 +171,44 @@
                     :items="menuItemTargets"
                     placeholder=""
                     :alert="errors.target"
-                  ></badaso-select>
+                  />
 
                   <badaso-text
                     v-model="tempMenuItemDataEdit.iconClass"
                     size="12"
                     :label="$t('menu.builder.popup.edit.field.icon.title')"
                     placeholder=""
-                    :additionalInfo="
+                    :additional-info="
                       $t('menu.builder.popup.edit.field.icon.description')
                     "
                     :alert="errors.icon"
-                  ></badaso-text>
+                  />
                   <badaso-color-picker
-                    size="12"
                     v-model="tempMenuItemDataEdit.color"
+                    size="12"
                     :alert="errors.color"
-                  ></badaso-color-picker>
+                  />
                 </vs-row>
                 <vs-row vs-type="flex" vs-justify="space-between">
                   <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                     <vs-button
                       class="menu-management__button"
                       color="danger"
-                      @click="closeModal()"
                       type="relief"
-                      >{{
-                        $t("menu.builder.popup.edit.button.cancel")
-                      }}</vs-button
+                      @click="closeModal()"
                     >
+                      {{ $t("menu.builder.popup.edit.button.cancel") }}
+                    </vs-button>
                   </vs-col>
                   <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                     <vs-button
                       class="menu-management__button"
                       color="primary"
-                      @click="updateMenuItem(tempMenuItemDataEdit)"
                       type="relief"
-                      >{{
-                        $t("menu.builder.popup.edit.button.edit")
-                      }}</vs-button
+                      @click="updateMenuItem(tempMenuItemDataEdit)"
                     >
+                      {{ $t("menu.builder.popup.edit.button.edit") }}
+                    </vs-button>
                   </vs-col>
                 </vs-row>
               </vs-popup>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action"> </template>
+      <template slot="action" />
     </badaso-breadcrumb-row>
     <vs-row>
       <vs-col vs-lg="12">
@@ -26,8 +26,8 @@
               <template slot="thead">
                 <vs-th
                   v-for="(header, index) in headerDataDBObject"
-                  :data="header"
                   :key="index"
+                  :data="header"
                   sort-key="tableName"
                 >
                   {{ $helper.generateDisplayName(header.field) }}
@@ -37,29 +37,25 @@
 
               <template slot-scope="{ data }">
                 <vs-tr
-                  :data="dataRows"
-                  :key="indeDataRows"
                   v-for="(dataRows, indeDataRows) in data"
+                  :key="indeDataRows"
+                  :data="dataRows"
                 >
                   <vs-td
                     v-for="(dataColumn, indexColumn) in dataRows.requestData
                       .data"
-                    :data="dataColumn"
                     :key="indexColumn"
+                    :data="dataColumn"
                   >
                     {{ dataColumn.value }}
                   </vs-td>
                   <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button
-                        size="large"
-                        type="flat"
-                        icon="more_vert"
-                      ></vs-button>
+                      <vs-button size="large" type="flat" icon="more_vert" />
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
-                          icon="delete"
                           v-if="$helper.isAllowed('delete_menus')"
+                          icon="delete"
                           @click="openConfirm(indeDataRows)"
                         >
                           Delete
@@ -90,8 +86,12 @@ export default {
       headerDataDBObject: {},
     };
   },
+  computed: {},
   created() {
     this.keyStore = atob(this.$route.params.urlBase64);
+  },
+  mounted() {
+    this.dbReadDataObject();
   },
   methods: {
     dbReadDataObject() {
@@ -140,10 +140,6 @@ export default {
           console.error(error);
         });
     },
-  },
-  computed: {},
-  mounted() {
-    this.dbReadDataObject();
   },
 };
 </script>

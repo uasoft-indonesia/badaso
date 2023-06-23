@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row></badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row v-if="$helper.isAllowed('add_menus')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -15,24 +15,24 @@
               :placeholder="$t('menu.add.field.key.placeholder')"
               :alert="errors.key"
               :tooltip="$t('menu.help.key')"
-            ></badaso-text>
+            />
             <badaso-text
               v-model="menu.displayName"
               size="6"
               :label="$t('menu.add.field.displayName.title')"
               :placeholder="$t('menu.add.field.displayName.placeholder')"
               :alert="errors.displayName"
-            ></badaso-text>
+            />
             <badaso-text
               v-model="menu.icon"
               size="6"
               :label="$t('menu.add.field.icon.title')"
               :placeholder="$t('menu.add.field.icon.placeholder')"
               :alert="errors.icon"
-              :additionalInfo="
+              :additional-info="
                 $t('menu.builder.popup.add.field.icon.description')
               "
-            ></badaso-text>
+            />
           </vs-row>
         </vs-card>
       </vs-col>
@@ -41,7 +41,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t("menu.add.button") }}
+                <vs-icon icon="save" /> {{ $t("menu.add.button") }}
               </vs-button>
             </vs-col>
           </vs-row>

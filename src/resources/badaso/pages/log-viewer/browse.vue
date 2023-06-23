@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action"> </template>
+      <template slot="action" />
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_logviewer')">
       <vs-col vs-lg="12">
@@ -15,7 +15,7 @@
               ref="logViewerIFrame"
               :src="urlIframe"
               class="log-viewer__iframe"
-            ></iframe>
+            />
           </div>
         </vs-card>
       </vs-col>
@@ -57,6 +57,9 @@ export default {
       return `${host}/${logViewerRoute}?token=${token}`;
     },
   },
+  created() {
+    this.checkLogViewer();
+  },
   methods: {
     checkLogViewer() {
       this.$openLoader();
@@ -80,9 +83,6 @@ export default {
           this.$closeLoader();
         });
     },
-  },
-  created() {
-    this.checkLogViewer();
   },
 };
 </script>

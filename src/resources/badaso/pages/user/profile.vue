@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row>
       <vs-col vs-lg="12">
         <vs-card>
@@ -13,21 +13,21 @@
                   :label="$t('myProfile.name')"
                   :placeholder="$t('myProfile.name')"
                   :alert="errors.name"
-                ></badaso-text>
+                />
                 <badaso-text
                   v-model="user.username"
                   size="12"
                   :label="$t('myProfile.username')"
                   :placeholder="$t('myProfile.username')"
                   :alert="errors.username"
-                ></badaso-text>
+                />
                 <badaso-upload-image
                   v-model="user.avatar"
                   size="12"
                   :label="$t('myProfile.avatar')"
                   :placeholder="$t('myProfile.avatar')"
                   :alert="errors.avatar"
-                ></badaso-upload-image>
+                />
                 <vs-col vs-lg="12">
                   <badaso-code-editor
                     v-model="user.additionalInfo"
@@ -35,7 +35,7 @@
                     :label="$t('myProfile.additionalInfo')"
                     :placeholder="$t('myProfile.additionalInfo')"
                     :alert="errors.additionalInfo"
-                  ></badaso-code-editor>
+                  />
                 </vs-col>
                 <vs-col vs-lg="12">
                   <vs-button
@@ -43,39 +43,39 @@
                     type="relief"
                     @click="updateProfile"
                   >
-                    <vs-icon icon="save"></vs-icon>
+                    <vs-icon icon="save" />
                     {{ $t("myProfile.buttons.updateProfile") }}
                   </vs-button>
                 </vs-col>
               </vs-row>
             </vs-tab>
             <vs-tab :label="$t('myProfile.email')">
-              <vs-row class="profile__container" v-if="shouldVerifyEmail">
+              <vs-row v-if="shouldVerifyEmail" class="profile__container">
                 <badaso-text
                   v-model="token"
                   size="12"
                   :label="$t('myProfile.token')"
                   :placeholder="$t('myProfile.token')"
                   :alert="errors.token"
-                ></badaso-text>
+                />
                 <vs-col vs-lg="12">
                   <vs-button color="primary" type="relief" @click="verifyEmail">
-                    <vs-icon icon="save"></vs-icon>
+                    <vs-icon icon="save" />
                     {{ $t("myProfile.buttons.verifyEmail") }}
                   </vs-button>
                 </vs-col>
               </vs-row>
-              <vs-row class="profile__container" v-else>
+              <vs-row v-else class="profile__container">
                 <badaso-email
                   v-model="user.email"
                   size="12"
                   :label="$t('myProfile.email')"
                   :placeholder="$t('myProfile.email')"
                   :alert="errors.email"
-                ></badaso-email>
+                />
                 <vs-col vs-lg="12">
                   <vs-button color="primary" type="relief" @click="updateEmail">
-                    <vs-icon icon="save"></vs-icon>
+                    <vs-icon icon="save" />
                     {{ $t("myProfile.buttons.updateEmail") }}
                   </vs-button>
                 </vs-col>
@@ -89,28 +89,28 @@
                   :label="$t('myProfile.oldPassword')"
                   :placeholder="$t('myProfile.oldPassword')"
                   :alert="errors.oldPassword"
-                ></badaso-password>
+                />
                 <badaso-password
                   v-model="user.newPassword"
                   size="12"
                   :label="$t('myProfile.newPassword')"
                   :placeholder="$t('myProfile.newPassword')"
                   :alert="errors.newPassword"
-                ></badaso-password>
+                />
                 <badaso-password
                   v-model="user.newPasswordConfirmation"
                   size="12"
                   :label="$t('myProfile.newPasswordConfirmation')"
                   :placeholder="$t('myProfile.newPasswordConfirmation')"
                   :alert="errors.newPasswordConfirmation"
-                ></badaso-password>
+                />
                 <vs-col vs-lg="12">
                   <vs-button
                     color="primary"
                     type="relief"
                     @click="changePassword"
                   >
-                    <vs-icon icon="save"></vs-icon>
+                    <vs-icon icon="save" />
                     {{ $t("myProfile.buttons.changePassword") }}
                   </vs-button>
                 </vs-col>
@@ -142,15 +142,15 @@ export default {
     token: "",
     shouldVerifyEmail: false,
   }),
-  mounted() {
-    this.getUser();
-  },
   computed: {
     adminPanelHeaderFontColor: {
       get() {
         return "#06bbd3";
       },
     },
+  },
+  mounted() {
+    this.getUser();
   },
   methods: {
     getUser() {

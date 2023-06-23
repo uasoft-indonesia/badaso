@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row></badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row v-if="$helper.isAllowed('read_activitylogs')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -43,7 +43,7 @@
           </table>
         </vs-card>
       </vs-col>
-      <vs-col vs-lg="6" vs-xs="12" v-if="subject">
+      <vs-col v-if="subject" vs-lg="6" vs-xs="12">
         <vs-card>
           <div slot="header">
             <h3>{{ $t("activityLog.detail.subject.title") }}</h3>
@@ -58,12 +58,14 @@
               <td v-if="index == 'avatar'">
                 <img :src="item" width="100%" alt="" />
               </td>
-              <td v-else>{{ item == null ? "null" : item }}</td>
+              <td v-else>
+                {{ item == null ? "null" : item }}
+              </td>
             </tr>
           </table>
         </vs-card>
       </vs-col>
-      <vs-col vs-lg="6" vs-xs="12" v-if="causer">
+      <vs-col v-if="causer" vs-lg="6" vs-xs="12">
         <vs-card>
           <div slot="header">
             <h3>{{ $t("activityLog.detail.causer.title") }}</h3>
@@ -78,13 +80,15 @@
               <td v-if="index == 'avatar'">
                 <img :src="item" width="100%" alt="" />
               </td>
-              <td v-else>{{ item == null ? "null" : item }}</td>
+              <td v-else>
+                {{ item == null ? "null" : item }}
+              </td>
             </tr>
           </table>
         </vs-card>
       </vs-col>
 
-      <vs-col vs-lg="6" vs-xs="12" v-if="!$helper.isObjectEmpty(properties)">
+      <vs-col v-if="!$helper.isObjectEmpty(properties)" vs-lg="6" vs-xs="12">
         <vs-card>
           <div slot="header">
             <h3>{{ $t("activityLog.detail.properties.title") }}</h3>
@@ -110,7 +114,9 @@
                   </tr>
                 </table>
               </td>
-              <td v-else>{{ item == null ? "null" : item }}</td>
+              <td v-else>
+                {{ item == null ? "null" : item }}
+              </td>
             </tr>
           </table>
         </vs-card>

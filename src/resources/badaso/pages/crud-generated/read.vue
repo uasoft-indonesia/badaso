@@ -4,16 +4,17 @@
       <badaso-breadcrumb-row full>
         <template slot="action">
           <vs-button
+            v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
             color="warning"
             type="relief"
-            v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)"
             :to="{
               name: 'CrudGeneratedEdit',
               params: { id: $route.params.id, slug: $route.params.slug },
             }"
-            ><vs-icon icon="edit"></vs-icon>
-            {{ $t("crudGenerated.detail.button") }}</vs-button
           >
+            <vs-icon icon="edit" />
+            {{ $t("crudGenerated.detail.button") }}
+          </vs-button>
         </template>
       </badaso-breadcrumb-row>
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('read', dataType)">
@@ -75,7 +76,7 @@
                               $caseConvert.stringSnakeToCamel(dataRow.field)
                             ]
                           "
-                        ></span>
+                        />
                         <a
                           v-else-if="dataRow.type == 'url'"
                           :href="
@@ -163,7 +164,7 @@
                                 $caseConvert.stringSnakeToCamel(dataRow.field)
                               ]
                             }`"
-                          ></div>
+                          />
                           {{
                             record[
                               $caseConvert.stringSnakeToCamel(dataRow.field)
@@ -204,7 +205,7 @@
       </vs-row>
     </template>
     <template v-if="isMaintenance">
-      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
+      <badaso-breadcrumb-row full />
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
@@ -231,14 +232,14 @@ export default {
     record: {},
     isMaintenance: false,
   }),
-  mounted() {
-    this.getDetailEntity();
-  },
   computed: {
     maintenanceImg() {
       const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
+  },
+  mounted() {
+    this.getDetailEntity();
   },
   methods: {
     getDownloadUrl(item) {
@@ -336,16 +337,16 @@ export default {
         return flatList.join(", ");
       } else if (dataRow.relation.relationType == "belongs_to") {
         const lists = record[table];
-        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
-        for (let list of lists) {
+        const field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+        for (const list of lists) {
           if (list.id == record[field]) {
             return list[displayColumn];
           }
         }
       } else if (dataRow.relation.relationType == "belongs_to_many") {
-        let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+        const field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
         const lists = record[field];
-        let flatList = [];
+        const flatList = [];
         Object.keys(lists).forEach(function (ls, key) {
           flatList.push(lists[ls][displayColumn]);
         });

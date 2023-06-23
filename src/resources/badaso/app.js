@@ -29,7 +29,7 @@ Vue.use(Vuesax);
 Vue.use(VueI18n);
 Vue.use(Datetime);
 // eslint-disable-next-line vue/multi-word-component-names
-Vue.component("datetime", Datetime);
+Vue.component("Datetime", Datetime);
 Vue.use(Vuelidate);
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
@@ -201,7 +201,7 @@ try {
       .toLowerCase() // convert to lower case
       .replace("./", "")
       .replace("/", "-");
- console.log(str, "name");
+
     Vue.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {

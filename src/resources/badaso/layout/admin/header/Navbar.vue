@@ -8,18 +8,22 @@
       :style="{ color: topbarFontColor }"
     >
       <div
+        v-if="
+          logoConfig === 'logo_only' ||
+          logoConfig === 'logo_and_text' ||
+          logoConfig === 'text_only'
+        "
         slot="logo"
         class="top-navbar__logo-wrapper"
-        v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text' || logoConfig === 'text_only'"
       >
         <img
-          :src="logo"
           v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
+          :src="logo"
           alt="Dashboard"
         />
         <span
-          class="top-navbar__logo-text"
           v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'"
+          class="top-navbar__logo-text"
         >
           {{ title }}
         </span>
@@ -28,31 +32,31 @@
       </div>
       <div slot="navigation">
         <div
+          v-if="view == $constants.DESKTOP"
           class="top-navbar__icon"
           @click.stop="reduceSidebar"
-          v-if="view == $constants.DESKTOP"
         >
-          <vs-icon icon="menu"></vs-icon>
+          <vs-icon icon="menu" />
         </div>
         <div
+          v-if="view == $constants.MOBILE"
           class="top-navbar__icon"
           @click.stop="activeSidebar"
-          v-if="view == $constants.MOBILE"
         >
-          <vs-icon icon="menu"></vs-icon>
+          <vs-icon icon="menu" />
         </div>
       </div>
       <div slot="left_menu">
         <vs-dropdown vs-trigger-click class="top-navbar__i18n-container">
           <a href="#" :style="{ color: topbarFontColor }">
             {{ getSelectedLocale.label }}
-            <vs-icon icon="expand_more" size="small"></vs-icon>
+            <vs-icon icon="expand_more" size="small" />
           </a>
           <vs-dropdown-menu>
             <vs-dropdown-item
               v-for="(item, index) in getLocale"
               :key="index"
-              v-on:click="setLocale(item)"
+              @click="setLocale(item)"
             >
               <span v-if="item.label">{{ item.label }}</span>
               <span v-else>{{ item.key }}</span>
@@ -61,9 +65,7 @@
         </vs-dropdown>
       </div>
       <div slot="right_menu">
-        <badaso-notification-message
-          :topbarFontColor="topbarFontColor"
-        ></badaso-notification-message>
+        <badaso-notification-message :topbar-font-color="topbarFontColor" />
       </div>
     </badaso-navbar>
   </header>

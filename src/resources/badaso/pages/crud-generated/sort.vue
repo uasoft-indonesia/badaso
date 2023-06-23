@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="!isMaintenance">
-      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
+      <badaso-breadcrumb-row full />
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('edit', dataType)">
         <vs-col vs-lg="12">
           <vs-card>
@@ -18,12 +18,9 @@
               <vs-col vs-lg="12">
                 <table class="badaso-table badaso-table__striped">
                   <draggable v-model="data" tag="tbody" @change="sortData">
-                    <tr :key="index" v-for="(field, index) in data">
+                    <tr v-for="(field, index) in data" :key="index">
                       <td class="crud-generated__draggable">
-                        <vs-icon
-                          icon="drag_indicator"
-                          class="is-draggable"
-                        ></vs-icon>
+                        <vs-icon icon="drag_indicator" class="is-draggable" />
                       </td>
                       <td
                         :data="
@@ -69,7 +66,7 @@
       </vs-row>
     </template>
     <template v-if="isMaintenance">
-      <badaso-breadcrumb-row full> </badaso-breadcrumb-row>
+      <badaso-breadcrumb-row full />
 
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('browse', dataType)">
         <vs-col vs-lg="12">
@@ -101,14 +98,14 @@ export default {
     data: [],
     isMaintenance: false,
   }),
-  mounted() {
-    this.getAllEntityData();
-  },
   computed: {
     maintenanceImg() {
       const config = this.$store.getters["badaso/getConfig"];
       return config.maintenanceImage;
     },
+  },
+  mounted() {
+    this.getAllEntityData();
   },
   methods: {
     async getAllEntityData() {

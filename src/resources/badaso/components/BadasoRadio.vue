@@ -5,32 +5,32 @@
     }}</label>
     <ul class="badaso-radio__list">
       <li
-        class="badaso-radio__list-item"
         v-for="item in items"
         :key="item.value"
+        class="badaso-radio__list-item"
       >
         <vs-radio
           :value="value"
-          @input="handleInput($event)"
           :vs-value="item.value"
+          @input="handleInput($event)"
         >
           {{ item.label }}
         </vs-radio>
       </li>
     </ul>
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-radio__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-radio__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-radio__input--error" v-html="alert"></span>
+        <span class="badaso-radio__input--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -40,7 +40,6 @@
 export default {
   name: "BadasoRadio",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -71,6 +70,7 @@ export default {
       default: "",
     },
   },
+  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

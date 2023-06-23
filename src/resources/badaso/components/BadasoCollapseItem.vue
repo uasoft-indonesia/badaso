@@ -9,7 +9,7 @@
     @mouseout="mouseout"
   >
     <header class="badaso-collapse-item__header" @click="toggleContent">
-      <slot name="header"></slot>
+      <slot name="header" />
       <span v-if="!notArrow" class="badaso-collapse-item__header-icon">
         <vs-icon :icon-pack="iconPack" :icon="iconArrow" />
       </span>

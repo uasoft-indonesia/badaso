@@ -12,22 +12,22 @@
       <prism-editor
         class="badaso-code-editor__editor"
         :value="value"
-        @input="handleInput($event)"
         line-numbers
         :highlight="highlighter"
-      ></prism-editor>
-      <div v-if="additionalInfo" v-html="additionalInfo"></div>
+        @input="handleInput($event)"
+      />
+      <div v-if="additionalInfo" v-html="additionalInfo" />
       <div v-if="alert">
         <div v-if="$helper.isArray(alert)">
           <span
-            class="badaso-code-editor__editor--error"
             v-for="(info, index) in alert"
             :key="index"
+            class="badaso-code-editor__editor--error"
             >{{ info }}</span
           >
         </div>
         <div v-else>
-          <span class="badaso-code-editor__editor--error" v-html="alert"></span>
+          <span class="badaso-code-editor__editor--error" v-html="alert" />
         </div>
       </div>
     </vs-col>
@@ -38,23 +38,23 @@
       <prism-editor
         class="badaso-code-editor__editor"
         :value="value"
-        @input="handleInput($event)"
         line-numbers
         :highlight="highlighter"
-      ></prism-editor>
-      <div v-if="additionalInfo" v-html="additionalInfo"></div>
+        @input="handleInput($event)"
+      />
+      <div v-if="additionalInfo" v-html="additionalInfo" />
       <div v-if="alert">
         <div v-if="$helper.isArray(alert)">
           <span
-            class="badaso-code-editor__editor--error"
             v-for="(info, index) in alert"
             :key="index"
+            class="badaso-code-editor__editor--error"
           >
             {{ info }}
           </span>
         </div>
         <div v-else>
-          <span class="badaso-code-editor__editor--error" v-html="alert"></span>
+          <span class="badaso-code-editor__editor--error" v-html="alert" />
         </div>
       </div>
     </div>

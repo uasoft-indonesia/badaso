@@ -8,23 +8,23 @@
       :readonly="readonly"
       :autofocus="autofocus"
       :value="value"
-      @input="handleInput($event)"
       icon="email"
       icon-after
+      @input="handleInput($event)"
     />
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-email__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-email__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-email__input--error" v-html="alert"></span>
+        <span class="badaso-email__input--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -34,7 +34,6 @@
 export default {
   name: "BadasoEmail",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -78,6 +77,7 @@ export default {
       default: false,
     },
   },
+  data: () => ({}),
   computed: {
     displayLabel: function () {
       if (this.required) {

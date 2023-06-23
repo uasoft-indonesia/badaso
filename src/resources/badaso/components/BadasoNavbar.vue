@@ -10,24 +10,24 @@
   >
     <div v-if="viewType == $constants.DESKTOP" class="top-navbar__header">
       <div class="top-navbar__logo">
-        <slot name="logo"> </slot>
+        <slot name="logo" />
       </div>
-      <slot name="navigation"> </slot>
+      <slot name="navigation" />
       <div class="top-navbar__menu--left">
-        <slot name="left_menu"> </slot>
+        <slot name="left_menu" />
       </div>
       <div class="top-navbar__menu--right">
-        <slot name="right_menu"> </slot>
+        <slot name="right_menu" />
       </div>
     </div>
     <div v-if="viewType == $constants.MOBILE" class="vs-navbar--header">
-      <slot name="navigation"> </slot>
+      <slot name="navigation" />
       <div class="top-navbar__logo">
-        <slot name="logo"> </slot>
+        <slot name="logo" />
         &nbsp;
-        <slot name="title"> </slot>
+        <slot name="title" />
       </div>
-      <slot name="right_menu"></slot>
+      <slot name="right_menu" />
     </div>
   </header>
 </template>
@@ -74,6 +74,15 @@ export default {
       };
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener("resize", this.handleWindowResize);
+    });
+    this.setViewType();
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleWindowResize);
+  },
   methods: {
     changeIndex(index) {
       this.$emit("input", index);
@@ -89,15 +98,6 @@ export default {
         this.viewType = this.$constants.DESKTOP;
       }
     },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      window.addEventListener("resize", this.handleWindowResize);
-    });
-    this.setViewType();
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.handleWindowResize);
   },
 };
 </script>

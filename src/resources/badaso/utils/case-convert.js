@@ -1,11 +1,11 @@
 export default {
   snake(obj) {
-    if (typeof obj == "string") {
+    if (typeof obj === "string") {
       return obj.replace(/([A-Z])/g, function ($1) {
         return "_" + $1.toLowerCase();
       });
     }
-    if (typeof obj != "object") return obj;
+    if (typeof obj !== "object") return obj;
 
     for (const oldName in obj) {
       // Camel to underscore
@@ -23,14 +23,14 @@ export default {
       }
 
       // Recursion
-      if (typeof obj[newName] == "object") {
+      if (typeof obj[newName] === "object") {
         obj[newName] = this.snake(obj[newName]);
       }
 
       // Array
       if (Array.isArray(obj[newName])) {
         for (let index = 0; index < obj[newName].length; index++) {
-          if (typeof obj[newName] == "object") {
+          if (typeof obj[newName] === "object") {
             obj[newName] = this.snake(obj[newName]);
           }
         }

@@ -4,30 +4,30 @@
       :label="label"
       :placeholder="placeholder"
       :value="value"
-      @input="handleInput($event)"
       width="100%"
+      @input="handleInput($event)"
       @change="handleChange($event)"
     >
       <vs-select-item
+        v-for="(item, index) in items"
         :key="index"
         :value="item.value ? item.value : item"
         :text="item.label ? item.label : item"
-        v-for="(item, index) in items"
       />
     </vs-select>
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-select__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-select__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-select__input--error" v-html="alert"></span>
+        <span class="badaso-select__input--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -37,7 +37,6 @@
 export default {
   name: "BadasoSelect",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -69,6 +68,7 @@ export default {
       default: "",
     },
   },
+  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

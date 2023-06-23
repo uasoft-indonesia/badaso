@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row></badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row v-if="$helper.isAllowed('add_database')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -16,36 +16,35 @@
                 :placeholder="$t('database.add.field.table')"
                 required
                 autofocus
-              >
-              </badaso-text>
+              />
             </vs-col>
             <vs-col vs-lg="12">
               <div v-if="$v.databaseData.table.$dirty">
                 <i18n
+                  v-if="!$v.databaseData.table.required"
                   path="vuelidate.required"
                   class="is-error"
-                  v-if="!$v.databaseData.table.required"
                 >
                   {{ $t("database.add.row.field.tableName") }}
                 </i18n>
 
                 <i18n
+                  v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator"
                   path="vuelidate.alphaNumAndUnderscoreValidator"
                   class="is-error"
-                  v-if="!$v.databaseData.table.alphaNumAndUnderscoreValidator"
                 >
                   {{ $t("database.add.row.field.tableName") }}
                 </i18n>
 
                 <i18n
+                  v-if="!$v.databaseData.table.maxLength"
                   path="vuelidate.maxLength"
                   class="is-error"
-                  v-if="!$v.databaseData.table.maxLength"
                 >
-                  <template v-slot:field>
+                  <template #field>
                     {{ $t("database.add.row.field.tableName") }}
                   </template>
-                  <template v-slot:length>
+                  <template #length>
                     {{ $v.databaseData.table.$params.maxLength.max }}
                   </template>
                 </i18n>
@@ -96,40 +95,40 @@
                   <vs-th class="badaso-table__no-wrap">
                     {{ $t("database.add.row.field.fieldDefault") }}
                   </vs-th>
-                  <vs-th class="badaso-table__no-wrap"></vs-th>
+                  <vs-th class="badaso-table__no-wrap" />
                 </template>
                 <template slot-scope="{ data }">
                   <template v-for="(tr, indextr) in data">
                     <vs-tr :key="indextr">
                       <vs-td :data="tr.fieldName">
                         <vs-input
+                          v-model="tr.fieldName"
                           type="text"
                           required
                           :disabled="tr.undeletable"
-                          v-model="tr.fieldName"
                           @input="renameForeignkey(tr)"
                         />
                       </vs-td>
 
                       <vs-td :data="tr.fieldType">
                         <vs-select
-                          class="database-management__field-type"
                           v-model="tr.fieldType"
+                          class="database-management__field-type"
                           :disabled="tr.undeletable"
                         >
                           <div
-                            :key="index"
                             v-for="(item, index) in fieldTypeList"
+                            :key="index"
                           >
                             <vs-select-group
-                              :title="item.title"
                               v-if="item.group"
+                              :title="item.title"
                             >
                               <vs-select-item
+                                v-for="(item, index) in item.group"
                                 :key="index"
                                 :value="item.value"
                                 :text="item.label"
-                                v-for="(item, index) in item.group"
                               />
                             </vs-select-group>
                           </div>
@@ -138,9 +137,9 @@
 
                       <vs-td :data="tr.fieldLength">
                         <vs-input
+                          v-model="tr.fieldLength"
                           type="text"
                           required
-                          v-model="tr.fieldLength"
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
@@ -149,43 +148,43 @@
                         <vs-checkbox
                           v-model="tr.fieldNull"
                           :disabled="tr.undeletable"
-                        ></vs-checkbox>
+                        />
                       </vs-td>
 
                       <vs-td :data="tr.fieldAttribute">
                         <vs-checkbox
                           v-model="tr.fieldAttribute"
                           :disabled="tr.undeletable"
-                        ></vs-checkbox>
+                        />
                       </vs-td>
 
                       <vs-td :data="tr.fieldIncrement">
                         <vs-checkbox
                           v-model="tr.fieldIncrement"
                           :disabled="tr.undeletable"
-                        ></vs-checkbox>
+                        />
                       </vs-td>
 
                       <vs-td :data="tr.fieldIndex">
                         <vs-select
-                          class="database-management__field-index"
                           v-model="tr.fieldIndex"
+                          class="database-management__field-index"
                           :disabled="tr.undeletable"
                           @change="setFieldIndex(tr)"
                         >
                           <vs-select-item
+                            v-for="(item, index) in fieldIndexList"
                             :key="index"
                             :value="item.value"
                             :text="item.label"
-                            v-for="(item, index) in fieldIndexList"
                           />
                         </vs-select>
                       </vs-td>
 
                       <vs-td :data="tr.fieldDefault">
                         <vs-input
-                          type="text"
                           v-model="tr.fieldDefault"
+                          type="text"
                           :disabled="tr.undeletable"
                         />
                       </vs-td>
@@ -193,20 +192,20 @@
                       <vs-td>
                         <div class="database-management__button-group">
                           <vs-button
+                            v-if="!tr.undeletable"
                             color="danger"
                             type="relief"
-                            v-if="!tr.undeletable"
                             @click="dropField(indextr, tr)"
                           >
-                            <vs-icon icon="delete"></vs-icon>
+                            <vs-icon icon="delete" />
                           </vs-button>
                           <vs-button
+                            v-if="!tr.undeletable && tr.fieldIndex == 'foreign'"
                             color="primary"
                             type="relief"
-                            v-if="!tr.undeletable && tr.fieldIndex == 'foreign'"
                             @click="openRelationDialog(tr)"
                           >
-                            <vs-icon icon="link"></vs-icon>
+                            <vs-icon icon="link" />
                           </vs-button>
                         </div>
                       </vs-td>
@@ -218,53 +217,53 @@
                       <vs-td>
                         <!-- required -->
                         <i18n
-                          path="vuelidate.required"
-                          class="is-error"
                           v-if="
                             !$v.databaseData.rows.$each[indextr].fieldName
                               .required
                           "
+                          path="vuelidate.required"
+                          class="is-error"
                         >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- maxLength -->
                         <i18n
-                          path="vuelidate.maxLength"
-                          class="is-error"
                           v-if="
                             !$v.databaseData.rows.$each[indextr].fieldName
                               .maxLength
                           "
+                          path="vuelidate.maxLength"
+                          class="is-error"
                         >
-                          <template v-slot:field>
+                          <template #field>
                             {{ $t("database.add.row.field.fieldName") }}
                           </template>
-                          <template v-slot:length>
+                          <template #length>
                             {{ $v.databaseData.table.$params.maxLength.max }}
                           </template>
                         </i18n>
 
                         <!-- alphaNumAndUnderscoreValidator -->
                         <i18n
-                          path="vuelidate.alphaNumAndUnderscoreValidator"
-                          class="is-error"
                           v-if="
                             !$v.databaseData.rows.$each[indextr].fieldName
                               .alphaNumAndUnderscoreValidator
                           "
+                          path="vuelidate.alphaNumAndUnderscoreValidator"
+                          class="is-error"
                         >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
 
                         <!-- unique -->
                         <i18n
-                          path="vuelidate.unique"
-                          class="is-error"
                           v-if="
                             !$v.databaseData.rows.$each[indextr].fieldName
                               .unique
                           "
+                          path="vuelidate.unique"
+                          class="is-error"
                         >
                           {{ $t("database.add.row.field.fieldName") }}
                         </i18n>
@@ -274,12 +273,12 @@
                       <vs-td>
                         <!-- required -->
                         <i18n
-                          path="vuelidate.required"
-                          class="is-error"
                           v-if="
                             !$v.databaseData.rows.$each[indextr].fieldType
                               .required
                           "
+                          path="vuelidate.required"
+                          class="is-error"
                         >
                           {{ $t("database.add.row.field.fieldType") }}
                         </i18n>
@@ -289,12 +288,12 @@
                       <vs-td>
                         <!-- requiredIf -->
                         <i18n
-                          path="vuelidate.required"
-                          class="is-error"
                           v-if="
                             !$v.databaseData.rows.$each[indextr].fieldLength
                               .required
                           "
+                          path="vuelidate.required"
+                          class="is-error"
                         >
                           {{ $t("database.add.row.field.fieldLength") }}
                         </i18n>
@@ -305,12 +304,12 @@
               </vs-table>
               <vs-prompt
                 type="confirm"
-                @accept="setRelation"
-                @cancel="cancelRelationDialog"
                 :is-valid="!$v.databaseData.relations.$each.$invalid"
                 :active.sync="relationDialog"
                 title="Relationship"
                 class="database-management__relationship-prompt"
+                @accept="setRelation"
+                @cancel="cancelRelationDialog"
               >
                 <vs-row
                   vs-type="grid"
@@ -322,12 +321,12 @@
                   <vs-col vs-w="12">
                     <vs-input
                       v-if="selectedField"
-                      disabled
-                      label="Field"
-                      placeholder="Field"
                       v-model="
                         databaseData.relations[selectedField].sourceField
                       "
+                      disabled
+                      label="Field"
+                      placeholder="Field"
                     />
                   </vs-col>
                   <vs-col vs-w="12">
@@ -335,37 +334,37 @@
                   </vs-col>
                   <vs-col vs-w="12">
                     <vs-select
-                      label="Table"
                       v-if="selectedField"
-                      @change="fetchTableFields"
-                      width="100%"
                       v-model="
                         databaseData.relations[selectedField].targetTable
                       "
+                      label="Table"
+                      width="100%"
+                      @change="fetchTableFields"
                     >
                       <vs-select-item
+                        v-for="(item, index) in tables"
                         :key="index"
                         :value="item.value"
                         :text="item.value"
-                        v-for="(item, index) in tables"
                       />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
                     <vs-select
-                      label="Field"
                       v-if="selectedField"
-                      :disabled="fields.length == 0"
-                      width="100%"
                       v-model="
                         databaseData.relations[selectedField].targetField
                       "
+                      label="Field"
+                      :disabled="fields.length == 0"
+                      width="100%"
                     >
                       <vs-select-item
+                        v-for="(item, index) in fields"
                         :key="index"
                         :value="item.value"
                         :text="item.value"
-                        v-for="(item, index) in fields"
                       />
                     </vs-select>
                   </vs-col>
@@ -374,31 +373,31 @@
                   </vs-col>
                   <vs-col vs-w="12">
                     <vs-select
-                      label="On Delete"
                       v-if="selectedField"
-                      width="100%"
                       v-model="databaseData.relations[selectedField].onDelete"
+                      label="On Delete"
+                      width="100%"
                     >
                       <vs-select-item
+                        v-for="(item, index) in relationType"
                         :key="index"
                         :value="item.value"
                         :text="item.label"
-                        v-for="(item, index) in relationType"
                       />
                     </vs-select>
                   </vs-col>
                   <vs-col vs-w="12">
                     <vs-select
-                      label="On Update"
                       v-if="selectedField"
-                      width="100%"
                       v-model="databaseData.relations[selectedField].onUpdate"
+                      label="On Update"
+                      width="100%"
                     >
                       <vs-select-item
+                        v-for="(item, index) in relationType"
                         :key="index"
                         :value="item.value"
                         :text="item.label"
-                        v-for="(item, index) in relationType"
                       />
                     </vs-select>
                   </vs-col>
@@ -412,7 +411,7 @@
               vs-align="center"
             >
               <vs-button type="relief" color="primary" @click="addField()">
-                <vs-icon icon="add"></vs-icon>
+                <vs-icon icon="add" />
                 Add new column
               </vs-button>
 
@@ -422,7 +421,7 @@
                 color="primary"
                 @click="addSoftDeletes()"
               >
-                <vs-icon icon="add"></vs-icon>
+                <vs-icon icon="add" />
                 Add soft deletes
               </vs-button>
             </vs-col>
@@ -434,20 +433,19 @@
           <vs-row vs-align="center">
             <vs-col vs-lg="2">
               <vs-button color="primary" type="relief" @click="submitForm()">
-                <vs-icon icon="save"></vs-icon> {{ $t("database.add.button") }}
+                <vs-icon icon="save" /> {{ $t("database.add.button") }}
               </vs-button>
             </vs-col>
             <vs-col
+              v-if="$v.databaseData.rows.$dirty"
               vs-lg="10"
               vs-align="center"
-              v-if="$v.databaseData.rows.$dirty"
             >
               <i18n
+                v-if="!$v.databaseData.rows.required"
                 path="vuelidate.rowsRequired"
                 class="is-error"
-                v-if="!$v.databaseData.rows.required"
-              >
-              </i18n>
+              />
             </vs-col>
           </vs-row>
         </vs-card>

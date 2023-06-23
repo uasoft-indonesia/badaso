@@ -10,26 +10,26 @@
     </vs-alert>
 
     <vs-card class="main-container__card--auth">
-      <badaso-auth-card-header slot="header">{{
-        $t("resetPassword.title")
-      }}</badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">
+        {{ $t("resetPassword.title") }}
+      </badaso-auth-card-header>
       <div>
         <vs-input
+          v-model="password"
           icon="lock"
           type="password"
           icon-after
           size="default"
           :placeholder="$t('resetPassword.field.password')"
-          v-model="password"
           class="reset-password__input"
         />
         <vs-input
+          v-model="passwordConfirmation"
           icon="lock"
           type="password"
           icon-after
           size="default"
           :placeholder="$t('resetPassword.field.passwordConfirmation')"
-          v-model="passwordConfirmation"
           class="reset-password__input"
           @keyup.enter="resetPassword()"
         />
@@ -37,8 +37,9 @@
           type="relief"
           class="reset-password__button"
           @click="resetPassword()"
-          >{{ $t("resetPassword.button") }}</vs-button
         >
+          {{ $t("resetPassword.button") }}
+        </vs-button>
       </div>
     </vs-card>
   </vs-col>

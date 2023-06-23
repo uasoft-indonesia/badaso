@@ -4,7 +4,7 @@
       class="main-container__background--auth"
       :style="`background-image: url('${authBackgroundImage}')`"
     >
-      <router-view :key="$route.path"></router-view>
+      <router-view :key="$route.path" />
     </vs-row>
   </div>
 </template>

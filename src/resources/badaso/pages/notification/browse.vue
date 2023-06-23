@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action"> </template>
+      <template slot="action" />
     </badaso-breadcrumb-row>
     <vs-row>
       <vs-col vs-lg="12">
@@ -53,11 +53,7 @@
                   </vs-td>
                   <vs-td>
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button
-                        size="large"
-                        type="flat"
-                        icon="more_vert"
-                      ></vs-button>
+                      <vs-button size="large" type="flat" icon="more_vert" />
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="delete"

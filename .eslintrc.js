@@ -10,9 +10,13 @@ module.exports = {
     "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:vue/strongly-recommended",
-    "plugin:vue/base",
     "plugin:vue/recommended",
+    "plugin:import/recommended",
     "prettier",
+  ],
+  ignorePatterns: [
+    "**/src/resources/badaso/**/**/*.vue",
+    "**/src/resources/badaso/*.js",
   ],
   parser: "babel-eslint",
   parserOptions: {
@@ -20,7 +24,6 @@ module.exports = {
     sourceType: "module",
     allowImportExportEverywhere: true,
     ecmaFeatures: {
-      jsx: true,
       modules: true,
     },
   },

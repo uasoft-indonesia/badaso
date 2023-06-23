@@ -1,7 +1,7 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-number__container">
-    <vs-tooltip :text="tooltip" v-if="tooltip">
-      <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
+    <vs-tooltip v-if="tooltip" :text="tooltip">
+      <vs-icon icon="help_outline" size="16px" color="#A5A5A5" />
     </vs-tooltip>
     <vs-input
       type="number"
@@ -10,19 +10,19 @@
       :value="value"
       @input="handleInput($event)"
     />
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-number__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-number__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-number__input--error" v-html="alert"></span>
+        <span class="badaso-number__input--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -32,7 +32,6 @@
 export default {
   name: "BadasoNumber",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -64,6 +63,7 @@ export default {
       default: null,
     },
   },
+  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

@@ -33,7 +33,7 @@ export default {
     } else if (/^(rgb)/.test(colorx)) {
       // change rgb and rgba
       if (alphax != 1) {
-        colorx = colorx.replace(/^(rgb)/, `rgba`);
+        colorx = colorx.replace(/^(rgb)/, "rgba");
         colorx = colorx.replace(/\)$/, `,${alphax})`);
       }
     }
@@ -71,7 +71,7 @@ export default {
         colorSplit += `,${opacity})`;
       } else {
         // colorSplit.replace('rgb','rgba')
-        colorSplit += `)`;
+        colorSplit += ")";
       }
       colorx = colorSplit;
     }

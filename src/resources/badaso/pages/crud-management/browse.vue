@@ -3,24 +3,19 @@
     <badaso-breadcrumb-hover full>
       <template slot="action">
         <download-excel
-            :data="tables"
-            :fields="fieldsForExcel"
-            :worksheet="'CRUD Management'"
-            :name="'CRUD Management '+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+          :data="tables"
+          :fields="fieldsForExcel"
+          :worksheet="'CRUD Management'"
+          :name="'CRUD Management ' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
     <vs-row v-if="$helper.isAllowed('browse_crud_data')">
@@ -52,20 +47,16 @@
 
               <template slot-scope="{ data }">
                 <vs-tr
-                  :data="table"
-                  :key="index"
                   v-for="(table, index) in data"
+                  :key="index"
+                  :data="table"
                 >
                   <vs-td :data="data[index].tableName">
                     {{ data[index].tableName }}
                   </vs-td>
-                  <vs-td class="badaso-table__td" v-if="data[index].crudData">
+                  <vs-td v-if="data[index].crudData" class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button
-                        size="large"
-                        type="flat"
-                        icon="more_vert"
-                      ></vs-button>
+                      <vs-button size="large" type="flat" icon="more_vert" />
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="visibility"
@@ -77,8 +68,8 @@
                           Detail
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
-                          icon="edit"
                           v-if="$helper.isAllowed('edit_crud_data')"
+                          icon="edit"
                           :to="{
                             name: 'CrudManagementEdit',
                             params: { tableName: data[index].tableName },
@@ -87,8 +78,8 @@
                           Edit
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
-                          icon="delete"
                           v-if="$helper.isAllowed('delete_crud_data')"
+                          icon="delete"
                           @click="openConfirm(data[index].crudData.id)"
                         >
                           Delete
@@ -98,15 +89,11 @@
                   </vs-td>
                   <vs-td v-else class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button
-                        size="large"
-                        type="flat"
-                        icon="more_vert"
-                      ></vs-button>
+                      <vs-button size="large" type="flat" icon="more_vert" />
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
-                          icon="add"
                           v-if="$helper.isAllowed('add_crud_data')"
+                          icon="add"
                           :to="{
                             name: 'CrudManagementAdd',
                             params: { tableName: data[index].tableName },
@@ -143,8 +130,8 @@ import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 export default {
-  components: { downloadExcel },
   name: "CrudManagementBrowse",
+  components: { downloadExcel },
   data: () => ({
     descriptionItems: [10, 50, 100],
     selected: [],
@@ -153,8 +140,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"]
-    }
+      fields: ["table_name"],
+    },
   }),
   mounted() {
     this.getTableList();
@@ -182,7 +169,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-          this.prepareExcelExporter()
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -219,20 +206,21 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = 'Name';
+          field = "Name";
         }
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = 'Name'
+          iterator = "Name";
         }
-        
+
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -240,7 +228,6 @@ export default {
       }
     },
     generatePdf() {
-
       let data = this.tables;
 
       // data.map((value) => {

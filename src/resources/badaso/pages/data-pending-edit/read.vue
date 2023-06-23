@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action"> </template>
+      <template slot="action" />
     </badaso-breadcrumb-row>
     <vs-row>
       <vs-col vs-lg="12">
@@ -14,13 +14,15 @@
               <table class="badaso-table">
                 <tr
                   v-for="(item, index) in itemDataStore"
-                  :data="item"
                   :key="index"
+                  :data="item"
                 >
                   <td class="badaso-table__label">
                     {{ $helper.generateDisplayName(item.field) }}
                   </td>
-                  <td class="badaso-table__value">{{ item.value }}</td>
+                  <td class="badaso-table__value">
+                    {{ item.value }}
+                  </td>
                 </tr>
               </table>
             </vs-col>
@@ -41,6 +43,14 @@ export default {
       keyStore: null,
       itemDataStore: {},
     };
+  },
+  computed: {
+    isOnline: {
+      get() {
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
+      },
+    },
   },
   created() {
     this.keyStore = atob(this.$route.params.urlBase64);
@@ -68,14 +78,6 @@ export default {
           }
         })
         .catch((error) => console.log(error));
-    },
-  },
-  computed: {
-    isOnline: {
-      get() {
-        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
-        return isOnline;
-      },
     },
   },
 };

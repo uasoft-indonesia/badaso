@@ -6,8 +6,9 @@
           color="primary"
           type="relief"
           :to="{ name: 'MenuManagementAdd' }"
-          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
+          <vs-icon icon="add" /> {{ $t("action.add") }}
+        </vs-button>
       </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_menus')">
@@ -25,9 +26,9 @@
               :ondragend="saveMenuOrder()"
             >
               <vs-row
+                slot-scope="{ data }"
                 vs-w="12"
                 vs-justify="space-between"
-                slot-scope="{ data }"
               >
                 <vs-col
                   vs-type="flex"
@@ -46,8 +47,9 @@
                   <vs-checkbox
                     :value="data.isShowHeader"
                     @change="saveCheckMenuShowHeader(data.id)"
-                    >{{ $t("menu.options.showHeader") }}</vs-checkbox
                   >
+                    {{ $t("menu.options.showHeader") }}
+                  </vs-checkbox>
                 </vs-col>
                 <vs-col
                   vs-type="flex"
@@ -58,8 +60,9 @@
                   <vs-checkbox
                     :value="data.isExpand"
                     @change="saveCheckMenuExpand(data)"
-                    >{{ $t("menu.options.expand") }}</vs-checkbox
                   >
+                    {{ $t("menu.options.expand") }}
+                  </vs-checkbox>
                 </vs-col>
                 <vs-col
                   vs-type="flex"
@@ -68,15 +71,11 @@
                   vs-w="2"
                 >
                   <badaso-dropdown vs-trigger-click>
-                    <vs-button
-                      size="large"
-                      type="flat"
-                      icon="more_vert"
-                    ></vs-button>
+                    <vs-button size="large" type="flat" icon="more_vert" />
                     <vs-dropdown-menu>
                       <badaso-dropdown-item
-                        icon="list"
                         v-if="$helper.isAllowed('edit_menus')"
+                        icon="list"
                         :to="{
                           name: 'MenuManagementBuilder',
                           params: { id: data.id },
@@ -85,8 +84,8 @@
                         Manage Items
                       </badaso-dropdown-item>
                       <badaso-dropdown-item
-                        icon="edit"
                         v-if="$helper.isAllowed('edit_menus')"
+                        icon="edit"
                         :to="{
                           name: 'MenuManagementEdit',
                           params: { id: data.id },
@@ -95,8 +94,8 @@
                         Edit
                       </badaso-dropdown-item>
                       <badaso-dropdown-item
-                        icon="delete"
                         v-if="$helper.isAllowed('delete_menus')"
+                        icon="delete"
                         @click="openConfirm(data.id)"
                       >
                         Delete
@@ -130,10 +129,10 @@ import { DraggableTree } from "vue-draggable-nested-tree";
 import _ from "lodash";
 
 export default {
+  name: "MenuManagementBrowse",
   components: {
     Tree: DraggableTree,
   },
-  name: "MenuManagementBrowse",
   data: () => ({
     selected: [],
     descriptionItems: [10, 50, 100],

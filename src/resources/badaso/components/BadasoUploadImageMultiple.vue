@@ -5,30 +5,30 @@
     class="badaso-upload-image-multiple__container"
   >
     <vs-input
+      v-model="value"
       :label="label"
       :placeholder="placeholder"
-      @click="openFileManager"
-      v-on:keyup.space="openFileManager"
       readonly
-      v-model="value"
       icon="attach_file"
       icon-after="true"
+      @click="openFileManager"
+      @keyup.space="openFileManager"
     />
     <input
+      ref="image"
       type="file"
       class="badaso-upload-image-multiple__input--hidden"
-      ref="image"
       :accept="availableMimetypes.image.validMime.join(',')"
-      @change="onFilePicked"
       multiple
+      @change="onFilePicked"
     />
     <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-upload-image-multiple__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-upload-image-multiple__input--error"
         >
           {{ info }}
         </span>
@@ -42,10 +42,10 @@
     </div>
     <vs-row v-if="hasValue">
       <vs-col
-        vs-lg="4"
-        vs-sm="12"
         v-for="(val, index) in getImageModels"
         :key="index"
+        vs-lg="4"
+        vs-sm="12"
       >
         <div class="badaso-upload-image-multiple__preview">
           <vs-button
@@ -60,37 +60,37 @@
     </vs-row>
 
     <div
+      v-if="showFileManager"
       class="badaso-upload-image-multiple__popup-dialog"
       tabindex="0"
-      v-if="showFileManager"
     >
       <div class="badaso-upload-image-multiple__popup-container">
         <div class="badaso-upload-image-multiple__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
           <vs-button
+            v-if="getActiveTab !== 'url' && model"
             color="danger"
             type="relief"
             class="badaso-upload-image-multiple__popup-button--delete"
-            v-if="getActiveTab !== 'url' && model"
             @click="openDeleteDialog"
           >
-            <vs-icon icon="delete"></vs-icon>
+            <vs-icon icon="delete" />
           </vs-button>
         </div>
 
         <ul class="badaso-upload-image-multiple__popup--left-bar">
           <li
+            v-if="privateOnly || (!privateOnly && !sharesOnly)"
             :class="{ active: getActiveTab === 'private' }"
             @click="setActiveTab('private')"
-            v-if="privateOnly || (!privateOnly && !sharesOnly)"
           >
             Private
           </li>
           <li
+            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
             :class="{ active: getActiveTab === 'shares' }"
             @click="setActiveTab('shares')"
-            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
           >
             Shares
           </li>
@@ -107,23 +107,23 @@
         </ul>
 
         <div
-          class="badaso-upload-image-multiple__popup--right-bar"
           v-if="getActiveTab !== 'url'"
+          class="badaso-upload-image-multiple__popup--right-bar"
         >
           <div
             class="badaso-upload-image-multiple__popup-add-image"
             @click="$refs.image.click()"
           >
-            <vs-icon icon="add" color="#06bbd3" size="40px"></vs-icon>
+            <vs-icon icon="add" color="#06bbd3" size="40px" />
           </div>
           <img
+            v-for="(image, index) in images"
+            :key="index"
             :class="{
               active: model.includes(image.url),
               'badaso-upload-image-multiple__popup-image': true,
             }"
             :src="image.thumbUrl ? image.thumbUrl : image.url"
-            v-for="(image, index) in images"
-            :key="index"
             @click="selectImage(image.url)"
           />
         </div>
@@ -133,11 +133,11 @@
           class="badaso-upload-image-multiple__popup--right-bar badaso-upload-image-multiple__popup--url-bar"
         >
           <vs-input
+            v-model="model"
             label="Paste an image URL here"
             placeholder="URL"
-            v-model="model"
-            @input="$openLoader()"
             description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG."
+            @input="$openLoader()"
           />
           <p
             v-if="isValidImageUrl === false && model.length > 0"
@@ -149,6 +149,7 @@
             accept="image/png"
             :src="model"
             alt=""
+            class="badaso-upload-image-multiple__preview--small"
             @load="
               isValidImageUrl = true;
               $closeLoader();
@@ -157,7 +158,6 @@
               isValidImageUrl = false;
               $closeLoader();
             "
-            class="badaso-upload-image-multiple__preview--small"
           />
         </div>
 
@@ -165,18 +165,18 @@
           <div class="badaso-upload-image-multiple__popup-button--footer">
             <div v-if="getActiveTab !== 'url'">
               <vs-pagination
-                :total="Math.ceil(paginator.total / paginator.perPage)"
                 v-model="page"
+                :total="Math.ceil(paginator.total / paginator.perPage)"
                 :max="1"
-              ></vs-pagination>
+              />
             </div>
             <vs-spacer />
             <vs-button
               color="primary"
               type="relief"
               class="badaso-upload-image-multiple__popup-button"
-              @click="emitInput"
               :disabled="!model || model.length === 0"
+              @click="emitInput"
             >
               {{ $t("button.submit") }}
             </vs-button>

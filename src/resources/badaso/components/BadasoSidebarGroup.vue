@@ -7,15 +7,15 @@
   >
     <div class="badaso-sidebar-group__container">
       <vs-icon
-        class="badaso-sidebar-group__icon--user"
         v-if="icon"
+        class="badaso-sidebar-group__icon--user"
         :icon-pack="iconPack"
         :icon="icon"
       />
       <h4
-        @click="clickGroup"
         v-if="icon"
         class="hide-in-minisidebar badaso-sidebar-group__item-group"
+        @click="clickGroup"
       >
         <vs-icon
           class="badaso-sidebar-group__icon--arrow"
@@ -26,7 +26,7 @@
           <span class="badaso-sidebar-group__text">{{ subTitle }}</span>
         </div>
       </h4>
-      <h4 @click="clickGroup" v-else class="badaso-sidebar-group__item-group">
+      <h4 v-else class="badaso-sidebar-group__item-group" @click="clickGroup">
         <vs-icon
           class="badaso-sidebar-group__icon--arrow"
           icon="keyboard_arrow_down"
@@ -39,7 +39,7 @@
       <span class="vs-sidebar--tooltip">{{ title }}</span>
     </div>
     <ul ref="items" :style="styleItems" class="vs-sidebar--group-items">
-      <slot></slot>
+      <slot />
     </ul>
   </div>
 </template>

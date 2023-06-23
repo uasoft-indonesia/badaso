@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row v-if="$helper.isAllowed('edit_roles')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -14,21 +14,21 @@
               :label="$t('role.edit.field.name.title')"
               :placeholder="$t('role.edit.field.name.placeholder')"
               :alert="errors.name"
-            ></badaso-text>
+            />
             <badaso-text
               v-model="role.displayName"
               size="6"
               :label="$t('role.edit.field.displayName.title')"
               :placeholder="$t('role.edit.field.displayName.placeholder')"
               :alert="errors.displayName"
-            ></badaso-text>
+            />
             <badaso-textarea
               v-model="role.description"
               size="12"
               :label="$t('role.edit.field.description.title')"
               :placeholder="$t('role.edit.field.description.placeholder')"
               :alert="errors.description"
-            ></badaso-textarea>
+            />
           </vs-row>
         </vs-card>
       </vs-col>
@@ -37,7 +37,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t("role.edit.button") }}
+                <vs-icon icon="save" /> {{ $t("role.edit.button") }}
               </vs-button>
             </vs-col>
           </vs-row>

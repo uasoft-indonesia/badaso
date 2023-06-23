@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action"> </template>
+      <template slot="action" />
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_file_manager')">
       <vs-col vs-lg="12">
@@ -41,6 +41,14 @@ export default {
       urlIframe: null,
     };
   },
+  computed: {
+    urlFileManager() {
+      const host = window.location.origin;
+      const token = localStorage.getItem("token");
+      const url = `${host}/filemanager?type=Images&token=${token}`;
+      return url;
+    },
+  },
   async created() {
     await this.requestCheckPageIFrame();
   },
@@ -66,14 +74,6 @@ export default {
         .finally(() => {
           this.$closeLoader();
         });
-    },
-  },
-  computed: {
-    urlFileManager() {
-      const host = window.location.origin;
-      const token = localStorage.getItem("token");
-      const url = `${host}/filemanager?type=Images&token=${token}`;
-      return url;
     },
   },
 };

@@ -3,23 +3,25 @@
     <badaso-breadcrumb-row>
       <template slot="action">
         <vs-button
+          v-if="$helper.isAllowed('edit_users')"
           color="warning"
           type="relief"
           :to="{ name: 'UserManagementEdit', params: { id: $route.params.id } }"
-          v-if="$helper.isAllowed('edit_users')"
-          ><vs-icon icon="edit"></vs-icon> {{ $t("action.edit") }}</vs-button
         >
+          <vs-icon icon="edit" /> {{ $t("action.edit") }}
+        </vs-button>
         <vs-button
+          v-if="$helper.isAllowed('browse_user_role')"
           color="primary"
           type="relief"
-          @click.stop
           :to="{
             name: 'UserManagementRoles',
             params: { id: $route.params.id },
           }"
-          v-if="$helper.isAllowed('browse_user_role')"
-          ><vs-icon icon="list"></vs-icon> {{ $t("action.roles") }}</vs-button
+          @click.stop
         >
+          <vs-icon icon="list" /> {{ $t("action.roles") }}
+        </vs-button>
       </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('read_users')">

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row v-if="$helper.isAllowed('add_configurations')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -15,7 +15,7 @@
               :placeholder="$t('site.add.field.displayName.placeholder')"
               required
               :alert="errors.displayName"
-            ></badaso-text>
+            />
             <badaso-text
               v-model="config.key"
               size="6"
@@ -23,7 +23,7 @@
               required
               :placeholder="$t('site.add.field.key.placeholder')"
               :alert="errors.key"
-            ></badaso-text>
+            />
             <badaso-select
               v-model="config.type"
               size="6"
@@ -31,7 +31,7 @@
               :placeholder="$t('site.add.field.type.placeholder')"
               :items="componentList"
               :alert="errors.type"
-            ></badaso-select>
+            />
             <badaso-select
               v-model="config.group"
               size="6"
@@ -39,7 +39,7 @@
               :placeholder="$t('site.add.field.group.placeholder')"
               :items="groupList"
               :alert="errors.group"
-            ></badaso-select>
+            />
             <vs-col vs-lg="12">
               <label for="" class="vs-input--label">{{
                 $t("site.add.field.options.title")
@@ -47,8 +47,7 @@
               <badaso-code-editor
                 v-model="config.details"
                 :alert="errors.details"
-              >
-              </badaso-code-editor>
+              />
             </vs-col>
             <vs-col vs-lg="12">
               <p>{{ $t("site.add.field.options.description") }}</p>
@@ -64,7 +63,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t("site.add.button") }}
+                <vs-icon icon="save" /> {{ $t("site.add.button") }}
               </vs-button>
             </vs-col>
           </vs-row>

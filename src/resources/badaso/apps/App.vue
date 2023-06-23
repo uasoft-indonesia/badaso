@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view />
     <badaso-prompt
       :active.sync="loader"
       buttons-hidden
@@ -8,10 +8,10 @@
       type="confirm"
       class="badaso-loader"
       :color="color"
-      :headerColor="headerColor"
+      :header-color="headerColor"
     >
       <br />
-      <vs-progress indeterminate :color="color">primary</vs-progress>
+      <vs-progress indeterminate :color="color"> primary </vs-progress>
     </badaso-prompt>
     <badaso-prompt
       :active.sync="loaderSync"
@@ -20,17 +20,17 @@
       type="confirm"
       class="badaso-loader"
       color="primary"
-      headerColor="primary"
+      header-color="primary"
     >
       <br />
-      <vs-progress indeterminate :color="color">primary</vs-progress>
+      <vs-progress indeterminate :color="color"> primary </vs-progress>
     </badaso-prompt>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app",
+  name: "App",
   components: {},
   data: () => ({
     loader: false,
@@ -39,20 +39,6 @@ export default {
     headerColor: null,
     loaderSync: false,
   }),
-  methods: {
-    openLoader(payload = null) {
-      this.title = payload ? payload.title : "Loading";
-      this.color = payload ? payload.color : "primary";
-      this.headerColor = payload ? payload.headerColor : null;
-      this.loader = true;
-    },
-    closeLoader() {
-      this.loader = false;
-    },
-    syncLoader(loaderSyncStatus) {
-      this.loaderSync = loaderSyncStatus;
-    },
-  },
   computed: {
     getSelectedLocale: {
       get() {
@@ -76,5 +62,19 @@ export default {
     this.$store.commit("badaso/FETCH_FILE_CONFIGURATION");
   },
   beforeMount() {},
+  methods: {
+    openLoader(payload = null) {
+      this.title = payload ? payload.title : "Loading";
+      this.color = payload ? payload.color : "primary";
+      this.headerColor = payload ? payload.headerColor : null;
+      this.loader = true;
+    },
+    closeLoader() {
+      this.loader = false;
+    },
+    syncLoader(loaderSyncStatus) {
+      this.loaderSync = loaderSyncStatus;
+    },
+  },
 };
 </script>

@@ -9,83 +9,81 @@
       <span>{{ res.message }}</span>
     </vs-alert>
 
-    <vs-card class="main-container__card--auth" v-if="!requestVerify">
-      <badaso-auth-card-header slot="header">{{
-        $t("forgotPassword.title")
-      }}</badaso-auth-card-header>
+    <vs-card v-if="!requestVerify" class="main-container__card--auth">
+      <badaso-auth-card-header slot="header">
+        {{ $t("forgotPassword.title") }}
+      </badaso-auth-card-header>
       <div>
         <vs-input
+          v-model="email"
           icon="email"
           icon-after
           size="default"
           :placeholder="$t('forgotPassword.field.email')"
-          v-model="email"
           class="forgot-password__input"
           @keyup.enter="forgotPassword()"
         />
         <div v-if="errors.email" class="forgot-password__error-container">
           <div v-if="$helper.isArray(errors.email)">
             <span
-              class="forgot-password__input--error"
               v-for="(info, index) in errors.email"
               :key="index"
+              class="forgot-password__input--error"
             >
               {{ info }}
             </span>
           </div>
           <div v-else>
-            <span
-              class="forgot-password__input--error"
-              v-html="errors.email"
-            ></span>
+            <span class="forgot-password__input--error" v-html="errors.email" />
           </div>
         </div>
         <vs-button
           type="relief"
           class="forgot-password__button"
           @click="forgotPassword()"
-          >{{ $t("forgotPassword.button") }}</vs-button
         >
+          {{ $t("forgotPassword.button") }}
+        </vs-button>
       </div>
     </vs-card>
 
-    <vs-card class="main-container__card--auth" v-else>
+    <vs-card v-else class="main-container__card--auth">
       <div slot="header">
-        <h3 class="forgot-password__title">{{ $t("verifyEmail.title") }}</h3>
+        <h3 class="forgot-password__title">
+          {{ $t("verifyEmail.title") }}
+        </h3>
       </div>
       <div>
         <vs-input
+          v-model="token"
           icon="token"
           icon-after
           size="default"
           :placeholder="$t('verifyEmail.field.token')"
-          v-model="token"
           class="forgot-password__input"
           @keyup.enter="verify()"
         />
         <div v-if="errors.token" class="forgot-password__error-container">
           <div v-if="$helper.isArray(errors.token)">
             <span
-              class="forgot-password__input--error"
               v-for="(info, index) in errors.token"
               :key="index"
+              class="forgot-password__input--error"
             >
               {{ info }}
             </span>
           </div>
           <div v-else>
-            <span
-              class="forgot-password__input--error"
-              v-html="errors.token"
-            ></span>
+            <span class="forgot-password__input--error" v-html="errors.token" />
           </div>
         </div>
         <vs-button
           type="relief"
           class="forgot-password__button"
           @click="verify()"
-          >{{ $t("verifyEmail.button") }}</vs-button
         >
+          {{ $t("verifyEmail.button") }}
+        </vs-button>
       </div>
     </vs-card>
   </vs-col>

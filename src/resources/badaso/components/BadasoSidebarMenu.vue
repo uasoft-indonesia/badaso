@@ -8,11 +8,11 @@
     >
       <!-- for dropdown -->
       <a
-        @click="clickMenuParentItem()"
+        v-if="isParentMenu"
         href="#"
         aria-current="page"
         :class="getItemActive().vsALinkItemActive"
-        v-if="isParentMenu"
+        @click="clickMenuParentItem()"
       >
         <span class="hide-in-minisidebar flex-row">
           <vs-icon :icon="icon ? icon : 'remove'" />
@@ -25,52 +25,51 @@
         />
       </a>
       <!-- for route link -->
-        <template v-else>
-        <a v-if="url.substring(0, 4) == 'http'"
-        :href="url"
-        aria-current="page"
-        :class="getItemActive().vsAlinkActive"
+      <template v-else>
+        <a
+          v-if="url.substring(0, 4) == 'http'"
+          :href="url"
+          aria-current="page"
+          :class="getItemActive().vsAlinkActive"
         >
-       <vs-icon :icon="icon ? icon : 'remove'" />
-        <span class="hide-in-minisidebar"> {{ title }}</span>
+          <vs-icon :icon="icon ? icon : 'remove'" />
+          <span class="hide-in-minisidebar"> {{ title }}</span>
         </a>
-      <router-link
-        :to="url"
-        aria-current="page"
-        :class="getItemActive().vsALinkItemActive"
-        v-else
-      >
-        <vs-icon :icon="icon ? icon : 'remove'" />
-        <span class="hide-in-minisidebar"> {{ title }}</span>
-      </router-link>
+        <router-link
+          v-else
+          :to="url"
+          aria-current="page"
+          :class="getItemActive().vsALinkItemActive"
+        >
+          <vs-icon :icon="icon ? icon : 'remove'" />
+          <span class="hide-in-minisidebar"> {{ title }}</span>
+        </router-link>
       </template>
     </div>
     <!-- vs-sidebar--group-items -->
     <ul
-      class="vs-sidebar--group-child-items"
       v-if="isParentMenu"
+      class="vs-sidebar--group-child-items"
       :style="handleStyleClass().vsSideBarGroupChildItemStyle"
     >
       <li
-        :key="JSON.stringify(children)"
         v-for="children in getChildrenMenuItem()"
+        :key="JSON.stringify(children)"
         class="vs-sidebar--item"
       >
         <router-link
-          :to="children.url"
           v-if="!children.isParentMenu"
+          :to="children.url"
           aria-current="page"
         >
           <vs-icon :icon="children.icon ? children.icon : 'remove'" />
-          <span class="hide-in-minisidebar">{{
-            children.title
-          }}</span></router-link
-        >
+          <span class="hide-in-minisidebar">{{ children.title }}</span>
+        </router-link>
         <badaso-sidebar-menu-callback
           v-else
-          :defaultIsExpand="children.isExpand"
+          :default-is-expand="children.isExpand"
           :icon="children.icon ? children.icon : 'remove'"
-          :isParentMenu="children.isParentMenu"
+          :is-parent-menu="children.isParentMenu"
           :title="children.title"
           :url="children.url"
           :children="children.children"

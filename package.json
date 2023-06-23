@@ -84,13 +84,14 @@
     "type-fest": "^0.20.2",
     "uri-js": "^4.4.1",
     "v8-compile-cache": "^2.3.0",
-    "vue-eslint-parser": "^8.3.0",
     "which": "^2.0.2",
     "word-wrap": "^1.2.3",
     "wrappy": "^1.0.2",
     "yallist": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
@@ -102,7 +103,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-vue": "^8.5.0",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "vue-eslint-parser": "^8.3.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

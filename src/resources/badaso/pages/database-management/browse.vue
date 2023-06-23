@@ -2,89 +2,88 @@
   <div>
     <badaso-breadcrumb-hover full>
       <template slot="action">
-         <download-excel
-            :data="tables"
-            :fields="fieldsForExcel"
-            :worksheet="'Database Management'"
-            :name="'Database Management '+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+        <download-excel
+          :data="tables"
+          :fields="fieldsForExcel"
+          :worksheet="'Database Management'"
+          :name="'Database Management ' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'DatabaseManagementAdd' }"
-          >
-            {{ $t("database.browse.addButton") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="refresh"
-            @click="openRollbackDialog()"
-            v-if="$helper.isAllowed('rollback_database')"
-          >
-            {{ $t("database.browse.rollbackButton") }}
-          </badaso-dropdown-item>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item
+          icon="add"
+          :to="{ name: 'DatabaseManagementAdd' }"
+        >
+          {{ $t("database.browse.addButton") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item
+          v-if="$helper.isAllowed('rollback_database')"
+          icon="refresh"
+          @click="openRollbackDialog()"
+        >
+          {{ $t("database.browse.rollbackButton") }}
+        </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
     <vs-popup
       :title="$t('database.browse.warning.title')"
       :active.sync="isNotMigrated"
-      @close="isNotMigrated = true"
       class="database-management__popup"
       button-close-hidden
+      @close="isNotMigrated = true"
     >
       <p>{{ $t("database.browse.warning.notAllowed") }}</p>
-      <p v-for="(data, index) in notMigratedFile" :key="index">{{ data }}</p>
+      <p v-for="(data, index) in notMigratedFile" :key="index">
+        {{ data }}
+      </p>
 
-      <vs-divider class="database-management__divider"></vs-divider>
+      <vs-divider class="database-management__divider" />
 
       <div class="database-management__popup-sync">
-        <vs-button color="warning" type="relief" @click="goBack()"
-          ><vs-icon icon="chevron_left"></vs-icon>
-          {{ $t("database.browse.goBackButton") }}</vs-button
-        >
+        <vs-button color="warning" type="relief" @click="goBack()">
+          <vs-icon icon="chevron_left" />
+          {{ $t("database.browse.goBackButton") }}
+        </vs-button>
         <vs-button
+          v-if="$helper.isAllowed('delete_migration')"
           color="danger"
           type="relief"
           @click="confirmDelete()"
-          v-if="$helper.isAllowed('delete_migration')"
-          ><vs-icon icon="delete"></vs-icon>
-          {{ $t("database.browse.deleteMigrationButton") }}</vs-button
         >
+          <vs-icon icon="delete" />
+          {{ $t("database.browse.deleteMigrationButton") }}
+        </vs-button>
         <vs-button
+          v-if="$helper.isAllowed('migrate_database')"
           color="success"
           type="relief"
           @click="migrate()"
-          v-if="$helper.isAllowed('migrate_database')"
-          ><vs-icon icon="arrow_upward"></vs-icon>
-          {{ $t("database.browse.migrateButton") }}</vs-button
         >
+          <vs-icon icon="arrow_upward" />
+          {{ $t("database.browse.migrateButton") }}
+        </vs-button>
       </div>
     </vs-popup>
 
     <vs-popup
-      @close="
-        rollbackDialog = false;
-        $v.$reset();
-        isDeleteFile = false;
-      "
-      @accept="rollback"
       :active.sync="rollbackDialog"
       :accept-text="$t('action.delete.accept')"
       :cancel-text="$t('action.delete.cancel')"
       :title="$t('database.rollback.title')"
       color="success"
       class="database-management__popup"
+      @close="
+        rollbackDialog = false;
+        $v.$reset();
+        isDeleteFile = false;
+      "
+      @accept="rollback"
     >
       <vs-row>
         <vs-table :data="migration" class="database-management__table">
@@ -96,10 +95,10 @@
           </template>
           <template slot-scope="{ data }">
             <vs-tr
-              :data="table"
-              :key="index"
-              stripe
               v-for="(table, index) in data"
+              :key="index"
+              :data="table"
+              stripe
             >
               <vs-td :data="data[index].migration">
                 {{ data[index].migration }}
@@ -108,9 +107,9 @@
                 <vs-checkbox
                   v-model="willRollbackIndex"
                   :vs-value="index"
-                  @change="setRollbackIndex(data)"
                   :disabled="disableCheckbox(index)"
-                ></vs-checkbox>
+                  @change="setRollbackIndex(data)"
+                />
               </vs-td>
             </vs-tr>
           </template>
@@ -126,15 +125,15 @@
         </vs-col>
         <vs-col vs-lg="12" vs-sm="12" vs-align="center">
           <vs-row vs-align="center">
-            <vs-spacer></vs-spacer>
-            <vs-checkbox v-model="isDeleteFile">{{
-              $t("database.rollback.checkbox")
-            }}</vs-checkbox>
+            <vs-spacer />
+            <vs-checkbox v-model="isDeleteFile">
+              {{ $t("database.rollback.checkbox") }}
+            </vs-checkbox>
             <vs-button
+              v-if="$helper.isAllowed('rollback_database')"
               color="danger"
               type="relief"
               @click="confirmRollback()"
-              v-if="$helper.isAllowed('rollback_database')"
             >
               {{ $t("database.migration.button.rollback") }}
             </vs-button>
@@ -166,7 +165,7 @@
       <vs-row vs-align="center" class="database-management__popup-footer">
         <vs-col vs-lg="12" vs-sm="12" vs-align="center">
           <vs-row vs-align="center">
-            <vs-spacer></vs-spacer>
+            <vs-spacer />
             <div class="database-management__popup-sync">
               <vs-button color="warning" type="relief" @click="goBack()">
                 {{ $t("database.browse.goBackButton") }}
@@ -191,12 +190,12 @@
             <h3>{{ $t("database.browse.title") }}</h3>
           </div>
           <badaso-alert-block>
-            <template slot="title">{{
-              $t("database.edit.warning.title")
-            }}</template>
-            <template slot="desc">{{
-              $t("database.edit.warning.crud")
-            }}</template>
+            <template slot="title">
+              {{ $t("database.edit.warning.title") }}
+            </template>
+            <template slot="desc">
+              {{ $t("database.edit.warning.crud") }}
+            </template>
           </badaso-alert-block>
           <div>
             <badaso-table
@@ -223,27 +222,23 @@
 
               <template slot-scope="{ data }">
                 <vs-tr
-                  :data="table"
-                  :key="index"
                   v-for="(table, index) in data"
+                  :key="index"
+                  :data="table"
                 >
                   <vs-td :data="data[index].tableName">
                     {{ data[index].tableName }}
                   </vs-td>
                   <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button
-                        size="large"
-                        type="flat"
-                        icon="more_vert"
-                      ></vs-button>
+                      <vs-button size="large" type="flat" icon="more_vert" />
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
-                          icon="edit"
                           v-if="
                             $helper.isAllowed('edit_database') &&
                             data[index].isCanEdit
                           "
+                          icon="edit"
                           :to="{
                             name: 'DatabaseManagementAlter',
                             params: { tableName: data[index].tableName },
@@ -252,12 +247,12 @@
                           {{ $t("database.browse.alterButton") }}
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
-                          icon="delete"
-                          @click="openConfirm(data[index].tableName)"
                           v-if="
                             $helper.isAllowed('delete_database') &&
                             data[index].isCanDrop
                           "
+                          icon="delete"
+                          @click="openConfirm(data[index].tableName)"
                         >
                           {{ $t("database.browse.dropButton") }}
                         </badaso-dropdown-item>
@@ -294,8 +289,8 @@ import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 export default {
-  components: { downloadExcel },
   name: "DatabaseManagementBrowse",
+  components: { downloadExcel },
   data: () => ({
     descriptionItems: [10, 50, 100],
     selected: [],
@@ -316,8 +311,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"]
-    }
+      fields: ["table_name"],
+    },
   }),
   validations: {
     willRollbackFile: {
@@ -381,7 +376,7 @@ export default {
 
             return value;
           });
-          this.prepareExcelExporter()
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -610,18 +605,19 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = 'Table';
+          field = "Table";
         }
         // field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = 'Table'
+          iterator = "Table";
         }
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
@@ -630,7 +626,6 @@ export default {
       }
     },
     generatePdf() {
-
       let data = this.tables;
 
       // data.map((value) => {

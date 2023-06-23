@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
+    <badaso-breadcrumb-row />
     <vs-row v-if="$helper.isAllowed('add_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -14,7 +14,7 @@
               :label="$t('permission.add.field.key.title')"
               :placeholder="$t('permission.add.field.key.placeholder')"
               :alert="errors.key"
-            ></badaso-text>
+            />
             <badaso-switch
               v-model="permission.alwaysAllow"
               size="3"
@@ -22,7 +22,7 @@
               placeholder="Always Allow"
               :alert="errors.alwaysAllow"
               :tooltip="$t('permission.help.alwaysAllow')"
-            ></badaso-switch>
+            />
             <badaso-switch
               v-model="permission.isPublic"
               size="3"
@@ -30,21 +30,21 @@
               placeholder="Is Public"
               :alert="errors.isPublic"
               :tooltip="$t('permission.help.isPublic')"
-            ></badaso-switch>
+            />
             <badaso-textarea
               v-model="permission.description"
               size="12"
               :label="$t('permission.add.field.description.title')"
               :placeholder="$t('permission.add.field.description.placeholder')"
               :alert="errors.description"
-            ></badaso-textarea>
+            />
             <badaso-text
               v-model="permission.tableName"
               size="12"
               :label="$t('permission.add.field.tableName.title')"
               :placeholder="$t('permission.add.field.tableName.placeholder')"
               :alert="errors.tableName"
-            ></badaso-text>
+            />
           </vs-row>
         </vs-card>
       </vs-col>
@@ -53,7 +53,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon>
+                <vs-icon icon="save" />
                 {{ $t("permission.add.button") }}
               </vs-button>
             </vs-col>

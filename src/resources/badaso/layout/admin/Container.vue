@@ -3,23 +3,23 @@
     <!---Navigation-->
     <Navbar
       :view="viewType"
-      :topbarColor="adminPanelHeaderColor"
-      :topbarFontColor="adminPanelHeaderFontColor"
+      :topbar-color="adminPanelHeaderColor"
+      :topbar-font-color="adminPanelHeaderFontColor"
       :logo="adminPanelLogo"
       :title="adminPanelTitle"
-      :windowWidth="windowWidth"
-      :logoConfig="adminPanelLogoConfig"
+      :window-width="windowWidth"
+      :logo-config="adminPanelLogoConfig"
     />
     <!---Sidebar-->
     <SideBar
       parent=".main-wrapper"
-      :doNotClose="this.doNotClose"
+      :do-not-close="doNotClose"
       :view="viewType"
     />
     <!---Page Container-->
     <div class="main-container-fluid">
-      <router-view class="content" :key="$route.path"></router-view>
-      <Footer></Footer>
+      <router-view :key="$route.path" class="content" />
+      <Footer />
     </div>
     <badaso-unauthorize />
   </div>

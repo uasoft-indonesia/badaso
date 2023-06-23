@@ -4,24 +4,24 @@
       label
     }}</label>
     <vue-tags-input
-      class="badaso-tags__input"
       v-model="tag"
+      class="badaso-tags__input"
       :tags="tags"
       @tags-changed="handleInput"
     />
-    <div v-if="additionalInfo" v-html="additionalInfo"></div>
+    <div v-if="additionalInfo" v-html="additionalInfo" />
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
-          class="badaso-tags__input--error"
           v-for="(info, index) in alert"
           :key="index"
+          class="badaso-tags__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-tags__input--error" v-html="alert"></span>
+        <span class="badaso-tags__input--error" v-html="alert" />
       </div>
     </div>
   </vs-col>
@@ -36,10 +36,6 @@ export default {
   components: {
     VueTagsInput,
   },
-  data: () => ({
-    tag: "",
-    tags: [],
-  }),
   props: {
     size: {
       type: String,
@@ -66,6 +62,10 @@ export default {
       default: "",
     },
   },
+  data: () => ({
+    tag: "",
+    tags: [],
+  }),
   beforeMount() {
     if (this.value && this.value != "") {
       this.tags = this.value.split(",");
