@@ -108,7 +108,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix ./src/resources/badaso",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix",
     "format": "prettier ./src/resources/badaso  --write",
     "lint--fix": "npm run lint && npm run format"
   },
