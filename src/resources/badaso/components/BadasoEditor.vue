@@ -6,21 +6,21 @@
     <editor
       id="tinymce"
       :value="value"
-      :init="init"
       @input="handleInput($event)"
-    />
-    <div v-if="additionalInfo" v-html="additionalInfo" />
+      :init="init"
+    ></editor>
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <p
+          class="badaso-editor__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-editor__input--error"
           v-html="info + '<br />'"
-        />
+        ></p>
       </div>
       <div v-else>
-        <span class="badaso-editor__input--error" v-html="alert" />
+        <span class="badaso-editor__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -86,33 +86,6 @@ export default {
   components: {
     editor: TinyMCE,
   },
-  props: {
-    size: {
-      type: String,
-      default: "12",
-    },
-    label: {
-      type: String,
-      default: "",
-    },
-    placeholder: {
-      type: String,
-      default: "Editor",
-    },
-    value: {
-      type: String,
-      required: true,
-      default: "",
-    },
-    additionalInfo: {
-      type: String,
-      default: "",
-    },
-    alert: {
-      type: String || Array,
-      default: "",
-    },
-  },
   data() {
     return {
       init: {
@@ -168,6 +141,33 @@ export default {
         },
       },
     };
+  },
+  props: {
+    size: {
+      type: String,
+      default: "12",
+    },
+    label: {
+      type: String,
+      default: "",
+    },
+    placeholder: {
+      type: String,
+      default: "Editor",
+    },
+    value: {
+      type: String,
+      required: true,
+      default: "",
+    },
+    additionalInfo: {
+      type: String,
+      default: "",
+    },
+    alert: {
+      type: String || Array,
+      default: "",
+    },
   },
   methods: {
     handleInput(val) {

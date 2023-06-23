@@ -243,8 +243,7 @@ export default {
           title: "Options",
           description:
             "Options is required for Checkbox, Radio, Select, Select-multiple. Example: ",
-          example:
-            '{"items": [{"label":"This is label","value":"this_is_value"}] }',
+          example: `{"items": [{"label":"This is label","value":"this_is_value"}] }`,
         },
       },
       button: "Save",
@@ -252,7 +251,7 @@ export default {
     edit: {
       multiple: "Update Configurations",
     },
-    maintenanceMode: "Maintenance setting is readonly.",
+    maintenanceMode: "Maintenance setting is readonly."
   },
 
   crud: {
@@ -837,7 +836,7 @@ export default {
       isPublic: "Is Public",
       action: "Action",
       rolesCanSeeAllData: "Roles Can See All Data",
-      fieldIdentifyRelatedUser: "Field Identify Related User",
+      fieldIdentifyRelatedUser: "Field Identify Related User"
     },
     footer: {
       descriptionTitle: "Registries",
@@ -888,7 +887,7 @@ export default {
         fieldIdentifyRelatedUser: {
           title: "Column for identify user related data",
           placeholder: "Column for identify user related data",
-        },
+        }
       },
       button: "Save",
     },
@@ -909,7 +908,7 @@ export default {
       },
       button: "Edit",
       rolesCanSeeAllData: "Roles Can See All Data",
-      fieldIdentifyRelatedUser: "Field Identify Related User",
+      fieldIdentifyRelatedUser: "Field Identify Related User"
     },
   },
 

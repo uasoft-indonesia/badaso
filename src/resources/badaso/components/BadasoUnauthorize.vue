@@ -18,9 +18,9 @@
     </vs-row>
     <vs-row>
       <vs-col class="badaso-unauthorize__button">
-        <vs-button type="relief" @click="login()">
-          {{ $t("login.button") }}
-        </vs-button>
+        <vs-button type="relief" @click="login()">{{
+          $t("login.button")
+        }}</vs-button>
       </vs-col>
     </vs-row>
   </vs-popup>
@@ -31,6 +31,11 @@ export default {
   name: "BadasoUnauthorize",
   components: {},
   data: () => ({}),
+  mounted() {
+    this.$store.commit("badaso/SET_AUTH_ISSUE", {
+      unauthorized: false,
+    });
+  },
   computed: {
     unauthorize: {
       get() {
@@ -49,11 +54,6 @@ export default {
         return this.$store.state.badaso.authorizationIssue;
       },
     },
-  },
-  mounted() {
-    this.$store.commit("badaso/SET_AUTH_ISSUE", {
-      unauthorized: false,
-    });
   },
   methods: {
     login() {

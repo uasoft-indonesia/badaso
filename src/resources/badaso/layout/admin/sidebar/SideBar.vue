@@ -1,21 +1,21 @@
 <template>
   <div id="parentx">
     <vs-sidebar
-      v-model="isSidebarActive"
       default-index="1"
       :parent="parent"
-      :hidden-background="doNotClose"
+      :hiddenBackground="doNotClose"
       color="primary"
       class="sidebarx badaso-sidebar"
       spacer
+      v-model="isSidebarActive"
       :click-not-close="doNotClose"
       :reduce="reduceSidebar"
     >
-      <div slot="header" class="header-sidebar text-center">
+      <div class="header-sidebar text-center" slot="header">
         <vs-avatar size="70px" :src="getAvatar" />
         <badaso-sidebar-group
           :title="user.name"
-          :sub-title="user.email"
+          :subTitle="user.email"
           icon="person_pin"
         >
           <badaso-sidebar-item
@@ -32,16 +32,16 @@
           </badaso-sidebar-item>
         </badaso-sidebar-group>
         <vs-select
-          v-if="view == $constants.MOBILE"
           v-model="selectedLang"
           width="100%"
           style="padding: 10px"
+          v-if="view == $constants.MOBILE"
         >
           <vs-select-item
-            v-for="(item, index) in getLocale"
             :key="index"
             :value="item.key ? item.key : item"
             :text="item.label ? item.label : item.key ? item.key : item"
+            v-for="(item, index) in getLocale"
           />
         </vs-select>
       </div>
@@ -49,38 +49,38 @@
       <template v-for="(displayMenu, indexMenu) in mainMenu">
         <!-- if show header -->
         <badaso-sidebar-group
+          :title="displayMenu.menu.displayName"
+          :open="displayMenu.menu.isExpand == 1"
+          :icon="displayMenu.menu.icon"
+          :key="indexMenu"
           v-if="
             displayMenu.menuItems &&
             displayMenu.menuItems.length > 0 &&
             displayMenu.menu.isShowHeader
           "
-          :key="indexMenu"
-          :title="displayMenu.menu.displayName"
-          :open="displayMenu.menu.isExpand == 1"
-          :icon="displayMenu.menu.icon"
         >
           <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-menu
-              :key="index"
-              :default-is-expand="menu.isExpand == 1"
+              :defaultIsExpand="menu.isExpand == 1"
               :title="menu.title"
               :url="menu.url"
               :icon="menu.icon"
               :children="menu.children"
+              :key="index"
             />
           </template>
         </badaso-sidebar-group>
 
         <!-- else hidden header -->
-        <div v-else :key="indexMenu">
+        <div :key="indexMenu" v-else>
           <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-menu
-              :key="index"
-              :default-is-expand="menu.isExpand"
+              :defaultIsExpand="menu.isExpand"
               :title="menu.title"
               :url="menu.url"
               :icon="menu.icon"
               :children="menu.children"
+              :key="index"
             />
           </template>
         </div>
@@ -178,6 +178,33 @@ export default {
       return user.avatar;
     },
   },
+  methods: {
+    open(url) {
+      if (!this.doNotClose) {
+        this.isSidebarActive = false;
+      }
+      window.open(url);
+    },
+    logout() {
+      this.$api.badasoAuth
+        .logout()
+        .then((response) => {
+          localStorage.clear();
+          this.$router.push({ name: "AuthLogin" });
+        })
+        .catch((error) => {
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    setLocale(item) {
+      this.$i18n.locale = item.key;
+      this.$store.commit("badaso/SET_LOCALE", item);
+    },
+  },
   watch: {
     adminPanelHeaderColor: {
       handler(val, oldVal) {
@@ -205,33 +232,6 @@ export default {
   mounted() {
     this.$store.commit("badaso/FETCH_MENU");
     this.$store.commit("badaso/FETCH_CONFIGURATION_MENU");
-  },
-  methods: {
-    open(url) {
-      if (!this.doNotClose) {
-        this.isSidebarActive = false;
-      }
-      window.open(url);
-    },
-    logout() {
-      this.$api.badasoAuth
-        .logout()
-        .then((response) => {
-          localStorage.clear();
-          this.$router.push({ name: "AuthLogin" });
-        })
-        .catch((error) => {
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
-          });
-        });
-    },
-    setLocale(item) {
-      this.$i18n.locale = item.key;
-      this.$store.commit("badaso/SET_LOCALE", item);
-    },
   },
 };
 </script>

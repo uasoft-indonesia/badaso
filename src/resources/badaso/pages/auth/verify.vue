@@ -10,35 +10,35 @@
     </vs-alert>
 
     <vs-card class="main-container__card--auth">
-      <badaso-auth-card-header slot="header">
-        {{ $t("verifyEmail.title") }}
-      </badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">{{
+        $t("verifyEmail.title")
+      }}</badaso-auth-card-header>
       <form novalidate="novalidate">
         <vs-input
-          v-model="token"
           icon="lock"
           icon-after
           size="default"
           :placeholder="$t('verifyEmail.field.token')"
+          v-model="token"
           class="verify__input"
         />
         <div v-if="errors.token" class="verify__error-container">
           <div v-if="$helper.isArray(errors.token)">
             <span
+              class="verify__input--error"
               v-for="(info, index) in errors.token"
               :key="index"
-              class="verify__input--error"
             >
               {{ info }}
             </span>
           </div>
           <div v-else>
-            <span class="verify__input--error" v-html="errors.token" />
+            <span class="verify__input--error" v-html="errors.token"></span>
           </div>
         </div>
-        <vs-button type="relief" class="verify__button" @click="verify()">
-          {{ $t("verifyEmail.button") }}
-        </vs-button>
+        <vs-button type="relief" class="verify__button" @click="verify()">{{
+          $t("verifyEmail.button")
+        }}</vs-button>
         <div class="verify__resend">
           <span>Not receive email or token expired?</span>
           <vs-button
@@ -47,17 +47,16 @@
             color="warning"
             class="verify__resend-button"
             @click="requestVerificationToken()"
+            >{{ $t("verifyEmail.request") }}</vs-button
           >
-            {{ $t("verifyEmail.request") }}
-          </vs-button>
           <span v-else class="verify__resend-button">{{ timeWait }}</span>
         </div>
       </form>
       <div class="verify__register-link">
         {{ $t("register.existingAccount.text") }} &nbsp;
-        <router-link :to="'/' + baseUrl + '/login'">
-          {{ $t("register.existingAccount.link") }}
-        </router-link>
+        <router-link :to="'/' + baseUrl + '/login'">{{
+          $t("register.existingAccount.link")
+        }}</router-link>
       </div>
     </vs-card>
   </vs-col>
@@ -89,13 +88,13 @@ export default {
     this.getConfigurationList();
   },
   methods: {
-    getConfigurationList() {
+    getConfigurationList(){
       this.$api.badasoConfiguration
         .fetch({
-          key: "timeWaitResendToken",
+          key : "timeWaitResendToken"
         })
         .then((response) => {
-          this.timeWait = response.data.configuration[0].value;
+          this.timeWait = response.data.configuration[0].value
           this.startCounter();
         })
         .catch((error) => {
@@ -164,7 +163,7 @@ export default {
           this.retry = false;
           this.timeWait = 60;
           this.startCounter();
-          this.getConfigurationList();
+          this.getConfigurationList()
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.success"),

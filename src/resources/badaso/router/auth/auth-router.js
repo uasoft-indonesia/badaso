@@ -5,7 +5,7 @@ const prefix = import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
 const secretLoginPrefix = import.meta.env.VITE_BADASO_SECRET_LOGIN_PREFIX
   ? "/" + import.meta.env.VITE_BADASO_SECRET_LOGIN_PREFIX
-  : "/badaso-secret-login";
+  : "/badaso-secret-login"
 export default [
   {
     path: prefix + "/login",

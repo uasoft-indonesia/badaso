@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row />
+    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('edit_users')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -14,45 +14,45 @@
               :label="$t('user.edit.field.name.title')"
               :placeholder="$t('user.edit.field.name.placeholder')"
               :alert="errors.name"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="user.username"
               size="6"
               :label="$t('user.edit.field.username.title')"
               :placeholder="$t('user.edit.field.username.placeholder')"
               :alert="errors.username"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="user.email"
               size="6"
               :label="$t('user.edit.field.email.title')"
               :placeholder="$t('user.edit.field.email.placeholder')"
               :alert="errors.email"
-            />
+            ></badaso-text>
             <badaso-password
               v-model="user.password"
               size="6"
               :label="$t('user.edit.field.password.title')"
               :placeholder="$t('user.edit.field.password.placeholder')"
               :alert="errors.password"
-            />
+            ></badaso-password>
             <badaso-switch
               v-model="user.emailVerified"
               size="6"
               :label="$t('user.edit.field.emailVerified.title')"
               :placeholder="$t('user.edit.field.emailVerified.placeholder')"
               :alert="errors.emailVerified"
-              on-label="Yes"
-              off-label="No"
+              onLabel="Yes"
+              offLabel="No"
               :tooltip="$t('user.help.emailVerified')"
-            />
+            ></badaso-switch>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
               :label="$t('user.edit.field.avatar.title')"
               :placeholder="$t('user.edit.field.avatar.placeholder')"
               :alert="errors.avatar"
-            />
+            ></badaso-upload-image>
             <vs-col vs-lg="12">
               <badaso-code-editor
                 v-model="user.additionalInfo"
@@ -60,7 +60,7 @@
                 :label="$t('user.edit.field.additionalInfo.title')"
                 :placeholder="$t('user.edit.field.additionalInfo.placeholder')"
                 :alert="errors.additionalInfo"
-              />
+              ></badaso-code-editor>
             </vs-col>
           </vs-row>
         </vs-card>
@@ -70,7 +70,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save" /> {{ $t("user.edit.button") }}
+                <vs-icon icon="save"></vs-icon> {{ $t("user.edit.button") }}
               </vs-button>
             </vs-col>
           </vs-row>

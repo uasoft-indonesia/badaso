@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row />
+    <badaso-breadcrumb-row></badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('read_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -15,17 +15,17 @@
               placeholder="Table Name"
               required
               readonly
-            />
+            ></badaso-text>
             <badaso-switch
+              size="3"
               v-model="crudData.generatePermissions"
-              size="3"
               label="Generate Permissions"
-            />
+            ></badaso-switch>
             <badaso-switch
-              v-model="crudData.serverSide"
               size="3"
+              v-model="crudData.serverSide"
               label="Server Side"
-            />
+            ></badaso-switch>
           </vs-row>
           <vs-row>
             <badaso-text
@@ -34,73 +34,74 @@
               label="Display Name(Singular)"
               required
               placeholder="Display Name(Singular)"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="crudData.displayNamePlural"
               size="6"
               label="Display Name(Plural)"
               required
               placeholder="Display Name(Plural)"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="crudData.slug"
               size="6"
               label="URL Slug (must be unique)"
               required
               placeholder="URL Slug (must be unique)"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="crudData.icon"
               size="6"
               label="Icon"
               placeholder="Icon"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="crudData.modelName"
               size="6"
               label="Model Name"
               placeholder="Model Name"
-            />
+            ></badaso-text>
             <badaso-text
               v-model="crudData.controller"
               size="6"
               label="Controller Name"
               placeholder="Controller Name"
-            />
+            ></badaso-text>
             <badaso-select
               v-model="crudData.orderColumn"
               size="3"
               label="Order Column"
               placeholder="Order Column"
               :items="fieldList"
-            />
+            ></badaso-select>
             <badaso-select
               v-model="crudData.orderDisplayColumn"
               size="3"
               label="Order Display Column"
               placeholder="Order Display Column"
               :items="fieldList"
-            />
+            ></badaso-select>
             <badaso-select
               v-model="crudData.orderDirection"
               size="3"
               label="Order Direction"
               placeholder="Order Direction"
               :items="orderDirections"
-            />
+            ></badaso-select>
             <badaso-select
               v-model="crudData.defaultServerSideSearchField"
               size="3"
               label="Default Server Side Search Field"
               placeholder="Default Server Side Search Field"
               :items="fieldList"
-            />
+            ></badaso-select>
             <badaso-textarea
-              v-model="crudData.description"
               size="12"
               label="Description"
               placeholder="Description"
-            />
+              v-model="crudData.description"
+            >
+            </badaso-textarea>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -113,7 +114,7 @@
             <vs-col col-lg="12">
               <table class="badaso-table">
                 <thead>
-                  <th class="badaso-table__th" />
+                  <th class="badaso-table__th"></th>
                   <th class="badaso-table__th">Field</th>
                   <th class="badaso-table__th">Visibility</th>
                   <th class="badaso-table__th">Input Type</th>
@@ -121,9 +122,12 @@
                   <th>Optional Details</th>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
-                  <tr v-for="(field, index) in crudData.rows" :key="index">
+                  <tr :key="index" v-for="(field, index) in crudData.rows">
                     <td>
-                      <vs-icon icon="drag_indicator" class="is-draggable" />
+                      <vs-icon
+                        icon="drag_indicator"
+                        class="is-draggable"
+                      ></vs-icon>
                     </td>
                     <td :data="field.field">
                       <strong>{{ field.field }}</strong>
@@ -139,52 +143,48 @@
                       <vs-checkbox
                         v-model="field.browse"
                         class="crud-management__notification-item"
+                        >Browse</vs-checkbox
                       >
-                        Browse
-                      </vs-checkbox>
                       <vs-checkbox
                         v-model="field.read"
                         class="crud-management__notification-item"
+                        >Read</vs-checkbox
                       >
-                        Read
-                      </vs-checkbox>
                       <vs-checkbox
                         v-model="field.edit"
                         class="crud-management__notification-item"
+                        >Edit</vs-checkbox
                       >
-                        Edit
-                      </vs-checkbox>
                       <vs-checkbox
                         v-model="field.add"
                         class="crud-management__notification-item"
+                        >Add</vs-checkbox
                       >
-                        Add
-                      </vs-checkbox>
                       <vs-checkbox
                         v-model="field.delete"
                         class="crud-management__notification-item"
+                        >Delete</vs-checkbox
                       >
-                        Delete
-                      </vs-checkbox>
                     </td>
                     <td>
                       <vs-select v-model="field.type">
                         <vs-select-item
-                          v-for="(item, index) in componentList"
                           :key="index"
                           :value="item.value"
                           :text="item.label"
+                          v-for="(item, index) in componentList"
                         />
                       </vs-select>
                     </td>
                     <td>
                       <vs-input
-                        v-model="field.displayName"
                         placeholder="Display Name"
+                        v-model="field.displayName"
                       />
                     </td>
                     <td>
-                      <badaso-code-editor v-model="field.details" />
+                      <badaso-code-editor v-model="field.details">
+                      </badaso-code-editor>
                     </td>
                   </tr>
                 </draggable>
@@ -198,7 +198,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save" /> Save
+                <vs-icon icon="save"></vs-icon> Save
               </vs-button>
             </vs-col>
           </vs-row>

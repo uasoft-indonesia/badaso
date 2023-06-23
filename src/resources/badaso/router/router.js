@@ -120,6 +120,7 @@ try {
     _adminRouters = [..._adminRouters, ...adminRouters[fileName].default];
   }); //
 
+
   const otherRouters = import.meta.globEager(
     "../../../../../../../resources/js/badaso/routers/others/*.js"
   ); //

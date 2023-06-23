@@ -4,12 +4,10 @@
       <vs-col vs-lg="12" class="badaso-loading-page__box">
         <vs-card class="badaso-loading-page__card">
           <div slot="header">
-            <h3 class="badaso-loading-page__title">
-              {{ title }}
-            </h3>
+            <h3 class="badaso-loading-page__title">{{ title }}</h3>
           </div>
           <div>
-            <vs-progress indeterminate color="primary"> primary </vs-progress>
+            <vs-progress indeterminate color="primary">primary</vs-progress>
           </div>
         </vs-card>
       </vs-col>
@@ -28,7 +26,7 @@ export default {
     },
   },
   data: () => ({}),
-  computed: {},
   mounted() {},
+  computed: {},
 };
 </script>

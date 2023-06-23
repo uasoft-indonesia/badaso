@@ -10,24 +10,24 @@
         :value="value"
         class="badaso-date__input"
         @input="handleInput($event)"
-      />
+      ></datetime>
       <div class="badaso-date__date-icon-box">
-        <vs-icon icon="calendar_today" class="badaso-date__date-icon" />
+        <vs-icon icon="calendar_today" class="badaso-date__date-icon"></vs-icon>
       </div>
     </div>
-    <div v-if="additionalInfo" v-html="additionalInfo" />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
+          class="badaso-date__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-date__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-date__input--error" v-html="alert" />
+        <span class="badaso-date__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -37,6 +37,7 @@
 export default {
   name: "BadasoDate",
   components: {},
+  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -64,7 +65,6 @@ export default {
       default: "",
     },
   },
-  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

@@ -3,17 +3,16 @@
     <badaso-breadcrumb-row>
       <template slot="action">
         <vs-button
-          v-if="$helper.isAllowed('edit_permissions')"
           color="warning"
           type="relief"
           :to="{
             name: 'PermissionManagementEdit',
             params: { id: $route.params.id },
           }"
+          v-if="$helper.isAllowed('edit_permissions')"
+          ><vs-icon icon="edit"></vs-icon>
+          {{ $t("permission.detail.button") }}</vs-button
         >
-          <vs-icon icon="edit" />
-          {{ $t("permission.detail.button") }}
-        </vs-button>
       </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('read_permissions')">
@@ -99,9 +98,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.permission = response.data.permission;
-          this.permission.rolesCanSeeAllData = JSON.parse(
-            this.permission.rolesCanSeeAllData
-          ).toString();
+          this.permission.rolesCanSeeAllData = JSON.parse(this.permission.rolesCanSeeAllData).toString()
         })
         .catch((error) => {
           this.$closeLoader();

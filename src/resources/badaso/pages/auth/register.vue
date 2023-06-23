@@ -1,141 +1,150 @@
 <template>
   <vs-col vs-lg="12" class="main-container__box--auth">
     <vs-card class="main-container__card--auth">
-      <badaso-auth-card-header slot="header">
-        {{ $t("register.title") }}
-      </badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">{{
+        $t("register.title")
+      }}</badaso-auth-card-header>
       <div>
         <form novalidate="novalidate">
           <vs-input
-            v-model="name"
             icon="person"
             icon-after
             size="default"
             :placeholder="$t('register.field.name')"
+            v-model="name"
             class="register__input"
           />
           <div v-if="errors.name" class="register__error-container">
             <div v-if="$helper.isArray(errors.name)">
               <span
+                class="register__input--error"
                 v-for="(info, index) in errors.name"
                 :key="index"
-                class="register__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.name" />
+              <span class="register__input--error" v-html="errors.name"></span>
             </div>
           </div>
           <vs-input
-            v-model="username"
             icon="person"
             icon-after
             size="default"
             :placeholder="$t('register.field.username')"
+            v-model="username"
             class="register__input"
           />
           <div v-if="errors.username" class="register__error-container">
             <div v-if="$helper.isArray(errors.username)">
               <span
+                class="register__input--error"
                 v-for="(info, index) in errors.username"
                 :key="index"
-                class="register__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.username" />
+              <span
+                class="register__input--error"
+                v-html="errors.username"
+              ></span>
             </div>
           </div>
-          <vs-input
-            v-model="phone"
+           <vs-input
             icon="phone"
             icon-after
             size="default"
             :placeholder="$t('register.field.phone')"
+            v-model="phone"
             class="register__input"
           />
           <div v-if="errors.phone" class="register__error-container">
             <div v-if="$helper.isArray(errors.phone)">
               <span
+                class="register__input--error"
                 v-for="(info, index) in errors.phone"
                 :key="index"
-                class="register__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.phone" />
+              <span class="register__input--error" v-html="errors.phone"></span>
             </div>
           </div>
           <vs-input
-            v-model="email"
             icon="email"
             icon-after
             size="default"
             :placeholder="$t('register.field.email')"
+            v-model="email"
             class="register__input"
           />
           <div v-if="errors.email" class="register__error-container">
             <div v-if="$helper.isArray(errors.email)">
               <span
+                class="register__input--error"
                 v-for="(info, index) in errors.email"
                 :key="index"
-                class="register__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.email" />
+              <span class="register__input--error" v-html="errors.email"></span>
             </div>
           </div>
           <vs-input
-            v-model="password"
             icon="lock"
             type="password"
             icon-after
             size="default"
             :placeholder="$t('register.field.password')"
+            v-model="password"
             class="register__input"
           />
           <div v-if="errors.password" class="register__error-container">
             <div v-if="$helper.isArray(errors.password)">
               <span
+                class="register__input--error"
                 v-for="(info, index) in errors.password"
                 :key="index"
-                class="register__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="register__input--error" v-html="errors.password" />
+              <span
+                class="register__input--error"
+                v-html="errors.password"
+              ></span>
             </div>
           </div>
           <vs-input
-            v-model="passwordConfirmation"
             icon="lock"
             type="password"
             icon-after
             size="default"
             :placeholder="$t('register.field.passwordConfirmation')"
+            v-model="passwordConfirmation"
             class="register__input"
           />
-          <vs-button type="relief" class="register__button" @click="register()">
-            {{ $t("register.button") }}
-          </vs-button>
+          <vs-button
+            type="relief"
+            class="register__button"
+            @click="register()"
+            >{{ $t("register.button") }}</vs-button
+          >
         </form>
 
         <div class="register__login-link">
           {{ $t("register.existingAccount.text") }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/login'">
-            {{ $t("register.existingAccount.link") }}
-          </router-link>
+          <router-link :to="'/' + baseUrl + '/login'">{{
+            $t("register.existingAccount.link")
+          }}</router-link>
         </div>
       </div>
     </vs-card>

@@ -2,16 +2,14 @@
   <vs-prompt
     :title="$t('keyIssue.title')"
     :active.sync="show"
+    @close="show = true"
     buttons-hidden
     class="badaso-license-blocker__container"
-    @close="show = true"
   >
     <vs-row>
       <vs-col>
         <p>{{ $t("keyIssue.message") }}</p>
-        <h3 class="badaso-license-blocker__title">
-          {{ keyIssue.message }}
-        </h3>
+        <h3 class="badaso-license-blocker__title">{{ keyIssue.message }}</h3>
         <br />
         <p>{{ $t("keyIssue.listTitle") }}</p>
         <ul>
@@ -23,7 +21,7 @@
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
               >
-                <vs-icon icon="open_in_new" />
+                <vs-icon icon="open_in_new"></vs-icon>
               </a>
             </p>
           </li>
@@ -35,7 +33,7 @@
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
               >
-                <vs-icon icon="open_in_new" />
+                <vs-icon icon="open_in_new"></vs-icon>
               </a>
             </p>
           </li>
@@ -47,7 +45,7 @@
                 href="https://badaso-docs.uatech.co.id/docs/en/getting-started/installation/"
                 target="_blank"
               >
-                <vs-icon icon="open_in_new" />
+                <vs-icon icon="open_in_new"></vs-icon>
               </a>
             </p>
           </li>
@@ -64,6 +62,7 @@ export default {
   data: () => ({
     show: true,
   }),
+  mounted() {},
   computed: {
     keyIssue: {
       get() {
@@ -71,6 +70,5 @@ export default {
       },
     },
   },
-  mounted() {},
 };
 </script>

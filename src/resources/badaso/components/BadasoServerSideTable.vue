@@ -8,10 +8,10 @@
               Show&nbsp;
               <vs-select v-model="limit" width="100px">
                 <vs-select-item
-                  v-for="(row, index) in descriptionItems"
                   :key="index"
                   :value="row"
                   :text="row"
+                  v-for="(row, index) in descriptionItems"
                 />
               </vs-select>
               &nbsp;Entries
@@ -22,16 +22,14 @@
               <input
                 type="text"
                 class="badaso-server-side-table__input-search"
-                @keyup.enter="handleSearch"
+                v-on:keyup.enter="handleSearch"
               />
-              <vs-icon icon="search" />
+              <vs-icon icon="search"></vs-icon>
             </div>
           </vs-col>
         </vs-row>
       </template>
-      <template slot="thead">
-        <slot name="thead" />
-      </template>
+      <template slot="thead"><slot name="thead" /></template>
       <slot name="tbody" />
     </vs-table>
     <div class="badaso-server-side-table__pagination">
@@ -67,7 +65,7 @@
           vs-sm="12"
           vs-xs="12"
         >
-          <vs-pagination v-model="page" :total="totalItem" />
+          <vs-pagination :total="totalItem" v-model="page"></vs-pagination>
         </vs-col>
       </vs-row>
     </div>

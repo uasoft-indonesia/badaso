@@ -1,6 +1,6 @@
 <template>
   <div>
-    <badaso-breadcrumb-row />
+    <badaso-breadcrumb-row> </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_role_permission')">
       <vs-col vs-lg="12">
         <vs-card>
@@ -15,18 +15,18 @@
             max-items="10"
           >
             <template slot="thead">
-              <vs-th v-if="$helper.isAllowed('edit_menu_items')" />
+              <vs-th v-if="$helper.isAllowed('edit_menu_items')"> </vs-th>
               <vs-th> {{ $t("menu.permission.header.key") }} </vs-th>
               <vs-th> {{ $t("menu.permission.header.description") }} </vs-th>
             </template>
 
             <template slot-scope="{ data }">
-              <vs-tr v-for="(tr, indextr) in data" :key="indextr" :data="tr">
+              <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                 <vs-td
-                  v-if="$helper.isAllowed('edit_menu_items')"
                   class="badaso-table__td"
+                  v-if="$helper.isAllowed('edit_menu_items')"
                 >
-                  <vs-checkbox v-model="data[indextr].selected" />
+                  <vs-checkbox v-model="data[indextr].selected"></vs-checkbox>
                 </vs-td>
                 <vs-td :data="data[indextr].key" class="badaso-table__td">
                   {{ data[indextr].key }}
@@ -46,7 +46,7 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save" />
+                <vs-icon icon="save"></vs-icon>
                 {{ $t("menu.permission.button") }}
               </vs-button>
             </vs-col>

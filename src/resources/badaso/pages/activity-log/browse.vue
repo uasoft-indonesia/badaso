@@ -3,27 +3,32 @@
     <badaso-breadcrumb-hover full>
       <template slot="action">
         <download-excel
-          :data="activitylogs"
-          :fields="fieldsForExcel"
-          :worksheet="'Activity Log Management'"
-          :name="'Activity Log Management ' + '.xls'"
-          class="crud-generated__excel-button"
-        >
-          <badaso-dropdown-item icon="file_upload">
-            {{ $t("action.exportToExcel") }}
+            :data="activitylogs"
+            :fields="fieldsForExcel"
+            :worksheet="'Activity Log Management'"
+            :name="'Activity Log Management '+ '.xls'"
+            class="crud-generated__excel-button"
+          >
+            <badaso-dropdown-item
+              icon="file_upload"
+            >
+              {{ $t("action.exportToExcel") }}
+            </badaso-dropdown-item>
+          </download-excel>
+          <badaso-dropdown-item
+            icon="file_upload"
+            @click="generatePdf"
+          >
+            {{ $t("action.exportToPdf") }}
           </badaso-dropdown-item>
-        </download-excel>
-        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
-          {{ $t("action.exportToPdf") }}
-        </badaso-dropdown-item>
-        <badaso-dropdown-item
-          v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
-          icon="delete_sweep"
-          @click.stop
-          @click="confirmDeleteMultiple"
-        >
-          {{ $t("action.bulkDelete") }}
-        </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="delete_sweep"
+            v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
+            @click.stop
+            @click="confirmDeleteMultiple"
+          >
+            {{ $t("action.bulkDelete") }}
+          </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
     <vs-row v-if="$helper.isAllowed('browse_activitylogs')">
@@ -38,15 +43,15 @@
               :data="activitylogs"
               stripe
               :pagination-data="data"
+              @search="handleSearch"
+              @changePage="handlePageChange"
+              @changeLimit="handleLimitChange"
+              @sort="handleSort"
               :description-items="descriptionItems"
               :description-title="$t('crudGenerated.footer.descriptionTitle')"
               :description-connector="
                 $t('crudGenerated.footer.descriptionConnector')
               "
-              @search="handleSearch"
-              @changePage="handlePageChange"
-              @changeLimit="handleLimitChange"
-              @sort="handleSort"
             >
               <template slot="thead">
                 <badaso-th sort-key="logName">
@@ -66,9 +71,9 @@
 
               <template slot="tbody">
                 <vs-tr
-                  v-for="(record, index) in activitylogs"
-                  :key="index"
                   :data="record"
+                  :key="index"
+                  v-for="(record, index) in activitylogs"
                 >
                   <vs-td :data="record.logName">
                     {{ record.logName ? record.logName : "-" }}
@@ -84,7 +89,11 @@
                   </vs-td>
                   <vs-td style="" class="activity-log__dropdown-button">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button size="large" type="flat" icon="more_vert" />
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           :to="{
@@ -142,9 +151,12 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["log_name", "description", "created_at", "causer_name"],
-    },
+      fields: ['log_name', "description", "created_at", "causer_name"]
+    }
   }),
+  mounted() {
+    this.getActivityLogList();
+  },
   watch: {
     page: function (to, from) {
       this.getActivityLogList();
@@ -153,9 +165,6 @@ export default {
       this.page = 1;
       this.getActivityLogList();
     },
-  },
-  mounted() {
-    this.getActivityLogList();
   },
   methods: {
     handleSearch(e) {
@@ -189,12 +198,12 @@ export default {
           this.selected = [];
           this.data = response.data;
           this.activitylogs = response.data.data;
-          console.log(response.data);
+          console.log(response.data)
           this.totalItem =
             response.data.total > 0
               ? Math.ceil(response.data.total / this.limit)
               : 1;
-          this.prepareExcelExporter();
+          this.prepareExcelExporter()
         })
         .catch((error) => {
           this.$closeLoader();
@@ -210,29 +219,19 @@ export default {
         let field = iterator;
         if (field.includes("_")) {
           field = field.split("_");
-          field =
-            field[0].charAt(0).toUpperCase() +
-            field[0].slice(1) +
-            " " +
-            field[1].charAt(0).toUpperCase() +
-            field[1].slice(1);
+          field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
         }
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] =
-          this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
-          iterator =
-            iterator[0] +
-            " " +
-            iterator[1].charAt(0).toUpperCase() +
-            iterator[1].slice(1);
+          iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
         }
-
+        
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -240,28 +239,27 @@ export default {
       }
     },
     generatePdf() {
+
       let data = this.activitylogs;
 
-      const fields = [];
-
-      for (const iterator in this.dataType.fields) {
-        const string = this.$caseConvert.stringSnakeToCamel(
-          this.dataType.fields[iterator]
-        );
+      let fields = [];
+      
+      for (const iterator in this.dataType.fields){
+        const string = this.$caseConvert.stringSnakeToCamel(this.dataType.fields[iterator]);
         fields.push(string);
       }
 
       data.map((value) => {
         for (const iterator in value) {
           if (!fields.includes(iterator)) {
-            delete value[iterator];
+            delete value[iterator]
           }
         }
         return value;
-      });
-
+      })
+      
       const result = data.map(Object.values);
-
+      
       // eslint-disable-next-line new-cap
       const doc = new jsPDF("l");
 

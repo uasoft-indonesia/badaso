@@ -1,19 +1,19 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-upload-image__container">
     <vs-input
-      v-model="value"
       :label="label"
       :placeholder="placeholder"
+      @click="openFileManager"
+      v-on:keyup.space="openFileManager"
       readonly
+      v-model="value"
       icon="attach_file"
       icon-after="true"
-      @click="openFileManager"
-      @keyup.space="openFileManager"
     />
     <input
-      ref="image"
       type="file"
       class="badaso-upload-image__input--hidden"
+      ref="image"
       :accept="availableMimetypes.image.validMime.join(',')"
       @change="onFilePicked"
     />
@@ -21,9 +21,9 @@
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <p
+          class="badaso-upload-image__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-upload-image__input--error"
           v-html="info + '<br />'"
         />
       </div>
@@ -46,45 +46,45 @@
     </vs-row>
 
     <div
-      v-if="showFileManager"
       class="badaso-upload-image__popup-dialog"
       tabindex="0"
+      v-if="showFileManager"
     >
       <div class="badaso-upload-image__popup-container">
         <div class="badaso-upload-image__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
-          <badaso-select
-            v-model="sortTypeValue"
-            size="2"
-            style="margin-bottom: 0px !important; margin-right: 1rem"
-            placeholder="Sort Type"
-            :items="sortTypeList"
-            @input="sortImages"
-          />
+          <badaso-select 
+          v-model="sortTypeValue" 
+          size="2" 
+          style="margin-bottom: 0px !important; margin-right: 1rem;"
+          placeholder="Sort Type" 
+          :items="sortTypeList"
+          @input="sortImages" >
+          </badaso-select>
           <vs-button
-            v-if="getActiveTab !== 'url' && model"
             color="danger"
             type="relief"
             class="badaso-upload-image__popup-button--delete"
+            v-if="getActiveTab !== 'url' && model"
             @click="openDeleteDialog"
           >
-            <vs-icon icon="delete" />
+            <vs-icon icon="delete"></vs-icon>
           </vs-button>
         </div>
 
         <ul class="badaso-upload-image__popup--left-bar">
           <li
-            v-if="privateOnly || (!privateOnly && !sharesOnly)"
             :class="{ active: getActiveTab === 'private' }"
             @click="setActiveTab('private')"
+            v-if="privateOnly || (!privateOnly && !sharesOnly)"
           >
             Private
           </li>
           <li
-            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
             :class="{ active: getActiveTab === 'shares' }"
             @click="setActiveTab('shares')"
+            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
           >
             Shares
           </li>
@@ -101,23 +101,23 @@
         </ul>
 
         <div
-          v-if="getActiveTab !== 'url'"
           class="badaso-upload-image__popup--right-bar"
+          v-if="getActiveTab !== 'url'"
         >
           <div
             class="badaso-upload-image__popup-add-image"
             @click="$refs.image.click()"
           >
-            <vs-icon icon="add" color="#06bbd3" size="40px" />
+            <vs-icon icon="add" color="#06bbd3" size="40px"></vs-icon>
           </div>
           <img
-            v-for="(image, index) in images"
-            :key="index"
             :class="{
               active: model === image.url,
               'badaso-upload-image__popup-image': true,
             }"
             :src="image.thumbUrl ? image.thumbUrl : image.url"
+            v-for="(image, index) in images"
+            :key="index"
             @click="model = image.url"
           />
         </div>
@@ -127,11 +127,11 @@
           class="badaso-upload-image__popup--right-bar badaso-upload-image__popup--url-bar"
         >
           <vs-input
-            v-model="model"
             label="Paste an image URL here"
             placeholder="URL"
-            description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG."
+            v-model="model"
             @input="$openLoader()"
+            description-text="If your URL is correct, you'll see an image preview here. Large images may take a few minutes to appear. Only accept PNG and JPEG."
           />
           <p
             v-if="isValidImageUrl === false && model"
@@ -143,7 +143,6 @@
             accept="image/png"
             :src="model"
             alt=""
-            class="badaso-upload-image__preview--small"
             @load="
               isValidImageUrl = true;
               $closeLoader();
@@ -152,6 +151,7 @@
               isValidImageUrl = false;
               $closeLoader();
             "
+            class="badaso-upload-image__preview--small"
           />
         </div>
 
@@ -159,18 +159,18 @@
           <div class="badaso-upload-image__popup-button--footer">
             <div v-if="getActiveTab !== 'url'">
               <vs-pagination
-                v-model="page"
                 :total="Math.ceil(paginator.total / paginator.perPage)"
+                v-model="page"
                 :max="1"
-              />
+              ></vs-pagination>
             </div>
             <vs-spacer />
             <vs-button
               color="primary"
               type="relief"
+              @click="emitInput"
               :disabled="!model"
               class="badaso-upload-image__popup-button"
-              @click="emitInput"
             >
               {{ $t("button.submit") }}
             </vs-button>
@@ -255,16 +255,17 @@ export default {
       },
       isValidImageUrl: undefined,
       model: null,
-      sortTypeValue: "",
+      sortTypeValue: '',
       sortTypeList: [
         {
-          label: "Time",
-          value: "time",
+          label : "Time",
+          value : 'time',
         },
         {
-          label: "Alphabet",
-          value: "alphabet",
-        },
+          label : "Alphabet",
+          value : 'alphabet',
+        }
+
       ],
     };
   },
@@ -379,7 +380,7 @@ export default {
           });
           return;
         }
-        if (!this.availableMimetypes.image.validMime.includes(files[0].type)) {
+        if (!this.availableMimetypes.image.validMime.includes(files[0].type)){
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: "File type not allowed",
@@ -391,7 +392,7 @@ export default {
       }
     },
     sortImages(event) {
-      this.getImages(event);
+      this.getImages(event)
     },
     getImages(sortType) {
       if (this.getActiveFolder) {
@@ -400,7 +401,7 @@ export default {
           .browseUsingLfm({
             workingDir: this.getActiveFolder,
             type: "image",
-            sort_type: sortType || "time",
+            sort_type: sortType ? sortType : 'time',
             page: this.page,
           })
           .then((res) => {

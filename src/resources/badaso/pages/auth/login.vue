@@ -1,55 +1,55 @@
 <template>
   <vs-col vs-lg="12" class="main-container__box--auth">
     <vs-card class="main-container__card--auth">
-      <badaso-auth-card-header slot="header">
-        {{ $t("login.title") }}
-      </badaso-auth-card-header>
+      <badaso-auth-card-header slot="header">{{
+        $t("login.title")
+      }}</badaso-auth-card-header>
       <div>
         <form @submit="login()">
           <vs-input
-            v-model="email"
             icon="person"
             icon-after
             size="default"
             :placeholder="$t('login.field.email')"
+            v-model="email"
             class="login__input"
           />
           <div v-if="errors.email" class="login__error-container">
             <div v-if="$helper.isArray(errors.email)">
               <span
+                class="login__input--error"
                 v-for="(info, index) in errors.email"
                 :key="index"
-                class="login__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="login__input--error" v-html="errors.email" />
+              <span class="login__input--error" v-html="errors.email"></span>
             </div>
           </div>
           <vs-input
-            v-model="password"
             icon="lock"
             type="password"
             icon-after
             size="default"
             :placeholder="$t('login.field.password')"
+            v-model="password"
             class="login__input"
             @keyup.enter="login()"
           />
           <div v-if="errors.password" class="login__error-container">
             <div v-if="$helper.isArray(errors.password)">
               <span
+                class="login__input--error"
                 v-for="(info, index) in errors.password"
                 :key="index"
-                class="login__input--error"
               >
                 {{ info }}
               </span>
             </div>
             <div v-else>
-              <span class="login__input--error" v-html="errors.password" />
+              <span class="login__input--error" v-html="errors.password"></span>
             </div>
           </div>
 
@@ -58,9 +58,9 @@
               class="vs-component con-vs-checkbox vs-checkbox-primary vs-checkbox-default"
             >
               <input
-                v-model="rememberMe"
                 type="checkbox"
                 class="vs-checkbox--input"
+                v-model="rememberMe"
               /><span
                 class="checkbox_x vs-checkbox"
                 style="border: 2px solid rgb(180, 180, 180)"
@@ -75,19 +75,18 @@
             <router-link
               :to="'/' + baseUrl + '/forgot-password'"
               class="login__forgot-password"
+              >{{ $t("login.forgotPassword") }}</router-link
             >
-              {{ $t("login.forgotPassword") }}
-            </router-link>
           </div>
-          <vs-button type="relief" class="login__button" @click="login()">
-            {{ $t("login.button") }}
-          </vs-button>
+          <vs-button type="relief" class="login__button" @click="login()">{{
+            $t("login.button")
+          }}</vs-button>
         </form>
         <div class="login__register-link">
           {{ $t("login.createAccount.text") }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/register'">
-            {{ $t("login.createAccount.link") }}
-          </router-link>
+          <router-link :to="'/' + baseUrl + '/register'">{{
+            $t("login.createAccount.link")
+          }}</router-link>
         </div>
       </div>
     </vs-card>
@@ -120,7 +119,7 @@ export default {
         })
         .then((response) => {
           this.$closeLoader();
-          if (response.hasOwnProperty("data")) {
+          if (response.hasOwnProperty('data')) {
             this.$router.push({ name: "Home" });
           } else {
             this.$router.push({

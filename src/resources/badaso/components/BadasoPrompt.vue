@@ -12,9 +12,7 @@
         <header :style="styleHeader" class="vs-dialog-header">
           <div class="con-title-after">
             <span :style="styleAfter" class="after" />
-            <h3 class="dialog-title">
-              {{ title }}
-            </h3>
+            <h3 class="dialog-title">{{ title }}</h3>
           </div>
           <vs-icon
             v-if="type == 'alert'"
@@ -37,17 +35,15 @@
             :type="buttonAccept"
             class="vs-dialog-accept-button"
             @click="acceptDialog"
+            >{{ acceptText }}</vs-button
           >
-            {{ acceptText }}
-          </vs-button>
           <vs-button
             :text-color="'rgba(0,0,0,.5)'"
             :type="buttonCancel"
             class="vs-dialog-cancel-button"
             @click="cancelClose"
+            >{{ cancelText }}</vs-button
           >
-            {{ cancelText }}
-          </vs-button>
         </footer>
 
         <footer v-if="type == 'alert' && !isPrompt">
@@ -56,9 +52,8 @@
             :type="buttonAccept"
             class="vs-dialog-accept-button"
             @click="acceptDialog"
+            >{{ acceptText }}</vs-button
           >
-            {{ acceptText }}
-          </vs-button>
         </footer>
       </div>
     </div>

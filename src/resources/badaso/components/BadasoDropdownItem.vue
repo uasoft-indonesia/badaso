@@ -26,7 +26,7 @@
             :icon-pack="iconPack"
             :icon="icon"
             class="badaso-dropdown-item__item--icon"
-          />
+          ></vs-icon>
         </div>
         <div class="badaso-dropdown-item__item--text">
           <slot />
@@ -48,7 +48,7 @@
             :icon-pack="iconPack"
             :icon="icon"
             class="badaso-dropdown-item__item--icon"
-          />
+          ></vs-icon>
         </div>
         <div class="badaso-dropdown-item__item--text">
           <slot />

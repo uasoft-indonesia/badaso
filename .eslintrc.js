@@ -18,7 +18,6 @@ module.exports = {
     "**/src/resources/badaso/**/**/*.vue",
     "**/src/resources/badaso/**/*.js",
   ],
-  parser: "babel-eslint",
   parserOptions: {
     ecmaVersion: 2015,
     sourceType: "module",

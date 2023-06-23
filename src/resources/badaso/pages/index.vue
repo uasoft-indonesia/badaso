@@ -1,9 +1,9 @@
 <template>
   <component
-    :is="globalComponentList[defaultComponent]"
     v-if="globalComponentList[defaultComponent]"
-  />
-  <component :is="defaultComponent" v-else />
+    v-bind:is="globalComponentList[defaultComponent]"
+  ></component>
+  <component v-else v-bind:is="defaultComponent"></component>
 </template>
 
 <script>
@@ -62,7 +62,6 @@ import DataPendingEditRead from "./data-pending-edit/read.vue";
 import ApiDocsBrowse from "./api-documentation/browse.vue";
 
 export default {
-  name: "ActivityLogIndex",
   components: {
     AuthForgotPassword,
     AuthLogin,
@@ -116,6 +115,7 @@ export default {
     DataPendingEditRead,
     ApiDocsBrowse,
   },
+  name: "ActivityLogIndex",
   data: () => ({
     globalComponentList: {},
     defaultComponent: null,

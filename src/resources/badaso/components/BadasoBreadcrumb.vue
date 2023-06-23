@@ -7,14 +7,10 @@
     />
     <vs-breadcrumb>
       <li v-for="(item, index) in items" :key="index">
-        <router-link :to="item.url">
-          {{ item.title }}
-        </router-link>
+        <router-link :to="item.url">{{ item.title }}</router-link>
         <span class="badaso-breadcrumb__separator">/</span>
       </li>
-      <li aria-current="page">
-        {{ activePage.title }}
-      </li>
+      <li aria-current="page">{{ activePage.title }}</li>
     </vs-breadcrumb>
   </div>
 </template>
@@ -26,16 +22,16 @@ import _ from "lodash";
 export default {
   name: "BadasoBreadcrumb",
   components: {},
+  data: () => ({
+    items: [],
+    activePage: {},
+  }),
   props: {
     full: {
       type: Boolean,
       default: false,
     },
   },
-  data: () => ({
-    items: [],
-    activePage: {},
-  }),
   computed: {},
   mounted() {
     let path = this.$route.path;

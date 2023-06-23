@@ -3,7 +3,7 @@
     <label v-if="label != ''" for="" class="badaso-color-picker__label">{{
       label
     }}</label>
-    <div ref="colorpicker" class="badaso-color-picker__input-group">
+    <div class="badaso-color-picker__input-group" ref="colorpicker">
       <input
         type="text"
         class="badaso-color-picker__input"
@@ -15,26 +15,26 @@
         <span
           :style="'background-color: ' + colorValue"
           @click="togglePicker()"
-        />
+        ></span>
       </span>
       <color-picker
-        v-if="displayPicker"
         :value="colorValue"
         @input="updateFromPicker"
+        v-if="displayPicker"
       />
     </div>
-    <div v-if="additionalInfo" v-html="additionalInfo" />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <p
+          class="badaso-color-picker__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-color-picker__input--error"
           v-html="info + '<br />'"
-        />
+        ></p>
       </div>
       <div v-else>
-        <span class="badaso-color-picker__input--error" v-html="alert" />
+        <span class="badaso-color-picker__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -47,6 +47,16 @@ export default {
   name: "BadasoColorPicker",
   components: {
     "color-picker": Chrome,
+  },
+  data: () => ({
+    colors: {
+      hex: "#000000",
+    },
+    colorValue: "",
+    displayPicker: false,
+  }),
+  beforeMount() {
+    this.color = this.value;
   },
   props: {
     size: {
@@ -73,27 +83,6 @@ export default {
       type: String || Array,
       default: "",
     },
-  },
-  data: () => ({
-    colors: {
-      hex: "#000000",
-    },
-    colorValue: "",
-    displayPicker: false,
-  }),
-  watch: {
-    colorValue(val) {
-      if (val) {
-        this.updateColors(val);
-        this.$emit("input", val);
-      }
-    },
-  },
-  beforeMount() {
-    this.color = this.value;
-  },
-  mounted() {
-    this.setColor(this.color || "#000000");
   },
   methods: {
     setColor(color) {
@@ -161,6 +150,17 @@ export default {
         this.hidePicker();
       }
     },
+  },
+  watch: {
+    colorValue(val) {
+      if (val) {
+        this.updateColors(val);
+        this.$emit("input", val);
+      }
+    },
+  },
+  mounted() {
+    this.setColor(this.color || "#000000");
   },
 };
 </script>

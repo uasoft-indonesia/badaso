@@ -3,23 +3,21 @@
     <badaso-breadcrumb-row>
       <template slot="action">
         <vs-button
-          v-if="$helper.isAllowed('add_permissions')"
           color="primary"
           type="relief"
           :to="{ name: 'PermissionManagementAdd' }"
+          v-if="$helper.isAllowed('add_permissions')"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
-          <vs-icon icon="add" /> {{ $t("action.add") }}
-        </vs-button>
         <vs-button
-          v-if="selected.length > 0 && $helper.isAllowed('delete_permissions')"
           color="danger"
           type="relief"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_permissions')"
           @click.stop
           @click="confirmDeleteMultiple"
+          ><vs-icon icon="delete_sweep"></vs-icon>
+          {{ $t("action.bulkDelete") }}</vs-button
         >
-          <vs-icon icon="delete_sweep" />
-          {{ $t("action.bulkDelete") }}
-        </vs-button>
       </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_permissions')">
@@ -30,8 +28,8 @@
           </div>
           <div>
             <badaso-table
-              v-model="selected"
               multiple
+              v-model="selected"
               pagination
               max-items="10"
               search
@@ -71,7 +69,7 @@
               </template>
 
               <template slot-scope="{ data }">
-                <vs-tr v-for="(tr, indextr) in data" :key="indextr" :data="tr">
+                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                   <vs-td :data="data[indextr].key">
                     {{ data[indextr].key }}
                   </vs-td>
@@ -83,11 +81,11 @@
                   <vs-td :data="data[indextr].tableName">
                     {{ data[indextr].tableName }}
                   </vs-td>
-
+                  
                   <vs-td :data="data[indextr].rolesCanSeeAllData">
                     {{ data[indextr].rolesCanSeeAllData }}
                   </vs-td>
-
+                  
                   <vs-td :data="data[indextr].fieldIdentifyRelatedUser">
                     {{ data[indextr].fieldIdentifyRelatedUser }}
                   </vs-td>
@@ -103,7 +101,11 @@
                   </vs-td>
                   <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button size="large" type="flat" icon="more_vert" />
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="visibility"
@@ -115,19 +117,19 @@
                           Detail
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
-                          v-if="$helper.isAllowed('edit_permissions')"
                           icon="edit"
                           :to="{
                             name: 'PermissionManagementEdit',
                             params: { id: data[indextr].id },
                           }"
+                          v-if="$helper.isAllowed('edit_permissions')"
                         >
                           Edit
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
-                          v-if="$helper.isAllowed('delete_permissions')"
                           icon="delete"
                           @click="confirmDelete(data[indextr].id)"
+                          v-if="$helper.isAllowed('delete_permissions')"
                         >
                           Delete
                         </badaso-dropdown-item>
@@ -203,12 +205,12 @@ export default {
           this.selected = [];
           this.permissions = response.data.permissions;
           this.permissions.map((value) => {
-            if (value.rolesCanSeeAllData) {
-              const rolesAllData = JSON.parse(value.rolesCanSeeAllData);
-              value.rolesCanSeeAllData = rolesAllData.toString();
+            if (value.rolesCanSeeAllData){
+              let rolesAllData = JSON.parse(value.rolesCanSeeAllData)
+              value.rolesCanSeeAllData = rolesAllData.toString()
             }
             return value;
-          });
+          })
         })
         .catch((error) => {
           this.$closeLoader();

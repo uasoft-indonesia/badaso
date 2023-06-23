@@ -5,22 +5,22 @@
       :label="label"
       :placeholder="placeholder"
       :value="value"
+      @input="handleInput($event)"
       icon="http"
       icon-after
-      @input="handleInput($event)"
     />
-    <div v-if="additionalInfo" v-html="additionalInfo" />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
+          class="badaso-url__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-url__input--error"
           >{{ info }}</span
         >
       </div>
       <div v-else>
-        <span class="badaso-url__input--error" v-html="alert" />
+        <span class="badaso-url__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -30,6 +30,7 @@
 export default {
   name: "BadasoUrl",
   components: {},
+  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -57,7 +58,6 @@ export default {
       default: "",
     },
   },
-  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

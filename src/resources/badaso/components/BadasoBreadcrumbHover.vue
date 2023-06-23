@@ -8,22 +8,16 @@
       />
       <vs-breadcrumb class="badaso-breadcrumb-hover__list">
         <li v-for="(item, index) in items" :key="index">
-          <router-link :to="item.url">
-            {{ item.title }}
-          </router-link>
+          <router-link :to="item.url">{{ item.title }}</router-link>
           <span class="badaso-breadcrumb-hover__separator">/</span>
         </li>
-        <li aria-current="page">
-          {{ activePage.title }}
-        </li>
+        <li aria-current="page">{{ activePage.title }}</li>
       </vs-breadcrumb>
     </vs-col>
     <vs-col vs-lg="6" vs-md="12" vs-sm="12">
       <div class="badaso-breadcrumb-hover__container--right">
         <badaso-dropdown>
-          <vs-button v-if="visibleButtonAction" type="relief">
-            Action
-          </vs-button>
+          <vs-button type="relief" v-if="visibleButtonAction">Action</vs-button>
           <vs-dropdown-menu>
             <slot name="action" />
           </vs-dropdown-menu>
@@ -40,6 +34,10 @@ import _ from "lodash";
 export default {
   name: "BadasoBreadcrumbRow",
   components: {},
+  data: () => ({
+    items: [],
+    activePage: {},
+  }),
   props: {
     full: {
       type: Boolean,
@@ -50,10 +48,6 @@ export default {
       default: true,
     },
   },
-  data: () => ({
-    items: [],
-    activePage: {},
-  }),
   computed: {},
   mounted() {
     let path = this.$route.path;

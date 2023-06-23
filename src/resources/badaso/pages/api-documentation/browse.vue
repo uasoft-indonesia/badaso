@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action" />
+      <template slot="action"> </template>
     </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('browse_apidocs')">
       <vs-col vs-lg="12">
@@ -15,7 +15,7 @@
               ref="apidocsIFrame"
               :src="urlIframe"
               class="api-documentation__iframe"
-            />
+            ></iframe>
           </div>
         </vs-card>
       </vs-col>
@@ -57,9 +57,6 @@ export default {
       return `${host}/${apidocsRoute}?token=${token}`;
     },
   },
-  created() {
-    this.checkApiDocs();
-  },
   methods: {
     checkApiDocs() {
       this.$openLoader();
@@ -83,6 +80,9 @@ export default {
           this.$closeLoader();
         });
     },
+  },
+  created() {
+    this.checkApiDocs();
   },
 };
 </script>

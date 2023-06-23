@@ -45,7 +45,7 @@
             <vs-icon
               :icon-pack="iconPack"
               :icon="prevIcon ? prevIcon : defaultPrevIcon"
-            />
+            ></vs-icon>
           </button>
           <ul class="vs-pagination--ul">
             <li
@@ -59,7 +59,7 @@
                 {{ page }}
               </span>
 
-              <div class="effect" />
+              <div class="effect"></div>
             </li>
           </ul>
           <!-- :style="styleBtn" -->
@@ -72,7 +72,7 @@
             <vs-icon
               :icon-pack="iconPack"
               :icon="nextIcon ? nextIcon : defaultNextIcon"
-            />
+            ></vs-icon>
           </button>
           <input
             v-if="goto"

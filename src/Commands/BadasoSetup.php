@@ -89,7 +89,6 @@ class BadasoSetup extends Command
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
         $decoded_json['devDependencies']['sass'] = '^1.63.3';
         $decoded_json['devDependencies']['vite-plugin-static-copy'] = '^0.16.0';
-        $decoded_json['devDependencies']['babel-eslint'] = '^10.1.0';
 
         $decoded_json['dependencies']['copy-files-from-to'] = '^3.2.0';
         $decoded_json['dependencies']['popper.js'] = '^1.12';
@@ -166,7 +165,7 @@ class BadasoSetup extends Command
             $this->file->append($vite_path, $data);
         }
 
-        $this->info('vite.config.js updated');
+        $this->info('Import packages vite.config.js updated');
     }
 
     protected function addPluginsLaravelInputVite()
@@ -191,7 +190,7 @@ class BadasoSetup extends Command
 
             file_put_contents($vite_path, $modifiedConfig);
         }
-        $this->info('Laravel Input vite.config.js updated');
+        $this->info('Laravel input vite.config.js updated');
     }
 
     protected function addPluginsVueVite()
@@ -249,7 +248,7 @@ class BadasoSetup extends Command
 
             file_put_contents($vite_path, $modifiedConfig);
         }
-        $this->info('resolve vite.config.js updated');
+        $this->info('Resolve vite.config.js updated');
     }
 
     protected function publishBadasoProvider()

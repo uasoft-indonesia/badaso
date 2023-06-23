@@ -5,30 +5,30 @@
     class="badaso-upload-file-multiple__container"
   >
     <vs-input
-      v-model="value"
       :label="label"
       :placeholder="placeholder"
+      @click="openFileManager"
+      v-on:keyup.space="openFileManager"
       readonly
+      v-model="value"
       icon="attach_file"
       icon-after="true"
-      @click="openFileManager"
-      @keyup.space="openFileManager"
     />
     <input
-      ref="file"
       type="file"
       class="badaso-upload-file-multiple__input--hidden"
+      ref="file"
       :accept="availableMimetypes.file.validMime.join(',')"
-      multiple
       @change="onFilePicked"
+      multiple
     />
-    <div v-if="additionalInfo" v-html="additionalInfo" />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
+          class="badaso-upload-file-multiple__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-upload-file-multiple__input--error"
         >
           {{ info }}
         </span>
@@ -37,15 +37,15 @@
         <span
           class="badaso-upload-file-multiple__input--error"
           v-html="alert"
-        />
+        ></span>
       </div>
     </div>
     <vs-row v-if="hasValue">
       <vs-col
-        v-for="(file, index) in getFileModels"
-        :key="index"
         vs-lg="4"
         vs-sm="12"
+        v-for="(file, index) in getFileModels"
+        :key="index"
       >
         <div class="badaso-upload-file-multiple__preview">
           <vs-button
@@ -64,37 +64,37 @@
     </vs-row>
 
     <div
-      v-if="showFileManager"
       class="badaso-upload-file-multiple__popup-dialog"
       tabindex="0"
+      v-if="showFileManager"
     >
       <div class="badaso-upload-file-multiple__popup-container">
         <div class="badaso-upload-file-multiple__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
           <vs-button
-            v-if="getActiveTab !== 'url' && model"
             color="danger"
             type="relief"
             class="badaso-upload-file-multiple__popup-button--delete"
+            v-if="getActiveTab !== 'url' && model"
             @click="openDeleteDialog"
           >
-            <vs-icon icon="delete" />
+            <vs-icon icon="delete"></vs-icon>
           </vs-button>
         </div>
 
         <ul class="badaso-upload-file-multiple__popup--left-bar">
           <li
-            v-if="privateOnly || (!privateOnly && !sharesOnly)"
             :class="{ active: getActiveTab === 'private' }"
             @click="setActiveTab('private')"
+            v-if="privateOnly || (!privateOnly && !sharesOnly)"
           >
             Private
           </li>
           <li
-            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
             :class="{ active: getActiveTab === 'shares' }"
             @click="setActiveTab('shares')"
+            v-if="sharesOnly || (!sharesOnly && !privateOnly)"
           >
             Shares
           </li>
@@ -105,19 +105,23 @@
             class="badaso-upload-file-multiple__popup-add-file"
             @click="$refs.file.click()"
           >
-            <vs-icon icon="add" color="#06bbd3" size="40px" />
+            <vs-icon icon="add" color="#06bbd3" size="40px"></vs-icon>
           </div>
           <div
-            v-for="(file, index) in files"
-            :key="index"
             :class="{
               active: model.includes(file.url),
               'badaso-upload-file-multiple__popup-file': true,
             }"
-            class="badaso-upload-file__popup-file-container"
+            v-for="(file, index) in files"
+            :key="index"
             @click="selectFile(file.url)"
+            class="badaso-upload-file__popup-file-container"
           >
-            <vs-icon icon="insert_drive_file" size="45px" color="#06bbd3" />
+            <vs-icon
+              icon="insert_drive_file"
+              size="45px"
+              color="#06bbd3"
+            ></vs-icon>
             <p class="badaso-upload-file-multiple__popup-file-text">
               {{ file.name | truncate }}
             </p>
@@ -128,26 +132,26 @@
           <div class="badaso-upload-file-multiple__popup-button--footer">
             <div>
               <vs-pagination
-                v-model="page"
                 :total="Math.ceil(paginator.total / paginator.perPage)"
+                v-model="page"
                 :max="1"
-              />
+              ></vs-pagination>
             </div>
             <vs-spacer />
             <vs-button
               color="primary"
               type="relief"
+              @click="emitInput"
               :disabled="!model"
               class="badaso-upload-file__popup-button"
-              @click="emitInput"
             >
               {{ $t("button.submit") }}
             </vs-button>
             <vs-button
               color="danger"
               type="relief"
-              class="badaso-upload-file__popup-button"
               @click="closeFileManager"
+              class="badaso-upload-file__popup-button"
             >
               {{ $t("button.close") }}
             </vs-button>
@@ -180,13 +184,6 @@ import * as _ from "lodash";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 export default {
   name: "BadasoUploadFileMultiple",
-  filters: {
-    truncate(val) {
-      return _.truncate(val, {
-        length: 15,
-      });
-    },
-  },
   props: {
     size: {
       type: String || Number,
@@ -231,6 +228,13 @@ export default {
       },
       model: [],
     };
+  },
+  filters: {
+    truncate(val) {
+      return _.truncate(val, {
+        length: 15,
+      });
+    },
   },
   watch: {
     page: {

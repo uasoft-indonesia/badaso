@@ -3,7 +3,7 @@
     :class="[`badaso-collapse__container--${type}`]"
     class="badaso-collapse__container"
   >
-    <slot />
+    <slot></slot>
   </div>
 </template>
 <script>

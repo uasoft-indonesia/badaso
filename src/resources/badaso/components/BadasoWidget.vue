@@ -9,7 +9,11 @@
       >
         <vs-card class="widget__content">
           <div class="widget__icon-container">
-            <vs-icon v-if="data.icon" class="widget__icon" :icon="data.icon" />
+            <vs-icon
+              v-if="data.icon"
+              class="widget__icon"
+              :icon="data.icon"
+            ></vs-icon>
             <h4>{{ data.value }}</h4>
             <span>{{ data.label }}</span>
           </div>
@@ -17,9 +21,8 @@
             class="widget__progress-bar"
             :percent="getPercent(data.value, data.max)"
             :color="getProgressBarColor(data.value, data.max)"
+            >primary</vs-progress
           >
-            primary
-          </vs-progress>
         </vs-card>
       </vs-col>
     </vs-row>
@@ -30,6 +33,7 @@
 export default {
   name: "BadasoWidget",
   components: {},
+  data: () => ({}),
   props: {
     widgets: {
       type: Array,
@@ -42,7 +46,6 @@ export default {
       default: 12,
     },
   },
-  data: () => ({}),
   methods: {
     getPercent(value, max = 100) {
       const percentage = 100 / max;

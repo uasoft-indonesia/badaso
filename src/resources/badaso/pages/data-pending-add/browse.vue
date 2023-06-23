@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action" />
+      <template slot="action"> </template>
     </badaso-breadcrumb-row>
     <vs-row>
       <vs-col vs-lg="12">
@@ -26,8 +26,8 @@
               <template slot="thead">
                 <vs-th
                   v-for="(header, index) in headerDataDBObject"
-                  :key="index"
                   :data="header"
+                  :key="index"
                   sort-key="tableName"
                 >
                   {{ $helper.generateDisplayName(header.field) }}
@@ -37,25 +37,29 @@
 
               <template slot-scope="{ data }">
                 <vs-tr
-                  v-for="(dataRows, indeDataRows) in data"
-                  :key="indeDataRows"
                   :data="dataRows"
+                  :key="indeDataRows"
+                  v-for="(dataRows, indeDataRows) in data"
                 >
                   <vs-td
                     v-for="(dataColumn, indexColumn) in dataRows.requestData
                       .data"
-                    :key="indexColumn"
                     :data="dataColumn"
+                    :key="indexColumn"
                   >
                     {{ dataColumn.value }}
                   </vs-td>
                   <vs-td class="badaso-table__td">
                     <badaso-dropdown vs-trigger-click>
-                      <vs-button size="large" type="flat" icon="more_vert" />
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
-                          v-if="$helper.isAllowed('delete_menus')"
                           icon="delete"
+                          v-if="$helper.isAllowed('delete_menus')"
                           @click="openConfirm(indeDataRows)"
                         >
                           Delete
@@ -86,12 +90,8 @@ export default {
       headerDataDBObject: {},
     };
   },
-  computed: {},
   created() {
     this.keyStore = atob(this.$route.params.urlBase64);
-  },
-  mounted() {
-    this.dbReadDataObject();
   },
   methods: {
     dbReadDataObject() {
@@ -140,6 +140,10 @@ export default {
           console.error(error);
         });
     },
+  },
+  computed: {},
+  mounted() {
+    this.dbReadDataObject();
   },
 };
 </script>

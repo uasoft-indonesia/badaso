@@ -29,7 +29,7 @@ Vue.use(Vuesax);
 Vue.use(VueI18n);
 Vue.use(Datetime);
 // eslint-disable-next-line vue/multi-word-component-names
-Vue.component("Datetime", Datetime);
+Vue.component("datetime", Datetime);
 Vue.use(Vuelidate);
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
@@ -69,7 +69,7 @@ try {
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
-  const requireComponent = import.meta.glob("./components/*.vue");
+  const requireComponent = import.meta.glob("./components/**/*.vue");
   Object.keys(requireComponent).forEach((fileName) => {
     const componentConfig = requireComponent[fileName];
     const componentName = fileName
@@ -94,7 +94,7 @@ try {
 // DYNAMIC IMPORT CUSTOM COMPONENT
 try {
   const requireCustomComponent = import.meta.globEager(
-    "../../../../../../resources/js/badaso/components/*.vue"
+    "../../../../../../resources/js/badaso/components/**/*.vue"
   );
   Object.keys(requireCustomComponent).forEach((fileName) => {
     const componentConfig = requireCustomComponent[fileName];
@@ -181,12 +181,6 @@ try {
   );
   Object.keys(requireCustomPages).forEach((fileName) => {
     const componentConfig = requireCustomPages[fileName];
-    // const componentName = fileName
-    //   .replace(/^\.\/_/, "")
-    //   .replace(/\.\w+$/, "")
-    //   .split("-")
-    //   .map((kebab) => kebab.charAt(0).toUpperCase() + kebab.slice(1))
-    //   .join("");
     const componentName = fileName
       .replace(/\.\w+$/, "")
       .replace(/^(\.\.\/)+/, "./")
@@ -201,7 +195,6 @@ try {
       .toLowerCase() // convert to lower case
       .replace("./", "")
       .replace("/", "-");
-
     Vue.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {

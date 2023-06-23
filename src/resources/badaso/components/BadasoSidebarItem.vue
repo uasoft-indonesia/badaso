@@ -5,16 +5,16 @@
     @click="setIndexActive"
   >
     <router-link v-if="to && target === '_self'" :to="to">
-      <vs-icon :icon-pack="iconPack" :icon="icon" />
-      <slot />
+      <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
+      <slot></slot>
     </router-link>
     <a v-else-if="to && target != '_self'" :target="target" :href="to">
-      <vs-icon :icon-pack="iconPack" :icon="icon" />
-      <slot />
+      <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
+      <slot></slot>
     </a>
     <a v-else :target="target" :href="href">
-      <vs-icon :icon-pack="iconPack" :icon="icon" />
-      <slot />
+      <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
+      <slot></slot>
     </a>
   </div>
 </template>

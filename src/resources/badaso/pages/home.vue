@@ -1,6 +1,6 @@
 <template>
   <vs-row>
-    <badaso-widget :col="col" :widgets="dashboardData" />
+    <badaso-widget :col="col" :widgets="dashboardData"> </badaso-widget>
   </vs-row>
 </template>
 

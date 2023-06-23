@@ -6,6 +6,7 @@
 export default {
   name: "BadasoHidden",
   components: {},
+  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -33,7 +34,6 @@ export default {
       default: "",
     },
   },
-  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);

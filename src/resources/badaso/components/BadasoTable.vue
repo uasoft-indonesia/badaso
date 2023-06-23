@@ -6,28 +6,28 @@
     <!-- header -->
     <header class="header-table vs-table--header">
       <vs-row class="badaso-table__table-header">
-        <vs-col v-if="pagination" vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12">
+        <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="pagination">
           <div class="badaso-table__header-dropdown">
             Show&nbsp;
             <vs-select v-model="maxItemsx" width="100px">
               <vs-select-item
-                v-for="(row, index) in descriptionItems"
                 :key="index"
                 :value="row"
                 :text="row"
+                v-for="(row, index) in descriptionItems"
               />
             </vs-select>
             &nbsp;Entries
           </div>
         </vs-col>
-        <vs-col v-if="search" vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12">
+        <vs-col vs-lg="6" vs-md="6" vs-sm="6" vs-xs="12" v-if="search">
           <div class="con-input-search vs-table--search badaso-table__search">
             <input
               v-model="searchx"
               class="input-search vs-table--search-input"
               type="text"
             />
-            <vs-icon icon="search" />
+            <vs-icon icon="search"></vs-icon>
           </div>
         </vs-col>
       </vs-row>
@@ -48,10 +48,10 @@
                   />
                 </span>
               </th>
-              <slot name="thead" />
+              <slot name="thead"></slot>
             </tr>
           </thead>
-          <slot :data="datax" />
+          <slot :data="datax"></slot>
         </table>
       </div>
       <div v-if="isNoData" class="not-data-table vs-table--not-data">
@@ -70,7 +70,8 @@
           :description-connector="descriptionConnector"
           :description-body="descriptionBody"
           @changeMaxItems="changeMaxItems"
-        />
+        >
+        </badaso-pagination>
       </div>
     </div>
   </div>

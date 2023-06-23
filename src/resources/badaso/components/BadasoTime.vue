@@ -13,24 +13,24 @@
         :zone="zone"
         class="badaso-time__input"
         @input="handleInput($event)"
-      />
+      ></datetime>
       <div class="badaso-time__item-icon-box">
-        <vs-icon icon="schedule" class="badaso-time__item-icon" />
+        <vs-icon icon="schedule" class="badaso-time__item-icon"></vs-icon>
       </div>
     </div>
-    <div v-if="additionalInfo" v-html="additionalInfo" />
+    <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
         <span
+          class="badaso-time__input--error"
           v-for="(info, index) in alert"
           :key="index"
-          class="badaso-time__input--error"
         >
           {{ info }}
         </span>
       </div>
       <div v-else>
-        <span class="badaso-time__input--error" v-html="alert" />
+        <span class="badaso-time__input--error" v-html="alert"></span>
       </div>
     </div>
   </vs-col>
@@ -40,6 +40,7 @@
 export default {
   name: "BadasoTime",
   components: {},
+  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -75,7 +76,6 @@ export default {
       default: "local",
     },
   },
-  data: () => ({}),
   methods: {
     handleInput(val) {
       this.$emit("input", val);
