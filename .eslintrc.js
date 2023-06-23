@@ -9,21 +9,17 @@ module.exports = {
     "standard",
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "plugin:vue/strongly-recommended",
-    "plugin:vue/recommended",
-    "plugin:import/recommended",
-    "prettier",
   ],
   ignorePatterns: [
     "**/src/resources/badaso/**/**/*.vue",
     "**/src/resources/badaso/**/*.js",
   ],
   parserOptions: {
-    ecmaVersion: 2015,
+    ecmaVersion: 2018,
     sourceType: "module",
     allowImportExportEverywhere: true,
     ecmaFeatures: {
-      modules: true,
+      jsx: true,
     },
   },
   plugins: ["vue", "flowtype", "prettier"],
@@ -37,7 +33,6 @@ module.exports = {
     "no-empty": 0,
     "vue/no-mutating-props": "off",
     "no-prototype-builtins": "off",
-    "prettier/prettier": "error",
     eqeqeq: "off",
   },
 };
