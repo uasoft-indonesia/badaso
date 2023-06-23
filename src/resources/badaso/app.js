@@ -69,10 +69,11 @@ try {
 
 // DYNAMIC IMPORT BADASO COMPONENT
 try {
-  const requireComponent = import.meta.glob("./components/**/*.vue");
+  const requireComponent = import.meta.glob("./components/*.vue");
   Object.keys(requireComponent).forEach((fileName) => {
     const componentConfig = requireComponent[fileName];
     const componentName = fileName
+      .replace(/^\.\/_/, "")
       .replace(/^\.\/components\//, "")
       .replace(/\.\w+$/, "")
       .split("-")
@@ -94,14 +95,15 @@ try {
 // DYNAMIC IMPORT CUSTOM COMPONENT
 try {
   const requireCustomComponent = import.meta.globEager(
-    "../../../../../../resources/js/badaso/components/**/*.vue"
+    "../../../../../../resources/js/badaso/components/*.vue"
   );
   Object.keys(requireCustomComponent).forEach((fileName) => {
     const componentConfig = requireCustomComponent[fileName];
     const componentName = fileName
-      .replace(/^\.\/components\//, "")
       .replace(/\.\w+$/, "")
-      .split("-")
+      .replace(/^(\.\.\/)+/, "./")
+      .split("/")
+      .slice(-2)
       .map((kebab) => kebab.charAt(0).toUpperCase() + kebab.slice(1))
       .join("");
 
@@ -138,6 +140,7 @@ try {
         }
       })
       .join("");
+
     Vue.prototype["$" + utilName] = requireUtils[fileName].default;
   });
 } catch (error) {
@@ -152,8 +155,7 @@ try {
 
   Object.keys(requireCustomUtils).forEach((fileName) => {
     const utilName = fileName
-      .replace(/^\.\/utils\//, "")
-      .replace("./", "")
+      .replace(/^.*[\\/]/, "")
       .replace(".js", "")
       .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
       .replace(/[\s_]+/g, "-") // replace all spaces and low dash
@@ -168,6 +170,7 @@ try {
         }
       })
       .join("");
+
     Vue.prototype["$" + utilName] = requireCustomUtils[fileName].default;
   });
 } catch (error) {
