@@ -57,7 +57,7 @@ export default {
     },
     value: {
       type: Array,
-       default: () => {
+      default: () => {
         return [];
       },
     },

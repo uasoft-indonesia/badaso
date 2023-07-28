@@ -1,10 +1,10 @@
 import resource from "../resource";
 
-const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
-  ? "/" + process.env.MIX_API_ROUTE_PREFIX
+const apiPrefix = import.meta.env.VITE_API_ROUTE_PREFIX
+  ? "/" + import.meta.env.VITE_API_ROUTE_PREFIX
   : "/badaso-api";
-const secretLoginPrefix = process.env.MIX_BADASO_SECRET_LOGIN_PREFIX
-  ? "/" + process.env.MIX_BADASO_SECRET_LOGIN_PREFIX
+const secretLoginPrefix = import.meta.env.VITE_BADASO_SECRET_LOGIN_PREFIX
+  ? "/" + import.meta.env.VITE_BADASO_SECRET_LOGIN_PREFIX
   : "/badaso-secret-login";
 
 export default {

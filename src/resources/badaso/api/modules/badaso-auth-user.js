@@ -1,7 +1,7 @@
 import resource from "../resource";
 
-const apiPrefix = process.env.MIX_API_ROUTE_PREFIX
-  ? "/" + process.env.MIX_API_ROUTE_PREFIX
+const apiPrefix = import.meta.env.VITE_API_ROUTE_PREFIX
+  ? "/" + import.meta.env.VITE_API_ROUTE_PREFIX
   : "/badaso-api";
 
 export default {

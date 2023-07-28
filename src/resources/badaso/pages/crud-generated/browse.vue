@@ -1116,16 +1116,16 @@ export default {
           return flatList.join(", ");
         } else if (relationType == "belongs_to") {
           const lists = record[table];
-          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
-          for (let list of lists) {
+          const field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+          for (const list of lists) {
             if (list.id == record[field]) {
               return list[displayColumn];
             }
           }
         } else if (relationType == "belongs_to_many") {
-          let field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
+          const field = this.$caseConvert.stringSnakeToCamel(dataRow.field);
           const lists = record[field];
-          let flatList = [];
+          const flatList = [];
           Object.keys(lists).forEach(function (ls, key) {
             flatList.push(lists[ls][displayColumn]);
           });

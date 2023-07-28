@@ -56,7 +56,7 @@ class BadasoSetup extends Command
 
         $this->addingBadasoEnv();
         $this->updatePackageJson();
-        $this->updateWebpackMix();
+        $this->updateVite();
         $this->publishBadasoProvider();
         $this->publishLaravelBackupProvider();
         $this->publishLaravelActivityLogProvider();
@@ -65,6 +65,9 @@ class BadasoSetup extends Command
         $this->publicFileFirebaseServiceWorker();
         $this->addingBadasoAuthConfig();
         $this->generateSwagger();
+        $this->addPluginsLaravelInputVite();
+        $this->addPluginsVueVite();
+        $this->addResolveConfigVueVite();
     }
 
     protected function generateSwagger()
@@ -82,9 +85,10 @@ class BadasoSetup extends Command
         $decoded_json = json_decode($package_json, true);
 
         $decoded_json['devDependencies']['axios'] = '^0.18';
-        $decoded_json['devDependencies']['laravel-mix'] = '^6.0.19';
         $decoded_json['devDependencies']['lodash'] = '^4.17.4';
         $decoded_json['devDependencies']['postcss'] = '^8.1.14';
+        $decoded_json['devDependencies']['sass'] = '^1.63.3';
+        $decoded_json['devDependencies']['vite-plugin-static-copy'] = '^0.16.0';
 
         $decoded_json['dependencies']['copy-files-from-to'] = '^3.2.0';
         $decoded_json['dependencies']['popper.js'] = '^1.12';
@@ -125,6 +129,8 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['vuex'] = '^3.1.1';
         $decoded_json['dependencies']['vuex-persistedstate'] = '^4.0.0-beta.1';
         $decoded_json['dependencies']['weekstart'] = '^1.0.1';
+        $decoded_json['dependencies']['@vitejs/plugin-vue2'] = '^2.2.0';
+        $decoded_json['dependencies']['vite-plugin-environment'] = '^1.1.3';
 
         $encoded_json = json_encode($decoded_json, JSON_PRETTY_PRINT);
         file_put_contents(base_path('package.json'), $encoded_json);
@@ -137,26 +143,112 @@ class BadasoSetup extends Command
         return $this->file->exists($file) && ! Str::contains($this->file->get($file), $search);
     }
 
-    protected function updateWebpackMix()
+    protected function checkExistStr($file, $search)
     {
-        // mix
-        $mix_file = base_path('webpack.mix.js');
-        $search = 'Badaso';
+        return $this->file->exists($file) && Str::contains($this->file->get($file), $search);
+    }
 
-        if ($this->checkExist($mix_file, $search)) {
+    protected function updateVite()
+    {
+        // vite
+        $vite_path = base_path('vite.config.js');
+        $search_package_laravel = 'Badaso';
+
+        if ($this->checkExist($vite_path, $search_package_laravel)) {
             $data =
                 <<<'EOT'
-
-        // Badaso
-        mix.js("vendor/badaso/core/src/resources/badaso/app.js", "public/js/badaso.js")
-            .sass("vendor/badaso/core/src/resources/badaso/assets/scss/style.scss", "public/css/badaso.css")
-            .vue()
+        //Badaso
+        import { viteStaticCopy } from "vite-plugin-static-copy";
+        import vue from "@vitejs/plugin-vue2";
+        import EnvironmentPlugin from "vite-plugin-environment";
         EOT;
-
-            $this->file->append($mix_file, $data);
+            $this->file->append($vite_path, $data);
         }
 
-        $this->info('webpack.mix.js updated');
+        $this->info('Import packages vite.config.js updated');
+    }
+
+    protected function addPluginsLaravelInputVite()
+    {
+        $vite_path = base_path('vite.config.js');
+        $config = file_get_contents($vite_path);
+        $search_badaso_input = 'Badaso Input';
+
+        if ($this->checkExist($vite_path, $search_badaso_input)) {
+            $pluginsIndex = strpos($config, 'plugins: [');
+
+            $resolveCode = "
+        // Badaso Input
+        ,'vendor/badaso/core/src/resources/badaso/app.js',
+        'vendor/badaso/core/src/resources/badaso/assets/scss/style.scss',";
+
+            $configArray = substr($config, $pluginsIndex + 10);
+            $configArrayCloseIndex = strpos($configArray, ']');
+
+            $configArrayCloseIndex += $pluginsIndex + 10;
+            $modifiedConfig = substr($config, 0, $configArrayCloseIndex)."\n".$resolveCode.substr($config, $configArrayCloseIndex);
+
+            file_put_contents($vite_path, $modifiedConfig);
+        }
+        $this->info('Laravel input vite.config.js updated');
+    }
+
+    protected function addPluginsVueVite()
+    {
+        $vite_path = base_path('vite.config.js');
+        $config = file_get_contents($vite_path);
+        $search_vue = 'vueScript';
+
+        if ($this->checkExist($vite_path, $search_vue)) {
+            $laravelPluginIndex = strpos($config, 'laravel({');
+            $endLaravelPluginIndex = strpos($config, '})', $laravelPluginIndex);
+
+            $vueScript = ",\n
+            // vueScript
+          vue(),
+          viteStaticCopy({
+            targets: [
+                {
+                    src: 'vendor/badaso/core/src/resources/badaso/app.js',
+                    dest: 'js',
+                },
+            ],
+        }),
+          EnvironmentPlugin({
+            BUILD: 'web',
+        })";
+            $modifiedConfig = substr($config, 0, $endLaravelPluginIndex + 2).$vueScript.substr($config, $endLaravelPluginIndex + 2);
+            file_put_contents($vite_path, $modifiedConfig);
+        }
+        $this->info('Vue vite.config.js updated');
+    }
+
+    protected function addResolveConfigVueVite()
+    {
+        $vite_path = base_path('vite.config.js');
+        $config = file_get_contents($vite_path);
+        $search_badaso_resolve = 'resolve BadasoCss';
+
+        if ($this->checkExist($vite_path, $search_badaso_resolve)) {
+            $pluginsIndex = strpos($config, 'defineConfig({');
+            $resolveCode = "
+        // resolve BadasoCss
+        resolve: {
+        alias: [
+            {
+                find: /^~.+/,
+                replacement: (val) => {
+                    return val.replace(/^~/, '');
+                },
+            },
+        ],
+    },\n";
+
+            $modifiedConfig = substr($config, 0, $pluginsIndex + 15).$resolveCode.substr($config, $pluginsIndex + 15);
+
+            file_put_contents($vite_path, $modifiedConfig);
+        }
+        $this->info('Resolve vite.config.js updated');
     }
 
     protected function publishBadasoProvider()
@@ -243,23 +335,23 @@ class BadasoSetup extends Command
         return [
             'BADASO_AUTH_TOKEN_LIFETIME' => '',
             'ARCANEDEV_LOGVIEWER_MIDDLEWARE' => '',
-            'MIX_BADASO_MAINTENANCE' => 'false',
-            'MIX_BADASO_PLUGINS' => '',
-            'MIX_DEFAULT_MENU' => 'general',
-            'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
-            'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
-            'MIX_BADASO_SECRET_LOGIN_PREFIX' =>'badaso-secret-login',
-            'MIX_API_ROUTE_PREFIX' => 'badaso-api',
-            'MIX_LOG_VIEWER_ROUTE' => '"log-viewer"',
-            'MIX_FIREBASE_API_KEY' => '',
-            'MIX_FIREBASE_AUTH_DOMAIN' => '',
-            'MIX_FIREBASE_PROJECT_ID' => '',
-            'MIX_FIREBASE_STORAGE_BUCKET' => '',
-            'MIX_FIREBASE_MESSAGE_SEENDER' => '',
-            'MIX_FIREBASE_APP_ID' => '',
-            'MIX_FIREBASE_MEASUREMENT_ID' => '',
-            'MIX_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
-            'MIX_FIREBASE_SERVER_KEY' => '',
+            'VITE_BADASO_MAINTENANCE' => 'false',
+            'VITE_BADASO_PLUGINS' => '',
+            'VITE_DEFAULT_MENU' => 'general',
+            'VITE_BADASO_MENU' => '${VITE_DEFAULT_MENU}',
+            'VITE_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
+            'VITE_BADASO_SECRET_LOGIN_PREFIX' => 'badaso-secret-login',
+            'VITE_API_ROUTE_PREFIX' => 'badaso-api',
+            'VITE_LOG_VIEWER_ROUTE' => '"log-viewer"',
+            'VITE_FIREBASE_API_KEY' => '',
+            'VITE_FIREBASE_AUTH_DOMAIN' => '',
+            'VITE_FIREBASE_PROJECT_ID' => '',
+            'VITE_FIREBASE_STORAGE_BUCKET' => '',
+            'VITE_FIREBASE_MESSAGE_SEENDER' => '',
+            'VITE_FIREBASE_APP_ID' => '',
+            'VITE_FIREBASE_MEASUREMENT_ID' => '',
+            'VITE_FIREBASE_WEB_PUSH_CERTIFICATES' => '',
+            'VITE_FIREBASE_SERVER_KEY' => '',
             'FILESYSTEM_DRIVER' => 'public',
             'AWS_ACCESS_KEY_ID' => '',
             'AWS_SECRET_ACCESS_KEY' => '',
@@ -273,13 +365,13 @@ class BadasoSetup extends Command
             'DROPBOX_AUTH_TOKEN' => '',
             'BACKUP_TARGET' => '',
             'BACKUP_DISK' => '',
-            'MIX_DATE_FORMAT' => '',
-            'MIX_DATETIME_FORMAT' => '',
-            'MIX_TIME_FORMAT' => '',
+            'VITE_DATE_FORMAT' => '',
+            'VITE_DATETIME_FORMAT' => '',
+            'VITE_TIME_FORMAT' => '',
             'ANALYTICS_VIEW_ID' => '',
-            'MIX_ANALYTICS_TRACKING_ID' => '',
-            'MIX_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
-            'MIX_API_DOCUMENTATION_ROUTE' => 'api-docs',
+            'VITE_ANALYTICS_TRACKING_ID' => '',
+            'VITE_API_DOCUMENTATION_ANNOTATION_ROUTE' => 'api-annotation',
+            'VITE_API_DOCUMENTATION_ROUTE' => 'api-docs',
             'BADASO_TABLE_PREFIX' => 'badaso_',
             'OCTANE_SERVER' => 'swoole',
             'REDIS_CLIENT' => 'predis',

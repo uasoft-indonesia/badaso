@@ -227,9 +227,11 @@
                     "
                   ></badaso-color-picker>
                   <badaso-hidden
-                    v-if="dataRow.type == 'hidden' || 
-                          dataRow.type == 'data_identifier' || 
-                          dataRow.type == 'relation'"
+                    v-if="
+                      dataRow.type == 'hidden' ||
+                      dataRow.type == 'data_identifier' ||
+                      dataRow.type == 'relation'
+                    "
                     :label="dataRow.displayName"
                     :placeholder="dataRow.displayName"
                     v-model="dataRow.value"
@@ -435,7 +437,7 @@ export default {
         ) {
           dataRows[row.field] = row.value;
         }
-        if (row.type == 'data_identifier'){
+        if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;
         }
       }
@@ -574,7 +576,7 @@ export default {
             color: "danger",
           });
         });
-    }
+    },
   },
   computed: {
     isOnline: {

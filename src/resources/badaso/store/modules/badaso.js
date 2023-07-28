@@ -44,15 +44,18 @@ export default {
       state.reduceSidebar = value;
     },
     FETCH_MENU(state) {
-      const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-        ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+      const prefix = import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+        ? import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-dashboard";
 
       // function add prefix in children
       const menuItemAddPrefix = (arrayMenuChild, callbackMenuItemAddPrefix) => {
         arrayMenuChild = arrayMenuChild.map((menuItem) => {
-        //   menuItem.url = "/" + prefix + menuItem.url;
-          menuItem.url = menuItem.url.substring(0, 4) == 'http' ? menuItem.url: "/" + prefix + menuItem.url;
+          //   menuItem.url = "/" + prefix + menuItem.url;
+          menuItem.url =
+            menuItem.url.substring(0, 4) == "http"
+              ? menuItem.url
+              : "/" + prefix + menuItem.url;
           menuItem.icon = menuItem.iconClass;
 
           if (menuItem.children) {
@@ -79,8 +82,8 @@ export default {
       });
     },
     FETCH_CONFIGURATION_MENU(state) {
-      const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-        ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+      const prefix = import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+        ? import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
         : "badaso-dashboard";
       api.badasoMenu
         .browseItemByKey({

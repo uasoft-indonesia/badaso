@@ -68,8 +68,8 @@ export default {
   data: () => ({
     email: "",
     token: "",
-    baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+    baseUrl: import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+      ? import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
       : "badaso-dashboard",
     errors: {},
     processing: true,
@@ -88,13 +88,13 @@ export default {
     this.getConfigurationList();
   },
   methods: {
-    getConfigurationList(){
+    getConfigurationList() {
       this.$api.badasoConfiguration
         .fetch({
-          key : "timeWaitResendToken"
+          key: "timeWaitResendToken",
         })
         .then((response) => {
-          this.timeWait = response.data.configuration[0].value
+          this.timeWait = response.data.configuration[0].value;
           this.startCounter();
         })
         .catch((error) => {
@@ -163,8 +163,7 @@ export default {
           this.retry = false;
           this.timeWait = 60;
           this.startCounter();
-          this.getConfigurationList()
-          
+          this.getConfigurationList();
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.success"),

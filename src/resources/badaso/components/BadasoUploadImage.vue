@@ -54,13 +54,14 @@
         <div class="badaso-upload-image__popup--top-bar">
           <h3>{{ $t("fileManager.title") }}</h3>
           <vs-spacer />
-          <badaso-select 
-          v-model="sortTypeValue" 
-          size="2" 
-          style="margin-bottom: 0px !important; margin-right: 1rem;"
-          placeholder="Sort Type" 
-          :items="sortTypeList"
-          @input="sortImages" >
+          <badaso-select
+            v-model="sortTypeValue"
+            size="2"
+            style="margin-bottom: 0px !important; margin-right: 1rem"
+            placeholder="Sort Type"
+            :items="sortTypeList"
+            @input="sortImages"
+          >
           </badaso-select>
           <vs-button
             color="danger"
@@ -255,17 +256,16 @@ export default {
       },
       isValidImageUrl: undefined,
       model: null,
-      sortTypeValue: '',
+      sortTypeValue: "",
       sortTypeList: [
         {
-          label : "Time",
-          value : 'time',
+          label: "Time",
+          value: "time",
         },
         {
-          label : "Alphabet",
-          value : 'alphabet',
-        }
-
+          label: "Alphabet",
+          value: "alphabet",
+        },
       ],
     };
   },
@@ -380,7 +380,7 @@ export default {
           });
           return;
         }
-        if (!this.availableMimetypes.image.validMime.includes(files[0].type)){
+        if (!this.availableMimetypes.image.validMime.includes(files[0].type)) {
           this.$vs.notify({
             title: this.$t("alert.danger"),
             text: "File type not allowed",
@@ -392,7 +392,7 @@ export default {
       }
     },
     sortImages(event) {
-      this.getImages(event)
+      this.getImages(event);
     },
     getImages(sortType) {
       if (this.getActiveFolder) {
@@ -401,7 +401,7 @@ export default {
           .browseUsingLfm({
             workingDir: this.getActiveFolder,
             type: "image",
-            sort_type: sortType ? sortType : 'time',
+            sort_type: sortType || "time",
             page: this.page,
           })
           .then((res) => {

@@ -280,7 +280,7 @@ export default {
     configurations: [],
     role: [],
     willDeleteConfigurationId: null,
-    statusMaintenance: process.env.MIX_BADASO_MAINTENANCE
+    statusMaintenance: import.meta.env.VITE_BADASO_MAINTENANCE,
   }),
   computed: {
     groupList: {
@@ -323,15 +323,15 @@ export default {
     getConfigurationList() {
       this.$openLoader();
       this.$api.badasoRole
-      .browse()
-      .then((response) => {
-        response.data.roles.map((data) => {
-           const temp = {'label': data.displayName, 'value': data.name}
-            this.role.push(temp)
-            return data
-        });
-      })
-      .catch((error) => {
+        .browse()
+        .then((response) => {
+          response.data.roles.map((data) => {
+            const temp = { label: data.displayName, value: data.name };
+            this.role.push(temp);
+            return data;
+          });
+        })
+        .catch((error) => {
           this.$closeLoader();
           this.$vs.notify({
             title: this.$t("alert.danger"),
@@ -349,8 +349,8 @@ export default {
               if (data.type === "hidden") {
                 data.value = data.details.value ? data.details.value : "";
               }
-              if(data.key === 'defaultRoleRegistration' ){
-                 data.details.items = this.role
+              if (data.key === "defaultRoleRegistration") {
+                data.details.items = this.role;
               }
               if (data.type === "switch") {
                 data.value = data.value == "1";
@@ -376,7 +376,6 @@ export default {
             return data;
           });
           this.configurations = JSON.parse(JSON.stringify(configurations));
-
         })
         .catch((error) => {
           this.$closeLoader();

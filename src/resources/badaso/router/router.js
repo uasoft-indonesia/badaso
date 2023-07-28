@@ -10,12 +10,12 @@ import Maintenance from "./../pages/maintenance.vue";
 
 import api from "../api/index";
 
-const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-  ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+const prefix = import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
+  ? "/" + import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
 
-const pluginsEnv = process.env.MIX_BADASO_PLUGINS
-  ? process.env.MIX_BADASO_PLUGINS
+const pluginsEnv = import.meta.env.VITE_BADASO_PLUGINS
+  ? import.meta.env.VITE_BADASO_PLUGINS
   : null;
 
 let _authRouters = [];
@@ -30,29 +30,29 @@ _pluginRouters.LandingPageContainer = [];
 
 // DYNAMIC IMPORT BADASO ROUTERS
 try {
-  const authRouters = require.context("./auth", false, /\.js$/); //
-  authRouters.keys().forEach((fileName) => {
-    _authRouters = [..._authRouters, ...authRouters(fileName).default];
+  const authRouters = import.meta.globEager("./auth/*.js"); //
+  Object.keys(authRouters).forEach((fileName) => {
+    _authRouters = [..._authRouters, ...authRouters[fileName].default];
   });
 
-  const publicRouters = require.context("./public", false, /\.js$/); //
-  publicRouters.keys().forEach((fileName) => {
-    _publicRouters = [..._publicRouters, ...publicRouters(fileName).default];
+  const publicRouters = import.meta.globEager("./public/*.js"); //
+  Object.keys(publicRouters).forEach((fileName) => {
+    _publicRouters = [..._publicRouters, ...publicRouters[fileName].default];
   });
 
-  const adminRouters = require.context("./admin", false, /\.js$/); //
-  adminRouters.keys().forEach((fileName) => {
-    _adminRouters = [..._adminRouters, ...adminRouters(fileName).default];
+  const adminRouters = import.meta.globEager("./admin/*.js"); //
+  Object.keys(adminRouters).forEach((fileName) => {
+    _adminRouters = [..._adminRouters, ...adminRouters[fileName].default];
   });
 
-  const otherRouters = require.context("./others", false, /\.js$/); //
-  otherRouters.keys().forEach((fileName) => {
-    _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
+  const otherRouters = import.meta.globEager("./others/*.js"); //
+  Object.keys(otherRouters).forEach((fileName) => {
+    _otherRouters = [..._otherRouters, ...otherRouters[fileName].default];
   });
 
   // DYNAMIC IMPORT BADASO PLUGINS ROUTERS
   if (pluginsEnv) {
-    const plugins = process.env.MIX_BADASO_PLUGINS.split(",");
+    const plugins = import.meta.env.VITE_BADASO_PLUGINS.split(",");
     if (plugins && plugins.length > 0) {
       for (const index in plugins) {
         const plugin = plugins[index];
@@ -99,40 +99,32 @@ try {
 
 // DYNAMIC IMPORT CUSTOM ROUTERS
 try {
-  const authRouters = require.context(
-    "../../../../../../../resources/js/badaso/routers/auth",
-    false,
-    /\.js$/
+  const authRouters = import.meta.globEager(
+    "../../../../../../../resources/js/badaso/routers/auth/*.js"
   ); //
-  authRouters.keys().forEach((fileName) => {
-    _authRouters = [..._authRouters, ...authRouters(fileName).default];
+  Object.keys(authRouters).forEach((fileName) => {
+    _authRouters = [..._authRouters, ...authRouters[fileName].default];
+  }); //
+
+  const publicRouters = import.meta.globEager(
+    "../../../../../../../resources/js/badaso/routers/public/*.js"
+  ); //
+  Object.keys(publicRouters).forEach((fileName) => {
+    _publicRouters = [..._publicRouters, ...publicRouters[fileName].default];
   });
 
-  const publicRouters = require.context(
-    "../../../../../../../resources/js/badaso/routers/public",
-    false,
-    /\.js$/
+  const adminRouters = import.meta.globEager(
+    "../../../../../../../resources/js/badaso/routers/admin/*.js"
   ); //
-  publicRouters.keys().forEach((fileName) => {
-    _publicRouters = [..._publicRouters, ...publicRouters(fileName).default];
-  });
+  Object.keys(adminRouters).forEach((fileName) => {
+    _adminRouters = [..._adminRouters, ...adminRouters[fileName].default];
+  }); //
 
-  const adminRouters = require.context(
-    "../../../../../../../resources/js/badaso/routers/admin",
-    false,
-    /\.js$/
+  const otherRouters = import.meta.globEager(
+    "../../../../../../../resources/js/badaso/routers/others/*.js"
   ); //
-  adminRouters.keys().forEach((fileName) => {
-    _adminRouters = [..._adminRouters, ...adminRouters(fileName).default];
-  });
-
-  const otherRouters = require.context(
-    "../../../../../../../resources/js/badaso/routers/others",
-    false,
-    /\.js$/
-  ); //
-  otherRouters.keys().forEach((fileName) => {
-    _otherRouters = [..._otherRouters, ...otherRouters(fileName).default];
+  Object.keys(otherRouters).forEach((fileName) => {
+    _otherRouters = [..._otherRouters, ...otherRouters[fileName].default];
   });
 } catch (error) {
   console.info("Failed to load custom routers", error);

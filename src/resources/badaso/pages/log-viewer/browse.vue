@@ -48,8 +48,8 @@ export default {
   },
   computed: {
     urlLogViewer() {
-      const logViewerRoute = process.env.MIX_LOG_VIEWER_ROUTE
-        ? process.env.MIX_LOG_VIEWER_ROUTE
+      const logViewerRoute = import.meta.env.VITE_LOG_VIEWER_ROUTE
+        ? import.meta.env.VITE_LOG_VIEWER_ROUTE
         : "log-viewer";
       const host = window.location.origin;
       const token = localStorage.getItem("token");

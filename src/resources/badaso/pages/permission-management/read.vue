@@ -98,7 +98,9 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.permission = response.data.permission;
-          this.permission.rolesCanSeeAllData = JSON.parse(this.permission.rolesCanSeeAllData).toString()
+          this.permission.rolesCanSeeAllData = JSON.parse(
+            this.permission.rolesCanSeeAllData
+          ).toString();
         })
         .catch((error) => {
           this.$closeLoader();

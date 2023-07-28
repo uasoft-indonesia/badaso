@@ -13,7 +13,7 @@
         use Uasoft\Badaso\Helpers\Config;
 
         $favicon = Config::get('favicon');
-        $api_prefix = env('MIX_API_ROUTE_PREFIX');
+        $api_prefix = env('VITE_API_ROUTE_PREFIX');
         $disk = config('badaso.storage.disk');
         $is_exists = Storage::disk($disk)->exists($favicon);
     ?>
@@ -24,7 +24,7 @@
         <link rel="shortcut icon" href="{{ asset('storage' . '/' . $favicon) }}" type="image/png">
     @endif
 
-    <link rel="stylesheet" href="{{ mix('css/badaso.css') }}">
+    @vite('vendor/badaso/core/src/resources/badaso/assets/scss/style.scss')
 </head>
 <body>
     <div id="app"></div>
@@ -33,6 +33,6 @@
         window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
         window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
     </script>
-    <script src="{{ mix('js/badaso.js') }}"></script>
+     @vite('vendor/badaso/core/src/resources/badaso/app.js')
 </body>
 </html>

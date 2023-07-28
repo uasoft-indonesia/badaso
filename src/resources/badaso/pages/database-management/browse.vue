@@ -2,38 +2,33 @@
   <div>
     <badaso-breadcrumb-hover full>
       <template slot="action">
-         <download-excel
-            :data="tables"
-            :fields="fieldsForExcel"
-            :worksheet="'Database Management'"
-            :name="'Database Management '+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+        <download-excel
+          :data="tables"
+          :fields="fieldsForExcel"
+          :worksheet="'Database Management'"
+          :name="'Database Management ' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'DatabaseManagementAdd' }"
-          >
-            {{ $t("database.browse.addButton") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="refresh"
-            @click="openRollbackDialog()"
-            v-if="$helper.isAllowed('rollback_database')"
-          >
-            {{ $t("database.browse.rollbackButton") }}
-          </badaso-dropdown-item>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item
+          icon="add"
+          :to="{ name: 'DatabaseManagementAdd' }"
+        >
+          {{ $t("database.browse.addButton") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item
+          icon="refresh"
+          @click="openRollbackDialog()"
+          v-if="$helper.isAllowed('rollback_database')"
+        >
+          {{ $t("database.browse.rollbackButton") }}
+        </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
     <vs-popup
@@ -316,8 +311,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"]
-    }
+      fields: ["table_name"],
+    },
   }),
   validations: {
     willRollbackFile: {
@@ -381,7 +376,7 @@ export default {
 
             return value;
           });
-          this.prepareExcelExporter()
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -610,20 +605,20 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = 'Table';
+          field = "Table";
         }
         // field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = 'Table'
+          iterator = "Table";
         }
-        
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -631,7 +626,6 @@ export default {
       }
     },
     generatePdf() {
-
       let data = this.tables;
 
       // data.map((value) => {
@@ -642,7 +636,6 @@ export default {
       //   }
       //   return value;
       // })
-      
       const result = data.map(Object.values);
 
       // eslint-disable-next-line new-cap
