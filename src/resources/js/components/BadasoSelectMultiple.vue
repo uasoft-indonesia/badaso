@@ -11,8 +11,8 @@
     >
       <vs-select-item
         :key="index"
-        :value="item.value"
-        :text="item.label"
+        :value="satinize(item.value)"
+        :text="satinize(item.label)"
         v-for="(item, index) in items"
       />
     </vs-select>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import * as DOMPurify from 'dompurify';
 export default {
   name: "BadasoSelectMultiple",
   components: {},
@@ -75,6 +76,9 @@ export default {
     },
   },
   methods: {
+    satinize(item) {
+      return DOMPurify.sanitize(item)
+    },
     handleInput(val) {
       this.$emit("input", val);
     },
