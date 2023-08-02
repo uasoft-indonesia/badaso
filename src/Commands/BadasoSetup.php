@@ -99,6 +99,7 @@ class BadasoSetup extends Command
         $decoded_json['dependencies']['sass'] = '^1.32.11';
         $decoded_json['dependencies']['sass-loader'] = '^11.0.1';
         $decoded_json['dependencies']['resolve-url-loader'] = '^4.0.0';
+        $decoded_json['dependencies']['dompurify'] = '^3.0.5';
 
         $decoded_json['dependencies']['@johmun/vue-tags-input'] = '^2.1.0';
         $decoded_json['dependencies']['@tinymce/tinymce-vue'] = '^3';
