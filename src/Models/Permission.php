@@ -26,7 +26,7 @@ class Permission extends Model
 
     public static function generateFor($table_name, $is_maintenance = false)
     {
-        if (!Permission::where('table_name', $table_name)->first()) { 
+        if (! Permission::where('table_name', $table_name)->first()) {
             $permissions = [];
             $permissions[] = self::firstOrCreate(['key' => 'browse_'.$table_name, 'description' => 'Browse '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
             $permissions[] = self::firstOrCreate(['key' => 'read_'.$table_name, 'description' => 'Read '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
@@ -104,7 +104,7 @@ class Permission extends Model
         foreach ($get_all_table_name as $key => $table) {
             $permission_table_name = Permission::where('table_name', $table->name)->get();
             foreach ($permission_table_name as $key => $table_name) {
-                if ($table->roles_can_see_all_data  == NULL && $table_name->field_identify_related_user == NULL) {
+                if ($table->roles_can_see_all_data == null && $table_name->field_identify_related_user == null) {
                     $table_name->roles_can_see_all_data = '["administrator"]';
                     $table_name->field_identify_related_user = 'user_id';
                     $table_name->save();
