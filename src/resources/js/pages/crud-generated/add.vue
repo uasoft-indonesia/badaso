@@ -430,16 +430,12 @@ export default {
       const dataRows = {};
 
       for (const row of this.dataType.dataRows) {
-        if (
-          (row && row.value) ||
-          row.type == "switch" ||
-          row.type == "slider"
-        ) {
-          dataRows[row.field] = row.value;
-        }
+         dataRows[row.field] = row.value;
+
         if (row.type == "data_identifier") {
           dataRows[row.field] = this.userId;
         }
+
       }
 
       // validate values in data rows must not equals 0
