@@ -26,29 +26,31 @@ class Permission extends Model
 
     public static function generateFor($table_name, $is_maintenance = false)
     {
-        $permissions = [];
-        $permissions[] = self::firstOrCreate(['key' => 'browse_'.$table_name, 'description' => 'Browse '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
-        $permissions[] = self::firstOrCreate(['key' => 'read_'.$table_name, 'description' => 'Read '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
-        $permissions[] = self::firstOrCreate(['key' => 'edit_'.$table_name, 'description' => 'Edit '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
-        $permissions[] = self::firstOrCreate(['key' => 'add_'.$table_name, 'description' => 'Add '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
-        $permissions[] = self::firstOrCreate(['key' => 'delete_'.$table_name, 'description' => 'Delete '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+        if (! Permission::where('table_name', $table_name)->first()) {
+            $permissions = [];
+            $permissions[] = self::firstOrCreate(['key' => 'browse_'.$table_name, 'description' => 'Browse '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+            $permissions[] = self::firstOrCreate(['key' => 'read_'.$table_name, 'description' => 'Read '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+            $permissions[] = self::firstOrCreate(['key' => 'edit_'.$table_name, 'description' => 'Edit '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+            $permissions[] = self::firstOrCreate(['key' => 'add_'.$table_name, 'description' => 'Add '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+            $permissions[] = self::firstOrCreate(['key' => 'delete_'.$table_name, 'description' => 'Delete '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
 
-        if ($is_maintenance) {
-            $permissions[] = self::firstOrCreate(['key' => 'maintenance_'.$table_name, 'description' => 'Maintenance '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
-        }
+            if ($is_maintenance) {
+                $permissions[] = self::firstOrCreate(['key' => 'maintenance_'.$table_name, 'description' => 'Maintenance '.$table_name, 'table_name' => $table_name, 'roles_can_see_all_data' => '["administrator"]', 'field_identify_related_user' => 'user_id']);
+            }
 
-        $administrator = Role::where('name', 'administrator')->firstOrFail();
+            $administrator = Role::where('name', 'administrator')->firstOrFail();
 
-        if (! is_null($administrator)) {
-            foreach ($permissions as $row) {
-                $role_permission = RolePermission::where('role_id', $administrator->id)
-                        ->where('permission_id', $row->id)
-                        ->first();
-                if (is_null($role_permission)) {
-                    $role_permission = new RolePermission();
-                    $role_permission->role_id = $administrator->id;
-                    $role_permission->permission_id = $row->id;
-                    $role_permission->save();
+            if (! is_null($administrator)) {
+                foreach ($permissions as $row) {
+                    $role_permission = RolePermission::where('role_id', $administrator->id)
+                            ->where('permission_id', $row->id)
+                            ->first();
+                    if (is_null($role_permission)) {
+                        $role_permission = new RolePermission();
+                        $role_permission->role_id = $administrator->id;
+                        $role_permission->permission_id = $row->id;
+                        $role_permission->save();
+                    }
                 }
             }
         }
@@ -94,5 +96,20 @@ class Permission extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->dontSubmitEmptyLogs();
+    }
+
+    public static function generateForTableCRUD()
+    {
+        $get_all_table_name = DataType::all();
+        foreach ($get_all_table_name as $key => $table) {
+            $permission_table_name = Permission::where('table_name', $table->name)->get();
+            foreach ($permission_table_name as $key => $table_name) {
+                if ($table->roles_can_see_all_data == null && $table_name->field_identify_related_user == null) {
+                    $table_name->roles_can_see_all_data = '["administrator"]';
+                    $table_name->field_identify_related_user = 'user_id';
+                    $table_name->save();
+                }
+            }
+        }
     }
 }
