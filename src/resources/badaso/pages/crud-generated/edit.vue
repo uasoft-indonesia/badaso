@@ -494,11 +494,9 @@ export default {
                 data.value = val.split(",");
               }
             } else if (data.type == "switch") {
-              data.value = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
-              ]
-                ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
-                : false;
+              const val = this.record[this.$caseConvert.stringSnakeToCamel(data.field)];
+
+              data.value = val > 0 ? true : false;
             } else if (data.type == "slider") {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
