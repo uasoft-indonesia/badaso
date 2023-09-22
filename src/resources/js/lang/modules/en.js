@@ -40,7 +40,8 @@ export default {
     field: {
       name: "Name",
       username: "Username",
-      phone:"Phone",
+      phone: "Phone",
+      address: "Address",
       email: "Email",
       password: "Password",
       passwordConfirmation: "Password Confirmation",
@@ -125,6 +126,8 @@ export default {
     newPasswordConfirmation: "New Password Confirmation",
     name: "Name",
     avatar: "Avatar",
+    phone: "Phone Number",
+    address: "Address",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -251,7 +254,7 @@ export default {
     edit: {
       multiple: "Update Configurations",
     },
-    maintenanceMode: "Maintenance setting is readonly."
+    maintenanceMode: "Maintenance setting is readonly.",
   },
 
   crud: {
@@ -666,6 +669,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "Phone Number",
+          placeholder: "Phone Number",
+        },
+        address: {
+          title: "Address",
+          placeholder: "Address",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -701,6 +712,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "Phone Number",
+          placeholder: "Phone Number",
+        },
+        address: {
+          title: "Address",
+          placeholder: "Address",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -730,6 +749,8 @@ export default {
       avatar: "Avatar",
       name: "Name",
       username: "Username",
+      phone: "Phone Number",
+      address: "Address",
       email: "Email",
       additionalInfo: "Additional Info",
       emailVerified: "Is Email Verified",
@@ -850,7 +871,7 @@ export default {
       isPublic: "Is Public",
       action: "Action",
       rolesCanSeeAllData: "Roles Can See All Data",
-      fieldIdentifyRelatedUser: "Field Identify Related User"
+      fieldIdentifyRelatedUser: "Field Identify Related User",
     },
     footer: {
       descriptionTitle: "Registries",
@@ -901,7 +922,7 @@ export default {
         fieldIdentifyRelatedUser: {
           title: "Column for identify user related data",
           placeholder: "Column for identify user related data",
-        }
+        },
       },
       button: "Save",
     },
@@ -922,7 +943,7 @@ export default {
       },
       button: "Edit",
       rolesCanSeeAllData: "Roles Can See All Data",
-      fieldIdentifyRelatedUser: "Field Identify Related User"
+      fieldIdentifyRelatedUser: "Field Identify Related User",
     },
   },
 

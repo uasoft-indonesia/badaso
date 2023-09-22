@@ -98,6 +98,30 @@
               <span class="register__input--error" v-html="errors.email"></span>
             </div>
           </div>
+
+        <vs-input
+            icon="maps"
+            icon-after
+            size="default"
+            :placeholder="$t('register.field.address')"
+            v-model="address"
+            class="register__input"
+          />
+          <div v-if="errors.address" class="register__error-container">
+            <div v-if="$helper.isArray(errors.address)">
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.address"
+                :key="index"
+              >
+                {{ info }}
+              </span>
+            </div>
+            <div v-else>
+              <span class="register__input--error" v-html="errors.address"></span>
+            </div>
+          </div>
+
           <vs-input
             icon="lock"
             type="password"
@@ -160,6 +184,7 @@ export default {
     name: "",
     username: "",
     phone:"",
+    address:"",
     email: "",
     password: "",
     passwordConfirmation: "",
@@ -175,6 +200,7 @@ export default {
           name: this.name,
           username: this.username,
           phone:this.phone,
+          address:this.address,
           email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation,

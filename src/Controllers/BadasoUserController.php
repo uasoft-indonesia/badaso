@@ -57,6 +57,8 @@ class BadasoUserController extends Controller
                 'username'  => "required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username,{$request->id}",
                 'name'      => 'required',
                 'avatar'    => 'nullable',
+                'phone'    => 'nullable',
+                'address'    => 'nullable',
             ]);
 
             $user = User::find($request->id);
@@ -64,6 +66,8 @@ class BadasoUserController extends Controller
 
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
             $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             if ($request->password && $request->password != '') {
@@ -104,11 +108,15 @@ class BadasoUserController extends Controller
                 'name'      => 'required|string|max:255',
                 'username'  => 'required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username',
                 'avatar'    => 'nullable',
+                'phone'     => 'required|numeric|min:6',
+                'address'   => 'nullable',
             ]);
 
             $user = new User();
             $user->name = $request->name;
             $user->username = $request->username;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
             $user->email = $request->email;
             $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;

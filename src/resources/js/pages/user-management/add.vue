@@ -46,6 +46,13 @@
               offLabel="No"
               :tooltip="$t('user.help.emailVerified')"
             ></badaso-switch>
+            <badaso-text
+              v-model="user.phone"
+              size="6"
+              :label="$t('user.add.field.phone.title')"
+              :placeholder="$t('user.add.field.phone.placeholder')"
+              :alert="errors.phone"
+            ></badaso-text>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -53,6 +60,13 @@
               :placeholder="$t('user.add.field.avatar.placeholder')"
               :alert="errors.avatar"
             ></badaso-upload-image>
+            <badaso-textarea
+               v-model="user.address"
+               size="12"
+              :label="$t('user.add.field.address.title')"
+              :placeholder="$t('user.add.field.address.placeholder')"
+              :alert="errors.address"
+            ></badaso-textarea>
             <vs-col vs-lg="12">
               <badaso-code-editor
                 v-model="user.additionalInfo"
@@ -90,6 +104,8 @@ export default {
       email: "",
       name: "",
       username: "",
+      phone: "",
+      address: "",
       avatar: "",
       password: "",
       emailVerified: false,
@@ -110,6 +126,8 @@ export default {
             email: this.user.email,
             name: this.user.name,
             username: this.user.username,
+            phone: this.user.phone,
+            address: this.user.address,
             avatar: this.user.avatar,
             password: this.user.password,
             emailVerified: this.user.emailVerified,

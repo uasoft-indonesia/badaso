@@ -40,7 +40,8 @@ export default {
     field: {
       name: "Nama",
       username: "Username",
-      phone: "Phone",
+      phone: "No Telp/Hp",
+      address: "Alamat",
       email: "Email",
       password: "Kata sandi",
       passwordConfirmation: "Konfirmasi kata sandi",
@@ -125,6 +126,8 @@ export default {
     newPasswordConfirmation: "New Password Confirmation",
     name: "Name",
     avatar: "Avatar",
+    phone: "No Telp/Hp",
+    address: "Alamat",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -251,7 +254,7 @@ export default {
     edit: {
       multiple: "Simpan Konfigurasi",
     },
-    maintenanceMode: "Pengaturan maintenance hanya readonly."
+    maintenanceMode: "Pengaturan maintenance hanya readonly.",
   },
 
   crud: {
@@ -650,6 +653,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "No Telp/Hp",
+          placeholder: "No Telp/Hp",
+        },
+        address: {
+          title: "Alamat",
+          placeholder: "Alamat",
+        },
         password: {
           title: "Kata sandi",
           placeholder: "Kata sandi",
@@ -681,6 +692,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "No Telp/Hp",
+          placeholder: "No Telp/Hp",
+        },
+        address: {
+          title: "Alamat",
+          placeholder: "Alamat",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -710,6 +729,8 @@ export default {
       avatar: "Avatar",
       name: "Nama",
       username: "Username",
+      phone: "No Telp/Hp",
+      address: "Alamat",
       email: "Email",
       additionalInfo: "Info Tambahan",
       emailVerified: "Email Diverifikasi",
@@ -825,7 +846,7 @@ export default {
       isPublic: "Publik",
       action: "Aksi",
       rolesCanSeeAllData: "Role yang dapat melihat semua data",
-      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user"
+      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user",
     },
     help: {
       alwaysAllow:
@@ -881,7 +902,7 @@ export default {
         fieldIdentifyRelatedUser: {
           title: "Kolom relasi untuk identifikasi data user",
           placeholder: "Kolom relasi untuk identifikasi data user",
-        }
+        },
       },
       button: "Simpan",
     },
@@ -902,7 +923,7 @@ export default {
       },
       button: "Ubah",
       rolesCanSeeAllData: "Role yang dapat melihat semua data",
-      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user"
+      fieldIdentifyRelatedUser: "Kolom relasi untuk identifikasi data user",
     },
   },
 
