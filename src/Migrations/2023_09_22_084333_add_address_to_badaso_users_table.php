@@ -13,7 +13,7 @@ class AddAddressToBadasoUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->text('address')->nullable()->after('phone');
         });
     }
@@ -25,7 +25,7 @@ class AddAddressToBadasoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->dropColumn('address');
         });
     }
