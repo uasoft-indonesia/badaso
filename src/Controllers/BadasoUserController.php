@@ -113,15 +113,15 @@ class BadasoUserController extends Controller
                 'address'   => 'nullable',
             ]);
 
-            $user                  = new User();
-            $user->name            = $request->name;
-            $user->username        = $request->username;
-            $user->phone           = $request->phone;
-            $user->address         = $request->address;
-            $user->email           = $request->email;
-            $user->avatar          = $request->avatar;
+            $user = new User();
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->email = $request->email;
+            $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
-            $user->password        = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
             if ($request->email_verified) {
                 $user->email_verified_at = date('Y-m-d H:i:s');
             }

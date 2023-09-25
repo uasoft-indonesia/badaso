@@ -530,11 +530,11 @@ class BadasoAuthController extends Controller
 
             $user = User::find($user->id);
 
-            $user->name            = $request->name;
-            $user->username        = $request->username;
-            $user->phone           = $request->phone;
-            $user->address         = $request->address;
-            $user->avatar          = $request->avatar;
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
             $user->save();
 
