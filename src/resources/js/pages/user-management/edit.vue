@@ -53,6 +53,14 @@
               :placeholder="$t('user.edit.field.phone.placeholder')"
               :alert="errors.phone"
             ></badaso-text>
+            <badaso-select
+              v-model="user.gender"
+              size="6"
+              :label="$t('user.edit.field.gender.title')"
+              :placeholder="$t('user.edit.field.gender.placeholder')"
+              :items="gender"
+              :alert="errors.gender"
+            ></badaso-select>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -98,20 +106,27 @@
 export default {
   name: "UserManagementEdit",
   components: {},
-  data: () => ({
-    errors: {},
+  data() {
+    return {
+         errors: {},
     user: {
       email: "",
       name: "",
       username: "",
       phone: "",
-      address:"",
+      address: "",
       avatar: "",
       password: "",
       emailVerified: false,
       additionalInfo: "",
+      gender:"",
     },
-  }),
+    gender: [
+        { label: this.$t("user.gender.man"), value: "man" },
+        { label: this.$t("user.gender.woman"), value: "woman" },
+    ],
+    };
+  },
   computed: {
     loggedInUser: {
       get() {
@@ -162,6 +177,7 @@ export default {
           password: this.user.password,
           emailVerified: this.user.emailVerified,
           additionalInfo: JSON.stringify(this.user.additionalInfo),
+          gender: this.user.gender,
         })
         .then((response) => {
           if (this.loggedInUser.id == this.user.id) {

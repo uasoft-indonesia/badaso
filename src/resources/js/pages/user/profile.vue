@@ -21,6 +21,14 @@
                   :placeholder="$t('myProfile.username')"
                   :alert="errors.username"
                 ></badaso-text>
+                <badaso-select
+                v-model="user.gender"
+                size="12"
+                :label="$t('myProfile.gender')"
+                :placeholder="$t('myProfile.gender')"
+                :items="gender"
+                :alert="errors.gender"
+                ></badaso-select>
                  <badaso-text
                   v-model="user.phone"
                   size="12"
@@ -142,22 +150,32 @@ export default {
   name: "UserProfile",
   components: {},
   data: () => ({
-    errors: {},
-    user: {
-      email: "",
-      name: "",
-      username: "",
-      avatar: "",
-      phone:"",
-      address:"",
-      additionalInfo: "",
-      oldPassword: "",
-      newPassword: "",
-      newPasswordConfirmation: "",
-    },
-    token: "",
-    shouldVerifyEmail: false,
+
   }),
+  data() {
+    return{
+        errors: {},
+        user: {
+        email: "",
+        name: "",
+        username: "",
+        avatar: "",
+        phone:"",
+        address:"",
+        additionalInfo: "",
+        oldPassword: "",
+        newPassword: "",
+        newPasswordConfirmation: "",
+        gender:"",
+        },
+        token: "",
+        shouldVerifyEmail: false,
+        gender: [
+            { label: this.$t("user.gender.man"), value: "man" },
+            { label: this.$t("user.gender.woman"), value: "woman" },
+        ],
+    };
+  },
   mounted() {
     this.getUser();
   },
@@ -201,6 +219,7 @@ export default {
           avatar: this.user.avatar,
           phone: this.user.phone,
           address: this.user.address,
+          gender: this.user.gender,
           additionalInfo:
             this.user.additionalInfo !== ""
               ? JSON.stringify(this.user.additionalInfo)

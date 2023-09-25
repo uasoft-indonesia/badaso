@@ -175,7 +175,8 @@ class BadasoAuthController extends Controller
                 'phone'    => 'required|numeric|min:6',
                 'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
                 'password' => 'required|string|min:6|confirmed',
-                'address'  => 'nullable',
+                'address'  => 'required|string|max:255',
+                'gender'   => 'required|string',
             ]);
 
             $user = User::create([
@@ -185,6 +186,7 @@ class BadasoAuthController extends Controller
                 'email'    => $request->get('email'),
                 'password' => Hash::make($request->get('password')),
                 'address'  => $request->get('address'),
+                'gender'  => $request->get('gender'),
             ]);
 
             $role = $this->getCustomerRole();
@@ -543,7 +545,8 @@ class BadasoAuthController extends Controller
                 'username'  => "required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username,{$user_id}",
                 'avatar'    => 'nullable',
                 'phone'     => 'nullable',
-                'address'     => 'nullable',
+                'address'   => 'nullable',
+                'gender'    => 'nullable',
             ]);
 
             $user = User::find($user->id);
@@ -554,6 +557,7 @@ class BadasoAuthController extends Controller
             $user->address = $request->address;
             $user->avatar = $request->avatar;
             $user->additional_info = $request->additional_info;
+            $user->gender = $request->gender;
             $user->save();
 
             DB::commit();

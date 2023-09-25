@@ -42,6 +42,7 @@ export default {
       username: "Username",
       phone: "No Telp/Hp",
       address: "Alamat",
+      gender: "Jenis Kelamin",
       email: "Email",
       password: "Kata sandi",
       passwordConfirmation: "Konfirmasi kata sandi",
@@ -128,6 +129,7 @@ export default {
     avatar: "Avatar",
     phone: "No Telp/Hp",
     address: "Alamat",
+    gender: "Jenis Kelamin",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -673,6 +675,9 @@ export default {
           title: "Avatar",
           placeholder: "Avatar",
         },
+        gender: {
+          title: "Jenis Kelamin",
+        },
         additionalInfo: {
           title: "Info Tambahan (JSON)",
           placeholder: "Info Tambahan (JSON)",
@@ -716,6 +721,9 @@ export default {
           title: "Avatar",
           placeholder: "Avatar Baru",
         },
+        gender: {
+          title: "Jenis Kelamin",
+        },
         additionalInfo: {
           title: "Info Tambahan (JSON)",
           placeholder: "Info Tambahan (JSON)",
@@ -732,6 +740,7 @@ export default {
       phone: "No Telp/Hp",
       address: "Alamat",
       email: "Email",
+      gender: "Jenis Kelamin",
       additionalInfo: "Info Tambahan",
       emailVerified: "Email Diverifikasi",
     },

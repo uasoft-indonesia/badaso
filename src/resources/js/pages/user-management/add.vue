@@ -53,6 +53,14 @@
               :placeholder="$t('user.add.field.phone.placeholder')"
               :alert="errors.phone"
             ></badaso-text>
+            <badaso-select
+              v-model="user.gender"
+              size="6"
+              :label="$t('user.add.field.gender.title')"
+              :placeholder="$t('user.add.field.gender.placeholder')"
+              :items="gender"
+              :alert="errors.gender"
+            ></badaso-select>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -98,7 +106,8 @@
 export default {
   name: "UserManagementAdd",
   components: {},
-  data: () => ({
+  data() {
+    return {
     errors: {},
     user: {
       email: "",
@@ -110,8 +119,14 @@ export default {
       password: "",
       emailVerified: false,
       additionalInfo: "",
+      gender:"",
     },
-  }),
+    gender: [
+        { label: this.$t("user.gender.man"), value: "man" },
+        { label: this.$t("user.gender.woman"), value: "woman" },
+    ],
+    };
+  },
   mounted() {},
   methods: {
     submitForm() {
@@ -122,17 +137,7 @@ export default {
         }
         this.$openLoader();
         this.$api.badasoUser
-          .add({
-            email: this.user.email,
-            name: this.user.name,
-            username: this.user.username,
-            phone: this.user.phone,
-            address: this.user.address,
-            avatar: this.user.avatar,
-            password: this.user.password,
-            emailVerified: this.user.emailVerified,
-            additionalInfo: this.user.additionalInfo,
-          })
+          .add(this.user)
           .then((response) => {
             this.$closeLoader();
             this.$router.push({ name: "UserManagementBrowse" });
