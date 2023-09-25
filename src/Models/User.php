@@ -38,6 +38,7 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
+        'address',
         'additional_info',
         'last_sent_token_at',
     ];

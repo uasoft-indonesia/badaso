@@ -41,6 +41,7 @@ export default {
       name: "Name",
       username: "Username",
       phone: "Phone",
+      address: "Address",
       email: "Email",
       password: "Password",
       passwordConfirmation: "Password Confirmation",
@@ -125,6 +126,8 @@ export default {
     newPasswordConfirmation: "New Password Confirmation",
     name: "Name",
     avatar: "Avatar",
+    phone: "Phone Number",
+    address: "Address",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -652,6 +655,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "Phone Number",
+          placeholder: "Phone Number",
+        },
+        address: {
+          title: "Address",
+          placeholder: "Address",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -687,6 +698,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "Phone Number",
+          placeholder: "Phone Number",
+        },
+        address: {
+          title: "Address",
+          placeholder: "Address",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -716,6 +735,8 @@ export default {
       avatar: "Avatar",
       name: "Name",
       username: "Username",
+      phone: "Phone Number",
+      address: "Address",
       email: "Email",
       additionalInfo: "Additional Info",
       emailVerified: "Is Email Verified",

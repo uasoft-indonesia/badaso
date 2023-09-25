@@ -21,6 +21,13 @@
                   :placeholder="$t('myProfile.username')"
                   :alert="errors.username"
                 ></badaso-text>
+                 <badaso-text
+                  v-model="user.phone"
+                  size="12"
+                  :label="$t('myProfile.phone')"
+                  :placeholder="$t('myProfile.phone')"
+                  :alert="errors.phone"
+                ></badaso-text>
                 <badaso-upload-image
                   v-model="user.avatar"
                   size="12"
@@ -28,6 +35,13 @@
                   :placeholder="$t('myProfile.avatar')"
                   :alert="errors.avatar"
                 ></badaso-upload-image>
+                <badaso-textarea
+                  v-model="user.address"
+                  size="12"
+                  :label="$t('myProfile.address')"
+                  :placeholder="$t('myProfile.address')"
+                  :alert="errors.address"
+                ></badaso-textarea>
                 <vs-col vs-lg="12">
                   <badaso-code-editor
                     v-model="user.additionalInfo"
@@ -133,6 +147,8 @@ export default {
       email: "",
       name: "",
       username: "",
+      phone:"",
+      address:"",
       avatar: "",
       additionalInfo: "",
       oldPassword: "",
@@ -182,6 +198,8 @@ export default {
         .updateProfile({
           name: this.user.name,
           username: this.user.username,
+          phone: this.user.phone,
+          address: this.user.address,
           avatar: this.user.avatar,
           additionalInfo:
             this.user.additionalInfo !== ""

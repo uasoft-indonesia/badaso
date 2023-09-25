@@ -44,6 +44,10 @@
               <td>{{ user.username }}</td>
             </tr>
             <tr>
+              <th>{{ $t("user.detail.phone") }}</th>
+              <td>{{ user.phone }}</td>
+            </tr>
+            <tr>
               <th>{{ $t("user.detail.email") }}</th>
               <td>{{ user.email }}</td>
             </tr>
@@ -53,6 +57,10 @@
                 <span v-if="user.emailVerified">Yes</span>
                 <span v-else>No</span>
               </td>
+            </tr>
+            <tr>
+              <th>{{ $t("user.detail.address") }}</th>
+              <td>{{ user.address }}</td>
             </tr>
             <tr>
               <th>{{ $t("user.detail.additionalInfo") }}</th>
