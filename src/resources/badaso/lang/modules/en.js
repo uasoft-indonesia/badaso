@@ -45,11 +45,16 @@ export default {
       email: "Email",
       password: "Password",
       passwordConfirmation: "Password Confirmation",
+      gender: "Gender",
     },
     button: "Register",
     existingAccount: {
       text: "Do you have an account?",
       link: "Login",
+    },
+    gender: {
+      man: "Man",
+      woman: "Woman",
     },
   },
 
@@ -128,6 +133,7 @@ export default {
     avatar: "Avatar",
     phone: "Phone Number",
     address: "Address",
+    gender: "Gender",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -679,6 +685,10 @@ export default {
           title: "Avatar",
           placeholder: "Avatar",
         },
+        gender: {
+          title: "Gender",
+          placeholder: "Gender",
+        },
         additionalInfo: {
           title: "Additional Info (JSON)",
           placeholder: "Additional Info (JSON)",
@@ -705,6 +715,10 @@ export default {
         address: {
           title: "Address",
           placeholder: "Address",
+        },
+        gender: {
+          title: "Gender",
+          placeholder: "Gender",
         },
         email: {
           title: "Email",
@@ -737,6 +751,7 @@ export default {
       username: "Username",
       phone: "Phone Number",
       address: "Address",
+      gender: "Gender",
       email: "Email",
       additionalInfo: "Additional Info",
       emailVerified: "Is Email Verified",
@@ -753,6 +768,10 @@ export default {
         title: "Success",
         text: "Roles has been set",
       },
+    },
+    gender: {
+      man: "Man",
+      woman: "Woman",
     },
   },
 

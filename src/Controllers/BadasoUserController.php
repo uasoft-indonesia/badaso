@@ -59,6 +59,7 @@ class BadasoUserController extends Controller
                 'avatar'    => 'nullable',
                 'phone'     => 'nullable',
                 'address'   => 'nullable',
+                'gender'    => 'nullable',
             ]);
 
             $user = User::find($request->id);
@@ -69,6 +70,7 @@ class BadasoUserController extends Controller
             $user->address = $request->address;
             $user->email = $request->email;
             $user->avatar = $request->avatar;
+            $user->gender = $request->gender;
             $user->additional_info = $request->additional_info;
             if ($request->password && $request->password != '') {
                 $user->password = Hash::make($request->password);
@@ -111,6 +113,7 @@ class BadasoUserController extends Controller
                 'avatar'    => 'nullable',
                 'phone'     => 'required|numeric|min:6',
                 'address'   => 'nullable',
+                'gender'   => 'required|string',
             ]);
 
             $user = new User();
@@ -120,6 +123,7 @@ class BadasoUserController extends Controller
             $user->address = $request->address;
             $user->email = $request->email;
             $user->avatar = $request->avatar;
+            $user->gender = $request->gender;
             $user->additional_info = $request->additional_info;
             $user->password = Hash::make($request->password);
             if ($request->email_verified) {

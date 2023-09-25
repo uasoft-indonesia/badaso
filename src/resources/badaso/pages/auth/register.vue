@@ -53,6 +53,28 @@
               ></span>
             </div>
           </div>
+         <vs-select
+              v-model="gender"
+              size="12"
+              :placeholder="$t('register.field.gender')"
+              :items="genderitems"
+              :alert="errors.gender"
+            > </vs-select>
+            <div v-if="errors.gender" class="register__error-container">
+            <div v-if="$helper.isArray(errors.gender)">
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.gender"
+                :key="index"
+              >
+                {{ info }}
+              </span>
+            </div>
+            <div v-else>
+              <span class="register__input--error" v-html="errors.phone"></span>
+            </div>
+          </div>
+
           <vs-input
             icon="phone"
             icon-after
@@ -176,19 +198,27 @@
 <script>
 export default {
   name: "AuthRegister",
-  data: () => ({
-    errors: {},
-    name: "",
-    username: "",
-    phone: "",
-    address:"",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-    baseUrl: import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
-      ? import.meta.env.VITE_ADMIN_PANEL_ROUTE_PREFIX
-      : "badaso-dashboard",
-  }),
+  data() {
+    return {
+        errors: {},
+        name: "",
+        username: "",
+        phone:"",
+        address:"",
+        gender:"",
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+        baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+            ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+            : "badaso-dashboard",
+
+        genderitems:[
+            { label: this.$t("register.gender.man"), value: "man" },
+            { label: this.$t("register.gender.woman"), value: "woman" },
+        ]
+    };
+  },
   methods: {
     register() {
       this.$openLoader();
@@ -201,6 +231,7 @@ export default {
           password: this.password,
           passwordConfirmation: this.passwordConfirmation,
           address:this.address,
+          gender: this.gender,
         })
         .then((response) => {
           this.$closeLoader();
