@@ -133,6 +133,34 @@
             v-model="passwordConfirmation"
             class="register__input"
           />
+            <vs-input
+            icon="place"
+            icon-after
+            size="default"
+            :placeholder="$t('register.field.address')"
+            v-model="address"
+            class="register__input"
+          />
+          <div v-if="errors.address" class="register__error-container">
+            <div v-if="$helper.isArray(errors.address)">
+              <span
+                class="register__input--error"
+                v-for="(info, index) in errors.address"
+                :key="index"
+              >
+                {{ info }}
+              </span>
+            </div>
+            <div v-else>
+              <span class="register__input--error" v-html="errors.address"></span>
+            </div>
+          </div>
+          <badaso-select
+              v-model="gender"
+              :placeholder="$t('register.field.gender')"
+              :items="genderitems"
+              :alert="errors.gender"
+           ></badaso-select>
           <vs-button
             type="relief"
             class="register__button"
@@ -155,18 +183,26 @@
 <script>
 export default {
   name: "AuthRegister",
-  data: () => ({
-    errors: {},
-    name: "",
-    username: "",
-    phone:"",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-    baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
-      : "badaso-dashboard",
-  }),
+  data() {
+    return {
+        errors: {},
+        name: "",
+        username: "",
+        phone:"",
+        address:"",
+        gender:"",
+        email: "",
+        password: "",
+        passwordConfirmation: "",
+        baseUrl: process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+            ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
+            : "badaso-dashboard",
+        genderitems: [
+            { label: this.$t("user.gender.man"), value: "man" },
+            { label: this.$t("user.gender.woman"), value: "woman" },
+        ],
+    };
+  },
   methods: {
     register() {
       this.$openLoader();
@@ -175,9 +211,11 @@ export default {
           name: this.name,
           username: this.username,
           phone:this.phone,
+          address:this.address,
           email: this.email,
           password: this.password,
           passwordConfirmation: this.passwordConfirmation,
+          gender: this.gender,
         })
         .then((response) => {
           this.$closeLoader();

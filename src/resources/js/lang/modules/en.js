@@ -40,15 +40,21 @@ export default {
     field: {
       name: "Name",
       username: "Username",
-      phone:"Phone",
+      phone: "Phone",
+      address: "Address",
       email: "Email",
       password: "Password",
       passwordConfirmation: "Password Confirmation",
+      gender: "Gender",
     },
     button: "Register",
     existingAccount: {
       text: "Do you have an account?",
       link: "Login",
+    },
+    gender: {
+      man: "Man",
+      woman: "Woman",
     },
   },
 
@@ -125,6 +131,9 @@ export default {
     newPasswordConfirmation: "New Password Confirmation",
     name: "Name",
     avatar: "Avatar",
+    phone: "Phone Number",
+    address: "Address",
+    gender: "Gender",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -251,7 +260,7 @@ export default {
     edit: {
       multiple: "Update Configurations",
     },
-    maintenanceMode: "Maintenance setting is readonly."
+    maintenanceMode: "Maintenance setting is readonly.",
   },
 
   crud: {
@@ -666,6 +675,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "Phone Number",
+          placeholder: "Phone Number",
+        },
+        address: {
+          title: "Address",
+          placeholder: "Address",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -681,6 +698,10 @@ export default {
         avatar: {
           title: "Avatar",
           placeholder: "Avatar",
+        },
+        gender: {
+          title: "Gender",
+          placeholder: "Gender",
         },
         additionalInfo: {
           title: "Additional Info (JSON)",
@@ -701,6 +722,14 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "Phone Number",
+          placeholder: "Phone Number",
+        },
+        address: {
+          title: "Address",
+          placeholder: "Address",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -717,6 +746,10 @@ export default {
           title: "Avatar",
           placeholder: "New Avatar",
         },
+        gender: {
+          title: "Gender",
+          placeholder: "Gender",
+        },
         additionalInfo: {
           title: "Additional Info (JSON)",
           placeholder: "Additional Info (JSON)",
@@ -730,7 +763,10 @@ export default {
       avatar: "Avatar",
       name: "Name",
       username: "Username",
+      phone: "Phone Number",
+      address: "Address",
       email: "Email",
+      gender: "Gender",
       additionalInfo: "Additional Info",
       emailVerified: "Is Email Verified",
     },
@@ -746,6 +782,10 @@ export default {
         title: "Success",
         text: "Roles has been set",
       },
+    },
+    gender: {
+      man: "Man",
+      woman: "Woman",
     },
   },
 
@@ -850,7 +890,7 @@ export default {
       isPublic: "Is Public",
       action: "Action",
       rolesCanSeeAllData: "Roles Can See All Data",
-      fieldIdentifyRelatedUser: "Field Identify Related User"
+      fieldIdentifyRelatedUser: "Field Identify Related User",
     },
     footer: {
       descriptionTitle: "Registries",
@@ -901,7 +941,7 @@ export default {
         fieldIdentifyRelatedUser: {
           title: "Column for identify user related data",
           placeholder: "Column for identify user related data",
-        }
+        },
       },
       button: "Save",
     },
@@ -922,7 +962,7 @@ export default {
       },
       button: "Edit",
       rolesCanSeeAllData: "Roles Can See All Data",
-      fieldIdentifyRelatedUser: "Field Identify Related User"
+      fieldIdentifyRelatedUser: "Field Identify Related User",
     },
   },
 
