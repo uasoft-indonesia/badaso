@@ -13,8 +13,8 @@ class AddGenderToBadasoUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
-            $table->enum('gender', ['man', 'woman'])->nullable()->after('additional_info');;
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
+            $table->enum('gender', ['man', 'woman'])->nullable()->after('additional_info');
         });
     }
 
@@ -25,7 +25,7 @@ class AddGenderToBadasoUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table(config('badaso.database.prefix') . 'users', function (Blueprint $table) {
+        Schema::table(config('badaso.database.prefix').'users', function (Blueprint $table) {
             $table->dropColumn('gender');
         });
     }
