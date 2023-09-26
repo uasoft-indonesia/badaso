@@ -149,9 +149,6 @@
 export default {
   name: "UserProfile",
   components: {},
-  data: () => ({
-
-  }),
   data() {
     return{
         errors: {},
