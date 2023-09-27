@@ -165,7 +165,7 @@ class BadasoAuthController extends Controller
                 'phone'    => 'required|numeric|min:6',
                 'email'    => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
                 'password' => 'required|string|min:6|confirmed',
-                'address' => 'nullable',
+                'address' => 'required|string|max:255',
                 'gender'   => 'required|string',
             ]);
 
