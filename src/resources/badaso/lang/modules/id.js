@@ -40,7 +40,9 @@ export default {
     field: {
       name: "Nama",
       username: "Username",
-      phone: "Phone",
+      phone: "No Telp/Hp",
+      address: "Alamat",
+      gender: "Jenis Kelamin",
       email: "Email",
       password: "Kata sandi",
       passwordConfirmation: "Konfirmasi kata sandi",
@@ -49,6 +51,10 @@ export default {
     existingAccount: {
       text: "Sudah mempunyai akun?",
       link: "Masuk",
+    },
+    gender: {
+      man: "Laki-laki",
+      women: "Perempuan",
     },
   },
 
@@ -125,6 +131,9 @@ export default {
     newPasswordConfirmation: "New Password Confirmation",
     name: "Name",
     avatar: "Avatar",
+    phone: "No Telp/Hp",
+    address: "Alamat",
+    gender: "Jenis Kelamin",
     additionalInfo: "Additional info(optional)",
     token: "Verification Code",
     buttons: {
@@ -648,6 +657,18 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "No Telp/Hp",
+          placeholder: "No Telp/Hp",
+        },
+        address: {
+          title: "Alamat",
+          placeholder: "Alamat",
+        },
+        gender: {
+          title: "Jenis Kelamin",
+          placeholder: "Jenis Kelamin",
+        },
         password: {
           title: "Kata sandi",
           placeholder: "Kata sandi",
@@ -679,6 +700,18 @@ export default {
           title: "Username",
           placeholder: "Username",
         },
+        phone: {
+          title: "No Telp/Hp",
+          placeholder: "No Telp/Hp",
+        },
+        address: {
+          title: "Alamat",
+          placeholder: "Alamat",
+        },
+        gender: {
+          title: "Jenis Kelamin",
+          placeholder: "Jenis Kelamin",
+        },
         email: {
           title: "Email",
           placeholder: "Email",
@@ -708,7 +741,10 @@ export default {
       avatar: "Avatar",
       name: "Nama",
       username: "Username",
+      phone: "No Telp/Hp",
+      address: "Alamat",
       email: "Email",
+      gender: "Jenis Kelamin",
       additionalInfo: "Info Tambahan",
       emailVerified: "Email Diverifikasi",
     },
@@ -724,6 +760,10 @@ export default {
         title: "Success",
         text: "Wewenang telah ditetapkan",
       },
+    },
+    gender: {
+      man: "Laki-laki",
+      women: "Perempuan",
     },
   },
 

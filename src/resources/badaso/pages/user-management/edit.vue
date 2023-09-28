@@ -46,6 +46,21 @@
               offLabel="No"
               :tooltip="$t('user.help.emailVerified')"
             ></badaso-switch>
+            <badaso-text
+              v-model="user.phone"
+              size="6"
+              :label="$t('user.edit.field.phone.title')"
+              :placeholder="$t('user.edit.field.phone.placeholder')"
+              :alert="errors.phone"
+            ></badaso-text>
+            <badaso-select
+              v-model="user.gender"
+              size="6"
+              :label="$t('user.edit.field.gender.title')"
+              :placeholder="$t('user.edit.field.gender.placeholder')"
+              :items="gender"
+              :alert="errors.gender"
+            ></badaso-select>
             <badaso-upload-image
               v-model="user.avatar"
               size="12"
@@ -53,6 +68,13 @@
               :placeholder="$t('user.edit.field.avatar.placeholder')"
               :alert="errors.avatar"
             ></badaso-upload-image>
+            <badaso-textarea
+               v-model="user.address"
+               size="12"
+              :label="$t('user.edit.field.address.title')"
+              :placeholder="$t('user.edit.field.address.placeholder')"
+              :alert="errors.address"
+            ></badaso-textarea>
             <vs-col vs-lg="12">
               <badaso-code-editor
                 v-model="user.additionalInfo"
@@ -84,18 +106,27 @@
 export default {
   name: "UserManagementEdit",
   components: {},
-  data: () => ({
-    errors: {},
+  data() {
+    return {
+         errors: {},
     user: {
       email: "",
       name: "",
       username: "",
+      phone: "",
+      address: "",
       avatar: "",
       password: "",
       emailVerified: false,
       additionalInfo: "",
+      gender:"",
     },
-  }),
+    gender: [
+        { label: this.$t("user.gender.man"), value: "man" },
+        { label: this.$t("user.gender.woman"), value: "woman" },
+    ],
+    };
+  },
   computed: {
     loggedInUser: {
       get() {
@@ -140,10 +171,13 @@ export default {
           email: this.user.email,
           name: this.user.name,
           username: this.user.username,
+          phone: this.user.phone,
+          address: this.user.address,
           avatar: this.user.avatar ? this.user.avatar.base64 : null,
           password: this.user.password,
           emailVerified: this.user.emailVerified,
           additionalInfo: JSON.stringify(this.user.additionalInfo),
+          gender: this.user.gender,
         })
         .then((response) => {
           if (this.loggedInUser.id == this.user.id) {

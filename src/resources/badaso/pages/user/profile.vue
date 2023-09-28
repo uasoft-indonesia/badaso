@@ -21,6 +21,21 @@
                   :placeholder="$t('myProfile.username')"
                   :alert="errors.username"
                 ></badaso-text>
+                <badaso-select
+                v-model="user.gender"
+                size="12"
+                :label="$t('myProfile.gender')"
+                :placeholder="$t('myProfile.gender')"
+                :items="gender"
+                :alert="errors.gender"
+                ></badaso-select>
+                 <badaso-text
+                  v-model="user.phone"
+                  size="12"
+                  :label="$t('myProfile.phone')"
+                  :placeholder="$t('myProfile.phone')"
+                  :alert="errors.phone"
+                ></badaso-text>
                 <badaso-upload-image
                   v-model="user.avatar"
                   size="12"
@@ -28,6 +43,13 @@
                   :placeholder="$t('myProfile.avatar')"
                   :alert="errors.avatar"
                 ></badaso-upload-image>
+                <badaso-textarea
+                  v-model="user.address"
+                  size="12"
+                  :label="$t('myProfile.address')"
+                  :placeholder="$t('myProfile.address')"
+                  :alert="errors.address"
+                ></badaso-textarea>
                 <vs-col vs-lg="12">
                   <badaso-code-editor
                     v-model="user.additionalInfo"
@@ -127,21 +149,30 @@
 export default {
   name: "UserProfile",
   components: {},
-  data: () => ({
-    errors: {},
-    user: {
-      email: "",
-      name: "",
-      username: "",
-      avatar: "",
-      additionalInfo: "",
-      oldPassword: "",
-      newPassword: "",
-      newPasswordConfirmation: "",
-    },
-    token: "",
-    shouldVerifyEmail: false,
-  }),
+ data() {
+    return{
+        errors: {},
+        user: {
+        email: "",
+        name: "",
+        username: "",
+        avatar: "",
+        phone:"",
+        address:"",
+        additionalInfo: "",
+        oldPassword: "",
+        newPassword: "",
+        newPasswordConfirmation: "",
+        gender:"",
+        },
+        token: "",
+        shouldVerifyEmail: false,
+        gender: [
+            { label: this.$t("user.gender.man"), value: "man" },
+            { label: this.$t("user.gender.woman"), value: "woman" },
+        ],
+    };
+  },
   mounted() {
     this.getUser();
   },
@@ -182,7 +213,10 @@ export default {
         .updateProfile({
           name: this.user.name,
           username: this.user.username,
+          phone: this.user.phone,
+          address: this.user.address,
           avatar: this.user.avatar,
+          gender: this.user.gender,
           additionalInfo:
             this.user.additionalInfo !== ""
               ? JSON.stringify(this.user.additionalInfo)
