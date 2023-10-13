@@ -27,7 +27,12 @@ class ConfigurationRedis
         $result = [];
         try {
             $configuration_from_redis = Redis::get(self::$badaso_configuration_redis_key);
-            $result = unserialize($configuration_from_redis);
+            if ($configuration_from_redis) {
+                $result = unserialize($configuration_from_redis);
+            } else {
+                $result = Configuration::all();
+                self::save();
+            }
         } catch (\Exception $th) {
             $result = Configuration::all();
         }
