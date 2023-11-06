@@ -6,7 +6,7 @@
         <span style="color: red"
           >({{ $t("site.maintenanceMode") }}
           <a
-            href="https://badaso-docs.uatech.co.id/getting-started/configuration"
+            href="https://badaso-docs.uatech.co.id/getting-started/configuration#maintenance"
             >{{ $t("database.browse.fieldNotSupport.button.visitDocs") }}</a
           >)</span
         >
