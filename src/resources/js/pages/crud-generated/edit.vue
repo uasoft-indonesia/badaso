@@ -26,7 +26,6 @@
                 <template v-if="dataRow.edit && dataRow.type !== 'hidden'">
                   <!-- <input type="text" v-model="dataRow.value"> -->
                   <!-- <vs-input type="text" v-model="dataRow.value"></vs-input> -->
-
                   <badaso-text
                     v-if="dataRow.type == 'text'"
                     :label="dataRow.displayName"
@@ -503,16 +502,7 @@ export default {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
               );
-            } else if (data.type == "datetime" || data.type == "date") {
-              var dateValue = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
-              ]
-                ? this.record[
-                    this.$caseConvert.stringSnakeToCamel(data.field)
-                  ].replace(" ", "T")
-                : null;
-              data.value = new Date(dateValue);
-            } else if (data.value == undefined && data.type == "hidden") {
+            }else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
             } else if (
               data.type == "text" ||
@@ -526,7 +516,25 @@ export default {
               ]
                 ? this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
                 : "";
-            } else if (
+            }
+            else if(data.type == "datetime"){
+                data.value = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+                  ].replace(" ", "T")
+                : null;
+            }else if(data.type == "date"){
+                var val = this.record[
+                this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+                  ].replace(" ", "T")
+                : null;
+                data.value = val !== null ? new Date(val) : val;
+            }else if(
               data.type == "relation" &&
               data.relation.relationType == "belongs_to_many"
             ) {
