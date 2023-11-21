@@ -501,15 +501,23 @@ export default {
               data.value = parseInt(
                 this.record[this.$caseConvert.stringSnakeToCamel(data.field)]
               );
-            } else if (data.type == "datetime" || data.type == "date") {
-              const dateValue = this.record[
-                this.$caseConvert.stringSnakeToCamel(data.field)
+            } else if(data.type == "datetime"){
+                data.value = this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
               ]
                 ? this.record[
                     this.$caseConvert.stringSnakeToCamel(data.field)
                   ].replace(" ", "T")
                 : null;
-              data.value = new Date(dateValue);
+            } else if(data.type == "date"){
+                var val = this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+              ]
+                ? this.record[
+                    this.$caseConvert.stringSnakeToCamel(data.field)
+                  ].replace(" ", "T")
+                : null;
+                data.value = val !== null ? new Date(val) : val;
             } else if (data.value == undefined && data.type == "hidden") {
               data.value = data.details.value ? data.details.value : "";
             } else if (
