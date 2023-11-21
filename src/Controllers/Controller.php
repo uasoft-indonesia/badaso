@@ -130,27 +130,27 @@ abstract class Controller extends BaseController
                 $return_value = $value;
                 break;
             case 'time':
-                if ($value == null){
+                if ($value == null) {
                     $return_value = $value;
-                }else{
+                } else {
                     $z_removed = explode('.', $value)[0];
                     $time = explode('T', $z_removed)[1];
                     $return_value = $time;
                 }
                 break;
             case 'date':
-                if($value == null){
+                if ($value == null) {
                     $return_value = $value;
-                }else{
+                } else {
                     $z_removed = explode('.', $value)[0];
                     $date = explode('T', $z_removed)[0];
                     $return_value = $date;
                 }
                 break;
             case 'datetime':
-                if($value == null){
+                if ($value == null) {
                     $return_value = $value;
-                }else{
+                } else {
                     $z_removed = explode('.', $value)[0];
                     $date_time = str_replace('T', ' ', $z_removed);
                     $return_value = $date_time;
@@ -578,7 +578,7 @@ abstract class Controller extends BaseController
                     }
 
                     if (in_array($data_row->type, [
-                        'number','datetime','date','time'
+                        'number', 'datetime', 'date', 'time',
                     ])) {
                         $new_data[$key] = $this->getContentByType($data_type, $data_row, $value) !== null ? $this->getContentByType($data_type, $data_row, $value) : null;
                     } else {
