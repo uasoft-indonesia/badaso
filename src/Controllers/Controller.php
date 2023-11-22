@@ -130,19 +130,31 @@ abstract class Controller extends BaseController
                 $return_value = $value;
                 break;
             case 'time':
-                $z_removed = explode('.', $value)[0];
-                $time = explode('T', $z_removed)[1];
-                $return_value = $time;
+                if ($value == null) {
+                    $return_value = $value;
+                } else {
+                    $z_removed = explode('.', $value)[0];
+                    $time = explode('T', $z_removed)[1];
+                    $return_value = $time;
+                }
                 break;
             case 'date':
-                $z_removed = explode('.', $value)[0];
-                $date = explode('T', $z_removed)[0];
-                $return_value = $date;
+                if ($value == null) {
+                    $return_value = $value;
+                } else {
+                    $z_removed = explode('.', $value)[0];
+                    $date = explode('T', $z_removed)[0];
+                    $return_value = $date;
+                }
                 break;
             case 'datetime':
-                $z_removed = explode('.', $value)[0];
-                $date_time = str_replace('T', ' ', $z_removed);
-                $return_value = $date_time;
+                if ($value == null) {
+                    $return_value = $value;
+                } else {
+                    $z_removed = explode('.', $value)[0];
+                    $date_time = str_replace('T', ' ', $z_removed);
+                    $return_value = $date_time;
+                }
                 break;
             case 'select':
                 $return_value = $value;
@@ -373,7 +385,6 @@ abstract class Controller extends BaseController
                     }
                 }
             }
-
             $id = DB::table($data_type->name)->insertGetId($new_data);
             $model = DB::table($data_type->name)->where('id', $id)->first();
             foreach ($data as $key => $value) {
@@ -567,7 +578,7 @@ abstract class Controller extends BaseController
                     }
 
                     if (in_array($data_row->type, [
-                        'number',
+                        'number', 'datetime', 'date', 'time',
                     ])) {
                         $new_data[$key] = $this->getContentByType($data_type, $data_row, $value) !== null ? $this->getContentByType($data_type, $data_row, $value) : null;
                     } else {
