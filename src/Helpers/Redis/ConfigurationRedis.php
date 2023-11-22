@@ -36,6 +36,7 @@ class ConfigurationRedis
             $result = Configuration::all();
             self::save($result);
         }
+
         return $result;
     }
 }
