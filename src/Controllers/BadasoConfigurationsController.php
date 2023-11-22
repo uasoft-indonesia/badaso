@@ -175,7 +175,7 @@ class BadasoConfigurationsController extends Controller
             }
 
             // save configurations to redis
-            ConfigurationRedis::save();
+            ConfigurationRedis::save(Configuration::all());
 
             DB::commit();
             activity('Configurations')
