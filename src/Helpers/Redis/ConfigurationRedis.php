@@ -11,9 +11,8 @@ class ConfigurationRedis
     public static $badaso_configuration_redis_key = 'badaso_configuration_redis_key';
 
     // save data configuration to redis
-    public static function save()
+    public static function save($model_configurations)
     {
-        $model_configurations = Configuration::all();
         try {
             Redis::set(self::$badaso_configuration_redis_key, serialize($model_configurations));
         } catch (\Exception $th) {
@@ -27,9 +26,15 @@ class ConfigurationRedis
         $result = [];
         try {
             $configuration_from_redis = Redis::get(self::$badaso_configuration_redis_key);
-            $result = unserialize($configuration_from_redis);
+            if ($configuration_from_redis) {
+                $result = unserialize($configuration_from_redis);
+            } else {
+                $result = Configuration::all();
+                self::save($result);
+            }
         } catch (\Exception $th) {
             $result = Configuration::all();
+            self::save($result);
         }
 
         return $result;
