@@ -50,13 +50,13 @@ class BadasoPermissionController extends Controller
                     'required',
                     'exists:Uasoft\Badaso\Models\Permission,id',
                 ],
-                'key'          => "required|unique:Uasoft\Badaso\Models\Permission,key,{$request->id}",
-                'description'  => 'nullable',
+                'key' => "required|unique:Uasoft\Badaso\Models\Permission,key,{$request->id}",
+                'description' => 'nullable',
                 'always_allow' => 'required',
-                'is_public'    => 'required',
-                'table_name'   => 'nullable',
-                'roles_can_see_all_data'   => 'nullable',
-                'field_identify_related_user'   => 'nullable',
+                'is_public' => 'required',
+                'table_name' => 'nullable',
+                'roles_can_see_all_data' => 'nullable',
+                'field_identify_related_user' => 'nullable',
             ]);
 
             $permission = Permission::find($request->id);
@@ -96,10 +96,10 @@ class BadasoPermissionController extends Controller
 
         try {
             $request->validate([
-                'key'          => 'required|unique:Uasoft\Badaso\Models\Permission',
-                'description'  => 'nullable',
+                'key' => 'required|unique:Uasoft\Badaso\Models\Permission',
+                'description' => 'nullable',
                 'always_allow' => 'required',
-                'is_public'    => 'required',
+                'is_public' => 'required',
             ]);
 
             $permission = new Permission();
