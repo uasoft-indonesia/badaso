@@ -49,12 +49,12 @@ abstract class ForeignKey
     public static function toArray(DoctrineForeignKey $fk)
     {
         return [
-            'name'            => $fk->getName(),
-            'local_table'     => $fk->getLocalTableName(),
-            'local_columns'   => $fk->getLocalColumns(),
-            'foreign_table'   => $fk->getForeignTableName(),
+            'name' => $fk->getName(),
+            'local_table' => $fk->getLocalTableName(),
+            'local_columns' => $fk->getLocalColumns(),
+            'foreign_table' => $fk->getForeignTableName(),
             'foreign_columns' => $fk->getForeignColumns(),
-            'options'         => $fk->getOptions(),
+            'options' => $fk->getOptions(),
         ];
     }
 }

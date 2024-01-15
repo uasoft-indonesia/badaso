@@ -98,13 +98,13 @@ class Table extends DoctrineTable
     public function toArray()
     {
         return [
-            'name'            => $this->_name,
-            'oldName'         => $this->_name,
-            'columns'         => $this->exportColumnsToArray(),
-            'indexes'         => $this->exportIndexesToArray(),
-            'primaryKeyName'  => $this->_primaryKeyName,
-            'foreign_keys'    => $this->exportForeignKeysToArray(),
-            'options'         => $this->_options,
+            'name' => $this->_name,
+            'oldName' => $this->_name,
+            'columns' => $this->exportColumnsToArray(),
+            'indexes' => $this->exportIndexesToArray(),
+            'primaryKeyName' => $this->_primaryKeyName,
+            'foreign_keys' => $this->exportForeignKeysToArray(),
+            'options' => $this->_options,
         ];
     }
 
