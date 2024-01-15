@@ -60,15 +60,15 @@ abstract class Index
         $columns = $index->getColumns();
 
         return [
-            'name'         => $name,
-            'oldName'      => $name,
-            'columns'      => $columns,
-            'type'         => static::getType($index),
-            'is_primary'   => $index->isPrimary(),
-            'is_unique'    => $index->isUnique(),
-            'isComposite'  => count($columns) > 1,
-            'flags'        => $index->getFlags(),
-            'options'      => $index->getOptions(),
+            'name' => $name,
+            'oldName' => $name,
+            'columns' => $columns,
+            'type' => static::getType($index),
+            'is_primary' => $index->isPrimary(),
+            'is_unique' => $index->isUnique(),
+            'isComposite' => count($columns) > 1,
+            'flags' => $index->getFlags(),
+            'options' => $index->getOptions(),
         ];
     }
 

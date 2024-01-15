@@ -83,14 +83,14 @@ class BadasoApiMenuItemTest extends TestCase
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
             $request_data = [
-                'menuId' =>  $menu->id,
-                'title' =>  Str::random(10),
-                'url' =>  Str::random(10),
-                'target' =>  '_self',
-                'iconClass' =>  'add',
-                'color' =>  '#FFFFFF',
-                'parentId' =>  null,
-                'order' =>  null,
+                'menuId' => $menu->id,
+                'title' => Str::random(10),
+                'url' => Str::random(10),
+                'target' => '_self',
+                'iconClass' => 'add',
+                'color' => '#FFFFFF',
+                'parentId' => null,
+                'order' => null,
             ];
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/menus/item/add'), $request_data);
             $response->assertSuccessful();
@@ -125,12 +125,12 @@ class BadasoApiMenuItemTest extends TestCase
         foreach ($data_created_menu_items as $key => ['menu_id' => $menu_id, 'menu_item_id' => $menu_item_id]) {
             $request_data = [
                 'menuItemId' => $menu_item_id,
-                'menuId' =>  $menu_id,
-                'title' =>  Str::random(10),
-                'url' =>  '/'.Str::random(10),
-                'target' =>  '_self',
-                'iconClass' =>  'add',
-                'color' =>  '#OOOOOO',
+                'menuId' => $menu_id,
+                'title' => Str::random(10),
+                'url' => '/'.Str::random(10),
+                'target' => '_self',
+                'iconClass' => 'add',
+                'color' => '#OOOOOO',
             ];
 
             $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/item/edit'), $request_data);
@@ -207,8 +207,8 @@ class BadasoApiMenuItemTest extends TestCase
         $data_created_menu_items = CallHelperTest::getCache(self::$KEY_DATA_CREATED_MENU_ITEMS);
         foreach ($data_created_menu_items as $key => ['menu_id' => $menu_id, 'menu_item_id' => $menu_item_id]) {
             $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/menus/item/delete'), [
-                'menuId' =>  $menu_id,
-                'menuItemId' =>  $menu_item_id,
+                'menuId' => $menu_id,
+                'menuItemId' => $menu_item_id,
             ]);
             $response->assertSuccessful();
 
@@ -231,12 +231,12 @@ class BadasoApiMenuItemTest extends TestCase
 
             $menu_id = $menu->id;
             $create_data = [
-                'menu_id' =>  $menu_id,
-                'title' =>  Str::random(10),
-                'url' =>  Str::random(10),
-                'target' =>  '_self',
-                'icon_class' =>  'add',
-                'color' =>  '#FFFFFF',
+                'menu_id' => $menu_id,
+                'title' => Str::random(10),
+                'url' => Str::random(10),
+                'target' => '_self',
+                'icon_class' => 'add',
+                'color' => '#FFFFFF',
                 'order' => 1,
                 'permissions' => $permissions,
             ];
@@ -280,12 +280,12 @@ class BadasoApiMenuItemTest extends TestCase
 
             $menu_id = $menu->id;
             $create_data = [
-                'menu_id' =>  $menu_id,
-                'title' =>  Str::random(10),
-                'url' =>  Str::random(10),
-                'target' =>  '_self',
-                'icon_class' =>  'add',
-                'color' =>  '#FFFFFF',
+                'menu_id' => $menu_id,
+                'title' => Str::random(10),
+                'url' => Str::random(10),
+                'target' => '_self',
+                'icon_class' => 'add',
+                'color' => '#FFFFFF',
                 'order' => 1,
                 'permissions' => null,
             ];
