@@ -30,7 +30,7 @@
     "darkaonline/l5-swagger": "8.5",
     "symfony/var-exporter": "5.4.21",
     "phpstan/phpstan": "1.10.15",
-    "spatie/laravel-backup": "7.8",
+    "spatie/laravel-backup": "8.0.0",
     "unisharp/laravel-filemanager": "2.6",
     "spatie/laravel-activitylog": "4.7.1",
     "php-open-source-saver/jwt-auth": "2.1.0",
