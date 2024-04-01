@@ -17,14 +17,14 @@ class BadasoFirebaseConfigController extends Controller
     {
         try {
             $request->validate([
-                'apiKey'            => ['required'],
-                'authDomain'        => ['required'],
-                'projectId'         => ['required'],
-                'storageBucket'     => ['required'],
+                'apiKey' => ['required'],
+                'authDomain' => ['required'],
+                'projectId' => ['required'],
+                'storageBucket' => ['required'],
                 'messagingSenderId' => ['required'],
-                'appId'             => ['required'],
-                'measureId'         => ['required'],
-                'serverKey'         => ['required'],
+                'appId' => ['required'],
+                'measureId' => ['required'],
+                'serverKey' => ['required'],
             ]);
 
             $firebaseService = FirebaseServices::first()->updateOrCreate([]);

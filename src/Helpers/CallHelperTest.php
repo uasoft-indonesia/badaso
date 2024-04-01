@@ -79,7 +79,7 @@ class CallHelperTest
     {
         $user = self::getUserAdminRole();
         $response = $test_case->json('POST', CallHelperTest::getUrlApiV1Prefix('/auth/login'), [
-            'email' =>  $user->email,
+            'email' => $user->email,
             'password' => $user->name,
             'remember' => false,
         ]);

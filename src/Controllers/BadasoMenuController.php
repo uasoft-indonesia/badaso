@@ -129,7 +129,7 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
 
@@ -281,7 +281,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'key'          => ['required', 'unique:Uasoft\Badaso\Models\Menu'],
+                'key' => ['required', 'unique:Uasoft\Badaso\Models\Menu'],
                 'display_name' => ['required'],
             ]);
 
@@ -314,9 +314,9 @@ class BadasoMenuController extends Controller
         try {
             $request->validate([
                 'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'title'   => ['required'],
-                'url'     => ['required'],
-                'target'  => ['required'],
+                'title' => ['required'],
+                'url' => ['required'],
+                'target' => ['required'],
             ]);
 
             $url = $request->get('url');
@@ -357,8 +357,8 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
-                'key'          => ['required', "unique:Uasoft\Badaso\Models\Menu,key,{$request->menu_id}"],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'key' => ['required', "unique:Uasoft\Badaso\Models\Menu,key,{$request->menu_id}"],
                 'display_name' => ['required'],
             ]);
 
@@ -396,11 +396,11 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
-                'title'        => ['required'],
-                'url'          => ['required'],
-                'target'       => ['required'],
+                'title' => ['required'],
+                'url' => ['required'],
+                'target' => ['required'],
             ]);
 
             $url = $request->get('url');
@@ -433,7 +433,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
             $menu_item = MenuItem::find($request->menu_item_id);
@@ -499,7 +499,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'    => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_items' => ['required'],
             ]);
 
@@ -565,7 +565,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
 
@@ -592,7 +592,7 @@ class BadasoMenuController extends Controller
     {
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
 
@@ -628,7 +628,7 @@ class BadasoMenuController extends Controller
 
         try {
             $request->validate([
-                'menu_id'      => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
+                'menu_id' => ['required', 'exists:Uasoft\Badaso\Models\Menu,id'],
                 'menu_item_id' => ['required', 'exists:Uasoft\Badaso\Models\MenuItem,id'],
             ]);
 
