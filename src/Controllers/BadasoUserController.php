@@ -52,14 +52,14 @@ class BadasoUserController extends Controller
 
         try {
             $request->validate([
-                'id'        => 'required|exists:Uasoft\Badaso\Models\User,id',
-                'email'     => "required|email|unique:Uasoft\Badaso\Models\User,email,{$request->id}",
-                'username'  => "required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username,{$request->id}",
-                'name'      => 'required',
-                'avatar'    => 'nullable',
-                'phone'     => 'nullable',
-                'address'   => 'nullable',
-                'gender'    => 'nullable',
+                'id' => 'required|exists:Uasoft\Badaso\Models\User,id',
+                'email' => "required|email|unique:Uasoft\Badaso\Models\User,email,{$request->id}",
+                'username' => "required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username,{$request->id}",
+                'name' => 'required',
+                'avatar' => 'nullable',
+                'phone' => 'nullable',
+                'address' => 'nullable',
+                'gender' => 'nullable',
             ]);
 
             $user = User::find($request->id);
@@ -107,13 +107,13 @@ class BadasoUserController extends Controller
 
         try {
             $request->validate([
-                'email'     => 'required|email|unique:Uasoft\Badaso\Models\User',
-                'name'      => 'required|string|max:255',
-                'username'  => 'required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username',
-                'avatar'    => 'nullable',
-                'phone'     => 'required|numeric|min:6',
-                'address'   => 'nullable',
-                'gender'   => 'required|string',
+                'email' => 'required|email|unique:Uasoft\Badaso\Models\User',
+                'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255|alpha_num|unique:Uasoft\Badaso\Models\User,username',
+                'avatar' => 'nullable',
+                'phone' => 'required|numeric|min:6',
+                'address' => 'nullable',
+                'gender' => 'required|string',
             ]);
 
             $user = new User();

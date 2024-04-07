@@ -44,10 +44,10 @@ class BadasoApiPermissionTest extends TestCase
     public function testAddPermission()
     {
         $request_data = [
-            'always_allow' =>  true,
-            'description' =>  Str::uuid(),
-            'is_public' =>  true,
-            'key' =>  Str::uuid(),
+            'always_allow' => true,
+            'description' => Str::uuid(),
+            'is_public' => true,
+            'key' => Str::uuid(),
         ];
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/permissions/add'), $request_data);
@@ -68,10 +68,10 @@ class BadasoApiPermissionTest extends TestCase
     {
         $permission_id = CallHelperTest::getCache(self::$KEY_PERMISSION_LAST_CREATED_ID);
         $request_data = [
-            'always_allow' =>  true,
-            'description' =>  Str::uuid(),
-            'is_public' =>  true,
-            'key' =>  Str::uuid(),
+            'always_allow' => true,
+            'description' => Str::uuid(),
+            'is_public' => true,
+            'key' => Str::uuid(),
             'id' => $permission_id,
         ];
 
@@ -106,10 +106,10 @@ class BadasoApiPermissionTest extends TestCase
         $ids = [];
         for ($i = 1; $i <= $maximal_count; $i++) {
             $request_data = [
-                'always_allow' =>  true,
-                'description' =>  Str::uuid(),
-                'is_public' =>  true,
-                'key' =>  Str::uuid(),
+                'always_allow' => true,
+                'description' => Str::uuid(),
+                'is_public' => true,
+                'key' => Str::uuid(),
             ];
 
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/permissions/add'), $request_data);

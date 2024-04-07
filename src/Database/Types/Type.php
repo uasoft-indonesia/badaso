@@ -159,7 +159,7 @@ abstract class Type extends DoctrineType
         }
 
         static::$custom_type_options[] = [
-            'name'  => $name,
+            'name' => $name,
             'value' => $value,
             'types' => $types,
         ];
@@ -191,7 +191,7 @@ abstract class Type extends DoctrineType
         ], 'time');
         static::registerCustomOption('default', [
             'type' => 'number',
-            'min'  => '0',
+            'min' => '0',
         ], 'year');
     }
 
@@ -318,14 +318,14 @@ abstract class Type extends DoctrineType
         ];
 
         static::$type_categories = [
-            'numbers'  => $numbers,
-            'strings'  => $strings,
+            'numbers' => $numbers,
+            'strings' => $strings,
             'datetime' => $datetime,
-            'lists'    => $lists,
-            'binary'   => $binary,
-            'network'  => $network,
+            'lists' => $lists,
+            'binary' => $binary,
+            'network' => $network,
             'geometry' => $geometry,
-            'objects'  => $objects,
+            'objects' => $objects,
         ];
 
         return static::$type_categories;
