@@ -11,5 +11,5 @@ return [
     '403' => "You don't have permission to access",
     '500' => 'An error occurred in the system',
     '502' => '',
-    '503' => 'Service Unavailable',
+    '503' => 'Service Unavailable or Maintenance',
 ];
