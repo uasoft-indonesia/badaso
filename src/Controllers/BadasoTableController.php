@@ -47,11 +47,10 @@ class BadasoTableController extends Controller
             $request->validate([
                 'table' => 'required',
             ]);
-
             $table = $request->table;
             $table_fields = SchemaManager::describeTable($table);
+
             // $table_fields = Schema::getIndexes($table);
-            // dd($table_fields);
             $fields = [];
             foreach ($table_fields as $key => $column) {
                 $column = collect($column)->toArray();

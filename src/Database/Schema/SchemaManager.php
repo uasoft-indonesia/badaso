@@ -20,7 +20,7 @@ abstract class SchemaManager
     public static function manager()
     {
         // return Schema::connection();
-        // return DB::connection()->getDoctrineSchemaManager();
+        return DB::connection()->getDoctrineSchemaManager();
     }
 
     public static function getDatabaseConnection()
@@ -76,7 +76,7 @@ abstract class SchemaManager
      */
     public static function describeTable($table_name)
     {
-        Type::registerCustomPlatformTypes();
+        // Type::registerCustomPlatformTypes();
 
         $table = static::listTableDetails($table_name);
 
