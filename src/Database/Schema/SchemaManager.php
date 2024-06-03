@@ -6,6 +6,7 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table as DoctrineTable;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Database\Types\Type;
+use Illuminate\Support\Facades\Schema;
 
 abstract class SchemaManager
 {
@@ -18,7 +19,8 @@ abstract class SchemaManager
 
     public static function manager()
     {
-        return DB::connection()->getDoctrineSchemaManager();
+        // return Schema::connection();
+        // return DB::connection()->getDoctrineSchemaManager();
     }
 
     public static function getDatabaseConnection()
@@ -52,14 +54,16 @@ abstract class SchemaManager
      */
     public static function listTableDetails($table_name)
     {
-        $columns = static::manager()->listTableColumns($table_name);
+        // $columns = static::manager()->listTableColumns($table_name);
+        $columns = Schema::getColumns($table_name);
 
         $foreign_keys = [];
-        if (static::manager()->getDatabasePlatform()->supportsForeignKeyConstraints()) {
-            $foreign_keys = static::manager()->listTableForeignKeys($table_name);
-        }
+        // if (static::manager()->getDatabasePlatform()->supportsForeignKeyConstraints()) {
+        //     $foreign_keys = Schema::getForeignKeys($table_name);
+        // }
+        $foreign_keys = Schema::getForeignKeys($table_name);
 
-        $indexes = static::manager()->listTableIndexes($table_name);
+        $indexes = Schema::getIndexes($table_name);
 
         return new Table($table_name, $columns, $indexes, $foreign_keys, false, []);
     }

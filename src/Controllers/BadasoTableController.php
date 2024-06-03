@@ -22,12 +22,13 @@ class BadasoTableController extends Controller
     public function browse(Request $request)
     {
         try {
-            $tables = SchemaManager::listTables();
+            // $tables = SchemaManager::listTables();
+            $tables = Schema::getTables();
             $custom_list = [];
             foreach ($tables as $key => $value) {
                 $table = [];
-                $table['value'] = $key;
-                $table['label'] = ucfirst(str_replace('_', ' ', $key));
+                $table['value'] = $value["name"];
+                $table['label'] = ucfirst(str_replace('_', ' ', $value["name"]));
 
                 $custom_list[] = $table;
             }
@@ -49,6 +50,8 @@ class BadasoTableController extends Controller
 
             $table = $request->table;
             $table_fields = SchemaManager::describeTable($table);
+            // $table_fields = Schema::getIndexes($table);
+            // dd($table_fields);
             $fields = [];
             foreach ($table_fields as $key => $column) {
                 $column = collect($column)->toArray();
