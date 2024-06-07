@@ -2,10 +2,10 @@
 
 namespace Uasoft\Badaso\Database\Types;
 
-use Doctrine\DBAL\Platforms\AbstractPlatform as DoctrineAbstractPlatform;
-use Doctrine\DBAL\Types\Type as DoctrineType;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Database\Platforms\Platform;
-use Uasoft\Badaso\Database\Schema\SchemaManager;
+use Doctrine\DBAL\Types\Type as DoctrineType;
+use Doctrine\DBAL\Platforms\AbstractPlatform as DoctrineAbstractPlatform;
 
 abstract class Type extends DoctrineType
 {
@@ -15,6 +15,7 @@ abstract class Type extends DoctrineType
     protected static $platform_types = [];
     protected static $custom_type_options = [];
     protected static $type_categories = [];
+    protected static $types = [];
 
     const NAME = 'UNDEFINED_TYPE_NAME';
     const NOT_SUPPORTED = 'notSupported';
@@ -29,7 +30,7 @@ abstract class Type extends DoctrineType
         return static::NAME;
     }
 
-    public static function toArray(DoctrineType $type)
+    public static function toArray($type)
     {
         $custom_type_options = $type->customOptions ?? [];
 
@@ -44,15 +45,15 @@ abstract class Type extends DoctrineType
             return static::$platform_types;
         }
 
-        if (! static::$custom_type_registered) {
+        if (!static::$custom_type_registered) {
             static::registerCustomPlatformTypes();
         }
 
-        $platform = SchemaManager::getDatabasePlatform();
+        $platform_name = DB::getDriverName();
 
         static::$platform_types = Platform::getPlatformTypes(
-            $platform->getName(),
-            static::getPlatformTypeMapping($platform)
+            $platform_name,
+            static::getPlatformTypeMapping($platform_name)
         );
 
         static::$platform_types = static::$platform_types->map(function ($type) {
@@ -62,14 +63,15 @@ abstract class Type extends DoctrineType
         return static::$platform_types;
     }
 
-    public static function getPlatformTypeMapping(DoctrineAbstractPlatform $platform)
+    public static function getPlatformTypeMapping(DoctrineAbstractPlatform $platform_name)
     {
         if (static::$platform_type_mapping) {
             return static::$platform_type_mapping;
         }
 
+        // Anda perlu mendefinisikan cara mengambil pemetaan tipe khusus untuk platform tertentu
         static::$platform_type_mapping = collect(
-            get_protected_property($platform, 'doctrineTypeMapping')
+            get_protected_property($platform_name, 'doctrineTypeMapping')
         );
 
         return static::$platform_type_mapping;
@@ -77,35 +79,57 @@ abstract class Type extends DoctrineType
 
     public static function registerCustomPlatformTypes($force = false)
     {
-        if (static::$custom_type_registered && ! $force) {
+        if (static::$custom_type_registered && !$force) {
             return;
         }
 
-        $platform = SchemaManager::getDatabasePlatform();
-        $platform_name = ucfirst($platform->getName());
-
+        $platform_name = DB::getDriverName();
+     
         $custom_types = array_merge(
             static::getPlatformCustomTypes('Common'),
             static::getPlatformCustomTypes($platform_name)
         );
-
+   
         foreach ($custom_types as $type) {
             $name = $type::NAME;
 
-            if (static::hasType($name)) {
-                static::overrideType($name, $type);
-            } else {
+            if (!static::hasType($name)) {
                 static::addType($name, $type);
+            } else {
+                static::overrideType($name, $type);
             }
 
             $db_type = defined("{$type}::DBTYPE") ? $type::DBTYPE : $name;
-
-            $platform->registerDoctrineTypeMapping($db_type, $name);
+   
+            static::registerDoctrineTypeMapping($db_type, $name);
         }
 
         static::addCustomTypeOptions($platform_name);
 
         static::$custom_type_registered = true;
+    }
+
+    protected static function registerDoctrineTypeMapping($db_type, $name)
+    {
+        $databaseConfig = config('database.connections.' . config('database.default'));
+
+        $connectionParams = [
+            'dbname' => $databaseConfig['database'],
+            'user' => $databaseConfig['username'],
+            'password' => $databaseConfig['password'],
+            'host' => $databaseConfig['host'],
+            'driver' => 'pdo_mysql', // Sesuaikan dengan driver yang digunakan, misal: 'pdo_pgsql' untuk PostgreSQL
+            'port' => $databaseConfig['port'],
+        ];
+
+        $doctrine_connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
+        $platform = $doctrine_connection->getDatabasePlatform();
+      
+        if ($platform->hasDoctrineTypeMappingFor($db_type)) {
+            $platform->registerDoctrineTypeMapping($db_type, $name);
+        } else {
+            throw new \Doctrine\DBAL\Exception("Type to be overwritten $db_type does not exist.");
+        }
     }
 
     protected static function addCustomTypeOptions($platform_name)
@@ -126,12 +150,12 @@ abstract class Type extends DoctrineType
 
     protected static function getPlatformCustomTypes($platform_name)
     {
-        $types_path = __DIR__.DIRECTORY_SEPARATOR.$platform_name.DIRECTORY_SEPARATOR;
-        $namespace = __NAMESPACE__.'\\'.$platform_name.'\\';
+        $types_path = __DIR__ . DIRECTORY_SEPARATOR . $platform_name . DIRECTORY_SEPARATOR;
+        $namespace = __NAMESPACE__ . '\\' . $platform_name . '\\';
         $types = [];
 
-        foreach (glob($types_path.'*.php') as $class_file) {
-            $types[] = $namespace.str_replace(
+        foreach (glob($types_path . '*.php') as $class_file) {
+            $types[] = $namespace . str_replace(
                 '.php',
                 '',
                 str_replace($types_path, '', $class_file)
@@ -329,5 +353,25 @@ abstract class Type extends DoctrineType
         ];
 
         return static::$type_categories;
+    }
+
+    public static function hasType($name)
+    {
+        return DoctrineType::hasType($name);
+    }
+
+    public static function getType($name)
+    {
+        return static::$types[$name] ?? null;
+    }
+
+    public static function addType($name, $type)
+    {
+        static::$types[$name] = new $type();
+    }
+
+    public static function overrideType($name, $type)
+    {
+        static::$types[$name] = new $type();
     }
 }

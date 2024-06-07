@@ -2,78 +2,65 @@
 
 namespace Uasoft\Badaso\Database\Schema;
 
-use Doctrine\DBAL\Schema\SchemaException;
-use Doctrine\DBAL\Schema\Table as DoctrineTable;
+use Doctrine\DBAL\Schema\Table;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Database\Types\Type;
 use Illuminate\Support\Facades\Schema;
+use Uasoft\Badaso\Database\Types\Type;
 
 abstract class SchemaManager
 {
-    // todo: trim parameters
-
     public static function __callStatic($method, $args)
     {
-        return static::manager()->$method(...$args);
-    }
-
-    public static function manager()
-    {
-        // return Schema::connection();
-        return DB::connection()->getDoctrineSchemaManager();
-    }
-
-    public static function getDatabaseConnection()
-    {
-        return DB::connection()->getDoctrineConnection();
+        return Schema::$method(...$args);
     }
 
     public static function tableExists($table)
     {
-        if (! is_array($table)) {
+        if (!is_array($table)) {
             $table = [$table];
         }
 
-        return static::manager()->tablesExist($table);
+        foreach ($table as $tbl) {
+            if (!Schema::hasTable($tbl)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static function listTables()
     {
-        $tables = [];
+        $tables = DB::select('SHOW TABLES');
+        $database_name = DB::getDatabaseName();
+        $tables_key = "Tables_in_$database_name";
 
-        foreach (static::manager()->listTableNames() as $table_name) {
-            $tables[$table_name] = static::listTableDetails($table_name);
+        $result = [];
+        foreach ($tables as $table) {
+            $table_name = $table->$tables_key;
+            $result[$table_name] = static::listTableDetails($table_name);
         }
 
-        return $tables;
+        return $result;
     }
 
-    /**
-     * @param  string  $table_name
-     * @return \Uasoft\Badaso\Database\Schema\Table
-     */
     public static function listTableDetails($table_name)
     {
-        // $columns = static::manager()->listTableColumns($table_name);
-        $columns = Schema::getColumns($table_name);
+        $columns = Schema::getColumnListing($table_name);
 
-        $foreign_keys = [];
-        // if (static::manager()->getDatabasePlatform()->supportsForeignKeyConstraints()) {
-        //     $foreign_keys = Schema::getForeignKeys($table_name);
-        // }
-        $foreign_keys = Schema::getForeignKeys($table_name);
-
-        $indexes = Schema::getIndexes($table_name);
-
-        return new Table($table_name, $columns, $indexes, $foreign_keys, false, []);
+        // $foreign_keys = static::listTableForeignKeys($table_name);
+        $foreign_keys[] = Schema::getForeignKeys($table_name);
+        // $indexes = Schema::listTableIndexes($table_name);
+        $indexes[] = Schema::getIndexes($table_name);
+        return new Table($table_name, $columns, $indexes, $foreign_keys, []);
     }
 
-    /**
-     * Describes given table.
-     *
-     * @param  string  $table_name
-     * @return \Illuminate\Support\Collection
-     */
+    public static function getColumnDetails($table_name, $column_name)
+    {
+        return DB::select(DB::raw("SHOW COLUMNS FROM `$table_name` LIKE '$column_name'"))[0];
+    }
+
     public static function describeTable($table_name)
     {
         // Type::registerCustomPlatformTypes();
@@ -109,42 +96,59 @@ abstract class SchemaManager
     {
         Type::registerCustomPlatformTypes();
 
-        $column_names = [];
-
-        foreach (static::manager()->listTableColumns($table_name) as $column) {
-            $column_names[] = $column->getName();
-        }
-
-        return $column_names;
+        return Schema::getColumnListing($table_name);
     }
 
     public static function createTable($table)
     {
-        if (! ($table instanceof DoctrineTable)) {
+        if (!($table instanceof Blueprint)) {
             $table = Table::make($table);
         }
 
-        static::manager()->createTable($table);
+        Schema::create($table->getTable(), function (Blueprint $blueprint) use ($table) {
+            foreach ($table->getColumns() as $column) {
+                $blueprint->addColumn($column->getType(), $column->getName(), $column->getOptions());
+            }
+
+            foreach ($table->getIndexes() as $index) {
+                $blueprint->index($index->getColumns(), $index->getName(), $index->getOptions());
+            }
+
+            foreach ($table->getForeignKeys() as $foreignKey) {
+                $blueprint->foreign($foreignKey->getLocalColumns())
+                    ->references($foreignKey->getForeignColumns())
+                    ->on($foreignKey->getForeignTable())
+                    ->onDelete($foreignKey->onDelete())
+                    ->onUpdate($foreignKey->onUpdate());
+            }
+        });
     }
 
     public static function getDoctrineTable($table)
     {
         $table = trim($table);
 
-        if (! static::tableExists($table)) {
-            throw SchemaException::tableDoesNotExist($table);
+        if (!static::tableExists($table)) {
+            throw new \Exception("Table $table does not exist.");
         }
 
-        return static::manager()->listTableDetails($table);
+        return static::listTableDetails($table);
     }
 
     public static function getDoctrineColumn($table, $column)
     {
-        return static::getDoctrineTable($table)->getColumn($column);
+        return static::getColumnDetails($table, $column);
     }
 
-    public static function getDoctrineForeignKeys($table)
+    public static function listTableForeignKeys($table_name)
     {
-        return static::manager()->listTableForeignKeys($table);
+        $foreignKeys = DB::select(DB::raw("SELECT * FROM information_schema.key_column_usage WHERE TABLE_NAME = '$table_name' AND TABLE_SCHEMA = '" . DB::getDatabaseName() . "' AND REFERENCED_COLUMN_NAME IS NOT NULL"));
+        return $foreignKeys;
+    }
+
+    public static function listTableIndexes($table_name)
+    {
+        $indexes = DB::select(DB::raw("SHOW INDEX FROM `$table_name`"));
+        return $indexes;
     }
 }

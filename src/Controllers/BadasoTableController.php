@@ -49,8 +49,6 @@ class BadasoTableController extends Controller
             ]);
             $table = $request->table;
             $table_fields = SchemaManager::describeTable($table);
-
-            // $table_fields = Schema::getIndexes($table);
             $fields = [];
             foreach ($table_fields as $key => $column) {
                 $column = collect($column)->toArray();
