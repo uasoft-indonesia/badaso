@@ -2,17 +2,30 @@
 
 namespace Uasoft\Badaso\Database\Schema;
 
-use Doctrine\DBAL\Schema\Table;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Doctrine\DBAL\Schema\SchemaException;
+use Doctrine\DBAL\Schema\Table as DoctrineTable;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Database\Types\Type;
+use Doctrine\DBAL\DriverManager;
 
 abstract class SchemaManager
 {
+    // todo: trim parameters
+
     public static function __callStatic($method, $args)
     {
-        return Schema::$method(...$args);
+        return static::manager()->$method(...$args);
+    }
+
+    public static function manager()
+    {
+        return DB::connection()->select('SELECT schema_name FROM information_schema.schemata');
+    }
+
+    public static function getDatabaseConnection()
+    {
+        return DB::connection()->getDoctrineConnection();
     }
 
     public static function tableExists($table)
@@ -21,52 +34,84 @@ abstract class SchemaManager
             $table = [$table];
         }
 
-        foreach ($table as $tbl) {
-            if (!Schema::hasTable($tbl)) {
-                return false;
-            }
-        }
-
-        return true;
+        return static::manager()->tablesExist($table);
     }
 
     public static function listTables()
     {
-        $tables = DB::select('SHOW TABLES');
-        $database_name = DB::getDatabaseName();
-        $tables_key = "Tables_in_$database_name";
-
-        $result = [];
-        foreach ($tables as $table) {
-            $table_name = $table->$tables_key;
-            $result[$table_name] = static::listTableDetails($table_name);
+        // $sm = static::registerConnection()->createSchemaManager();
+        // $list_tables = $sm->listTables();
+      
+        $sm = Schema::getTables();
+    
+        $tables = [];
+      
+        foreach ($sm as $key => $table_name) {
+            // $tables[$table_name["name"]] = static::listTableDetails($table_name["name"]);
+            $tables[$table_name["name"]] = $table_name["name"];
         }
-
-        return $result;
+      
+        return $tables;
     }
 
+    /**
+     * @param  string  $table_name
+     * @return \Uasoft\Badaso\Database\Schema\Table
+     */
     public static function listTableDetails($table_name)
     {
-        $columns = Schema::getColumnListing($table_name);
+        $sm =static::registerConnection()->createSchemaManager();
+        $columns = $sm->listTableColumns($table_name);
+     
+        $foreign_keys = [];
+        if (static::registerConnection()->getDatabasePlatform()->supportsForeignKeyConstraints()) {
+            $foreign_keys = $sm->listTableForeignKeys($table_name);
+        }
 
-        // $foreign_keys = static::listTableForeignKeys($table_name);
-        $foreign_keys[] = Schema::getForeignKeys($table_name);
-        // $indexes = Schema::listTableIndexes($table_name);
-        $indexes[] = Schema::getIndexes($table_name);
-        return new Table($table_name, $columns, $indexes, $foreign_keys, []);
+        $indexes = $sm->listTableIndexes($table_name);
+      
+        return new Table($table_name, $columns, $indexes, [],$foreign_keys, []);
     }
 
-    public static function getColumnDetails($table_name, $column_name)
+    public static function registerConnection()
     {
-        return DB::select(DB::raw("SHOW COLUMNS FROM `$table_name` LIKE '$column_name'"))[0];
+        $databaseConfig = config('database.connections.' . config('database.default'));
+        $driver_name = DB::getDriverName();
+        if($driver_name == 'mysql' || $driver_name = 'pgsql') {
+            $connectionParams = [
+                'dbname' => $databaseConfig['database'],
+                'user' => $databaseConfig['username'],
+                'password' => $databaseConfig['password'],
+                'host' => $databaseConfig['host'],
+                'driver' => 'pdo_' . $driver_name, 
+                'port' => $databaseConfig['port'],
+            ];
+        } else {
+            $connectionParams = [
+                'user' => $databaseConfig['username'],
+                'password' => $databaseConfig['password'],
+                'path' => $databaseConfig['database'],
+                'driver' => 'pdo_' . $driver_name,    
+            ];
+        }
+       
+        $doctrine_connection = DriverManager::getConnection($connectionParams);
+
+        return $doctrine_connection;
     }
 
+    /**
+     * Describes given table.
+     *
+     * @param  string  $table_name
+     * @return \Illuminate\Support\Collection
+     */
     public static function describeTable($table_name)
     {
-        // Type::registerCustomPlatformTypes();
+        Type::registerCustomPlatformTypes();
 
         $table = static::listTableDetails($table_name);
-
+      
         return collect($table->columns)->map(function ($column) use ($table) {
             $column_array = Column::toArray($column);
 
@@ -96,32 +141,22 @@ abstract class SchemaManager
     {
         Type::registerCustomPlatformTypes();
 
-        return Schema::getColumnListing($table_name);
+        $column_names = [];
+
+        foreach (static::manager()->listTableColumns($table_name) as $column) {
+            $column_names[] = $column->getName();
+        }
+
+        return $column_names;
     }
 
     public static function createTable($table)
     {
-        if (!($table instanceof Blueprint)) {
+        if (!($table instanceof DoctrineTable)) {
             $table = Table::make($table);
         }
 
-        Schema::create($table->getTable(), function (Blueprint $blueprint) use ($table) {
-            foreach ($table->getColumns() as $column) {
-                $blueprint->addColumn($column->getType(), $column->getName(), $column->getOptions());
-            }
-
-            foreach ($table->getIndexes() as $index) {
-                $blueprint->index($index->getColumns(), $index->getName(), $index->getOptions());
-            }
-
-            foreach ($table->getForeignKeys() as $foreignKey) {
-                $blueprint->foreign($foreignKey->getLocalColumns())
-                    ->references($foreignKey->getForeignColumns())
-                    ->on($foreignKey->getForeignTable())
-                    ->onDelete($foreignKey->onDelete())
-                    ->onUpdate($foreignKey->onUpdate());
-            }
-        });
+        static::manager()->createTable($table);
     }
 
     public static function getDoctrineTable($table)
@@ -129,26 +164,20 @@ abstract class SchemaManager
         $table = trim($table);
 
         if (!static::tableExists($table)) {
-            throw new \Exception("Table $table does not exist.");
+            throw SchemaException::tableDoesNotExist($table);
         }
 
-        return static::listTableDetails($table);
+        return static::manager()->listTableDetails($table);
     }
 
     public static function getDoctrineColumn($table, $column)
     {
-        return static::getColumnDetails($table, $column);
+        return static::getDoctrineTable($table)->getColumn($column);
     }
 
-    public static function listTableForeignKeys($table_name)
+    public static function getDoctrineForeignKeys($table)
     {
-        $foreignKeys = DB::select(DB::raw("SELECT * FROM information_schema.key_column_usage WHERE TABLE_NAME = '$table_name' AND TABLE_SCHEMA = '" . DB::getDatabaseName() . "' AND REFERENCED_COLUMN_NAME IS NOT NULL"));
-        return $foreignKeys;
-    }
-
-    public static function listTableIndexes($table_name)
-    {
-        $indexes = DB::select(DB::raw("SHOW INDEX FROM `$table_name`"));
-        return $indexes;
+        $sm = static::registerConnection()->createSchemaManager();
+        return $sm->listTableForeignKeys($table);
     }
 }

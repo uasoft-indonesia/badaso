@@ -2,10 +2,12 @@
 
 namespace Uasoft\Badaso\Database\Types;
 
-use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Database\Platforms\Platform;
-use Doctrine\DBAL\Types\Type as DoctrineType;
 use Doctrine\DBAL\Platforms\AbstractPlatform as DoctrineAbstractPlatform;
+use Doctrine\DBAL\Types\Type as DoctrineType;
+use Uasoft\Badaso\Database\Platforms\Platform;
+use Uasoft\Badaso\Database\Schema\SchemaManager;
+use Illuminate\Support\Facades\DB;
+use Doctrine\DBAL\DriverManager;
 
 abstract class Type extends DoctrineType
 {
@@ -15,7 +17,6 @@ abstract class Type extends DoctrineType
     protected static $platform_types = [];
     protected static $custom_type_options = [];
     protected static $type_categories = [];
-    protected static $types = [];
 
     const NAME = 'UNDEFINED_TYPE_NAME';
     const NOT_SUPPORTED = 'notSupported';
@@ -30,7 +31,7 @@ abstract class Type extends DoctrineType
         return static::NAME;
     }
 
-    public static function toArray($type)
+    public static function toArray(DoctrineType $type)
     {
         $custom_type_options = $type->customOptions ?? [];
 
@@ -49,11 +50,13 @@ abstract class Type extends DoctrineType
             static::registerCustomPlatformTypes();
         }
 
+        $doctrine_connection = SchemaManager::registerConnection();
+        $platform = $doctrine_connection->getDatabasePlatform();
         $platform_name = DB::getDriverName();
 
         static::$platform_types = Platform::getPlatformTypes(
             $platform_name,
-            static::getPlatformTypeMapping($platform_name)
+            static::getPlatformTypeMapping($platform)
         );
 
         static::$platform_types = static::$platform_types->map(function ($type) {
@@ -63,15 +66,14 @@ abstract class Type extends DoctrineType
         return static::$platform_types;
     }
 
-    public static function getPlatformTypeMapping(DoctrineAbstractPlatform $platform_name)
+    public static function getPlatformTypeMapping(DoctrineAbstractPlatform $platform)
     {
         if (static::$platform_type_mapping) {
             return static::$platform_type_mapping;
         }
 
-        // Anda perlu mendefinisikan cara mengambil pemetaan tipe khusus untuk platform tertentu
         static::$platform_type_mapping = collect(
-            get_protected_property($platform_name, 'doctrineTypeMapping')
+            get_protected_property($platform, 'doctrineTypeMapping')
         );
 
         return static::$platform_type_mapping;
@@ -83,53 +85,32 @@ abstract class Type extends DoctrineType
             return;
         }
 
-        $platform_name = DB::getDriverName();
-     
+        $doctrine_connection = SchemaManager::registerConnection();
+        $platform = $doctrine_connection->getDatabasePlatform();
+        $platform_name = ucfirst(DB::getDriverName());
+
         $custom_types = array_merge(
             static::getPlatformCustomTypes('Common'),
             static::getPlatformCustomTypes($platform_name)
         );
-   
+      
         foreach ($custom_types as $type) {
             $name = $type::NAME;
 
-            if (!static::hasType($name)) {
-                static::addType($name, $type);
-            } else {
+            if (static::hasType($name)) {
                 static::overrideType($name, $type);
+            } else {
+                static::addType($name, $type);
             }
 
             $db_type = defined("{$type}::DBTYPE") ? $type::DBTYPE : $name;
-   
-            static::registerDoctrineTypeMapping($db_type, $name);
+
+            $platform->registerDoctrineTypeMapping($db_type, $name);
         }
 
         static::addCustomTypeOptions($platform_name);
 
         static::$custom_type_registered = true;
-    }
-
-    protected static function registerDoctrineTypeMapping($db_type, $name)
-    {
-        $databaseConfig = config('database.connections.' . config('database.default'));
-
-        $connectionParams = [
-            'dbname' => $databaseConfig['database'],
-            'user' => $databaseConfig['username'],
-            'password' => $databaseConfig['password'],
-            'host' => $databaseConfig['host'],
-            'driver' => 'pdo_mysql', // Sesuaikan dengan driver yang digunakan, misal: 'pdo_pgsql' untuk PostgreSQL
-            'port' => $databaseConfig['port'],
-        ];
-
-        $doctrine_connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams);
-        $platform = $doctrine_connection->getDatabasePlatform();
-      
-        if ($platform->hasDoctrineTypeMappingFor($db_type)) {
-            $platform->registerDoctrineTypeMapping($db_type, $name);
-        } else {
-            throw new \Doctrine\DBAL\Exception("Type to be overwritten $db_type does not exist.");
-        }
     }
 
     protected static function addCustomTypeOptions($platform_name)
@@ -353,25 +334,5 @@ abstract class Type extends DoctrineType
         ];
 
         return static::$type_categories;
-    }
-
-    public static function hasType($name)
-    {
-        return DoctrineType::hasType($name);
-    }
-
-    public static function getType($name)
-    {
-        return static::$types[$name] ?? null;
-    }
-
-    public static function addType($name, $type)
-    {
-        static::$types[$name] = new $type();
-    }
-
-    public static function overrideType($name, $type)
-    {
-        static::$types[$name] = new $type();
     }
 }

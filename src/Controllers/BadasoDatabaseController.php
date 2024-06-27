@@ -109,7 +109,6 @@ class BadasoDatabaseController extends Controller
                     Rule::notIn(Badaso::getProtectedTables()),
                 ],
             ]);
-
             $columns = SchemaManager::describeTable($request->table)->toArray();
             $columnsFK = SchemaManager::getDoctrineForeignKeys($request->table);
             $fKConstraints = [];

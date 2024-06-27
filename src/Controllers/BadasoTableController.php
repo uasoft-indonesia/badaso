@@ -22,13 +22,12 @@ class BadasoTableController extends Controller
     public function browse(Request $request)
     {
         try {
-            // $tables = SchemaManager::listTables();
-            $tables = Schema::getTables();
+            $tables = SchemaManager::listTables();
             $custom_list = [];
             foreach ($tables as $key => $value) {
                 $table = [];
-                $table['value'] = $value["name"];
-                $table['label'] = ucfirst(str_replace('_', ' ', $value["name"]));
+                $table['value'] = $key;
+                $table['label'] = ucfirst(str_replace('_', ' ', $key));
 
                 $custom_list[] = $table;
             }
