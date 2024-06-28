@@ -39,18 +39,14 @@ abstract class SchemaManager
 
     public static function listTables()
     {
-        // $sm = static::registerConnection()->createSchemaManager();
-        // $list_tables = $sm->listTables();
-      
         $sm = Schema::getTables();
-    
+
         $tables = [];
-      
+
         foreach ($sm as $key => $table_name) {
-            // $tables[$table_name["name"]] = static::listTableDetails($table_name["name"]);
             $tables[$table_name["name"]] = $table_name["name"];
         }
-      
+
         return $tables;
     }
 
@@ -62,14 +58,14 @@ abstract class SchemaManager
     {
         $sm =static::registerConnection()->createSchemaManager();
         $columns = $sm->listTableColumns($table_name);
-     
+
         $foreign_keys = [];
         if (static::registerConnection()->getDatabasePlatform()->supportsForeignKeyConstraints()) {
             $foreign_keys = $sm->listTableForeignKeys($table_name);
         }
 
         $indexes = $sm->listTableIndexes($table_name);
-      
+
         return new Table($table_name, $columns, $indexes, [],$foreign_keys, []);
     }
 
@@ -77,24 +73,25 @@ abstract class SchemaManager
     {
         $databaseConfig = config('database.connections.' . config('database.default'));
         $driver_name = DB::getDriverName();
-        if($driver_name == 'mysql' || $driver_name = 'pgsql') {
+
+        if($driver_name == 'mysql' || $driver_name == 'pgsql') {
             $connectionParams = [
                 'dbname' => $databaseConfig['database'],
                 'user' => $databaseConfig['username'],
                 'password' => $databaseConfig['password'],
                 'host' => $databaseConfig['host'],
-                'driver' => 'pdo_' . $driver_name, 
+                'driver' => 'pdo_' . $driver_name,
                 'port' => $databaseConfig['port'],
             ];
-        } else {
+        }
+
+        if ($driver_name == 'sqlite') {
             $connectionParams = [
-                'user' => $databaseConfig['username'],
-                'password' => $databaseConfig['password'],
                 'path' => $databaseConfig['database'],
-                'driver' => 'pdo_' . $driver_name,    
+                'driver' => 'pdo_' . $driver_name,
             ];
         }
-       
+
         $doctrine_connection = DriverManager::getConnection($connectionParams);
 
         return $doctrine_connection;
@@ -111,7 +108,7 @@ abstract class SchemaManager
         Type::registerCustomPlatformTypes();
 
         $table = static::listTableDetails($table_name);
-      
+
         return collect($table->columns)->map(function ($column) use ($table) {
             $column_array = Column::toArray($column);
 

@@ -87,13 +87,14 @@ abstract class Type extends DoctrineType
 
         $doctrine_connection = SchemaManager::registerConnection();
         $platform = $doctrine_connection->getDatabasePlatform();
-        $platform_name = ucfirst(DB::getDriverName());
+        // $platform_name = ucfirst(DB::getDriverName());
+        $platform_name = ucfirst($platform->getName());
 
         $custom_types = array_merge(
             static::getPlatformCustomTypes('Common'),
             static::getPlatformCustomTypes($platform_name)
         );
-      
+
         foreach ($custom_types as $type) {
             $name = $type::NAME;
 

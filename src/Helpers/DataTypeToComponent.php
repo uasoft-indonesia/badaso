@@ -8,6 +8,7 @@ class DataTypeToComponent
     protected static $type_list = [
         'CHAR' => 'text',
         'VARCHAR' => 'text',
+        'STRING' => 'text',
         'BINARY' => 'text',
         'VARBINARY' => 'text',
         'TINYBLOB' => 'text',
