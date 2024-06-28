@@ -4,10 +4,9 @@ namespace Uasoft\Badaso\Database\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform as DoctrineAbstractPlatform;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Database\Platforms\Platform;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
-use Illuminate\Support\Facades\DB;
-use Doctrine\DBAL\DriverManager;
 
 abstract class Type extends DoctrineType
 {
@@ -46,7 +45,7 @@ abstract class Type extends DoctrineType
             return static::$platform_types;
         }
 
-        if (!static::$custom_type_registered) {
+        if (! static::$custom_type_registered) {
             static::registerCustomPlatformTypes();
         }
 
@@ -81,7 +80,7 @@ abstract class Type extends DoctrineType
 
     public static function registerCustomPlatformTypes($force = false)
     {
-        if (static::$custom_type_registered && !$force) {
+        if (static::$custom_type_registered && ! $force) {
             return;
         }
 
@@ -132,12 +131,12 @@ abstract class Type extends DoctrineType
 
     protected static function getPlatformCustomTypes($platform_name)
     {
-        $types_path = __DIR__ . DIRECTORY_SEPARATOR . $platform_name . DIRECTORY_SEPARATOR;
-        $namespace = __NAMESPACE__ . '\\' . $platform_name . '\\';
+        $types_path = __DIR__.DIRECTORY_SEPARATOR.$platform_name.DIRECTORY_SEPARATOR;
+        $namespace = __NAMESPACE__.'\\'.$platform_name.'\\';
         $types = [];
 
-        foreach (glob($types_path . '*.php') as $class_file) {
-            $types[] = $namespace . str_replace(
+        foreach (glob($types_path.'*.php') as $class_file) {
+            $types[] = $namespace.str_replace(
                 '.php',
                 '',
                 str_replace($types_path, '', $class_file)

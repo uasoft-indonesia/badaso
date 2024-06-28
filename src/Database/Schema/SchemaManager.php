@@ -2,12 +2,12 @@
 
 namespace Uasoft\Badaso\Database\Schema;
 
-use Illuminate\Support\Facades\Schema;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Table as DoctrineTable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Uasoft\Badaso\Database\Types\Type;
-use Doctrine\DBAL\DriverManager;
 
 abstract class SchemaManager
 {
@@ -30,7 +30,7 @@ abstract class SchemaManager
 
     public static function tableExists($table)
     {
-        if (!is_array($table)) {
+        if (! is_array($table)) {
             $table = [$table];
         }
 
@@ -44,7 +44,7 @@ abstract class SchemaManager
         $tables = [];
 
         foreach ($sm as $key => $table_name) {
-            $tables[$table_name["name"]] = $table_name["name"];
+            $tables[$table_name['name']] = $table_name['name'];
         }
 
         return $tables;
@@ -56,7 +56,7 @@ abstract class SchemaManager
      */
     public static function listTableDetails($table_name)
     {
-        $sm =static::registerConnection()->createSchemaManager();
+        $sm = static::registerConnection()->createSchemaManager();
         $columns = $sm->listTableColumns($table_name);
 
         $foreign_keys = [];
@@ -66,21 +66,21 @@ abstract class SchemaManager
 
         $indexes = $sm->listTableIndexes($table_name);
 
-        return new Table($table_name, $columns, $indexes, [],$foreign_keys, []);
+        return new Table($table_name, $columns, $indexes, [], $foreign_keys, []);
     }
 
     public static function registerConnection()
     {
-        $databaseConfig = config('database.connections.' . config('database.default'));
+        $databaseConfig = config('database.connections.'.config('database.default'));
         $driver_name = DB::getDriverName();
 
-        if($driver_name == 'mysql' || $driver_name == 'pgsql') {
+        if ($driver_name == 'mysql' || $driver_name == 'pgsql') {
             $connectionParams = [
                 'dbname' => $databaseConfig['database'],
                 'user' => $databaseConfig['username'],
                 'password' => $databaseConfig['password'],
                 'host' => $databaseConfig['host'],
-                'driver' => 'pdo_' . $driver_name,
+                'driver' => 'pdo_'.$driver_name,
                 'port' => $databaseConfig['port'],
             ];
         }
@@ -88,7 +88,7 @@ abstract class SchemaManager
         if ($driver_name == 'sqlite') {
             $connectionParams = [
                 'path' => $databaseConfig['database'],
-                'driver' => 'pdo_' . $driver_name,
+                'driver' => 'pdo_'.$driver_name,
             ];
         }
 
@@ -149,7 +149,7 @@ abstract class SchemaManager
 
     public static function createTable($table)
     {
-        if (!($table instanceof DoctrineTable)) {
+        if (! ($table instanceof DoctrineTable)) {
             $table = Table::make($table);
         }
 
@@ -160,7 +160,7 @@ abstract class SchemaManager
     {
         $table = trim($table);
 
-        if (!static::tableExists($table)) {
+        if (! static::tableExists($table)) {
             throw SchemaException::tableDoesNotExist($table);
         }
 
@@ -175,6 +175,7 @@ abstract class SchemaManager
     public static function getDoctrineForeignKeys($table)
     {
         $sm = static::registerConnection()->createSchemaManager();
+
         return $sm->listTableForeignKeys($table);
     }
 }
