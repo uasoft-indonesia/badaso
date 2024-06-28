@@ -31,5 +31,5 @@ return [
     'jobs',
     'job_batches',
     'password_reset_tokens',
-    'sessions'
+    'sessions',
 ];
