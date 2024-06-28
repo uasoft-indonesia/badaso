@@ -47,7 +47,6 @@ class BadasoCRUDController extends Controller
 
             $protected_tables = Badaso::getProtectedTables();
             $tables = SchemaManager::listTables();
-
             $tables_with_crud_data = [];
             foreach ($tables as $key => $value) {
                 if (! in_array($key, $protected_tables)) {
