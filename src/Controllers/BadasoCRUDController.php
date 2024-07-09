@@ -316,6 +316,7 @@ class BadasoCRUDController extends Controller
                     'required',
                     function ($attribute, $value, $fail) use ($request) {
                         if (! Schema::hasColumn($request->name, $value)) {
+
                             $split_attribute = explode('.', $attribute);
                             $split_attribute[2] = 'relation_type';
                             $field_to_relation = join('.', $split_attribute);
@@ -432,6 +433,7 @@ class BadasoCRUDController extends Controller
 
             return ApiResponse::success($new_data_type);
         } catch (Exception $e) {
+            // dd($e);
             DB::rollBack();
 
             return ApiResponse::failed($e);

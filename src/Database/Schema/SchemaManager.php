@@ -60,9 +60,7 @@ abstract class SchemaManager
         $columns = $sm->listTableColumns($table_name);
 
         $foreign_keys = [];
-        if (static::registerConnection()->getDatabasePlatform()->supportsForeignKeyConstraints()) {
-            $foreign_keys = $sm->listTableForeignKeys($table_name);
-        }
+        $foreign_keys = $sm->listTableForeignKeys($table_name);
 
         $indexes = $sm->listTableIndexes($table_name);
 
@@ -129,7 +127,6 @@ abstract class SchemaManager
                 $indexType = array_values($column_array['indexes'])[0]['type'];
                 $column_array['key'] = substr($indexType, 0, 3);
             }
-
             return $column_array;
         });
     }

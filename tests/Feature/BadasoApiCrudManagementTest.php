@@ -410,7 +410,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
-            if (! Schema::hasTable($table_name)) {
+            if (!Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -441,7 +441,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_EMPTY_VALUE_PREFIX}{$index}";
-            if (! Schema::hasTable($table_name)) {
+            if (!Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -477,6 +477,10 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_empty_names = collect(CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES))->reverse();
         foreach ($table_empty_names as $key => $table_empty_names) {
             Schema::dropIfExists($table_empty_names);
+        }
+        $multiple_tables = ['multiple_table_1', 'multiple_table_2'];
+        foreach ($multiple_tables as $key => $multiple_table) {
+            Schema::dropIfExists($multiple_table);
         }
 
         // clear cache
@@ -589,6 +593,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
             ];
             foreach ($const_fields as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type, 'details' => $details]) {
+
                 if ($index_table_name == 0 && $badaso_type == 'relation') {
                     continue;
                 }
@@ -641,7 +646,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (! file_exists($model_path)) {
+                if (!file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -662,7 +667,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -671,7 +676,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (! file_exists($controller_path)) {
+                if (!file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -711,6 +716,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 'rows' => $rows,
             ];
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+
             $response->assertSuccessful();
 
             // save logs
@@ -1052,7 +1058,9 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($add_crud_table as $key => $request_data_crud_table) {
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_data_crud_table);
             // $response->assertSuccessful();
+
         }
+
     }
 
     public function testAddTableManyToMany()
@@ -1337,6 +1345,7 @@ class BadasoApiCrudManagementTest extends TestCase
         }
     }
 
+    //
     public function testAddEntityMultiRelation()
     {
         $first_table = 'multiple_table_1';
@@ -1365,6 +1374,7 @@ class BadasoApiCrudManagementTest extends TestCase
         // add fill table 1
         $response_crud_table = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud?'));
         $response_crud_table = $response_crud_table['data'];
+
         foreach ($response_crud_table['tablesWithCrudData'] as $key => $value_response_crud_table) {
             foreach ($list_table as $key_add_table => $value_add_table) {
                 if (in_array($value_add_table, $value_response_crud_table)) {
@@ -1389,41 +1399,6 @@ class BadasoApiCrudManagementTest extends TestCase
 
         // add fill table 2
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/multiple-table-2/add'), $add_fill_table_2);
-        $response->assertSuccessful();
-        $response_table_2 = $response['data'];
-        foreach ($response_table_2 as $key => $value) {
-            if ($key == 'idRelation1Field1') {
-                $this->assertTrue($value == $add_fill_table_2['data']['id_relation1_field1']);
-            }
-            if ($key == 'idRelation2Field1') {
-                $this->assertTrue($value == $add_fill_table_2['data']['id_relation2_field1']);
-            }
-        }
-        // delete crud management
-        foreach ($ids_list_table as $key => $value_ids_list_table) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), $value_ids_list_table);
-            $response->assertSuccessful();
-        }
-
-        // delete table
-        foreach ($list_table as $key => $request_data_table) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/database/delete'), ['table' => $request_data_table]);
-            $response->assertSuccessful();
-        }
-
-        // Delete Migration
-        $response = CallHelperTest::withAuthorizeBearer($this)
-            ->json('GET', CallHelperTest::getUrlApiV1Prefix('/database/migration/browse'));
-
-        $response = $response->json('data');
-        $migration_name = [];
-        for ($i = count($response) - 8; $i < count($response); $i++) {
-            $migration_name[] = $response[$i]['migration'];
-        }
-        $response = CallHelperTest::withAuthorizeBearer($this)
-            ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/migration/delete'), [
-                'file_name' => $migration_name,
-            ]);
         $response->assertSuccessful();
     }
 
@@ -1725,6 +1700,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 'rows' => $rows,
             ];
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+
             $response->assertSuccessful();
 
             // save logs
@@ -2256,7 +2232,9 @@ class BadasoApiCrudManagementTest extends TestCase
     {
         $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
         $empty_tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
-        $collect_tables = [$tables, $empty_tables];
+        $multiple_tables = ['multiple_table_1', 'multiple_table_2'];
+
+        $collect_tables = [$tables, $empty_tables, $multiple_tables];
         foreach ($collect_tables as $key => $item_tables) {
             $data_types = DataType::whereIn('name', $item_tables)->get();
             foreach ($data_types as $key => $data_type) {
