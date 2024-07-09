@@ -127,6 +127,7 @@ abstract class SchemaManager
                 $indexType = array_values($column_array['indexes'])[0]['type'];
                 $column_array['key'] = substr($indexType, 0, 3);
             }
+
             return $column_array;
         });
     }

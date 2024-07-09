@@ -410,7 +410,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
-            if (!Schema::hasTable($table_name)) {
+            if (! Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -441,7 +441,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_EMPTY_VALUE_PREFIX}{$index}";
-            if (!Schema::hasTable($table_name)) {
+            if (! Schema::hasTable($table_name)) {
                 Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                     $table->id();
 
@@ -593,7 +593,6 @@ class BadasoApiCrudManagementTest extends TestCase
                 ],
             ];
             foreach ($const_fields as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type, 'details' => $details]) {
-
                 if ($index_table_name == 0 && $badaso_type == 'relation') {
                     continue;
                 }
@@ -646,7 +645,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 }
                 PHP;
                 $model_path = app_path("Models/$model_file_name");
-                if (!file_exists($model_path)) {
+                if (! file_exists($model_path)) {
                     file_put_contents($model_path, $model_body);
                 }
 
@@ -667,7 +666,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $controller_data = [];
             if (rand(0, 1)) {
                 // create new controller
-                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)) . 'Controller';
+                $controller_name = str_replace([' ', '_'], '', ucwords($table_name)).'Controller';
                 $controller_file_name = "{$controller_name}.php";
                 $controller_body = <<<PHP
                 <?php
@@ -676,7 +675,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 class {$controller_name} extends \Uasoft\Badaso\Controllers\BadasoBaseController {}
                 PHP;
                 $controller_path = app_path("/Http/Controllers/$controller_file_name");
-                if (!file_exists($controller_path)) {
+                if (! file_exists($controller_path)) {
                     file_put_contents($controller_path, $controller_body);
                 }
 
@@ -1058,9 +1057,7 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($add_crud_table as $key => $request_data_crud_table) {
             $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_data_crud_table);
             // $response->assertSuccessful();
-
         }
-
     }
 
     public function testAddTableManyToMany()
