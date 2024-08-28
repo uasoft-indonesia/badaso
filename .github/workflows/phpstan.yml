@@ -50,7 +50,7 @@ jobs:
         run: git branch &&
           cd laravel &&
           composer require badaso/core:dev-${GITHUB_HEAD_REF} -W &&
-          composer update -W
+          composer update --no-interaction -W
 
       # Laravel setup
       - name: Laravel setup
