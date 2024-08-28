@@ -85,7 +85,7 @@ jobs:
         run: git branch &&
           cd laravel &&
           composer require badaso/core:dev-${GITHUB_HEAD_REF} -W &&
-          composer update --no-interaction -W
+          composer update -W
 
       # Mysql | Laravel setup
       - name: Mysql | Laravel setup
@@ -130,8 +130,8 @@ jobs:
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=postgres/g' .env  &&
           sed -i 's/DB_HOST=127.0.0.1/DB_HOST=localhost/g' .env &&
           sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres/g' .env &&
-          sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env 
-          
+          sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env
+
 
       # Pgsql | Laravel setup
       - name: Pgsql | Laravel setup
