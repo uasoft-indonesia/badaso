@@ -46,7 +46,7 @@ jobs:
 
       # Install dependencies with composer
       - name: Install dependencies with composer
-        run: cd laravel && composer install --prefer-dist --no-interaction -W
+        run: cd laravel && composer install --prefer-dist --no-interaction
 
       # Laravel require badaso core
       - name: Laravel file configuration
