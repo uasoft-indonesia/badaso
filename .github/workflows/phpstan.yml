@@ -26,39 +26,43 @@ jobs:
     name: "PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}"
 
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
 
       # Configure PHP
-      - name: Select PHP version
-        uses: shivammathur/setup-php@master
+      - name: Set up PHP with required extensions
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: "${{ matrix.php }}"
+          php-version: ${{ matrix.php }}
           extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql
           coverage: none
 
       # Install legacy factories for Laravel 8/9
-      - name: Install legacy factories for Laravel
+      - name: Install Laravel Project
         run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel
 
       # Display installed laravel version
-      - name: Show laravel version
-        run: cd laravel &&
-          composer show laravel/framework
+      - name: Show Laravel Version
+        run: cd laravel && composer show laravel/framework
+
+      # Install dependencies with composer
+      - name: Install dependencies with composer
+        run: cd laravel && composer install --prefer-dist --no-interaction --with-all-dependencies
 
       # Laravel require badaso core
       - name: Laravel file configuration
-        run: git branch &&
+        run: |
+          git branch &&
           cd laravel &&
-          composer require badaso/core:dev-${GITHUB_HEAD_REF} --ignore-platform-reqs -W
+          composer require badaso/core:dev-${GITHUB_HEAD_REF} --ignore-platform-reqs --with-all-dependencies
 
       # Laravel setup
       - name: Laravel setup
-        run: cd laravel &&
-          php artisan badaso:setup --force
+        run: cd laravel && php artisan badaso:setup --force
+
+      # Check installed dependencies (for debugging)
+      - name: Check installed dependencies
+        run: cd laravel && composer show
 
       # Badaso Core Test PHPStan
       - name: Badaso core test PHPStan
-        run: cd laravel &&
-             ./vendor/bin/phpstan analyse -c vendor/badaso/core/phpstan.neon.dist
-
-
+        run: cd laravel && ./vendor/bin/phpstan analyse -c vendor/badaso/core/phpstan.neon.dist
