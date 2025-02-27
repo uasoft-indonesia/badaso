@@ -58,7 +58,10 @@ class ApiRequest
 
     public function handle($request, Closure $next)
     {
-        $lang = ($request->hasHeader('Accept-Language')) ? $request->header('Accept-Language') : 'en';
+        $langHeader = $request->header('Accept-Language', 'en');
+        $lang = explode(',', $langHeader)[0];
+        $lang = explode(';', $lang)[0];
+        $lang = trim($lang);
 
         app()->setLocale($lang);
 
