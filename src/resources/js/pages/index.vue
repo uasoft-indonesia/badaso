@@ -116,15 +116,17 @@ export default {
     ImageManagerBrowse,
   },
   name: "ActivityLogIndex",
-  data: () => ({
-    globalComponentList: {},
-    defaultComponent: null,
-  }),
+  data() {
+    return {
+      globalComponentList: {},
+      defaultComponent: null,
+    };
+  },
   mounted() {
     const routeName = this.$route.name;
     const componentName = this.$caseConvert.kebab(routeName);
     const slug = this.$route.params ? this.$route.params.slug : "";
-    this.globalComponentList = this.constructor.superOptions.components;
+    this.globalComponentList = this.$options.components;
 
     if (routeName === "CrudGeneratedBrowse") {
       const generatedComponentName = slug + "-browse";

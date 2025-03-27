@@ -69,6 +69,7 @@ class BadasoPermissionController extends Controller
             $permission->roles_can_see_all_data = $request->roles_can_see_all_data;
             $permission->field_identify_related_user = $request->field_identify_related_user;
             $permission->save();
+            // dd($permission);
 
             DB::commit();
 

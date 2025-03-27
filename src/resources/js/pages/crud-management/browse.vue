@@ -1,56 +1,71 @@
 <template>
   <div>
     <badaso-breadcrumb-hover full>
-      <template slot="action">
+      <template #action>
         <download-excel
-            :data="tables"
-            :fields="fieldsForExcel"
-            :worksheet="'CRUD Management'"
-            :name="'CRUD Management '+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+          :data="tables"
+          :fields="fieldsForExcel"
+          :worksheet="'CRUD Management'"
+          :name="'CRUD Management ' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
+
+    <!-- <vs-dropdown >
+      <a class="a-icon" href="#">
+        Dropdown hover
+        <vs-icon class="" icon="expand_more"></vs-icon>
+      </a>
+
+      <vs-dropdown-menu>
+        <vs-dropdown-item>
+          Option 1
+        </vs-dropdown-item>
+        <vs-dropdown-item>
+          Option 2
+        </vs-dropdown-item>
+        <vs-dropdown-item divider>
+          Option 3
+        </vs-dropdown-item>
+      </vs-dropdown-menu>
+    </vs-dropdown> -->
+
     <vs-row v-if="$helper.isAllowed('browse_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template #header>
             <h3>{{ $t("crud.title") }}</h3>
-          </div>
+          </template>
           <div>
             <badaso-table
               v-model="selected"
               pagination
-              max-items="10"
-              search
+              :max-items="10"
+              :search="true"
               :data="tables"
-              stripe
+              :stripe="true"
               description
               :description-items="descriptionItems"
               :description-title="$t('crud.footer.descriptionTitle')"
               :description-connector="$t('crud.footer.descriptionConnector')"
               :description-body="$t('crud.footer.descriptionBody')"
             >
-              <template slot="thead">
+              <template #thead>
                 <vs-th sort-key="tableName">
                   {{ $t("crud.header.table") }}
                 </vs-th>
                 <vs-th> {{ $t("crud.header.action") }} </vs-th>
               </template>
 
-              <template slot-scope="{ data }">
+              <template v-slot:data="{ data }">
                 <vs-tr
                   :data="table"
                   :key="index"
@@ -153,8 +168,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"]
-    }
+      fields: ["table_name"],
+    },
   }),
   mounted() {
     this.getTableList();
@@ -182,7 +197,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-          this.prepareExcelExporter()
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -219,20 +234,21 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = 'Name';
+          field = "Name";
         }
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = 'Name'
+          iterator = "Name";
         }
-        
+
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -240,7 +256,6 @@ export default {
       }
     },
     generatePdf() {
-
       let data = this.tables;
 
       // data.map((value) => {

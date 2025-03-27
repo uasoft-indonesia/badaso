@@ -9,7 +9,7 @@ export const checkConnection = (app) => {
   let isOnlineConnectionStatus = navigator.onLine;
   let onlineHistory = isOnlineConnectionStatus;
 
-  const store = app.$store;
+  const store = app.config.globalProperties.$store;
   setInterval(async () => {
     isOnlineConnectionStatus = navigator.onLine;
     store.commit("badaso/SET_GLOBAL_STATE", {
@@ -18,18 +18,16 @@ export const checkConnection = (app) => {
     });
 
     if (isOnlineConnectionStatus) {
-      if (isOnlineConnectionStatus != onlineHistory) app.$syncLoader(true);
+      if (isOnlineConnectionStatus !== onlineHistory) app.$syncLoader(true);
 
       try {
         const keys = await getAllKeysObjectStore();
 
-        for (const index in keys) {
-          const keyStore = keys[index];
+        for (const keyStore of keys) {
+          const storeResult = await readObjectStore(keyStore);
+          const data = storeResult.result.data;
 
-          const store = await readObjectStore(keyStore);
-          const data = store.result.data;
-          for (const indexItemData in data) {
-            const itemData = data[indexItemData];
+          for (const itemData of data) {
             const { requestData, requestMethod, requestUrl, requestHeaders } =
               itemData;
 
@@ -41,7 +39,7 @@ export const checkConnection = (app) => {
                 headers: requestHeaders,
               });
 
-              removeObjectStore(keyStore);
+              await removeObjectStore(keyStore);
             } catch (error) {
               console.error("HTTP REQUEST ERROR", error);
             }
@@ -51,7 +49,7 @@ export const checkConnection = (app) => {
         console.error(error);
       }
 
-      if (isOnlineConnectionStatus != onlineHistory) app.$syncLoader(false);
+      if (isOnlineConnectionStatus !== onlineHistory) app.$syncLoader(false);
       onlineHistory = isOnlineConnectionStatus;
     } else {
       onlineHistory = false;

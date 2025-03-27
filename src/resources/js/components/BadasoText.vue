@@ -1,7 +1,7 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-text__container">
-    <label class="badaso-text__label"
-      >{{ displayLabel }}
+    <label class="badaso-text__label">
+      {{ displayLabel }}
       <vs-tooltip :text="tooltip" v-if="tooltip">
         <vs-icon icon="help_outline" size="16px" color="#A5A5A5"></vs-icon>
       </vs-tooltip>
@@ -12,8 +12,7 @@
       :disabled="disabled"
       :readonly="readonly"
       :autofocus="autofocus"
-      :value="value"
-      @input="handleInput($event)"
+      v-model="localValue"
     />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
@@ -37,7 +36,6 @@
 export default {
   name: "BadasoText",
   components: {},
-  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -52,14 +50,14 @@ export default {
       default: "",
     },
     alert: {
-      type: String || Array,
+      type: [String, Array],
       default: "",
     },
     placeholder: {
       type: String,
       default: "Text",
     },
-    value: {
+    modelValue: {
       required: true,
       default: "",
     },
@@ -84,18 +82,22 @@ export default {
       default: null,
     },
   },
-  computed: {
-    displayLabel: function () {
-      if (this.required) {
-        return this.label + " *";
-      } else {
-        return this.label;
-      }
+  data() {
+    return {
+      localValue: this.modelValue,
+    };
+  },
+  watch: {
+    modelValue(newValue) {
+      this.localValue = newValue;
+    },
+    localValue(newValue) {
+      this.$emit('update:modelValue', newValue);
     },
   },
-  methods: {
-    handleInput(val) {
-      this.$emit("input", val);
+  computed: {
+    displayLabel() {
+      return this.required ? this.label + " *" : this.label;
     },
   },
 };

@@ -6,7 +6,7 @@ use Arcanedev\LogViewer\LogViewerServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 use L5Swagger\L5SwaggerServiceProvider;
-use Larapack\DoctrineSupport\DoctrineSupportServiceProvider;
+use LaravelDoctrine\ORM\DoctrineServiceProvider;
 use Uasoft\Badaso\Badaso;
 use Uasoft\Badaso\Commands\AdminCommand;
 use Uasoft\Badaso\Commands\BackupCommand;
@@ -99,7 +99,7 @@ class BadasoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(OrchestratorEventServiceProvider::class);
-        $this->app->register(DoctrineSupportServiceProvider::class);
+        $this->app->register(DoctrineServiceProvider::class);
         $this->app->register(DropboxServiceProvider::class);
         $this->app->register(GoogleDriveServiceProvider::class);
         $this->app->register(LogViewerServiceProvider::class);

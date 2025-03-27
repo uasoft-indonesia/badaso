@@ -1,76 +1,67 @@
 <template>
   <div>
-    <badaso-breadcrumb-hover full>
-        <template slot="action">
-          <download-excel
-            :data="roles"
-            :fields="fieldsForExcel"
-            :worksheet="'Role Management'"
-            :name="'Role Management '+ '.xls'"
-            class="crud-generated__excel-button"
-          >
-            <badaso-dropdown-item
-              icon="file_upload"
-            >
-              {{ $t("action.exportToExcel") }}
-            </badaso-dropdown-item>
-          </download-excel>
-          <badaso-dropdown-item
-            icon="file_upload"
-            @click="generatePdf"
-          >
-            {{ $t("action.exportToPdf") }}
+    <!-- <badaso-breadcrumb-hover full>
+      <template v-slot:action>
+        <download-excel
+          :data="roles"
+          :fields="fieldsForExcel"
+          :worksheet="'Role Management'"
+          :name="'Role Management ' + '.xls'"
+          class="crud-generated__excel-button"
+        >
+          <badaso-dropdown-item icon="file_upload">
+            {{ $t("action.exportToExcel") }}
           </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="add"
-            :to="{ name: 'RoleManagementAdd' }"
-          >
-            {{ $t("action.add") }}
-          </badaso-dropdown-item>
-          <badaso-dropdown-item
-            icon="delete_sweep"
-            v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
-            @click.stop
-            @click="confirmDeleteMultiple"
-          >
-            {{ $t("action.bulkDelete") }}
-          </badaso-dropdown-item>
-        </template>
-      </badaso-breadcrumb-hover>
+        </download-excel>
+        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
+          {{ $t("action.exportToPdf") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item icon="add" :to="{ name: 'RoleManagementAdd' }">
+          {{ $t("action.add") }}
+        </badaso-dropdown-item>
+        <badaso-dropdown-item
+          icon="delete_sweep"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_roles')"
+          @click.stop
+          @click="confirmDeleteMultiple"
+        >
+          {{ $t("action.bulkDelete") }}
+        </badaso-dropdown-item>
+      </template>
+    </badaso-breadcrumb-hover> -->
     <vs-row v-if="$helper.isAllowed('browse_roles')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template #header>
             <h3>{{ $t("role.title") }}</h3>
-          </div>
+          </template>
           <div>
             <badaso-table
-              multiple
               v-model="selected"
               pagination
-              max-items="10"
-              search
+              :max-items="10"
+              :search="true"
               :data="roles"
-              stripe
-              description
+              :stripe="true"
+              :description="true"
               :description-items="descriptionItems"
               :description-title="$t('role.footer.descriptionTitle')"
               :description-connector="$t('role.footer.descriptionConnector')"
               :description-body="$t('role.footer.descriptionBody')"
             >
-            <template slot="thead">
-              <vs-th sort-key="name"> {{ $t("role.header.name") }} </vs-th>
-              <vs-th sort-key="displayName">
-                {{ $t("role.header.displayName") }}
-              </vs-th>
-              <vs-th sort-key="description">
-                {{ $t("role.header.description") }}
-              </vs-th>
-              <vs-th> {{ $t("role.header.action") }} </vs-th>
-            </template>
-            
-            <template slot-scope="{ data }">
-              <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+              <template #thead>
+                <vs-th sort-key="name"> {{ $t("role.header.name") }} </vs-th>
+                <vs-th sort-key="displayName">
+                  {{ $t("role.header.displayName") }}
+                </vs-th>
+                <vs-th sort-key="description">
+                  {{ $t("role.header.description") }}
+                </vs-th>
+                <vs-th> {{ $t("role.header.action") }} </vs-th>
+              </template>
+
+              <template v-slot="{ data }">
+                <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                   <vs-td :data="data[indextr].name">
                     {{ data[indextr].name }}
                   </vs-td>
@@ -81,12 +72,14 @@
                     {{ data[indextr].description }}
                   </vs-td>
                   <vs-td class="badaso-table__td">
-                    <badaso-dropdown vs-trigger-click>
-                      <vs-button
+
+                    <vs-dropdown vs-custom-content vs-trigger-click>
+                       <vs-button
                         size="large"
                         type="flat"
                         icon="more_vert"
                       ></vs-button>
+
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="visibility"
@@ -124,7 +117,7 @@
                           Delete
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
-                    </badaso-dropdown>
+                    </vs-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
@@ -159,11 +152,11 @@ export default {
     descriptionItems: [10, 50, 100],
     roles: [],
     willDeleteId: null,
-    fieldsForExcel:{},
-    fieldsForPdf:[],
-    dataType:{
-      fields : ['id', "name", "display_name", "description"]
-    }
+    fieldsForExcel: {},
+    fieldsForPdf: [],
+    dataType: {
+      fields: ["id", "name", "display_name", "description"],
+    },
   }),
   mounted() {
     this.getRoleList();
@@ -204,7 +197,7 @@ export default {
           this.$closeLoader();
           this.selected = [];
           this.roles = response.data.roles;
-          this.prepareExcelExporter()
+          this.prepareExcelExporter();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -259,21 +252,30 @@ export default {
         let field = iterator;
         if (field.includes("_")) {
           field = field.split("_");
-          field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
+          field =
+            field[0].charAt(0).toUpperCase() +
+            field[0].slice(1) +
+            " " +
+            field[1].charAt(0).toUpperCase() +
+            field[1].slice(1);
         }
-
 
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] =
+          this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
-          iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
+          iterator =
+            iterator[0] +
+            " " +
+            iterator[1].charAt(0).toUpperCase() +
+            iterator[1].slice(1);
         }
-        
+
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
         this.fieldsForPdf.push(
           string.charAt(0).toUpperCase() + string.slice(1)
@@ -281,24 +283,25 @@ export default {
       }
     },
     generatePdf() {
-     
       let data = this.roles;
-      
+
       let fields = [];
 
       for (const iterator in this.dataType.fields) {
-        const string = this.$caseConvert.stringSnakeToCamel(this.dataType.fields[iterator]);
+        const string = this.$caseConvert.stringSnakeToCamel(
+          this.dataType.fields[iterator]
+        );
         fields.push(string);
       }
 
       data.map((value) => {
         for (const iterator in value) {
           if (!fields.includes(iterator)) {
-            delete value[iterator]
+            delete value[iterator];
           }
         }
         return value;
-      })
+      });
       const result = data.map(Object.values);
 
       // eslint-disable-next-line new-cap

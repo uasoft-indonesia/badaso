@@ -1,5 +1,5 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import { createApp } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
 
 import AdminContainer from "./../layout/admin/Container.vue";
 import AuthContainer from "./../layout/auth/Container.vue";
@@ -137,11 +137,11 @@ try {
 } catch (error) {
   console.info("Failed to load custom routers", error);
 }
+// const app = createApp({});
+// app.use(createRouter);
 
-Vue.use(VueRouter);
-
-const router = new VueRouter({
-  mode: "history",
+const router = createRouter({
+  history: createWebHistory(),
   routes: [
     {
       path: "",
@@ -181,19 +181,43 @@ const router = new VueRouter({
       },
     },
     {
-      path: "*",
-      component: AuthContainer,
-      redirect: prefix + "/page-not-found",
-      children: [
-        {
-          path: prefix + "/page-not-found",
-          name: "PageNotFound",
-          component: PageNotFound,
-          meta: {
-            title: "Page Not Found",
-          },
-        },
-      ],
+      //   path: "/:pathMatch(.*)*",
+      //   component: AuthContainer,
+      //   redirect: prefix + "/page-not-found",
+      //   children: [
+      //     {
+      //       path: prefix + "/page-not-found",
+      //       name: "PageNotFound",
+      //       component: PageNotFound,
+      //       meta: {
+      //         title: "Page Not Found",
+      //       },
+      //     },
+      //   ],
+
+      //   path: "/:catchAll(.*)",
+      //   component: AuthContainer,
+      //   children: [
+      //     {
+      //       path: "",
+      //       redirect: prefix + "/page-not-found",
+      //     },
+      //     {
+      //       path: prefix + "/page-not-found",
+      //       name: "PageNotFound",
+      //       component: PageNotFound,
+      //       meta: {
+      //         title: "Page Not Found",
+      //       },
+      //     },
+      //   ],
+
+      path: "/:catchAll(.*)",
+      name: "PageNotFound",
+      component: PageNotFound,
+      meta: {
+        requiresAuth: true,
+      },
     },
   ],
 });

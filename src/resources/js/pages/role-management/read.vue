@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action">
+      <template v-slot:action>
         <vs-button
           color="warning"
           type="relief"
@@ -27,22 +27,24 @@
     <vs-row v-if="$helper.isAllowed('read_roles')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>{{ $t("role.detail.title") }}</h3>
-          </div>
+          </template>
           <table class="badaso-table">
-            <tr>
-              <th>{{ $t("role.detail.name") }}</th>
-              <td>{{ role.name }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("role.detail.displayName") }}</th>
-              <td>{{ role.displayName }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("role.detail.description") }}</th>
-              <td>{{ role.description }}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <th>{{ $t("role.detail.name") }}</th>
+                <td>{{ role.name }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("role.detail.displayName") }}</th>
+                <td>{{ role.displayName }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("role.detail.description") }}</th>
+                <td>{{ role.description }}</td>
+              </tr>
+            </tbody>
           </table>
         </vs-card>
       </vs-col>

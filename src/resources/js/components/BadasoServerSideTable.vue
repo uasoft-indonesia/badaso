@@ -128,7 +128,7 @@ export default {
     },
   },
   mounted() {},
-  destroyed() {},
+  onUnmounted() {},
   methods: {
     handleSearch(e) {
       this.$emit("search", e);

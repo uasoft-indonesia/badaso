@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('add_users')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
-            <h3>{{ $t("user.add.title") }}</h3>
-          </div>
+           <template v-slot:header>
+             <h3>{{ $t("user.add.title") }}</h3>
+           </template>
           <vs-row>
             <badaso-text
               v-model="user.name"

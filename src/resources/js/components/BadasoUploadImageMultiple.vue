@@ -10,7 +10,8 @@
       @click="openFileManager"
       v-on:keyup.space="openFileManager"
       readonly
-      v-model="value"
+      :value="value"
+      @input="$emit('update:value', $event.target.value)"
       icon="attach_file"
       icon-after="true"
     />
