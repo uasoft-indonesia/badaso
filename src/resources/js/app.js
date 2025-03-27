@@ -1,9 +1,9 @@
-import Vue from "vue";
-import Vuesax from "vuesax";
-import VueI18n from "vue-i18n";
-import { Datetime } from "vue-datetime";
+import { createApp } from "vue";
+import Vuesax from "vuesax3";
+import { createI18n } from "vue-i18n";
+import Datetime from "vue-datetime";
 import Vuelidate from "vuelidate";
-import VueGtag from "vue-gtag";
+import VueGtag from "vue-gtag-next";
 
 import api from "./api/index";
 import handleError from "./api/handle-error";
@@ -14,7 +14,6 @@ import lang from "./lang/";
 import excludedRouter from "./router/excludeRouter";
 
 import App from "./apps/App.vue";
-
 import firebase from "firebase/app";
 import "firebase/firebase-messaging";
 import { notificationMessageReceiveHandle } from "./utils/firebase";
@@ -22,15 +21,15 @@ import { broadcastMessageHandle } from "./utils/broadcast-messages";
 import { checkConnection } from "./utils/check-connection";
 import { readObjectStore, setObjectStore } from "./utils/indexed-db";
 
-Vue.config.productionTip = false;
-Vue.config.devtools = true;
+const app = createApp(App);
 
-Vue.use(Vuesax);
-Vue.use(VueI18n);
-Vue.use(Datetime);
-// eslint-disable-next-line vue/multi-word-component-names
-Vue.component("datetime", Datetime);
-Vue.use(Vuelidate);
+app.use(Vuesax);
+
+app.use(Vuelidate);
+app.use(Datetime);
+
+app.config.productionTip = false;
+app.config.devtools = true;
 
 // IDENTIFIED VARIABLE BROADCAST CHANNEL
 const broadcastChannelName = "sw-badaso-messages";
@@ -89,7 +88,7 @@ try {
       .toLowerCase() // convert to lower case
       .replace("./", "");
 
-    Vue.component(str, componentConfig.default || componentConfig);
+    app.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {
   console.info("Failed to load badaso components", error);
@@ -117,7 +116,7 @@ try {
       .toLowerCase() // convert to lower case
       .replace("./", "");
 
-    Vue.component(str, componentConfig.default || componentConfig);
+    app.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {
   console.info("Failed to load custom components", error);
@@ -143,7 +142,8 @@ try {
         }
       })
       .join("");
-    Vue.prototype["$" + utilName] = requireUtils(fileName).default;
+    app.config.globalProperties["$" + utilName] =
+      requireUtils(fileName).default;
   });
 } catch (error) {
   console.info("Failed to load badaso utils", error);
@@ -173,7 +173,8 @@ try {
         }
       })
       .join("");
-    Vue.prototype["$" + utilName] = requireCustomUtils(fileName).default;
+    app.config.globalProperties["$" + utilName] =
+      requireCustomUtils(fileName).default;
   });
 } catch (error) {
   console.info("Failed to load custom utils", error);
@@ -202,7 +203,7 @@ try {
       .replace("./", "")
       .replace("/", "-");
 
-    Vue.component(str, componentConfig.default || componentConfig);
+    app.component(str, componentConfig.default || componentConfig);
   });
 } catch (error) {
   console.info("Failed to load custom pages", error);
@@ -218,7 +219,7 @@ try {
           plugin +
           "/src/resources/js/components/index.js").default;
         Object.values(fileName).forEach((value, index) => {
-          Vue.component(value.name, value);
+          app.component(value.name, value);
         });
       });
     }
@@ -227,22 +228,23 @@ try {
   console.info("Failed to load pages", error);
 }
 
-const i18n = new VueI18n({
+// Use VueI18n
+const i18n = createI18n({
   locale: "id",
   fallbackLocale: "en",
   messages: lang.i18n,
 });
 
-Vue.prototype.$readObjectStore = readObjectStore;
-Vue.prototype.$setObjectStore = setObjectStore;
-Vue.prototype.$api = api;
-Vue.prototype.$handleError = handleError;
-Vue.prototype.$resource = resource;
-Vue.prototype.$constants = {
+app.config.globalProperties.$readObjectStore = readObjectStore;
+app.config.globalProperties.$setObjectStore = setObjectStore;
+app.config.globalProperties.$api = api;
+app.config.globalProperties.$handleError = handleError;
+app.config.globalProperties.$resource = resource;
+app.config.globalProperties.$constants = {
   MOBILE: "mobile",
   DESKTOP: "desktop",
 };
-Vue.prototype.$loadingConfig = {
+app.config.globalProperties.$loadingConfig = {
   type: "sound",
   color: "#06bbd3",
 };
@@ -250,27 +252,55 @@ Vue.prototype.$loadingConfig = {
 const baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-dashboard";
-Vue.prototype.$baseUrl = "/" + baseUrl;
+app.config.globalProperties.$baseUrl = "/" + baseUrl;
 
-Vue.prototype.$openLoader = function (payload) {
+
+// app.config.globalProperties.$openLoader = function (payload) {
+//   try {
+//     const instance = getCurrentInstance();
+//     instance.openLoader(payload);
+//   } catch (error) {
+//     console.log("Open Loader", error);
+//   }
+// };
+
+// app.config.globalProperties.$closeLoader = function () {
+//   try {
+//     const instance = getCurrentInstance();
+//     instance.closeLoader();
+//   } catch (error) {
+//     console.log("Close Loader", error);
+//   }
+// };
+
+// app.config.globalProperties.$syncLoader = function (statusSyncLoader) {
+//   try {
+//     const instance = getCurrentInstance();
+//     instance.syncLoader(statusSyncLoader);
+//   } catch (error) {
+//     console.log("Sync Loader", error);
+//   }
+// };
+
+app.config.globalProperties.$openLoader = function (payload) {
   try {
-    this.$root.$children[0].openLoader(payload);
+    this.$root.openLoader(payload);
   } catch (error) {
     console.log("Open Loader", error);
   }
 };
 
-Vue.prototype.$closeLoader = function () {
+app.config.globalProperties.$closeLoader = function () {
   try {
-    this.$root.$children[0].closeLoader();
+    this.$root.closeLoader();
   } catch (error) {
     console.log("Close Loader", error);
   }
 };
 
-Vue.prototype.$syncLoader = function (statusSyncLoader) {
+app.config.globalProperties.$syncLoader = function (statusSyncLoader) {
   try {
-    this.$root.$children[0].syncLoader(statusSyncLoader);
+    this.$root.syncLoader(statusSyncLoader);
   } catch (error) {
     console.log("Sync Loader", error);
   }
@@ -294,9 +324,10 @@ for (const key in firebaseConfig)
     firebaseConfig[key] != undefined &&
     firebaseConfig[key] != "";
 
-Vue.prototype.$messaging = {};
-Vue.prototype.$messagingToken = {};
-Vue.prototype.$statusActiveFeatureFirebase = statusActiveFeatureFirebase;
+app.config.globalProperties.$messaging = {};
+app.config.globalProperties.$messagingToken = {};
+app.config.globalProperties.$statusActiveFeatureFirebase =
+  statusActiveFeatureFirebase;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -317,20 +348,19 @@ if (statusActiveFeatureFirebase) {
     firebase.app();
   }
 
-  Vue.prototype.$messaging = firebase.messaging();
-  Vue.prototype.$messagingToken = firebase
+  app.config.globalProperties.$messaging = firebase.messaging();
+  app.config.globalProperties.$messagingToken = firebase
     .messaging()
     .getToken({ vapidKey: process.env.MIX_FIREBASE_WEB_PUSH_CERTIFICATES });
 }
 // END ADD FIREBASE
 
 // IDENTIFIED BROADCAST CHANNEL
-Vue.prototype.$broadcastChannelName = broadcastChannelName;
-Vue.prototype.$broadcastChannel = broadcastChannel;
+app.config.globalProperties.$broadcastChannelName = broadcastChannelName;
+app.config.globalProperties.$broadcastChannel = broadcastChannel;
 
 // START G-TAG
-
-Vue.use(
+app.use(
   VueGtag,
   {
     pageTrackerExcludedRoutes: excluded,
@@ -345,15 +375,12 @@ Vue.use(
   },
   router
 );
-
 // END G-TAG
-
-const app = new Vue({
-  store,
-  router,
-  i18n,
-  render: (h) => h(App),
-}).$mount("#app");
+// app.use(router).use(store).mount("#app");
+app.use(router);
+app.use(store);
+app.use(i18n);
+app.mount("#app");
 
 // HANDLE FIREBASE MESSAGE
 if (statusActiveFeatureFirebase) notificationMessageReceiveHandle(app);

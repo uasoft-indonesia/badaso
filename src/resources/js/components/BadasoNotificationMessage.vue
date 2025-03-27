@@ -19,7 +19,8 @@
       spacer
       v-model="sideBarNotification"
     >
-      <div index="1" icon="notifications" slot="header">
+      <template #header>
+        <div index="1" icon="notifications">
         <vs-sidebar-item
           index="0"
           class="top-navbar__notification-item"
@@ -28,6 +29,8 @@
           <strong>{{ $t("notification.notification") }}</strong>
         </vs-sidebar-item>
       </div>
+      </template>
+
       <vs-sidebar-item
         icon="question_answer"
         v-for="(message, index) in messages"

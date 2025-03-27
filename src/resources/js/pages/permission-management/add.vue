@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('add_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template #header>
             <h3>{{ $t("permission.add.title") }}</h3>
-          </div>
+          </template>
           <vs-row>
             <badaso-text
               v-model="permission.key"

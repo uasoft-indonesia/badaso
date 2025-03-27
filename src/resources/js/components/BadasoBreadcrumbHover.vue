@@ -4,7 +4,7 @@
       <vs-icon
         icon="arrow_back_ios"
         class="badaso-breadcrumb-hover__icon"
-        @click="goBack()"
+        @click="goBack"
       />
       <vs-breadcrumb class="badaso-breadcrumb-hover__list">
         <li v-for="(item, index) in items" :key="index">
@@ -28,16 +28,8 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import _ from "lodash";
-
 export default {
-  name: "BadasoBreadcrumbRow",
-  components: {},
-  data: () => ({
-    items: [],
-    activePage: {},
-  }),
+  name: 'BadasoBreadcrumbRow',
   props: {
     full: {
       type: Boolean,
@@ -48,32 +40,37 @@ export default {
       default: true,
     },
   },
-  computed: {},
+  data() {
+    return {
+      items: [],
+      activePage: { title: '', url: '' },
+    };
+  },
   mounted() {
     let path = this.$route.path;
     if (!this.full) {
       const params = this.$route.params;
-      const keys = Object.keys(params);
-      for (let i = 0; i < keys.length; i++) {
-        path = path.replace("/" + params[keys[i]], "");
-      }
+      Object.values(params).forEach(param => {
+        path = path.replace(`/${param}`, '');
+      });
     }
-    const part = path.split("/");
-    let url = "";
-    for (let index = 1; index < part.length; index++) {
-      url = url + "/" + part[index];
-      if (index == part.length - 1) {
+    const parts = path.split('/').filter(Boolean); // Menghapus bagian kosong
+    let url = '';
+
+    parts.forEach((part, index) => {
+      url += `/${part}`;
+      if (index === parts.length - 1) {
         this.activePage = {
-          title: this.$helper.generateDisplayName(part[index]),
-          url: url,
+          title: this.$helper.generateDisplayName(part),
+          url,
         };
       } else {
         this.items.push({
-          title: this.$helper.generateDisplayName(part[index]),
-          url: url,
+          title: this.$helper.generateDisplayName(part),
+          url,
         });
       }
-    }
+    });
   },
   methods: {
     goBack() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action">
+      <template v-slot:action>
         <vs-button
           color="warning"
           type="relief"
@@ -18,48 +18,52 @@
     <vs-row v-if="$helper.isAllowed('read_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template #header>
             <h3>{{ $t("permission.detail.title") }}</h3>
-          </div>
+          </template>
           <table class="badaso-table">
-            <tr>
-              <th>{{ $t("permission.detail.key") }}</th>
-              <td>{{ permission.key }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("permission.detail.description") }}</th>
-              <td>{{ permission.description }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("permission.detail.tableName") }}</th>
-              <td>{{ permission.tableName }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("permission.detail.rolesCanSeeAllData") }}</th>
-              <td>{{ permission.rolesCanSeeAllData }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("permission.detail.fieldIdentifyRelatedUser") }}</th>
-              <td>{{ permission.fieldIdentifyRelatedUser }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("permission.detail.alwaysAllow.title") }}</th>
-              <td>
-                <span v-if="permission.alwaysAllow == 1">{{
-                  $t("permission.detail.alwaysAllow.yes")
-                }}</span>
-                <span v-else>{{ $t("permission.detail.alwaysAllow.no") }}</span>
-              </td>
-            </tr>
-            <tr>
-              <th>{{ $t("permission.detail.isPublic.title") }}</th>
-              <td>
-                <span v-if="permission.isPublic == 1">{{
-                  $t("permission.detail.isPublic.yes")
-                }}</span>
-                <span v-else>{{ $t("permission.detail.isPublic.no") }}</span>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <th>{{ $t("permission.detail.key") }}</th>
+                <td>{{ permission.key }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("permission.detail.description") }}</th>
+                <td>{{ permission.description }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("permission.detail.tableName") }}</th>
+                <td>{{ permission.tableName }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("permission.detail.rolesCanSeeAllData") }}</th>
+                <td>{{ permission.rolesCanSeeAllData }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("permission.detail.fieldIdentifyRelatedUser") }}</th>
+                <td>{{ permission.fieldIdentifyRelatedUser }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("permission.detail.alwaysAllow.title") }}</th>
+                <td>
+                  <span v-if="permission.alwaysAllow == 1">{{
+                    $t("permission.detail.alwaysAllow.yes")
+                  }}</span>
+                  <span v-else>{{
+                    $t("permission.detail.alwaysAllow.no")
+                  }}</span>
+                </td>
+              </tr>
+              <tr>
+                <th>{{ $t("permission.detail.isPublic.title") }}</th>
+                <td>
+                  <span v-if="permission.isPublic == 1">{{
+                    $t("permission.detail.isPublic.yes")
+                  }}</span>
+                  <span v-else>{{ $t("permission.detail.isPublic.no") }}</span>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </vs-card>
       </vs-col>
@@ -98,7 +102,9 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.permission = response.data.permission;
-          this.permission.rolesCanSeeAllData = JSON.parse(this.permission.rolesCanSeeAllData).toString()
+          this.permission.rolesCanSeeAllData = JSON.parse(
+            this.permission.rolesCanSeeAllData
+          ).toString();
         })
         .catch((error) => {
           this.$closeLoader();

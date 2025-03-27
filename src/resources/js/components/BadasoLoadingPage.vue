@@ -3,9 +3,9 @@
     <vs-row class="badaso-loading-page__container">
       <vs-col vs-lg="12" class="badaso-loading-page__box">
         <vs-card class="badaso-loading-page__card">
-          <div slot="header">
-            <h3 class="badaso-loading-page__title">{{ title }}</h3>
-          </div>
+            <template v-slot:header>
+                <h3 class="badaso-loading-page__title">{{ title }}</h3>
+            </template>
           <div>
             <vs-progress indeterminate color="primary">primary</vs-progress>
           </div>

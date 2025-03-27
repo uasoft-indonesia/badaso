@@ -5,15 +5,15 @@
       <vs-row v-if="$helper.isAllowedToModifyGeneratedCRUD('add', dataType)">
         <vs-col vs-lg="12">
           <vs-card>
-            <div slot="header">
-              <h3>
+            <template v-slot:header>
+                 <h3>
                 {{
                   $t("crudGenerated.add.title", {
                     tableName: dataType.displayNameSingular,
                   })
                 }}
               </h3>
-            </div>
+            </template>
             <vs-row>
               <vs-col vs-lg="12" v-if="!isValid">
                 <p class="is-error">No fields have been filled</p>
