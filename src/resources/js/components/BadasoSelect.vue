@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import * as DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify';
 export default {
   name: "BadasoSelect",
   components: {},
