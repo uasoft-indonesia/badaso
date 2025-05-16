@@ -2455,7 +2455,7 @@ class BadasoApiCrudManagementTest extends TestCase
         ];
         $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $image);
         $message = $response['data'];
-        $this->assertNull($response['errors']);
+        $this->assertEmpty($response['errors']);
         $this->assertArrayHasKey('uploaded', $message['original']);
     }
 }
