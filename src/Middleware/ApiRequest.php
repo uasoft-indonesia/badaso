@@ -62,6 +62,7 @@ class ApiRequest
         $lang = explode(',', $langHeader)[0];
         $lang = explode(';', $lang)[0];
         $lang = trim($lang);
+
         app()->setLocale($lang);
 
         $request->merge(CaseConvert::snake($request->all()));

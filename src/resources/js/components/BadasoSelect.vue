@@ -35,7 +35,6 @@
 
 <script>
 import DOMPurify from 'dompurify';
-
 export default {
   name: "BadasoSelect",
   props: {
