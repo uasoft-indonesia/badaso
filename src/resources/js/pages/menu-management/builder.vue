@@ -2,7 +2,7 @@
   <div>
     <vs-popup
       :title="$t('menu.builder.popup.add.title')"
-      :active.sync="addMenuItemPopUp"
+      v-model:active.sync="addMenuItemPopUp"
     >
       <vs-row>
         <badaso-text
@@ -63,7 +63,7 @@
       </vs-row>
     </vs-popup>
     <badaso-breadcrumb-row>
-      <template slot="action" v-if="$helper.isAllowed('add_menu_items')">
+      <template v-slot:action v-if="$helper.isAllowed('add_menu_items')">
         <vs-button color="primary" type="relief" @click="addMenuItem()"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.addItem") }}</vs-button
         >
@@ -72,9 +72,9 @@
     <vs-row v-if="$helper.isAllowed('edit_menus')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>{{ $t("menu.builder.title") }}</h3>
-          </div>
+          </template>
           <vs-row>
             <vs-col class="menu-management__builder-col">
               <Tree
@@ -147,7 +147,7 @@
               <!-- popup modal edit -->
               <vs-popup
                 :title="$t('menu.builder.popup.edit.title')"
-                :active.sync="editMenuItemPopUp"
+                v-model:active.sync="editMenuItemPopUp"
               >
                 <vs-row>
                   <badaso-text
@@ -235,13 +235,13 @@
   </div>
 </template>
 <script>
-import { DraggableTree } from "vue-draggable-nested-tree";
+import draggable from 'vuedraggable';
 import _ from "lodash";
 
 export default {
   name: "MenuManagementBuilder",
   components: {
-    Tree: DraggableTree,
+    Tree: draggable,
   },
   data: () => ({
     errors: {},

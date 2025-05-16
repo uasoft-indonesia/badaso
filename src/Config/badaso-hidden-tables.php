@@ -26,4 +26,10 @@ return [
     'personal_access_tokens',
     'users',
     'password_resets',
+    'cache',
+    'cache_locks',
+    'jobs',
+    'job_batches',
+    'password_reset_tokens',
+    'sessions',
 ];

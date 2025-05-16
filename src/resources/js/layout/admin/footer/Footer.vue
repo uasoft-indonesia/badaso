@@ -2,7 +2,7 @@
   <div class="badaso-footer__container">
     <div class="badaso-footer__version">Version {{ version }}</div>
     <div>
-      Copyright © 2020
+      Copyright © 2024
       <a href="https://soft.uatech.co.id" target="_blank">UASOFT</a>. All rights
       reserved.
     </div>

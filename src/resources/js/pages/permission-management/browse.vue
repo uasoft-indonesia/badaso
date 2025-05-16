@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action">
+      <template v-slot:action>
         <vs-button
           color="primary"
           type="relief"
@@ -23,19 +23,19 @@
     <vs-row v-if="$helper.isAllowed('browse_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template #header>
             <h3>{{ $t("permission.title") }}</h3>
-          </div>
+          </template>
+
           <div>
             <badaso-table
-              multiple
               v-model="selected"
               pagination
-              max-items="10"
-              search
+              :max-items="10"
+              :search="true"
               :data="permissions"
-              stripe
-              description
+              :stripe="true"
+              :description="true"
               :description-items="descriptionItems"
               :description-title="$t('permission.footer.descriptionTitle')"
               :description-connector="
@@ -43,7 +43,7 @@
               "
               :description-body="$t('permission.footer.descriptionBody')"
             >
-              <template slot="thead">
+              <template #thead>
                 <vs-th sort-key="key">
                   {{ $t("permission.header.key") }}
                 </vs-th>
@@ -68,7 +68,7 @@
                 <vs-th> {{ $t("permission.header.action") }} </vs-th>
               </template>
 
-              <template slot-scope="{ data }">
+              <template v-slot="{ data }">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                   <vs-td :data="data[indextr].key">
                     {{ data[indextr].key }}
@@ -81,11 +81,11 @@
                   <vs-td :data="data[indextr].tableName">
                     {{ data[indextr].tableName }}
                   </vs-td>
-                  
+
                   <vs-td :data="data[indextr].rolesCanSeeAllData">
                     {{ data[indextr].rolesCanSeeAllData }}
                   </vs-td>
-                  
+
                   <vs-td :data="data[indextr].fieldIdentifyRelatedUser">
                     {{ data[indextr].fieldIdentifyRelatedUser }}
                   </vs-td>
@@ -99,8 +99,9 @@
                     <span v-if="data[indextr].isPublic == 1">Yes</span>
                     <span v-else>No</span>
                   </vs-td>
+
                   <vs-td class="badaso-table__td">
-                    <badaso-dropdown vs-trigger-click>
+                    <!-- <badaso-dropdown vs-trigger-click>
                       <vs-button
                         size="large"
                         type="flat"
@@ -134,7 +135,44 @@
                           Delete
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
-                    </badaso-dropdown>
+                    </badaso-dropdown> -->
+
+                    <vs-dropdown vs-custom-content vs-trigger-click>
+                      <vs-button
+                        size="large"
+                        type="flat"
+                        icon="more_vert"
+                      ></vs-button>
+
+                     <vs-dropdown-menu>
+                        <badaso-dropdown-item
+                          icon="visibility"
+                          :to="{
+                            name: 'PermissionManagementRead',
+                            params: { id: data[indextr].id },
+                          }"
+                        >
+                          Detail
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="edit"
+                          :to="{
+                            name: 'PermissionManagementEdit',
+                            params: { id: data[indextr].id },
+                          }"
+                          v-if="$helper.isAllowed('edit_permissions')"
+                        >
+                          Edit
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="delete"
+                          @click="confirmDelete(data[indextr].id)"
+                          v-if="$helper.isAllowed('delete_permissions')"
+                        >
+                          Delete
+                        </badaso-dropdown-item>
+                      </vs-dropdown-menu>
+                    </vs-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
@@ -205,12 +243,12 @@ export default {
           this.selected = [];
           this.permissions = response.data.permissions;
           this.permissions.map((value) => {
-            if (value.rolesCanSeeAllData){
-              let rolesAllData = JSON.parse(value.rolesCanSeeAllData)
-              value.rolesCanSeeAllData = rolesAllData.toString()
+            if (value.rolesCanSeeAllData) {
+              let rolesAllData = JSON.parse(value.rolesCanSeeAllData);
+              value.rolesCanSeeAllData = rolesAllData.toString();
             }
             return value;
-          })
+          });
         })
         .catch((error) => {
           this.$closeLoader();

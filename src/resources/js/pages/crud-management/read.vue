@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('read_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>Add CRUD for {{ $route.params.tableName }}</h3>
-          </div>
+          </template>
           <vs-row>
             <badaso-text
               v-model="crudData.name"
@@ -107,19 +107,21 @@
       </vs-col>
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>Add CRUD Fields for {{ $route.params.tableName }}</h3>
-          </div>
+          </template>
           <vs-row>
             <vs-col col-lg="12">
               <table class="badaso-table">
                 <thead>
-                  <th class="badaso-table__th"></th>
-                  <th class="badaso-table__th">Field</th>
-                  <th class="badaso-table__th">Visibility</th>
-                  <th class="badaso-table__th">Input Type</th>
-                  <th class="badaso-table__th--sm">Display Name</th>
-                  <th>Optional Details</th>
+                  <tr>
+                    <th class="badaso-table__th"></th>
+                    <th class="badaso-table__th">Field</th>
+                    <th class="badaso-table__th">Visibility</th>
+                    <th class="badaso-table__th">Input Type</th>
+                    <th class="badaso-table__th--sm">Display Name</th>
+                    <th>Optional Details</th>
+                  </tr>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
                   <tr :key="index" v-for="(field, index) in crudData.rows">
@@ -220,12 +222,12 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
+import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
   name: "CrudManagementRead",
   components: {
-    draggable,
+    draggable: VueDraggableNext,
   },
   data: () => ({
     breadcrumb: [],

@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('edit_permissions')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template #header>
             <h3>{{ $t("permission.edit.title") }}</h3>
-          </div>
+          </template>
           <vs-row>
             <badaso-text
               v-model="permission.key"
@@ -48,14 +48,20 @@
             ></badaso-text>
             <badaso-select-multiple
               :label="$t('permission.edit.field.rolesCanSeeAllData.title')"
-              :placeholder="$t('permission.edit.field.rolesCanSeeAllData.placeholder')"
+              :placeholder="
+                $t('permission.edit.field.rolesCanSeeAllData.placeholder')
+              "
               v-model="permission.rolesCanSeeAllData"
               size="12"
               :items="roleData ? roleData : []"
             ></badaso-select-multiple>
             <badaso-select
-              :label="$t('permission.edit.field.fieldIdentifyRelatedUser.title')"
-              :placeholder="$t('permission.edit.field.fieldIdentifyRelatedUser.placeholder')"
+              :label="
+                $t('permission.edit.field.fieldIdentifyRelatedUser.title')
+              "
+              :placeholder="
+                $t('permission.edit.field.fieldIdentifyRelatedUser.placeholder')
+              "
               v-model="permission.fieldIdentifyRelatedUser"
               size="12"
               :items="fieldData ? fieldData : []"
@@ -94,17 +100,21 @@
 export default {
   name: "PermissionManagementEdit",
   components: {},
-  data: () => ({
-    errors: {},
-    permission: {
-      description: "",
-      alwaysAllow: false,
-    },
-    roleData: [],
-    selected: [],
-    fieldData: [],
-    table: "",
-  }),
+  data() {
+    return {
+      errors: {},
+      permission: {
+        key: null,
+        description: "",
+        alwaysAllow: false,
+        rolesCanSeeAllData: [],
+      },
+      roleData: [],
+      selected: [],
+      fieldData: [],
+      table: "",
+    };
+  },
   mounted() {
     this.getPermissionDetail();
     this.getRole();
@@ -126,7 +136,11 @@ export default {
               ? ""
               : this.permission.description;
           this.getFieldTable(this.permission.tableName);
-          this.permission.rolesCanSeeAllData = this.permission.rolesCanSeeAllData ? JSON.parse(this.permission.rolesCanSeeAllData) : [];
+
+          this.permission.rolesCanSeeAllData = this.permission
+            .rolesCanSeeAllData
+            ? JSON.parse(this.permission.rolesCanSeeAllData)
+            : [];
         })
         .catch((error) => {
           this.$closeLoader();
@@ -143,21 +157,21 @@ export default {
           table: table,
         })
         .then((response) => {
-            this.fieldData = response.data.crud.dataRows;
-            for(let key in this.fieldData){
-              if (this.fieldData[key].displayName){
-                this.fieldData[key].label = this.fieldData[key].field
-                delete this.fieldData[key].displayName
-              }
-              if (this.fieldData[key].field){
-                this.fieldData[key].value = this.fieldData[key].field
-                delete this.fieldData[key].field
-              }
+          this.fieldData = response.data.crud.dataRows;
+          for (let key in this.fieldData) {
+            if (this.fieldData[key].displayName) {
+              this.fieldData[key].label = this.fieldData[key].field;
+              delete this.fieldData[key].displayName;
             }
-            this.fieldData.push({
-              label: "user_id",
-              value: "user_id"
-            })
+            if (this.fieldData[key].field) {
+              this.fieldData[key].value = this.fieldData[key].field;
+              delete this.fieldData[key].field;
+            }
+          }
+          this.fieldData.push({
+            label: "user_id",
+            value: "user_id",
+          });
         })
         .catch(() => {
           this.$closeLoader();
@@ -169,14 +183,14 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.roleData = response.data.roles;
-          for(let key in this.roleData){
-            if (this.roleData[key].displayName){
-              this.roleData[key].label = this.roleData[key].displayName
-              delete this.roleData[key].displayName
+          for (let key in this.roleData) {
+            if (this.roleData[key].displayName) {
+              this.roleData[key].label = this.roleData[key].displayName;
+              delete this.roleData[key].displayName;
             }
-            if (this.roleData[key].name){
-              this.roleData[key].value = this.roleData[key].name
-              delete this.roleData[key].name
+            if (this.roleData[key].name) {
+              this.roleData[key].value = this.roleData[key].name;
+              delete this.roleData[key].name;
             }
           }
         })

@@ -3,15 +3,14 @@
     <vs-select
       :label="label"
       :placeholder="placeholder"
-      :value="value"
-      @input="handleInput($event)"
+      :modelValue="modelValue"
+     @update:modelValue="handleInput($event)"
       width="100%"
       multiple
-      autocomplete
     >
       <vs-select-item
         :key="index"
-        :value="satinize(item.value)"
+        :modelValue="satinize(item.value)"
         :text="satinize(item.label)"
         v-for="(item, index) in items"
       />
@@ -56,10 +55,10 @@ export default {
       type: String,
       default: "Select Multiple",
     },
-    value: {
+    modelValue: {
       type: Array,
       default: () => {
-        return [];
+        return ([]);
       },
     },
     items: {
@@ -80,8 +79,8 @@ export default {
       return DOMPurify.sanitize(item)
     },
     handleInput(val) {
-      this.$emit("input", val);
-    },
+    this.$emit('update:modelValue', val);
+  },
   },
 };
 </script>

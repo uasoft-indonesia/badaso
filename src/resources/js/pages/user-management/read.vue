@@ -1,7 +1,7 @@
 <template>
   <div>
     <badaso-breadcrumb-row>
-      <template slot="action">
+      <template v-slot:action>
         <vs-button
           color="warning"
           type="relief"
@@ -25,53 +25,55 @@
     <vs-row v-if="$helper.isAllowed('read_users')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>{{ $t("user.detail.title") }}</h3>
-          </div>
+          </template>
           <table class="badaso-table">
-            <tr>
-              <th>{{ $t("user.detail.avatar") }}</th>
-              <td>
-                <img :src="`${user.avatar}`" width="100%" alt="" />
-              </td>
-            </tr>
-            <tr>
-              <th>{{ $t("user.detail.name") }}</th>
-              <td>{{ user.name }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("user.detail.username") }}</th>
-              <td>{{ user.username }}</td>
-            </tr>
-             <tr>
-              <th>{{ $t("user.detail.gender") }}</th>
-              <td>{{ user.gender }}</td>
-            </tr>
-             <tr>
-              <th>{{ $t("user.detail.phone") }}</th>
-              <td>{{ user.phone }}</td>
-            </tr>
-             <tr>
-              <th>{{ $t("user.detail.address") }}</th>
-              <td>{{ user.address }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("user.detail.email") }}</th>
-              <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("user.detail.emailVerified") }}</th>
-              <td>
-                <span v-if="user.emailVerified">Yes</span>
-                <span v-else>No</span>
-              </td>
-            </tr>
-            <tr>
-              <th>{{ $t("user.detail.additionalInfo") }}</th>
-              <td>
-                <pre>{{ user.additionalInfo }}</pre>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <th>{{ $t("user.detail.avatar") }}</th>
+                <td>
+                  <img :src="`${user.avatar}`" width="100%" alt="" />
+                </td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.name") }}</th>
+                <td>{{ user.name }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.username") }}</th>
+                <td>{{ user.username }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.gender") }}</th>
+                <td>{{ user.gender }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.phone") }}</th>
+                <td>{{ user.phone }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.address") }}</th>
+                <td>{{ user.address }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.email") }}</th>
+                <td>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.emailVerified") }}</th>
+                <td>
+                  <span v-if="user.emailVerified">Yes</span>
+                  <span v-else>No</span>
+                </td>
+              </tr>
+              <tr>
+                <th>{{ $t("user.detail.additionalInfo") }}</th>
+                <td>
+                  <pre>{{ user.additionalInfo }}</pre>
+                </td>
+              </tr>
+            </tbody>
           </table>
         </vs-card>
       </vs-col>
