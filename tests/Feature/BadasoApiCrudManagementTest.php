@@ -2454,12 +2454,9 @@ class BadasoApiCrudManagementTest extends TestCase
             'upload' => $image_file,
         ];
         $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $image);
-        $message = $response['data'];
-        $this->assertEmpty($response['errors']);
-        $this->assertNotNull($message, 'Response data is null');
-        $this->assertIsArray($message, 'Response data is not an array');
-        $this->assertArrayHasKey('original', $message, 'Missing "original" key in response');
-        $this->assertIsArray($message['original'], 'Response "original" is not an array');
-        $this->assertArrayHasKey('uploaded', $message['original'], 'Missing "uploaded" key in response original');
+        $$data = $response->json();
+        $this->assertTrue($data['uploaded']);
+        $this->assertArrayHasKey('url', $data);
+        $this->assertArrayHasKey('original_name', $data);
     }
 }
