@@ -6,10 +6,10 @@ use Doctrine\DBAL\Types\StringType as DoctrineStringType;
 
 class VarCharType extends DoctrineStringType
 {
-    const NAME = 'varchar';
+    const NAME = 'string';
 
     public function getName()
     {
-        return static::NAME;
+        return 'varchar';
     }
 }

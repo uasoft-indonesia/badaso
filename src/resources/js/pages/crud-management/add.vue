@@ -4,7 +4,7 @@
     <vs-row v-if="$helper.isAllowed('add_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>
               {{
                 $t("crud.add.title.table", {
@@ -12,7 +12,7 @@
                 })
               }}
             </h3>
-          </div>
+          </template>
           <vs-row>
             <badaso-text
               v-model="crudData.name"
@@ -63,7 +63,9 @@
       <vs-col vs-lg="12">
         <badaso-collapse>
           <badaso-collapse-item>
-            <h3 slot="header">{{ $t("crud.add.title.advance") }}</h3>
+            <template v-slot:header>
+              <h3>{{ $t("crud.add.title.advance") }}</h3>
+            </template>
             <vs-row>
               <badaso-text
                 v-model="crudData.modelName"
@@ -355,7 +357,7 @@
       </vs-col>
       <vs-col vs-lg="12">
         <vs-card>
-          <div slot="header">
+          <template v-slot:header>
             <h3>
               {{
                 $t("crud.add.title.field", {
@@ -363,27 +365,29 @@
                 })
               }}
             </h3>
-          </div>
+          </template>
           <vs-row class="hide-for-mobile">
             <vs-col col-lg="12">
               <table class="badaso-table">
                 <thead>
-                  <th class="badaso-table__th"></th>
-                  <th class="badaso-table__th">
-                    {{ $t("crud.add.header.field") }}
-                  </th>
-                  <th class="badaso-table__th">
-                    {{ $t("crud.add.header.visibility") }}
-                  </th>
-                  <th class="badaso-table__th badaso-table__th--sm">
-                    {{ $t("crud.add.header.inputType") }}
-                  </th>
-                  <th class="badaso-table__th--sm">
-                    {{ $t("crud.add.header.displayName") }}
-                  </th>
-                  <th class="badaso-table__th--sm">
-                    {{ $t("crud.add.header.optionalDetails") }}
-                  </th>
+                  <tr>
+                    <th class="badaso-table__th"></th>
+                    <th class="badaso-table__th">
+                      {{ $t("crud.add.header.field") }}
+                    </th>
+                    <th class="badaso-table__th">
+                      {{ $t("crud.add.header.visibility") }}
+                    </th>
+                    <th class="badaso-table__th badaso-table__th--sm">
+                      {{ $t("crud.add.header.inputType") }}
+                    </th>
+                    <th class="badaso-table__th--sm">
+                      {{ $t("crud.add.header.displayName") }}
+                    </th>
+                    <th class="badaso-table__th--sm">
+                      {{ $t("crud.add.header.optionalDetails") }}
+                    </th>
+                  </tr>
                 </thead>
                 <draggable v-model="crudData.rows" tag="tbody">
                   <tr :key="index" v-for="(field, index) in crudData.rows">
@@ -460,97 +464,109 @@
                       />
                     </td>
                     <td>
-                    <badaso-code-editor
-                      v-model="field.details"
-                      v-if="field.type !== 'relation'"
-                    >
-                    </badaso-code-editor>
-                    <vs-button
-                      color="primary"
-                      type="relief"
-                      @click.stop
-                      @click="openRelationSetup(field)"
-                      v-if="field.type === 'relation'"
-                      >{{ $t("crud.add.body.setRelation") }}
-                    </vs-button>
-                    <vs-popup
-                      :title="$t('crud.add.body.setRelation')"
-                      :active.sync="field.setRelation"
-                    >
-                      <vs-row>
-                        <badaso-select
-                          size="12"
-                          v-model="relation.relationType"
-                          :items="field.relationType ? relationOtherTypes : relationTypes"
-                          :label="$t('crud.add.body.relationType')"
-                        ></badaso-select>
-                        <vs-col
-                          vs-lg="12"
-                          class="crud-management__relation-destination"
-                        >
-                          <vs-select
-                            :label="$t('crud.add.body.destinationTable')"
-                            width="100%"
-                            v-model="relation.destinationTable"
-                            @input="changeTable"
+                      <badaso-code-editor
+                        v-model="field.details"
+                        v-if="field.type !== 'relation'"
+                      >
+                      </badaso-code-editor>
+                      <vs-button
+                        color="primary"
+                        type="relief"
+                        @click.stop
+                        @click="openRelationSetup(field)"
+                        v-if="field.type === 'relation'"
+                        >{{ $t("crud.add.body.setRelation") }}
+                      </vs-button>
+                      <vs-popup
+                        :title="$t('crud.add.body.setRelation')"
+                        v-model:active.sync="field.setRelation"
+                      >
+                        <vs-row>
+                          <badaso-select
+                            size="12"
+                            v-model="relation.relationType"
+                            :items="
+                              field.relationType
+                                ? relationOtherTypes
+                                : relationTypes
+                            "
+                            :label="$t('crud.add.body.relationType')"
+                          ></badaso-select>
+                          <vs-col
+                            vs-lg="12"
+                            class="crud-management__relation-destination"
                           >
-                            <vs-select-item
-                              :key="index"
-                              :value="item.value ? item.value : item"
-                              :text="item.label ? item.label : item"
-                              v-for="(item, index) in destinationTables"
-                            />
-                          </vs-select>
-                        </vs-col>
-                        <badaso-select
-                          size="12"
-                          v-model="relation.destinationTableColumn"
-                          :items="destinationTableColumns"
-                          :label="$t('crud.add.body.destinationTableColumn')"
-                        ></badaso-select>
-                        <badaso-select
-                          size="12"
-                          v-model="relation.destinationTableDisplayColumn"
-                          :items="destinationTableColumns"
-                          :label="
-                            $t('crud.add.body.destinationTableDisplayColumn')
-                          "
-                        ></badaso-select>
-                        <badaso-select-multiple
-                          v-model="relation.destinationTableDisplayMoreColumn"
-                          size="12"
-                          :label="$t('crud.add.body.destinationTableDisplayMoreColumn')"
-                          :items="destinationTableColumns"
-                        ></badaso-select-multiple>
-                      </vs-row>
-                      <vs-row vs-type="flex" vs-justify="space-between">
-                        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                          <vs-button
-                            class="crud-management__button--block"
-                            color="danger"
-                            @click="field.setRelation = false"
-                            type="relief"
-                            >{{
-                              $t("crud.add.body.cancelRelation")
-                            }}</vs-button
-                          >
-                        </vs-col>
-                        <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
-                          <vs-button
-                            class="crud-management__button--block"
-                            color="primary"
-                            @click="saveRelation(field)"
-                            type="relief"
-                            >{{ $t("crud.add.body.saveRelation") }}</vs-button
-                          >
-                        </vs-col>
-                      </vs-row>
-                    </vs-popup>
-                    <vs-button
+                            <vs-select
+                              :label="$t('crud.add.body.destinationTable')"
+                              width="100%"
+                              v-model="relation.destinationTable"
+                              @input="changeTable"
+                            >
+                              <vs-select-item
+                                :key="index"
+                                :value="item.value ? item.value : item"
+                                :text="item.label ? item.label : item"
+                                v-for="(item, index) in destinationTables"
+                              />
+                            </vs-select>
+                          </vs-col>
+                          <badaso-select
+                            size="12"
+                            v-model="relation.destinationTableColumn"
+                            :items="destinationTableColumns"
+                            :label="$t('crud.add.body.destinationTableColumn')"
+                          ></badaso-select>
+                          <badaso-select
+                            size="12"
+                            v-model="relation.destinationTableDisplayColumn"
+                            :items="destinationTableColumns"
+                            :label="
+                              $t('crud.add.body.destinationTableDisplayColumn')
+                            "
+                          ></badaso-select>
+                          <badaso-select-multiple
+                            v-model="relation.destinationTableDisplayMoreColumn"
+                            size="12"
+                            :label="
+                              $t(
+                                'crud.add.body.destinationTableDisplayMoreColumn'
+                              )
+                            "
+                            :items="destinationTableColumns"
+                          ></badaso-select-multiple>
+                        </vs-row>
+                        <vs-row vs-type="flex" vs-justify="space-between">
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button
+                              class="crud-management__button--block"
+                              color="danger"
+                              @click="field.setRelation = false"
+                              type="relief"
+                              >{{
+                                $t("crud.add.body.cancelRelation")
+                              }}</vs-button
+                            >
+                          </vs-col>
+                          <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
+                            <vs-button
+                              class="crud-management__button--block"
+                              color="primary"
+                              @click="saveRelation(field)"
+                              type="relief"
+                              >{{ $t("crud.add.body.saveRelation") }}</vs-button
+                            >
+                          </vs-col>
+                        </vs-row>
+                      </vs-popup>
+                      <vs-button
                         color="danger"
                         type="relief"
                         @click="dropItemOtherRelation(index)"
-                        v-if="field.relationType == 'belongs_to_many' || field.relationType == 'has_one' || field.relationType == 'has_many'"
+                        v-if="
+                          field.relationType == 'belongs_to_many' ||
+                          field.relationType == 'has_one' ||
+                          field.relationType == 'has_many'
+                        "
                       >
                         <vs-icon icon="delete"></vs-icon>
                       </vs-button>
@@ -563,67 +579,82 @@
                       type="relief"
                       @click.stop
                       @click="openRelationSetupManytomany()"
-                      >
+                    >
                       {{ $t("crud.add.body.setOtherRelation") }}
                     </vs-button>
-                    <vs-popup 
-                      :title="$t('crud.add.body.setRelation')" 
-                      :active.sync="setOtherRelation">
+                    <vs-popup
+                      :title="$t('crud.add.body.setRelation')"
+                      v-model:active.sync="setOtherRelation"
+                    >
                       <vs-row>
-                        <badaso-select size="12" 
-                          v-model="otherRelation.relationType" 
+                        <badaso-select
+                          size="12"
+                          v-model="otherRelation.relationType"
                           :items="relationOtherTypes"
-
                           :label="$t('crud.add.body.relationType')"
                         ></badaso-select>
                         <vs-col
                           vs-lg="12"
-                          class="crud-management__relation-destination">
-                          <vs-select 
-                            :label="$t('crud.add.body.destinationTable')" 
-                            width="100%" 
+                          class="crud-management__relation-destination"
+                        >
+                          <vs-select
+                            :label="$t('crud.add.body.destinationTable')"
+                            width="100%"
                             v-model="otherRelation.destinationTable"
-                            @input="changeTableManytomany">
+                            @input="changeTableManytomany"
+                          >
                             <vs-select-item
-                            :key="index"
-                            :value="item.value ? item.value : item"
-                            :text="item.label ? item.label : item"
-                              v-for="(item, index) in destinationTables" />
+                              :key="index"
+                              :value="item.value ? item.value : item"
+                              :text="item.label ? item.label : item"
+                              v-for="(item, index) in destinationTables"
+                            />
                           </vs-select>
                         </vs-col>
-                        <badaso-select 
-                          size="12" 
-                          v-model="otherRelation.destinationTableColumn" 
+                        <badaso-select
+                          size="12"
+                          v-model="otherRelation.destinationTableColumn"
                           :items="destinationTableColumns"
                           :label="$t('crud.add.body.destinationTableColumn')"
                         ></badaso-select>
-                        <badaso-select 
-                          size="12"   
-                          v-model="otherRelation.destinationTableDisplayColumn" :items="destinationTableColumns" 
+                        <badaso-select
+                          size="12"
+                          v-model="otherRelation.destinationTableDisplayColumn"
+                          :items="destinationTableColumns"
                           :label="
-                          $t('crud.add.body.destinationTableDisplayColumn')
+                            $t('crud.add.body.destinationTableDisplayColumn')
                           "
                         ></badaso-select>
                         <vs-col vs-lg="14">
                           <badaso-collapse>
                             <badaso-collapse-item>
-                              <h3 slot="header">{{ $t("crud.add.title.advance") }}</h3>
-                                <vs-row>
-                                  <vs-col
-                                    vs-lg="12"
-                                    class="crud-management__relation-destination">
-                                    <vs-select
-                                      :label="$t('crud.add.body.destinationTableManytomany')"
-                                      width="100%"
-                                      v-model="relationManytomanyAdvance.destinationTableManytomany"
-                                      >
-                                      <vs-select-item
+                              <template v-slot:header>
+                                <h3>{{ $t("crud.add.title.advance") }}</h3>
+                              </template>
+                              <vs-row>
+                                <vs-col
+                                  vs-lg="12"
+                                  class="crud-management__relation-destination"
+                                >
+                                  <vs-select
+                                    :label="
+                                      $t(
+                                        'crud.add.body.destinationTableManytomany'
+                                      )
+                                    "
+                                    width="100%"
+                                    v-model="
+                                      relationManytomanyAdvance.destinationTableManytomany
+                                    "
+                                  >
+                                    <vs-select-item
                                       :key="index"
                                       :value="item.value ? item.value : item"
                                       :text="item.label ? item.label : item"
-                                        v-for="(item, index) in destinationTables" />
-                                    </vs-select>
-                                  </vs-col>
+                                      v-for="(item, index) in destinationTables"
+                                    />
+                                  </vs-select>
+                                </vs-col>
                               </vs-row>
                             </badaso-collapse-item>
                           </badaso-collapse>
@@ -635,19 +666,18 @@
                             class="crud-management__button--block"
                             color="danger"
                             @click="cancelRelationManytomany"
-                            type="relief">
-                            {{
-                            $t("crud.add.body.cancelRelation")
-                            }}
+                            type="relief"
+                          >
+                            {{ $t("crud.add.body.cancelRelation") }}
                           </vs-button>
                         </vs-col>
                         <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                           <vs-button
-                              class="crud-management__button--block"
-                              color="primary"
-                              @click="saveRelationManytomany()"
-                              type="relief">{{
-                              $t("crud.add.body.saveRelation") }}
+                            class="crud-management__button--block"
+                            color="primary"
+                            @click="saveRelationManytomany()"
+                            type="relief"
+                            >{{ $t("crud.add.body.saveRelation") }}
                           </vs-button>
                         </vs-col>
                       </vs-row>
@@ -667,215 +697,241 @@
                 >
                   <vs-col col-lg="12">
                     <table class="badaso-table">
-                      <tr>
-                        <td>{{ $t("crud.add.header.field") }}</td>
-                        <td>
-                          <strong>{{ field.field }}</strong>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{{ $t("crud.add.body.type") }}</td>
-                        <td>{{ field.type }}</td>
-                      </tr>
-                      <tr>
-                        <td>{{ $t("crud.add.body.required.title") }}</td>
-                        <td>
-                          <span v-if="field.required">{{
-                            $t("crud.add.body.required.yes")
-                          }}</span
-                          ><span v-else>{{
-                            $t("crud.add.body.required.no")
-                          }}</span>
-                        </td>
-                      </tr>
-                      <tr v-if="errors[`rows.${index}.field`]">
-                        <td colspan="2">
-                          <span
-                            class="is-error"
-                            v-for="err in errors[`rows.${index}.field`]"
-                            :key="err"
-                            >{{ err }}</span
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>{{ $t("crud.add.header.visibility") }}</td>
-                        <td>
-                          <vs-checkbox
-                            v-model="field.browse"
-                            class="crud-management__field-visibility"
-                            >{{ $t("crud.add.body.browse") }}</vs-checkbox
-                          >
-                          <vs-checkbox
-                            v-model="field.read"
-                            class="crud-management__field-visibility"
-                            >{{ $t("crud.add.body.read") }}</vs-checkbox
-                          >
-                          <vs-checkbox
-                            v-model="field.edit"
-                            class="crud-management__field-visibility"
-                            >{{ $t("crud.add.body.edit") }}</vs-checkbox
-                          >
-                          <vs-checkbox
-                            v-model="field.add"
-                            class="crud-management__field-visibility"
-                            >{{ $t("crud.add.body.add") }}</vs-checkbox
-                          >
-                          <vs-checkbox
-                            v-model="field.delete"
-                            class="crud-management__field-visibility"
-                            >{{ $t("crud.add.body.delete") }}</vs-checkbox
-                          >
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">
-                          {{ $t("crud.add.header.inputType") }}
-                          <badaso-select
-                            size="12"
-                            v-model="field.type"
-                            :items="componentList"
-                            :alert="errors[`rows.${index}.type`]"
-                          ></badaso-select>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">
-                          {{ $t("crud.add.body.displayName") }}
-                          <badaso-text
-                            :placeholder="$t('crud.add.body.displayName')"
-                            v-model="field.displayName"
-                            :alert="errors[`rows.${index}.displayName`]"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td colspan="2">
-                          {{ $t("crud.add.header.optionalDetails") }}
-                          <badaso-code-editor
-                            v-model="field.details"
-                            v-if="field.type !== 'relation'"
-                          >
-                          </badaso-code-editor>
-                           <vs-button
-                            color="danger"
-                            type="relief"
-                            @click="dropItemOtherRelation(index)"
-                            v-else-if="field.relationType == 'belongs_to_many'"
-                          >
-                            <vs-icon icon="delete"></vs-icon>
-                          </vs-button>
-                          <vs-button
-                            color="primary"
-                            type="relief"
-                            @click.stop
-                            @click="openRelationSetup(field)"
-                            v-else-if="field.relationType !== 'belongs_to_many'"
-                            >{{ $t("crud.add.body.setRelation") }}</vs-button
-                          >
-                          <vs-popup
-                            :title="$t('crud.add.body.setRelation')"
-                            :active.sync="field.setRelation"
-                          >
-                            <vs-row>
-                              <badaso-select
-                                size="12"
-                                v-model="relation.relationType"
-                                :items="relationTypes"
-                                :label="$t('crud.add.body.relationType')"
-                              ></badaso-select>
-                              <vs-col
-                                v-if="relation.relationType == 'belongs_to_many'"
-                                vs-lg="12"
-                                class="crud-management__relation-destination"
-                              >
-                                <vs-select
-                                  :label="$t('crud.add.body.destinationTableManytomany')"
-                                  width="100%"
-                                  v-model="relation.destinationTableManytomany"
+                      <tbody>
+                        <tr>
+                          <td>{{ $t("crud.add.header.field") }}</td>
+                          <td>
+                            <strong>{{ field.field }}</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{ $t("crud.add.body.type") }}</td>
+                          <td>{{ field.type }}</td>
+                        </tr>
+                        <tr>
+                          <td>{{ $t("crud.add.body.required.title") }}</td>
+                          <td>
+                            <span v-if="field.required">{{
+                              $t("crud.add.body.required.yes")
+                            }}</span
+                            ><span v-else>{{
+                              $t("crud.add.body.required.no")
+                            }}</span>
+                          </td>
+                        </tr>
+                        <tr v-if="errors[`rows.${index}.field`]">
+                          <td colspan="2">
+                            <span
+                              class="is-error"
+                              v-for="err in errors[`rows.${index}.field`]"
+                              :key="err"
+                              >{{ err }}</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>{{ $t("crud.add.header.visibility") }}</td>
+                          <td>
+                            <vs-checkbox
+                              v-model="field.browse"
+                              class="crud-management__field-visibility"
+                              >{{ $t("crud.add.body.browse") }}</vs-checkbox
+                            >
+                            <vs-checkbox
+                              v-model="field.read"
+                              class="crud-management__field-visibility"
+                              >{{ $t("crud.add.body.read") }}</vs-checkbox
+                            >
+                            <vs-checkbox
+                              v-model="field.edit"
+                              class="crud-management__field-visibility"
+                              >{{ $t("crud.add.body.edit") }}</vs-checkbox
+                            >
+                            <vs-checkbox
+                              v-model="field.add"
+                              class="crud-management__field-visibility"
+                              >{{ $t("crud.add.body.add") }}</vs-checkbox
+                            >
+                            <vs-checkbox
+                              v-model="field.delete"
+                              class="crud-management__field-visibility"
+                              >{{ $t("crud.add.body.delete") }}</vs-checkbox
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            {{ $t("crud.add.header.inputType") }}
+                            <badaso-select
+                              size="12"
+                              v-model="field.type"
+                              :items="componentList"
+                              :alert="errors[`rows.${index}.type`]"
+                            ></badaso-select>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            {{ $t("crud.add.body.displayName") }}
+                            <badaso-text
+                              :placeholder="$t('crud.add.body.displayName')"
+                              v-model="field.displayName"
+                              :alert="errors[`rows.${index}.displayName`]"
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">
+                            {{ $t("crud.add.header.optionalDetails") }}
+                            <badaso-code-editor
+                              v-model="field.details"
+                              v-if="field.type !== 'relation'"
+                            >
+                            </badaso-code-editor>
+                            <vs-button
+                              color="danger"
+                              type="relief"
+                              @click="dropItemOtherRelation(index)"
+                              v-else-if="
+                                field.relationType == 'belongs_to_many'
+                              "
+                            >
+                              <vs-icon icon="delete"></vs-icon>
+                            </vs-button>
+                            <vs-button
+                              color="primary"
+                              type="relief"
+                              @click.stop
+                              @click="openRelationSetup(field)"
+                              v-else-if="
+                                field.relationType !== 'belongs_to_many'
+                              "
+                              >{{ $t("crud.add.body.setRelation") }}</vs-button
+                            >
+                            <vs-popup
+                              :title="$t('crud.add.body.setRelation')"
+                              v-model:active.sync="field.setRelation"
+                            >
+                              <vs-row>
+                                <badaso-select
+                                  size="12"
+                                  v-model="relation.relationType"
+                                  :items="relationTypes"
+                                  :label="$t('crud.add.body.relationType')"
+                                ></badaso-select>
+                                <vs-col
+                                  v-if="
+                                    relation.relationType == 'belongs_to_many'
+                                  "
+                                  vs-lg="12"
+                                  class="crud-management__relation-destination"
                                 >
-                                  <vs-select-item
-                                    :key="index"
-                                    :value="item.value ? item.value : item"
-                                    :text="item.label ? item.label : item"
-                                    v-for="(item, index) in destinationTables"
-                                  />
-                                </vs-select>
-                              </vs-col>
-                              <vs-col
-                                vs-lg="12"
-                                class="crud-management__relation-destination"
-                              >
-                                <vs-select
-                                  :label="$t('crud.add.body.destinationTable')"
-                                  width="100%"
-                                  v-model="relation.destinationTableManytomany"
-                                  @input="changeTable"
+                                  <vs-select
+                                    :label="
+                                      $t(
+                                        'crud.add.body.destinationTableManytomany'
+                                      )
+                                    "
+                                    width="100%"
+                                    v-model="
+                                      relation.destinationTableManytomany
+                                    "
+                                  >
+                                    <vs-select-item
+                                      :key="index"
+                                      :value="item.value ? item.value : item"
+                                      :text="item.label ? item.label : item"
+                                      v-for="(item, index) in destinationTables"
+                                    />
+                                  </vs-select>
+                                </vs-col>
+                                <vs-col
+                                  vs-lg="12"
+                                  class="crud-management__relation-destination"
                                 >
-                                  <vs-select-item
-                                    :key="index"
-                                    :value="item.value ? item.value : item"
-                                    :text="item.label ? item.label : item"
-                                    v-for="(item, index) in destinationTables"
-                                  />
-                                </vs-select>
-                              </vs-col>
-                              <badaso-select
-                                size="12"
-                                v-model="relation.destinationTableColumn"
-                                :items="destinationTableColumns"
-                                :label="
-                                  $t('crud.add.body.destinationTableColumn')
-                                "
-                              ></badaso-select>
-                              <badaso-select
-                                size="12"
-                                v-model="relation.destinationTableDisplayColumn"
-                                :items="destinationTableColumns"
-                                :label="
-                                  $t(
-                                    'crud.add.body.destinationTableDisplayColumn'
-                                  )
-                                "
-                              ></badaso-select>
-                               <badaso-select-multiple
-                                size="12"
-                                v-model="relation.destinationTableDisplayMoreColumn"
-                                :items="destinationTableColumns"
-                                :label="$t('crud.add.body.destinationTableDisplayMoreColumn')"
-                              ></badaso-select-multiple>
-                            </vs-row>
-                            <vs-row vs-type="flex" vs-justify="space-between">
-                              <vs-col
-                                vs-lg="2"
-                                vs-type="flex"
-                                vs-align="flex-end"
-                              >
-                              <vs-button
-                                color="primary"
-                                @click="saveRelation(field)"
-                                >{{
-                                  $t("crud.add.body.saveRelation")
-                                }}</vs-button
-                              >
-                              </vs-col>
-                              <vs-col
-                                vs-lg="2"
-                                vs-type="flex"
-                                vs-align="flex-end"
-                              >
-                                <vs-button
-                                  color="danger"
-                                  @click="field.setRelation = false"
-                                  >{{
-                                    $t("crud.add.body.cancelRelation")
-                                  }}</vs-button
+                                  <vs-select
+                                    :label="
+                                      $t('crud.add.body.destinationTable')
+                                    "
+                                    width="100%"
+                                    v-model="
+                                      relation.destinationTableManytomany
+                                    "
+                                    @input="changeTable"
+                                  >
+                                    <vs-select-item
+                                      :key="index"
+                                      :value="item.value ? item.value : item"
+                                      :text="item.label ? item.label : item"
+                                      v-for="(item, index) in destinationTables"
+                                    />
+                                  </vs-select>
+                                </vs-col>
+                                <badaso-select
+                                  size="12"
+                                  v-model="relation.destinationTableColumn"
+                                  :items="destinationTableColumns"
+                                  :label="
+                                    $t('crud.add.body.destinationTableColumn')
+                                  "
+                                ></badaso-select>
+                                <badaso-select
+                                  size="12"
+                                  v-model="
+                                    relation.destinationTableDisplayColumn
+                                  "
+                                  :items="destinationTableColumns"
+                                  :label="
+                                    $t(
+                                      'crud.add.body.destinationTableDisplayColumn'
+                                    )
+                                  "
+                                ></badaso-select>
+                                <badaso-select-multiple
+                                  size="12"
+                                  v-model="
+                                    relation.destinationTableDisplayMoreColumn
+                                  "
+                                  :items="destinationTableColumns"
+                                  :label="
+                                    $t(
+                                      'crud.add.body.destinationTableDisplayMoreColumn'
+                                    )
+                                  "
+                                ></badaso-select-multiple>
+                              </vs-row>
+                              <vs-row vs-type="flex" vs-justify="space-between">
+                                <vs-col
+                                  vs-lg="2"
+                                  vs-type="flex"
+                                  vs-align="flex-end"
                                 >
-                              </vs-col>
-                            </vs-row>
-                          </vs-popup>
-                        </td>
-                      </tr>
+                                  <vs-button
+                                    color="primary"
+                                    @click="saveRelation(field)"
+                                    >{{
+                                      $t("crud.add.body.saveRelation")
+                                    }}</vs-button
+                                  >
+                                </vs-col>
+                                <vs-col
+                                  vs-lg="2"
+                                  vs-type="flex"
+                                  vs-align="flex-end"
+                                >
+                                  <vs-button
+                                    color="danger"
+                                    @click="field.setRelation = false"
+                                    >{{
+                                      $t("crud.add.body.cancelRelation")
+                                    }}</vs-button
+                                  >
+                                </vs-col>
+                              </vs-row>
+                            </vs-popup>
+                          </td>
+                        </tr>
+                      </tbody>
                     </table>
                   </vs-col>
                 </vs-row>
@@ -884,12 +940,12 @@
                   type="relief"
                   @click.stop
                   @click="openRelationSetupManytomany()"
-                  >
+                >
                   {{ $t("crud.add.body.setOtherRelation") }}
                 </vs-button>
                 <vs-popup
                   :title="$t('crud.add.body.setOtherRelation')"
-                  :active.sync="setOtherRelation"
+                  v-model:active.sync="setOtherRelation"
                 >
                   <vs-row>
                     <badaso-select
@@ -920,68 +976,59 @@
                       size="12"
                       v-model="otherRelation.destinationTableColumn"
                       :items="destinationTableColumns"
-                      :label="
-                        $t('crud.add.body.destinationTableColumn')
-                      "
+                      :label="$t('crud.add.body.destinationTableColumn')"
                     ></badaso-select>
                     <badaso-select
                       size="12"
                       v-model="otherRelation.destinationTableDisplayColumn"
                       :items="destinationTableColumns"
-                      :label="
-                        $t(
-                          'crud.add.body.destinationTableDisplayColumn'
-                        )
-                      "
+                      :label="$t('crud.add.body.destinationTableDisplayColumn')"
                     ></badaso-select>
                     <badaso-collapse>
                       <badaso-collapse-item>
-                        <h3 slot="header">{{ $t("crud.add.title.advance") }}</h3>
-                          <vs-row>
-                            <vs-col
-                              vs-lg="12"
-                              class="crud-management__relation-destination">
-                              <vs-select
-                                :label="$t('crud.add.body.destinationTableManytomany')"
-                                width="100%"
-                                v-model="relationManytomanyAdvance.destinationTableManytomany"
-                                >
-                                <vs-select-item
+                        <template v-slot:header>
+                          <h3>{{ $t("crud.add.title.advance") }}</h3>
+                        </template>
+
+                        <vs-row>
+                          <vs-col
+                            vs-lg="12"
+                            class="crud-management__relation-destination"
+                          >
+                            <vs-select
+                              :label="
+                                $t('crud.add.body.destinationTableManytomany')
+                              "
+                              width="100%"
+                              v-model="
+                                relationManytomanyAdvance.destinationTableManytomany
+                              "
+                            >
+                              <vs-select-item
                                 :key="index"
                                 :value="item.value ? item.value : item"
                                 :text="item.label ? item.label : item"
-                                  v-for="(item, index) in destinationTables" />
-                              </vs-select>
-                            </vs-col>
+                                v-for="(item, index) in destinationTables"
+                              />
+                            </vs-select>
+                          </vs-col>
                         </vs-row>
                       </badaso-collapse-item>
                     </badaso-collapse>
                   </vs-row>
                   <vs-row vs-type="flex" vs-justify="space-between">
-                    <vs-col
-                      vs-lg="2"
-                      vs-type="flex"
-                      vs-align="flex-end"
-                    >
+                    <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                       <vs-button
                         color="primary"
                         @click="saveRelationManytomany()"
-                        >{{
-                          $t("crud.add.body.saveRelation")
-                        }}</vs-button
+                        >{{ $t("crud.add.body.saveRelation") }}</vs-button
                       >
                     </vs-col>
-                    <vs-col
-                      vs-lg="2"
-                      vs-type="flex"
-                      vs-align="flex-end"
-                    >
+                    <vs-col vs-lg="2" vs-type="flex" vs-align="flex-end">
                       <vs-button
                         color="danger"
                         @click="cancelRelationManytomany"
-                        >{{
-                          $t("crud.add.body.cancelRelation")
-                        }}</vs-button
+                        >{{ $t("crud.add.body.cancelRelation") }}</vs-button
                       >
                     </vs-col>
                   </vs-row>
@@ -1018,12 +1065,12 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
+import { VueDraggableNext } from "vue-draggable-next";
 
 export default {
   name: "CrudManagementAdd",
   components: {
-    draggable,
+    draggable: VueDraggableNext,
   },
   data: () => ({
     errors: {},
@@ -1064,7 +1111,7 @@ export default {
     relationOtherTypes: [],
     destinationTables: [],
     destinationTableColumns: [],
-    setOtherRelation:false,
+    setOtherRelation: false,
     otherRelation: {
       relationType: "",
       destinationTable: "",
@@ -1079,7 +1126,7 @@ export default {
       relationType: "",
       destinationTable: "",
       destinationTableColumn: "",
-      destinationTableManytomany:"",
+      destinationTableManytomany: "",
       destinationTableDisplayColumn: "",
       destinationTableDisplayMoreColumn: [],
     },
@@ -1141,10 +1188,10 @@ export default {
         destinationTableDisplayColumn: field.destinationTableDisplayColumn
           ? field.destinationTableDisplayColumn
           : "",
-        destinationTableDisplayMoreColumn: field.destinationTableDisplayMoreColumn
-          ? field.destinationTableDisplayMoreColumn
-          : "",
-
+        destinationTableDisplayMoreColumn:
+          field.destinationTableDisplayMoreColumn
+            ? field.destinationTableDisplayMoreColumn
+            : "",
       };
       if (field.destinationTable !== "") {
         this.getDestinationTableColumns(field.destinationTable);
@@ -1172,13 +1219,21 @@ export default {
     openRelationSetupManytomany() {
       this.setOtherRelation = true;
       this.otherRelation = {
-        relationType: this.otherRelation.relationType ? this.otherRelation.relationType : "",
-        destinationTable: this.otherRelation.destinationTable ? this.otherRelation.destinationTable : "",
-        destinationTableManytomany: this.otherRelation.destinationTableManytomany ? this.otherRelation.destinationTableManytomany : "",
+        relationType: this.otherRelation.relationType
+          ? this.otherRelation.relationType
+          : "",
+        destinationTable: this.otherRelation.destinationTable
+          ? this.otherRelation.destinationTable
+          : "",
+        destinationTableManytomany: this.otherRelation
+          .destinationTableManytomany
+          ? this.otherRelation.destinationTableManytomany
+          : "",
         destinationTableColumn: this.otherRelation.destinationTableColumn
           ? this.otherRelation.destinationTableColumn
           : "",
-        destinationTableDisplayColumn: this.otherRelation.destinationTableDisplayColumn
+        destinationTableDisplayColumn: this.otherRelation
+          .destinationTableDisplayColumn
           ? this.otherRelation.destinationTableDisplayColumn
           : "",
       };
@@ -1192,16 +1247,25 @@ export default {
       }
     },
     saveRelationManytomany() {
-      let fieldName = this.relationManytomanyAdvance.destinationTableManytomany ? this.relationManytomanyAdvance.destinationTableManytomany : this.crudData.name + "_" + this.otherRelation.destinationTable + "_relations";
-      let displayName = this.crudData.name + " " + this.otherRelation.destinationTable;
+      let fieldName = this.relationManytomanyAdvance.destinationTableManytomany
+        ? this.relationManytomanyAdvance.destinationTableManytomany
+        : this.crudData.name +
+          "_" +
+          this.otherRelation.destinationTable +
+          "_relations";
+      let displayName =
+        this.crudData.name + " " + this.otherRelation.destinationTable;
 
-      if(this.otherRelation.relationType != 'belongs_to_many'){
+      if (this.otherRelation.relationType != "belongs_to_many") {
         fieldName = this.otherRelation.destinationTable;
         displayName = this.otherRelation.destinationTable;
       }
-      const existKeyAutomatic = obj => obj.field === fieldName;
-      
-      if (!this.crudData.rows.some(existKeyAutomatic) && this.otherRelation.relationType != '') {
+      const existKeyAutomatic = (obj) => obj.field === fieldName;
+
+      if (
+        !this.crudData.rows.some(existKeyAutomatic) &&
+        this.otherRelation.relationType != ""
+      ) {
         this.crudData.rows.push({
           field: fieldName,
           type: "relation",
@@ -1214,26 +1278,33 @@ export default {
           delete: 1,
           details: "{}",
           order: 1,
-          relationType: this.otherRelation.relationType ? this.otherRelation.relationType : "",
-          destinationTable: this.otherRelation.destinationTable ? this.otherRelation.destinationTable : "",
-          destinationTableColumn: this.otherRelation.destinationTableColumn ? this.otherRelation.destinationTableColumn
+          relationType: this.otherRelation.relationType
+            ? this.otherRelation.relationType
             : "",
-          destinationTableDisplayColumn: this.otherRelation.destinationTableDisplayColumn ? this.otherRelation.destinationTableDisplayColumn
+          destinationTable: this.otherRelation.destinationTable
+            ? this.otherRelation.destinationTable
+            : "",
+          destinationTableColumn: this.otherRelation.destinationTableColumn
+            ? this.otherRelation.destinationTableColumn
+            : "",
+          destinationTableDisplayColumn: this.otherRelation
+            .destinationTableDisplayColumn
+            ? this.otherRelation.destinationTableDisplayColumn
             : "",
           setRelation: false,
         });
       }
-      this.setOtherRelation = false
-      this.otherRelation = {}
-      this.relationManytomanyAdvance.destinationTableManytomany = ""
+      this.setOtherRelation = false;
+      this.otherRelation = {};
+      this.relationManytomanyAdvance.destinationTableManytomany = "";
     },
     cancelRelationManytomany() {
-      this.setOtherRelation = false
-      this.otherRelation.relationType = ""
-      this.otherRelation.destinationTable = ""
-      this.otherRelation.destinationTableColumn = ""
-      this.otherRelation.destinationTableDisplayColumn = ""
-      this.relationManytomanyAdvance.destinationTableManytomany = ""
+      this.setOtherRelation = false;
+      this.otherRelation.relationType = "";
+      this.otherRelation.destinationTable = "";
+      this.otherRelation.destinationTableColumn = "";
+      this.otherRelation.destinationTableDisplayColumn = "";
+      this.relationManytomanyAdvance.destinationTableManytomany = "";
     },
     dataNotificationEventHandle() {
       this.crudData.notification = this.crudData.notification.map(
@@ -1356,18 +1427,18 @@ export default {
         .tableRelations()
         .then((response) => {
           this.$closeLoader();
-          let tableRelations =  response.data.tableRelations;
-          for(let tableRelation of tableRelations){
-            if(tableRelation.value == 'belongs_to'){
+          let tableRelations = response.data.tableRelations;
+          for (let tableRelation of tableRelations) {
+            if (tableRelation.value == "belongs_to") {
               this.relationTypes.push({
-                "label": tableRelation.label,
-                "value": tableRelation.value
-              })
-            }else{
+                label: tableRelation.label,
+                value: tableRelation.value,
+              });
+            } else {
               this.relationOtherTypes.push({
-                "label" : tableRelation.label,
-                "value" : tableRelation.value
-              })
+                label: tableRelation.label,
+                value: tableRelation.value,
+              });
             }
           }
         })
@@ -1455,7 +1526,7 @@ export default {
         accept: () => this.$delete(this.crudData.rows, key),
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
-        cancel: () => { },
+        cancel: () => {},
       });
     },
   },

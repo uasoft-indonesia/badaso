@@ -88,12 +88,12 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import _ from "lodash";
-import draggable from "vuedraggable";
+import { VueDraggableNext } from 'vue-draggable-next';
 
 export default {
   name: "CrudGeneratedSort",
   components: {
-    draggable,
+    draggable: VueDraggableNext,
   },
   data: () => ({
     dataType: {},

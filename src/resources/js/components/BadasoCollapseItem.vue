@@ -97,7 +97,7 @@ export default {
       this.maxHeight = `unset`;
     }
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener("resize", this.changeHeight);
   },
   methods: {

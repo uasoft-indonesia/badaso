@@ -45,7 +45,7 @@ Steps for registering and getting a license on Badaso Dashboard can be found on 
 
 After getting the license, you can proceed to Badaso installation.
 
-1, Clone badaso into Laravel project. Sample:
+1. Clone badaso into Laravel project. Sample:
 - Root Laravel Project
   - /packages // new folder
     - /badaso // new folder
@@ -56,26 +56,16 @@ cd into badaso directory, then run
 git clone https://github.com/uasoft-indonesia/badaso.git
 ```
 
-2. Add the following Badaso provider and JWT provider to ```/config/app.php```.
+2. Add the following Badaso provider ```/bootstrap/providers.php```.
 
 ```
-'providers' => [
+'return' => [
   ...,
-  Uasoft\Badaso\Providers\BadasoServiceProvider::class,
-  PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider::class,
+  "Uasoft\\Badaso\\Providers\\BadasoServiceProvider"
 ]
 ```
 
-3. Add the following aliases to ```config/app.php```.
-```
-'aliases' => [
-    ...,
-    'JWTAuth' => PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::class,
-    'JWTFactory' => PHPOpenSourceSaver\JWTAuth\Facades\JWTFactory::class,
-]
-```
-
-4. Add badaso providers to autoload
+3. Add badaso providers to autoload
 
 ```
 "autoload": {
@@ -87,21 +77,21 @@ git clone https://github.com/uasoft-indonesia/badaso.git
 }
 ```
 
-5. Copy required library from ```packages/badaso/core/composer.json``` to ```/composer.json``` then ```composer install```
+4. Copy required library from ```packages/badaso/core/composer.json``` to ```/composer.json``` then ```composer install```
 
-6. Run the following commands to update dependencies in package.json and webpack.
+5. Run the following commands to update dependencies in package.json and webpack.
 ```
 php artisan badaso:setup
 ```
 
-7. Run the following commands in sequence.
+6. Run the following commands in sequence.
 ```
 composer dump-autoload
 php artisan migrate
 php artisan db:seed --class=BadasoSeeder
 ```
 
-8. Open the ```env``` file then add the following lines.
+7. Open the ```env``` file then add the following lines.
 ```
 #Set a key as secret key for generating JWT token
 JWT_SECRET=
@@ -131,7 +121,7 @@ MIX_LOG_VIEWER_ROUTE="log-viewer"
 MIX_ADMIN_PANEL_ROUTE_PREFIX, MIX_API_ROUTE_PREFIX & MIX_LOG_VIEWER_ROUTE should be different
 :::
 
-9. Add the following Badaso guard and auth provider in ```config/auth.php```. Make sure to use Badaso guard as auth default in ```config/auth.php```.
+8. Add the following Badaso guard and auth provider in ```config/auth.php```. Make sure to use Badaso guard as auth default in ```config/auth.php```.
 <!--DOCUSAURUS_CODE_TABS-->
 <!--PHP-->
 ```php

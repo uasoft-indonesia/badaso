@@ -4,6 +4,7 @@ namespace Uasoft\Badaso\Database\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform as DoctrineAbstractPlatform;
 use Doctrine\DBAL\Types\Type as DoctrineType;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Database\Platforms\Platform;
 use Uasoft\Badaso\Database\Schema\SchemaManager;
 
@@ -48,10 +49,12 @@ abstract class Type extends DoctrineType
             static::registerCustomPlatformTypes();
         }
 
-        $platform = SchemaManager::getDatabasePlatform();
+        $doctrine_connection = SchemaManager::registerConnection();
+        $platform = $doctrine_connection->getDatabasePlatform();
+        $platform_name = DB::getDriverName();
 
         static::$platform_types = Platform::getPlatformTypes(
-            $platform->getName(),
+            $platform_name,
             static::getPlatformTypeMapping($platform)
         );
 
@@ -81,7 +84,9 @@ abstract class Type extends DoctrineType
             return;
         }
 
-        $platform = SchemaManager::getDatabasePlatform();
+        $doctrine_connection = SchemaManager::registerConnection();
+        $platform = $doctrine_connection->getDatabasePlatform();
+        // $platform_name = ucfirst(DB::getDriverName());
         $platform_name = ucfirst($platform->getName());
 
         $custom_types = array_merge(

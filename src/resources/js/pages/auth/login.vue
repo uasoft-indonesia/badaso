@@ -1,7 +1,7 @@
 <template>
   <vs-col vs-lg="12" class="main-container__box--auth">
     <vs-card class="main-container__card--auth">
-      <badaso-auth-card-header slot="header">{{
+      <badaso-auth-card-header v-slot="header">{{
         $t("login.title")
       }}</badaso-auth-card-header>
       <div>
@@ -82,6 +82,7 @@
             $t("login.button")
           }}</vs-button>
         </form>
+
         <div class="login__register-link">
           {{ $t("login.createAccount.text") }} &nbsp;
           <router-link :to="'/' + baseUrl + '/register'">{{

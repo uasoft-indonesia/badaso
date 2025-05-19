@@ -41,12 +41,13 @@
 </template>
 
 <script>
-import { Chrome } from "vue-color";
+// import { Chrome } from "vue-color";
+import { ColorPicker } from "vue3-colorpicker";
 
 export default {
   name: "BadasoColorPicker",
   components: {
-    "color-picker": Chrome,
+    "color-picker": ColorPicker,
   },
   data: () => ({
     colors: {
