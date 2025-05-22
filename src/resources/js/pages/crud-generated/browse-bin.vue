@@ -258,7 +258,7 @@
                         </template>
                       </vs-td>
                       <vs-td style="width: 1%; white-space: nowrap">
-                        <badaso-dropdown vs-trigger-click>
+                        <vs-dropdown vs-trigger-click>
                           <vs-button
                             size="large"
                             type="flat"
@@ -345,7 +345,7 @@
                               {{ $t("softDelete.crudGenerator.restore") }}
                             </badaso-dropdown-item>
                           </vs-dropdown-menu>
-                        </badaso-dropdown>
+                        </vs-dropdown>
                       </vs-td>
                     </template>
                   </vs-tr>
@@ -577,7 +577,7 @@
                           </template>
                         </vs-td>
                         <vs-td style="width: 1%; white-space: nowrap">
-                          <badaso-dropdown vs-trigger-click>
+                          <vs-dropdown vs-trigger-click>
                             <vs-button
                               size="large"
                               type="flat"
@@ -653,7 +653,7 @@
                                 }}
                               </badaso-dropdown-item>
                             </vs-dropdown-menu>
-                          </badaso-dropdown>
+                          </vs-dropdown>
                         </vs-td>
                       </template>
                     </vs-tr>

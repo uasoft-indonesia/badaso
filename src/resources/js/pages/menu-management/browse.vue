@@ -69,7 +69,7 @@
                   vs-align="center"
                   vs-w="2"
                 >
-                  <badaso-dropdown vs-trigger-click>
+                  <vs-dropdown vs-trigger-click>
                     <vs-button
                       size="large"
                       type="flat"
@@ -104,7 +104,7 @@
                         Delete
                       </badaso-dropdown-item>
                     </vs-dropdown-menu>
-                  </badaso-dropdown>
+                  </vs-dropdown>
                 </vs-col>
               </vs-row>
             </Tree>

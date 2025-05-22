@@ -81,7 +81,7 @@
                     {{ data[indextr].description }}
                   </vs-td>
                   <vs-td class="badaso-table__td">
-                    <badaso-dropdown vs-trigger-click>
+                    <vs-dropdown vs-trigger-click>
                       <vs-button
                         size="large"
                         type="flat"
@@ -125,7 +125,7 @@
                           Delete
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
-                    </badaso-dropdown>
+                    </vs-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>

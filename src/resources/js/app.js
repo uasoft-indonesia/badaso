@@ -330,7 +330,6 @@ for (const key in firebaseConfig)
 Vue.prototype.$messaging = {};
 Vue.prototype.$messagingToken = {};
 Vue.prototype.$statusActiveFeatureFirebase = statusActiveFeatureFirebase;
-  statusActiveFeatureFirebase;
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
