@@ -24,7 +24,7 @@
         </header>
         <!-- // slots  -->
         <div class="vs-dialog-text">
-        <slot></slot>
+        <slot />
         <!-- <slot /> -->
           {{ text }}
         </div>
@@ -165,7 +165,7 @@ export default {
     }
     this.fActive = this.active;
   },
-  beforeUnmount() {
+  beforeDestroy() {
     // close the left open prompt
     const elx = this.$refs.con;
     const parentx = this.parent ? this.parent : document.body;

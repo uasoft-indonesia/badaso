@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('add_menus')">
       <vs-col vs-lg="12">
         <vs-card>
-          <template v-slot:header>
+          <div slot="header">
             <h3>{{ $t("menu.add.title") }}</h3>
-          </template>
+          </div>
           <vs-row>
             <badaso-text
               v-model="menu.key"

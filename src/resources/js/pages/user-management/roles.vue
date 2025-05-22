@@ -4,18 +4,18 @@
     <vs-row v-if="$helper.isAllowed('browse_user_role')">
       <vs-col vs-lg="12">
         <vs-card>
-          <template v-slot:header>
+          <div slot="header">
             <h3>{{ $t("user.roles.title") }}</h3>
-          </template>
+          </div>
           <vs-table search :data="userRoles" stripe>
-            <template v-slot:thead>
+            <template slot="thead">
               <vs-th v-if="$helper.isAllowed('add_or_edit_user_role')"> </vs-th>
               <vs-th> {{ $t("user.roles.header.name") }} </vs-th>
               <vs-th> {{ $t("user.roles.header.description") }} </vs-th>
               <vs-th> {{ $t("user.roles.header.action") }} </vs-th>
             </template>
 
-            <template v-slot-="{ data }">
+            <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                 <vs-td
                   class="badaso-table__td"

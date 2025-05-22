@@ -102,8 +102,8 @@
                   <vs-th class="badaso-table__no-wrap"></vs-th>
                 </template>
                 <template slot-scope="{ data }">
-                  <template v-for="(tr, indextr) in data" :key="indextr">
-                    <vs-tr >
+                  <template v-for="(tr, indextr) in data">
+                    <vs-tr :key="indextr">
                       <vs-td :data="tr.fieldName">
                         <vs-input
                           type="text"
@@ -289,7 +289,7 @@
                     </vs-tr>
 
                     <!-- VALIDATION MESSAGE SECTION -->
-                    <vs-tr>
+                    <vs-tr :key="'validation-' + indextr">
                       <!-- FIELD NAME -->
                       <vs-td>
                         <!-- required -->

@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('browse_role_permission')">
       <vs-col vs-lg="12">
         <vs-card>
-          <template v-slot:header>
+          <div slot="header">
             <h3>{{ $t("role.permission.title") }}</h3>
-          </template>
+          </div>
           <vs-table
             search
             :data="rolePermissions"
@@ -14,14 +14,14 @@
             pagination
             max-items="10"
           >
-            <template v-slot:thead>
+            <template slot="thead">
               <vs-th v-if="$helper.isAllowed('add_or_edit_role_permission')">
               </vs-th>
               <vs-th> {{ $t("role.permission.header.key") }} </vs-th>
               <vs-th> {{ $t("role.permission.header.description") }} </vs-th>
             </template>
 
-            <template v-slot="{ data }">
+            <template slot-scope="{ data }">
               <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                 <vs-td
                   class="badaso-table__td"

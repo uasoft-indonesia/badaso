@@ -32,15 +32,13 @@
 export default {
   name: "app",
   components: {},
-  data(){
-    return{
-      loader: false,
-      title: "Loading",
-      color: "primary",
-      headerColor: null,
-      loaderSync: false,
-    }
-  },
+  data: () => ({
+    loader: false,
+    title: "Loading",
+    color: "primary",
+    headerColor: null,
+    loaderSync: false,
+  }),
   methods: {
     openLoader(payload = null) {
       this.title = payload ? payload.title : "Loading";

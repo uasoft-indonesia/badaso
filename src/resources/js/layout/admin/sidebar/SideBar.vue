@@ -11,75 +11,76 @@
       :click-not-close="doNotClose"
       :reduce="reduceSidebar"
     >
-      <template #header>
-        <div class="header-sidebar text-center">
-          <vs-avatar size="70px" :src="getAvatar" />
-          <badaso-sidebar-group
-            :title="user.name"
-            :subTitle="user.email"
-            icon="person_pin"
+      <div class="header-sidebar text-center" slot="header">
+        <vs-avatar size="70px" :src="getAvatar" />
+        <badaso-sidebar-group
+          :title="user.name"
+          :subTitle="user.email"
+          icon="person_pin"
+        >
+          <badaso-sidebar-item
+            v-if="user.id"
+            icon="person_outline"
+            :to="{
+              name: 'UserProfile',
+            }"
           >
-            <badaso-sidebar-item
-              v-if="user.id"
-              icon="person_outline"
-              :to="{
-                name: 'UserProfile',
-              }"
-            >
-              Profile
-            </badaso-sidebar-item>
-            <badaso-sidebar-item icon="logout" @click="logout()">
-              Logout
-            </badaso-sidebar-item>
-          </badaso-sidebar-group>
-          <vs-select
-            v-model="selectedLang"
-            width="100%"
-            style="padding: 10px"
-            v-if="view == $constants.MOBILE"
-          >
-            <vs-select-item
-              :key="index"
-              :value="item.key ? item.key : item"
-              :text="item.label ? item.label : item.key ? item.key : item"
-              v-for="(item, index) in getLocale"
-            />
-          </vs-select>
-        </div>
-      </template>
+            Profile
+          </badaso-sidebar-item>
+          <badaso-sidebar-item icon="logout" @click="logout()">
+            Logout
+          </badaso-sidebar-item>
+        </badaso-sidebar-group>
+        <vs-select
+          v-model="selectedLang"
+          width="100%"
+          style="padding: 10px"
+          v-if="view == $constants.MOBILE"
+        >
+          <vs-select-item
+            :key="index"
+            :value="item.key ? item.key : item"
+            :text="item.label ? item.label : item.key ? item.key : item"
+            v-for="(item, index) in getLocale"
+          />
+        </vs-select>
+      </div>
 
-      <template v-for="(displayMenu, indexMenu) in mainMenu" :key="indexMenu">
+      <template v-for="(displayMenu, indexMenu) in mainMenu">
         <!-- if show header -->
         <badaso-sidebar-group
           :title="displayMenu.menu.displayName"
           :open="displayMenu.menu.isExpand == 1"
           :icon="displayMenu.menu.icon"
+          :key="indexMenu"
           v-if="
             displayMenu.menuItems &&
             displayMenu.menuItems.length > 0 &&
             displayMenu.menu.isShowHeader
           "
         >
-          <template v-for="(menu, index) in displayMenu.menuItems" :key="index">
+          <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-menu
               :defaultIsExpand="menu.isExpand == 1"
               :title="menu.title"
               :url="menu.url"
               :icon="menu.icon"
               :children="menu.children"
+              :key="index"
             />
           </template>
         </badaso-sidebar-group>
 
         <!-- else hidden header -->
-        <div :key="'hidden-' + indexMenu" v-else>
-          <template v-for="(menu, index) in displayMenu.menuItems" :key="index">
+        <div :key="indexMenu" v-else>
+          <template v-for="(menu, index) in displayMenu.menuItems">
             <badaso-sidebar-menu
               :defaultIsExpand="menu.isExpand == 1"
               :title="menu.title"
               :url="menu.url"
               :icon="menu.icon"
               :children="menu.children"
+              :key="index"
             />
           </template>
         </div>

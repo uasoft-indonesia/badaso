@@ -3,7 +3,7 @@
     <label v-if="label != ''" for="" class="badaso-textarea__label">{{
       label
     }}</label>
-    <vs-textarea v-model="localValue" />
+    <vs-textarea :value="value" @input="handleInput($event)" />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
       <div v-if="$helper.isArray(alert)">
@@ -25,6 +25,7 @@
 <script>
 export default {
   name: "BadasoTextarea",
+  data: () => ({}),
   components: {},
   props: {
     size: {
@@ -39,31 +40,22 @@ export default {
       type: String,
       default: "Textarea",
     },
-    modelValue: {
-      type: String,
+    value: {
       required: true,
-      default: "",
+      default: "null",
     },
     additionalInfo: {
       type: String,
       default: "",
     },
     alert: {
-      type: [String, Array],
+      type: String || Array,
       default: "",
     },
   },
-  data() {
-    return {
-      localValue: this.modelValue,
-    };
-  },
-  watch: {
-    modelValue(newValue) {
-      this.localValue = newValue;
-    },
-    localValue(newValue) {
-      this.$emit('update:modelValue', newValue);
+  methods: {
+    handleInput(val) {
+      this.$emit("input", val);
     },
   },
 };

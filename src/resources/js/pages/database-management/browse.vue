@@ -1,40 +1,44 @@
 <template>
   <div>
-    <!-- <badaso-breadcrumb-hover full>
-      <template #action>
-        <download-excel
-          :data="tables"
-          :fields="fieldsForExcel"
-          :worksheet="'Database Management'"
-          :name="'Database Management ' + '.xls'"
-          class="crud-generated__excel-button"
-        >
-          <badaso-dropdown-item icon="file_upload">
-            {{ $t("action.exportToExcel") }}
+    <badaso-breadcrumb-hover full>
+      <template slot="action">
+         <download-excel
+            :data="tables"
+            :fields="fieldsForExcel"
+            :worksheet="'Database Management'"
+            :name="'Database Management '+ '.xls'"
+            class="crud-generated__excel-button"
+          >
+            <badaso-dropdown-item
+              icon="file_upload"
+            >
+              {{ $t("action.exportToExcel") }}
+            </badaso-dropdown-item>
+          </download-excel>
+          <badaso-dropdown-item
+            icon="file_upload"
+            @click="generatePdf"
+          >
+            {{ $t("action.exportToPdf") }}
           </badaso-dropdown-item>
-        </download-excel>
-        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
-          {{ $t("action.exportToPdf") }}
-        </badaso-dropdown-item>
-        <badaso-dropdown-item
-          icon="add"
-          :to="{ name: 'DatabaseManagementAdd' }"
-        >
-          {{ $t("database.browse.addButton") }}
-        </badaso-dropdown-item>
-        <badaso-dropdown-item
-          icon="refresh"
-          @click="openRollbackDialog()"
-          v-if="$helper.isAllowed('rollback_database')"
-        >
-          {{ $t("database.browse.rollbackButton") }}
-        </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="add"
+            :to="{ name: 'DatabaseManagementAdd' }"
+          >
+            {{ $t("database.browse.addButton") }}
+          </badaso-dropdown-item>
+          <badaso-dropdown-item
+            icon="refresh"
+            @click="openRollbackDialog()"
+            v-if="$helper.isAllowed('rollback_database')"
+          >
+            {{ $t("database.browse.rollbackButton") }}
+          </badaso-dropdown-item>
       </template>
-    </badaso-breadcrumb-hover> -->
-
+    </badaso-breadcrumb-hover>
     <vs-popup
       :title="$t('database.browse.warning.title')"
-      v-model:active.sync="isNotMigrated"
+      :active.sync="isNotMigrated"
       @close="isNotMigrated = true"
       class="database-management__popup"
       button-close-hidden
@@ -75,7 +79,7 @@
         isDeleteFile = false;
       "
       @accept="rollback"
-      v-model:active.sync="rollbackDialog"
+      :active.sync="rollbackDialog"
       :accept-text="$t('action.delete.accept')"
       :cancel-text="$t('action.delete.cancel')"
       :title="$t('database.rollback.title')"
@@ -84,13 +88,13 @@
     >
       <vs-row>
         <vs-table :data="migration" class="database-management__table">
-          <template #thead>
+          <template slot="thead">
             <vs-th sort-key="migration">
               {{ $t("database.migration.header.migration") }}
             </vs-th>
             <vs-th> {{ $t("crud.header.action") }} </vs-th>
           </template>
-          <template v-slot="{ data }">
+          <template slot-scope="{ data }">
             <vs-tr
               :data="table"
               :key="index"
@@ -139,7 +143,7 @@
       </vs-row>
     </vs-popup>
     <vs-popup
-      v-model:active.sync="errorDatabase"
+      :active.sync="errorDatabase"
       :title="$t('database.browse.fieldNotSupport.title')"
       color="success"
       class="database-management__popup"
@@ -181,12 +185,16 @@
     <vs-row v-if="$helper.isAllowed('browse_database')">
       <vs-col vs-lg="12">
         <vs-card>
-          <template #header>
+          <div slot="header">
             <h3>{{ $t("database.browse.title") }}</h3>
-          </template>
+          </div>
           <badaso-alert-block>
-            <template #title>{{ $t("database.edit.warning.title") }}</template>
-            <template #desc>{{ $t("database.edit.warning.crud") }}</template>
+            <template slot="title">{{
+              $t("database.edit.warning.title")
+            }}</template>
+            <template slot="desc">{{
+              $t("database.edit.warning.crud")
+            }}</template>
           </badaso-alert-block>
           <div>
             <badaso-table
@@ -204,14 +212,14 @@
               "
               :description-body="$t('database.add.footer.descriptionBody')"
             >
-              <template #thead>
+              <template slot="thead">
                 <vs-th sort-key="tableName">
                   {{ $t("crud.header.table") }}
                 </vs-th>
                 <vs-th> {{ $t("crud.header.action") }} </vs-th>
               </template>
 
-              <template v-slot="{ data }">
+              <template slot-scope="{ data }">
                 <vs-tr
                   :data="table"
                   :key="index"
@@ -279,7 +287,7 @@
 </template>
 
 <script>
-import { required } from "@vuelidate/validators";
+import { required } from "vuelidate/lib/validators";
 import downloadExcel from "vue-json-excel";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -306,8 +314,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"],
-    },
+      fields: ["table_name"]
+    }
   }),
   validations: {
     willRollbackFile: {
@@ -365,18 +373,12 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-        //   this.tables.map((value) => {
-        //     this.$set(value, "isCanEdit", value.crudData == null);
-        //     this.$set(value, "isCanDrop", value.crudData == null);
-
-        //     return value;
-        //   });
           this.tables.map((value) => {
-            value.isCanEdit = value.crudData == null;
-            value.isCanDrop = value.crudData == null;
+          this.$set(value, "isCanEdit", value.crudData == null);
+          this.$set(value, "isCanDrop", value.crudData == null);
             return value;
           });
-          this.prepareExcelExporter();
+          this.prepareExcelExporter()
         })
         .catch((error) => {
           this.$closeLoader();
@@ -609,19 +611,18 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = "Table";
+          field = 'Table';
         }
         // field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] =
-          this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = "Table";
+          iterator = 'Table';
         }
 
         const string = this.$caseConvert.stringSnakeToCamel(iterator);
