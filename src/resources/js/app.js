@@ -25,7 +25,6 @@ import { readObjectStore, setObjectStore } from "./utils/indexed-db";
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
 
-
 Vue.use(Vuesax);
 Vue.use(VueI18n);
 Vue.use(Datetime);
@@ -254,9 +253,6 @@ const baseUrl = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "badaso-dashboard";
 Vue.prototype.$baseUrl = "/" + baseUrl;
 
-
-
-
 // app.config.globalProperties.$openLoader = function (payload) {
 //   try {
 //     const instance = getCurrentInstance();
@@ -291,7 +287,6 @@ Vue.prototype.$openLoader = function (payload) {
     console.log("Open Loader", error);
   }
 };
-
 
 Vue.prototype.$closeLoader = function () {
   try {

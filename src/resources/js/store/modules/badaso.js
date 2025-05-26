@@ -52,7 +52,9 @@ export default {
       const menuItemAddPrefix = (arrayMenuChild, callbackMenuItemAddPrefix) => {
         arrayMenuChild = arrayMenuChild.map((menuItem) => {
           menuItem.url =
-            menuItem.url.substring(0, 4) == "http" ? menuItem.url: "/" + prefix + menuItem.url;
+            menuItem.url.substring(0, 4) == "http"
+              ? menuItem.url
+              : "/" + prefix + menuItem.url;
           menuItem.icon = menuItem.iconClass;
 
           if (menuItem.children) {
