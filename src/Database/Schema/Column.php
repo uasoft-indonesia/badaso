@@ -8,7 +8,7 @@ use Uasoft\Badaso\Database\Types\Type;
 
 abstract class Column
 {
-    public static function make(array $column, string $table_name = null)
+    public static function make(array $column, ?string $table_name = null)
     {
         $name = Identifier::validate($column['name'], 'Column');
         $type = $column['type'];

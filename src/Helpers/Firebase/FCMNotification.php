@@ -125,7 +125,7 @@ class FCMNotification
      * @param  string  $body
      * @param  array  $data
      */
-    public static function notification(string $active_event, string $table_name, string $title = null, string $body = null, $data = [])
+    public static function notification(string $active_event, string $table_name, ?string $title = null, ?string $body = null, $data = [])
     {
         try {
             $user_name = 'user';

@@ -331,7 +331,7 @@ class FileGenerator
     /**
      * Generate Badaso Alter Migration File.
      */
-    public function generateBDOAlterMigrationFile(array $table, array $rows = null, string $prefix, array $relations = []): string
+    public function generateBDOAlterMigrationFile(array $table, ?array $rows = null, string $prefix, array $relations = []): string
     {
         $migration_class_name = $this->file_system->generateAlterMigrationClassName($table, $prefix);
 

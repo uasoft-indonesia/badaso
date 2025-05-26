@@ -3,9 +3,9 @@ import Pages from "./../../pages/index.vue";
 const prefix = process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   ? "/" + process.env.MIX_ADMIN_PANEL_ROUTE_PREFIX
   : "/badaso-dashboard";
-const secretLoginPrefix = process.env.MIX_BADASO_SECRET_LOGIN_PREFIX 
+const secretLoginPrefix = process.env.MIX_BADASO_SECRET_LOGIN_PREFIX
   ? "/" + process.env.MIX_BADASO_SECRET_LOGIN_PREFIX
-  : "/badaso-secret-login"
+  : "/badaso-secret-login";
   
 export default [
   {

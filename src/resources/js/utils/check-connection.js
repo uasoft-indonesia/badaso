@@ -9,7 +9,6 @@ export const checkConnection = (app) => {
   let isOnlineConnectionStatus = navigator.onLine;
   let onlineHistory = isOnlineConnectionStatus;
 
-
   const store = app.$store;
   setInterval(async () => {
     isOnlineConnectionStatus = navigator.onLine;
@@ -23,7 +22,6 @@ export const checkConnection = (app) => {
 
       try {
         const keys = await getAllKeysObjectStore();
-
 
         for (const index in keys) {
           const keyStore = keys[index];
