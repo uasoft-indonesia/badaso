@@ -58,7 +58,7 @@ class BadasoFileController extends Controller
         $file = $upload->upload();
 
         if (key_exists('error', $file->original)) {
-            return ApiResponse::failed($file->original);
+            return ApiResponse::failed($file);
         }
 
         return ApiResponse::success(json_decode(json_encode($file)));
