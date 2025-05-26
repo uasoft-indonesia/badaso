@@ -180,7 +180,7 @@ export default {
           this.vsDropdownVisible &&
           !evt.target.closest(".vs-dropdown--menu")
         ) {
-          vsDropdownVisible.value = false;
+          this.vsDropdownVisible = false;
         } else {
           dropdownMenu.dropdownVisible = this.vsDropdownVisible = false;
           window.addEventListener("click", () => {
