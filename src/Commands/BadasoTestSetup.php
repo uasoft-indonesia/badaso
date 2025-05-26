@@ -53,7 +53,7 @@ class BadasoTestSetup extends Command
                     <directory suffix="Test.php">./vendor/badaso/core/tests/Feature</directory>
                 </testsuite>
             </testsuites>
-            <coverage processUncoveredFiles="true">
+            <coverage>
                 <include>
                     <!-- <directory suffix=".php">./app</directory> -->
                     <directory suffix=".php">./vendor/badaso/core/src/Commands</directory>
@@ -73,10 +73,10 @@ class BadasoTestSetup extends Command
                     <directory suffix=".php">./vendor/badaso/core/src/Widgets</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Badaso.php</directory>
                 </include>
+                <report>
+                    <clover outputFile="clover.xml"/>
+                </report>
             </coverage>
-            <logging>
-                <log type="coverage-clover" target="clover.xml"/>
-            </logging>
             <php>
                 <server name="APP_ENV" value="testing"/>
                 <server name="BCRYPT_ROUNDS" value="4"/>
