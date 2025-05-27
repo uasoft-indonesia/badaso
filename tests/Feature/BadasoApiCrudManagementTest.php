@@ -1338,7 +1338,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), $id);
                 }
             }
-            $deleted = Schema::dropIfExists($table);
+            Schema::dropIfExists($table);
         }
     }
 
