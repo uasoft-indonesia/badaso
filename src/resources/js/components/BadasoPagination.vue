@@ -110,7 +110,7 @@ export default {
       type: [Number, String],
       required: false,
     },
-    modelValue: {
+    value: {
       type: Number,
       required: true,
       default: 1,
@@ -197,7 +197,7 @@ export default {
     current(val) {
       this.getPages();
       this.calculateMinMax(val);
-      this.$emit("update:modelValue", this.current);
+      this.$emit("input", this.current);
       this.$emit("change", this.current);
     },
     total() {
@@ -220,7 +220,7 @@ export default {
   },
 
   async mounted() {
-    this.current = this.go = this.modelValue;
+    this.current = this.go = this.value;
     await this.calculateMinMax(this.current);
     this.indexRows = this.descriptionItems.indexOf(this.maxItems);
     this.pageSize = parseInt(this.maxItems);
@@ -266,12 +266,11 @@ export default {
       }
       const even = this.max % 2 === 0 ? 1 : 0;
 
-      //   if (this.total < 6) {
-      //     this.prevRange = Math.floor(this.max / (this.max / 2));
-      //   } else {
-      //     this.prevRange = Math.floor(this.max / 2);
-      //   }
-      this.prevRange = Math.floor(this.max / (this.max / 2));
+        if (this.total < 6) {
+          this.prevRange = Math.floor(this.max / (this.max / 2));
+        } else {
+          this.prevRange = Math.floor(this.max / 2);
+        }
       this.nextRange = this.total - this.prevRange + 1 + even;
 
       if (this.current >= this.prevRange && this.current <= this.nextRange) {

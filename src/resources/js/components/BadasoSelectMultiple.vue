@@ -3,14 +3,15 @@
     <vs-select
       :label="label"
       :placeholder="placeholder"
-      :modelValue="modelValue"
-     @update:modelValue="handleInput($event)"
+      :value="value"
+      @input="handleInput($event)"
       width="100%"
       multiple
+      autocomplete
     >
       <vs-select-item
         :key="index"
-        :modelValue="satinize(item.value)"
+        :value="satinize(item.value)"
         :text="satinize(item.label)"
         v-for="(item, index) in items"
       />
@@ -38,6 +39,7 @@
 
 <script>
 import DOMPurify from 'dompurify';
+
 export default {
   name: "BadasoSelectMultiple",
   components: {},
@@ -55,10 +57,10 @@ export default {
       type: String,
       default: "Select Multiple",
     },
-    modelValue: {
+     value: {
       type: Array,
       default: () => {
-        return ([]);
+        return [];
       },
     },
     items: {
@@ -79,8 +81,8 @@ export default {
       return DOMPurify.sanitize(item)
     },
     handleInput(val) {
-    this.$emit('update:modelValue', val);
-  },
+     this.$emit("input", val);
+    },
   },
 };
 </script>

@@ -1,23 +1,23 @@
 <template>
   <vs-col :vs-lg="size" vs-xs="12" class="badaso-select__container">
-  <vs-select
-  :label="label"
-  :placeholder="placeholder"
-  :modelValue="modelValue"
-  @update:modelValue="$emit('update:modelValue', $event)"
-  width="100%"
-  @change="handleChange($event)"
->
+    <vs-select
+      :label="label"
+      :placeholder="placeholder"
+      :value="value"
+      @input="handleInput($event)"
+      width="100%"
+      @change="handleChange($event)"
+    >
       <vs-select-item
         v-for="(item, index) in items"
         :key="index"
-        :value="satinize(item.value || item)"
-        :text="satinize(item.label || item)"
+        :value="satinize(item.value) ? satinize(item.value) : satinize(item)"
+        :text="satinize(item.label) ? satinize(item.label) : satinize(item)"
       />
     </vs-select>
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
-      <div v-if="Array.isArray(alert)">
+    <div v-if="$helper.isArray(alert)">
         <span
           class="badaso-select__input--error"
           v-for="(info, index) in alert"
@@ -35,8 +35,11 @@
 
 <script>
 import DOMPurify from 'dompurify';
+
 export default {
-  name: "BadasoSelect",
+  name: "BadasoSelect", //penanda cihuyy
+  components: {},
+  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -50,8 +53,9 @@ export default {
       type: String,
       default: "Select",
     },
-    modelValue: {
-      type: [String, Number, null],
+    value: {
+      type: String,
+      required: true,
       default: "",
     },
     items: {
@@ -63,20 +67,20 @@ export default {
       default: "",
     },
     alert: {
-      type: [String, Array],
+      type: String || Array,
       default: "",
     },
   },
-  emits: ["update:modelValue", "change"],
+  
   methods: {
     satinize(item) {
-      return item ? DOMPurify.sanitize(item) : "";
+      return DOMPurify.sanitize(item)
     },
     handleInput(val) {
-      this.$emit("update:modelValue", val);
+      this.$emit("input", val);
     },
     handleChange(val) {
-      this.$emit("change", val);
+      this.$emit("onChange");
     },
   },
 };

@@ -65,8 +65,8 @@ export default {
       this.$openLoader();
       this.$api.badasoAuth
         .resetPassword({
-          email: this.$router.currentRoute.query.value.email,
-          token: this.$router.currentRoute.query.value.token,
+          email: this.$router.currentRoute.query.email,
+          token: this.$router.currentRoute.query.token,
           password: this.password,
           password_confirmation: this.passwordConfirmation,
         })

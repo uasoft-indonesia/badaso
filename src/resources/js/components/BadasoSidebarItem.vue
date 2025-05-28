@@ -1,8 +1,8 @@
 <template>
   <div
-    :class="{ 'vs-sidebar-item-active': isActive }"
+    :class="{ 'vs-sidebar-item-active': getActive }"
     class="vs-sidebar--item "
-    @click="handleClick"
+    @click="setIndexActive"
   >
     <router-link v-if="to && target === '_self'" :to="to">
       <vs-icon :icon-pack="iconPack" :icon="icon"> </vs-icon>
@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { inject } from 'vue';
+
 export default {
   name: "BadasoSidebarItem",
   props: {
@@ -48,17 +48,16 @@ export default {
       type: [String, Number],
     },
   },
-   setup(props) {
-    const sidebar = inject('sidebar');
-    const getActive = sidebar.getActive;
-    const setIndexActive = sidebar.setIndexActive;
-
-    return {
-      getActive,
-      setIndexActive,
-      isActive: getActive() === props.index,
-      handleClick: () => setIndexActive(props.index),
-    };
+  computed: {
+    getActive() {
+      return this.$parent.getActive() == this.index;
+    },
+  },
+  methods: {
+    setIndexActive() {
+      this.$parent.setIndexActive(this.index);
+      this.$emit("click");
+    },
   },
 };
 </script>

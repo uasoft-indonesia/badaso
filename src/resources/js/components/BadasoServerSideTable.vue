@@ -124,11 +124,11 @@ export default {
       this.$emit("changeLimit", to);
     },
     selected: function (to, from) {
-      this.$emit("select", to);
+      this.$emit("select", to); 
     },
   },
   mounted() {},
-  onUnmounted() {},
+  destroyed() {},
   methods: {
     handleSearch(e) {
       this.$emit("search", e);

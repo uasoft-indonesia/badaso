@@ -12,7 +12,8 @@
       :disabled="disabled"
       :readonly="readonly"
       :autofocus="autofocus"
-      v-model="localValue"
+      :value="value"
+      @input="handleInput($event)"
     />
     <div v-if="additionalInfo" v-html="additionalInfo"></div>
     <div v-if="alert">
@@ -36,6 +37,7 @@
 export default {
   name: "BadasoText",
   components: {},
+  data: () => ({}),
   props: {
     size: {
       type: String,
@@ -50,14 +52,14 @@ export default {
       default: "",
     },
     alert: {
-      type: [String, Array],
+      type: String || Array,
       default: "",
     },
     placeholder: {
       type: String,
       default: "Text",
     },
-    modelValue: {
+    value: {
       required: true,
       default: "",
     },
@@ -82,22 +84,18 @@ export default {
       default: null,
     },
   },
-  data() {
-    return {
-      localValue: this.modelValue,
-    };
-  },
-  watch: {
-    modelValue(newValue) {
-      this.localValue = newValue;
-    },
-    localValue(newValue) {
-      this.$emit('update:modelValue', newValue);
-    },
-  },
   computed: {
-    displayLabel() {
-      return this.required ? this.label + " *" : this.label;
+    displayLabel: function () {
+      if (this.required) {
+        return this.label + " *";
+      } else {
+        return this.label;
+      }
+    },
+  },
+  methods: {
+    handleInput(val) {
+      this.$emit("input", val);
     },
   },
 };

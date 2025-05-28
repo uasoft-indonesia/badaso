@@ -1,30 +1,34 @@
-import { createStore } from "vuex";
+import Vue from "vue";
+import Vuex from "vuex";
 import _ from "lodash";
 
 const exported = {};
 
+const pluginsEnv = process.env.MIX_BADASO_PLUGINS
+  ? process.env.MIX_BADASO_PLUGINS
+  : null;
+
 // DYNAMIC IMPORT BADASO STORES
 try {
-  const modules = require.context("./modules", false, /\.js$/);
+  const modules = require.context("./modules", false, /\.js$/); //
   modules.keys().forEach((fileName) => {
-    const moduleName = fileName
+    const property = fileName
       .replace("./", "")
       .replace(".js", "")
-      .replace(/([a-z])([A-Z])/g, "$1-$2")
-      .replace(/[\s_]+/g, "-")
+      .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
+      .replace(/[\s_]+/g, "-") // replace all spaces and low dash
       .replace(/^\.\/_/, "")
       .replace(/\.\w+$/, "")
       .split("-")
-      .map((word, index) =>
-        index > 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
-      )
+      .map((word, index) => {
+        if (index > 0) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        } else {
+          return word;
+        }
+      })
       .join("");
-
-    // Ensure namespaced property is true for better modularization
-    exported[moduleName] = {
-      namespaced: true,
-      ...modules(fileName).default,
-    };
+    exported[property] = modules(fileName).default;
   });
 } catch (error) {
   console.info("Failed to load Badaso stores", error);
@@ -38,24 +42,23 @@ try {
     /\.js$/
   );
   customModules.keys().forEach((fileName) => {
-    const moduleName = fileName
+    const property = fileName
       .replace("./", "")
       .replace(".js", "")
-      .replace(/([a-z])([A-Z])/g, "$1-$2")
-      .replace(/[\s_]+/g, "-")
+      .replace(/([a-z])([A-Z])/g, "$1-$2") // get all lowercase letters that are near to uppercase ones
+      .replace(/[\s_]+/g, "-") // replace all spaces and low dash
       .replace(/^\.\/_/, "")
       .replace(/\.\w+$/, "")
       .split("-")
-      .map((word, index) =>
-        index > 0 ? word.charAt(0).toUpperCase() + word.slice(1) : word
-      )
+      .map((word, index) => {
+        if (index > 0) {
+          return word.charAt(0).toUpperCase() + word.slice(1);
+        } else {
+          return word;
+        }
+      })
       .join("");
-
-    // Ensure namespaced property is true for better modularization
-    exported[moduleName] = {
-      namespaced: true,
-      ...customModules(fileName).default,
-    };
+    exported[property] = customModules(fileName).default;
   });
 } catch (error) {
   console.info("Failed to load custom stores", error);
@@ -63,29 +66,23 @@ try {
 
 // DYNAMIC IMPORT BADASO PLUGINS STORES
 try {
-  const pluginsEnv = process.env.MIX_BADASO_PLUGINS
-    ? process.env.MIX_BADASO_PLUGINS.split(",")
-    : [];
-
-  if (pluginsEnv.length > 0) {
-    pluginsEnv.forEach((plugin) => {
-      const modules = require("../../../../../" +
-        plugin +
-        "/src/resources/js/store/badaso.js").default;
-
-      // Merge the plugin modules with existing Badaso modules
-      exported.badaso = _.merge(
-        exported.badaso || { namespaced: true },
-        modules
-      );
-    });
+  if (pluginsEnv) {
+    const plugins = process.env.MIX_BADASO_PLUGINS.split(",");
+    if (plugins && plugins.length > 0) {
+      plugins.forEach((plugin) => {
+        const modules = require("../../../../../" +
+          plugin +
+          "/src/resources/js/store/badaso.js").default;
+        exported.badaso = _.merge(exported.badaso, modules);
+      });
+    }
   }
 } catch (error) {
   console.info("Failed to load custom stores", error);
 }
 
-const store = createStore({
+Vue.use(Vuex);
+/* eslint-disable */
+export default new Vuex.Store({
   modules: exported,
 });
-
-export default store;

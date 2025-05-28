@@ -26,11 +26,7 @@
           <span class="badaso-sidebar-group__text">{{ subTitle }}</span>
         </div>
       </h4>
-      <h4
-        @click="clickGroup"
-        v-else
-        class="badaso-sidebar-group__item-group"
-      >
+          <h4 @click="clickGroup" v-else class="badaso-sidebar-group__item-group">
         <vs-icon
           class="badaso-sidebar-group__icon--arrow"
           icon="keyboard_arrow_down"
@@ -48,7 +44,7 @@
   </div>
 </template>
 <script>
-import { provide, ref } from 'vue';
+
 export default {
   name: "BadasoSidebarGroup",
   props: {
@@ -86,13 +82,11 @@ export default {
     },
   },
 
-  data() {
-    return {
-      maxHeight: "0px",
-      openItems: false,
-    };
-  },
-   computed: {
+  data: () => ({
+    maxHeight: "0px",
+    openItems: false,
+  }),
+  computed: {
     styleItems() {
       return {
         maxHeight: this.maxHeight,
@@ -105,31 +99,19 @@ export default {
     },
   },
   mounted() {
-    this.$nextTick(() => {
-      this.openItems = this.open;
-    });
-     if (this.open) {
+    this.openItems = this.open;
+    if (this.open) {
       this.maxHeight = "none";
     }
 
   },
-  setup() {
-    const activeIndex = ref(null);
-
-    provide('sidebar', {
-      getActive: () => activeIndex.value,
-      setIndexActive: (index) => activeIndex.value = index,
-    });
-
-    // rest of your code here
-  },
 
   methods: {
     getActive() {
-     return this.activeIndex;
+    return this.$parent.getActive();
     },
     setIndexActive(index) {
-    this.activeIndex = index;
+    this.$parent.setIndexActive(index);
     },
     clickGroup() {
       if (!this.openHover) {

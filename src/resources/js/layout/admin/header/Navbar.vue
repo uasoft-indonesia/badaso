@@ -7,75 +7,69 @@
       active-text-color="rgba(255,255,255,1)"
       :style="{ color: topbarFontColor }"
     >
-      <template #logo>
-        <div
-          class="top-navbar__logo-wrapper"
-          v-if="
-            logoConfig === 'logo_only' ||
-            logoConfig === 'logo_and_text' ||
-            logoConfig === 'text_only'
-          "
+      <div
+        slot="logo"
+        class="top-navbar__logo-wrapper"
+        v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text' || logoConfig === 'text_only'"
+      >
+        <img
+          :src="logo"
+          v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
+          alt="Dashboard"
+        />
+        <span
+          class="top-navbar__logo-text"
+          v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'"
         >
-          <img
-            :src="logo"
-            v-if="logoConfig === 'logo_only' || logoConfig === 'logo_and_text'"
-            alt="Dashboard"
-          />
-          <span
-            class="top-navbar__logo-text"
-            v-if="logoConfig === 'text_only' || logoConfig === 'logo_and_text'"
-          >
-            {{ title }}
-          </span>
-          &nbsp;
-          <kbd v-if="!isOnline"> offline </kbd>
+          {{ title }}
+        </span>
+        &nbsp;
+        <kbd v-if="!isOnline"> offline </kbd>
+      </div>
+      <div slot="navigation">
+        <div
+          class="top-navbar__icon"
+          @click.stop="reduceSidebar"
+          v-if="view == $constants.DESKTOP"
+        >
+          <vs-icon icon="menu"></vs-icon>
         </div>
-      </template>
-      <template #navigation>
-        <div>
-          <div
-            class="top-navbar__icon"
-            @click.stop="reduceSidebar"
-            v-if="view == $constants.DESKTOP"
-          >
-            <vs-icon icon="menu"></vs-icon>
-          </div>
-          <div
-            class="top-navbar__icon"
-            @click.stop="activeSidebar"
-            v-if="view == $constants.MOBILE"
-          >
-            <vs-icon icon="menu"></vs-icon>
-          </div>
+        <div
+          class="top-navbar__icon"
+          @click.stop="activeSidebar"
+          v-if="view == $constants.MOBILE"
+        >
+          <vs-icon icon="menu"></vs-icon>
         </div>
-      </template>
-      <template #left_menu>
-        <div>
-          <vs-dropdown vs-trigger-click class="top-navbar__i18n-container">
-            <a href="#" :style="{ color: topbarFontColor }">
-              {{ getSelectedLocale.label }}
-              <vs-icon icon="expand_more" size="small"></vs-icon>
-            </a>
-            <vs-dropdown-menu>
-              <vs-dropdown-item
-                v-for="(item, index) in getLocale"
-                :key="index"
-                v-on:click="setLocale(item)"
-              >
-                <span v-if="item.label">{{ item.label }}</span>
-                <span v-else>{{ item.key }}</span>
-              </vs-dropdown-item>
-            </vs-dropdown-menu>
-          </vs-dropdown>
-        </div>
-      </template>
-      <template #right_menu>
-        <div>
-          <badaso-notification-message
-            :topbarFontColor="topbarFontColor"
-          ></badaso-notification-message>
-        </div>
-      </template>
+      </div>
+      <div slot="left_menu">
+        <vs-dropdown vs-trigger-click class="top-navbar__i18n-container">
+          <a href="#" :style="{ color: topbarFontColor }">
+            {{ getSelectedLocale.label }}
+            <vs-icon icon="expand_more" size="small"></vs-icon>
+          </a>
+          <vs-dropdown-menu>
+            <vs-dropdown-item
+              v-for="(item, index) in getLocale"
+              :key="index"
+              v-on:click="setLocale(item)"
+            >
+              <span v-if="item.label">{{ item.label }}</span>
+              <span v-else>{{ item.key }}</span>
+            </vs-dropdown-item>
+          </vs-dropdown-menu>
+
+
+        </vs-dropdown>
+
+
+
+      </div>
+      <div slot="right_menu">
+        <badaso-notification-message
+          :topbarFontColor="topbarFontColor"
+        ></badaso-notification-message>
+      </div>
     </badaso-navbar>
   </header>
 </template>
@@ -142,7 +136,8 @@ export default {
     },
     isOnline: {
       get() {
-        return this.$store.getters["badaso/getGlobalState"];
+        const isOnline = this.$store.getters["badaso/getGlobalState"].isOnline;
+        return isOnline;
       },
     },
   },

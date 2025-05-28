@@ -432,7 +432,7 @@ class GetData
                         $upload_image_multiples = json_decode($record->{$data_row->field}, true);
                         if (isset($upload_image_multiples)) {
                             $upload_image_multiples = collect($upload_image_multiples)->map(function ($upload_image_multiple) {
-                                if (config('lfm.should_create_thumbnails') == true) {
+                                if (config('lfm.should_create_thumbnails') == false) {
                                     $put_thumbs = config('lfm.thumb_folder_name');
                                     $upload_image_multiple = explode('/', $upload_image_multiple);
                                     $file_name = $upload_image_multiple[count($upload_image_multiple) - 1];
@@ -456,7 +456,7 @@ class GetData
                             if (str_contains($upload_image, 'http')) {
                                 $upload_image = $upload_image;
                             } else {
-                                if (config('lfm.should_create_thumbnails') == true) {
+                                if (config('lfm.should_create_thumbnails') == false) {
                                     $put_thumbs = config('lfm.thumb_folder_name');
                                     $upload_image = explode('/', $upload_image);
                                     $file_name = $upload_image[count($upload_image) - 1];

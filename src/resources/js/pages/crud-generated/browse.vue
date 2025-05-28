@@ -304,7 +304,7 @@
                         </template>
                       </vs-td>
                       <vs-td class="crud-generated__button">
-                        <badaso-dropdown vs-trigger-click>
+                        <vs-dropdown vs-trigger-click>
                           <vs-button
                             size="large"
                             type="flat"
@@ -382,7 +382,7 @@
                               }}
                             </badaso-dropdown-item>
                           </vs-dropdown-menu>
-                        </badaso-dropdown>
+                        </vs-dropdown>
                       </vs-td>
                     </template>
                   </vs-tr>
@@ -607,7 +607,7 @@
                           </template>
                         </vs-td>
                         <vs-td class="crud-generated__button">
-                          <badaso-dropdown vs-trigger-click>
+                          <vs-dropdown vs-trigger-click>
                             <vs-button
                               size="large"
                               type="flat"
@@ -683,7 +683,7 @@
                                 }}
                               </badaso-dropdown-item>
                             </vs-dropdown-menu>
-                          </badaso-dropdown>
+                          </vs-dropdown>
                         </vs-td>
                       </template>
                     </vs-tr>

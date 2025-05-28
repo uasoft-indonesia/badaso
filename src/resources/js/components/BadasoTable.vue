@@ -60,7 +60,7 @@
 
       <div v-if="pagination" class="con-pagination-table vs-table--pagination">
         <badaso-pagination
-          :modelValue="currentx"
+          v-model="currentx"
           :total="searchx && !sst ? getTotalPagesSearch : getTotalPages"
           :description-items="descriptionItems"
           :max-items="maxItemsx"
@@ -270,7 +270,7 @@ export default {
     //   }
     // })
   },
-  onUnmounted() {
+  destroyed(){
     window.removeEventListener("resize", this.listenerChangeWidth);
   },
   methods: {

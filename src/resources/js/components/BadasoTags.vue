@@ -3,7 +3,7 @@
     <label v-if="label != ''" for="" class="badaso-tags__label">{{
       label
     }}</label>
-    <vue3-tags-input
+    <vue-tags-input
       class="badaso-tags__input"
       v-model="tag"
       :tags="tags"
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import Vue3TagsInput from 'vue3-tags-input';
+import VueTagsInput from "@johmun/vue-tags-input";
 import _ from "lodash";
 
 export default {
   name: "BadasoTags",
   components: {
-    Vue3TagsInput,
+    VueTagsInput,
   },
   data: () => ({
     tag: "",

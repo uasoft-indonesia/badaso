@@ -1,71 +1,57 @@
 <template>
   <div>
     <badaso-breadcrumb-hover full>
-      <template #action>
+      <template slot="action">
         <download-excel
-          :data="tables"
-          :fields="fieldsForExcel"
-          :worksheet="'CRUD Management'"
-          :name="'CRUD Management ' + '.xls'"
-          class="crud-generated__excel-button"
-        >
-          <badaso-dropdown-item icon="file_upload">
-            {{ $t("action.exportToExcel") }}
+            :data="tables"
+            :fields="fieldsForExcel"
+            :worksheet="'CRUD Management'"
+            :name="'CRUD Management '+ '.xls'"
+            class="crud-generated__excel-button"
+          >
+            <badaso-dropdown-item
+              icon="file_upload"
+            >
+              {{ $t("action.exportToExcel") }}
+            </badaso-dropdown-item>
+          </download-excel>
+          <badaso-dropdown-item
+            icon="file_upload"
+            @click="generatePdf"
+          >
+            {{ $t("action.exportToPdf") }}
           </badaso-dropdown-item>
-        </download-excel>
-        <badaso-dropdown-item icon="file_upload" @click="generatePdf">
-          {{ $t("action.exportToPdf") }}
-        </badaso-dropdown-item>
       </template>
     </badaso-breadcrumb-hover>
-
-    <!-- <vs-dropdown >
-      <a class="a-icon" href="#">
-        Dropdown hover
-        <vs-icon class="" icon="expand_more"></vs-icon>
-      </a>
-
-      <vs-dropdown-menu>
-        <vs-dropdown-item>
-          Option 1
-        </vs-dropdown-item>
-        <vs-dropdown-item>
-          Option 2
-        </vs-dropdown-item>
-        <vs-dropdown-item divider>
-          Option 3
-        </vs-dropdown-item>
-      </vs-dropdown-menu>
-    </vs-dropdown> -->
 
     <vs-row v-if="$helper.isAllowed('browse_crud_data')">
       <vs-col vs-lg="12">
         <vs-card>
-          <template #header>
+          <div slot="header">
             <h3>{{ $t("crud.title") }}</h3>
-          </template>
+          </div>
           <div>
             <badaso-table
               v-model="selected"
               pagination
-              :max-items="10"
-              :search="true"
+              max-items="10"
+              search
               :data="tables"
-              :stripe="true"
+              stripe
               description
               :description-items="descriptionItems"
               :description-title="$t('crud.footer.descriptionTitle')"
               :description-connector="$t('crud.footer.descriptionConnector')"
               :description-body="$t('crud.footer.descriptionBody')"
             >
-              <template #thead>
+              <template slot="#thead">
                 <vs-th sort-key="tableName">
                   {{ $t("crud.header.table") }}
                 </vs-th>
                 <vs-th> {{ $t("crud.header.action") }} </vs-th>
               </template>
 
-              <template v-slot:data="{ data }">
+              <template slot-scope="{ data }">
                 <vs-tr
                   :data="table"
                   :key="index"
@@ -75,7 +61,7 @@
                     {{ data[index].tableName }}
                   </vs-td>
                   <vs-td class="badaso-table__td" v-if="data[index].crudData">
-                    <badaso-dropdown vs-trigger-click>
+                    <vs-dropdown vs-trigger-click>
                       <vs-button
                         size="large"
                         type="flat"
@@ -109,10 +95,10 @@
                           Delete
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
-                    </badaso-dropdown>
+                    </vs-dropdown>
                   </vs-td>
                   <vs-td v-else class="badaso-table__td">
-                    <badaso-dropdown vs-trigger-click>
+                    <vs-dropdown vs-trigger-click>
                       <vs-button
                         size="large"
                         type="flat"
@@ -130,7 +116,7 @@
                           {{ $t("crud.body.button") }}
                         </badaso-dropdown-item>
                       </vs-dropdown-menu>
-                    </badaso-dropdown>
+                    </vs-dropdown>
                   </vs-td>
                 </vs-tr>
               </template>
@@ -168,8 +154,8 @@ export default {
     fieldsForExcel: {},
     fieldsForPdf: [],
     dataType: {
-      fields: ["table_name"],
-    },
+      fields: ["table_name"]
+    }
   }),
   mounted() {
     this.getTableList();
@@ -197,7 +183,7 @@ export default {
         .then((response) => {
           this.$closeLoader();
           this.tables = response.data.tablesWithCrudData;
-          this.prepareExcelExporter();
+          this.prepareExcelExporter()
         })
         .catch((error) => {
           this.$closeLoader();
@@ -234,19 +220,18 @@ export default {
         if (field.includes("_")) {
           field = field.split("_");
           // field = field[0].charAt(0).toUpperCase() + field[0].slice(1) + " " + field[1].charAt(0).toUpperCase() + field[1].slice(1);
-          field = "Name";
+          field = 'Name';
         }
         field = field.charAt(0).toUpperCase() + field.slice(1);
 
-        this.fieldsForExcel[field] =
-          this.$caseConvert.stringSnakeToCamel(iterator);
+        this.fieldsForExcel[field] = this.$caseConvert.stringSnakeToCamel(iterator);
       }
 
       for (let iterator of this.dataType.fields) {
         if (iterator.includes("_")) {
           iterator = iterator.split("_");
           // iterator = iterator[0] + " " + iterator[1].charAt(0).toUpperCase() + iterator[1].slice(1);
-          iterator = "Name";
+          iterator = 'Name';
         }
 
         const string = this.$caseConvert.stringSnakeToCamel(iterator);

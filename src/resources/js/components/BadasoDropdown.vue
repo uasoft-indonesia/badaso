@@ -12,10 +12,9 @@
 </template>
 
 <script>
-import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
-
 export default {
   name: "BadasoDropdown",
+  inheritAttrs: false,
   props: {
     vsTriggerClick: {
       default: false,
@@ -38,165 +37,179 @@ export default {
       type: Boolean,
     },
   },
-  setup(props, { emit }) {
-    const dropdown = ref(null);
-    const vsDropdownVisible = ref(false);
-    const rightx = ref(false);
+  data: () => ({
+    vsDropdownVisible: false,
+    rightx: false,
+  }),
+  computed: {
+    listeners() {
+      return {
+        ...this.$listeners,
+        contextmenu: (evt) =>
+          this.vsTriggerContextmenu ? this.clickToogleMenu(evt, true) : {},
+        click: (evt) => {
+          if (!this.vsTriggerContextmenu) {
+            this.clickToogleMenu(evt);
+          }
 
-    const listeners = computed(() => ({
-      contextmenu: (evt) =>
-        props.vsTriggerContextmenu ? clickToogleMenu(evt, true) : {},
-      click: (evt) => {
-        if (!props.vsTriggerContextmenu) {
-          clickToogleMenu(evt);
-        }
-
-        if (dropdown.value === evt.target) {
-          emit("click");
-        }
-      },
-      mouseout: (evt) => toggleMenu("out", evt),
-      mouseover: (evt) => toggleMenu("over", evt),
-    }));
-
-    const clickx = (evt) => {
-      const dropdownMenu = document.querySelector(".vs-dropdown--menu");
+          if (this.$el === evt.target) {
+            this.$emit("click");
+          }
+        },
+        mouseout: (evt) => this.toggleMenu("out", evt),
+        mouseover: (evt) => this.toggleMenu("over", evt),
+      };
+    },
+  },
+  watch: {
+    vsDropdownVisible() {
+      this.changePositionMenu();
+      if (this.vsDropdownVisible) {
+        this.$emit("focus");
+        document.addEventListener("click", this.clickx);
+      } else {
+        this.$emit("blur");
+      }
+    },
+  },
+  mounted() {
+    this.changeColor();
+    document.addEventListener("click", this.clickx);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.clickx);
+  },
+  methods: {
+    clickx(evt) {
+      const [dropdownMenu] = this.$children.filter((item) =>
+        item.hasOwnProperty("dropdownVisible")
+      );
+      dropdownMenu.vsCustomContent = this.vsCustomContent;
+      dropdownMenu.vsTriggerClick = this.vsTriggerClick;
+      dropdownMenu.vsDropRight = this.vsDropRight;
       if (
-        (props.vsTriggerClick || props.vsCustomContent) &&
-        vsDropdownVisible.value
+        (this.vsTriggerClick || this.vsCustomContent) &&
+        this.vsDropdownVisible
       ) {
         if (
-          evt.target !== dropdown.value &&
-          !dropdown.value.contains(evt.target)
+          evt.target !== this.$refs.dropdown &&
+          evt.target.parentNode !== this.$refs.dropdown &&
+          evt.target.parentNode.parentNode !== this.$refs.dropdown
         ) {
           if (!evt.target.closest(".vs-dropdown--menu")) {
-            vsDropdownVisible.value = false;
-            document.removeEventListener("click", clickx);
+            dropdownMenu.dropdownVisible = this.vsDropdownVisible = false;
+            document.removeEventListener("click", this.clickx);
           }
         }
       }
-    };
-
-    const changeColor = () => {
-      const child = dropdown.value?.children || [];
+    },
+    changeColor() {
+      const child = this.$children;
       child.forEach((item) => {
-        if (item.classList.contains("dropdown")) {
-          item.color = props.color;
+        if (item.$vnode.tag.indexOf("dropdown") != -1) {
+          item.color = this.color;
         }
       });
-    };
-
-    const changePositionMenu = () => {
-      const dropdownMenu = document.querySelector(".vs-dropdown--menu");
-      const scrollTopx = window.pageYOffset || document.documentElement.scrollTop;
+    },
+    changePositionMenu() {
+      const [dropdownMenu] = this.$children.filter((item) =>
+        item.hasOwnProperty("dropdownVisible")
+      );
+      const scrollTopx =
+        window.pageYOffset || document.documentElement.scrollTop;
       if (
-        dropdown.value.getBoundingClientRect().top + 300 >= window.innerHeight
+        this.$refs.dropdown.getBoundingClientRect().top + 300 >=
+        window.innerHeight
       ) {
-        nextTick(() => {
-          dropdownMenu.style.top =
-            dropdown.value.getBoundingClientRect().top -
-            dropdownMenu.clientHeight -
+        this.$nextTick(() => {
+          dropdownMenu.topx =
+            this.$refs.dropdown.getBoundingClientRect().top -
+            dropdownMenu.$el.clientHeight -
             7 +
-            scrollTopx + "px";
-          dropdownMenu.classList.add("notHeight");
+            scrollTopx;
+          dropdownMenu.notHeight = true;
         });
       } else {
-        dropdownMenu.classList.remove("notHeight");
-        dropdownMenu.style.top =
-          dropdown.value.getBoundingClientRect().top +
-          dropdown.value.clientHeight +
-          scrollTopx - 5 + "px";
+        dropdownMenu.notHeight = false;
+        dropdownMenu.topx =
+          this.$refs.dropdown.getBoundingClientRect().top +
+          this.$refs.dropdown.clientHeight +
+          scrollTopx -
+          5;
       }
-
-      nextTick(() => {
-        const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      this.$nextTick(() => {
+        const w =
+          window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth;
 
         if (
-          dropdown.value.getBoundingClientRect().left +
-            dropdownMenu.offsetWidth >=
+          this.$refs.dropdown.getBoundingClientRect().left +
+            dropdownMenu.$el.offsetWidth >=
           w - 25
         ) {
           // this.rightx = true
         }
 
         if (
-          dropdown.value.getBoundingClientRect().right <
-          dropdownMenu.clientWidth + 25
+          this.$refs.dropdown.getBoundingClientRect().right <
+          dropdownMenu.$el.clientWidth + 25
         ) {
-          dropdownMenu.style.left =
-            dropdownMenu.clientWidth +
-            dropdown.value.getBoundingClientRect().left + "px";
-          rightx.value = true;
+          dropdownMenu.leftx =
+            dropdownMenu.$el.clientWidth +
+            this.$refs.dropdown.getBoundingClientRect().left;
+          this.rightx = true;
           return;
         }
-        dropdownMenu.style.left =
-          dropdown.value.getBoundingClientRect().left +
-          (props.vsDropRight
-            ? dropdownMenu.clientWidth
-            : dropdown.value.clientWidth) + "px";
+        dropdownMenu.leftx =
+          this.$refs.dropdown.getBoundingClientRect().left +
+          (this.vsDropRight
+            ? dropdownMenu.$el.clientWidth
+            : this.$refs.dropdown.clientWidth);
       });
-    };
-
-    const clickToogleMenu = (evt) => {
-      if (evt.type === "contextmenu") {
+    },
+    clickToogleMenu(evt) {
+      if (evt.type == "contextmenu") {
         evt.preventDefault();
       }
-      const dropdownMenu = document.querySelector(".vs-dropdown--menu");
-      if (props.vsTriggerClick || props.vsTriggerContextmenu) {
+      const [dropdownMenu] = this.$children.filter((item) =>
+        item.hasOwnProperty("dropdownVisible")
+      );
+      if (this.vsTriggerClick || this.vsTriggerContextmenu) {
         if (
-          vsDropdownVisible.value &&
+          this.vsDropdownVisible &&
           !evt.target.closest(".vs-dropdown--menu")
         ) {
-          vsDropdownVisible.value = false;
+          this.vsDropdownVisible = false;
         } else {
-          vsDropdownVisible.value = true;
+          dropdownMenu.dropdownVisible = this.vsDropdownVisible = false;
           window.addEventListener("click", () => {
             if (
               !evt.target.closest(".vs-con-dropdown") &&
               !evt.target.closest(".vs-dropdown--menu")
             ) {
-              vsDropdownVisible.value = false;
+            dropdownMenu.dropdownVisible = this.vsDropdownVisible = false;
             }
           });
         }
       }
 
-      emit("click");
-    };
-
-    const toggleMenu = (typex, evt) => {
-      const dropdownMenu = document.querySelector(".vs-dropdown--menu");
-      if (!props.vsTriggerClick && !props.vsTriggerContextmenu) {
-        if (typex === "over") {
-          vsDropdownVisible.value = true;
+      this.$emit("click");
+    },
+    toggleMenu(typex, evt) {
+      const [dropdownMenu] = this.$children.filter((item) =>
+        item.hasOwnProperty("dropdownVisible")
+      );
+      if (!this.vsTriggerClick && !this.vsTriggerContextmenu) {
+        if (typex == "over") {
+          dropdownMenu.dropdownVisible = this.vsDropdownVisible = true;
         } else {
           if (!evt.relatedTarget.classList.contains("vs-dropdown-menu")) {
-            vsDropdownVisible.value = false;
+            dropdownMenu.dropdownVisible = this.vsDropdownVisible = false;
           }
         }
       }
-    };
-
-    onMounted(() => {
-      changeColor();
-      document.addEventListener("click", clickx);
-    });
-
-    onBeforeUnmount(() => {
-      document.removeEventListener("click", clickx);
-    });
-
-    return {
-      dropdown,
-      vsDropdownVisible,
-      rightx,
-      listeners,
-      clickx,
-      changeColor,
-      changePositionMenu,
-      clickToogleMenu,
-      toggleMenu
-    };
+    },
   },
 };
 </script>

@@ -4,9 +4,9 @@
     <vs-row v-if="$helper.isAllowed('edit_roles')">
       <vs-col vs-lg="12">
         <vs-card>
-          <template v-slot:header>
+          <div slot="header">
             <h3>{{ $t("role.edit.title") }}</h3>
-          </template>
+          </div>
           <vs-row>
             <badaso-text
               v-model="role.name"
