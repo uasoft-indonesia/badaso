@@ -258,6 +258,7 @@ class BadasoSetup extends Command
             'MIX_BADASO_PLUGINS' => '',
             'MIX_DEFAULT_MENU' => 'general',
             'MIX_BADASO_MENU' => '${MIX_DEFAULT_MENU}',
+            'MIX_BADASO_REGISTER_MODE' => 'enable',
             'MIX_ADMIN_PANEL_ROUTE_PREFIX' => 'badaso-dashboard',
             'MIX_BADASO_SECRET_LOGIN_PREFIX' => 'badaso-secret-login',
             'MIX_API_ROUTE_PREFIX' => 'badaso-api',
