@@ -232,5 +232,13 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+router.beforeEach((to, from, next) => {
+  const registerMode = process.env.MIX_BADASO_REGISTER_MODE || 'enable';
 
+  if (to.name === 'AuthRegister' && registerMode === 'disable') {
+    next({ name: 'AuthLogin' }); // Redirect ke login jika register dinonaktifkan
+  } else {
+    next();
+  }
+});
 export default router;

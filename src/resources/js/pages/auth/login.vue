@@ -83,11 +83,11 @@
           }}</vs-button>
         </form>
 
-        <div class="login__register-link">
+        <div class="login__register-link" v-if="registerMode !== 'disable'">
           {{ $t("login.createAccount.text") }} &nbsp;
-          <router-link :to="'/' + baseUrl + '/register'">{{
-            $t("login.createAccount.link")
-          }}</router-link>
+          <router-link :to="'/' + baseUrl + '/register'">
+            {{ $t("login.createAccount.link") }}
+          </router-link>
         </div>
       </div>
     </vs-card>
@@ -106,6 +106,14 @@ export default {
     rememberMe: false,
     errors: {},
   }),
+  mounted() {
+    console.log("Register Mode:", process.env.MIX_BADASO_REGISTER_MODE);
+  },
+  computed: {
+    registerMode() {
+      return process.env.MIX_BADASO_REGISTER_MODE || 'enable';
+    },
+  },
   methods: {
     login() {
       this.$openLoader();
