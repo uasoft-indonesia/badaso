@@ -69,11 +69,6 @@ export default {
         return this.$store.state.badaso.keyIssue;
       },
     },
-    registerMode: {
-      get() {
-        return this.$store.state.badaso.config?.register_mode;
-      }
-    }
   },
   mounted() {
     this.$i18n.locale = this.getSelectedLocale.key;

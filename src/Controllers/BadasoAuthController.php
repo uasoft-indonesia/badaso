@@ -171,8 +171,9 @@ class BadasoAuthController extends Controller
             return response()->json([
                 'message' => 'User registration was disabled by administrator.',
             ], 503);
-        }else{
-             try {
+        }
+
+        try {
             DB::beginTransaction();
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -248,84 +249,6 @@ class BadasoAuthController extends Controller
 
             return ApiResponse::failed($e);
         }
-        }
-
-        // try {
-        //     DB::beginTransaction();
-        //     $request->validate([
-        //         'name' => 'required|string|max:255',
-        //         'username' => 'required|string|max:255|alpha_num',
-        //         'phone' => 'required|numeric|min:6',
-        //         'email' => 'required|string|email|max:255|unique:Uasoft\Badaso\Models\User',
-        //         'password' => 'required|string|min:6|confirmed',
-        //         'address' => 'required|string|max:255',
-        //         'gender' => 'required|string',
-        //     ]);
-
-        //     $user = User::create([
-        //         'name' => $request->get('name'),
-        //         'username' => $request->get('username'),
-        //         'phone' => $request->get('phone'),
-        //         'email' => $request->get('email'),
-        //         'password' => Hash::make($request->get('password')),
-        //         'address' => $request->get('address'),
-        //         'gender' => $request->get('gender'),
-        //     ]);
-
-        //     $role = $this->getCustomerRole();
-
-        //     $user_role = new UserRole();
-        //     $user_role->user_id = $user->id;
-        //     $user_role->role_id = $role->id;
-        //     $user_role->save();
-
-        //     $should_verify_email = Config::get('adminPanelVerifyEmail') == '1' ? true : false;
-        //     if (! $should_verify_email) {
-        //         $ttl = $this->getTTL();
-        //         $token = auth()->setTTL($ttl)->login($user);
-
-        //         DB::commit();
-
-        //         activity('Authentication')
-        //             ->causedBy(auth()->user() ?? null)
-        //             ->withProperties(['attributes' => [
-        //                 'user' => $user,
-        //                 'role' => $user_role,
-        //             ]])
-        //             ->performedOn($user)
-        //             ->event('created')
-        //             ->log('Register has been created');
-
-        //         return $this->createNewToken($token, auth()->user());
-        //     } else {
-        //         User::where('email', $request->get('email'))->update([
-        //             'last_sent_token_at' => date('Y-m-d H:i:s'),
-        //         ]);
-        //         $token = rand(111111, 999999);
-        //         $token_lifetime = env('VERIFICATION_TOKEN_LIFETIME', 5);
-        //         $expired_token = date('Y-m-d H:i:s', strtotime("+$token_lifetime minutes", strtotime(date('Y-m-d H:i:s'))));
-        //         $data = [
-        //             'user_id' => $user->id,
-        //             'verification_token' => $token,
-        //             'expired_at' => $expired_token,
-        //             'count_incorrect' => 0,
-        //         ];
-
-        //         UserVerification::firstOrCreate($data);
-
-        //         $this->sendVerificationToken(['user' => $user, 'token' => $token]);
-
-        //         DB::commit();
-
-        //         return ApiResponse::success([
-        //             'message' => __('badaso::validation.verification.email_sended'),
-        //         ]);
-        //     }
-        // } catch (Exception $e) {
-        //     DB::rollBack();
-
-        //     return ApiResponse::failed($e);
-        // }
     }
 
     public function refreshToken(Request $request)
