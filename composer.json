@@ -45,8 +45,8 @@
     "league/flysystem": "^3.28"
   },
   "require-dev": {
-    "phpunit/phpunit": "^11.0.1",
-    "orchestra/testbench": "^9.14"
+    "phpunit/phpunit": "^9.5",
+    "orchestra/testbench": "^6.24"
   },
   "authors": [
     {

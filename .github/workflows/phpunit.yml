@@ -70,7 +70,7 @@ jobs:
           extensions: mbstring, pdo_sqlite, fileinfo, gd, php_pgsql, json, openssl, php_pcov
           coverage: xdebug
 
-      # Install legacy factories for Laravel 8/9
+      # Install legacy factories for Laravel 11
       - name: Install legacy factories for Laravel
         run: composer create-project laravel/laravel:^${{matrix.laravel-require}} laravel
 
@@ -132,6 +132,7 @@ jobs:
           sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres/g' .env &&
           sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env
 
+
       # Pgsql | Laravel setup
       - name: Pgsql | Laravel setup
         run: cd laravel &&
@@ -157,3 +158,4 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: laravel/reports/coverage/coverage.xml
+
