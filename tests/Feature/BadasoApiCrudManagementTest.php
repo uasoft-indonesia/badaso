@@ -405,15 +405,6 @@ class BadasoApiCrudManagementTest extends TestCase
             ];
     }
 
-    private function cleanupTables(array $tables)
-    {
-        foreach ($tables as $table) {
-            if (\Schema::hasTable($table)) {
-                \Schema::dropIfExists($table);
-            }
-        }
-    }
-
     private function createTestTables(int $max_count_table_generate)
     {
         $table_names = [];
@@ -490,6 +481,10 @@ class BadasoApiCrudManagementTest extends TestCase
         $multiple_tables = ['multiple_table_1', 'multiple_table_2'];
         foreach ($multiple_tables as $key => $multiple_table) {
             Schema::dropIfExists($multiple_table);
+        }
+        $manyToManyTables = ['table_primary', 'table_destination', 'table_relation'];
+        foreach ($manyToManyTables as $table) {
+            Schema::dropIfExists($table);
         }
 
         // clear cache
@@ -757,9 +752,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddTableCrudMultiRelationEntity()
     {
-        $this->cleanupTables(['multiple_table_1', 'multiple_table_2']);
         $first_table = 'multiple_table_1';
         $second_table = 'multiple_table_2';
+
+        Schema::dropIfExists($first_table);
+        Schema::dropIfExists($second_table);
+
+        $this->assertFalse(Schema::hasTable($first_table));
+        $this->assertFalse(Schema::hasTable($second_table));   
 
         $table_1 = [
             'table' => $first_table,
@@ -1057,10 +1057,11 @@ class BadasoApiCrudManagementTest extends TestCase
         $add_table = [$table_1, $table_2];
 
         // add table
-        foreach ($add_table as $key => $request_data_table) {
-            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $request_data_table);
-            $response->assertSuccessful();
-        }
+    foreach ($add_table as $key => $request_data_table) {
+        $response = CallHelper::withAuthorizeBearer($this)
+            ->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $request_data_table);
+        $response->assertSuccessful();
+    }
 
         $add_crud_table = [$crud_table_1, $crud_table_2];
         // add crud management
@@ -1073,6 +1074,13 @@ class BadasoApiCrudManagementTest extends TestCase
     public function testAddTableManyToMany()
     {
         $name_table = ['table_primary', 'table_destination', 'table_relation'];
+        foreach ($name_table as $table) {
+            Schema::dropIfExists($table);
+            
+            // Verify tables don't exist
+            $this->assertFalse(Schema::hasTable($table));
+        }
+        
         foreach ($name_table as $key => $table) {
             $table = [
                 'table' => $table,
@@ -1159,9 +1167,13 @@ class BadasoApiCrudManagementTest extends TestCase
                     ],
                 ];
             }
-            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $table);
-            $response->assertSuccessful();
-        }
+            $dataType = DataType::where('name', $table['table'])->first();
+            if ($dataType) {
+                $dataType->delete();
+            }
+                $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $table);
+                $response->assertSuccessful();
+            }
         foreach ($name_table as $key => $crud_table) {
             $crud_table = [
                 'name' => $crud_table,
