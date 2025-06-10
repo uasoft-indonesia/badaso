@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Tests\Feature;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\Menu;
 
 class BadasoApiMenuTest extends TestCase
@@ -14,12 +14,12 @@ class BadasoApiMenuTest extends TestCase
     public function testStartInit()
     {
         // init user login
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testBrowseMenu()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus'));
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/menus'));
         $response->assertSuccessful();
 
         $response_menus = $response->json('data.menus');
@@ -41,7 +41,7 @@ class BadasoApiMenuTest extends TestCase
     {
         $menus = Menu::all();
         foreach ($menus as $index => $menu) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/menus/read'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/menus/read'), [
                 'menu_id' => $menu->id,
             ]);
             $response->assertSuccessful();
@@ -64,7 +64,7 @@ class BadasoApiMenuTest extends TestCase
             'icon' => 'add',
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/menus/add'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/menus/add'), $request_data);
         $response->assertSuccessful();
 
         $menu_id = $response->json('data.id');
@@ -75,12 +75,12 @@ class BadasoApiMenuTest extends TestCase
         $this->assertTrue($menu['display_name'] == $request_data['displayName']);
         $this->assertTrue($menu['icon'] == $request_data['icon']);
 
-        CallHelperTest::setCache(self::$KEY_MENU_LAST_CREATED_ID, $menu_id);
+        CallHelper::setCache(self::$KEY_MENU_LAST_CREATED_ID, $menu_id);
     }
 
     public function testEditMenu()
     {
-        $menu_id = CallHelperTest::getCache(self::$KEY_MENU_LAST_CREATED_ID);
+        $menu_id = CallHelper::getCache(self::$KEY_MENU_LAST_CREATED_ID);
         $menu = Menu::find($menu_id);
         $request_data = [
             'key' => $menu->key,
@@ -89,7 +89,7 @@ class BadasoApiMenuTest extends TestCase
             'menu_id' => $menu_id,
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/edit'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/menus/edit'), $request_data);
         $response->assertSuccessful();
 
         $menu = Menu::find($menu_id);
@@ -102,9 +102,9 @@ class BadasoApiMenuTest extends TestCase
 
     public function testDeleteMenu()
     {
-        $menu_id = CallHelperTest::getCache(self::$KEY_MENU_LAST_CREATED_ID);
+        $menu_id = CallHelper::getCache(self::$KEY_MENU_LAST_CREATED_ID);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/menus/delete'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/menus/delete'), [
             'menu_id' => $menu_id,
         ]);
         $response->assertSuccessful();
@@ -130,7 +130,7 @@ class BadasoApiMenuTest extends TestCase
         })->toArray();
         shuffle($order);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/menus/menu-options'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/menus/menu-options'), [
             'order' => (array) $order,
         ]);
         $response->assertSuccessful();
@@ -145,8 +145,8 @@ class BadasoApiMenuTest extends TestCase
 
     public function testFinish()
     {
-        CallHelperTest::clearCache();
-        CallHelperTest::handleDeleteUserAdmin();
+        CallHelper::clearCache();
+        CallHelper::handleDeleteUserAdmin();
         $this->assertTrue(true);
     }
 }

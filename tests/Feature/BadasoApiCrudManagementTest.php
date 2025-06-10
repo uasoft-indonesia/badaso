@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
 use Uasoft\Badaso\Models\Permission;
@@ -433,7 +433,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $table_names[] = $table_name;
         }
         // save all tables name to cache
-        CallHelperTest::setCache($this->KEY_LIST_CREATE_TABLES, $table_names);
+        CallHelper::setCache($this->KEY_LIST_CREATE_TABLES, $table_names);
     }
 
     private function createTestEmptyValueTables(int $max_count_table_generate)
@@ -464,17 +464,17 @@ class BadasoApiCrudManagementTest extends TestCase
             $table_names[] = $table_name;
         }
         // save all tables name to cache
-        CallHelperTest::setCache($this->KEY_LIST_CREATE_EMPTY_TABLES, $table_names);
+        CallHelper::setCache($this->KEY_LIST_CREATE_EMPTY_TABLES, $table_names);
     }
 
     private function deleteAllTestTables()
     {
-        $table_names = collect(CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES))->reverse();
+        $table_names = collect(CallHelper::getCache($this->KEY_LIST_CREATE_TABLES))->reverse();
         foreach ($table_names as $key => $table_names) {
             Schema::dropIfExists($table_names);
         }
 
-        $table_empty_names = collect(CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES))->reverse();
+        $table_empty_names = collect(CallHelper::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES))->reverse();
         foreach ($table_empty_names as $key => $table_empty_names) {
             Schema::dropIfExists($table_empty_names);
         }
@@ -484,13 +484,13 @@ class BadasoApiCrudManagementTest extends TestCase
         }
 
         // clear cache
-        CallHelperTest::clearCache();
+        CallHelper::clearCache();
     }
 
     public function testStartInit()
     {
         // init user login
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
 
         // init create all tables testing
         $this->createTestTables(10);
@@ -501,8 +501,8 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testBrowseCrudManagement()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)
-            ->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud'));
+        $response = CallHelper::withAuthorizeBearer($this)
+            ->json('GET', CallHelper::getUrlApiV1Prefix('/crud'));
         $response->assertSuccessful();
 
         $expect_table = config('badaso-watch-tables');
@@ -516,7 +516,7 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddCrudManagement()
     {
-        $table_names = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $table_names = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
         $const_fields = $this->getFields();
         $const_fillable = collect($const_fields)->map(function ($fillable) {
             $field = $fillable['badaso_type'];
@@ -714,7 +714,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 'isMaintenance' => rand(0, 1),
                 'rows' => $rows,
             ];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/crud/add'), $request_body);
 
             $response->assertSuccessful();
 
@@ -723,19 +723,19 @@ class BadasoApiCrudManagementTest extends TestCase
             $data_response_add_crud_management[] = $response->json('data');
         }
 
-        CallHelperTest::setCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
-        CallHelperTest::setCache($this->KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT, $data_response_add_crud_management);
+        CallHelper::setCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
+        CallHelper::setCache($this->KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT, $data_response_add_crud_management);
     }
 
     public function testReadCrudManagement()
     {
-        $data_table_crud_management_logs = CallHelperTest::getCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG);
+        $data_table_crud_management_logs = CallHelper::getCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG);
         $response_read_table_entities = [];
         foreach ($data_table_crud_management_logs as $key => $data_table_crud_management_log) {
             $request_body = $data_table_crud_management_log['request_body'];
             $table = $request_body['name'];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/crud/read'), [
                 'table' => $table,
             ]);
             $response->assertSuccessful();
@@ -743,7 +743,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $response_read_table_entities[$table] = $response->json('data.crud.dataRows');
         }
 
-        CallHelperTest::setCache($this->KEY_DATA_RESPONSE_READ_TABLE_ENTITY, $response_read_table_entities);
+        CallHelper::setCache($this->KEY_DATA_RESPONSE_READ_TABLE_ENTITY, $response_read_table_entities);
     }
 
     public function testAddTableCrudMultiRelationEntity()
@@ -1048,14 +1048,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
         // add table
         foreach ($add_table as $key => $request_data_table) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/add'), $request_data_table);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $request_data_table);
             $response->assertSuccessful();
         }
 
         $add_crud_table = [$crud_table_1, $crud_table_2];
         // add crud management
         foreach ($add_crud_table as $key => $request_data_crud_table) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_data_crud_table);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/crud/add'), $request_data_crud_table);
             // $response->assertSuccessful();
         }
     }
@@ -1149,7 +1149,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     ],
                 ];
             }
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/add'), $table);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $table);
             $response->assertSuccessful();
         }
         foreach ($name_table as $key => $crud_table) {
@@ -1257,7 +1257,7 @@ class BadasoApiCrudManagementTest extends TestCase
             }
 
             if ($crud_table['name'] != 'table_relation') {
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $crud_table);
+                $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/crud/add'), $crud_table);
                 $response->assertSuccessful();
             }
         }
@@ -1282,25 +1282,25 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($name_table as $key => $table) {
             if ($table == 'table-2') {
                 for ($i = 1; $i < 4; $i++) {
-                    $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/add'), [
+                    $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/entities/'.$table.'/add'), [
                         'data' => [
                             'name' => 'option '.$i,
                         ],
                     ]);
                 }
             } else {
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/add'), $data_table_primary);
+                $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/entities/'.$table.'/add'), $data_table_primary);
                 $response->assertSuccessful();
             }
         }
 
         // browse
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table));
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/entities/'.$table));
         $response->assertSuccessful();
         $data_browse = $response['data']['data'][0];
 
         // edit
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/edit'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/entities/'.$table.'/edit'), [
             'data' => [
                 'id' => $data_browse['id'],
                 'name' => 'lorem ipsum',
@@ -1310,7 +1310,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $response->assertSuccessful();
 
         // delete
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/entities/'.$table.'/delete'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/entities/'.$table.'/delete'), [
             'slug' => $table,
             'data' => [
                 [
@@ -1320,7 +1320,7 @@ class BadasoApiCrudManagementTest extends TestCase
             ],
         ]);
 
-        $response_crud_table = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud?'));
+        $response_crud_table = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/crud?'));
         $response_crud_table = $response_crud_table['data'];
         foreach ($response_crud_table['tablesWithCrudData'] as $key => $value_response_crud_table) {
             if (in_array($value_response_crud_table['tableName'], $table_lists)) {
@@ -1335,7 +1335,7 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($table_lists as $key => $table) {
             if ($table != $table_lists[0]) {
                 foreach ($ids_list_table as $key => $id) {
-                    $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), $id);
+                    $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/crud/delete'), $id);
                 }
             }
             Schema::dropIfExists($table);
@@ -1369,7 +1369,7 @@ class BadasoApiCrudManagementTest extends TestCase
         ];
 
         // add fill table 1
-        $response_crud_table = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud?'));
+        $response_crud_table = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/crud?'));
         $response_crud_table = $response_crud_table['data'];
 
         foreach ($response_crud_table['tablesWithCrudData'] as $key => $value_response_crud_table) {
@@ -1380,7 +1380,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     ];
                     if ($value_add_table == $list_table[0]) {
                         foreach ($add_fill_table_1 as $key => $request_data_fill_crud_table_1) {
-                            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/multiple-table-1/add'), $request_data_fill_crud_table_1);
+                            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/entities/multiple-table-1/add'), $request_data_fill_crud_table_1);
                             $response->assertSuccessful();
                             $response_table_1 = $response['data'];
                             foreach ($fill_table_1 as $key => $value) {
@@ -1395,16 +1395,16 @@ class BadasoApiCrudManagementTest extends TestCase
         }
 
         // add fill table 2
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/entities/multiple-table-2/add'), $add_fill_table_2);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/entities/multiple-table-2/add'), $add_fill_table_2);
         $response->assertSuccessful();
     }
 
     public function testAddEditEntityCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
         $first_table = $tables[0];
 
-        $response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_TABLE_ENTITY);
+        $response_read_table_entities = CallHelper::getCache($this->KEY_DATA_RESPONSE_READ_TABLE_ENTITY);
         $fields = [];
         foreach ($this->getFields() as $key => $value) {
             $fields[$value['badaso_type']] = $value;
@@ -1431,7 +1431,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         }
                     }
                 }
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/add"), [
+                $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix("/entities/{$table}/add"), [
                     'data' => $data,
                 ]);
 
@@ -1483,7 +1483,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         }
                     }
                 }
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/edit"), [
+                $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix("/entities/{$table}/edit"), [
                     'data' => $data,
                 ]);
                 $response->assertSuccessful();
@@ -1492,13 +1492,13 @@ class BadasoApiCrudManagementTest extends TestCase
             }
         }
 
-        CallHelperTest::setCache($this->KEY_DATA_ADD_ENTITY, $data_add_entities);
+        CallHelper::setCache($this->KEY_DATA_ADD_ENTITY, $data_add_entities);
     }
 
     public function testAddReadEmptyTableCrudManagement()
     {
         // create crud management empty value tables
-        $table_names = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $table_names = CallHelper::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
         $const_fields = $this->getEmptyValueFields();
         $const_fillable = collect($const_fields)->map(function ($fillable) {
             $field = $fillable['badaso_type'];
@@ -1696,7 +1696,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 'isMaintenance' => rand(0, 1),
                 'rows' => $rows,
             ];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/crud/add'), $request_body);
 
             $response->assertSuccessful();
 
@@ -1705,16 +1705,16 @@ class BadasoApiCrudManagementTest extends TestCase
             $data_response_add_crud_management[] = $response->json('data');
         }
 
-        CallHelperTest::setCache($this->KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
+        CallHelper::setCache($this->KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
 
         // read data crud management
-        $data_table_crud_management_logs = CallHelperTest::getCache($this->KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG);
+        $data_table_crud_management_logs = CallHelper::getCache($this->KEY_DATA_EMPTY_TABLE_CRUD_MANAGEMENT_LOG);
         $response_read_table_entities = [];
         foreach ($data_table_crud_management_logs as $key => $data_table_crud_management_log) {
             $request_body = $data_table_crud_management_log['request_body'];
             $table = $request_body['name'];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/crud/read'), [
                 'table' => $table,
             ]);
             $response->assertSuccessful();
@@ -1722,16 +1722,16 @@ class BadasoApiCrudManagementTest extends TestCase
             $response_read_table_entities[$table] = $response->json('data.crud.dataRows');
         }
 
-        CallHelperTest::setCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY, $response_read_table_entities);
+        CallHelper::setCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY, $response_read_table_entities);
     }
 
     public function testAddEditEmptyTableEntity()
     {
         // add and edit data entity
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
         $first_table = $tables[0];
 
-        $get_response_read_table_entities = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
+        $get_response_read_table_entities = CallHelper::getCache($this->KEY_DATA_RESPONSE_READ_EMPTY_TABLE_ENTITY);
         $fields = [];
         foreach ($this->getEmptyValueFields() as $key => $value) {
             $fields[$value['badaso_type']] = $value;
@@ -1758,7 +1758,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         }
                     }
                 }
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/add"), [
+                $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix("/entities/{$table_empty}/add"), [
                     'data' => $data,
                 ]);
 
@@ -1778,7 +1778,7 @@ class BadasoApiCrudManagementTest extends TestCase
                         }
                     }
                 }
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix("/entities/{$table_empty}/edit"), [
+                $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix("/entities/{$table_empty}/edit"), [
                     'data' => $data,
                 ]);
                 $response->assertSuccessful();
@@ -1787,7 +1787,7 @@ class BadasoApiCrudManagementTest extends TestCase
             }
         }
 
-        CallHelperTest::setCache(
+        CallHelper::setCache(
             $this->KEY_EMPTY_DATA_ADD_ENTITY,
             $data_add_entities
         );
@@ -1795,15 +1795,15 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testReadDataEntityCrudManagement()
     {
-        $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
+        $data_add_entities = CallHelper::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
             foreach ($data_add_entity as $index => $entity) {
                 $id = $entity['id'];
 
                 $table_entity = DB::table($table)->where('id', $id)->first();
                 if (isset($table_entity)) {
-                    $response = CallHelperTest::withAuthorizeBearer($this)
-                        ->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/read"), [
+                    $response = CallHelper::withAuthorizeBearer($this)
+                        ->json('GET', CallHelper::getUrlApiV1Prefix("/entities/{$table}/read"), [
                             'id' => $id,
                         ]);
 
@@ -1815,9 +1815,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testBrowseDataEntityCrudManagement()
     {
-        $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
+        $data_add_entities = CallHelper::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}"), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix("/entities/{$table}"), [
                 'page' => 1,
                 'limit' => 10,
             ]);
@@ -1827,9 +1827,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testGetAllDataEntityCrudManagement()
     {
-        $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
+        $data_add_entities = CallHelper::getCache($this->KEY_DATA_ADD_ENTITY);
         foreach ($data_add_entities as $table => $data_add_entity) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/all"));
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix("/entities/{$table}/all"));
             $response->assertSuccessful();
         }
     }
@@ -1961,7 +1961,7 @@ class BadasoApiCrudManagementTest extends TestCase
             'isMaintenance' => rand(0, 1),
             'rows' => $rows,
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/crud/add'), $request_body);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/crud/add'), $request_body);
         $response->assertSuccessful();
 
         // edit permission IsPublic Permission
@@ -1976,11 +1976,11 @@ class BadasoApiCrudManagementTest extends TestCase
             'key' => 'browse_'.$table_name,
             'id' => $permission_id,
         ];
-        $response_permission = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
+        $response_permission = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/permissions/edit'), $request_data);
         $response_permission->assertSuccessful();
 
         // browse data entity IsPublic
-        $response_entity = $this->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/read'), [
+        $response_entity = $this->json('GET', CallHelper::getUrlApiV1Prefix('/table/read'), [
             'table' => $request_body['slug'],
         ]);
         $response_entity->assertSuccessful();
@@ -1989,7 +1989,7 @@ class BadasoApiCrudManagementTest extends TestCase
         $data_types = DataType::whereIn('name', $table_names)->get();
         foreach ($data_types as $key => $data_type) {
             $id = $data_type->id;
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/crud/delete'), [
                 'id' => $id,
             ]);
             $response->assertSuccessful();
@@ -2002,11 +2002,11 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testSingleMultipleDeleteEntityCrudManagement()
     {
-        $data_add_entities = CallHelperTest::getCache($this->KEY_DATA_ADD_ENTITY);
+        $data_add_entities = CallHelper::getCache($this->KEY_DATA_ADD_ENTITY);
 
         foreach ($data_add_entities as $table => $data_add_entity) {
             $id = $data_add_entity[0]['id'];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete"), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix("/entities/{$table}/delete"), [
                 'slug' => $table,
                 'data' => [
                     [
@@ -2032,7 +2032,7 @@ class BadasoApiCrudManagementTest extends TestCase
                     $ids[] = $entity['id'];
                 }
             }
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix("/entities/{$table}/delete-multiple"), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix("/entities/{$table}/delete-multiple"), [
                 'slug' => $table,
                 'data' => [
                     [
@@ -2058,10 +2058,10 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testReadTableEntityResultCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
 
         foreach ($tables as $key => $slug) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/read'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/table/read'), [
                 'table' => $slug,
             ]);
             $response->assertSuccessful();
@@ -2070,9 +2070,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testRelationDataBySlugEntityResultCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
         foreach ($tables as $key => $slug) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
                 'slug' => $slug,
             ]);
 
@@ -2082,8 +2082,8 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testEditCrudManagement()
     {
-        $data_table_crud_management_log = CallHelperTest::getCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG);
-        $data_response_add_crud_managements = CallHelperTest::getCache($this->KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT);
+        $data_table_crud_management_log = CallHelper::getCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG);
+        $data_response_add_crud_managements = CallHelper::getCache($this->KEY_DATA_RESPONSE_ADD_CRUD_MANAGEMENT);
 
         foreach ($data_response_add_crud_managements as $index => $data_response_add_crud_management) {
             $table_name = $data_response_add_crud_management['name'];
@@ -2179,18 +2179,18 @@ class BadasoApiCrudManagementTest extends TestCase
                 $data_response_add_crud_management[$key] = $value;
             }
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/crud/edit'), $data_response_add_crud_management);
+            $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/crud/edit'), $data_response_add_crud_management);
             $response->assertSuccessful();
         }
 
-        CallHelperTest::setCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
+        CallHelper::setCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG, $data_table_crud_management_log);
     }
 
     public function testReadTableResultAfterEditCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
         foreach ($tables as $key => $slug) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/read'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/table/read'), [
                 'table' => $slug,
             ]);
 
@@ -2200,9 +2200,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testRelationDataBySlugResultAfterEditCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
         foreach ($tables as $key => $slug) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/table/relation-data-by-slug'), [
                 'slug' => $slug,
             ]);
 
@@ -2212,13 +2212,13 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testReadBySlugCrudManagement()
     {
-        $data_table_crud_management_logs = CallHelperTest::getCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG);
+        $data_table_crud_management_logs = CallHelper::getCache($this->KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG);
 
         foreach ($data_table_crud_management_logs as $key => $data_table_crud_management_log) {
             $request_body = $data_table_crud_management_log['request_body'];
             $slug = $request_body['slug'];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/crud/read-by-slug'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/crud/read-by-slug'), [
                 'slug' => $slug,
             ]);
             $response->assertSuccessful();
@@ -2227,8 +2227,8 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testDeleteCrudManagement()
     {
-        $tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_TABLES);
-        $empty_tables = CallHelperTest::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
+        $tables = CallHelper::getCache($this->KEY_LIST_CREATE_TABLES);
+        $empty_tables = CallHelper::getCache($this->KEY_LIST_CREATE_EMPTY_TABLES);
         $multiple_tables = ['multiple_table_1', 'multiple_table_2'];
 
         $collect_tables = [$tables, $empty_tables, $multiple_tables];
@@ -2239,7 +2239,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 $name = ucwords(str_replace('_', '', $table_name));
 
                 $id = $data_type->id;
-                $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/crud/delete'), [
+                $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/crud/delete'), [
                     'id' => $id,
                 ]);
                 $response->assertSuccessful();
@@ -2385,14 +2385,14 @@ class BadasoApiCrudManagementTest extends TestCase
 
         //add table
         foreach ($list_table as $key => $value) {
-            $response = CallHelperTest::withAuthorizeBearer($this)
-                ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/add'), $value);
+            $response = CallHelper::withAuthorizeBearer($this)
+                ->json('POST', CallHelper::getUrlApiV1Prefix('/database/add'), $value);
             $response->assertSuccessful();
         }
 
         //browse table to get file name migration
-        $response = CallHelperTest::withAuthorizeBearer($this)
-            ->json('GET', CallHelperTest::getUrlApiV1Prefix('/database/migration/browse'));
+        $response = CallHelper::withAuthorizeBearer($this)
+            ->json('GET', CallHelper::getUrlApiV1Prefix('/database/migration/browse'));
 
         $response = $response->json('data');
         $migration_name = [];
@@ -2401,15 +2401,15 @@ class BadasoApiCrudManagementTest extends TestCase
         }
 
         //rollback migration
-        $response = CallHelperTest::withAuthorizeBearer($this)
-            ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/rollback'), [
+        $response = CallHelper::withAuthorizeBearer($this)
+            ->json('POST', CallHelper::getUrlApiV1Prefix('/database/rollback'), [
                 'step' => 2,
             ]);
         $response->assertSuccessful();
 
         //delete file migration
-        $response = CallHelperTest::withAuthorizeBearer($this)
-            ->json('POST', CallHelperTest::getUrlApiV1Prefix('/database/migration/delete'), [
+        $response = CallHelper::withAuthorizeBearer($this)
+            ->json('POST', CallHelper::getUrlApiV1Prefix('/database/migration/delete'), [
                 'file_name' => $migration_name,
             ]);
         $response->assertSuccessful();
@@ -2432,7 +2432,7 @@ class BadasoApiCrudManagementTest extends TestCase
                 'type' => 'file',
                 'upload' => $file_php,
             ];
-        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $file);
+        $response = $this->json('POST', CallHelper::getUrlApiV1Prefix('/file/upload/lfm'), $file);
         $message = json_decode($response['message'], true);
         $this->assertArrayHasKey('error', $message['original']);
 
@@ -2442,7 +2442,7 @@ class BadasoApiCrudManagementTest extends TestCase
             'type' => 'file',
             'upload' => $file_pdf,
         ];
-        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $file);
+        $response = $this->json('POST', CallHelper::getUrlApiV1Prefix('/file/upload/lfm'), $file);
         $message = $response['data'];
         $this->assertNull($response['errors']);
         $this->assertArrayHasKey('uploaded', $message['original']);
@@ -2453,7 +2453,7 @@ class BadasoApiCrudManagementTest extends TestCase
             'type' => 'image',
             'upload' => $image_file,
         ];
-        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/file/upload/lfm'), $image);
+        $response = $this->json('POST', CallHelper::getUrlApiV1Prefix('/file/upload/lfm'), $image);
         $message = $response['data'];
         $this->assertNull($response['errors']);
         $this->assertArrayHasKey('original', $message);

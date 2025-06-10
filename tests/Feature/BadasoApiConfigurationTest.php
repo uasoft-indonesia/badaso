@@ -3,7 +3,7 @@
 namespace Uasoft\Badaso\Tests\Feature;
 
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 
 class BadasoApiConfigurationTest extends TestCase
 {
@@ -24,11 +24,11 @@ class BadasoApiConfigurationTest extends TestCase
             'path' => '/badaso-dashboard/'.$path_secret_login,
         ];
 
-        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/maintenance'), $request_data);
+        $response = $this->json('POST', CallHelper::getUrlApiV1Prefix('/maintenance'), $request_data);
         $data = $response['data'];
         $this->assertFalse($data['maintenance']);
 
-        $response_secret_login = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/maintenance'), $request_data_secret_login);
+        $response_secret_login = $this->json('POST', CallHelper::getUrlApiV1Prefix('/maintenance'), $request_data_secret_login);
         $data_secret_login = $response_secret_login['data'];
         $this->assertFalse($data_secret_login['maintenance']);
     }
@@ -45,11 +45,11 @@ class BadasoApiConfigurationTest extends TestCase
             'path' => '/badaso-dashboard/'.$path_secret_login,
         ];
 
-        $response = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/maintenance'), $request_data);
+        $response = $this->json('POST', CallHelper::getUrlApiV1Prefix('/maintenance'), $request_data);
         $data = $response['data'];
         $this->assertTrue($data['maintenance']);
 
-        $response_secret_login = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/maintenance'), $request_data_secret_login);
+        $response_secret_login = $this->json('POST', CallHelper::getUrlApiV1Prefix('/maintenance'), $request_data_secret_login);
         $data_secret_login = $response_secret_login['data'];
         $this->assertFalse($data_secret_login['maintenance']);
     }
@@ -66,11 +66,11 @@ class BadasoApiConfigurationTest extends TestCase
             'path' => '/badaso-dashboard/'.$path_secret_login,
         ];
 
-        $response_login = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/maintenance'), $request_data_login);
+        $response_login = $this->json('POST', CallHelper::getUrlApiV1Prefix('/maintenance'), $request_data_login);
         $data_login = $response_login['data'];
         $this->assertFalse($data_login['maintenance']);
 
-        $response_secret_login = $this->json('POST', CallHelperTest::getUrlApiV1Prefix('/maintenance'), $request_data_secret_login);
+        $response_secret_login = $this->json('POST', CallHelper::getUrlApiV1Prefix('/maintenance'), $request_data_secret_login);
         $data_secret_login = $response_secret_login['data'];
         $this->assertFalse($data_secret_login['maintenance']);
     }

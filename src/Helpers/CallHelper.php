@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 
-class CallHelperTest
+class CallHelper
 {
     public static $KEY_TOKEN_ADMIN_AUTHORIZE = 'TOKEN_ADMIN_AUTHORIZE';
     public static $ADMINISTRATOR_ROLE_ID = 1;
@@ -56,7 +56,7 @@ class CallHelperTest
 
     public static function getUserAdminRole()
     {
-        $data_create_or_update_user_admin = CallHelperTest::getDataCreateOrUpdateUserAdmin();
+        $data_create_or_update_user_admin = CallHelper::getDataCreateOrUpdateUserAdmin();
 
         $user = User::where('email', $data_create_or_update_user_admin['email'])
             ->first();
@@ -78,7 +78,7 @@ class CallHelperTest
     public static function handleUserAdminAuthorize(TestCase $test_case)
     {
         $user = self::getUserAdminRole();
-        $response = $test_case->json('POST', CallHelperTest::getUrlApiV1Prefix('/auth/login'), [
+        $response = $test_case->json('POST', CallHelper::getUrlApiV1Prefix('/auth/login'), [
             'email' => $user->email,
             'password' => $user->name,
             'remember' => false,
@@ -87,12 +87,12 @@ class CallHelperTest
 
         // get access token from request login and save token to cache
         $token_authorize = $response->json('data.accessToken');
-        CallHelperTest::setTokenUserAdminAuthorize($token_authorize);
+        CallHelper::setTokenUserAdminAuthorize($token_authorize);
         $bearer_token_authorize = "Bearer {$token_authorize}";
 
         // get access token from cache
-        $cache_token_authorize = CallHelperTest::getTokenUserAdminAuthorize();
-        $bearer_cache_token_authorize = CallHelperTest::getTokenUserAdminAuthorizeBearer();
+        $cache_token_authorize = CallHelper::getTokenUserAdminAuthorize();
+        $bearer_cache_token_authorize = CallHelper::getTokenUserAdminAuthorizeBearer();
 
         // test same response access token with cache access token
         $test_case->assertSame($token_authorize, $cache_token_authorize);
@@ -130,7 +130,7 @@ class CallHelperTest
     {
         $user = self::getUserAdminRole();
 
-        $login = $test_case->post(CallHelperTest::getApiAuth('login'), [
+        $login = $test_case->post(CallHelper::getApiAuth('login'), [
             'email' => $user->email,
             'password' => $user->name,
             'remember' => false,

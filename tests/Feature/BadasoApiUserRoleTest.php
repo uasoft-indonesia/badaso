@@ -5,7 +5,7 @@ namespace Uasoft\Badaso\Tests\Feature;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
@@ -15,7 +15,7 @@ class BadasoApiUserRoleTest extends TestCase
     public function testStartInit()
     {
         // init user login
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testAddUserRole()
@@ -34,7 +34,7 @@ class BadasoApiUserRoleTest extends TestCase
         ];
         $user = User::create($create_user);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/user-roles/add-edit'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/user-roles/add-edit'), [
             'userId' => $user->id,
             'roles' => (array) $role_ids,
         ]);
@@ -52,7 +52,7 @@ class BadasoApiUserRoleTest extends TestCase
 
     public function testUserRoleAll()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/user-roles/all'));
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/user-roles/all'));
         $response->assertSuccessful();
 
         $response_user_roles = $response->json('data.userRoles');
@@ -82,7 +82,7 @@ class BadasoApiUserRoleTest extends TestCase
             ]);
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/user-roles'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/user-roles'), [
             'userId' => $user->id,
         ]);
         $response->assertSuccessful();
@@ -121,7 +121,7 @@ class BadasoApiUserRoleTest extends TestCase
             ]);
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/user-roles/all-role'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/user-roles/all-role'), [
             'userId' => $user->id,
         ]);
         $response->assertSuccessful();
@@ -142,8 +142,8 @@ class BadasoApiUserRoleTest extends TestCase
 
     public function testFinish()
     {
-        CallHelperTest::clearCache();
-        CallHelperTest::handleDeleteUserAdmin();
+        CallHelper::clearCache();
+        CallHelper::handleDeleteUserAdmin();
         $this->assertTrue(true);
     }
 }
