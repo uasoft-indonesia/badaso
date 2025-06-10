@@ -405,6 +405,15 @@ class BadasoApiCrudManagementTest extends TestCase
             ];
     }
 
+    private function cleanupTables(array $tables)
+    {
+        foreach ($tables as $table) {
+            if (\Schema::hasTable($table)) {
+                \Schema::dropIfExists($table);
+            }
+        }
+    }
+
     private function createTestTables(int $max_count_table_generate)
     {
         $table_names = [];
@@ -748,6 +757,7 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddTableCrudMultiRelationEntity()
     {
+        $this->cleanupTables(['multiple_table_1', 'multiple_table_2']);
         $first_table = 'multiple_table_1';
         $second_table = 'multiple_table_2';
 
