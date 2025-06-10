@@ -42,7 +42,7 @@ class BadasoTestSetup extends Command
 
         $phpunit_xml_content = <<<'XML'
         <?xml version="1.0" encoding="UTF-8"?>
-        <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+        <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" cacheResult="false">
             <testsuites>
                 <testsuite name="Unit">
                     <directory suffix="Test.php">./tests/Unit</directory>
@@ -53,7 +53,7 @@ class BadasoTestSetup extends Command
                     <directory suffix="Test.php">./vendor/badaso/core/tests/Feature</directory>
                 </testsuite>
             </testsuites>
-            <coverage>
+            <coverage processUncoveredFiles="true">
                 <include>
                     <!-- <directory suffix=".php">./app</directory> -->
                     <directory suffix=".php">./vendor/badaso/core/src/Commands</directory>
