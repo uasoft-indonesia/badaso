@@ -492,6 +492,10 @@ class BadasoApiCrudManagementTest extends TestCase
         // init user login
         CallHelper::handleUserAdminAuthorize($this);
 
+        // Drop tables if exists
+        Schema::dropIfExists('multiple_table_1');
+        Schema::dropIfExists('table_primary');
+        
         // init create all tables testing
         $this->createTestTables(10);
 
