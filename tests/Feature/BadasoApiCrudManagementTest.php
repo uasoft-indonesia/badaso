@@ -13,9 +13,11 @@ use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\DataType;
 use Uasoft\Badaso\Models\Migration;
 use Uasoft\Badaso\Models\Permission;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BadasoApiCrudManagementTest extends TestCase
 {
+    use DatabaseTransactions;
     private $KEY_LIST_CREATE_TABLES = 'LIST_CREATE_TABLES';
     private $KEY_LIST_CREATE_EMPTY_TABLES = 'LIST_CREATE_EMPTY_TABLES';
     private $KEY_DATA_TABLE_CRUD_MANAGEMENT_LOG = 'DATA_TABLE_CRUD_MANAGEMENT_LOG';
