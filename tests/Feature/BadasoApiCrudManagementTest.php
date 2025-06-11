@@ -412,7 +412,7 @@ class BadasoApiCrudManagementTest extends TestCase
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
 
             Schema::dropIfExists($table_name);
-            
+
             Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
                 $table->id();
 
@@ -750,6 +750,9 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddTableCrudMultiRelationEntity()
     {
+        schema::dropIfExists('multiple_table_1');
+        schema::dropIfExists('multiple_table_2');
+
         $first_table = 'multiple_table_1';
         $second_table = 'multiple_table_2';
 
@@ -1064,6 +1067,8 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddTableManyToMany()
     {
+        schema::dropIfExists('table_primary');
+        schema::dropIfExists('table_destination');
         $name_table = ['table_primary', 'table_destination', 'table_relation'];
         foreach ($name_table as $key => $table) {
             $table = [
@@ -1267,6 +1272,7 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testEntityManytoMany()
     {
+        
         $table_lists = ['table_relation', 'table_destination', 'table_primary'];
         $name_table = ['table-2', 'table-1'];
         $data_table_destination = [
