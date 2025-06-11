@@ -410,26 +410,27 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_PREFIX}{$index}";
-            if (! Schema::hasTable($table_name)) {
-                Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
-                    $table->id();
 
-                    foreach ($this->getFields() as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type]) {
-                        if ($badaso_type == 'relation') {
-                            if ($index >= 2) {
-                                $table_name_relation = $table_names[0];
-                                $table->{$schema_type}($badaso_type)->nullable()->unsigned();
+            Schema::dropIfExists($table_name);
+            
+            Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
+                $table->id();
 
-                                $table->foreign($badaso_type)->references('id')->on($table_name_relation)->onDelete('cascade');
-                            }
-                        } else {
-                            $table->{$schema_type}($badaso_type)->nullable();
+                foreach ($this->getFields() as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type]) {
+                    if ($badaso_type == 'relation') {
+                        if ($index >= 2) {
+                            $table_name_relation = $table_names[0];
+                            $table->{$schema_type}($badaso_type)->nullable()->unsigned();
+
+                            $table->foreign($badaso_type)->references('id')->on($table_name_relation)->onDelete('cascade');
                         }
+                    } else {
+                        $table->{$schema_type}($badaso_type)->nullable();
                     }
-                    $table->softDeletes();
-                    $table->timestamps();
-                });
-            }
+                }
+                $table->softDeletes();
+                $table->timestamps();
+            });
             $table_names[] = $table_name;
         }
         // save all tables name to cache
@@ -441,26 +442,27 @@ class BadasoApiCrudManagementTest extends TestCase
         $table_names = [];
         for ($index = 1; $index <= $max_count_table_generate; $index++) {
             $table_name = "{$this->TABLE_TEST_EMPTY_VALUE_PREFIX}{$index}";
-            if (! Schema::hasTable($table_name)) {
-                Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
-                    $table->id();
 
-                    foreach ($this->getEmptyValueFields() as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type]) {
-                        if ($badaso_type == 'relation') {
-                            if ($index >= 2) {
-                                $table_name_relation = $table_names[0];
-                                $table->{$schema_type}($badaso_type)->nullable()->unsigned();
+            Schema::dropIfExists($table_name);
 
-                                $table->foreign($badaso_type)->references('id')->on($table_name_relation)->onDelete('cascade');
-                            }
-                        } else {
-                            $table->{$schema_type}($badaso_type)->nullable();
+            Schema::create($table_name, function (Blueprint $table) use ($index, $table_names) {
+                $table->id();
+
+                foreach ($this->getEmptyValueFields() as $key => ['badaso_type' => $badaso_type, 'schema_type' => $schema_type]) {
+                    if ($badaso_type == 'relation') {
+                        if ($index >= 2) {
+                            $table_name_relation = $table_names[0];
+                            $table->{$schema_type}($badaso_type)->nullable()->unsigned();
+
+                            $table->foreign($badaso_type)->references('id')->on($table_name_relation)->onDelete('cascade');
                         }
+                    } else {
+                        $table->{$schema_type}($badaso_type)->nullable();
                     }
-                    $table->softDeletes();
-                    $table->timestamps();
-                });
-            }
+                }
+                $table->softDeletes();
+                $table->timestamps();
+            });
             $table_names[] = $table_name;
         }
         // save all tables name to cache
@@ -492,10 +494,6 @@ class BadasoApiCrudManagementTest extends TestCase
         // init user login
         CallHelper::handleUserAdminAuthorize($this);
 
-        // Drop tables if exists
-        Schema::dropIfExists('multiple_table_1');
-        Schema::dropIfExists('table_primary');
-        
         // init create all tables testing
         $this->createTestTables(10);
 
