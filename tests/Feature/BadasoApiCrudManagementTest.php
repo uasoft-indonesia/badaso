@@ -1350,10 +1350,6 @@ class BadasoApiCrudManagementTest extends TestCase
     //
     public function testAddEntityMultiRelation()
     {
-        // Clean up tables first
-        Schema::dropIfExists('multiple_table_1');
-        Schema::dropIfExists('multiple_table_2');
-        
         $first_table = 'multiple_table_1';
         $second_table = 'multiple_table_2';
         $list_table = [$first_table, $second_table];
