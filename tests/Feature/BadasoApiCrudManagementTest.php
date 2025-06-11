@@ -748,9 +748,6 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddTableCrudMultiRelationEntity()
     {
-        // Schema::dropIfExists('multiple_table_1');
-        // Schema::dropIfExists('multiple_table_2');
-
         $first_table = 'multiple_table_1';
         $second_table = 'multiple_table_2';
 
@@ -1065,11 +1062,8 @@ class BadasoApiCrudManagementTest extends TestCase
 
     public function testAddTableManyToMany()
     {
-        // Schema::dropIfExists('table_primary');
-        // Schema::dropIfExists('table_destination');
         $name_table = ['table_primary', 'table_destination', 'table_relation'];
         foreach ($name_table as $key => $table) {
-            Schema::dropIfExists($table);
             $table = [
                 'table' => $table,
                 'rows' => [
