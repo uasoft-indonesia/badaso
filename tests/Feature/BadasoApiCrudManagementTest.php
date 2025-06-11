@@ -1330,8 +1330,8 @@ class BadasoApiCrudManagementTest extends TestCase
         $response_crud_table = $response_crud_table['data'];
         foreach ($response_crud_table['tablesWithCrudData'] as $key => $value_response_crud_table) {
             if (in_array($value_response_crud_table['tableName'], $table_lists)) {
-                if (isset($value_response_crud_table['crudData'])) {
-                    $ids_list_table[$key_add_table] = [
+                if ($value_response_crud_table['tableName'] != $table_lists[0]) {
+                    $ids_list_table[$key] = [
                         'id' => $value_response_crud_table['crudData']['id'],
                     ];
                 }
@@ -1381,11 +1381,9 @@ class BadasoApiCrudManagementTest extends TestCase
         foreach ($response_crud_table['tablesWithCrudData'] as $key => $value_response_crud_table) {
             foreach ($list_table as $key_add_table => $value_add_table) {
                 if (in_array($value_add_table, $value_response_crud_table)) {
-                    if (isset($value_response_crud_table['crudData'])) {
-                        $ids_list_table[$key_add_table] = [
-                            'id' => $value_response_crud_table['crudData']['id'],
-                        ];
-                    }
+                    $ids_list_table[$key_add_table] = [
+                        'id' => $value_response_crud_table['crudData']['id'],
+                    ];
                     if ($value_add_table == $list_table[0]) {
                         foreach ($add_fill_table_1 as $key => $request_data_fill_crud_table_1) {
                             $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/entities/multiple-table-1/add'), $request_data_fill_crud_table_1);
