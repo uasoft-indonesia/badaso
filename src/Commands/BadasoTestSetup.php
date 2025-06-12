@@ -42,7 +42,22 @@ class BadasoTestSetup extends Command
 
         $phpunit_xml_content = <<<'XML'
         <?xml version="1.0" encoding="UTF-8"?>
-        <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true">
+        <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd" 
+                bootstrap="vendor/autoload.php" 
+                colors="true"
+                cacheDirectory=".phpunit.cache"
+                executionOrder="depends,defects"
+                forceCoversAnnotation="false"
+                beStrictAboutOutputDuringTests="true"
+                beStrictAboutTodoAnnotatedTests="true"
+                beStrictAboutResourceUsageDuringSmallTests="true"
+                failOnRisky="true"
+                failOnWarning="false"
+                failOnDeprecation="false"
+                displayDetailsOnIncompleteTests="true"
+                displayDetailsOnSkippedTests="true">
+            
             <testsuites>
                 <testsuite name="Unit">
                     <directory suffix="Test.php">./tests/Unit</directory>
@@ -53,9 +68,12 @@ class BadasoTestSetup extends Command
                     <directory suffix="Test.php">./vendor/badaso/core/tests/Feature</directory>
                 </testsuite>
             </testsuites>
-            <coverage processUncoveredFiles="true">
+            
+            <coverage processUncoveredFiles="false"
+                    ignoreDeprecatedCodeUnits="true"
+                    disableCodeCoverageIgnore="false">
                 <include>
-                    <!-- <directory suffix=".php">./app</directory> -->
+                    <!-- Badaso core coverage -->
                     <directory suffix=".php">./vendor/badaso/core/src/Commands</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Controllers</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/ContentManager</directory>
@@ -71,23 +89,44 @@ class BadasoTestSetup extends Command
                     <directory suffix=".php">./vendor/badaso/core/src/Routes</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Traits</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Widgets</directory>
-                    <directory suffix=".php">./vendor/badaso/core/src/Badaso.php</directory>
+                    <file>./vendor/badaso/core/src/Badaso.php</file>
                 </include>
+                
+                <!-- Exclude problematic files that might cause deprecations -->
+                <exclude>
+                    <directory suffix=".php">./vendor/badaso/core/src/stubs</directory>
+                    <directory suffix=".php">./vendor/badaso/core/tests</directory>
+                </exclude>
+                
                 <report>
-                    <clover outputFile="clover.xml"/>
+                    <clover outputFile="build/coverage/clover.xml"/>
+                    <html outputDirectory="build/coverage/html"/>
+                    <text outputFile="build/coverage/coverage.txt"/>
                 </report>
             </coverage>
+            
             <php>
+                <!-- Environment Variables -->
                 <server name="APP_ENV" value="testing"/>
+                <server name="APP_KEY" value="base64:TEST_KEY_FOR_PHPUNIT_TESTING_ONLY"/>
                 <server name="BCRYPT_ROUNDS" value="4"/>
                 <server name="CACHE_DRIVER" value="array"/>
-                <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
-                <!-- <server name="DB_DATABASE" value=":memory:"/> -->
                 <server name="MAIL_MAILER" value="array"/>
                 <server name="QUEUE_CONNECTION" value="sync"/>
                 <server name="SESSION_DRIVER" value="array"/>
                 <server name="TELESCOPE_ENABLED" value="false"/>
+                <server name="LOG_CHANNEL" value="single"/>
+                <server name="LOG_LEVEL" value="debug"/>
+                
+                <!-- Suppress deprecation warnings that might cause issues -->
+                <server name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
             </php>
+            
+            <!-- Logging configuration -->
+            <logging>
+                <junit outputFile="build/reports/junit.xml"/>
+                <teamcity outputFile="build/reports/teamcity.txt"/>
+            </logging>
         </phpunit>
         XML;
 
