@@ -100,7 +100,7 @@ jobs:
 
       # Mysql | Badaso core test
       - name: Mysql | Badaso core test
-        run: cd laravel && php artisan test
+        run: cd laravel && ./vendor/bin/phpunit
 
       # Sqlite | Laravel configuration
       - name: Sqlite | Laravel file configuration
