@@ -120,7 +120,7 @@ jobs:
 
       # Sqlite | Badaso core test
       - name: Sqlite | Badaso core test
-        run: cd laravel && php artisan test
+        run: cd laravel && ./vendor/bin/phpunit
 
       # Pgsql | Laravel configuration
       - name: Pgsql | Laravel file configuration
