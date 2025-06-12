@@ -50,8 +50,7 @@ class BadasoTestSetup extends Command
                  failOnRisky="true"
                  failOnWarning="true"
                  failOnEmptyTestSuite="true"
-                 beStrictAboutOutputDuringTests="true"
-                 verbose="true">
+                 beStrictAboutOutputDuringTests="true">
             <testsuites>
                 <testsuite name="Unit">
                     <directory suffix="Test.php">./tests/Unit</directory>
