@@ -71,12 +71,9 @@ class BadasoTestSetup extends Command
                     <directory suffix=".php">./vendor/badaso/core/src/Routes</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Traits</directory>
                     <directory suffix=".php">./vendor/badaso/core/src/Widgets</directory>
-                    <file suffix=".php">./vendor/badaso/core/src/Badaso.php</file>
-                    <file suffix=".php">./vendor/badaso/core/src/BadasoDeploymentOrchestrator.php</file>
+                    <file>./vendor/badaso/core/src/Badaso.php</file>
+                    <file>./vendor/badaso/core/src/BadasoDeploymentOrchestrator.php</file>
                 </include>
-                <report>
-                    <clover outputFile="clover.xml"/>
-                </report>
             </source>
             <php>
                 <server name="APP_ENV" value="testing"/>
