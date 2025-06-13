@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Tests\Feature;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\Permission;
 
 class BadasoApiPermissionTest extends TestCase
@@ -14,12 +14,12 @@ class BadasoApiPermissionTest extends TestCase
     public function testStartInit()
     {
         // init user login
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testBrowsePermission()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/permissions'));
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/permissions'));
         $response->assertSuccessful();
     }
 
@@ -27,7 +27,7 @@ class BadasoApiPermissionTest extends TestCase
     {
         $permissions = Permission::all();
         foreach ($permissions as $key => $permission) {
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/permissions/read'), [
+            $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/permissions/read'), [
                 'id' => $permission->id,
             ]);
             $response->assertSuccessful();
@@ -50,7 +50,7 @@ class BadasoApiPermissionTest extends TestCase
             'key' => Str::uuid(),
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/permissions/add'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/permissions/add'), $request_data);
         $response->assertSuccessful();
 
         $permission_id = $response->json('data.id');
@@ -61,12 +61,12 @@ class BadasoApiPermissionTest extends TestCase
             $this->assertTrue($permission[$key] == $permission_data);
         }
 
-        CallHelperTest::setCache(self::$KEY_PERMISSION_LAST_CREATED_ID, $permission_id);
+        CallHelper::setCache(self::$KEY_PERMISSION_LAST_CREATED_ID, $permission_id);
     }
 
     public function testEditPermission()
     {
-        $permission_id = CallHelperTest::getCache(self::$KEY_PERMISSION_LAST_CREATED_ID);
+        $permission_id = CallHelper::getCache(self::$KEY_PERMISSION_LAST_CREATED_ID);
         $request_data = [
             'always_allow' => true,
             'description' => Str::uuid(),
@@ -75,7 +75,7 @@ class BadasoApiPermissionTest extends TestCase
             'id' => $permission_id,
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/permissions/edit'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/permissions/edit'), $request_data);
         $response->assertSuccessful();
 
         $permission_id = $response->json('data.id');
@@ -89,9 +89,9 @@ class BadasoApiPermissionTest extends TestCase
 
     public function testDeletePermission()
     {
-        $permission_id = CallHelperTest::getCache(self::$KEY_PERMISSION_LAST_CREATED_ID);
+        $permission_id = CallHelper::getCache(self::$KEY_PERMISSION_LAST_CREATED_ID);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/permissions/delete'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/permissions/delete'), [
             'id' => $permission_id,
         ]);
         $response->assertSuccessful();
@@ -112,13 +112,13 @@ class BadasoApiPermissionTest extends TestCase
                 'key' => Str::uuid(),
             ];
 
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/permissions/add'), $request_data);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/permissions/add'), $request_data);
             $response->assertSuccessful();
 
             $ids[] = $response->json('data.id');
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/permissions/delete-multiple'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/permissions/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertSuccessful();

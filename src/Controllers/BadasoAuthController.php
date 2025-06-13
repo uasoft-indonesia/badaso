@@ -167,6 +167,12 @@ class BadasoAuthController extends Controller
 
     public function register(Request $request)
     {
+        if (config('badaso.register_mode') === 'disable') {
+            return response()->json([
+                'message' => 'User registration was disabled by administrator.',
+            ], 503);
+        }
+
         try {
             DB::beginTransaction();
             $request->validate([

@@ -8,6 +8,7 @@ return [
     'secret_login_prefix' => env('MIX_BADASO_SECRET_LOGIN_PREFIX'),
     'badaso_maintenance' => env('MIX_BADASO_MAINTENANCE'),
     'license_key' => env('BADASO_LICENSE_KEY'),
+    'register_mode' => env('MIX_BADASO_REGISTER_MODE', 'enable'),
     'database' => [
         'prefix' => env('BADASO_TABLE_PREFIX', 'badaso_'),
     ],

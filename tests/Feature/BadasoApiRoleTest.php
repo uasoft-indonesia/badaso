@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Tests\Feature;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\Role;
 
 class BadasoApiRoleTest extends TestCase
@@ -14,7 +14,7 @@ class BadasoApiRoleTest extends TestCase
     public function testStartInit()
     {
         // init user login
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testAddRole()
@@ -24,7 +24,7 @@ class BadasoApiRoleTest extends TestCase
             'display_name' => 'Example Display Name',
             'description' => 'Example Description',
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/roles/add'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/roles/add'), $request_data);
         $response->assertSuccessful();
 
         $role_id = $response->json('data.id');
@@ -35,13 +35,13 @@ class BadasoApiRoleTest extends TestCase
         $this->assertTrue($role['display_name'] == $request_data['display_name']);
         $this->assertTrue($role['description'] == $request_data['description']);
 
-        CallHelperTest::setCache(self::$KEY_ROLE_LAST_CREATE_ID, $role_id);
+        CallHelper::setCache(self::$KEY_ROLE_LAST_CREATE_ID, $role_id);
     }
 
     public function testReadRole()
     {
-        $role_id = CallHelperTest::getCache(self::$KEY_ROLE_LAST_CREATE_ID);
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/roles/read'), [
+        $role_id = CallHelper::getCache(self::$KEY_ROLE_LAST_CREATE_ID);
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/roles/read'), [
             'id' => $role_id,
         ]);
         $response->assertSuccessful();
@@ -58,14 +58,14 @@ class BadasoApiRoleTest extends TestCase
 
     public function testEditRole()
     {
-        $role_id = CallHelperTest::getCache(self::$KEY_ROLE_LAST_CREATE_ID);
+        $role_id = CallHelper::getCache(self::$KEY_ROLE_LAST_CREATE_ID);
         $request_data = [
             'id' => $role_id,
             'name' => Str::uuid(),
             'display_name' => 'Example Display Name',
             'description' => 'Example Description',
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', CallHelperTest::getUrlApiV1Prefix('/roles/edit'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', CallHelper::getUrlApiV1Prefix('/roles/edit'), $request_data);
         $response->assertSuccessful();
 
         $response_data = $response->json('data');
@@ -79,7 +79,7 @@ class BadasoApiRoleTest extends TestCase
 
     public function testBrowseRole()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', CallHelperTest::getUrlApiV1Prefix('/roles'));
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', CallHelper::getUrlApiV1Prefix('/roles'));
         $response->assertSuccessful();
 
         $response_data = $response->json('data.roles');
@@ -100,11 +100,11 @@ class BadasoApiRoleTest extends TestCase
             'display_name' => 'Example Display Name',
             'description' => 'Example Description',
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/roles/add'), $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/roles/add'), $request_data);
         $response->assertSuccessful();
 
         $role_id = $response->json('data.id');
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/roles/delete'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/roles/delete'), [
             'id' => $role_id,
         ]);
         $response->assertSuccessful();
@@ -115,7 +115,7 @@ class BadasoApiRoleTest extends TestCase
 
     public function testDeleteMultipleRole()
     {
-        $role_id = CallHelperTest::getCache(self::$KEY_ROLE_LAST_CREATE_ID);
+        $role_id = CallHelper::getCache(self::$KEY_ROLE_LAST_CREATE_ID);
         $maximal_count = 10;
         $ids = [$role_id];
         for ($i = 1; $i <= $maximal_count; $i++) {
@@ -124,14 +124,14 @@ class BadasoApiRoleTest extends TestCase
                 'display_name' => "Example Display Name $i",
                 'description' => 'Example Description',
             ];
-            $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', CallHelperTest::getUrlApiV1Prefix('/roles/add'), $request_data);
+            $response = CallHelper::withAuthorizeBearer($this)->json('POST', CallHelper::getUrlApiV1Prefix('/roles/add'), $request_data);
             $response->assertSuccessful();
 
             $role_id = $response->json('data.id');
             $ids[] = $role_id;
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', CallHelperTest::getUrlApiV1Prefix('/roles/delete-multiple'), [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', CallHelper::getUrlApiV1Prefix('/roles/delete-multiple'), [
             'ids' => join(',', $ids),
         ]);
         $response->assertSuccessful();
@@ -142,8 +142,8 @@ class BadasoApiRoleTest extends TestCase
 
     public function testFinish()
     {
-        CallHelperTest::clearCache();
-        CallHelperTest::handleDeleteUserAdmin();
+        CallHelper::clearCache();
+        CallHelper::handleDeleteUserAdmin();
         $this->assertTrue(true);
     }
 }
