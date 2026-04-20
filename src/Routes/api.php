@@ -48,10 +48,10 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
             Route::get('/view', 'BadasoFileController@viewFile');
             Route::get('/download', 'BadasoFileController@downloadFile');
             Route::post('/upload', 'BadasoFileController@uploadFile')->middleware(config('badaso.middleware.check_permission').':upload_file');
-            Route::delete('/delete', 'BadasoFileController@deleteFile');
+            Route::delete('/delete', 'BadasoFileController@deleteFile')->middleware(config('badaso.middleware.check_permission').':upload_file');
             Route::get('/browse/lfm', 'BadasoFileController@browseFileUsingLfm');
-            Route::post('/upload/lfm', 'BadasoFileController@uploadFileUsingLfm');
-            Route::get('/delete/lfm', 'BadasoFileController@deleteFileUsingLfm');
+            Route::post('/upload/lfm', 'BadasoFileController@uploadFileUsingLfm')->middleware(config('badaso.middleware.check_permission').':upload_file');
+            Route::get('/delete/lfm', 'BadasoFileController@deleteFileUsingLfm')->middleware(config('badaso.middleware.check_permission').':upload_file');
             Route::get('/mimetypes', 'BadasoFileController@availableMimetype');
         });
 
