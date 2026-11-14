@@ -145,11 +145,11 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Contr
 
         Route::group(['prefix' => 'table'], function () {
             Route::get('/data-type', 'BadasoTableController@getDataType')->middleware(config('badaso.middleware.authenticate'));
-            Route::get('/', 'BadasoTableController@browse')->middleware(config('badaso.middleware.authenticate'));
-            Route::get('/read', 'BadasoTableController@read')->middleware(config('badaso.middleware.authenticate'));
-            Route::get('/data', 'BadasoTableController@getDataByTable')->middleware(config('badaso.middleware.authenticate'));
-            Route::get('/generate-crud', 'BadasoTableController@generateCRUD')->middleware(config('badaso.middleware.authenticate'));
-            Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug')->middleware(config('badaso.middleware.authenticate'));
+            Route::get('/', 'BadasoTableController@browse')->middleware(config('badaso.middleware.check_permission').':browse_database');
+            Route::get('/read', 'BadasoTableController@read')->middleware(config('badaso.middleware.check_permission').':browse_database');
+            Route::get('/data', 'BadasoTableController@getDataByTable')->middleware(config('badaso.middleware.check_permission').':browse_database');
+            Route::get('/generate-crud', 'BadasoTableController@generateCRUD')->middleware(config('badaso.middleware.check_permission').':browse_database');
+            Route::get('/relation-data-by-slug', 'BadasoTableController@getRelationDataBySlug')->middleware(config('badaso.middleware.check_permission').':browse_database');
         });
 
         Route::group(['prefix' => 'maintenance'], function () {
